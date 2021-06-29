@@ -7,7 +7,7 @@ class Irac extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/irac_model', 'irac');
+        $this->load->model('legalservices/irac_model', 'irac');
     }
 
     public function edit($ServID, $id)

@@ -2,12 +2,14 @@
 
 # Version 1.1.0
 
+$lang['disputes'] = 'Disputes';
 $lang['project_address1'] = 'Address line 1';
 $lang['project_address2'] = 'Address line 2';
 $lang['project_addressed_to'] = 'Addressed to';
 $lang['project_notes'] = 'Notes';
 $lang['projects_statuses'] = 'Projects statuses';
 $lang['projects_status'] = 'Project status';
+$lang['status_name'] = 'Status name';
 $lang['project_contacts'] = 'Project Witnesses';
 $lang['project_contacts_types'] = 'witness 1,witness 2,witness 3,witness 4,witness 5,witness 6';
 $lang['project_billing_type_1'] = 'Fixed Rate';

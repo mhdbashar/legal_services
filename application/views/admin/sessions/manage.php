@@ -2,7 +2,7 @@
 <?php init_head(); ?>
 <?php
 if(isset($rel_type)){
-    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->load->model('legalservices/LegalServicesModel', 'legal');
     $ServID = $this->legal->get_service_id_by_slug($rel_type);
     if($ServID == 1){
         $route = 'Case';
@@ -26,9 +26,9 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                         <div class="row _buttons">
                             <div class="col-md-8">
                                 <?php if(has_permission('sessions','','create')){ ?>
-                                    <a href="#" onclick="new_session(<?php if($this->input->get('project_id')){ echo "'".admin_url('LegalServices/sessions/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_session'); ?></a>
+                                    <a href="#" onclick="new_session(<?php if($this->input->get('project_id')){ echo "'".admin_url('legalservices/sessions/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_session'); ?></a>
                                 <?php } ?>
-                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('LegalServices/sessions/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
+                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('legalservices/sessions/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
                                     <?php if($switch_kanban == 1){ echo _l('switch_to_list_view');}else{echo _l('leads_switch_to_kanban');}; ?>
                                 </a>
                             </div>
@@ -39,7 +39,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                     </div>
                                 <?php } else { ?>
                                     <?php //$this->load->view('admin/sessions/tasks_filter_by',array('view_table_name'=>'.table-sessions')); ?>
-                                    <a href="<?php echo admin_url('LegalServices/sessions/detailed_overview'); ?>" class="btn btn-success pull-right mright5"><?php echo _l('session_detailed_overview'); ?></a>
+                                    <a href="<?php echo admin_url('legalservices/sessions/detailed_overview'); ?>" class="btn btn-success pull-right mright5"><?php echo _l('session_detailed_overview'); ?></a>
                                 <?php } ?>
                             </div>
                         </div>
@@ -142,8 +142,8 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
     $(function(){
         sessions_kanban();
 
-        initDataTable('.table-previous_sessions_log', admin_url + 'LegalServices/Sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'LegalServices/Sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
     });
 
     function print_session_report(task_id) {
@@ -151,7 +151,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
         $("#tbl9").html('');
         tag = '#';
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/print_report/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/print_report/"); ?>' + task_id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
@@ -163,7 +163,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
             }
         });
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/checklist_items_description/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/checklist_items_description/"); ?>' + task_id,
             success: function (data) {
                 arr = JSON.parse(data);
                 if (arr.length == 0) {
@@ -190,7 +190,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
 
     function send_report(task_id) {
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/send_report_to_customer/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/send_report_to_customer/"); ?>' + task_id,
             success: function (data) {
                 if(data == 1){
                     alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
@@ -213,7 +213,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Sessions/edit_customer_report'); ?>' + '/' + task_id,
+                url: '<?php echo admin_url('legalservices/sessions/edit_customer_report'); ?>' + '/' + task_id,
                 data: {
                     next_session_date : next_session_date,
                     next_session_time : next_session_time,

@@ -22,6 +22,7 @@
                             <div class="row mbot15">
                             <div class="col-md-12">
                                 <h4 class="no-margin"><?php echo _l('summary').' '._l('imported_services') ; ?></h4>
+                                <hr>
                                 <?php
                                 $_where = '';
                                 ?>
@@ -49,7 +50,7 @@
                                         }elseif($status['id'] == 3){
                                             $where2 .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 1');
                                             $where2 .= ($_where.' AND '.db_prefix().$TableService.'.imported = 0');
-                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.exported_service_id = 0');  
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.exported_service_id = 0');
                                         }else{
                                             $where2 .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 0'); 
                                         }
@@ -72,7 +73,6 @@
                             <hr class="hr-panel-heading" />
                             <h4 class="no-margin">
                             <a class=" text-danger" href="<?php echo site_url('admin/settings') ?>"><?php echo _l('to_make_imported_services_work_properly_please_active_api_module_from_here') ?></a></h4>
-
                         <?php } ?>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />

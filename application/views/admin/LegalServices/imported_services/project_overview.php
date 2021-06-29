@@ -34,7 +34,7 @@
       </div>
       <div class="media-body">
          <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
-         <a href="<?php echo admin_url('LegalServices/Imported_services_controller/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
+         <a href="<?php echo admin_url('legalservices/imported_services/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>
             <?php if(has_permission('projects','','create') || $member['staff_id'] == get_staff_user_id()){ ?>
@@ -52,7 +52,7 @@
 </div>
 <div class="modal fade" id="add-edit-members" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-      <?php echo form_open(admin_url('LegalServices/Other_services_controller/add_edit_members/' .$project->id)); ?>
+      <?php echo form_open(admin_url('legalservices/other_services/add_edit_members/' .$project->id)); ?>
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

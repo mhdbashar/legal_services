@@ -662,7 +662,7 @@
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Courts_controller/add_court_from_modal'); ?>',
+                url: '<?php echo admin_url('legalservices/courts/add_court_from_modal'); ?>',
                 data: {court_name : court_name},
                 type: "POST",
                 success: function (data) {
@@ -716,7 +716,7 @@
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Courts_controller/add_judicial_department_modal/'); ?>' + court_id_modal,
+                url: '<?php echo admin_url('legalservices/courts/add_judicial_department_modal/'); ?>' + court_id_modal,
                 data: {Jud_number : Jud_number_modal},
                 type: "POST",
                 success: function (data) {
@@ -788,7 +788,7 @@
         case_clientid = $("#clientid").val();
         if(case_clientid != ''){
             $.ajax({
-                url: "<?php echo admin_url('LegalServices/Cases_controller/get_case_by_clientid'); ?>",
+                url: "<?php echo admin_url('legalservices/cases/get_case_by_clientid'); ?>",
                 data: {clientid: case_clientid},
                 type: "POST",
                 success: function (data) {

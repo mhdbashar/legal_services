@@ -32,7 +32,7 @@
    <?php } ?>
 </div>
 <?php
-   $this->load->view('admin/LegalServices/other_services/table_html', array('class'=>'legal_services-single-client-'.$count_of_services.'', 'model' => $model, 'slug' => $service->slug));
+   $this->load->view('admin/legalservices/other_services/table_html', array('class'=>'legal_services-single-client-'.$count_of_services.'', 'model' => $model, 'slug' => $service->slug));
    $count_of_services++;
    endforeach;
    echo render_input('count_of_services', '', $count_of_services, 'hidden');

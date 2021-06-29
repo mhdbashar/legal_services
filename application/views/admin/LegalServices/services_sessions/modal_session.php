@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('LegalServices/Sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
+<?php echo form_open_multipart(admin_url('legalservices/sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
 <div class="modal fade<?php if(isset($task)){echo ' edit';} ?>" id="_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"<?php if($this->input->get('opened_from_lead_id')){echo 'data-lead-id='.$this->input->get('opened_from_lead_id'); } ?>>
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -66,7 +66,7 @@
                                     <?php } ?>
                                     <?php if(has_permission('sessions','','delete')){ ?>
                                         <li>
-                                            <a href="<?php echo admin_url('LegalServices/Sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                            <a href="<?php echo admin_url('legalservices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                                 <?php echo _l('task_single_delete'); ?>
                                             </a>
                                         </li>
@@ -555,7 +555,7 @@
         data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
         data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
         data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
-        $.post(admin_url + 'LegalServices/Sessions/copy_session', data).done(function(response) {
+        $.post(admin_url + 'legalservices/sessions/copy_session', data).done(function(response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 var $taskModal = $('#_task_modal');

@@ -34,7 +34,7 @@ $ci = &get_instance();
 $ci->load->model('procurationtype_model');
 $ci->load->model('procurationstate_model');
 $ci->load->model('procurations_model');
-$ci->load->model('LegalServices/Cases_model', 'case');
+$ci->load->model('legalservices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['name'];

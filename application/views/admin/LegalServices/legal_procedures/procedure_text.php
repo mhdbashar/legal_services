@@ -116,11 +116,11 @@
                               <div class="btn-group">
                                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                                  <ul class="dropdown-menu dropdown-menu-right">
-                                    <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
-                                    <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
-                                    <li><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id); ?>"><?php echo _l('download'); ?></a></li>
+                                    <li class="hidden-xs"><a href="<?php echo admin_url('legalservices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
+                                    <li class="hidden-xs"><a href="<?php echo admin_url('legalservices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
+                                    <li><a href="<?php echo admin_url('legalservices/legal_procedures/pdf/'.$contract->id); ?>"><?php echo _l('download'); ?></a></li>
                                     <li>
-                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?print=true'); ?>" target="_blank">
+                                       <a href="<?php echo admin_url('legalservices/legal_procedures/pdf/'.$contract->id.'?print=true'); ?>" target="_blank">
                                        <?php echo _l('print'); ?>
                                        </a>
                                     </li>
@@ -170,7 +170,7 @@
                                     <?php }*/ ?>
                                     <?php if(has_permission('legal_procedures','','delete')){ ?>
                                     <li>
-                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id.'/'.$service_type_id.'/'.$service_id); ?>" class="_delete">
+                                       <a href="<?php echo admin_url('legalservices/legal_procedures/delete_contract/'.$contract->id.'/'.$service_type_id.'/'.$service_id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
                                     <?php } ?>
@@ -387,7 +387,7 @@
 
        <div class="modal fade" id="save_as_template" tabindex="-1" role="dialog">
            <div class="modal-dialog">
-               <?php echo form_open(admin_url('LegalServices/legal_procedures/save_as_template'),array('id'=>'save-as-template-form')); ?>
+               <?php echo form_open(admin_url('legalservices/legal_procedures/save_as_template'),array('id'=>'save-as-template-form')); ?>
                <div class="modal-content">
                    <div class="modal-header">
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -600,7 +600,7 @@
     var data = {};
     data.contract_id = contract_id;
     data.content = editor.getContent();
-    $.post(admin_url + 'LegalServices/legal_procedures/save_contract_data', data).done(function (response) {
+    $.post(admin_url + 'legalservices/legal_procedures/save_contract_data', data).done(function (response) {
        response = JSON.parse(response);
        if (typeof (manual) != 'undefined') {
           // Show some message to the user if saved via CTRL + S
@@ -658,7 +658,7 @@
     data.service_type_id = <?php echo $service_type_id; ?>;
     data.service_id = <?php echo $service_id; ?>;
     $('body').append('<div class="dt-loader"></div>');
-    $.post(admin_url + 'LegalServices/legal_procedures/add_comment', data).done(function (response) {
+    $.post(admin_url + 'legalservices/legal_procedures/add_comment', data).done(function (response) {
        response = JSON.parse(response);
        $('body').find('.dt-loader').remove();
        if (response.success == true) {

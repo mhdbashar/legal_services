@@ -8,8 +8,8 @@ if (is_rtl()) {
     $align = 'L'; //Left align
     $style = '';
 }
-$this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-$this->ci->load->model('LegalServices/Other_services_model', 'other');
+$this->ci->load->model('legalservices/LegalServicesModel', 'legal');
+$this->ci->load->model('legalservices/Other_services_model', 'other');
 $slug = $this->ci->legal->get_service_by_id(1)->row()->slug;
 $dimensions    = $pdf->getPageDimensions();
 $custom_fields = get_custom_fields("$slug");

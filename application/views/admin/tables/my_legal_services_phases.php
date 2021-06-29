@@ -25,10 +25,10 @@ foreach ($rResult as $aRow) {
     if (has_permission('legal_services_phases', '', 'edit') || has_permission('legal_services_phases', '', 'delete')) {
         $_data .= '<div class="row-options">';
         if (has_permission('legal_services_phases', '', 'edit')) {
-            $_data .= ' <a href="' . admin_url('LegalServices/Phases_controller/add_edit_phase/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+            $_data .= ' <a href="' . admin_url('legalservices/phases/add_edit_phase/' . $aRow['id']) . '">' . _l('edit') . '</a>';
         }
         if (has_permission('legal_services_phases', '', 'delete')) {
-            $_data .= ' | <a href="' . admin_url('LegalServices/Phases_controller/delete_phase/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+            $_data .= ' | <a href="' . admin_url('legalservices/phases/delete_phase/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
         }
         $_data .= '</div>';
     }

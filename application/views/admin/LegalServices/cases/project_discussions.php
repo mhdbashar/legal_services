@@ -3,7 +3,7 @@
 <a href="#" onclick="new_discussion();return false;" class="btn btn-info mbot25"><?php echo _l('new_project_discussion'); ?></a>
 <?php
     $table_attributes['data-new-rel-slug'] = $service->slug;
-    $this->load->view('admin/LegalServices/cases/project_discussion');
+    $this->load->view('admin/legalservices/cases/project_discussion');
     render_datatable(array(
      _l('project_discussion_subject'),
      _l('project_discussion_last_activity'),

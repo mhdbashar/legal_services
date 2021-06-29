@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php
-                        $this->load->model('LegalServices/Other_services_model', 'other');
+                        $this->load->model('legalservices/Other_services_model', 'other');
                         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
                         if(!$this->other->timers_started_for_project($slug, $project_id,array('billable'=>1,'billed'=>0,'startdate <='=>date('Y-m-d')))){ ?>
                             <div class="row">

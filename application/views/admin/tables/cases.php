@@ -78,10 +78,10 @@ foreach ($rResult as $aRow) {
         $_data .= ' | <a href="' . admin_url('Case/edit/' . $ServID . '/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
     if ($hasPermissionDelete) {
-        $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $_data .= ' | <a href="' . admin_url('legalservices/cases/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
-    // $_data .= ' | <a href="'.admin_url("LegalServices/other_services_controller/export_case/".$aRow['id']."").'">'. _l('export') .'</a>';
+    // $_data .= ' | <a href="'.admin_url("legalservices/other_services/export_case/".$aRow['id']."").'">'. _l('export') .'</a>';
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsCases($aRow['id']);

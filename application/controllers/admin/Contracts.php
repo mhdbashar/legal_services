@@ -8,7 +8,7 @@ class Contracts extends AdminController
     {
         parent::__construct();
         $this->load->model('contracts_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* List all contracts */

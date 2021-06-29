@@ -21,7 +21,7 @@ $this->load->view('admin/expenses/table_html_oservice', [
 <div class="modal fade" id="new_project_expense" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php echo form_open(admin_url('LegalServices/Other_services_controller/add_expense/'.$ServID.'/'.$project->id),array('id'=>'project-expense-form','class'=>'dropzone dropzone-manual')); ?>
+            <?php echo form_open(admin_url('legalservices/other_services/add_expense/'.$ServID.'/'.$project->id),array('id'=>'project-expense-form','class'=>'dropzone dropzone-manual')); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?php echo _l('add_new', _l('expense_lowercase')); ?></h4>

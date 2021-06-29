@@ -37,11 +37,11 @@ class Clients extends ClientsController
     {
         parent::__construct();
 
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/Other_services_model', 'other');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Other_services_model', 'other');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
-        $this->load->model('LegalServices/Imported_services_model', 'imported');
+        $this->load->model('legalservices/Imported_services_model', 'imported');
         hooks()->do_action('after_clients_area_init', $this);
     }
 
@@ -1678,14 +1678,14 @@ class Clients extends ClientsController
                 redirect(site_url('clients/project/' . $this->input->get('project_id') . '?group=project_tasks&taskid=' . $file->rel_id));
             } elseif ($type == 'legal_services') {
                 if ($ServID == 1){
-                    $this->load->model('LegalServices/Cases_model', 'case');
+                    $this->load->model('legalservices/Cases_model', 'case');
                     $file = $this->case->get_file($id);
                     if ($file->contact_id == get_contact_user_id()) {
                         $this->case->remove_file($id);
                         set_alert('success', _l('deleted', _l('file')));
                     }
                 }else{
-                    $this->load->model('LegalServices/Other_services_model', 'other');
+                    $this->load->model('legalservices/Other_services_model', 'other');
                     $file = $this->other->get_file($id);
                     if ($file->contact_id == get_contact_user_id()) {
                         $this->other->remove_file($id);

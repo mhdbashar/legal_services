@@ -208,7 +208,7 @@ $(function() {
 //     _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 //
 //     slug_expenses_oservice = $(".table-oservice-expenses").attr('data-slug');
-//     _table_api_oservice = initDataTable('.table-oservice-expenses', admin_url + 'LegalServices/Other_services_controller/expenses/' + project_id + '/' + slug_expenses_oservice, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+//     _table_api_oservice = initDataTable('.table-oservice-expenses', admin_url + 'legalservices/other_services/expenses/' + project_id + '/' + slug_expenses_oservice, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 //
 //     if (_table_api) {
 //         _table_api.column(0).visible(false, false).columns.adjust();
@@ -259,11 +259,11 @@ $(function() {
 //     initDataTable('.table-timesheets', admin_url + 'projects/timesheets/' + project_id, [8], [8], Timesheets_ServerParams, [3, 'desc']);
 //
 //     slug_timesheets_oservice = $(".table-timesheets_oservice").attr('data-new-rel-slug');
-//     initDataTable('.table-timesheets_oservice', admin_url + 'LegalServices/Other_services_controller/timesheets/' + project_id + '/' + slug_timesheets_oservice , [8], [8], Timesheets_ServerParams, [3, 'desc']);
+//     initDataTable('.table-timesheets_oservice', admin_url + 'legalservices/other_services/timesheets/' + project_id + '/' + slug_timesheets_oservice , [8], [8], Timesheets_ServerParams, [3, 'desc']);
 //
 //     initDataTable('.table-project-discussions', admin_url + 'projects/discussions/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
 //     slug_oservice_discussions = $(".table-oservice-discussions").attr('data-new-rel-slug');
-//     initDataTable('.table-oservice-discussions', admin_url + 'LegalServices/Other_services_controller/discussions/' + project_id + '/' + slug_oservice_discussions, undefined, undefined, 'undefined', [1, 'desc']);
+//     initDataTable('.table-oservice-discussions', admin_url + 'legalservices/other_services/discussions/' + project_id + '/' + slug_oservice_discussions, undefined, undefined, 'undefined', [1, 'desc']);
 //
 //
 //     appValidateForm($('#milestone_form'), {
@@ -427,7 +427,7 @@ $(function() {
 //     $('#milestones-table').toggleClass('hide');
 //     $('.oservice-milestones-kanban').toggleClass('hide');
 //     if (!$.fn.DataTable.isDataTable('.table-milestones_oservice')) {
-//         initDataTable('.table-milestones_oservice', admin_url + 'LegalServices/Other_services_controller/milestones/' + project_id + '/' + ServID + '/' + slug);
+//         initDataTable('.table-milestones_oservice', admin_url + 'legalservices/other_services/milestones/' + project_id + '/' + ServID + '/' + slug);
 //     }
 // }
 //
@@ -523,7 +523,7 @@ $(function() {
 // }
 //
 // function mass_stop_timers(only_billable, ServID) {
-//     requestGetJSON('LegalServices/Other_services_controller/mass_stop_timers/' + project_id + '/' + only_billable + '/' + ServID).done(function(response) {
+//     requestGetJSON('legalservices/other_services/mass_stop_timers/' + project_id + '/' + only_billable + '/' + ServID).done(function(response) {
 //         alert_float(response.type, response.message);
 //         setTimeout(function() {
 //             $('body').find('.modal-backdrop').eq(0).remove();
@@ -536,21 +536,21 @@ $(function() {
 // }
 //
 // function pre_invoice_project() {
-//     requestGet('LegalServices/Imported_services_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
+//     requestGet('legalservices/imported_services/get_pre_invoice_project_info/' + project_id).done(function(response) {
 //         $('#pre_invoice_project').html(response);
 //         $('#pre_invoice_project_settings').modal('show');
 //     });
 // }
 //
 // function pre_invoice_oservice(servid) {
-//     requestGet('LegalServices/Other_services_controller/get_pre_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
+//     requestGet('legalservices/other_services/get_pre_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
 //         $('#pre_invoice_project').html(response);
 //         $('#pre_invoice_project_settings').modal('show');
 //     });
 // }
 //
 // function pre_invoice_iservice() {
-//     requestGet('LegalServices/Imported_services_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
+//     requestGet('legalservices/imported_services/get_pre_invoice_project_info/' + project_id).done(function(response) {
 //         $('#pre_invoice_project').html(response);
 //         $('#pre_invoice_project_settings').modal('show');
 //     });
@@ -712,7 +712,7 @@ $(function() {
 //         return $(this).val();
 //     }).get();
 //
-//     $.post(admin_url + 'LegalServices/Other_services_controller/get_invoice_project_data/'+ServID, data).done(function(response) {
+//     $.post(admin_url + 'legalservices/other_services/get_invoice_project_data/'+ServID, data).done(function(response) {
 //         $('#invoice_project').html(response);
 //         $('#invoice-project-modal').modal({
 //             show: true,
@@ -746,7 +746,7 @@ $(function() {
 //         return $(this).val();
 //     }).get();
 //
-//     $.post(admin_url + 'LegalServices/Imported_services_controller/get_invoice_project_data/', data).done(function(response) {
+//     $.post(admin_url + 'legalservices/imported_services/get_invoice_project_data/', data).done(function(response) {
 //         $('#invoice_project').html(response);
 //         $('#invoice-project-modal').modal({
 //             show: true,
@@ -766,7 +766,7 @@ $(function() {
 //
 // function delete_oservice_discussion(id) {
 //     if (confirm_delete()) {
-//         requestGetJSON('LegalServices/Other_services_controller/delete_discussion/' + id).done(function(response) {
+//         requestGetJSON('legalservices/other_services/delete_discussion/' + id).done(function(response) {
 //             alert_float(response.alert_type, response.message);
 //             $('.table-oservice-discussions').DataTable().ajax.reload(null, false);
 //         });
@@ -805,7 +805,7 @@ $(function() {
 //
 // function view_iservice_file(id, $project_id) {
 //     $('#project_file_data').empty();
-//     $("#project_file_data").load(admin_url + 'LegalServices/Imported_services_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
+//     $("#project_file_data").load(admin_url + 'legalservices/imported_services/file/' + id + '/' + project_id, function(response, status, xhr) {
 //         if (status == "error") {
 //             alert_float('danger', xhr.statusText);
 //         }
@@ -817,7 +817,7 @@ $(function() {
 //     data.id = id;
 //     data.subject = $('body input[name="file_subject"]').val();
 //     data.description = $('body textarea[name="file_description"]').val();
-//     $.post(admin_url + 'LegalServices/Other_services_controller/update_file_data/', data);
+//     $.post(admin_url + 'legalservices/other_services/update_file_data/', data);
 // }
 //
 // function project_mark_as_modal(status_id, $project_id, target) {
@@ -905,7 +905,7 @@ $(function() {
 //         $(e).addClass('disabled');
 //
 //         setTimeout(function() {
-//             $.post(admin_url + 'LegalServices/Imported_services_controller/bulk_action_files', data).done(function() {
+//             $.post(admin_url + 'legalservices/imported_services/bulk_action_files', data).done(function() {
 //                 window.location.reload();
 //             });
 //         }, 200);
@@ -963,7 +963,7 @@ $(function() {
 //
 //     data.notify_project_members_status_change = $('#notify_project_members_status_change').prop('checked') === true ? 1 : 0;
 //
-//     $.post(admin_url + 'LegalServices/Other_services_controller/mark_as/' + slug, data).done(function(response) {
+//     $.post(admin_url + 'legalservices/other_services/mark_as/' + slug, data).done(function(response) {
 //         response = JSON.parse(response);
 //         alert_float(response.success === true ? 'success' : 'warning', response.message);
 //         setTimeout(function() {
@@ -1011,7 +1011,7 @@ $(function() {
 //         check_kanban_empty_col('[data-task-id]');
 //
 //         setTimeout(function() {
-//             $.post(admin_url + 'LegalServices/Other_services_controller/update_task_milestone', data)
+//             $.post(admin_url + 'legalservices/other_services/update_task_milestone', data)
 //         }, 50);
 //     }
 // }
@@ -1022,7 +1022,7 @@ $(function() {
 //
 // function milestones_oservice_kanban() {
 //     slug_oservice_kanban = $(".table-milestones_oservice").attr('data-slug');
-//     init_kanban('LegalServices/Other_services_controller/milestones_kanban/' + slug_oservice_kanban, milestones_oservice_kanban_update, '.oservice-milestone', 445, 360, after_milestones_oservice_kanban);
+//     init_kanban('legalservices/other_services/milestones_kanban/' + slug_oservice_kanban, milestones_oservice_kanban_update, '.oservice-milestone', 445, 360, after_milestones_oservice_kanban);
 // }
 //
 // function after_milestones_oservice_kanban() {
@@ -1048,7 +1048,7 @@ $(function() {
 //                 i++;
 //             });
 //
-//             $.post(admin_url + 'LegalServices/Other_services_controller/update_milestones_order', data);
+//             $.post(admin_url + 'legalservices/other_services/update_milestones_order', data);
 //         }
 //     });
 //
@@ -1083,7 +1083,7 @@ $(function() {
 //                 i++;
 //             });
 //
-//             $.post(admin_url + 'LegalServices/Other_services_controller/update_milestones_order', data);
+//             $.post(admin_url + 'legalservices/other_services/update_milestones_order', data);
 //         }
 //     });
 //

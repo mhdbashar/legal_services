@@ -126,7 +126,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('LegalServices/sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('legalservices/sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';
 

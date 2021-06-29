@@ -7,7 +7,7 @@
             <div class="panel_s">
                <div class="panel-body">
                   <?php if(!$this->input->get('project_id')){ ?>
-                  <a href="<?php echo admin_url('LegalServices/sessions'); ?>" class="btn btn-default pull-left"><?php echo _l('back_to_sessions_list'); ?></a>
+                  <a href="<?php echo admin_url('legalservices/sessions'); ?>" class="btn btn-default pull-left"><?php echo _l('back_to_sessions_list'); ?></a>
                   <?php } else {
                       if($this->input->get('rel_type')) {
                           if(isset($ServID) && $ServID == 1){ ?>
@@ -135,7 +135,7 @@
                         <?php
                            foreach($data as $task){ ?>
                         <tr>
-                           <td data-order="<?php echo htmlentities($task['name']); ?>"><a href="<?php echo admin_url('LegalServices/sessions/view/'.$task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>); return false;"><?php echo $task['name']; ?></a>
+                           <td data-order="<?php echo htmlentities($task['name']); ?>"><a href="<?php echo admin_url('legalservices/sessions/view/'.$task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>); return false;"><?php echo $task['name']; ?></a>
                               <?php
                                  if (!empty($task['rel_id'])) {
                                    echo '<br />'. _l('task_related_to').': <a class="text-muted" href="' . session_rel_link($task['rel_id'],$task['rel_type']) . '">' . session_rel_name($task['rel_name'],$task['rel_id'],$task['rel_type']) . '</a>';

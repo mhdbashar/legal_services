@@ -19,7 +19,7 @@ class Sessions_model extends App_Model
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('staff_model');
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
     }
 
     // Not used?

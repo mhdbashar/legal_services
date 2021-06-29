@@ -13,7 +13,7 @@
                         <div class="text">
                             <p class="mtop10 no-mbot">
                                 <?php
-                                $this->load->model('LegalServices/Case_movement_model', 'movement');
+                                $this->load->model('legalservices/Case_movement_model', 'movement');
                                 $data['members'] = $this->movement->GetMembersCasesMovement($movement['id']);
                                 ?>
                                 <?php echo _l('staff') . ' :'; ?>
@@ -28,11 +28,11 @@
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php echo _l('Court') . ' :'; ?>
-                                <?php echo isset($movement['court_name']) && $movement['court_name'] != '' ? $movement['court_name'] : _l('nothing_was_specified'); ?>
+                                <?php echo isset($movement['court_name']) && $movement['court_name'] != '' ?  maybe_translate(_l('nothing_was_specified'), $movement['court_name']) :  _l('nothing_was_specified'); ?>
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php
-                                $this->load->model('LegalServices/Case_movement_model', 'movement');
+                                $this->load->model('legalservices/Case_movement_model', 'movement');
                                 $data['judges_case_mov'] = $this->movement->GetJudgesCasesMovement($movement['id']);
                                 echo _l('judge').' :';
                                 if(isset($movement['judges_case_mov'])):
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-4 text-right">
                         <div class="pull-right">
-                            <a href="<?php echo admin_url("LegalServices/case_movement_controller/delete/" . $ServID . '/' . $project->id . '/' . $movement['id']); ?>"
+                            <a href="<?php echo admin_url("legalservices/case_movement/delete/" . $ServID . '/' . $project->id . '/' . $movement['id']); ?>"
                                class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i> <?php echo _l('delete'); ?></a>
                         </div>
                     </div>

@@ -2,15 +2,15 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class LegalServices_controller extends AdminController
+class Legal_services extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
-        $this->load->model('LegalServices/Cases_model','case');
-        $this->load->model('LegalServices/Other_services_model','other');
-        $this->load->model('LegalServices/Imported_services_model','imported');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/Cases_model','case');
+        $this->load->model('legalservices/Other_services_model','other');
+        $this->load->model('legalservices/Imported_services_model','imported');
         $this->load->model('projects_model');
     }
 
@@ -21,7 +21,7 @@ class LegalServices_controller extends AdminController
         }
         $data['services'] = $this->legal->get_all_services();
         $data['title']    = _l('LegalServiceManage');
-        $this->load->view('admin/LegalServices/basic_services/ShowServices',$data);
+        $this->load->view('admin/legalservices/basic_services/ShowServices',$data);
     }
 
     public function all_legal_services()
@@ -58,7 +58,7 @@ class LegalServices_controller extends AdminController
             }
         }
         $data['title']    = _l('LegalServiceManage');
-        $this->load->view('admin/LegalServices/basic_services/manage',$data);
+        $this->load->view('admin/legalservices/basic_services/manage',$data);
     }
 
     public function ViewImportedService()
@@ -100,7 +100,7 @@ class LegalServices_controller extends AdminController
             $this->app->get_table_data('my_imported_services', $data);
         }
         $data['title']    = _l('imported_services');
-        $this->load->view('admin/LegalServices/imported_services/manage',$data);
+        $this->load->view('admin/legalservices/imported_services/manage',$data);
     }
 
     public function PrimaryService($ServID)
@@ -154,7 +154,7 @@ class LegalServices_controller extends AdminController
         }
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['title']  = _l('EditLegalService');
-        $this->load->view('admin/LegalServices/basic_services/EditService',$data);
+        $this->load->view('admin/legalservices/basic_services/EditService',$data);
     }
 
     public function del_service($ServID)
@@ -189,7 +189,7 @@ class LegalServices_controller extends AdminController
         $data['category'] = $this->legal->GetCategoryByServId($ServID);
         $data['ServID'] = $ServID;
         $data['title'] = _l('Categories');
-        $this->load->view('admin/LegalServices/categories/ShowAllCategory',$data);
+        $this->load->view('admin/legalservices/categories/ShowAllCategory',$data);
     }
 
     public function GetChildCat($ServID,$CatID)
@@ -275,7 +275,7 @@ class LegalServices_controller extends AdminController
         }
         $data['category'] = $this->legal->GetCategoryById($CatID)->row();
         $data['title']  = _l('EditCategory');
-        $this->load->view('admin/LegalServices/categories/EditCategory',$data);
+        $this->load->view('admin/legalservices/categories/EditCategory',$data);
     }
 
     public function del_category($ServID,$CatID)
@@ -322,7 +322,7 @@ class LegalServices_controller extends AdminController
         }
         $data['services'] = $this->legal->get_all_services();
         $data['title']    = _l('LService_recycle_bin');
-        $this->load->view('admin/LegalServices/recycle_bin/recycle_bin',$data);
+        $this->load->view('admin/legalservices/recycle_bin/recycle_bin',$data);
     }
 
     public function restore_legal_services($ServID,$id)
@@ -341,7 +341,7 @@ class LegalServices_controller extends AdminController
         } else {
             set_alert('warning', _l('ProblemRestored'));
         }
-        redirect(admin_url('LegalServices/LegalServices_controller/legal_recycle_bin/'.$ServID));
+        redirect(admin_url('legalservices/legal_services/legal_recycle_bin/'.$ServID));
 
     }
 
@@ -361,7 +361,7 @@ class LegalServices_controller extends AdminController
             redirect(admin_url());
         }
         $data['title'] = _l('ConfirmEmptyLegalServicesRecycleBin');
-        $this->load->view('admin/LegalServices/recycle_bin/confirm_empty', $data);
+        $this->load->view('admin/legalservices/recycle_bin/confirm_empty', $data);
     }
 
 }

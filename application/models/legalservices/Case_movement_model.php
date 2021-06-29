@@ -7,7 +7,7 @@ class Case_movement_model extends App_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function get($id = '', $where = [])

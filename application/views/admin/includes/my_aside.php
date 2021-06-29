@@ -137,7 +137,7 @@
       <?php hooks()->do_action('after_render_aside_menu'); ?>
       <?php $this->load->view('admin/projects/pinned'); ?>
       <?php $this->load->view('admin/projects/pinned'); ?>
-      <?php $this->load->view('admin/LegalServices/cases/pinned'); ?>
-      <?php $this->load->view('admin/LegalServices/other_services/pinned'); ?>
+      <?php $this->load->view('admin/legalservices/cases/pinned'); ?>
+      <?php $this->load->view('admin/legalservices/other_services/pinned'); ?>
    </ul>
 </aside>

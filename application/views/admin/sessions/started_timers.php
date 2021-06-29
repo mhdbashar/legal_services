@@ -13,7 +13,7 @@ foreach ($startedTimers as $timer) {
     $data .= '<li class="timer relative" id="timer-'.$timer['id'].'">';
 
     if ($timer['task_id'] != '0') {
-        $data.= '<a href="'.admin_url('LegalServices/sessions/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
+        $data.= '<a href="'.admin_url('legalservices/sessions/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
     } else {
         $noTimersWithoutTask = false;
     }

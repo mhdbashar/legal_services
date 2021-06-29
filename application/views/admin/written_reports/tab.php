@@ -2,7 +2,7 @@
 <p><?php echo _l('written_reports'); ?></p>
 <?php if (has_permission('written_reports', '', 'create')) { ?>
 <hr />
-<?php echo form_open(admin_url('Written_reports/add/'.$ServID), array('id' => 'written-reports-form')); ?>
+<?php echo form_open(admin_url('written_reports/add/'.$ServID), array('id' => 'written-reports-form')); ?>
 <div class="row">
     <div class="col-md-4">
         <?php echo render_datetime_input('available_until','auto_close_edit_written_reports_after'); ?>
@@ -39,7 +39,7 @@
                 <?php echo _l('report'); ?> - <?php echo $i; ?>
             </h4>
         </div>
-        <?php echo form_open(admin_url('Written_reports/edit/'.$ServID.'/'.$report['id'])); ?>
+        <?php echo form_open(admin_url('written_reports/edit/'.$ServID.'/'.$report['id'])); ?>
         <div id="report-<?php echo $i; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_<?php echo $i; ?>">
             <div class="panel-body">
                 <div class="row">
@@ -80,7 +80,7 @@
                     <div class="col-md-2">
                         <?php if (has_permission('written_reports', '', 'delete')) { ?>
                             <?php $rel_id = $ServID == 1 ? $id : $project_id; ?>
-                            <a href="<?php echo admin_url("Written_reports/delete/".$ServID.'/'.$rel_id.'/'.$report['id']); ?>" class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-title="<?php echo _l('delete'); ?>"><i class="fa fa-trash"></i></a>
+                            <a href="<?php echo admin_url("written_reports/delete/".$ServID.'/'.$rel_id.'/'.$report['id']); ?>" class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-title="<?php echo _l('delete'); ?>"><i class="fa fa-trash"></i></a>
                         <?php } ?>
                         <?php if (has_permission('written_reports', '', 'send_to_customer')) { ?>
                         <button type="button" data-toggle="tooltip" data-title="<?php echo _l('Send_to_customer'); ?>" class="btn btn-info btn-icon pull-left" onclick="send_written_report(<?php echo $report['id'].','.$ServID.','; ?>'<?php echo _l('confirm_action_prompt'); ?>')"><i class="fa fa-envelope"></i></button>
@@ -92,15 +92,15 @@
                                 <?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li class="hidden-xs"><a href="<?php echo admin_url('Written_reports/pdf/'.$report['id'].'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
-                                <li class="hidden-xs"><a href="<?php echo admin_url('Written_reports/pdf/'.$report['id'].'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
+                                <li class="hidden-xs"><a href="<?php echo admin_url('written_reports/pdf/'.$report['id'].'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
+                                <li class="hidden-xs"><a href="<?php echo admin_url('written_reports/pdf/'.$report['id'].'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
                                 <li>
-                                    <a href="<?php echo admin_url('Written_reports/pdf/'.$report['id']); ?>">
+                                    <a href="<?php echo admin_url('written_reports/pdf/'.$report['id']); ?>">
                                         <?php echo _l('download'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo admin_url('Written_reports/pdf/'.$report['id'].'?print=true'); ?>" target="_blank">
+                                    <a href="<?php echo admin_url('written_reports/pdf/'.$report['id'].'?print=true'); ?>" target="_blank">
                                         <?php echo _l('print'); ?>
                                     </a>
                                 </li>

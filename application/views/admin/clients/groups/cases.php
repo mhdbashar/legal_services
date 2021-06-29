@@ -26,6 +26,6 @@
         <?php } ?>
     </div>
     <?php
-    $this->load->view('admin/LegalServices/cases/table_html', array('class'=>'cases-single-client', 'model' => $model));
+    $this->load->view('admin/legalservices/cases/table_html', array('class'=>'cases-single-client', 'model' => $model));
 }
 ?>

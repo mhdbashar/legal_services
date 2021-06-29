@@ -15,7 +15,7 @@ class Irac_pdf extends App_pdf
         parent::__construct();
 
         if (!class_exists('irac_model', false)) {
-            $this->ci->load->model('LegalServices/irac_model', 'irac');
+            $this->ci->load->model('legalservices/irac_model', 'irac');
         }
 
         $this->irac = $irac;
@@ -23,8 +23,8 @@ class Irac_pdf extends App_pdf
 
     public function prepare()
     {
-        $this->ci->load->model('LegalServices/Courts_model', 'courts');
-        $this->ci->load->model('LegalServices/Cases_model', 'case');
+        $this->ci->load->model('legalservices/Courts_model', 'courts');
+        $this->ci->load->model('legalservices/Cases_model', 'case');
         $case_info = get_case($this->irac->rel_id);
         $name = get_case_name_by_id($this->irac->rel_id);
         $court = $this->ci->courts->get_court_by_id($case_info->court_id)->row()->court_name;

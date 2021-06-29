@@ -3622,8 +3622,8 @@ CREATE TABLE `tblnotifications` (
 --
 
 INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `description`, `fromuserid`, `fromclientid`, `from_fullname`, `touserid`, `fromcompany`, `link`, `additional_data`) VALUES
-(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL),
-(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL);
+(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'legalservices/legal_services/confirm_empty_recycle_bin', NULL),
+(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'legalservices/legal_services/confirm_empty_recycle_bin', NULL);
 
 -- --------------------------------------------------------
 

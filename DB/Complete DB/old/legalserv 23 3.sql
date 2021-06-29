@@ -4361,8 +4361,8 @@ CREATE TABLE `tblnotifications` (
 --
 
 INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `description`, `fromuserid`, `fromclientid`, `from_fullname`, `touserid`, `fromcompany`, `link`, `additional_data`) VALUES
-(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL),
-(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL),
+(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'legalservices/legal_services/confirm_empty_recycle_bin', NULL),
+(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'legalservices/legal_services/confirm_empty_recycle_bin', NULL),
 (3, 0, 0, '2020-02-15 12:54:11', 'not_staff_added_as_project_member', 1, 0, 'Mhdbashar Das', 2, NULL, 'projects/view/1', 'a:1:{i:0;s:17:\"نزاع مالي\";}'),
 (4, 0, 0, '2020-02-15 12:57:12', 'not_staff_added_as_project_member', 1, 0, 'Mhdbashar Das', 2, NULL, 'projects/view/2', 'a:1:{i:0;s:4:\"test\";}'),
 (5, 0, 0, '2020-03-08 20:09:12', 'not_created_new_project_discussion', 1, 0, 'Mhdbashar Das', 2, NULL, 'projects/view/1?group=project_discussions&discussion_id=1', NULL);

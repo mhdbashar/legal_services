@@ -7,8 +7,8 @@ class Legal_procedures extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
         $this->load->model('contracts_model');
     }
 
@@ -25,7 +25,7 @@ class Legal_procedures extends AdminController
         );
         $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], false);
         $data['title'] = _l('legal_procedures_management');
-        $this->load->view('admin/LegalServices/legal_procedures/manage',$data);
+        $this->load->view('admin/legalservices/legal_procedures/manage',$data);
     }
 
     public function get_sub_cat($parent_id)
@@ -66,11 +66,11 @@ class Legal_procedures extends AdminController
             }else {
                 set_alert('warning', _l('problem_updating'));
             }
-            redirect(admin_url('LegalServices/Legal_procedures'));
+            redirect(admin_url('legalservices/Legal_procedures'));
         }
         $data['category'] = $this->legal->GetCategoryById($CatID)->row();
         $data['title']  = _l('EditCategory');
-        $this->load->view('admin/LegalServices/categories/EditCategory',$data);
+        $this->load->view('admin/legalservices/categories/EditCategory',$data);
     }
 
     public function delete($CatID)
@@ -84,7 +84,7 @@ class Legal_procedures extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
-        redirect(admin_url('LegalServices/Legal_procedures'));
+        redirect(admin_url('legalservices/Legal_procedures'));
     }
 
     public function add_list()
@@ -166,7 +166,7 @@ class Legal_procedures extends AdminController
                 $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('legal_procedure')));
-                    redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
+                    redirect(admin_url('legalservices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
                 }
             } else {
                 if (!has_permission('legal_procedures', '', 'edit')) {
@@ -176,7 +176,7 @@ class Legal_procedures extends AdminController
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('legal_procedure')));
                 }
-                redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
+                redirect(admin_url('legalservices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
             }
         }
         if ($id == '') {
@@ -208,7 +208,7 @@ class Legal_procedures extends AdminController
         $data['service_id']      = $service_id;
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
-        $this->load->view('admin/LegalServices/legal_procedures/procedure_text', $data);
+        $this->load->view('admin/legalservices/legal_procedures/procedure_text', $data);
     }
 
     /*public function save_text()

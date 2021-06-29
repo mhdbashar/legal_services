@@ -35,14 +35,14 @@ class Case_status extends AdminController
                 $id = $this->CaseStatus_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('case_status')));
-                    redirect(admin_url('Case_status'));
+                    redirect(admin_url('case_status'));
                 }
             } else {
                 $success = $this->CaseStatus_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('case_status')));
                 }
-                redirect(admin_url('Case_status'));
+                redirect(admin_url('case_status'));
             }
         }
         if ($id == '') {
@@ -61,7 +61,7 @@ class Case_status extends AdminController
             access_denied('case_status');
         }
         if (!$id) {
-            redirect(admin_url('Case_status/cstatuscu'));
+            redirect(admin_url('case_status/cstatuscu'));
         }
         $response = $this->CaseStatus_model->delete($id);
         if ($response == true) {

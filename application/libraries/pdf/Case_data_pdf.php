@@ -13,8 +13,8 @@ class Case_data_pdf extends App_pdf
     {
         parent::__construct();
 
-        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->ci->load->model('LegalServices/Cases_model', 'case');
+        $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->ci->load->model('legalservices/Cases_model', 'case');
 
         $this->project_id = $project_id;
         $this->ServID = $ServID;
@@ -84,8 +84,8 @@ class Case_data_pdf extends App_pdf
 
     protected function file_path()
     {
-        $customPath = APPPATH . 'views/admin/LegalServices/cases/my_export_data_pdf.php';
-        $actualPath = APPPATH . 'views/admin/LegalServices/cases/export_data_pdf.php';
+        $customPath = APPPATH . 'views/admin/legalservices/cases/my_export_data_pdf.php';
+        $actualPath = APPPATH . 'views/admin/legalservices/cases/export_data_pdf.php';
 
         if (file_exists($customPath)) {
             $actualPath = $customPath;

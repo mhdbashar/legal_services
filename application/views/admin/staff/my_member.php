@@ -620,7 +620,7 @@
                                       if(has_permission('sessions','','delete')
                                           || (has_permission('projects','','delete') && $t['rel_type'] == 'project')
                                           || $t['staff_id'] == get_staff_user_id()){
-                                          echo '<a href="'.admin_url('LegalServices/sessions/delete_timesheet/'.$t['id']).'" class="pull-right text-danger mtop5"><i class="fa fa-remove"></i></a>';
+                                          echo '<a href="'.admin_url('legalservices/sessions/delete_timesheet/'.$t['id']).'" class="pull-right text-danger mtop5"><i class="fa fa-remove"></i></a>';
                                       }
                                   }
                                   ?>

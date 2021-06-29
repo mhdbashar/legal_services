@@ -7,8 +7,8 @@ class LegalServicesModel extends App_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/Cases_model','case');
-        $this->load->model('LegalServices/Other_services_model','other');
+        $this->load->model('legalservices/Cases_model','case');
+        $this->load->model('legalservices/Other_services_model','other');
     }
 
     public function get_all_services($where = [], $result_array=false)

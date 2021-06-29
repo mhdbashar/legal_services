@@ -213,7 +213,7 @@ class Legal_procedures_model extends App_Model
                         'touserid'        => $member['staffid'],
                         'fromcompany'     => 1,
                         'fromuserid'      => null,
-                        'link'            => 'LegalServices/legal_procedures/procedure_text/' . $data['contract_id']. '/' .$data['service_type_id'] .'/'. $data['service_id'],
+                        'link'            => 'legalservices/legal_procedures/procedure_text/' . $data['contract_id']. '/' .$data['service_type_id'] .'/'. $data['service_id'],
                         'additional_data' => serialize([
                             $contract->subject,
                         ]),

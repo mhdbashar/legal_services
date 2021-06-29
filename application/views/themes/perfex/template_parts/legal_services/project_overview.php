@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
 if ($ServID == 1){
-    $this->load->model('LegalServices/LegalServicesModel', 'legal');
-    $this->load->model('LegalServices/Cases_model', 'case');
+    $this->load->model('legalservices/LegalServicesModel', 'legal');
+    $this->load->model('legalservices/Cases_model', 'case');
     $model = $this->case;
     $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
     $seconds_to_time = $this->case->total_logged_time($slug, $project->id);
 }else{
-    $this->load->model('LegalServices/LegalServicesModel', 'legal');
-    $this->load->model('LegalServices/Other_services_model', 'other');
+    $this->load->model('legalservices/LegalServicesModel', 'legal');
+    $this->load->model('legalservices/Other_services_model', 'other');
     $model = $this->other;
     $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
     $seconds_to_time = $this->other->total_logged_time($slug, $project->id);

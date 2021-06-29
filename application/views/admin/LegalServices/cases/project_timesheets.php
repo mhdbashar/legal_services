@@ -37,4 +37,4 @@ $table_data = hooks()->apply_filters('projects_timesheets_table_columns', $table
 $table_attributes['data-new-rel-slug'] = $service->slug;
 array_push($table_data,_l('options'));
 render_datatable($table_data,'timesheets_case', [] ,$table_attributes); ?>
-<?php $this->load->view('admin/LegalServices/cases/timesheet'); ?>
+<?php $this->load->view('admin/legalservices/cases/timesheet'); ?>

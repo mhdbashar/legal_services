@@ -2236,7 +2236,7 @@ CREATE TABLE `tblmy_imported_services` (
   `imported` int(11) NOT NULL,
   `company_staff_id` int(11) NOT NULL,
   `company_url` varchar(255) NOT NULL,
-  `exported_service_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
   `exported_rel_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

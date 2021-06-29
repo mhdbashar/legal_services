@@ -2,7 +2,7 @@
 <a href="#" class="btn btn-info" data-toggle="modal" data-target="#add_list"><?php echo _l('add_procedures_list'); ?></a>
 <div class="modal fade" id="add_list" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/legal_procedures/add_list'),array('id'=>'add_list_form')); ?>
+        <?php echo form_open(admin_url('legalservices/legal_procedures/add_list'),array('id'=>'add_list_form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -17,7 +17,7 @@
                     <?php if (has_permission('legal_procedures', '', 'create')) { ?>
                         <div class="col-md-12">
                             <?php
-                            echo render_select_with_input_group('cat_id',isset($category) ? $category : array(),array('id','name'),'legal_procedure','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>');
+                            echo render_select_with_input_group('cat_id',isset($category) ? $category : array(),array('id','name'),'legal_procedure','','<a href="'.admin_url("legalservices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>');
                             ?>
                         </div>
                     <?php }else{ ?>
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_list/".$list['id']); ?>" class="_delete">
+                    <a href="<?php echo admin_url("legalservices/legal_procedures/delete_list/".$list['id']); ?>" class="_delete">
                         <i class="fa fa-trash"></i> <?php echo _l('delete_list'); ?>
                     </a>
                 </li>
@@ -70,8 +70,8 @@
     if(!empty($procedures)):
     foreach ($procedures as $proc): ?>
     <div class="card">
-        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_contract/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete_procedure'); ?>"><i class="fa fa-trash"></i></a>
-        <a href="<?php echo admin_url("LegalServices/legal_procedures/procedure_text/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" data-toggle="tooltip" title="<?php echo _l('view'); ?>">
+        <a href="<?php echo admin_url("legalservices/legal_procedures/delete_contract/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete_procedure'); ?>"><i class="fa fa-trash"></i></a>
+        <a href="<?php echo admin_url("legalservices/legal_procedures/procedure_text/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" data-toggle="tooltip" title="<?php echo _l('view'); ?>">
         <?php echo $proc['subcat_name']; ?>
         </a>
         <br><br>
@@ -84,7 +84,7 @@
     </div>
     <div class="modal fade" id="add_procedures<?php echo $list['id']; ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-            <?php echo form_open(admin_url('LegalServices/legal_procedures/add_legal_procedure'),array('id'=>'add_procedure_form')); ?>
+            <?php echo form_open(admin_url('legalservices/legal_procedures/add_legal_procedure'),array('id'=>'add_procedure_form')); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -110,7 +110,7 @@
                         <?php if (has_permission('legal_procedures', '', 'create')) { ?>
                             <div class="col-md-12 div_subcat<?php echo $list['id']; ?>">
                                 <?php
-                                echo render_select_with_input_group('subcat_id',array(),array('id','name'),'sub_legal_procedures','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>',array('required' => 'required'));
+                                echo render_select_with_input_group('subcat_id',array(),array('id','name'),'sub_legal_procedures','','<a href="'.admin_url("legalservices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>',array('required' => 'required'));
                                 ?>
                             </div>
                         <?php }else{ ?>

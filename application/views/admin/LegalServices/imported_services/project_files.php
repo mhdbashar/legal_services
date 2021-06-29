@@ -2,7 +2,7 @@
 <div class="clearfix"></div>
 <div class="mtop25"></div>
 
-<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Imported_services_controller/download_all_files/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-iservice-files"><?php echo _l('download_all'); ?></a>
+<a href="#" onclick="window.location.href = '<?php echo admin_url('legalservices/imported_services/download_all_files/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-iservice-files"><?php echo _l('download_all'); ?></a>
 <div class="clearfix"></div>
 <table class="table dt-table scroll-responsive table-iservice-files" data-order-type="desc">
     <thead>

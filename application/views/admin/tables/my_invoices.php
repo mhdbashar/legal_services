@@ -180,7 +180,7 @@ foreach ($rResult as $aRow) {
         if($aRow['rel_stype'] == 'imported'){
             $row[] = '<a href="' . admin_url('SImported/view/' . $aRow['rel_sid']) . '">' . '</a>';
         }else{
-            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
             $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
             if($ServID == 1){
                 $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';

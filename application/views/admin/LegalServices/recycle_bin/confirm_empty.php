@@ -14,10 +14,10 @@
                         </h5>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                        <a href="<?php echo admin_url('LegalServices/LegalServices_controller/confirm_empty_recycle_bin/yes'); ?>" class="btn btn-success btn-icon">
+                        <a href="<?php echo admin_url('legalservices/legal_services/confirm_empty_recycle_bin/yes'); ?>" class="btn btn-success btn-icon">
                             <?php echo _l('reminder_is_notified_boolean_yes').', '. _l('gdpr_consent_agree'); ?>
                         </a>
-                        <a href="<?php echo admin_url('LegalServices/LegalServices_controller/confirm_empty_recycle_bin/no'); ?>" class="btn btn-default btn-icon">
+                        <a href="<?php echo admin_url('legalservices/legal_services/confirm_empty_recycle_bin/no'); ?>" class="btn btn-default btn-icon">
                             <?php echo _l('reminder_is_notified_boolean_no').', '. _l('gdpr_consent_disagree'); ?>
                         </a>
                     </div>

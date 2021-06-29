@@ -2,13 +2,13 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Phases_controller extends AdminController
+class Phases extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/Phase_model','phase');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Phase_model','phase');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function index()
@@ -20,7 +20,7 @@ class Phases_controller extends AdminController
             $this->app->get_table_data('my_legal_services_phases');
         }
         $data['title'] = _l('legal_services_phases');
-        $this->load->view('admin/LegalServices/phases/manage',$data);
+        $this->load->view('admin/legalservices/phases/manage',$data);
     }
 
         public function add_edit_phase($id = '')
@@ -34,14 +34,14 @@ class Phases_controller extends AdminController
                     $id = $this->phase->add($data);
                     if ($id) {
                         set_alert('success', _l('added_successfully', _l('phase')));
-                        redirect(admin_url('LegalServices/Phases_controller'));
+                        redirect(admin_url('legalservices/phases'));
                     }
                 } else {
                     $success = $this->phase->update($id, $data);
                     if ($success) {
                         set_alert('success', _l('updated_successfully', _l('phase')));
                     }
-                    redirect(admin_url('LegalServices/Phases_controller'));
+                    redirect(admin_url('legalservices/phases'));
                 }
             }
             if ($id == '') {
@@ -52,7 +52,7 @@ class Phases_controller extends AdminController
             }
             $data['legal_services'] = $this->legal->get_all_services();
             $data['title'] = $title;
-            $this->load->view('admin/LegalServices/phases/add_edit', $data);
+            $this->load->view('admin/legalservices/phases/add_edit', $data);
         }
 
         public function handle_phases($ServID,$project_id)
@@ -83,7 +83,7 @@ class Phases_controller extends AdminController
                 access_denied('legal_services_phases');
             }
             if (!$id) {
-                redirect(admin_url('LegalServices/Phases_controller'));
+                redirect(admin_url('legalservices/phases'));
             }
             $response = $this->phase->delete($id);
             if ($response == true) {
@@ -91,7 +91,7 @@ class Phases_controller extends AdminController
             } else {
                 set_alert('warning', _l('problem_deleting', _l('phase')));
             }
-            redirect(admin_url('LegalServices/Phases_controller'));
+            redirect(admin_url('legalservices/phases'));
         }
 
     public function back_to_previous_phase($relid, $slug1, $slug2 = null)

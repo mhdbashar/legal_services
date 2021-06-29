@@ -39,11 +39,11 @@ class Cron_model extends App_Model
         parent::__construct();
         $this->load->model('emails_model');
         $this->load->model('staff_model');
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/Other_services_model', 'other');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Other_services_model', 'other');
         $this->load->model('tasks_model');
-        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
+        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
     }
 
     public function run($manually = false)
@@ -1875,7 +1875,7 @@ class Cron_model extends App_Model
                     'fromcompany'     => true,
                     'touserid'        => get_staff_user_id(),
                     'description'     => 'ConfirmEmptyLegalServicesRecycleBin',
-                    'link'            => 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin',
+                    'link'            => 'legalservices/legal_services/confirm_empty_recycle_bin',
                 ]);
 
                 if ($notified) {

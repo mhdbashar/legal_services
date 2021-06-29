@@ -10,8 +10,8 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -533,7 +533,7 @@ class Tasks extends AdminController
         $data['judges']         = $this->sessions_model->get_judges();
         $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
-        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
+        $this->load->view('admin/legalservices/services_sessions/modal_session', $data);
     }*/
 
     public function copy()
@@ -660,9 +660,9 @@ class Tasks extends AdminController
         }
 
         if ($return == false) {
-            $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data);
+            $this->load->view('admin/legalservices/services_sessions/view_session_template', $data);
         } else {
-            return $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data, true);
+            return $this->load->view('admin/legalservices/services_sessions/view_session_template', $data, true);
         }
     }
 

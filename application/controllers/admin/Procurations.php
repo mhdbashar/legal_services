@@ -10,11 +10,9 @@ class Procurations extends AdminController
         $this->load->model('Procurations_model');
         $this->load->model('Procurationtype_model');
         $this->load->model('Procurationstate_model');
-        $this->load->model('LegalServices/Cases_model');
+        $this->load->model('legalservices/Cases_model');
         $client_id=-1;
     }
-
-    /* List all Procurations */
 
     /* List all client Procurations */
     public function table($clientid = '')
@@ -99,6 +97,7 @@ class Procurations extends AdminController
         // redirect($_SERVER['HTTP_REFERER']);
         redirect(admin_url('clients/client/'.$client_id.'?group=procurations'));
     }
+
     public function add_procuration_attachment($id,$client_id)
     {
         handle_procuration_attachments($id);

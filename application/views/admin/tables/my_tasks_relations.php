@@ -51,7 +51,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
             $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
         } else{
 
-            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
             $ServID = $this->ci->legal->get_service_id_by_slug($rel_to);
 
             if($ServID == 1){

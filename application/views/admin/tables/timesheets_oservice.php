@@ -27,7 +27,7 @@ if (!has_permission('projects', '', 'create')) {
     array_push($where, 'AND ' . db_prefix() . 'taskstimers.staff_id=' . get_staff_user_id());
 }
 
-$this->ci->load->model('LegalServices/Other_services_model', 'other');
+$this->ci->load->model('legalservices/Other_services_model', 'other');
 $staff_ids = $this->ci->other->get_distinct_tasks_timesheets_staff($project_id, $slug);
 
 $_staff_ids = [];

@@ -11,7 +11,7 @@ class Procuration extends AdminController
         $this->load->model('procurationtype_model');
         $this->load->model('procurations_model');
         $this->load->model('Staff_model');
-        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('legalservices/Cases_model', 'case');
     }
 
     /* List all Procuration */
@@ -74,7 +74,6 @@ class Procuration extends AdminController
         $data['title'] = _l('procuration');
         $this->load->view('admin/procuration/manage', $data);
     }
-
 
     /* List all Procuration state */
     public function state()
@@ -285,8 +284,8 @@ class Procuration extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-      /* Delete procurationtype from database */
-      public function typed($id)
+    /* Delete procurationtype from database */
+    public function typed($id)
       {
           if (!$id) {
               redirect(admin_url('procuration/type'));
@@ -303,7 +302,7 @@ class Procuration extends AdminController
           redirect($_SERVER['HTTP_REFERER']);
       }
 
-      public function delete($id)
+    public function delete($id)
       {
           if (!$id) {
               redirect(admin_url('procuration/type'));
@@ -320,7 +319,7 @@ class Procuration extends AdminController
           redirect($_SERVER['HTTP_REFERER']);
       }
 
-      public function add_procuration_attachment($id)
+    public function add_procuration_attachment($id)
     {
         handle_procuration_attachments($id);
         echo json_encode([

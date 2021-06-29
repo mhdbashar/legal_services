@@ -2,7 +2,7 @@
 <!-- Miles Stones -->
 <div class="modal fade" id="discussion" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/Cases_controller/discussion/'.$ServID),array('id'=>'discussion_form')); ?>
+        <?php echo form_open(admin_url('legalservices/cases/discussion/'.$ServID),array('id'=>'discussion_form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

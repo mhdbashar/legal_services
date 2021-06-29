@@ -2,7 +2,7 @@
 <?php init_head(); ?>
 <?php
 if(isset($rel_type)){
-    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->load->model('legalservices/LegalServicesModel', 'legal');
     $ServID = $this->legal->get_service_id_by_slug($rel_type);
     if($ServID == 1){
         $route = 'Case';
@@ -79,7 +79,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
 
     // Init tasks kan ban
     function tasks_kanban() {
-        init_kanban('tasks/kanban_for_LegalServices/'+rel_type, tasks_kanban_update, '.tasks-status', 265, 360);
+        init_kanban('tasks/kanban_for_legalservices/'+rel_type, tasks_kanban_update, '.tasks-status', 265, 360);
     }
 </script>
 </body>

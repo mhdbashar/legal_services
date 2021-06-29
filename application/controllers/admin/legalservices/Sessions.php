@@ -9,8 +9,8 @@ class Sessions extends AdminController
         parent::__construct();
         $this->load->model('sessions_model');
         $this->load->model('projects_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -63,7 +63,7 @@ class Sessions extends AdminController
             $data['bodyclass']     = 'tasks-page kan-ban-body';
         }
 
-        $data['title'] = _l('tasks');
+        $data['title'] = _l('sessions');
         $this->load->view('admin/sessions/my_manage', $data);
     }
 
@@ -147,7 +147,7 @@ class Sessions extends AdminController
         if ($manual == false) {
             // clicked on VIEW KANBAN from projects area and will redirect again to the same view
             if (strpos($_SERVER['HTTP_REFERER'], 'project_id') !== false) {
-                redirect(admin_url('LegalServices/Sessions'));
+                redirect(admin_url('legalservices/Sessions'));
             } else {
                 redirect($_SERVER['HTTP_REFERER']);
             }
@@ -620,7 +620,7 @@ class Sessions extends AdminController
                 $success = $this->sessions_model->update($data, $id);
                 $message = '';
                 if ($success) {
-                    $message = _l('updated_successfully', _l('task'));
+                    $message = _l('updated_successfully', _l('session'));
                 }
                 echo json_encode([
                     'success' => $success,
@@ -640,7 +640,7 @@ class Sessions extends AdminController
             if ($data['task']->rel_type == 'project') {
                 $data['milestones'] = $this->projects_model->get_milestones($data['task']->rel_id);
             }
-            $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
+            $title = _l('edit', _l('session_lowercase')) . ' ' . $data['task']->name;
         }
         $data['project_end_date_attrs'] = [];
         if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id')) {
@@ -656,7 +656,7 @@ class Sessions extends AdminController
         $data['judges']         = $this->sessions_model->get_judges();
         $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
-        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
+        $this->load->view('admin/legalservices/services_sessions/modal_session', $data);
     }
 
     public function copy()
@@ -782,9 +782,9 @@ class Sessions extends AdminController
         }
 
         if ($return == false) {
-            $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data);
+            $this->load->view('admin/legalservices/services_sessions/view_session_template', $data);
         } else {
-            return $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data, true);
+            return $this->load->view('admin/legalservices/services_sessions/view_session_template', $data, true);
         }
     }
 
@@ -1227,7 +1227,7 @@ class Sessions extends AdminController
             $success = $this->sessions_model->remove_assignee($id, $taskid);
             $message = '';
             if ($success) {
-                $message = _l('task_assignee_removed');
+                $message = _l('project_activity_session_assignee_removed');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1243,7 +1243,7 @@ class Sessions extends AdminController
             $success = $this->sessions_model->remove_assignee($id, $taskid);
             $message = '';
             if ($success) {
-                $message = _l('task_assignee_removed');
+                $message = _l('session_assignee_removed');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1263,7 +1263,7 @@ class Sessions extends AdminController
             $success = $this->sessions_model->remove_follower($id, $taskid);
             $message = '';
             if ($success) {
-                $message = _l('task_follower_removed');
+                $message = _l('session_follower_removed');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1279,7 +1279,7 @@ class Sessions extends AdminController
             $success = $this->sessions_model->remove_follower($id, $taskid);
             $message = '';
             if ($success) {
-                $message = _l('task_follower_removed');
+                $message = _l('session_follower_removed');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1330,7 +1330,7 @@ class Sessions extends AdminController
 
             $message = '';
             if ($success) {
-                $message = _l('task_unmarked_as_complete');
+                $message = _l('session_unmarked_as_complete');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1389,7 +1389,7 @@ class Sessions extends AdminController
             $message = '';
 
             if ($success) {
-                $message = _l('task_marked_as_success', format_session_status($status, true, true));
+                $message = _l('session_marked_as_success', format_session_status($status, true, true));
             }
 
             echo json_encode([
@@ -1486,12 +1486,12 @@ class Sessions extends AdminController
     public function delete_task($id)
     {
         if (!has_permission('sessions', '', 'delete')) {
-            access_denied('tasks');
+            access_denied('sessions');
         }
         $success = $this->sessions_model->delete_task($id);
-        $message = _l('problem_deleting', _l('task_lowercase'));
+        $message = _l('problem_deleting', _l('session_lowercase'));
         if ($success) {
-            $message = _l('deleted', _l('task'));
+            $message = _l('deleted', _l('session'));
             set_alert('success', $message);
         } else {
             set_alert('warning', $message);

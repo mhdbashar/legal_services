@@ -93,7 +93,7 @@
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>
-                        <?php $this->load->view('admin/LegalServices/imported_services/project_tabs'); ?>
+                        <?php $this->load->view('admin/legalservices/imported_services/project_tabs'); ?>
                     </div>
                 </div>
                 <?php
@@ -126,7 +126,7 @@
                 <?php } ?>
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/LegalServices/imported_services/project_overview')); ?>
+                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/legalservices/imported_services/project_overview')); ?>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@ echo form_hidden('project_percent',$percent);
 <div id="invoice_project"></div>
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/projects/milestone'); ?>
-<?php $this->load->view('admin/LegalServices/imported_services/copy_settings'); ?>
+<?php $this->load->view('admin/legalservices/imported_services/copy_settings'); ?>
 <?php $this->load->view('admin/projects/_mark_tasks_finished'); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->

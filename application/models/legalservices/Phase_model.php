@@ -7,9 +7,9 @@ class Phase_model extends App_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/Other_services_model', 'other');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Other_services_model', 'other');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
 	public function get_all($where = [])

@@ -29,7 +29,7 @@ foreach ($task_statuses as $status) {
                                 } } ?>
                             <?php if($total_tasks > 0 ){ ?>
                                 <li class="text-center not-sortable kanban-load-more" data-load-status="<?php echo $status['id']; ?>">
-                                    <a href="#" class="btn btn-default btn-block<?php if($total_pages <= 1){echo ' disabled';} ?>" data-page="1" onclick="kanban_load_more(<?php echo $status['id']; ?>,this,'LegalServices/Sessions/tasks_kanban_load_more',265,360); return false;";><?php echo _l('load_more'); ?></a>
+                                    <a href="#" class="btn btn-default btn-block<?php if($total_pages <= 1){echo ' disabled';} ?>" data-page="1" onclick="kanban_load_more(<?php echo $status['id']; ?>,this,'legalservices/sessions/tasks_kanban_load_more',265,360); return false;";><?php echo _l('load_more'); ?></a>
                                 </li>
                             <?php } ?>
                             <li class="text-center not-sortable mtop30 kanban-empty<?php if($total_tasks > 0){echo ' hide';} ?>">

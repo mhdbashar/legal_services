@@ -11,7 +11,7 @@
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading" />
                             <?php foreach ($services as $row): ?>
-                            <a href="<?php echo admin_url('LegalServices/LegalServices_controller/legal_recycle_bin/').$row->id; ?>" class="btn mright5 btn-info pull-left display-block" style="<?php echo $row->id == $ServID ? 'border: 2px solid #51647c;' : ''; ?>">
+                            <a href="<?php echo admin_url('legalservices/legal_services/legal_recycle_bin/').$row->id; ?>" class="btn mright5 btn-info pull-left display-block" style="<?php echo $row->id == $ServID ? 'border: 2px solid #51647c;' : ''; ?>">
                                 <?php echo $row->name; ?>
                             </a>
                             <?php endforeach; ?>
@@ -55,7 +55,7 @@
 <script>
     <?php if($ServID != ''){ ?>
     $(function(){
-        initDataTable('.table-legal_recycle_bin', admin_url + 'LegalServices/LegalServices_controller/legal_recycle_bin/<?php echo $ServID; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-legal_recycle_bin', admin_url + 'legalservices/legal_services/legal_recycle_bin/<?php echo $ServID; ?>', undefined, undefined, 'undefined', [0, 'asc']);
     });
     <?php } ?>
 </script>

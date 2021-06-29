@@ -501,8 +501,8 @@ class Utilities_model extends App_Model
         }
         //calendar_legal_services
         if (get_option('show_services_on_calendar') == 1 && !$ff || $ff && array_key_exists('legal_services', $filters)) {
-            $this->load->model('LegalServices/Cases_model', 'case');
-            $this->load->model('LegalServices/Other_services_model', 'other');
+            $this->load->model('legalservices/Cases_model', 'case');
+            $this->load->model('legalservices/Other_services_model', 'other');
 
             //cases
             $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);

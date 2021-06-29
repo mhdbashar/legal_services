@@ -211,11 +211,11 @@ class Clients extends AdminController
                         ]);
                 }
             } elseif ($group == 'cases') {
-                $this->load->model('LegalServices/Cases_model', 'case');
+                $this->load->model('legalservices/Cases_model', 'case');
                 $data['model'] = $this->case;
                 $data['project_statuses'] = $this->case->get_project_statuses();
             } elseif ($group == 'legal_services') {
-                $this->load->model('LegalServices/Other_services_model', 'other');
+                $this->load->model('legalservices/Other_services_model', 'other');
                 $data['model'] = $this->other;
                 $data['project_statuses'] = $this->other->get_project_statuses();
             }

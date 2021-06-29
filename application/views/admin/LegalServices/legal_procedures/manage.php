@@ -31,10 +31,10 @@
                                     </td>
                                     <td>
                                         <?php if (has_permission('legal_procedures', '', 'edit')) { ?>
-                                        <a href="<?php echo admin_url("LegalServices/legal_procedures/edit/".$cat['id']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                        <a href="<?php echo admin_url("legalservices/legal_procedures/edit/".$cat['id']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                         <?php } ?>
                                         <?php if (has_permission('legal_procedures', '', 'delete')) { ?>
-                                        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete/".$cat['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                        <a href="<?php echo admin_url("legalservices/legal_procedures/delete/".$cat['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                         <?php } ?>
                                         <div class="radio radio-primary radio-inline">
                                             <input type="radio" name="CatDetails" id="<?php echo $cat['id']; ?>" onchange="get_sub_cat(<?php echo $cat['id']; ?>)">
@@ -86,7 +86,7 @@
                     <span class="add-title"><?php echo _l('AddMasterCategory'); ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url("LegalServices/legal_procedures/add"),array('id'=>'category-form')); ?>
+            <?php echo form_open(admin_url("legalservices/legal_procedures/add"),array('id'=>'category-form')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -142,10 +142,10 @@
         $('#BodyTable').empty();
         UrlChild ='';
         $.ajax({
-            url: '<?php echo admin_url('LegalServices/LegalServices_controller/getChildCatModules/'); ?>' + CatID,
+            url: '<?php echo admin_url('legalservices/legal_services/getChildCatModules/'); ?>' + CatID,
             success: function (data) {
                 response = JSON.parse(data);
-                UrlChild = '<?php echo admin_url('LegalServices/legal_procedures/add/'); ?>' + CatID;
+                UrlChild = '<?php echo admin_url('legalservices/legal_procedures/add/'); ?>' + CatID;
                 $("#ChildCatForm").attr("action", UrlChild);
                 $("#BtnAddChild").removeAttr('disabled');
                 count = 1;
@@ -157,10 +157,10 @@
                         <?php if (has_permission('legal_procedures', '', 'edit') || has_permission('legal_procedures', '', 'delete')) { ?>
                         '<td>' +
                         <?php if (has_permission('legal_procedures', '', 'edit')) { ?>
-                        '<a href="<?php echo admin_url('LegalServices/legal_procedures/edit/'); ?>' + val.id +'" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>' +
+                        '<a href="<?php echo admin_url('legalservices/legal_procedures/edit/'); ?>' + val.id +'" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>' +
                         <?php } ?>
                         <?php if (has_permission('legal_procedures', '', 'delete')) { ?>
-                        '<a href="<?php echo admin_url('LegalServices/legal_procedures/delete/'); ?>'+ val.id +'" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>' +
+                        '<a href="<?php echo admin_url('legalservices/legal_procedures/delete/'); ?>'+ val.id +'" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>' +
                         <?php } ?>
                         '</td>' +
                         <?php } ?>

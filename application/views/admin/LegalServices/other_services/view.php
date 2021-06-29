@@ -60,7 +60,7 @@
                                              </a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
+                                            <a href="<?php echo admin_url('legalservices/other_services/pin_action/'.$project->id); ?>">
                                                 <?php echo _l('service_bin'); ?>
                                             </a>
                                         </li>
@@ -91,17 +91,17 @@
                                         <li class="divider"></li>
                                         <?php if(has_permission('projects','','create')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/export_project_data/'.$ServID.'/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
+                                                <a href="<?php echo admin_url('legalservices/other_services/export_project_data/'.$ServID.'/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(is_admin()){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/view_project_as_client/'.$project->id .'/'.$project->clientid.'/'.$ServID); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                                <a href="<?php echo admin_url('legalservices/other_services/view_project_as_client/'.$project->id .'/'.$project->clientid.'/'.$ServID); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/'.$ServID.'/'.$project->id); ?>" class="_delete">
+                                                <a href="<?php echo admin_url('legalservices/other_services/move_to_recycle_bin/'.$ServID.'/'.$project->id); ?>" class="_delete">
                                                     <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                                 </a>
                                             </li>
@@ -115,7 +115,7 @@
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>
-                        <?php $this->load->view('admin/LegalServices/other_services/project_tabs'); ?>
+                        <?php $this->load->view('admin/legalservices/other_services/project_tabs'); ?>
                     </div>
                 </div>
                 <?php
@@ -148,7 +148,7 @@
                 <?php } ?>
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/LegalServices/other_services/project_overview')); ?>
+                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/legalservices/other_services/project_overview')); ?>
                     </div>
                 </div>
             </div>
@@ -166,11 +166,11 @@ echo form_hidden('project_percent',$percent);
 ?>
 <div id="invoice_project"></div>
 <div id="pre_invoice_project"></div>
-<?php $this->load->view('admin/LegalServices/other_services/milestone'); ?>
-<?php $this->load->view('admin/LegalServices/other_services/copy_settings'); ?>
-<?php $this->load->view('admin/LegalServices/other_services/link_service'); ?>
-<?php $this->load->view('admin/LegalServices/other_services/linked_services'); ?>
-<?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
+<?php $this->load->view('admin/legalservices/other_services/milestone'); ?>
+<?php $this->load->view('admin/legalservices/other_services/copy_settings'); ?>
+<?php $this->load->view('admin/legalservices/other_services/link_service'); ?>
+<?php $this->load->view('admin/legalservices/other_services/linked_services'); ?>
+<?php $this->load->view('admin/legalservices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->
 <script>
@@ -269,7 +269,7 @@ echo form_hidden('project_percent',$percent);
                   editorConfig.mentions = {
                      source: function (query, process, delimiter) {
                            if (projectUserMentions.length < 1) {
-                              $.getJSON(admin_url + 'LegalServices/Other_services_controller/get_staff_names_for_mentions/' + project_id, function (data) {
+                              $.getJSON(admin_url + 'legalservices/other_services/get_staff_names_for_mentions/' + project_id, function (data) {
                                  projectUserMentions = data;
                                  process(data)
                               });
@@ -313,14 +313,14 @@ echo form_hidden('project_percent',$percent);
         },
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {
-                $.get(admin_url + 'LegalServices/Other_services_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
+                $.get(admin_url + 'legalservices/other_services/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
                     success(response);
                 },'json');
             },
             postComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> + '/' + discussion_id+'/'+discussion_type,
+                    url: admin_url + 'legalservices/other_services/add_discussion_comment/'+ <?php echo $ServID; ?> + '/' + discussion_id+'/'+discussion_type,
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -332,7 +332,7 @@ echo form_hidden('project_percent',$percent);
             putComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Other_services_controller/update_discussion_comment',
+                    url: admin_url + 'legalservices/other_services/update_discussion_comment',
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -344,7 +344,7 @@ echo form_hidden('project_percent',$percent);
             deleteComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Other_services_controller/delete_discussion_comment/'+commentJSON.id,
+                    url: admin_url + 'legalservices/other_services/delete_discussion_comment/'+commentJSON.id,
                     success: success,
                     error: error
                 });
@@ -382,7 +382,7 @@ echo form_hidden('project_percent',$percent);
                             formData.append(csrfData['token_name'], csrfData['hash']);
                         }
                         $.ajax({
-                            url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> +'/'+ discussion_id+'/'+discussion_type,
+                            url: admin_url + 'legalservices/other_services/add_discussion_comment/'+ <?php echo $ServID; ?> +'/'+ discussion_id+'/'+discussion_type,
                             type: 'POST',
                             data: formData,
                             cache: false,
@@ -420,12 +420,12 @@ echo form_hidden('project_percent',$percent);
 //    <?php //} ?>
 
     //$(function(){
-    //    initDataTable('.table-oservice-session', admin_url + 'LegalServices/case_session_controller/session/<?php //echo $ServID ?>///<?php //echo $project->id; ?>//', undefined, undefined, 'undefined', [0, 'asc']);
+    //    initDataTable('.table-oservice-session', admin_url + 'legalservices/case_session_controller/session/<?php //echo $ServID ?>///<?php //echo $project->id; ?>//', undefined, undefined, 'undefined', [0, 'asc']);
     //});
 
     $(function(){
-        initDataTable('.table-previous_sessions_log', admin_url + 'LegalServices/Sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'LegalServices/Sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
 
         // Init single task data
         if (typeof(taskid) !== 'undefined' && taskid !== '') { init_session_modal(taskid); }
@@ -445,7 +445,7 @@ echo form_hidden('project_percent',$percent);
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Sessions/edit_customer_report'); ?>' + '/' + task_id,
+                url: '<?php echo admin_url('legalservices/sessions/edit_customer_report'); ?>' + '/' + task_id,
                 data: {
                     next_session_date : next_session_date,
                     next_session_time : next_session_time,
@@ -479,7 +479,7 @@ echo form_hidden('project_percent',$percent);
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Other_services_controller/add_task_to_select_timesheet'); ?>',
+                url: '<?php echo admin_url('legalservices/other_services/add_task_to_select_timesheet'); ?>',
                 data: {
                     name : name,
                     startdate: startdate,

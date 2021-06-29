@@ -20,16 +20,16 @@
    <?php
 
    if ($ServID == 1){
-       $this->load->model('LegalServices/LegalServicesModel', 'legal');
-       $this->load->model('LegalServices/Cases_model', 'case');
+       $this->load->model('legalservices/LegalServicesModel', 'legal');
+       $this->load->model('legalservices/Cases_model', 'case');
        $model = $this->case;
        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
        $total_logged_time = $this->case->calc_milestone_logged_time($project->id,0);
        $total_tasks = total_case_tasks_by_milestone(0, $project->id, $slug);
        $total_finished_tasks = total_case_finished_tasks_by_milestone(0, $project->id, $slug);
    }else{
-       $this->load->model('LegalServices/LegalServicesModel', 'legal');
-       $this->load->model('LegalServices/Other_services_model', 'other');
+       $this->load->model('legalservices/LegalServicesModel', 'legal');
+       $this->load->model('legalservices/Other_services_model', 'other');
        $model = $this->other;
        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
        $total_logged_time = $this->other->calc_milestone_logged_time($slug, $project->id,0);

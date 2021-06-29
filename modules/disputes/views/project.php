@@ -927,7 +927,7 @@
         $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/LegalServices_controller/getChildCatModules/"); ?>' + id,
+            url: '<?php echo admin_url("legalservices/legal_services/getChildCatModules/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {

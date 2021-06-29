@@ -7,11 +7,11 @@
         <?php echo _l('more'); ?>
         <?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
     <ul class="dropdown-menu dropdown-menu-right">
-        <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/irac/pdf/'.$ServID.'/'.$id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
-        <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/irac/pdf/'.$ServID.'/'.$id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
-        <li><a href="<?php echo admin_url('LegalServices/irac/pdf/'.$ServID.'/'.$id); ?>"><?php echo _l('download'); ?></a></li>
+        <li class="hidden-xs"><a href="<?php echo admin_url('legalservices/irac/pdf/'.$ServID.'/'.$id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
+        <li class="hidden-xs"><a href="<?php echo admin_url('legalservices/irac/pdf/'.$ServID.'/'.$id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
+        <li><a href="<?php echo admin_url('legalservices/irac/pdf/'.$ServID.'/'.$id); ?>"><?php echo _l('download'); ?></a></li>
         <li>
-            <a href="<?php echo admin_url('LegalServices/irac/pdf/'.$ServID.'/'.$id.'?print=true'); ?>" target="_blank">
+            <a href="<?php echo admin_url('legalservices/irac/pdf/'.$ServID.'/'.$id.'?print=true'); ?>" target="_blank">
                 <?php echo _l('print'); ?>
             </a>
         </li>
@@ -19,7 +19,7 @@
 </div>
 <?php endif; ?>
 <hr />
-<?php echo form_open(admin_url('LegalServices/irac/edit/'.$ServID.'/'.$id)); ?>
+<?php echo form_open(admin_url('legalservices/irac/edit/'.$ServID.'/'.$id)); ?>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="head_facts">

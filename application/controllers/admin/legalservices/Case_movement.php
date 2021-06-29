@@ -2,14 +2,14 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class  case_movement_controller extends AdminController
+class case_movement extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/Case_movement_model', 'movement');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('legalservices/Case_movement_model', 'movement');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
         $this->load->helper('date');
     }
 
@@ -41,7 +41,7 @@ class  case_movement_controller extends AdminController
         $data['staff']                 = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']                = $ServID;
         $data['title']                 = _l("CaseMovement");
-        $this->load->view('admin/LegalServices/cases/case_movement_edit', $data);
+        $this->load->view('admin/legalservices/cases/case_movement_edit', $data);
     }
 
     public function delete($ServID,$case_id,$id)

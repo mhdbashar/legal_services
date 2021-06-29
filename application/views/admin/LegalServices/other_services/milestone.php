@@ -2,7 +2,7 @@
 <!-- Miles Stones -->
 <div class="modal fade" id="milestone" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/Other_services_controller/milestone/'.$ServID),array('id'=>'milestone_form')); ?>
+        <?php echo form_open(admin_url('legalservices/other_services/milestone/'.$ServID),array('id'=>'milestone_form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

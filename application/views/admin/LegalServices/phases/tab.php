@@ -6,7 +6,7 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 <?php if(!empty($phases)): ?>
 <div class="panel panel-default">
-<?php echo form_open(admin_url('LegalServices/Phases_controller/handle_phases/'.$ServID.'/'.$project->id),array('id'=> 'form_phases')); ?>
+<?php echo form_open(admin_url('legalservices/phases/handle_phases/'.$ServID.'/'.$project->id),array('id'=> 'form_phases')); ?>
 <?php
 $i=1;
 foreach ($phases as $phase):
@@ -85,7 +85,7 @@ foreach ($phases as $phase):
 <?php else: ?>
     <div class="alert alert-danger">
         <?php echo _l('no_phases') ?>
-        <a href="<?php echo admin_url('LegalServices/Phases_controller'); ?>" target="_blank"><?php echo _l('from_here') ?></a>
+        <a href="<?php echo admin_url('legalservices/phases'); ?>" target="_blank"><?php echo _l('from_here') ?></a>
     </div>
 <?php endif; ?>
 </div>
@@ -105,7 +105,7 @@ foreach ($phases as $phase):
     function back_to_previous_phase(relid, slug1, slug2){
         if (confirm_delete()) {
             $.ajax({
-                url: '<?php echo admin_url('LegalServices/Phases_controller/back_to_previous_phase/'); ?>' + relid + '/' + slug1 + '/' + slug2,
+                url: '<?php echo admin_url('legalservices/phases/back_to_previous_phase/'); ?>' + relid + '/' + slug1 + '/' + slug2,
                 success: function (data) {
                     if(data == true){
                         alert_float('success', '<?php echo _l('Done').' '._l('back_to_previous_phase'); ?>');

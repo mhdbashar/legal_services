@@ -1,26 +1,26 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Imported_services_controller extends AdminController
+class Other_services extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Other_services_model', 'other');
-        $this->load->model('LegalServices/Imported_services_model', 'imported');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Other_services_model', 'other');
         $this->load->model('Customer_representative_model', 'representative');
-        //$this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
-        $this->load->model('LegalServices/Phase_model','phase');
-        $this->load->helper('date');
+        $this->load->model('legalservices/Phase_model','phase');
         $this->load->model('Staff_model');
+        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
+        $this->load->model('Written_reports_model','reports');
         $this->load->model('emails_model');
+        $this->load->helper('date');
     }
 
     public function add($ServID)
     {
-        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+        if (!staff_can('edit', 'projects') && !staff_can('create', 'projects')) {
             access_denied('Projects');
         }
         $ExistServ = $this->legal->CheckExistService($ServID);
@@ -53,6 +53,10 @@ class Imported_services_controller extends AdminController
         $data['Numbering'] = $this->other->GetTopNumbering();
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['auto_select_billing_type'] = $this->other->get_most_used_billing_type();
+        if ($this->input->get('via_estimate_id')) {
+            $this->load->model('estimates_model');
+            $data['estimate'] = $this->estimates_model->get($this->input->get('via_estimate_id'));
+        }
         $data['last_project_settings'] = $this->other->get_last_project_settings();
         if (count($data['last_project_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
@@ -66,12 +70,12 @@ class Imported_services_controller extends AdminController
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
         $data['title']    = _l('permission_create').' '._l('LegalService');
-        $this->load->view('admin/LegalServices/other_services/Add',$data);
+        $this->load->view('admin/legalservices/other_services/Add',$data);
     }
 
     public function edit($ServID, $id)
     {
-        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+        if (!staff_can('edit', 'projects') && !staff_can('create', 'projects')) {
             access_denied('Projects');
         }
         if (!$id) {
@@ -107,86 +111,76 @@ class Imported_services_controller extends AdminController
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $data['ServID'] = $ServID;
         $data['title'] = _l('edit') . ' ' . _l('LegalService');
-        $this->load->view('admin/LegalServices/other_services/Edit', $data);
+        $this->load->view('admin/legalservices/other_services/Edit', $data);
     }
 
     public function delete($ServID, $id)
     {
-        if (!has_permission('imported_services', '', 'delete')) {
-            access_denied('imported_services');
+        if (staff_can('delete', 'projects')) {
+            if (!$id) {
+                set_alert('danger', _l('WrongEntry'));
+                redirect(admin_url("legalservices/legal_services/legal_recycle_bin/$ServID"));
+            }
+            $response = $this->other->delete($ServID, $id);
+            if ($response == true) {
+                set_alert('success', _l('deleted_successfully'));
+            } else {
+                set_alert('warning', _l('problem_deleting'));
+            }
+            redirect(admin_url("legalservices/legal_services/legal_recycle_bin/$ServID"));
         }
-        if (!$id) {
-            set_alert('danger', _l('WrongEntry'));
-            redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
-        }
-        $response = $this->other->delete($ServID, $id);
-        if ($response == true) {
-            set_alert('success', _l('deleted'));
-        } else {
-            set_alert('warning', _l('problem_deleting'));
-        }
-        redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
     }
 
-    public function move_to_recycle_bin($id)
+    public function move_to_recycle_bin($ServID,$id)
     {
-        if (!has_permission('imported_services', '', 'delete')) {
-            access_denied('imported_services');
+        if (!has_permission('legal_recycle_bin', '', 'delete')) {
+            access_denied('legal_recycle_bin');
         }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("Service/$ServID"));
         }
-
-        $imported_service = $this->imported->get($id);
-        if($imported_service->company_url != '') {
-            $url = $imported_service->company_url . '/forms/notification_from_office/no';
-
-            $data = [
-                'company_staff_id' => $imported_service->company_staff_id,
-                'office_id' => $imported_service->id,
-                'office_url' => base_url(),
-                'name' => $imported_service->name
-            ];
-            $post_data = http_build_query($data);
-
-            $cURLConnection = curl_init();
-            curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
-
-            $List = curl_exec($cURLConnection);
-            // var_dump($List); exit;
-            curl_close($cURLConnection);
-        }
-
-        $response = $this->other->move_imported_to_recycle_bin($id);
+        $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
-        redirect(admin_url("imported_services"));
+        redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        $this->app->get_table_data('cases', [
-            'clientid' => $clientid,
-        ]);
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->other;
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+            ]);
+        endif;
     }
 
-    public function staff_projects()
+    public function staff_services()
     {
-        $this->app->get_table_data('staff_projects');
+        $this->app->get_table_data('staff_services');
     }
 
     public function expenses($id, $slug = '')
     {
         $this->load->model('expenses_model');
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('oservice_expenses', [
             'project_id' => $id,
-            'slug' => $slug
+            'slug' => $slug,
+            'data'       => $data,
         ]);
     }
 
@@ -248,7 +242,7 @@ class Imported_services_controller extends AdminController
 
         $data['selected_statuses'] = $selected_statuses;
 
-        if (has_permission('projects', '', 'view')) {
+        if (staff_can('view', 'projects')) {
             $selectedMember = $appliedMember;
             $data['selectedMember'] = $selectedMember;
             $data['project_members'] = $this->other->get_distinct_projects_members();
@@ -259,22 +253,28 @@ class Imported_services_controller extends AdminController
             'member' => $selectedMember,
         ]);
 
-        $this->load->view('admin/LegalServices/other_services/gantt', $data);
+        $this->load->view('admin/legalservices/other_services/gantt', $data);
     }
 
-    public function view($id)
+    public function view($ServID, $id)
     {
-        if (has_permission('imported_services', '', 'view') || $this->other->is_member($id)) {
-            // $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-            $slug = 'imported_services';
+        if (staff_can('view', 'projects') || $this->other->is_member($id)) {
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['slug'] = $slug;
             close_setup_menu();
-            $project = $this->other->get_imported($id);
+            $project = $this->other->get($ServID,$id);
 
             if (!$project) {
                 blank_page(_l('LService_not_found'));
             }
 
-            $project->settings->available_features = '';
+            if ($project->service_session_link == 1){
+                //Unable to load session tab if service_session_link is active
+                add_session_tab();
+            }
+
+            $project->settings->available_features = unserialize($project->settings->available_features);
+
             $data['statuses'] = $this->other->get_project_statuses();
 
             $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');
@@ -284,7 +284,7 @@ class Imported_services_controller extends AdminController
                 $group = str_replace('#', '', $group);
             }
 
-            $data['tabs'] = get_iservice_tabs_admin();
+            $data['tabs'] = get_oservice_tabs_admin();
             $data['tab'] = $this->app_tabs->filter_tab($data['tabs'], $group);
 
             if (!$data['tab']) {
@@ -295,22 +295,38 @@ class Imported_services_controller extends AdminController
             $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
 
             $data['project'] = $project;
-            $data['project_id'] = $project->id;
             $data['currency'] = $this->other->get_currency($id);
+
+            $linked_services = $this->other->get_linked_services($ServID, $id);
+
+            $father_linked_services = [];
+            $child_linked_services = [];
+            foreach ($linked_services as $linked_service) {
+                if($linked_service->l_service_id == $ServID && $linked_service->rel_id == $id){
+                    $child_linked_services[] = $linked_service;
+                }elseif($linked_service->to_service_id == $ServID && $linked_service->to_rel_id == $id){
+                    $father_linked_services = $linked_service;
+                }
+            }
+
+            $data['linked_services'] = $linked_services;
+            $data['father_linked_services'] = $father_linked_services;
+            $data['child_linked_services'] = $child_linked_services;
 
             $data['project_total_logged_time'] = $this->other->total_logged_time($slug,$id);
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-            $percent = $this->other->calc_progress_imported($slug,$id);
+            $percent = $this->other->calc_progress($slug,$id);
             $data['bodyclass'] = '';
 
+            //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
-                'projects-js',
-                base_url($this->app_scripts->core_file('assets/js', 'iservices.js')) . '?v=' . $this->app_scripts->core_version(),
+                'oservices-js',
+                base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
-
+            $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
 
             if ($group == 'project_overview') {
                 $data['members'] = $this->other->get_project_members($id);
@@ -339,7 +355,7 @@ class Imported_services_controller extends AdminController
                 }
 
                 $__total_where_tasks = 'rel_type = "'.$slug.'" AND rel_id=' . $this->db->escape_str($id);
-                if (!has_permission('tasks', '', 'view')) {
+                if (!staff_can('view', 'tasks')) {
                     $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
 
                     if (get_option('show_all_tasks_for_project_member') == 1) {
@@ -388,7 +404,7 @@ class Imported_services_controller extends AdminController
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
             } elseif ($group == 'project_files') {
-                $data['files'] = $this->other->get_imported_files($id);
+                $data['files'] = $this->other->get_files($id);
             } elseif ($group == 'project_expenses') {
                 $this->load->model('taxes_model');
                 $this->load->model('expenses_model');
@@ -399,6 +415,10 @@ class Imported_services_controller extends AdminController
                 $data['activity'] = $this->other->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->other->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years'] = $this->estimates_model->get_estimates_years();
@@ -422,11 +442,29 @@ class Imported_services_controller extends AdminController
             } elseif ($group == 'OserviceSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-                //$data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                $data['judges']      = $this->service_sessions->get_judges();
-                $data['courts']      = $this->service_sessions->get_court();
+                //$data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+                $data['courts']      = $this->sessions_model->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
+            } elseif ($group == 'Procedures'){
+                $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
+                $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
+            }elseif ($group == 'help_library'){
+                $tags_array = get_service_tags($id, $slug);
+                $tags = array();
+                foreach ($tags_array as $tag){
+                    $tags[] = $tag['tag'];
+                }
+                $tags = implode(',', $tags);
+                $response = get_books_by_api($tags);
+                if(isset($response['error'])):
+                    $data['books'] = array();
+                else:
+                    $data['books'] = json_decode($response);
+                endif;
+            }elseif ($group == 'written_reports'){
+                $data['reports'] = $this->reports->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions
@@ -456,28 +494,22 @@ class Imported_services_controller extends AdminController
 
             $other_projects_where .= ')';
 
+            if (!staff_can('view', 'projects')) {
+                $other_projects_where .= ' AND ' . db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')';
+            }
 
-            $data['project_id']=$id;
-            $data['other_projects'] = $this->other->get_imported($other_projects_where);
+
+            $data['project_id'] = $id;
+            $data['other_projects'] = $this->other->get($ServID, '', $other_projects_where);
             $data['title'] = $data['project']->name;
             $data['bodyclass'] .= 'project invoices-total-manual estimates-total-manual';
             $data['project_status'] = get_project_status_by_id($project->status);
-            $service = [
-                'name' => 'imported_services',
-                'slug' => 'imported_services',
-                'prefix' => 'IMPORT',
-                'numbering' => 1,
-                'is_primary' => 1,
-                'show_in_sidbar' => 1,
-                'is_module' => 0,
-                'date_created' => '2020-01-23 21:03:43'
-            ];
-            $data['service']        = (object)$service;
-            // $data['ServID'] = $ServID;
+            $data['service']        = $this->legal->get_service_by_id($ServID)->row();
+            $data['ServID'] = $ServID;
             $data['oservice_model']  = $this->other;
-            $this->load->view('admin/LegalServices/imported_services/view', $data);
+            $this->load->view('admin/legalservices/other_services/view', $data);
         } else {
-            access_denied('Imported services View');
+            access_denied('Other services View');
         }
     }
 
@@ -487,7 +519,7 @@ class Imported_services_controller extends AdminController
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
-            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+            if (staff_can('create', 'projects') || staff_can('edit', 'projects')) {
                 $status = get_oservice_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
@@ -509,12 +541,12 @@ class Imported_services_controller extends AdminController
         $data['discussion_user_profile_image_url'] = staff_profile_image_url(get_staff_user_id());
         $data['current_user_is_admin'] = is_admin();
 
-        $data['file'] = $this->other->get_imported_file($id, $project_id);
+        $data['file'] = $this->other->get_file($id, $project_id);
         if (!$data['file']) {
             header('HTTP/1.0 404 Not Found');
             die;
         }
-        $this->load->view('admin/LegalServices/imported_services/_file', $data);
+        $this->load->view('admin/legalservices/other_services/_file', $data);
     }
 
     public function update_file_data()
@@ -537,29 +569,27 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function download_all_files($id)
+    public function download_all_files($ServID = '', $id)
     {
-        if ($this->other->is_member($id) || has_permission('imported_services', '', 'view')) {
-            $files = $this->other->get_imported_files($id);
+        if ($this->other->is_member($id) || staff_can('view', 'projects')) {
+            $files = $this->other->get_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
-                redirect(admin_url('SImported/view/'. $id . '?group=project_files'));
+                redirect(admin_url('SOther/view/'.$ServID.'/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type_iservice('iservice') . $id;
+            $path = get_upload_path_by_type_oservice('oservice') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);
             }
-            $this->zip->download(slug_it(get_iservice_name_by_id($id)) . '-files.zip');
+            $this->zip->download(slug_it(get_oservice_name_by_id($id)) . '-files.zip');
             $this->zip->clear_data();
-        }else{
-            access_denied('Imported services View');
         }
     }
 
     public function export_project_data($ServID, $id)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             app_pdf('oservice-data', LIBSPATH . 'pdf/Oservice_data_pdf',$ServID, $id);
         }
     }
@@ -586,7 +616,7 @@ class Imported_services_controller extends AdminController
 
     public function add_edit_members($ServID='', $project_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             $this->other->add_edit_members($this->input->post(), $ServID, $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -660,7 +690,7 @@ class Imported_services_controller extends AdminController
     public function delete_discussion($id)
     {
         $success = false;
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete', 'projects')) {
             $success = $this->other->delete_discussion($id);
         }
         $alert_type = 'warning';
@@ -694,9 +724,9 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function project_invoices($id, $visible)
+    public function change_activity_visibility($id, $visible)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->other->change_activity_visibility($id, $visible);
             }
@@ -731,7 +761,7 @@ class Imported_services_controller extends AdminController
             $data['milestones'][] = $m;
         }
 
-        echo $this->load->view('admin/LegalServices/other_services/milestones_kan_ban', $data, true);
+        echo $this->load->view('admin/legalservices/other_services/milestones_kan_ban', $data, true);
     }
 
     public function milestones_kanban_load_more($ServID)
@@ -747,13 +777,13 @@ class Imported_services_controller extends AdminController
         }
         $tasks = $this->other->do_milestones_kanban_query($ServID, $status, $project_id, $page, $where);
         foreach ($tasks as $task) {
-            $this->load->view('admin/LegalServices/other_services/_milestone_kanban_card', ['task' => $task, 'milestone' => $status]);
+            $this->load->view('admin/legalservices/other_services/_milestone_kanban_card', ['task' => $task, 'milestone' => $status]);
         }
     }
 
     public function milestones($project_id, $ServID, $slug)
     {
-        if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('milestones_oservice', [
                     'project_id' => $project_id,
@@ -770,11 +800,17 @@ class Imported_services_controller extends AdminController
             $message = '';
             $success = false;
             if (!$this->input->post('id')) {
+                if (!staff_can('create_milestones', 'projects')) {
+                    access_denied();
+                }
                 $id = $this->other->add_milestone($ServID, $this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project_milestone')));
                 }
             } else {
+                if (!staff_can('edit_milestones', 'projects')) {
+                    access_denied();
+                }
                 $data = $this->input->post();
                 $id   = $data['id'];
                 unset($data['id']);
@@ -789,7 +825,7 @@ class Imported_services_controller extends AdminController
 
     public function delete_milestone($ServID='',$project_id, $id)
     {
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete_milestones', 'projects')) {
             if ($this->other->delete_milestone($ServID, $id)) {
                 set_alert('deleted', 'project_milestone');
             }
@@ -801,7 +837,7 @@ class Imported_services_controller extends AdminController
     {
         hooks()->do_action('before_do_bulk_action_for_project_files');
         $total_deleted = 0;
-        $hasPermissionDelete = has_permission('projects', '', 'delete');
+        $hasPermissionDelete = staff_can('delete', 'projects');
         // bulk action for projects currently only have delete button
         if ($this->input->post()) {
             $fVisibility = $this->input->post('visible_to_customer') == 'true' ? 1 : 0;
@@ -823,7 +859,7 @@ class Imported_services_controller extends AdminController
 
     public function timesheets($project_id, $slug)
     {
-        if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('timesheets_oservice', [
                     'project_id' => $project_id,
@@ -858,8 +894,8 @@ class Imported_services_controller extends AdminController
     {
         $assignees = $this->tasks_model->get_task_assignees($task_id);
         $data = '';
-        $has_permission_edit = has_permission('projects', '', 'edit');
-        $has_permission_create = has_permission('projects', '', 'edit');
+        $has_permission_edit   = staff_can('edit', 'projects');
+        $has_permission_create = staff_can('edit', 'projects');
         // The second condition if staff member edit their own timesheet
         if ($staff_id == 'undefined' || $staff_id != 'undefined' && (!$has_permission_edit || !$has_permission_create)) {
             $staff_id = get_staff_user_id();
@@ -883,7 +919,7 @@ class Imported_services_controller extends AdminController
 
     public function remove_team_member($ServID,$project_id, $staff_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             if ($this->other->remove_team_member($ServID, $project_id, $staff_id)) {
                 set_alert('success', _l('project_member_removed'));
             }
@@ -902,59 +938,41 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function copy($project_id)
+    public function copy($ServID,$project_id)
     {
-        $service_id = $this->input->post('service_id');
-        if (has_permission('imported_services', '', 'export')) {
-            $id = $this->imported->copy($service_id, $project_id, $this->input->post());
-            $name = $service_id == 1 ? "Case" : "SOther";
+        if (staff_can('create', 'projects')) {
+            $id = $this->other->copy($ServID,$project_id, $this->input->post());
             if ($id) {
-                $imported_service = $this->imported->get($project_id);
-                $files = $this->other->get_imported_files($project_id);
-                foreach ($files as $file) {
-                    $this->other->remove_imported_file($file['id']);
-                }
-                $this->db->set(['deleted'=> 1, 'imported' => 1, 'exported_rel_id' => $id, 'exported_service_id' => $service_id]);
-                $this->db->where(array('id' => $project_id, 'deleted' => 0));
-                $this->db->update(db_prefix() . 'my_imported_services');
-
-                
-                //var_dump($imported_services);
-                if($imported_service->company_url != '') {
-                    $url = $imported_service->company_url . '/forms/notification_from_office/';
-
-                    $data = [
-                        'company_staff_id' => $imported_service->company_staff_id,
-                        'office_id' => $imported_service->id,
-                        'office_url' => base_url(),
-                        'name' => $imported_service->name
-                    ];
-                    $post_data = http_build_query($data);
-
-                    $cURLConnection = curl_init();
-                    curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
-                    curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
-
-                    $List = curl_exec($cURLConnection);
-                    // var_dump($List); exit;
-                    curl_close($cURLConnection);
-                }
-
-                set_alert('success', _l('service_exported_successfully'));
-                redirect(admin_url($name.'/view/' .$service_id. '/' . $id));
+                set_alert('success', _l('project_copied_successfully'));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $id));
             } else {
-                set_alert('danger', _l('failed_to_export_service'));
-                redirect($_SERVER['HTTP_REFERER']);
+                set_alert('danger', _l('failed_to_copy_project'));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
             }
-        }else{
-            access_denied('Imported services');
+        }
+    }
+
+    public function link($ServID,$project_id)
+    {
+        if (has_permission('projects', '', 'create')) {
+            $ServID2 = $this->input->post('service_id');
+            $id = $this->other->link($ServID,$project_id, $this->input->post(), $ServID2);
+            if ($id) {
+                set_alert('success', _l('project_linked_successfully'));
+                if($ServID2 != 1)
+                    redirect(admin_url('SOther/view/' .$ServID2.'/'. $id));
+                else
+                    redirect(admin_url('Case/view/' .$ServID2.'/'. $id));
+            } else {
+                set_alert('danger', _l('failed_to_link_project'));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
+            }
         }
     }
 
     public function mass_stop_timers($project_id, $billable = 'false', $ServID)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $where = [
                 'billed' => 0,
                 'startdate <=' => date('Y-m-d'),
@@ -984,39 +1002,38 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function get_pre_invoice_project_info($project_id)
+    public function get_pre_invoice_project_info($ServID, $project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
-            $data['billable_tasks'] = $this->projects_model->get_tasks($project_id, [
-                'billable'     => 1,
-                'billed'       => 0,
+        if (staff_can('create', 'invoices')) {
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
+                'billable' => 1,
+                'billed' => 0,
                 'startdate <=' => date('Y-m-d'),
             ]);
-
-            $data['not_billable_tasks'] = $this->projects_model->get_tasks($project_id, [
-                'billable'    => 1,
-                'billed'      => 0,
+            $data['not_billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
+                'billable' => 1,
+                'billed' => 0,
                 'startdate >' => date('Y-m-d'),
             ]);
-
-            $data['project_id']   = $project_id;
-            $data['billing_type'] = get_project_billing_type($project_id);
-
+            $data['project_id'] = $project_id;
+            $data['ServID']     = $ServID;
+            $data['billing_type'] = get_oservice_billing_type($project_id);
             $this->load->model('expenses_model');
             $this->db->where('invoiceid IS NULL');
             $data['expenses'] = $this->expenses_model->get('', [
-                'project_id' => $project_id,
+                'rel_sid'    => $project_id,
+                'rel_stype'  => $slug,
                 'billable'   => 1,
             ]);
-
-            $this->load->view('admin/LegalServices/imported_services/project_pre_invoice_settings', $data);
+            $this->load->view('admin/legalservices/other_services/project_pre_invoice_settings', $data);
         }
     }
 
-    public function get_invoice_project_data()
+    public function get_invoice_project_data($ServID)
     {
-        if (has_permission('invoices', '', 'create')) {
-            $type       = $this->input->post('type');
+        if (staff_can('create', 'invoices')) {
+            $type = $this->input->post('type');
             $project_id = $this->input->post('project_id');
             // Check for all cases
             if ($type == '') {
@@ -1027,8 +1044,8 @@ class Imported_services_controller extends AdminController
                 'expenses_only !=' => 1,
             ]);
             $this->load->model('taxes_model');
-            $data['taxes']         = $this->taxes_model->get();
-            $data['currencies']    = $this->currencies_model->get();
+            $data['taxes'] = $this->taxes_model->get();
+            $data['currencies'] = $this->currencies_model->get();
             $data['base_currency'] = $this->currencies_model->get_base_currency();
             $this->load->model('invoice_items_model');
 
@@ -1036,67 +1053,68 @@ class Imported_services_controller extends AdminController
             if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
                 $data['items'] = $this->invoice_items_model->get_grouped();
             } else {
-                $data['items']     = [];
+                $data['items'] = [];
                 $data['ajaxItems'] = true;
             }
 
             $data['items_groups'] = $this->invoice_items_model->get_groups();
-            $data['staff']        = $this->staff_model->get('', ['active' => 1]);
-            $project    = $this->other->get_imported($project_id);
-            $data['project']      = $project;
-            $items                = [];
+            $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+            $project = $this->other->get($ServID, $project_id);
+            $data['project'] = $project;
 
-            
+            $items = [];
+
+            $project = $this->other->get($ServID, $project_id);
             $item['id'] = 0;
 
-            $default_tax     = unserialize(get_option('default_tax'));
+            $default_tax = unserialize(get_option('default_tax'));
             $item['taxname'] = $default_tax;
 
             $tasks = $this->input->post('tasks');
             if ($tasks) {
                 $item['long_description'] = '';
-                $item['qty']              = 0;
-                $item['task_id']          = [];
+                $item['qty'] = 0;
+                $item['task_id'] = [];
                 if ($type == 'single_line') {
                     $item['description'] = $project->name;
                     foreach ($tasks as $task_id) {
                         $task = $this->tasks_model->get($task_id);
-                        $sec  = $this->tasks_model->calc_task_total_time($task_id);
-                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format($sec) . ' ' . _l('hours') . "\r\n";
+                        $sec = $this->tasks_model->calc_task_total_time($task_id);
+                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours') . "\r\n";
                         $item['task_id'][] = $task_id;
                         if ($project->billing_type == 2) {
                             if ($sec < 60) {
                                 $sec = 0;
                             }
-                            $item['qty'] += sec2qty($sec);
+                            $item['qty'] += sec2qty(task_timer_round($sec));
                         }
                     }
                     if ($project->billing_type == 1) {
-                        $item['qty']  = 1;
+                        $item['qty'] = 1;
                         $item['rate'] = $project->project_cost;
                     } elseif ($project->billing_type == 2) {
                         $item['rate'] = $project->project_rate_per_hour;
                     }
                     $item['unit'] = '';
-                    $items[]      = $item;
+                    $items[] = $item;
                 } elseif ($type == 'task_per_item') {
                     foreach ($tasks as $task_id) {
-                        $task                     = $this->tasks_model->get($task_id);
-                        $sec                      = $this->tasks_model->calc_task_total_time($task_id);
-                        $item['description']      = $project->name . ' - ' . $task->name;
-                        $item['qty']              = floatVal(sec2qty($sec));
-                        $item['long_description'] = seconds_to_time_format($sec) . ' ' . _l('hours');
+                        $task = $this->tasks_model->get($task_id);
+                        $sec = $this->tasks_model->calc_task_total_time($task_id);
+                        $item['description'] = $project->name . ' - ' . $task->name;
+                        $item['qty']              = floatVal(sec2qty(task_timer_round($sec)));
+                        $item['long_description'] = seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours');
                         if ($project->billing_type == 2) {
                             $item['rate'] = $project->project_rate_per_hour;
                         } elseif ($project->billing_type == 3) {
                             $item['rate'] = $task->hourly_rate;
                         }
                         $item['task_id'] = $task_id;
-                        $item['unit']    = '';
-                        $items[]         = $item;
+                        $item['unit'] = '';
+                        $items[] = $item;
                     }
                 } elseif ($type == 'timesheets_individualy') {
-                    $timesheets     = $this->projects_model->get_timesheets($project_id, $tasks);
+                    $timesheets = $this->other->get_timesheets($ServID, $project_id, $tasks);
                     $added_task_ids = [];
                     foreach ($timesheets as $timesheet) {
                         if ($timesheet['task_data']->billed == 0 && $timesheet['task_data']->billable == 1) {
@@ -1107,8 +1125,8 @@ class Imported_services_controller extends AdminController
 
                             array_push($added_task_ids, $timesheet['task_id']);
 
-                            $item['qty']              = floatVal(sec2qty($timesheet['total_spent']));
-                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format($timesheet['total_spent'])) . ' ' . _l('hours');
+                            $item['qty']              = floatVal(sec2qty(task_timer_round($timesheet['total_spent'])));
+                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format(task_timer_round($timesheet['total_spent']))) . ' ' . _l('hours');
 
                             if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
                                 $item['long_description'] .= "\r\n\r\n" . _l('note') . ': ' . $timesheet['note'];
@@ -1120,7 +1138,7 @@ class Imported_services_controller extends AdminController
                                 $item['rate'] = $timesheet['task_data']->hourly_rate;
                             }
                             $item['unit'] = '';
-                            $items[]      = $item;
+                            $items[] = $item;
                         }
                     }
                 }
@@ -1135,7 +1153,7 @@ class Imported_services_controller extends AdminController
                 if (count($tasks) > 0) {
                     $data['qty_hrs_quantity'] = true;
                 }
-                $expenses       = $this->input->post('expenses');
+                $expenses = $this->input->post('expenses');
                 $addExpenseNote = $this->input->post('expenses_add_note');
                 $addExpenseName = $this->input->post('expenses_add_name');
 
@@ -1150,11 +1168,11 @@ class Imported_services_controller extends AdminController
                 $this->load->model('expenses_model');
                 foreach ($expenses as $expense_id) {
                     // reset item array
-                    $item                     = [];
-                    $item['id']               = 0;
-                    $expense                  = $this->expenses_model->get($expense_id);
-                    $item['expense_id']       = $expense->expenseid;
-                    $item['description']      = _l('item_as_expense') . ' ' . $expense->name;
+                    $item = [];
+                    $item['id'] = 0;
+                    $expense = $this->expenses_model->get($expense_id);
+                    $item['expense_id'] = $expense->expenseid;
+                    $item['description'] = _l('item_as_expense') . ' ' . $expense->name;
                     $item['long_description'] = $expense->description;
 
                     if (in_array($expense_id, $addExpenseNote) && !empty($expense->note)) {
@@ -1174,16 +1192,17 @@ class Imported_services_controller extends AdminController
                     if ($expense->tax2 != 0) {
                         array_push($item['taxname'], $expense->tax_name2 . '|' . $expense->taxrate2);
                     }
-                    $item['rate']  = $expense->amount;
+                    $item['rate'] = $expense->amount;
                     $item['order'] = 1;
-                    $item['unit']  = '';
-                    $items[]       = $item;
+                    $item['unit'] = '';
+                    $items[] = $item;
                 }
             }
-            $data['customer_id']          = $project->clientid;
+            $data['customer_id'] = $project->clientid;
             $data['invoice_from_project'] = true;
-            $data['add_items']            = $items;
-            $this->load->view('admin/LegalServices/imported_services/invoice_project', $data);
+            $data['add_items'] = $items;
+            $data['ServID']    = $ServID;
+            $this->load->view('admin/legalservices/other_services/invoice_project', $data);
         }
     }
 
@@ -1219,10 +1238,10 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function invoice_project($project_id)
+    public function invoice_project($ServID, $project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
-            $slug = "imported";
+        if (staff_can('create', 'invoices')) {
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $this->load->model('invoices_model');
             $data               = $this->input->post();
             $data['rel_stype']  = $slug;
@@ -1233,7 +1252,7 @@ class Imported_services_controller extends AdminController
                 $this->other->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
-            redirect(admin_url('SImported/view/' . $project_id . '?group=project_invoices'));
+            redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));
         }
     }
 
@@ -1249,5 +1268,23 @@ class Imported_services_controller extends AdminController
     {
         $data = $this->input->post();
         echo  $this->tasks_model->new_task_to_select_timesheet($data);
+    }
+
+    public function get_staff_names_for_mentions($projectId)
+    {
+        if ($this->input->is_ajax_request()) {
+            $projectId = $this->db->escape_str($projectId);
+
+            $members = $this->other->get_project_members($projectId);
+            $members = array_map(function ($member) {
+                $staff = $this->staff_model->get($member['staff_id']);
+
+                $_member['id'] = $member['staff_id'];
+                $_member['name'] = $staff->firstname . ' ' . $staff->lastname;
+                return $_member;
+            }, $members);
+
+            echo json_encode($members);
+        }
     }
 }

@@ -2,7 +2,7 @@
 <!-- Copy Project -->
 <div class="modal fade" id="linked_services" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/Cases_controller/link/'.$ServID.'/'.(isset($project) ? $project->id : '')),array('id'=>'link_form','data-link-url'=>admin_url('LegalServices/Cases_controller/link/'))); ?>
+        <?php echo form_open(admin_url('legalservices/cases/link/'.$ServID.'/'.(isset($project) ? $project->id : '')),array('id'=>'link_form','data-link-url'=>admin_url('legalservices/cases/link/'))); ?>
 
         <div class="modal-content">
             <div class="modal-header">

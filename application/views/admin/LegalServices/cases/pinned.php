@@ -1,5 +1,5 @@
    <?php
-   $this->load->model('LegalServices/LegalServicesModel', 'legal');
+   $this->load->model('legalservices/LegalServicesModel', 'legal');
    $slug = $this->legal->get_service_by_id(1)->row()->slug;
    $pinned_projects = get_user_pinned_cases($slug);
    if(count($pinned_projects) > 0){ ?>

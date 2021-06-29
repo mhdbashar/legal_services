@@ -273,7 +273,7 @@ class Service10 extends REST_Controller {
                         $insert_data['project_members'] = $project_members;
                     }
                 // insert data                    
-                $this->load->model('LegalServices/Other_services_model', 'other');             
+                $this->load->model('legalservices/Other_services_model', 'other');             
                 $output = $this->other->add(10, $insert_data);                
                 if($output > 0 && !empty($output)){
                     handle_project_file_uploads($output);
@@ -338,7 +338,7 @@ class Service10 extends REST_Controller {
         else
         {
             // delete data
-            $this->load->model('LegalServices/Other_services_model', 'other');
+            $this->load->model('legalservices/Other_services_model', 'other');
             $output = $this->other->delete($id);
             if($output === TRUE){
                 // success
@@ -464,7 +464,7 @@ class Service10 extends REST_Controller {
 
             $update_data = $this->input->post();
             // update data
-            $this->load->model('LegalServices/Other_services_model', 'other');
+            $this->load->model('legalservices/Other_services_model', 'other');
             $output = $this->other->update($update_data, $id);
             if($output == true && !empty($output)){
                 // success

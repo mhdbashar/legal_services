@@ -28,7 +28,7 @@ foreach ($rResult as $aRow) {
 
     if (staff_can('delete_milestones', 'projects')) {
         $nameRow .= '<div class="row-options">';
-        $nameRow .= '<a href="' . admin_url('LegalServices/Cases_controller/delete_milestone/' . $ServID . '/' . $project_id . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $nameRow .= '<a href="' . admin_url('legalservices/cases/delete_milestone/' . $ServID . '/' . $project_id . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
         $nameRow .= '</div>';
     }
 

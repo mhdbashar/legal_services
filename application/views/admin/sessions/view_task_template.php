@@ -179,7 +179,7 @@
                            <?php
                               if(!$task->billed){
                                    if(has_permission('sessions','','delete') || (has_permission('projects','','delete') && $task->rel_type == 'project') || $timesheet['staff_id'] == get_staff_user_id()){
-                                    echo '<a href="'.admin_url('LegalServices/sessions/delete_timesheet/'.$timesheet['id']).'" class="session-single-delete-timesheet pull-right text-danger mtop5" data-task-id="'.$task->id.'"><i class="fa fa-remove"></i></a>';
+                                    echo '<a href="'.admin_url('legalservices/sessions/delete_timesheet/'.$timesheet['id']).'" class="session-single-delete-timesheet pull-right text-danger mtop5" data-task-id="'.$task->id.'"><i class="fa fa-remove"></i></a>';
                                  }
                               }
                               if($timesheet['time_spent'] == NULL){
@@ -436,7 +436,7 @@
             <?php } ?>
             <div class="col-md-12 text-center">
                <hr />
-               <a href="<?php echo admin_url('LegalServices/sessions/download_files/'.$task->id); ?>" class="bold">
+               <a href="<?php echo admin_url('legalservices/sessions/download_files/'.$task->id); ?>" class="bold">
                <?php echo _l('download_all'); ?> (.zip)
                </a>
             </div>
@@ -447,7 +447,7 @@
             <h4 class="mbot20 font-medium"><?php echo _l('task_comments'); ?></h4>
          </a>
          <div class="tasks-comments inline-block full-width simple-editor"<?php if(count($task->comments) == 0){echo ' style="display:none"';} ?>>
-            <?php echo form_open_multipart(admin_url('LegalServices/sessions/add_task_comment'),array('id'=>'task-comment-form','class'=>'dropzone dropzone-manual','style'=>'min-height:auto;background-color:#fff;')); ?>
+            <?php echo form_open_multipart(admin_url('legalservices/sessions/add_task_comment'),array('id'=>'task-comment-form','class'=>'dropzone dropzone-manual','style'=>'min-height:auto;background-color:#fff;')); ?>
             <textarea name="comment" placeholder="<?php echo _l('task_single_add_new_comment'); ?>" id="task_comment" rows="3" class="form-control ays-ignore"></textarea>
             <div id="dropzoneTaskComment" class="dropzoneDragArea dz-default dz-message hide task-comment-dropzone">
                <span><?php echo _l('drop_files_here_to_upload'); ?></span>
@@ -466,7 +466,7 @@
                   $i = 0;
                   foreach ($task->comments as $comment) {
                     $comments .= '<div id="comment_'.$comment['id'].'" data-commentid="' . $comment['id'] . '" data-task-attachment-id="'.$comment['file_id'].'" class="tc-content task-comment'.(strtotime($comment['dateadded']) >= strtotime('-16 hours') ? ' highlight-bg' : '').'">';
-                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('LegalServices/sessions/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
+                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('legalservices/sessions/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
                     if($comment['staffid'] != 0){
                      $comments .= '<a href="' . admin_url('profile/' . $comment['staffid']) . '" target="_blank">' . staff_profile_image($comment['staffid'], array(
                       'staff-profile-image-small',
@@ -509,7 +509,7 @@
                    $comment['content'] .='<div class="clearfix"></div>';
                    $comment['content'] .='<div class="text-center download-all">
                    <hr class="hr-10" />
-                   <a href="'.admin_url('LegalServices/sessions/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
+                   <a href="'.admin_url('legalservices/sessions/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
                    </a>
                    </div>';
                   }
@@ -567,7 +567,7 @@
                   <?php } ?>
                   <?php if(has_permission('sessions','','delete')){ ?>
                   <li>
-                     <a href="<?php echo admin_url('LegalServices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                     <a href="<?php echo admin_url('legalservices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                      <?php echo _l('task_single_delete'); ?>
                      </a>
                   </li>
@@ -812,7 +812,7 @@
                         <i class="fa fa-edit"></i>
                         </a>
                         <?php } ?>
-                        <a href="<?php echo admin_url('LegalServices/sessions/delete_reminder/' . $task->id . '/' . $reminder['id']); ?>" class="text-danger delete-reminder"><i class="fa fa-remove"></i></a>
+                        <a href="<?php echo admin_url('legalservices/sessions/delete_reminder/' . $task->id . '/' . $reminder['id']); ?>" class="text-danger delete-reminder"><i class="fa fa-remove"></i></a>
                         <?php } ?>
                      </p>
                      <?php
@@ -931,7 +931,7 @@
                ?>
          </div>
          <hr class="task-info-separator" />
-         <?php echo form_open_multipart('admin/LegalServices/sessions/upload_file',array('id'=>'task-attachment','class'=>'dropzone')); ?>
+         <?php echo form_open_multipart('admin/legalservices/sessions/upload_file',array('id'=>'task-attachment','class'=>'dropzone')); ?>
          <?php echo form_close(); ?>
          <div class="mtop10 text-right">
             <button class="gpicker mbot5">

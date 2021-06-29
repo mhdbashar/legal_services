@@ -131,7 +131,7 @@
         $("#tbl9").html('');
         tag = '#';
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/print_report/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/print_report/"); ?>' + task_id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
@@ -143,7 +143,7 @@
             }
         });
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/checklist_items_description/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/checklist_items_description/"); ?>' + task_id,
             success: function (data) {
                 arr = JSON.parse(data);
                 if (arr.length == 0) {
@@ -170,7 +170,7 @@
 
     function send_report(task_id) {
         $.ajax({
-            url: '<?php echo admin_url("LegalServices/Sessions/send_report_to_customer/"); ?>' + task_id,
+            url: '<?php echo admin_url("legalservices/sessions/send_report_to_customer/"); ?>' + task_id,
             success: function (data) {
                 if(data == 1){
                     alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');

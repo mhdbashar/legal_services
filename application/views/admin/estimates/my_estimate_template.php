@@ -42,8 +42,10 @@
            </div> */ ?>
 
              <?php
-             if((!isset($estimate)) || (isset($estimate) && !customer_has_cases($estimate->clientid)) || (isset($estimate) && !customer_has_oservices($estimate->clientid))){
-                 $hide_project_selector = 'hide';
+             if((!isset($estimate_request_id)) && (!isset($estimate) || (isset($estimate) && !customer_has_cases($estimate->clientid)))){
+                 $hide_project_selector = ' hide';
+             }elseif((!isset($estimate_request_id)) && (!isset($estimate) || (isset($estimate) && !customer_has_oservices($estimate->clientid)))){
+                 $hide_project_selector = ' hide';
              }else{
                  $hide_project_selector = '';
              }

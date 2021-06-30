@@ -623,6 +623,9 @@ $(function() {
 
     //Form Phases
     appValidateForm($('#form_phases'), {});
+
+    //Disable manual typing in all datepicker
+    $(".datepicker").keypress(function(event) {event.preventDefault();});
 });
 
 $(document).ready(function() {

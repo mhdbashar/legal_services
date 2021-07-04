@@ -3667,8 +3667,8 @@ $lang['template_name'] = 'Template Title';
 $lang['template_content'] = 'Template Content';
 $lang['insert_template'] = 'Insert';
 $lang['items_table_amounts_exclude_currency_symbol'] = 'Exclude currency symbol from items table Amount';
-
-$lang['multiplies_of'] = 'Multiplies of';
+$lang['Applied_to_the_Timesheets'] = 'Applied to the Timesheets overview report and when invoicing a task/project.';
+$lang['multiplies_of'] = 'Multiples of';
 $lang['round_off_task_timer_option'] = 'Round off task timer';
 $lang['task_timer_dont_round_off'] = 'Don\'t round off';
 $lang['task_timer_round_up'] = 'Round up';

@@ -625,7 +625,17 @@ $(function() {
     appValidateForm($('#form_phases'), {});
 
     //Disable manual typing in all datepicker
-    $(".datepicker").keypress(function(event) {event.preventDefault();});
+    $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
+
+});
+
+$(document).on('show.bs.modal', '.modal', function () {
+    // run your validation... ( or shown.bs.modal )
+    $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
+    //Add 5 min step to all datetimepicker
+    $(".datetimepicker").datetimepicker({
+        step: 5
+    });
 });
 
 $(document).ready(function() {

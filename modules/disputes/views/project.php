@@ -99,11 +99,8 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- <?php //$value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
                         <!-- <?php //echo render_input('addressed_to','project_addressed_to',$value); ?> -->
-
-
                         <?php $cats = get_relation_data('cat_modules','Dispute');
                         if($cats){ ?>
                         <div class="row">
@@ -135,11 +132,8 @@
                             </div>
                         </div>
                         <?php } ?>
-
                         <?php $value = (isset($meta['notes']) ? $meta['notes'] : ''); ?>
                         <?php echo render_input('notes','project_notes',$value); ?>
-
-
                     <?php
                     $opponent_id = (isset($meta['opponent_id']) ? explode(',',$meta['opponent_id']) : array()); 
                     for($i=0; $i<10; $i++) : ?>
@@ -337,11 +331,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <?php $value = (isset($project) ? _d($project->start_date) : _d(date('Y-m-d'))); ?>
+                        <?php $value = (isset($project) ? _gregorian_hijri_date($project->start_date, true) : _gregorian_hijri_date(date('Y-m-d'), true)); ?>
                         <?php echo render_date_input('start_date','project_start_date',$value); ?>
                     </div>
                     <div class="col-md-6">
-                        <?php $value = (isset($project) ? _d($project->deadline) : ''); ?>
+                        <?php $value = (isset($project) ? _gregorian_hijri_date($project->deadline, true) : ''); ?>
                         <?php echo render_date_input('deadline','project_deadline',$value); ?>
                     </div>
                 </div>

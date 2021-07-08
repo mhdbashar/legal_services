@@ -1,11 +1,22 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-//    public function test()
-//    {
-//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
-//
-//    }
+// add_action('after_render_single_aside_menu', 'my_custom_menu_items');
+hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
+hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
+hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
+hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
+
+//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
+hooks()->add_action('admin_init', 'add_hijri_settings');
+hooks()->add_action('app_admin_assets_added', 'admin_assets');
+hooks()->add_filter('before_sql_date_format', 'to_AD_date');
+hooks()->add_filter('after_format_date', 'to_hijri_date');
+hooks()->add_filter('after_format_datetime', 'to_hijri_date');
+hooks()->add_filter('before_settings_updated', 'set_my_options');
+hooks()->add_filter('available_date_formats', 'add_hijri_option');
+
 function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
 {
     $_url = '#';
@@ -19,6 +30,7 @@ function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attribu
     <i class="fa fa-' . $type . '"></i>
     </a>';
 }
+
 function curl_get_contents($url)
 {
     $ch = curl_init();
@@ -105,23 +117,6 @@ function my_check_license()
             break;
     }
 }
-// add_action('after_render_single_aside_menu', 'my_custom_menu_items');
-hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
-hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
-hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
-hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
-hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
-
-//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
-hooks()->add_action('admin_init', 'add_hijri_settings');
-hooks()->add_action('app_admin_assets_added', 'admin_assets');
-hooks()->add_filter('before_sql_date_format', 'to_AD_date');
-hooks()->add_filter('after_format_date', 'to_hijri_date');
-hooks()->add_filter('after_format_datetime', 'to_hijri_date');
-hooks()->add_filter('before_settings_updated', 'set_my_options');
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-// hooks()->add_action('after_format_datetime', 'my_custom_date');
-// hooks()->add_action('after_format_date', 'my_custom_date');
 
 function my_app_init_customer_profile_tabs()
 {
@@ -433,27 +428,6 @@ function app_init_opponent_profile_tabs()
     ]);
 }
 
-// function my_custom_date($date)
-// {
-//     $opt = explode('|', get_option('dateformat'));
-//     if(isset($opt[2]) && $opt[2]=='hijri'){
-//         $datetime = explode(' ', $date);
-//         $date = new DateTime($datetime[0]);
-//         $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
-//         // First condition for date and datetime
-//         // Second condition for 12 or 24 (Time Format)
-//         if (isset($datetime[1])){
-//         $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
-//         }
-//         return $date;
-//     }
-// }
-
-/**
- * custom
- * Get all countries stored in database
- * @return array
- */
 function my_get_all_countries()
 {
     $CI = & get_instance();
@@ -461,11 +435,6 @@ function my_get_all_countries()
     return $CI->db->get('tblcountries')->result_array();
 }
 
-/**
- * custom
- * Get all cities for a specific country Stored in database
- * @return array
- */
 function my_get_cities($country_id = '')
 {
     $CI = & get_instance();
@@ -514,50 +483,41 @@ function to_AD_date($date)
     }
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
-    $formatMode =$formats[0];  //for general dateformat
+    $formatMode = $formats[0];  //for general dateformat
 
     /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-
-    if (  $hijri_convert && $hijriStatus =="on") {
+    if ($hijri_convert && $hijriStatus == "on") {
         $hijri_settings['adj_data'] = get_option('adjust_data');
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
-        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day']);
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    } else {
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
-    if(isset($time)){
-        $date = $date.' '.$time;
+    if (isset($time)) {
+        $date = $date . ' ' . $time;
     }
-
     return $date;
 }
 
 function force_to_AD_date($date)
 {
-    if(strpos($date, ' ') !== false){    //is datetime
+    if(strpos($date, ' ') !== false){
+        //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -566,51 +526,27 @@ function force_to_AD_date($date)
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
     if (false) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
-//                var_dump($hijri_settings['adj_data'].'fghf');exit();
-
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    }else{
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
     return $date;
 }
 
 function force_to_AD_date_for_filter($date)
 {
-    if(strpos($date, ' ') !== false){    //is datetime
+    if(strpos($date, ' ') !== false){
+        //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -619,45 +555,20 @@ function force_to_AD_date_for_filter($date)
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
     if (true) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
-//                var_dump($hijri_settings['adj_data'].'fghf');exit();
-
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    }else{
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
     return $date;
 }
 
@@ -672,7 +583,6 @@ function search_url($pages, $url)
                 }
             }
         }
-
     }
     return $i;
 }
@@ -684,55 +594,36 @@ function to_hijri_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-
     }
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-
-
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-
-
-/*******************************************************************/
-
-    if($hijri_convert && $hijriStatus =="on"){
-
+    if ($hijri_convert && $hijriStatus == "on") {
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
         $adj = new CalendarAdjustment();
         $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
-
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
-
-         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
-
-
+        $date = $hijri_date['y'] . '-' . ($hijri_date['m'] < 10 ? '0'.$hijri_date['m'] : $hijri_date['m']) . '-' . ($hijri_date['d'] < 10 ? '0'.$hijri_date['d'] : $hijri_date['d']);
         // First condition for date and datetime
         // Second condition for 12 or 24 (Time Format)
         if (isset($datetime[1])){
-        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+            $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
         }
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-        return $date;
+    return $date;
 }
 
 function force_to_hijri_date($date)
@@ -742,55 +633,25 @@ function force_to_hijri_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-
     }
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
-
-/*******************************************************************/
-
     if(true){
-
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
         $adj = new CalendarAdjustment();
         $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
-
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
-
-         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
-
-
+        $date = $hijri_date['y'] . '-' . ($hijri_date['m'] < 10 ? '0'.$hijri_date['m'] : $hijri_date['m']) . '-' . ($hijri_date['d'] < 10 ? '0'.$hijri_date['d'] : $hijri_date['d']);
         // First condition for date and datetime
         // Second condition for 12 or 24 (Time Format)
         if (isset($datetime[1])){
-        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+            $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
         }
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-        return $date;
+    return $date;
 }
 
 function set_my_options($data){
@@ -839,8 +700,6 @@ function set_my_options($data){
         }else{
             add_option('hijri_pages',json_encode($links_array));
         }
-//    var_dump(json_encode($links_array));exit();
-//    add_option('dateformat',$data['dateformat']);
     }else{
         return $data;
     }
@@ -1132,25 +991,83 @@ function format_dispute_invoice_number($id)
     ]);
 }
 
-function _dha($date) {
-    $hijriStatus= get_option('isHijri');
+function _dha($date)
+{
+    $formatted = '';
+    /** to check if this hijri status is on from database **/
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-    if($hijriStatus =="on"){
-        return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
-    }else
+    if ($hijri_convert && $hijriStatus == "on") {
+        if ($date == '' || is_null($date) || $date == '0000-00-00') {
+            return $formatted;
+        }else{
+            return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
+        }
+    } else {
         return _d($date);
+    }
 }
+
+function _gregorian_hijri_date($date, $input=false)
+{
+    $formatted = '';
+    /** to check if this hijri status is on from database **/
+    $hijriStatus = get_option('isHijri');
+    /** to check if this page are included in database hijri option **/
+    $hijri_pages = json_decode(get_option('hijri_pages'));
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
+        $hijri_convert = true;
+    } else {
+        $hijri_convert = false;
+    }
+    if ($hijri_convert && $hijriStatus == "on") {
+        if ($date == '' || is_null($date) || $date == '0000-00-00') {
+            return $formatted;
+        }else{
+            if($input){
+                return force_to_hijri_date($date);
+            }else{
+                return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
+            }
+        }
+    } else {
+        return _d($date);
+    }
+}
+
+//    public function test()
+//    {
+//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+//
+//    }
+
+// function my_custom_date($date)
+// {
+//     $opt = explode('|', get_option('dateformat'));
+//     if(isset($opt[2]) && $opt[2]=='hijri'){
+//         $datetime = explode(' ', $date);
+//         $date = new DateTime($datetime[0]);
+//         $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
+//         // First condition for date and datetime
+//         // Second condition for 12 or 24 (Time Format)
+//         if (isset($datetime[1])){
+//         $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+//         }
+//         return $date;
+//     }
+// }
 
 //function search_book_api()
 //{

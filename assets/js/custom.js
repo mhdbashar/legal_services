@@ -541,12 +541,16 @@ $(function() {
         e.preventDefault();
         var start_time = $("body").find('#task-modal input[name="timesheet_start_time"]').val();
         var end_time = $("body").find('#task-modal input[name="timesheet_end_time"]').val();
+        var ts_start_time = $("body").find('#task-modal input[name="ts_start_time"]').val();
+        var ts_end_time = $("body").find('#task-modal input[name="ts_end_time"]').val();
         var duration = $("body").find('#task-modal input[name="timesheet_duration"]').val();
-        if ((start_time !== '' && end_time !== '') || duration !== '') {
+        if ((start_time !== '' && end_time !== '' && ts_start_time !== '' && ts_end_time !== '') || duration !== '') {
             var data = {};
             data.timesheet_duration = duration;
             data.start_time = start_time;
             data.end_time = end_time;
+            data.ts_start_time = ts_start_time;
+            data.ts_end_time = ts_end_time;
             data.timesheet_task_id = $(this).data('task-id');
             data.note = $("body").find('#task_single_timesheet_note').val();
             data.timesheet_staff_id = $("body").find('#task-modal select[name="single_timesheet_staff_id"]').val();
@@ -915,7 +919,7 @@ function new_session_reminder(id) {
         });
 
         $('#taskReminderFormSubmit').html(app.lang.create_reminder);
-        $container.find('form').attr('action', admin_url + 'legalservices/sessions/add_reminder/' + id);
+        $container.find('form').attr('action', admin_url + 'legalservices/sessions/add_reminder_session/' + id);
 
         $container.find('#description').val('');
         $container.find('#date').val('');

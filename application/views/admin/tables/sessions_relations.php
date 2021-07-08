@@ -166,7 +166,7 @@ foreach ($rResult as $aRow) {
 
     $row[]           = $outputName;
 
-    $row[] = _dha($aRow['startdate']);
+    $row[] = _gregorian_hijri_date($aRow['startdate']);
 
     $row[] = $aRow['time'];
 
@@ -212,7 +212,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputStatus;*/
     $row[] = format_session_status_by_date($aRow['startdate']);
 
-    //$row[] = _d($aRow['duedate']);
+    //$row[] = _gregorian_hijri_date($aRow['duedate']);
 
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
 

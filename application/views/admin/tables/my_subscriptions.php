@@ -121,7 +121,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($aRow['next_billing_cycle']) {
-        $row[] = _dha(date('Y-m-d', $aRow['next_billing_cycle']));
+        $row[] = _gregorian_hijri_date(date('Y-m-d', $aRow['next_billing_cycle']));
     } else {
         $row[] = '-';
     }

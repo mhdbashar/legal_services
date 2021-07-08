@@ -221,12 +221,13 @@
                             </div>
                         </div>
                         <div class="row">
-
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date',_d($OtherServ->start_date)); ?>
+                                <?php $value = (isset($OtherServ) ? _gregorian_hijri_date($OtherServ->start_date, true) : _gregorian_hijri_date(date('Y-m-d'), true)); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date',$value); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'project_deadline',_d($OtherServ->deadline)); ?>
+                                <?php $value = isset($OtherServ) ? _gregorian_hijri_date($OtherServ->deadline, true) : ''; ?>
+                                <?php echo render_date_input('deadline', 'project_deadline',$value); ?>
                             </div>
                         </div>
                         <div class="row">

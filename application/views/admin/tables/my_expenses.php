@@ -146,7 +146,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $outputReceipt;
 
-    $row[] = _dha($aRow['date']);
+    $row[] = _gregorian_hijri_date($aRow['date']);
 
     if ($aRow['project_id'] == 0){
         $this->ci->load->model('legalservices/LegalServicesModel', 'legal');

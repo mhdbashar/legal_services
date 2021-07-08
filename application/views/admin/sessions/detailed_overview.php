@@ -142,7 +142,7 @@
                                  }
                                  ?>
                            </td>
-                           <td data-order="<?php if($hijriStatus == 'on') echo _dha($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo _dha($task['startdate']); else echo _d($task['startdate']); ?></td>
+                           <td data-order="<?php if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo _d($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
                            <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">

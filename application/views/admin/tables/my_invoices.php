@@ -167,7 +167,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['year'];
 
-    $row[] = _dha($aRow['date']);
+    $row[] = _gregorian_hijri_date($aRow['date']);
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
@@ -195,7 +195,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _dha($aRow['duedate']);
+    $row[] = _gregorian_hijri_date($aRow['duedate']);
 
     $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 

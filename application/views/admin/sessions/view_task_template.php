@@ -205,10 +205,12 @@
                         <td colspan="5">
                            <div class="timesheet-start-end-time">
                               <div class="col-md-6">
-                                 <?php echo render_datetime_input('timesheet_start_time','task_log_time_start'); ?>
+                                 <?php echo render_date_input('timesheet_start_time','task_log_time_start'); ?>
+                                 <?php echo render_input('ts_start_time','project_invoice_timesheet_start_time','','time'); ?>
                               </div>
                               <div class="col-md-6">
-                                 <?php echo render_datetime_input('timesheet_end_time','task_log_time_end'); ?>
+                                  <?php echo render_date_input('timesheet_end_time','task_log_time_end'); ?>
+                                  <?php echo render_input('ts_end_time','project_invoice_timesheet_end_time','','time'); ?>
                               </div>
                            </div>
                            <div class="timesheet-duration hide">

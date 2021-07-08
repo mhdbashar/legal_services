@@ -793,11 +793,15 @@ $(function () {
         var start_time = $("body").find('#task-modal input[name="timesheet_start_time"]').val();
         var end_time = $("body").find('#task-modal input[name="timesheet_end_time"]').val();
         var duration = $("body").find('#task-modal input[name="timesheet_duration"]').val();
-        if ((start_time !== '' && end_time !== '') || duration !== '') {
+        var ts_start_time = $("body").find('#task-modal input[name="ts_start_time"]').val();
+        var ts_end_time = $("body").find('#task-modal input[name="ts_end_time"]').val();
+        if ((start_time !== '' && end_time !== '') || duration !== '' && ts_start_time !== '' && ts_end_time !== '') {
             var data = {};
             data.timesheet_duration = duration;
             data.start_time = start_time;
             data.end_time = end_time;
+            data.ts_start_time = ts_start_time;
+            data.ts_end_time = ts_end_time;
             data.timesheet_task_id = $(this).data('task-id');
             data.note = $("body").find('#task_single_timesheet_note').val();
             data.timesheet_staff_id = $("body").find('#task-modal select[name="single_timesheet_staff_id"]').val();

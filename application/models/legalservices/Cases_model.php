@@ -354,7 +354,7 @@ class Cases_model extends App_Model
             }
 
             if ($items_to_convert && is_numeric($estimate_id)) {
-                $this->convert_estimate_items_to_tasks($insert_id, $items_to_convert, $items_assignees, $data, $project_settings);
+                $this->convert_estimate_items_to_tasks($insert_id, $items_to_convert, $items_assignees, $data, $case_settings);
 
                 $this->db->where('id', $estimate_id);
                 //$this->db->set('project_id', $insert_id);

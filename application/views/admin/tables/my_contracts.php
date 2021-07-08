@@ -160,9 +160,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['contract_value'], $base_currency);
 
-    $row[] = _dha($aRow['datestart']);
+    $row[] = _gregorian_hijri_date($aRow['datestart']);
 
-    $row[] = $aRow['dateend'] == null ? '' : _dha($aRow['dateend']);
+    $row[] = $aRow['dateend'] == null ? '' : _gregorian_hijri_date($aRow['dateend']);
 
     if (($aRow['project_id'] == 0 || $aRow['project_id'] == '') && $aRow['rel_stype'] != ''){
         $this->ci->load->model('legalservices/LegalServicesModel', 'legal');

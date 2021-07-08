@@ -670,8 +670,14 @@ class Tasks extends AdminController
     {
         $message    = '';
         $alert_type = 'warning';
-        if ($this->input->post()) {
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+        $data = $this->input->post();
+        if ($data) {
+            //Merge date with time
+            if(isset($data['time'])){
+                $data['date'] = $data['date'].' '.$data['time'];
+                unset($data['time']);
+            }
+            $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
@@ -688,8 +694,14 @@ class Tasks extends AdminController
     {
         $message    = '';
         $alert_type = 'warning';
-        if ($this->input->post()) {
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+        $data = $this->input->post();
+        if ($data) {
+            //Merge date with time
+            if(isset($data['time'])){
+                $data['date'] = $data['date'].' '.$data['time'];
+                unset($data['time']);
+            }
+            $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
@@ -1546,7 +1558,17 @@ class Tasks extends AdminController
 
     public function log_time()
     {
-        $success = $this->tasks_model->timesheet($this->input->post());
+        $data = $this->input->post();
+        //Merge date with time
+        if(isset($data['ts_start_time'])){
+            $data['start_time'] = $data['start_time'].' '.$data['ts_start_time'];
+            unset($data['ts_start_time']);
+        }
+        if(isset($data['ts_end_time'])){
+            $data['end_time'] = $data['end_time'].' '.$data['ts_end_time'];
+            unset($data['ts_end_time']);
+        }
+        $success = $this->tasks_model->timesheet($data);
         if ($success === true) {
             $this->session->set_flashdata('task_single_timesheets_open', true);
             $message = _l('added_successfully', _l('project_timesheet'));

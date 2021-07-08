@@ -785,6 +785,7 @@ $lang['Categories'] = "تصنيفات";
 $lang['Done'] = "تمت العملية";
 $lang['Faild'] = "فشلت العملية";
 $lang['WrongEntry'] = "إدخال خاطئ";
+$lang['set_reminder_time'] = "تعيين توقيت التذكير";
 $lang['AddMasterCategory'] = "إضافة تصنيف رئيسي";
 $lang['AddSubCategory'] = "إضافة تصنيف فرعي";
 $lang['SubCategories'] = "تصنيفات فرعية";

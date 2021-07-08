@@ -164,9 +164,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = $outputStatus;
 
-    $row[] = _dha($aRow['startdate']);
+    $row[] = _gregorian_hijri_date($aRow['startdate']);
 
-    $row[] = _dha($aRow['duedate']);
+    $row[] = _gregorian_hijri_date($aRow['duedate']);
 
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
 

@@ -28,7 +28,8 @@
 <div class="d-flex flex-column">
 <?php foreach($checklists as $list){ ?>
 <div>
-    <div class="checklist relative" data-checklist-id="<?php echo $list['id']; ?>">
+    <div class="checklist" data-checklist-id="<?php echo $list['id']; ?>">
+        <div class="d-flex">
     <div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="">
         <input type="checkbox" <?php if($list['finished'] == 1 && $list['finished_from'] != get_staff_user_id() && !is_admin()){echo 'disabled';} ?> name="checklist-box" <?php if($list['finished'] == 1){echo 'checked';}; ?>>
         <label for=""><span class="hide"><?php echo $list['description']; ?></span></label>
@@ -95,6 +96,7 @@
 </div>
 
 <?php } ?>
+</div>
 <script>
     $(function(){
        $("#checklist-items").sortable({

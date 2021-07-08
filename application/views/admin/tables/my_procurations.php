@@ -39,8 +39,8 @@ foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
-    $row[] = _dha($aRow['start_date']);
-    $row[] = _dha($aRow['end_date']);
+    $row[] = _gregorian_hijri_date($aRow['start_date']);
+    $row[] = _gregorian_hijri_date($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';

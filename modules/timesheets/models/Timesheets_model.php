@@ -5107,23 +5107,38 @@ public function get_timesheet($staffid='', $from_date, $to_date){
 		return true;
 	}
 
-/**
-	 * delete additional timesheets
-	 * @param  integer $id 
-	 * @return boolean     
-	 */
-public function delete_additional_timesheets($id){
+    /**
+     * delete additional timesheets
+     * @param  integer $id
+     * @return boolean
+     */
+    public function delete_additional_timesheets($id){
 
-	$this->db->where('id', $id);
-	$this->db->delete(db_prefix().'timesheets_additional_timesheet');
-	if ($this->db->affected_rows() > 0) {
-		$this->db->where('relate_id', $id);
-		$this->db->where('relate_type', 'additional_timesheet');
-		$this->db->delete(db_prefix() . 'timesheets_timesheet');
-		return true;
-	}
-	return false;
-}
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix().'timesheets_additional_timesheet');
+        if ($this->db->affected_rows() > 0) {
+            $this->db->where('relate_id', $id);
+            $this->db->where('relate_type', 'additional_timesheet');
+            $this->db->delete(db_prefix() . 'timesheets_timesheet');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * delete type of leave
+     * @param  integer $id
+     * @return boolean
+     */
+    public function delete_type_of_leave($id){
+
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix().'type_of_leave');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
 
 
 	/**

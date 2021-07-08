@@ -800,4 +800,24 @@ $lang['no_data_changes'] = 'لا يوجد بيانات تم تغييرها';
 $lang['Le_timekeeping'] = 'العطل';
 $lang['export_to_excel'] = 'التصدير إلى excel';
 
+$lang['muslim'] = 'مسلم';
+$lang['not_muslim'] = 'غير مسلم';
+$lang['citizen'] = 'مواطن';
+$lang['not_citizen'] = 'غير مواطن';
+$lang['entitlement_in_months'] = 'أحقية الحصول على الإجازة ( شهور )';
+$lang['deserving_in_years'] = 'استحقاق الاجازة خلال ( سنوات )';
+$lang['deserving_before_days'] = ' عدد أيام الاجازة قبل فترة الاستحقاق';;
+$lang['deserving_after_days'] = ' عدد أيام الاجازة بعد فترة الاستحقاق';
+$lang['who_can_take_this_leave'] = 'من يستطيع أخذ هذه الاجازة؟';
+$lang['repeat_leave'] = 'تكرار الاجازة';
+$lang['once_during_contract'] = 'مرة واحدة خلال عقد العمل';
+$lang['notify_manager_before_deserving_days'] = 'تنبيه المدير قبل الاستحقاق ( أيام )';
+$lang['notify_staff_before_deserving_days'] = 'تنبيه الموظف قبل الاستحقاق ( أيام )';
 
+$lang['is_deserving_salary'] = "هل هذه الاجازة براتب";
+$lang['deserving_salary'] = "استحقاق الراتب";
+$lang['salary_allocation'] = 'تخصيص الراتب';
+$lang['conflict_with_holidays'] = 'التعارض مع الاجازات';
+$lang['leave_extend'] = 'تمديد';
+$lang['leave_include'] = 'تضمين';
+$lang['allow_substitute_employee'] = 'السماح باختيار موظف بديل؟';

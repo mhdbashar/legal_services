@@ -806,5 +806,24 @@ $lang['check_in_check_out'] = 'Check in and Check out';
 $lang['the_minimum_number_of_days_off_must_be_0.5'] = 'The minimum number of days off must be 0.5';
 $lang['the_number_of_days_off_must_not_be_greater_than'] = 'The number of days off must not be greater than';
 
+$lang['muslim'] = 'Muslim';
+$lang['not_muslim'] = 'Not Muslim';
+$lang['citizen'] = 'Citizen';
+$lang['not_citizen'] = 'Not Citizen';
+$lang['entitlement_in_months'] = 'Entitlement in months';
+$lang['deserving_in_years'] = 'Deserving in ( years )';
+$lang['deserving_before_days'] = 'Leave days before deserving';
+$lang['deserving_after_days'] = 'Leave days after deserving';
+$lang['who_can_take_this_leave'] = 'Who can take this leave?';
+$lang['repeat_leave'] = 'Repeat leave';
+$lang['once_during_contract'] = 'Once during contract';
+$lang['notify_manager_before_deserving_days'] = 'Notify manager before deserving ( days )';
+$lang['notify_staff_before_deserving_days'] = 'Notify staff before deserving ( days )';
+$lang['is_deserving_salary'] = "Is deserving salary";
+$lang['deserving_salary'] = "Deserving salary";
+$lang['salary_allocation'] = 'Salary Allocation';
 
-
+$lang['conflict_with_holidays'] = 'Conflict with Holidays';
+$lang['leave_extend'] = 'Extend';
+$lang['leave_include'] = 'Include';
+$lang['allow_substitute_employee'] = 'Allow Substitute Employee?';

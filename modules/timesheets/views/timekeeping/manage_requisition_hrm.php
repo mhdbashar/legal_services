@@ -20,25 +20,32 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
               <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
               <div class="horizontal-tabs">
                 <ul class="nav nav-tabs nav-tabs-horizontal mbot15" role="tablist">
-                  <li role="presentation" class="<?php if(!isset($tab)){ echo 'active';} ?>">
+                  <li role="presentation" class="<?php if(!isset($tab))if($tab == 'registration_on_leave'){ echo 'active';} ?>">
                    <a href="#registration_on_leave" aria-controls="registration_on_leave" role="tab" data-toggle="tab">
                      <span class="glyphicon glyphicon-align-justify"></span>&nbsp;<?php echo _l('registration_on_leave'); ?>
                    </a>
                  </li>
                  <?php if($data_timekeeping_form == 'timekeeping_manually'){ ?>
-                  <li role="presentation" class="<?php if(isset($tab)){ echo 'active';} ?>">
+                  <li role="presentation" class="<?php if(isset($tab))if($tab == 'additional_timesheets'){ echo 'active';} ?>">
                    <a href="#additional_timesheets" aria-controls="additional_timesheets" role="tab" data-toggle="tab">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;<?php echo _l('additional_timesheets'); ?>
                   </a>
                 </li>
               <?php } ?>
+
+
+                    <li role="presentation" class="<?php if(isset($tab))if($tab == 'type_of_leave'){ echo 'active';} ?>">
+                        <a href="#type_of_leave" aria-controls="type_of_leave" role="tab" data-toggle="tab">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<?php echo _l('type_of_leave'); ?>
+                        </a>
+                    </li>
             </ul>
           </div>
         </div>
         <input type="hidden" name="userid" value="<?php echo html_entity_decode($userid); ?>">
 
         <div class="tab-content active">
-          <div role="tabpanel" class="tab-pane <?php if(!isset($tab)){ echo 'active';} ?>" id="registration_on_leave">
+          <div role="tabpanel" class="tab-pane <?php if(!isset($tab))if($tab == 'registration_on_leave'){ echo 'active';} ?>" id="registration_on_leave">
             <div class="row">
               <div class="col-md-12 mtop15">
                 <a href="#" onclick="new_requisition(); return false;" class="btn mright5 btn-info pull-left display-block" data-toggle="sidebar-right" data-target=".requisition_m"  >
@@ -136,7 +143,7 @@ render_datatable($table_data,'table_registration_leave',
    'data-default-order'=>get_table_last_order('table_registration_leave'),
  )); ?>
 </div>
-<div role="tabpanel" class="tab-pane <?php if(isset($tab)){ echo 'active';} ?>" id="additional_timesheets">
+<div role="tabpanel" class="tab-pane <?php if(isset($tab))if($tab == 'additional_timesheets'){ echo 'active';} ?>" id="additional_timesheets">
 
   <div class="row mtop15">
     <div class="col-md-12">
@@ -155,11 +162,11 @@ render_datatable($table_data,'table_registration_leave',
 
 <div class="row">
   <div class="col-md-3">
-    <select name="chose_ats" class="selectpicker" id="chose_ats" data-width="100%" data-none-selected-text="<?php echo _l('filter_by'); ?>"> 
-     <option value="all"><?php echo _l('all') ?></option>                  
-     <option value="my_approve"><?php echo _l('my_approve') ?></option>                  
+    <select name="chose_ats" class<="selectpicker" id="chose_ats" data-width="100%" data-none-selected-text="<?php echo _l('filter_by'); ?>">
+     <option value="all"><?php echo _l('all') ?></option>
+     <option value="my_approve"><?php echo _l('my_approve') ?></option>
    </select>
- </div>
+ </div>>
  <div class="col-md-3">
   <select name="status_filter_ats[]" class="selectpicker" id="status_filter_ats" multiple data-width="100%" data-none-selected-text="<?php echo _l('filter_by_status'); ?>"> 
    <option value="0"><?php echo _l('status_0') ?></option>                  
@@ -187,6 +194,10 @@ render_datatable($table_data,'table_registration_leave',
 <br>
 <?php $this->load->view('additional_timesheets'); ?>
 </div>
+
+            <div role="tabpanel" class="tab-pane <?php if(isset($tab))if($tab == 'type_of_leave'){ echo 'active';} ?>" id="type_of_leave">
+                <?php $this->load->view('timesheets/timekeeping/type_of_leave') ?>
+            </div>
 
 <!-- The Modal -->
 <!-- start -->
@@ -231,7 +242,7 @@ render_datatable($table_data,'table_registration_leave',
                    <option value="2"><?php echo _l('late') ?></option>                  
                    <option value="6"><?php echo _l('early') ?></option>                  
                    <option value="3"><?php echo _l('Go_out') ?></option>                  
-                   <option value="4"><?php echo _l('Go_on_bussiness') ?></option>                  
+                   <option value="4"><?php echo _l('Go_on_bussiness') ?></option>
                  </select>
                </div>
                <div class="col-md-6 pb-4" id="type_of_leave">
@@ -415,5 +426,107 @@ render_datatable($table_data,'table_registration_leave',
 <input type="hidden" name="current_date" value="<?php echo _d(date('Y-m-d')); ?>">
 <?php init_tail(); ?>
 <?php require 'modules/timesheets/assets/js/requisition_manage_js.php'; ?>
+<script>
+
+    $('#deserving_in_years').change(function() {
+        if(this.value != 0)
+        {
+            $('div[app-field-wrapper="number_of_days"]').addClass('hide')
+            $('div[app-field-wrapper="deserving_before_days"]').removeClass('hide')
+            $('div[app-field-wrapper="deserving_after_days"]').removeClass('hide')
+            $('div[app-field-wrapper="notify_manager_before_deserving_days"]').removeClass('hide')
+            $('div[app-field-wrapper="notify_staff_before_deserving_days"]').removeClass('hide')
+            $('#allocation').addClass('hide')
+        }
+        else
+        {
+            $('div[app-field-wrapper="number_of_days"]').removeClass('hide')
+            $('div[app-field-wrapper="deserving_before_days"]').addClass('hide')
+            $('div[app-field-wrapper="deserving_after_days"]').addClass('hide')
+            $('div[app-field-wrapper="notify_manager_before_deserving_days"]').addClass('hide')
+            $('div[app-field-wrapper="notify_staff_before_deserving_days"]').addClass('hide')
+            $('#allocation').removeClass('hide')
+        }
+    })
+
+    $('#salary_allocation').change(function() {
+        if(this.checked) {
+            $('#salary-allocation-container').removeClass('hidden')
+            add_allocation(1)
+        }else{
+            $('#salary-allocation-container').addClass('hidden')
+            $('#salary-allocation').empty()
+        }
+        $('#salary_allocation').val(this.checked);
+    });
+    $('#is_deserving_salary').change(function() {
+        if(this.checked){
+            $('#deserving-salary').removeClass('hidden')
+        }else{
+            $('#deserving-salary').addClass('hidden')
+        }
+        $('#is_deserving_salary').val(this.checked)
+    })
+
+    function add_allocation(id)
+    {
+       // if(id > 1)
+        var prevId = id-1;
+            $('#add-allocation-'+prevId).remove();
+        var days = calculate();
+        if(days < 0)
+        {
+            alert('You can\'t add more than ' + $('input[name="number_of_days"]').val() + ' days.')
+            return;
+        }
+        $('#salary-allocation').append('<div><div id="allocation-'+id+'" class="row mtop15">' +
+            '<div class="col-md-3">' +
+            '<input min="0" max="100" type="number" placeholder="Percent %" id="allocation['+id+'][percent]" name="allocation['+id+'][percent]" class="form-control" value="100">' +
+            '</div>' +
+            '<div class="col-md-6">' +
+            '<input min="0" data-type="days" type="number" onchange="change_allocation_days('+id+')" placeholder="Number of Days" id="allocation['+id+'][days]" name="allocation['+id+'][days]" class="form-control" value="'+days+'">' +
+            '</div>' +
+            '<div class="col-md-2">' +
+                '<div class="row">' +
+                    '<div class="col-md-6">' +
+                        '<button onclick="remove_allocation('+id+')" type="button" class="btn btn-danger">Remove</button>' +
+                    '</div>' +
+                '</div> ' +
+            '</div>' +
+            '</div>' +
+            '<div id="add-allocation-'+id+'" class="col-md-12 mtop15">' +
+            '<button onclick="add_allocation('+(id+1)+')" type="button" class="btn btn-primary">Add</button>' +
+            '</div>' +
+            '</div>');
+        $('#submit-type').removeAttr('disabled')
+    }
+    function change_allocation_days(id)
+    {
+        var days = calculate();
+        if(days < 0){
+            $('[name="allocation['+id+'][days]"]').val(0)
+            alert('You can\'t add more than ' + $('input[name="number_of_days"]').val() + ' days.')
+        }else if(days === 0){
+            $('#submit-type').removeAttr('disabled')
+        }else{
+            $('#submit-type').attr('disabled', 'disabled')
+        }
+    }
+    function remove_allocation(id){
+        $('#allocation-'+id).remove();
+    }
+    function calculate()
+    {
+
+        var sub = 0;
+        $('#salary-allocation input[data-type=days]').each(function () {
+            if(!isNaN(this.value)) {
+                if(Number.isInteger(parseInt(this.value)))
+                    sub = parseInt(this.value) + sub;
+            }
+        })
+        return parseInt($('input[name="number_of_days"]').val()) - sub
+    }
+</script>
 </body>
 </html>

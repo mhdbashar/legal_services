@@ -13,6 +13,13 @@ class timesheets extends AdminController
 		$this->load->model('departments_model');
 	}
 
+	public function type_of_leave(){
+	    $data = $this->input->post();
+	    unset($data['allocation']);
+	    $this->db->insert(db_prefix() . 'type_of_leave', $data);
+	    redirect($_SERVER['HTTP_REFERER']);
+    }
+
 	/* List all announcements */
 	public function index()
 	{
@@ -766,16 +773,28 @@ public function add_requisition_ajax(){
 		$this->app->get_table_data(module_views_path('timesheets', 'table_registration_leave'));
 	}
 
-	/**
-	 * table additional timesheets
-	 * @return 
-	 */
-	public function table_additional_timesheets()
-	{
-		$this->app->get_table_data(module_views_path('timesheets', 'timekeeping/table_additional_timesheets'));
-	}
+    /**
+     * table type of leave
+     * @return
+     */
+    public function table_type_of_leave()
+    {
+        $this->app->get_table_data(module_views_path('timesheets', 'timekeeping/table_type_of_leave'));
+    }
 
-	/**
+
+
+    /**
+     * table additional timesheets
+     * @return
+     */
+    public function table_additional_timesheets()
+    {
+        $this->app->get_table_data(module_views_path('timesheets', 'timekeeping/table_additional_timesheets'));
+    }
+
+
+    /**
 	 * get request leave data ajax
 	 * @return 
 	 */
@@ -2490,23 +2509,38 @@ public function get_data_additional_timesheets($id){
 		echo json_encode($rest_time);
 	}
 
-	/**
-	 * delete additional timesheets
-	 * @param  int $id
-	 * @return redirect
-	 */
-	public function delete_additional_timesheets($id)
-	{
-		$response = $this->timesheets_model->delete_additional_timesheets($id);
-		if (is_array($response) && isset($response['referenced'])) {
-			set_alert('warning', _l('is_referenced'));
-		} elseif ($response == true) {
-			set_alert('success', _l('deleted'));
-		} else {
-			set_alert('warning', _l('problem_deleting'));
-		}
-		redirect(admin_url('timesheets/requisition_manage?tab=additional_timesheets'));
-	}
+    /**
+     * delete additional timesheets
+     * @param  int $id
+     * @return redirect
+     */
+    public function delete_additional_timesheets($id)
+    {
+        $response = $this->timesheets_model->delete_additional_timesheets($id);
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced'));
+        } elseif ($response == true) {
+            set_alert('success', _l('deleted'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url('timesheets/requisition_manage?tab=additional_timesheets'));
+    }
+    /**
+     * delete type of leave
+     * @param  int $id
+     * @return redirect
+     */
+    public function delete_type_of_leave($id)
+    {
+        $response = $this->timesheets_model->delete_type_of_leave($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url('timesheets/requisition_manage?tab=type_of_leave'));
+    }
 
 	/**
 	 * table shiftwork

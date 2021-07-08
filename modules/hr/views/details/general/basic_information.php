@@ -97,6 +97,59 @@
                      <div class="row">
                      	<div class="col-md-6">
                             <?php
+                            $next_invoice_number = get_option('next_invoice_number');
+                            $format = get_option('invoice_number_format');
+
+                            if(isset($invoice)){
+                                $format = $invoice->number_format;
+                            }
+
+                            $prefix = get_option('invoice_prefix');
+
+                            if ($format == 1) {
+                                $__number = $next_invoice_number;
+                                if(isset($invoice)){
+                                    $__number = $invoice->number;
+                                    $prefix = '<span id="prefix">' . $invoice->prefix . '</span>';
+                                }
+                            } else if($format == 2) {
+                                if(isset($invoice)){
+                                    $__number = $invoice->number;
+                                    $prefix = $invoice->prefix;
+                                    $prefix = '<span id="prefix">'. $prefix . '</span><span id="prefix_year">' .date('Y',strtotime($invoice->date)).'</span>/';
+                                } else {
+                                    $__number = $next_invoice_number;
+                                    $prefix = $prefix.'<span id="prefix_year">'.date('Y').'</span>/';
+                                }
+                            } else if($format == 3) {
+                                if(isset($invoice)){
+                                    $yy = date('y',strtotime($invoice->date));
+                                    $__number = $invoice->number;
+                                    $prefix = '<span id="prefix">'. $invoice->prefix . '</span>';
+                                } else {
+                                    $yy = date('y');
+                                    $__number = $next_invoice_number;
+                                }
+                            } else if($format == 4) {
+                                if(isset($invoice)){
+                                    $yyyy = date('Y',strtotime($invoice->date));
+                                    $mm = date('m',strtotime($invoice->date));
+                                    $__number = $invoice->number;
+                                    $prefix = '<span id="prefix">'. $invoice->prefix . '</span>';
+                                } else {
+                                    $yyyy = date('Y');
+                                    $mm = date('m');
+                                    $__number = $next_invoice_number;
+                                }
+                            }
+
+                            $_is_draft = (isset($invoice) && $invoice->status == Invoices_model::STATUS_DRAFT) ? true : false;
+                            $_invoice_number = str_pad($__number, get_option('number_padding_prefixes'), '0', STR_PAD_LEFT);
+                            $isedit = isset($invoice) ? 'true' : 'false';
+                            $data_original_number = isset($invoice) ? $invoice->number : 'false';
+
+                            ?>
+                            <?php
 
                             $next_staf_number = get_option('next_hr_staff_number');
                             $format = get_option('hr_staff_number');

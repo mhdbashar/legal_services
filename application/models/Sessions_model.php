@@ -699,6 +699,7 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+
         $session_info = true;
         //End Block For Legal Services Session
         $this->db->insert(db_prefix() . 'tasks', $data);

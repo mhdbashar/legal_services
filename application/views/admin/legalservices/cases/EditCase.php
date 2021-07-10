@@ -102,7 +102,7 @@
                                         <?php } ?>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case, 'number'); ?>
+                                                <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case); ?>
                                             </div>
                                         </div>
                                     </div>

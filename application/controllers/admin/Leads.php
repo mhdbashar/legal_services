@@ -828,6 +828,9 @@ class Leads extends AdminController
 
         $db_fields = [];
         $fields    = [
+            'header',
+            'paragraph',
+            'file',
             'name',
             'title',
             'email',
@@ -849,8 +852,8 @@ class Leads extends AdminController
 
         foreach ($fields as $f) {
             $_field_object = new stdClass();
-            $type          = 'text';
-            $subtype       = '';
+            $type = 'text';
+            $subtype = '';
             if ($f == 'email') {
                 $subtype = 'email';
             } elseif ($f == 'description' || $f == 'address') {
@@ -859,7 +862,13 @@ class Leads extends AdminController
                 $type = 'select';
             }
 
-            if ($f == 'name') {
+            if($f == 'header'){
+                $label = _l('lead_add_edit_header');
+            } elseif ($f == 'paragraph') {
+                $label = _l('lead_add_edit_paragraph');
+            } elseif ($f == 'file') {
+                $label = _l('lead_add_edit_file');
+            } elseif ($f == 'name') {
                 $label = _l('lead_add_edit_name');
             } elseif ($f == 'email') {
                 $label = _l('lead_add_edit_email');

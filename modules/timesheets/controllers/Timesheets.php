@@ -15,9 +15,13 @@ class timesheets extends AdminController
 
 	public function type_of_leave(){
 	    $data = $this->input->post();
-	    unset($data['allocation']);
-	    $this->db->insert(db_prefix() . 'type_of_leave', $data);
-	    redirect($_SERVER['HTTP_REFERER']);
+	    $success = $this->timesheets_model->add_type_of_leave($data);
+	    if($success){
+            set_alert('success', _l('added_successfully'));
+        }else{
+            set_alert('warning', _l('fail'));
+        }
+        redirect(admin_url('timesheets/requisition_manage?tab=type_of_leave'));
     }
 
 	/* List all announcements */

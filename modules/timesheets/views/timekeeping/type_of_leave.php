@@ -20,6 +20,9 @@ $table_data = array(
 );
 render_datatable($table_data,'table_type_of_leave');
 ?>
+<div class="modal fade view_type_of_leave_modal" id="view_type_of_leave_modal" >
+</div>
+
 <div class="modal fade" id="type_of_leave_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog"  style="width: 70%">
         <?php echo form_open(admin_url('timesheets/type_of_leave'),array('id'=>'edit_timesheets-form')); ?>
@@ -169,5 +172,19 @@ render_datatable($table_data,'table_type_of_leave');
     function type_of_leave_timesheets(){
         "use strict";
         $('#type_of_leave_modal').modal();
+    }
+
+
+
+    function view_type_of_leave(id){
+        "use strict";
+        $.post(admin_url+'timesheets/get_data_type_of_leave/'+id).done(function(response){
+            response = JSON.parse(response);
+            $('#view_type_of_leave_modal').html('');
+
+            $('#view_type_of_leave_modal').append(response.html);
+
+            $('#view_type_of_leave_modal').modal('show');
+        });
     }
 </script>

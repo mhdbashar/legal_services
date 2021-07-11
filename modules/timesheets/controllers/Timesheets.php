@@ -1759,7 +1759,7 @@ public function get_data_additional_timesheets($id){
 	<div class="modal-body">';
 
 	$html .= '<div class="col-md-12">';
-	if($additional_timesheets){ 
+	if($additional_timesheets){
 		$status_class = 'info';
 		$status_text = 'status_0';
 		if($additional_timesheets->status == 1){
@@ -1847,13 +1847,13 @@ public function get_data_additional_timesheets($id){
 				<p class="bold text-center text-success">'. _dt($value['date']).'</p> 
 				';
 
-			}elseif($value['approve'] == 2){ 
+			}elseif($value['approve'] == 2){
 				$html .= '<img src="'.site_url(TIMESHEETS_PATH.'approval/rejected.png').'" class="wh-150-80">';
 				$html .= '<br><br>  
 				<p class="bold text-center text-danger">'. _dt($value['date']).'</p> 
 				';
-			}  
-			$html .= '</div>'; 
+			}
+			$html .= '</div>';
 		}
 		$html .= '</div></div>';
 	}
@@ -1873,20 +1873,20 @@ public function get_data_additional_timesheets($id){
 	}else{
 		$check = 'no_proccess';
 	}
-	
-	if($additional_timesheets->status == 0 && ($check_approve_status == false || $check_approve_status == 'reject')){ 
-		if($check != 'choose'){ 
-			$html .= '<a data-toggle="tooltip" data-loading-text="'._l('wait_text').'" class="btn btn-success lead-top-btn lead-view" data-placement="top" href="#" onclick="send_request_approve('.$additional_timesheets->id.','.$additional_timesheets->creator.'); return false;">'. _l('send_request_approve').'</a>';
-		} 
 
-		if($check == 'choose'){ 
+	if($additional_timesheets->status == 0 && ($check_approve_status == false || $check_approve_status == 'reject')){
+		if($check != 'choose'){
+			$html .= '<a data-toggle="tooltip" data-loading-text="'._l('wait_text').'" class="btn btn-success lead-top-btn lead-view" data-placement="top" href="#" onclick="send_request_approve('.$additional_timesheets->id.','.$additional_timesheets->creator.'); return false;">'. _l('send_request_approve').'</a>';
+		}
+
+		if($check == 'choose'){
 			$this->load->model('staff_model');
 			$list_staff = $this->staff_model->get();
-			$html .= '<div class="row"><div class="row"><div class="col-md-7"><select name="approver_c" class="selectpicker" data-live-search="true" id="approver_c" data-width="100%" data-none-selected-text="'. _l('please_choose_approver').'" required>'; 
+			$html .= '<div class="row"><div class="row"><div class="col-md-7"><select name="approver_c" class="selectpicker" data-live-search="true" id="approver_c" data-width="100%" data-none-selected-text="'. _l('please_choose_approver').'" required>';
 			$current_user = get_staff_user_id();
-			foreach($list_staff as $staff){ 
+			foreach($list_staff as $staff){
 				if($staff['staffid'] != $current_user || is_admin()){
-					$html .= '<option value="'.$staff['staffid'].'">'.$staff['staff_identifi'].' - '.$staff['firstname'].' '.$staff['lastname'].'</option>';                  
+					$html .= '<option value="'.$staff['staffid'].'">'.$staff['staff_identifi'].' - '.$staff['firstname'].' '.$staff['lastname'].'</option>';
 				}
 			}
 			$html .= '</select></div>';
@@ -1913,7 +1913,7 @@ public function get_data_additional_timesheets($id){
 			</li>
 			</ul>
 			</div>';
-		}              
+		}
 	}
 	if($check != 'choose'){
 		$html .= '<a href="#" class="btn btn-default pull-right" data-toggle="modal" data-target=".additional-timesheets-sidebar">'. _l('close') .'</a>';
@@ -1931,6 +1931,82 @@ public function get_data_additional_timesheets($id){
 	]);
 	die();
 }
+
+
+
+    public function get_data_type_of_leave($id){
+        $type_of_leave = $this->timesheets_model->get_type_of_leave($id);
+
+        $html ='
+	<div class="modal-dialog" style="width: 55%">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<h4 class="modal-title">
+	<span>'. _l('type_of_leave') .'</span>
+	</h4>
+	</div>
+	<div class="modal-body">';
+
+        $html .= '<div class="col-md-12">';
+        if(!empty($type_of_leave)){
+            $html .= '<table class="table border table-striped margin-top-0">
+		<tbody>
+		<tr class="project-overview">
+		<td class="bold">'. _l('name') .'</td>
+		<td>'. ($type_of_leave->name).'</td>
+		</tr>
+		<tr class="project-overview">
+		<td class="bold">'. _l('number_of_days') .'</td>
+		<td>'. $type_of_leave->number_of_days.'</td>
+		</tr>
+		<tr class="project-overview">
+		<td class="bold">'. _l('entitlement_in_months') .'</td>
+		<td>'. $type_of_leave->entitlement_in_months.'</td>
+		</tr>
+		';
+            $is_deserving_salary = $type_of_leave->is_deserving_salary == 1 ? _l("yes") : _l("no");
+
+            $html .= '  <tr class="project-overview">
+		<td class="bold" width="30%">'. _l('is_deserving_salary') .'</td>
+		<td>'.$is_deserving_salary.'</td>
+		</tr>
+		<tr class="project-overview">
+		<td class="bold" width="30%">'. _l('salary_type') .'</td>
+		<td>'._l($type_of_leave->salary_type).'</td>
+		</tr>';
+            $salary_allocation = $type_of_leave->salary_allocation == true ? _l("yes") : _l("no");
+
+            $html .= '  <tr class="project-overview">
+		<td class="bold" width="30%">'. _l('salary_allocation') .'</td>
+		<td>'.$salary_allocation.'</td>
+		</tr>';
+            $allow_substitute_employee = $type_of_leave->allow_substitute_employee == 1 ? _l("yes") : _l("no");
+
+            $html .= '  <tr class="project-overview">
+		<td class="bold" width="30%">'. _l('allow_substitute_employee') .'</td>
+		<td>'.$allow_substitute_employee.'</td>
+		</tr>
+		</tbody>
+		</table>';
+        }
+        $html .='
+	<div class="modal-footer">';
+
+
+
+        $html .= '</div></div>
+	</div>
+
+
+	<div class="clearfix"></div>
+	</div>
+	</div>';
+        echo json_encode([
+            'html' => $html,
+        ]);
+        die();
+    }
 
 	/**
 	 * reports

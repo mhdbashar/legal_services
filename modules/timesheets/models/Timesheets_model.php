@@ -5150,6 +5150,24 @@ public function get_timesheet($staffid='', $from_date, $to_date){
     }
 
 
+
+    /**
+     * get type of leave
+     * @param  integer $id
+     * @return array
+     */
+    public function get_type_of_leave($id){
+
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'type_of_leave')->row();
+        }else{
+            return [];
+        }
+    }
+
+
     /**
      * delete type of leave
      * @param  integer $id

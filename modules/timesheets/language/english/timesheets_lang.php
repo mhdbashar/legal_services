@@ -827,3 +827,4 @@ $lang['conflict_with_holidays'] = 'Conflict with Holidays';
 $lang['leave_extend'] = 'Extend';
 $lang['leave_include'] = 'Include';
 $lang['allow_substitute_employee'] = 'Allow Substitute Employee?';
+$lang['salary_type'] = 'Salary type';

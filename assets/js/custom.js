@@ -631,6 +631,22 @@ $(function() {
     //Disable manual typing in all datepicker
     $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
 
+    /* Insert new checklist items on enter press */
+    $("body").on('keypress', 'textarea[name="checklist-description-session"]', function (event) {
+        if (event.which == '13') {
+            var that = $(this);
+            update_session_checklist_item(that).done(function () {
+                add_session_checklist_item(that.attr('data-taskid'));
+            });
+            return false;
+        }
+    });
+
+    /* Update session checklist items when focusing out */
+    $("body").on('blur paste', 'textarea[name="checklist-description-session"]', function () {
+        update_session_checklist_item($(this));
+    });
+
 });
 
 $(document).on('show.bs.modal', '.modal', function () {
@@ -1580,4 +1596,53 @@ function init_rel_sessions_table(rel_id, rel_type, selector) {
     }
 
     initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
+}
+
+// New session checklist items template
+function save_checklist_item_template_session(id, field) {
+    var description = $('.checklist[data-checklist-id="' + id + '"] textarea').val();
+    $.post(admin_url + 'legalservices/sessions/save_checklist_item_template', {
+        description: description
+    }).done(function (response) {
+        response = JSON.parse(response);
+        $(field).addClass('hide');
+        var singleChecklistTemplate = $('.checklist-templates-wrapper');
+        singleChecklistTemplate.find('select option[value=""]').after('<option value="' + response.id + '">' + description.trim() + '</option>');
+        singleChecklistTemplate.removeClass('hide');
+        singleChecklistTemplate.find('select').selectpicker('refresh');
+    });
+}
+
+function update_session_checklist_item(textArea) {
+    var deferred = $.Deferred();
+    setTimeout(function () {
+        var description = textArea.val();
+        description = description.trim();
+        var listid = textArea.parents('.checklist').data('checklist-id');
+
+        $.post(admin_url + 'legalservices/sessions/update_checklist_item', {
+            description: description,
+            listid: listid
+        }).done(function (response) {
+            deferred.resolve();
+            response = JSON.parse(response);
+            if (response.can_be_template === true) {
+                textArea.parents('.checklist').find('.save-checklist-template').removeClass('hide');
+            }
+            if (description === '') {
+                $('#checklist-items').find('.checklist[data-checklist-id="' + listid + '"]').remove();
+            }
+        });
+    }, 300);
+    return deferred.promise();
+}
+
+// Remove session checklist item from the session
+function delete_checklist_item_session(id, field) {
+    requestGetJSON('legalservices/sessions/delete_checklist_item/' + id).done(function (response) {
+        if (response.success === true || response.success == 'true') {
+            $(field).parents('.checklist').remove();
+            recalculate_checklist_items_progress();
+        }
+    });
 }

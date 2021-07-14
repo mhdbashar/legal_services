@@ -1017,7 +1017,7 @@ class Sessions_model extends App_Model
 
     public function add_checklist_template($description)
     {
-        $this->db->insert(db_prefix() . 'tasks_checklist_templates', [
+        $this->db->insert(db_prefix() . 'sessions_checklist_templates', [
             'description' => $description,
             ]);
 
@@ -1027,7 +1027,7 @@ class Sessions_model extends App_Model
     public function remove_checklist_item_template($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'tasks_checklist_templates');
+        $this->db->delete(db_prefix() . 'sessions_checklist_templates');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -1039,14 +1039,14 @@ class Sessions_model extends App_Model
     {
         $this->db->order_by('description', 'asc');
 
-        return $this->db->get(db_prefix() . 'tasks_checklist_templates')->result_array();
+        return $this->db->get(db_prefix() . 'sessions_checklist_templates')->result_array();
     }
 
     public function get_checklist_template($id)
     {
         $this->db->where('id', $id);
 
-        return $this->db->get(db_prefix() . 'tasks_checklist_templates')->row();
+        return $this->db->get(db_prefix() . 'sessions_checklist_templates')->row();
     }
 
     /**

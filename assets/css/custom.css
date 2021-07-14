@@ -1,4 +1,6 @@
-
+body{
+    overflow-x: hidden;
+}
 /* Added for rtl menu icon and arrwo */
 li a i.menu-icon-ar {
     margin-left: 16px;
@@ -575,4 +577,32 @@ body.rtl .input-group .form-control:last-child, .input-group-addon:last-child, .
 .dataTables_length select {
     padding-top: 0px !important;
     padding: 0px 12px !important;
+}
+
+.checklist:hover,
+.checklist:hover textarea[name="checklist-description-session"]:disabled {
+    background: #eef2f4;
+}
+
+textarea[name="checklist-description-session"] {
+    resize: none;
+    overflow: hidden;
+    font-size: 14px;
+    border-radius: 3px;
+    padding: 0 5px 0px 5px;
+    border: 0;
+    outline: 0;
+    width: 100%;
+}
+
+textarea[name="checklist-description-session"]:focus,
+textarea[name="checklist-description-session"]:hover,
+textarea[name="checklist-description-session"]:active {
+    outline: 0;
+}
+
+textarea[name="checklist-description-session"]:disabled {
+    background: #fff;
+    color: #212121;
+    opacity: 1;
 }

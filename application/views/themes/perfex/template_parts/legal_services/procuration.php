@@ -9,6 +9,7 @@
         <th><?php echo _l('added_from'); ?></th>
         <th><?php echo _l('type'); ?></th>
         <th><?php echo _l('state'); ?></th>
+        <th><?php echo _l('file'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -41,6 +42,11 @@
                 }else{
                     echo $procuration_state = 'Not Selected';
                 } ?>
+            </td>
+            <td>
+                <a href="<?php echo site_url('clients/procuration_pdf/'.$row['id']).'?output_type=I'; ?>" class="btn btn-default btn-icon">
+                    <i class="fa fa-download"></i>
+                </a>
             </td>
         </tr>
     <?php $i++; } ?>

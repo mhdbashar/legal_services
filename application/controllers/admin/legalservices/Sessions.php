@@ -995,7 +995,7 @@ class Sessions extends AdminController
                 $desc = $this->input->post('description');
                 $desc = trim($desc);
                 $this->sessions_model->update_checklist_item($this->input->post('listid'), $desc);
-                echo json_encode(['can_be_template' => (total_rows(db_prefix() . 'tasks_checklist_templates', ['description' => $desc]) == 0)]);
+                echo json_encode(['can_be_template' => (total_rows(db_prefix() . 'sessions_checklist_templates', ['description' => $desc]) == 0)]);
             }
         }
     }

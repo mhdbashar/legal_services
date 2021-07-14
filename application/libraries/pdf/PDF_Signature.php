@@ -7,7 +7,7 @@ trait PDF_Signature
     public function process_signature()
     {
         if (is_rtl()) {
-            $this->setRTL(true);
+            $this->setRTL(false);
             $align = 'R'; //Right align
         }else{
             $this->setRTL(false);
@@ -39,7 +39,7 @@ trait PDF_Signature
                 $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img src="@' . $imageData . '" />';
             }
 
-            $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, _l('authorized_signature_text') . ' ' . $blankSignatureLine, 0, 'J', 0, 0, '', '', true, 0, true, true, 0);
+            $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, _l('authorized_signature_text') . ' ' . $blankSignatureLine, 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
 
             $leftColumnExists = true;
         }
@@ -79,7 +79,7 @@ trait PDF_Signature
             $hookData = ['pdf_instance' => $this, 'type' => $this->type(), 'signatureCellWidth' => $width];
 
             hooks()->do_action('before_customer_pdf_signature', $hookData);
-            $this->MultiCell($width, 0, $customerSignature, 0, $align, 0, 1, '', '', true, 0, true, false, 0);
+            $this->MultiCell($width, 0, $customerSignature, 0, 'R', 0, 1, '', '', true, 0, true, false, 0);
             hooks()->do_action('after_customer_pdf_signature', $hookData);
         }
     }

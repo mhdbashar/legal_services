@@ -18,5 +18,11 @@ class Migration_Version_509 extends CI_Migration
         if ($this->db->field_exists('file_number_case', db_prefix() . 'my_cases')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` MODIFY `file_number_case`  VARCHAR(255) NULL DEFAULT NULL');
         }
+
+        $this->db->query("CREATE TABLE `tblsessions_checklist_templates` (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+              `description` text,
+              PRIMARY KEY (`id`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
     }
 }

@@ -35,15 +35,15 @@
         <label for=""><span class="hide"><?php echo $list['description']; ?></span></label>
     </div>
         <div class="flex-grow-1">
-        <textarea data-taskid="<?php echo $task_id; ?>" name="checklist-description" rows="1"<?php if($list['addedfrom'] != get_staff_user_id() && !has_permission('sessions','','edit')){echo ' disabled';} ?>><?php echo clear_textarea_breaks($list['description']); ?></textarea>
+        <textarea data-taskid="<?php echo $task_id; ?>" name="checklist-description-session" rows="1"<?php if($list['addedfrom'] != get_staff_user_id() && !has_permission('sessions','','edit')){echo ' disabled';} ?>><?php echo clear_textarea_breaks($list['description']); ?></textarea>
         </div>
         <div class="mleft10">
             <?php if(has_permission('sessions','','delete') || $list['addedfrom'] == get_staff_user_id()){ ?>
-        <a href="#" class="pull-right text-muted remove-checklist" onclick="delete_checklist_item(<?php echo $list['id']; ?>,this); return false;"><i class="fa fa-remove"></i>
+        <a href="#" class="pull-right text-muted remove-checklist" onclick="delete_checklist_item_session(<?php echo $list['id']; ?>,this); return false;"><i class="fa fa-remove"></i>
         </a>
         <?php } ?>
         <?php if(has_permission('checklist_templates','','create')){ ?>
-            <a href="#" class="pull-right text-muted mright5 save-checklist-template<?php if($list['description'] == '' || total_rows(db_prefix().'tasks_checklist_templates',array('description'=>$list['description'])) > 0){echo ' hide';} ?>" data-toggle="tooltip" data-title="<?php echo _l('save_as_template'); ?>" onclick="save_checklist_item_template(<?php echo $list['id']; ?>,this); return false;">
+            <a href="#" class="pull-right text-muted mright5 save-checklist-template<?php if($list['description'] == '' || total_rows(db_prefix().'sessions_checklist_templates',array('description'=>$list['description'])) > 0){echo ' hide';} ?>" data-toggle="tooltip" data-title="<?php echo _l('save_as_template'); ?>" onclick="save_checklist_item_template_session(<?php echo $list['id']; ?>,this); return false;">
             <i class="fa fa-level-up" aria-hidden="true"></i>
             </a>
         <?php } ?>

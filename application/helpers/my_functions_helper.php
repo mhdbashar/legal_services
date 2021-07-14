@@ -241,26 +241,26 @@ function my_module_clients_area_menu_items()
         'href'     => site_url('my_module/acme'),
         'position' => 10,
     ]);*/
-    // Show menu item only if client is logged in
-    $CI = &get_instance();
-    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
-    $position = 0;
-    if (has_contact_permission('projects')) {
-        if (is_client_logged_in()) {
-            foreach ($services as $service):
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => $service->name,
-                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
-                'position' => $position+5,
-            ]);
-            endforeach;
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => _l('services'),
-                'href'     => site_url('clients/imported/'),
-                'position' => 40,
-            ]);
-        }
-    }
+//    // Show menu item only if client is logged in
+//    $CI = &get_instance();
+//    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
+//    $position = 0;
+//    if (has_contact_permission('projects')) {
+//        if (is_client_logged_in()) {
+//            foreach ($services as $service):
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => $service->name,
+//                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
+//                'position' => $position+5,
+//            ]);
+//            endforeach;
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => _l('services'),
+//                'href'     => site_url('clients/imported/'),
+//                'position' => 40,
+//            ]);
+//        }
+//    }
 }
 
 function my_custom_setup_menu_items()

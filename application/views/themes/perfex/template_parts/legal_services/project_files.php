@@ -4,7 +4,8 @@
   <input type="file" name="file" multiple class="hide"/>
   <?php echo form_close(); ?>
   <div class="pull-left mbot20">
-    <a href="<?php echo site_url('clients/download_all_project_files/'.$project->id); ?>" class="btn btn-info">
+      <?php $path = $ServID == 1 ? 'case' : 'oservice' ?>
+    <a href="<?php echo site_url('clients/download_all_'.$path.'_files/'.$project->id); ?>" class="btn btn-info">
       <?php echo _l('download_all'); ?>
     </a>
   </div>

@@ -159,14 +159,14 @@ abstract class REST_Controller extends CI_Controller {
      *
      * @var array
      */
-    protected $methods = [];
+    protected $methods = ['api/leads/lead_notes'];
 
     /**
      * List of allowed HTTP methods
      *
      * @var array
      */
-    protected $allowed_http_methods = ['get', 'delete', 'post', 'put', 'options', 'patch', 'head'];
+    protected $allowed_http_methods = ['get', 'delete', 'post', 'put', 'options', 'patch', 'head','leads/lead_notes'];
 
     /**
      * Contains details about the request
@@ -743,10 +743,10 @@ abstract class REST_Controller extends CI_Controller {
         }
 
         // Sure it exists, but can they do anything with it?
-        if (! method_exists($this, $controller_method))
+        if (!method_exists($this, $controller_method))
         {
             $this->response([
-                $this->config->item('rest_status_field_name') => FALSE,
+                $this->config->item('rest_status_field_name') => $controller_method,
                 $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unknown_method')
             ], self::HTTP_METHOD_NOT_ALLOWED);
 

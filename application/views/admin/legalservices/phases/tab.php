@@ -111,7 +111,7 @@ foreach ($phases as $phase):
                         alert_float('success', '<?php echo _l('Done').' '._l('back_to_previous_phase'); ?>');
                         location.reload();
                     }else {
-                        alert_float('danger', '<?php echo _l('faild').' '._l('back_to_previous_phase'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild').' '._l('back_to_previous_phase'); ?>');
                         alert_float('danger', data);
                     }
                 }

@@ -1164,11 +1164,6 @@ function make_session_public(task_id) {
     });
 }
 
-// Init session kan ban
-function sessions_kanban() {
-    init_kanban('legalservices/sessions/kanban', sessions_kanban_update, '.tasks-status', 265, 360);
-}
-
 // Updates session when action performed form kan ban area eq status changed.
 function sessions_kanban_update(ui, object) {
     if (object === ui.item.parent()[0]) {

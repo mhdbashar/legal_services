@@ -60732,7 +60732,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 						_fnLanguageCompat( json );
 						_fnCamelToHungarian( defaults.oLanguage, json );
 						$.extend( true, oLanguage, json );
-
+			
 						_fnCallbackFire( oSettings, null, 'i18n', [oSettings]);
 						_fnInitialise( oSettings );
 					},
@@ -60746,7 +60746,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 			else {
 				_fnCallbackFire( oSettings, null, 'i18n', [oSettings]);
 			}
-
+			
 			/*
 			 * Stripes
 			 */
@@ -61244,10 +61244,10 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 		else {
 			out.push(val);
 		}
-
+	  
 		return out;
 	}
-
+	
 	// Array.isArray polyfill.
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 	if (! Array.isArray) {
@@ -61255,7 +61255,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	        return Object.prototype.toString.call(arg) === '[object Array]';
 	    };
 	}
-
+	
 	// .trim() polyfill
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
 	if (!String.prototype.trim) {
@@ -61263,7 +61263,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 	  };
 	}
-
+	
 	/**
 	 * DataTables utility methods
 	 * 
@@ -62415,7 +62415,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 					if (a[i] === '__proto__' || a[i] === 'constructor') {
 						throw new Error('Cannot set prototype values');
 					}
-
+	
 					// Check if we are dealing with an array notation request
 					arrayNotation = a[i].match(__reArray);
 					funcNotation = a[i].match(__reFn);
@@ -62784,7 +62784,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 			{
 				oCol = oSettings.aoColumns[i];
 				create = nTrIn ? false : true;
-
+	
 				nTd = create ? document.createElement( oCol.sCellType ) : anTds[i];
 				nTd._DT_CellIndex = {
 					row: iRow,
@@ -66997,7 +66997,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 			}
 		}
 	};
-
+	
 	_Api.registerPlural = _api_registerPlural = function ( pluralName, singularName, val ) {
 		_Api.register( pluralName, val );
 	
@@ -67040,7 +67040,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 				return __table_selector(item, a);
 			} );
 		}
-
+	
 		// Integer is used to pick out a table by index
 		if ( typeof selector === 'number' ) {
 			return [ a[ selector ] ];
@@ -68352,15 +68352,15 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 				// Redraw the header after changes
 				_fnDrawHead( settings, settings.aoHeader );
 				_fnDrawHead( settings, settings.aoFooter );
-
+		
 				// Update colspan for no records display. Child rows and extensions will use their own
 				// listeners to do this - only need to update the empty table item here
 				if ( ! settings.aiDisplay.length ) {
 					$(settings.nTBody).find('td[colspan]').attr('colspan', _fnVisbleColumns(settings));
 				}
-
+		
 				_fnSaveState( settings );
-
+	
 				// Second loop once the first is done for events
 				that.iterator( 'column', function ( settings, column ) {
 					_fnCallbackFire( settings, null, 'column-visibility', [settings, column, vis, calc] );
@@ -68405,7 +68405,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	_api_register( 'column()', function ( selector, opts ) {
 		return _selector_first( this.columns( selector, opts ) );
 	} );
-
+	
 	var __cell_selector = function ( settings, selector, opts )
 	{
 		var data = settings.aoData;
@@ -68524,7 +68524,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 			order: opts.order,
 			search: opts.search
 		} : {};
-
+	
 		// Row + column selector
 		var columns = this.columns( columnSelector, internalOpts );
 		var rows = this.rows( rowSelector, internalOpts );
@@ -68541,7 +68541,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 					} );
 				}
 			}
-
+	
 			return a;
 		}, 1 );
 	
@@ -74270,7 +74270,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	
 								case 'first':
 									btnDisplay = lang.sFirst;
-
+	
 									if ( page === 0 ) {
 										tabIndex = -1;
 										btnClass += ' ' + disabledClass;
@@ -74279,7 +74279,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	
 								case 'previous':
 									btnDisplay = lang.sPrevious;
-
+	
 									if ( page === 0 ) {
 										tabIndex = -1;
 										btnClass += ' ' + disabledClass;
@@ -74288,7 +74288,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	
 								case 'next':
 									btnDisplay = lang.sNext;
-
+	
 									if ( pages === 0 || page === pages-1 ) {
 										tabIndex = -1;
 										btnClass += ' ' + disabledClass;
@@ -74297,7 +74297,7 @@ this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {
 	
 								case 'last':
 									btnDisplay = lang.sLast;
-
+	
 									if ( pages === 0 || page === pages-1 ) {
 										tabIndex = -1;
 										btnClass += ' ' + disabledClass;
@@ -75282,7 +75282,7 @@ function _fadeOut(el, duration, fn) {
 	}
 	else {
 		el.css('display', 'none');
-
+		
 		if (fn) {
 			fn.call(el);
 		}
@@ -76305,7 +76305,7 @@ $.extend( Buttons.prototype, {
 			var buttonsLeft = hostNode.offset().left;
 			var buttonsWidth = hostNode.outerWidth()
 			var buttonsRight = buttonsLeft + buttonsWidth;
-
+			
 			// You've then got all the numbers you need to do some calculations and if statements,
 			//  so we can do some quick JS maths and apply it only once
 			// If it has the right align class OR the buttons are right aligned OR the button container is floated right,
@@ -76318,9 +76318,9 @@ $.extend( Buttons.prototype, {
 				if(tableLeft > (popoverLeft + popoverShuffle)){
 					var leftGap = tableLeft - (popoverLeft + popoverShuffle);
 					var rightGap = tableRight - (popoverRight + popoverShuffle);
-
+	
 					if(leftGap > rightGap){
-						popoverShuffle += rightGap;
+						popoverShuffle += rightGap; 
 					}
 					else {
 						popoverShuffle += leftGap;
@@ -76347,7 +76347,7 @@ $.extend( Buttons.prototype, {
 			}
 
 			display.css('left', display.position().left + popoverShuffle);
-
+			
 		}
 		else if (position === 'absolute') {
 			// Align relative to the host button

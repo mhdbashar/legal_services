@@ -24,5 +24,13 @@ class Migration_Version_509 extends CI_Migration
               `description` text,
               PRIMARY KEY (`id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
+
+        if (!$this->db->field_exists('fathername', db_prefix() . 'contacts')) {
+            $this->db->query("ALTER TABLE `tblcontacts` ADD `fathername` varchar(191) DEFAULT NULL;");
+        }
+
+        if (!$this->db->field_exists('grandfathername', db_prefix() . 'contacts')) {
+            $this->db->query("ALTER TABLE `tblcontacts` ADD `grandfathername` varchar(191) DEFAULT NULL;");
+        }
     }
 }

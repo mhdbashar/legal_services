@@ -88,6 +88,8 @@ class Cron_model extends App_Model
 
             $this->send_lawyer_daily_agenda();
 
+            //$this->fix_and_separate_names();
+
             /**
              * Finally send any emails in the email queue - if enabled and any
              */
@@ -976,7 +978,6 @@ class Cron_model extends App_Model
 
         pusher_trigger_notification($notifiedUsers);
     }
-
 
     private function staff_reminders()
     {
@@ -2304,4 +2305,16 @@ class Cron_model extends App_Model
 
         return true;
     }
+
+    /* function fix_and_separate_names()
+    {
+        $this->db->where('id', 1);
+        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+
+        foreach ($contacts as $contact) {
+            echo "<pre>";
+            print_r(split_name($contact['firstname']));
+            exit;
+        }
+    }*/
 }

@@ -200,7 +200,14 @@ class Sessions_model extends App_Model
         $this->db->select('id,name,duedate,startdate,status,' . get_sql_select_session_total_checklist_items() . ',' . get_sql_select_session_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_session_asignees_full_names() . ' as assignees' . ',' . get_sql_select_session_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
 
         $this->db->from(db_prefix() . 'tasks');
-        $this->db->where('status', $status);
+        if ($status) {
+            //$this->db->where('status', $status);
+            if($status === 'previous'):
+                $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+            else:
+                $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+            endif;
+        }
         $this->db->where('is_session', 1);
         $this->db->where($where);
 
@@ -219,16 +226,16 @@ class Sessions_model extends App_Model
                 ');
             }
         }
-
+        $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id='.db_prefix() . 'tasks.id', 'left');
         $this->db->order_by('kanban_order', 'asc');
 
         if ($count == false) {
             if ($page > 1) {
                 $page--;
-                $position = ($page * get_option('sessions_kanban_limit'));
-                $this->db->limit(get_option('sessions_kanban_limit'), $position);
+                $position = ($page * get_option('tasks_kanban_limit'));
+                $this->db->limit(get_option('tasks_kanban_limit'), $position);
             } else {
-                $this->db->limit(get_option('sessions_kanban_limit'));
+                $this->db->limit(get_option('tasks_kanban_limit'));
             }
         }
 

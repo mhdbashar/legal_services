@@ -172,7 +172,8 @@
                                     <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                     <select class="form-control custom_select_arrow" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('myjudicial',$task->court_id);
+                                        <?php
+                                        $data = (isset($task) ? get_relation_data('myjudicial',$task->court_id) : array());
                                         foreach ($data as $row) {
                                             if($task->dept == $row->j_id) { ?>
                                                 <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
@@ -281,7 +282,7 @@
                                 <?php echo render_date_input('startdate','session_date',$value_startdate, $date_attrs); ?>
                                 <div class="col-md-6 hide">
                                     <?php $value_due_date = (isset($task) ? _d($task->duedate) : ''); ?>
-                                    <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,''); ?>
+                                    <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,[]); ?>
                                 </div>
                             </div>
                            <?php /* <div class="col-md-6">

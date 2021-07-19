@@ -98,6 +98,7 @@ $lang['edit_imported_service'] = 'تعديل خدمة مستوردة';
 $lang['imported_services'] = "الخدمات المستوردة";
 $lang['new_imported_service_added'] = 'تم إضافة خدمة مستوردة جديدة';
 $lang['new_imported_service'] = 'خدمة مستوردة جديدة';
+$lang['opponents_list_company'] = "اسم الخصم";
 $lang['imported_service_name'] = 'اسم الخدمة المستوردة';
 $lang['session_marked_as_success'] = "تم وضع علامة على الجلسة كـ %s بنجاح";
 $lang['session_unmarked_as_complete'] = "جلسة لم يتم تعليمها كمكتملة";
@@ -747,6 +748,7 @@ $lang['Id'] = "المعرف";
 $lang['ahmad'] = "%s أحمد";
 $lang['company'] = "شركة";
 $lang['individual'] = "فرد";
+$lang['Individual_or_Company'] = "شركة أو فرد";
 $lang['customer_details'] = "اسم العميل سواء شركة أو فرد";
 $lang['customer_type'] = "نوع العميل";
 $lang['new_judge'] = "إضافة قاضي";
@@ -1032,8 +1034,6 @@ $lang['invoice_disputes'] = "فوترة المنازعات";
 $lang['branch'] = "اسم الفرع";
 $lang['branch_id'] = "اسم الفرع";
 $lang['client_type'] = "نوع العميل";
-$lang['firstname'] = "الاسم الأول";
-$lang['lastname'] = "الاسم الأخير";
 $lang['new_company_customer_group'] = "مجموعة عملاء شركة جديدة";
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";
@@ -1096,3 +1096,10 @@ $lang['iframe_note4'] = "لن يحتاج أي تثبيت SSL إلى وضع ال�
 $lang['bootstrap_container'] = "تغيير عمود حاوية النموذج (Bootstrap)";
 $lang['share_direct_link'] = "مشاركة الرابط المباشر";
 $lang['first_ticket_created_alert'] = 'تم إنشاء أول تذكرة! <br /> <span style="font-size:26px;">هل تعلم أنه يمكنك تضمين نموذج التذكرة (الإعداد-> الإعدادات-> الدعم-> نموذج التذكرة) مباشرة في مواقع الويب الخاصة بك؟</span>';
+
+$lang['firstname'] = "الأسم الأول";
+$lang['fathername'] = "اسم الاب";
+$lang['grandfathername'] = "اسم الجد";
+$lang['lastname'] = "اسم العائلة";
+$lang['yes'] = 'نعم';
+$lang['no'] = 'لا';

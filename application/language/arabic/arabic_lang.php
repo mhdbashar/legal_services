@@ -3320,6 +3320,8 @@ $lang['task_checklist_assign'] = 'الموظف المعين';
 $lang['task_checklist_assigned'] = 'تخصيص إلى %s';
 
 $lang['sms_invoice_overdue_notice'] = "إشعار بفاتورة متأخرة";
+$lang['sms_invoice_due_notice'] = 'إشعار استحقاق الفاتورة';
+$lang['sms_trigger_when_invoice_due_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار استحقاق الفاتورة إلى جهات اتصال العميل.';
 $lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = "يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.";
 $lang['sms_invoice_payment_recorded'] = "تسجيل دفعة على الفاتورة";
 $lang['sms_trigger_when_invoice_payment_is_recorded'] = "يتم تشغيله عند تسجيل دفع الفاتورة.";

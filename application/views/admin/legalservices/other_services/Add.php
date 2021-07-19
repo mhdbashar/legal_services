@@ -501,7 +501,7 @@
                         $('#clientid').append(newOption).trigger('change');
                         $('#add-client').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

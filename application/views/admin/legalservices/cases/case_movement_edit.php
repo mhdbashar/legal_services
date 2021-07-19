@@ -621,7 +621,7 @@
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
                         $('#add-client').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -647,7 +647,7 @@
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
                         $('#add-opponent').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -672,7 +672,7 @@
                         $("#court_id").append(new Option(court_name, data));
                         $('#add-court').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -700,7 +700,7 @@
                         $('.judge_select').selectpicker("refresh");
                         $('#add-judge').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -729,7 +729,7 @@
                         $('#jud_num').append($option).change();
                         $('#AddJudicialDeptModal').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

@@ -31,13 +31,11 @@
                      </div>
                      <?php } ?>
                      <?php  
-                      $hijriStatus= get_option('isHijri');
-                      
+                      /*$hijriStatus= get_option('isHijri');
                       $hijriMonths = array(
                         "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأول", "جمادى الثاني",
                         "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
-                      );
-
+                      );*/
                      ?>
                      <div class="col-md-2 border-right">
                         <?php
@@ -46,7 +44,8 @@
                            for ($m = 1; $m <= 12; $m++) {
                              $data = array();
                              $data['month'] = $m;
-                             $data['name'] = $hijriStatus == 'on' ? $hijriMonths[$m - 1] : _l(date('F', mktime(0, 0, 0, $m, 1)));
+                             //$data['name'] = $hijriStatus == 'on' ? $hijriMonths[$m - 1] : _l(date('F', mktime(0, 0, 0, $m, 1)));
+                             $data['name'] = _l(date('F', mktime(0, 0, 0, $m, 1)));
                              $months[] = $data;
                            }
                            $selected = ($this->input->post('month') ? $this->input->post('month') : date('m'));
@@ -56,7 +55,7 @@
                            echo render_select('month',$months,array('month',array('name')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_months')),array(),'no-margin');
                            ?>
                      </div>
-                      <div class="col-md-2 border-right">
+                      <?php /*<div class="col-md-2 border-right">
                           <?php
                           $months = array();
                           for ($d = 1; $d <= 31; $d++) {
@@ -70,7 +69,7 @@
                           }
                           echo render_select('day',$days,array('day',array('day')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_days')),array(),'no-margin');
                           ?>
-                      </div>
+                      </div> */?>
                      <div class="col-md-2 text-center border-right">
                         <div class="form-group no-margin select-placeholder">
                            <select name="status" id="status" class="selectpicker no-margin" data-width="100%" data-title="<?php echo _l('task_status'); ?>">
@@ -142,8 +141,10 @@
                                  }
                                  ?>
                            </td>
-                           <td data-order="<?php if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo _d($task['startdate']); ?></td>
-                           <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
+<?php /*<!--                           <td data-order="--><?php //if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo $task['startdate']; ?><!--">--><?php //if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo _d($task['startdate']); ?><!--</td>-->
+<!--                           <td data-order="--><?php //echo $task['time']; ?><!--">--><?php //echo ($task['time']); ?><!--</td>--> */?>
+                            <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
+                            <td data-order="<?php echo $task['duedate']; ?>"><?php echo _d($task['duedate']); ?></td>
                            <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">
                               <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_added_attachments'); ?>">

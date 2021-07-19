@@ -336,9 +336,9 @@ class Clients extends AdminController
         
         if ($this->input->post()) {
             $data             = $this->input->post();
-            $data['firstname'] = $data['full_name'];
-            unset($data['full_name']);
-            $data['lastname'] = '';
+//            $data['firstname'] = $data['full_name'];
+//            unset($data['full_name']);
+//            $data['lastname'] = '';
             $data['password'] = $this->input->post('password', false);
 
             unset($data['contactid']);
@@ -364,7 +364,7 @@ class Clients extends AdminController
                 echo json_encode([
                     'success'             => $success,
                     'message'             => $message,
-                    'has_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
+                    'hn as_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
                     'is_individual'       => is_empty_customer_company($customer_id) && total_rows(db_prefix() . 'contacts', ['userid' => $customer_id]) == 1,
                 ]);
                 die;
@@ -881,6 +881,7 @@ class Clients extends AdminController
             }
         }
     }
+
     public function group_company()
     {
         if (!is_admin() && get_option('staff_members_create_inline_customer_groups') == '0') {

@@ -827,7 +827,24 @@ class Clients extends AdminController
         $this->load->view('admin/clients/import', $data);
     }
 
+    /*public function groups()
+    {
+        if (!is_admin()) {
+            access_denied('Customer Groups');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('customers_groups');
+        }
+        $data['title'] = _l('customer_groups');
+        $this->load->view('admin/clients/groups_manage', $data);
+    }*/
+
     public function groups()
+    {
+        $this->personal_groups();
+    }
+
+    public function personal_groups()
     {
         if (!is_admin()) {
             access_denied('Customer Groups');

@@ -11,6 +11,7 @@ Author URI: https://www.babiltec.com
  */
 
 define('RECEIVE_SMS_MODULE_NAME', 'receive_sms');
+define('RECEIVE_SMS_MODULE_PATH', __DIR__ );
 
 
 
@@ -18,18 +19,33 @@ define('RECEIVE_SMS_MODULE_NAME', 'receive_sms');
  * Register activation module hook
  */
 hooks()->add_action('admin_init', 'receive_sms_module_init_menu_items');
+hooks()->add_action('admin_init', 'init_receive_sms');
 hooks()->add_filter('before_settings_updated', 'set_senders_options');
 hooks()->add_action('admin_init', 'add_device_sms_settings');
-register_activation_hook(RECEIVE_SMS_MODULE_NAME, 'receive_sms_module_init_menu_items');
+register_activation_hook(RECEIVE_SMS_MODULE_NAME, 'receive_sms_module_activation_hook');
 /**
  * Load the module helper
  */
 $CI = &get_instance();
 $CI->load->helper(RECEIVE_SMS_MODULE_NAME . '/receive_sms');
 
+$CI->load->library('app_custom_tabs');
+$CI->app_custom_tabs->add_case_tab('receive_sms', [
+    'name'     => _l('Receive SMS'),
+    'icon'     => 'fa fa-th',
+    'view'     => 'receive_sms/case',
+    'position' => 200,
+]);
+
 function receive_sms_module_activation_hook() {
     $CI = &get_instance();
     require_once __DIR__ . '/install.php';
+}
+
+function init_receive_sms()
+{
+    $CI = &get_instance();
+    $CI->load->library(RECEIVE_SMS_MODULE_NAME . '/' . 'ReceiveSMS');
 }
 
 function set_senders_options($data)
@@ -86,6 +102,16 @@ function receive_sms_module_init_menu_items() {
             'name' => _l('messages'),
             'icon' => 'fa fa-envelope',
             'href' => admin_url('receive_sms'),
+            'position' => 3,
+        ]);
+
+
+
+        $CI->app_menu->add_sidebar_children_item('receive_sms', [
+            'slug' => 'saved-sms-messages',
+            'name' => _l('saved_messages'),
+            'icon' => 'fa fa-file-text-o',
+            'href' => admin_url('receive_sms/saved_messages'),
             'position' => 3,
         ]);
 //

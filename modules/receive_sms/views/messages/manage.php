@@ -5,7 +5,7 @@
             <div class="col-md-12" id="small-table">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h3><?php echo _l('messages') ?></h3>
+                        <h3><?php echo $title ?></h3>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
                         <div class="clearfix"></div>
@@ -35,7 +35,7 @@
                                         <td data-order="<?php echo $message->date; ?>"><?php echo $message->date; ?></td>
 
                                         <td>
-                                            <button onclick="show('<?php echo $message->msg ?>')" type="button" data-toggle="modal" class="btn btn-default btn-icon"><i class="fa fa-eye"></i></button>
+                                            <button onclick="show('<?php echo $message->msg ?>',' <?php echo $message->date ?>', '<?php echo $message->phone ?>')" type="button" data-toggle="modal" class="btn btn-default btn-icon"><i class="fa fa-eye"></i></button>
                                             <a href="<?php echo admin_url('LegalServices/Cases_controller/remove_file/'); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                         </td>
                                     </tr>
@@ -63,3 +63,11 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<script>
+
+
+    $("#show_msg").on('hidden.bs.modal', function(){
+        location.reload()
+    });
+
+</script>

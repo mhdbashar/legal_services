@@ -17,3 +17,7 @@ $lang['sender'] = 'Sender';
 $lang['error'] = 'Error!';
 
 $lang['sms_senders'] = 'SMS Senders';
+
+$lang['saved_messages'] = 'Saved Messages';
+
+$lang['created_at'] = 'Created at';

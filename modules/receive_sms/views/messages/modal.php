@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="show_msg" tabindex="-1" role="dialog" aria-labelledby="show_msg" aria-hidden="true">
+<div class="modal fade" id="show_msg" tabindex="-1" role="dialog" aria-labelledby="show_msg">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -26,10 +26,27 @@
 
 <script>
 
-    function show(msg){
-        console.log(msg)
+    function show(msg, date, sender){
         $('[id="msg"]').html(msg);
         $('#show_msg').modal('show');
+        $.ajax({
+            url : "<?php echo site_url('receive_sms/save_sms/') ?>",
+            type: "POST",
+            dataType: "JSON",
+            data: {msg, created_at: date, sender},
+            success: function(data)
+            {
+                if(data.status == true)
+                    $('#show_msg').modal('show'); // show bootstrap modal when complete loaded
+                else
+                    alert('Something went wrong!')
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
     }
 
 

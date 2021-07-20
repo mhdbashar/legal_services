@@ -18,3 +18,7 @@ $lang['sender'] = 'المرسل';
 $lang['error'] = 'خطأ!';
 
 $lang['sms_senders'] = 'مرسلين SMS';
+
+$lang['saved_messages'] = 'الرسائل المحفوظة';
+
+$lang['created_at'] = 'أنشئ بتاريخ';

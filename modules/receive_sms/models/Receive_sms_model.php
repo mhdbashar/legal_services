@@ -37,4 +37,16 @@ class Receive_sms_model extends App_Model
         }
         return false;
     }
+
+    public function update($msg_id, $data)
+    {
+        $this->db->where('msg_id', $msg_id);
+        $this->db->update($this->table, $data);
+        if($this->db->affected_rows() > 0){
+            log_activity($this->table . ' updated [ Message ID: '. $msg_id . ']');
+            return true;
+        }
+        return false;
+
+    }
 }

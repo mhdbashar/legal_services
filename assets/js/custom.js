@@ -223,7 +223,6 @@ if(search_url(hijriPages,this_page) != 0){
 }
 
 if(window.location.href.replace(admin_url, '') == 'settings?group=device_sms'){
-    console.log(window.location.href);
     let sms_senders = "";
 
     $.ajax({

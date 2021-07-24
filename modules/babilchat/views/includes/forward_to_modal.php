@@ -2,7 +2,8 @@
     <div class="modal-dialog" role="any">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center"><?= _l('chat_forward_message_btn') ?></h4>
             </div>
             <div class="modal-body">
@@ -15,14 +16,14 @@
                     <ul class="staffList">
                         <?php
                         if (is_array($staff) && !empty($staff)) {
-                            foreach ($staff as $member) : if (get_staff_user_id() == $member['staffid']) continue;  ?>
-                                <a target="_blank" href="<?= admin_url() . 'profile/' . $member['staffid'];  ?>">
+                            foreach ($staff as $member) : if (get_staff_user_id() == $member['staffid']) continue; ?>
+                                <a target="_blank" href="<?= admin_url() . 'profile/' . $member['staffid']; ?>">
                                     <img src="<?= staff_profile_image_url($member['staffid'], 'small'); ?>" data-toggle="tooltip" data-title="<?= $member['firstname'] . ' ' . $member['lastname']; ?>" class="staff-profile-image-small mright5" data-original-title="" title="<?= $member['firstname'] . ' ' . $member['lastname'] ?>">
                                 </a>
                                 <li class="_user" id="<?= $member['staffid'] ?>"><?= $member['firstname'] . ' ' . $member['lastname']; ?>
                                     <button style="text-transform:capitalize;" class="btn btn-primary" onClick="_forwardTo(<?= $member['staffid'] ?>, this,null)">Send</button>
                                 </li>
-                        <?php endforeach;
+                            <?php endforeach;
                         } ?>
                     </ul>
                     <span><strong><?= _l('chat_groups_text') ?></strong></span>
@@ -35,7 +36,7 @@
                                     <span><?= $group['group_name']; ?></span>
                                     <button class="btn btn-primary" onClick="_forwardTo(<?= $group['group_id'] ?>, this,'groups')"><?= _l('send') ?></button>
                                 </li>
-                        <?php endforeach;
+                            <?php endforeach;
                         }
                         ?>
                     </ul>
@@ -48,24 +49,24 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <script>
-    $('ul.staffList').on('scroll', function() {
+    $("ul.staffList").on("scroll", function () {
         appendNextStaff($(this));
-    })
+    });
 
-    $("body").on("keyup", '#_searchUsers', _debounce(function(e) {
+    $("body").on("keyup", "#_searchUsers", _debounce(function (e) {
 
         var value = $.trim($(this).val().toLowerCase());
         var searchInDatabase = false;
 
-        if (value == '') {
-            $(this).val('');
-            $(this).parents('#forwardToModal').find('li').prev().show();
-            $(this).parents('#forwardToModal').find('li').show();
+        if (value == "") {
+            $(this).val("");
+            $(this).parents("#forwardToModal").find("li").prev().show();
+            $(this).parents("#forwardToModal").find("li").show();
             return;
         }
 
         if (value.length) {
-            $("#forwardToModal  ul.staffList li").each(function() {
+            $("#forwardToModal  ul.staffList li").each(function () {
                 if ($(this).text().toLowerCase().indexOf(value) > -1) {
                     $(this).show();
                     $(this).prev().show();
@@ -73,26 +74,26 @@
                     $(this).hide();
                     $(this).prev().hide();
                 }
-                if ($(this).parent('ul').find(':visible:last').length === 0) {
+                if ($(this).parent("ul").find(":visible:last").length === 0) {
                     searchInDatabase = true;
                 }
             });
 
 
             if (searchInDatabase) {
-                var csrf = '';
-                if (typeof csrfData != 'undefined') {
+                var csrf = "";
+                if (typeof csrfData != "undefined") {
                     csrf = csrfData.formatted.csrf_token_name;
                 }
-                $('.staffList').prepend('<div class="loaderParent"><div class="loading"></div></div>');
+                $(".staffList").prepend("<div class=\"loaderParent\"><div class=\"loading\"></div></div>");
                 $.getJSON("<?php echo site_url('babilchat/Babilchat_Controller/searchStaffForForward'); ?>", {
-                        search: $("#_searchUsers").val(),
-                    })
-                    .done(function(staff) {
+                    search: $("#_searchUsers").val(),
+                })
+                    .done(function (staff) {
                         if (staff) {
                             _appendUsers(staff, true);
                         }
-                        $('.staffList').find('.loaderParent').remove();
+                        $(".staffList").find(".loaderParent").remove();
                     });
 
                 return false;
@@ -102,38 +103,40 @@
 
     var _staffAppendOffset = 11;
 
-    function appendNextStaff(el) {
+    function appendNextStaff(el)
+    {
         var pos = $(el).scrollTop();
 
         if (el.scrollTop() + el.innerHeight() >= el[0].scrollHeight) {
             _staffAppendOffset += 10;
 
-            if ($('#_searchUsers').val() == '') {
-                $('#forwardToModal .modal-footer').append('<div class="loaderParent"><div class="loading"></div></div>');
+            if ($("#_searchUsers").val() == "") {
+                $("#forwardToModal .modal-footer").append("<div class=\"loaderParent\"><div class=\"loading\"></div></div>");
             }
 
             $.getJSON("<?php echo site_url('babilchat/Babilchat_Controller/appendMoreStaff'); ?>", {
-                    offset: _staffAppendOffset
-                })
-                .done(function(staff) {
+                offset: _staffAppendOffset
+            })
+                .done(function (staff) {
                     if (staff) {
                         _appendUsers(staff, true);
                     }
-                    $('#forwardToModal .modal-footer').find('.loaderParent').remove();
+                    $("#forwardToModal .modal-footer").find(".loaderParent").remove();
                 });
         }
     }
 
-    function _appendUsers(staff, append) {
+    function _appendUsers(staff, append)
+    {
         var _newStafFsers = [];
         var l_send = "<?= _l('send') ?>";
-        $.each(staff, function(i, user) {
-            let userIsAdded = $('#forwardToModal').find('ul.staffList li#' + user.staffid + '').length;
+        $.each(staff, function (i, user) {
+            let userIsAdded = $("#forwardToModal").find("ul.staffList li#" + user.staffid + "").length;
             if (!userIsAdded) {
-                let staffFullName = user.firstname + ' ' + user.lastname;
+                let staffFullName = user.firstname + " " + user.lastname;
                 _newStafFsers.push(`
                 <a target="_blank" href="${admin_url}/profile/${user.staffid}">
-                <img class="_imageAppended staff-profile-image-small mright5" src="${fetchUserAvatar(user.staffid,user.profile_image)}" 
+                <img class="_imageAppended staff-profile-image-small mright5" src="${fetchUserAvatar(user.staffid, user.profile_image)}"
                      data-toggle="tooltip" 
                      data-title="${staffFullName}">
                 </a>
@@ -143,30 +146,30 @@
             }
         });
         (!append) ?
-        $('ul.staffList').prepend.apply($('ul.staffList'), _newStafFsers):
-            $('ul.staffList').append.apply($('ul.staffList'), _newStafFsers);
+            $("ul.staffList").prepend.apply($("ul.staffList"), _newStafFsers) :
+            $("ul.staffList").append.apply($("ul.staffList"), _newStafFsers);
     }
 
-    function _forwardTo(receiver_id, el, target) {
-        $(el).attr('disabled', true);
+    function _forwardTo(receiver_id, el, target)
+    {
+        $(el).attr("disabled", true);
 
-        let message = $('#forwardToModal').find('._dataMessage').attr('data-message');
-        let messageEscaped = $('#forwardToModal').find('._dataMessage.escaped').attr('data-message-escaped');
-        message = message.replace(/"/g, "'").replace('controls="', 'controls ');
+        let message = $("#forwardToModal").find("._dataMessage").attr("data-message");
+        let messageEscaped = $("#forwardToModal").find("._dataMessage.escaped").attr("data-message-escaped");
+        message = message.replace(/"/g, "'").replace("controls=\"", "controls ");
 
-
-        if (message.match('<audio controls')) {
-            message = message.replace(/'/g, '"');
+        if (message.match("<audio controls")) {
+            message = message.replace(/'/g, "\"");
             messageEscaped = "<?= _l('chat_new_audio_message_sent'); ?>";
         }
-
-        if (message.match('data-lity=')) {
+        if (message.match("data-lity=")) {
             message = message.match(/href='([^']*)/)[1];
+            messageEscaped = "<?= _l('chat_user_forwarded_a_message'); ?>";
         }
 
         if (message.match("class='babilchat_convertedImage'")) {
             message = message.match(/href='([^']*)/)[1];
-            messageEscaped = "<?= _l('chat_new_file_sent'); ?>";
+            messageEscaped = "<?= _l('chat_user_forwarded_a_message'); ?>";
         }
 
         if (target === null) {
@@ -178,13 +181,13 @@
                 typing: false
             });
 
-            $('li.contact#' + receiver_id + ' a .meta p.preview').html("<?= _l('chat_message_you') ?>" + ' ' + messageEscaped);
-            $('li.contact#' + receiver_id + ' a .meta .pull-right.time_ago').html(moment().format('hh:mm A'));
+            $("li.contact#" + receiver_id + " a .meta p.preview").html("<?= _l('chat_message_you') ?>" + " " + messageEscaped);
+            $("li.contact#" + receiver_id + " a .meta .pull-right.time_ago").html(moment().format("hh:mm A"));
         }
 
-        if (target == 'groups') {
+        if (target == "groups") {
 
-            let group_id = $(el).parent('li').attr('id');
+            let group_id = $(el).parent("li").attr("id");
 
             $.post(babilchatSettings.groupMessagePath, {
                 from: userSessionId,

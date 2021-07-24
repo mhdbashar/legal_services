@@ -15,7 +15,7 @@ if (location.protocol != 'http:') {
     var stopButton = document.getElementById("stopButton");
     var cancelButton = document.getElementById("cancelRecording");
 
-    //var timer;
+    var timer;
     var chat_seconds_element = document.getElementById("chat_rec_seconds");
     var chat_minutes_element = document.getElementById("chat_rec_minutes");
     //add events to those 2 buttons
@@ -113,7 +113,7 @@ if (location.protocol != 'http:') {
                     $.post(url, { "audio": base64data }, function(res) {
                         if (res.filename) {
 
-                            var audio = '<audio controls src="' + site_url + 'modules/Babilchat/uploads/audio/' + res.filename + '" type="audio/ogg"></audio>';
+                            var audio = '<audio controls src="' + site_url + 'modules/babilchat/uploads/audio/' + res.filename + '" type="audio/ogg"></audio>';
 
                             $('#audio-wrapper').hide(1, function() {
                                 stopRecording();
@@ -194,10 +194,7 @@ if (location.protocol != 'http:') {
             audioWrapper.css('display', 'none');
         }
 
-        document.addEventListener("DOMContentLoaded", function(event) {
-            cancelButton.disabled = false;
-        });
-
+        cancelButton.disabled = false;
         //  button is disabled on send due bugs prevention must enable when wrapper is shown again
         if (recorder !== undefined) {
             recorder.onEncodingCanceled;

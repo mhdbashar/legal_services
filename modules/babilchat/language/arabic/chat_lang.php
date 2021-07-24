@@ -202,3 +202,22 @@ $lang['chat_cant_copy'] = 'لا يمكن نسخ هذه الرسالة';
 $lang['chat_message_copied'] = 'تم نسخ الرسالة';
 $lang['chat_forward_message_btn'] = 'إعادة توجيه';
 $lang['chat_search_users'] = 'البحث عن المستخدمين';
+
+#Version 1.4.6
+$lang['chat_group_renamed'] = 'تم تغيير اسم المجموعة إلى';
+$lang['chat_group_newname'] = 'أدخل إسم المجموعة الجديد';
+$lang['chat_rename_label'] = 'إعادة تسمية المجموعة';
+$lang['chat_delete_older_conversation_label'] = 'حذف سجل المحادثة الأقدم من 3 أشهر (بما في ذلك التحميلات والصوت)';
+$lang['chat_delete_note'] = 'ملاحظة: لا يمكن التراجع عن هذا بعد حذف سجل المحادثة سيتم إزالته نهائيًا';
+$lang['chat_all_messages_delete_text'] = 'ستتم إزالة جميع الرسائل التي مضى عليها أكثر من 3 أشهر!';
+$lang['chat_delete_all_data'] = 'حذف جميع البيانات الموجودة (التحميلات والملفات الصوتية المضمنة)';
+$lang['chat_purge_staff_label'] = 'تنظيف سجلات الموظفين';
+$lang['chat_purge_clients_label'] = 'تنظيف سجلات العملاء';
+$lang['chat_purge_groups_label'] = 'تنظيف سجلات المجموعات';
+$lang['chat_purge_everything'] = 'تنظيف الكل';
+$lang['chat_wipe_confirm'] = 'هل تريد أن تمسح تمامًا جميع بيانات الدردشة وعمليات التحميل؟';
+$lang['chat_type_in_delete'] = 'الرجاء كتابة حذف للتأكيد';
+$lang['chat_history_conversation_deleted'] = 'تم حذف سجل المحادثة بنجاح';
+$lang['chat_history_already_deleted'] = 'تم بالفعل حذف بيانات المحادثة لآخر 3 أشهر!';
+$lang['chat_action_was_cancelled'] = 'تم إلغاء الإجراء أو إدخال خطأ';
+$lang['chat_user_forwarded_a_message'] = 'تمت إعادة توجيه رسالة ...';

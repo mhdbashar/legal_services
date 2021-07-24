@@ -2,7 +2,7 @@
 /*
 Module Name: المحادثة الحية
 Description: وحدة المحادثة الحية والمجموعات
-Version: 1.4.6
+Version: 1.4.7
 Author: Babil Team
 Author URI: https://www.babiltec.com
 Requires at least: 2.3.2

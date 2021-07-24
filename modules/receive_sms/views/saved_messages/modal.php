@@ -22,6 +22,7 @@
                             <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                             <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                 <option value=""></option>
+
                                 <?php foreach ($legal_services as $service): ?>
                                     <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
                                         <?php if(isset($task) || $this->input->get('rel_type')){
@@ -76,12 +77,12 @@
 
 <script>
 
-    function show(id){
+    function edit(id){
         $('[id="msg"]').html(msg);
 
 
         $.ajax({
-            url : "<?php echo site_url('receive_sms/get_sms/') ?>" + id,
+            url : "<?php echo site_url('receive_sms/get/') ?>" + id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

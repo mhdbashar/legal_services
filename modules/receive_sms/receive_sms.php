@@ -22,6 +22,7 @@ hooks()->add_action('admin_init', 'receive_sms_module_init_menu_items');
 hooks()->add_action('admin_init', 'init_receive_sms');
 hooks()->add_filter('before_settings_updated', 'set_senders_options');
 hooks()->add_action('admin_init', 'add_device_sms_settings');
+hooks()->add_action('admin_init', 'receive_sms_permissions');
 register_activation_hook(RECEIVE_SMS_MODULE_NAME, 'receive_sms_module_activation_hook');
 /**
  * Load the module helper
@@ -37,10 +38,30 @@ $CI->app_custom_tabs->add_case_tab('receive_sms', [
     'position' => 200,
 ]);
 
+
+$CI->app_custom_tabs->add_oservice_tab('receive_sms', [
+    'name'     => _l('Receive SMS'),
+    'icon'     => 'fa fa-th',
+    'view'     => 'receive_sms/oservice',
+    'position' => 200,
+]);
+
 function receive_sms_module_activation_hook() {
     $CI = &get_instance();
     require_once __DIR__ . '/install.php';
 }
+
+function receive_sms_permissions()
+{
+    $capabilities = [];
+
+    $capabilities['capabilities'] = [
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+    ];
+
+    register_staff_capabilities('receive_sms', $capabilities, _l('receive_sms'));
+}
+
 
 function init_receive_sms()
 {
@@ -72,11 +93,13 @@ function set_senders_options($data)
 function add_device_sms_settings()
 {
     $CI = &get_instance();
-    $CI->app_tabs->add_settings_tab('device_sms', [
-        'name'     => _l('device_sms'),
-        'view'     => 'receive_sms/settings',
-        'position' => 22,
-    ]);
+    if (has_permission('receive_sms', '', 'view')){
+        $CI->app_tabs->add_settings_tab('device_sms', [
+            'name'     => _l('device_sms'),
+            'view'     => 'receive_sms/settings',
+            'position' => 22,
+        ]);
+    }
 }
 
 /**

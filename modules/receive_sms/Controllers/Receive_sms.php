@@ -7,6 +7,9 @@ class Receive_sms extends AdminController
         parent::__construct();
         $this->load->model('Receive_sms_model');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        if(!has_permission('receive_sms', '', 'view')){
+            access_denied('receive_sms');
+        }
     }
 
     public function index()
@@ -16,11 +19,12 @@ class Receive_sms extends AdminController
             $data['messages'] = [];
 
             foreach ($messages as $message){
-                if($this->Receive_sms_model->is_set([
+                if(!$this->Receive_sms_model->is_set([
                     'msg' => ($message->msg),
                     'created_at' => ($message->date),
                     'sender' => ($message->phone)
-                ]))
+                ]) &&
+                in_array($message->phone, json_decode($this->app->get_option('sms_senders'))))
                     $data['messages'][] = $message;
 
             }
@@ -45,6 +49,13 @@ class Receive_sms extends AdminController
         }
         echo json_encode($json) ;
 
+    }
+
+    public function get($id)
+    {
+        $data = $this->Receive_sms_model->get($id);
+        echo json_encode(['status' => true, 'data' => $data]);
+        die();
     }
 
     public function get_sms($id)
@@ -78,12 +89,12 @@ class Receive_sms extends AdminController
         $success = $this->Receive_sms_model->update($msg_id, $data);
         if($success){
             set_alert('success', _l('added_successfully'));
-            redirect(admin_url('receive_sms'));
         }
         else{
             set_alert('warning', _l('problem'));
-            redirect(admin_url('receive_sms'));
         }
+
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function saved_messages()
@@ -93,8 +104,22 @@ class Receive_sms extends AdminController
         {
             $this->receivesms->get_table_data('saved_messages_table');
         }
+        $data['legal_services'] = $this->legal->get_all_services();
+        $data['rel_type']    = $this->input->get('rel_type');
+        $data['rel_id']    = $this->input->get('rel_id');
 
         $data['title'] = _l('saved_messages');
         $this->load->view('saved_messages/manage', $data);
+    }
+
+    public function delete($id)
+    {
+        $response = $this->Receive_sms_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

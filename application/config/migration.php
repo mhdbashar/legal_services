@@ -68,7 +68,7 @@ $config['migration_auto_latest'] = FALSE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 509; // equivalent to version 2.8.4 of the Perfex system
+$config['migration_version'] = 509; // equivalent to version 2.8.4 of the Babil system
 
 /*
 |--------------------------------------------------------------------------

@@ -152,11 +152,9 @@ class Procuration extends AdminController
             $data['description'] = $this->input->post('description', false);
             $redirect = admin_url('procuration/all');
             if(is_numeric($request)){
-                // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
                 $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
             }
             if(is_numeric($case)){
-                // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
                 $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
             }
             

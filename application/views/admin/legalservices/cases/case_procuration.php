@@ -5,7 +5,6 @@
 <hr class="hr-panel-heading" />
 <?php } ?>
 <?php
-// Example : http://localhost/crm2/admin/procuration/procurationcu/case/no_id/4
  render_datatable(array(
 							_l('name'),
 							_l('no'),

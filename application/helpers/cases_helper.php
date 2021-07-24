@@ -790,8 +790,8 @@ function handle_case_file_uploads($ServID, $project_id)
         $path = get_upload_path_by_type_case('case') . $project_id . '/';
 
         for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
-            if (_perfex_upload_error($_FILES['file']['error'][$i])) {
-                $errors[$_FILES['file']['name'][$i]] = _perfex_upload_error($_FILES['file']['error'][$i]);
+            if (_babil_upload_error($_FILES['file']['error'][$i])) {
+                $errors[$_FILES['file']['name'][$i]] = _babil_upload_error($_FILES['file']['error'][$i]);
 
                 continue;
             }
@@ -888,9 +888,9 @@ function get_upload_path_by_type_case($type)
 
 function handle_case_discussion_comment_attachments($discussion_id, $post_data, $insert_data)
 {
-    if (isset($_FILES['file']['name']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']['name']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo json_encode(['message' => _perfex_upload_error($_FILES['file']['error'])]);
+        echo json_encode(['message' => _babil_upload_error($_FILES['file']['error'])]);
         die;
     }
 

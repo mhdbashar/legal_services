@@ -59,7 +59,7 @@ function api_init_menu_items()
         // $CI->app_menu->add_sidebar_children_item('api-options', [
         //     'slug'     => 'api-guide-options',
         //     'name'     => _l('api_guide'),
-        //     'href'     => 'https://perfexcrm.themesic.com/apiguide/',
+        //     'href'     => 'https://babil.net.sa/apiguide/',
         //     'position' => 10,
         // ]);
     }

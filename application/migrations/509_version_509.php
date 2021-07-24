@@ -19,7 +19,7 @@ class Migration_Version_509 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` MODIFY `file_number_case`  VARCHAR(255) NULL DEFAULT NULL');
         }
 
-        $this->db->query("CREATE TABLE `tblsessions_checklist_templates` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `tblsessions_checklist_templates` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `description` text,
               PRIMARY KEY (`id`)
@@ -32,5 +32,11 @@ class Migration_Version_509 extends CI_Migration
         if (!$this->db->field_exists('grandfathername', db_prefix() . 'contacts')) {
             $this->db->query("ALTER TABLE `tblcontacts` ADD `grandfathername` varchar(191) DEFAULT NULL;");
         }
+
+        update_option('clients_default_theme', 'babil');
+
+        update_option('invoice_company_name', 'Babil INC');
+
+        update_option('_v283_update_clients_theme', active_clients_theme());
     }
 }

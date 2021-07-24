@@ -88,7 +88,7 @@ class Cron_model extends App_Model
 
             $this->send_lawyer_daily_agenda();
 
-            //$this->fix_and_separate_names();
+            $this->fix_and_separate_names();
 
             /**
              * Finally send any emails in the email queue - if enabled and any
@@ -2306,15 +2306,20 @@ class Cron_model extends App_Model
         return true;
     }
 
-    /* function fix_and_separate_names()
+    function fix_and_separate_names()
     {
-        $this->db->where('id', 1);
         $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-
         foreach ($contacts as $contact) {
-            echo "<pre>";
-            print_r(split_name($contact['firstname']));
-            exit;
+            $parts = split_name($contact['firstname']);
+            if($parts){
+                $this->db->where('id', $contact['id']);
+                $this->db->update(db_prefix() . 'contacts', [
+                    'firstname' => $parts['firstname'],
+                    'fathername' => $parts['fathername'],
+                    'grandfathername' => $parts['grandfathername'],
+                    'lastname' => $parts['lastname']
+                ]);
+            }
         }
-    }*/
+    }
 }

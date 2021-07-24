@@ -1045,19 +1045,18 @@ function _gregorian_hijri_date($date, $input=false)
     }
 }
 
+//Split Contacts name By Baraa Alhalabi
 function split_name($name)
 {
     $parts = array();
-    while (strlen(trim($name)) > 0) {
-        $name = trim($name);
-        $string = preg_replace('#.*\s([\w-]*)$#', '$1', $name);
-        $parts[] = $string;
-        $name = trim(preg_replace('#' . preg_quote($string, '#') . '#', '', $name));
+    $name = trim($name);
+    $string = mb_split(' ',$name);
+    foreach ($string as $word) {
+        $parts[] = $word;
     }
-    if (empty($parts)) {
+    if (empty($parts) || count($parts) === 1) {
         return false;
     }
-    $parts = array_reverse($parts);
     $name = array();
     $name['firstname'] = $parts[0];
     $name['fathername'] = (isset($parts[2])) ? $parts[1] : '';

@@ -5,7 +5,7 @@
         <div class="panel_s">
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-12">
+                <?php /*<div class="col-md-12">
                     <?php echo form_open_multipart(admin_url('modules/upload'),['id'=>'module_install_form']); ?>
                     <div class="row">
                         <div class="col-md-12 text-center">
@@ -22,7 +22,7 @@
                         </div><!-- /.col-md-6 -->
                     </div>
                     <?php echo form_close(); ?>
-                    <hr />
+                    <hr />*/ ?>
                     <div class="table-responsive">
                         <table class="table dt-table" data-order-type="asc" data-order-col="0">
                             <thead>

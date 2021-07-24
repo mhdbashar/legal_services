@@ -3266,19 +3266,19 @@ body.Babilchat_Controller .contact_name_placeholder {
 
 /* Office Theme Support Css */
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #header {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #header {
     position: absolute !important;
 }
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
     margin-top: 62px;
 }
 
 @media screen and (max-width: 735px) {
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
         margin-top: 0px;
     }
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #mobile-search {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #mobile-search {
         margin-top: 60px;
     }
 }

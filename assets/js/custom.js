@@ -1279,7 +1279,7 @@ function edit_session_inline_description(e, id) {
     tinymce.init({
         selector: '#task_view_description',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         contextmenu: "link table paste pastetext",
@@ -1482,7 +1482,7 @@ function edit_session_inline_court_decision(e, id) {
     tinymce.init({
         selector: '#court_decision',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',
@@ -1521,7 +1521,7 @@ function edit_session_inline_session_information(e, id) {
     tinymce.init({
         selector: '#session_information',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',

@@ -4,7 +4,7 @@
 	<label for="clients_default_theme" class="control-label"><?php echo _l('settings_clients_default_theme'); ?></label>
 	<select name="settings[clients_default_theme]" id="clients_default_theme" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
 		<?php foreach(get_all_client_themes() as $theme){ ?>
-		<option value="<?php echo $theme; ?>" <?php if(active_clients_theme() == $theme){echo 'selected';} ?>><?php if( $theme == 'perfex'){echo 'Babil';} ?></option>
+		<option value="<?php echo $theme; ?>" <?php if(active_clients_theme() == $theme){echo 'selected';} ?>><?php if( $theme == 'babil'){echo 'Babil';} ?></option>
 		<?php } ?>
 	</select>
 </div>

@@ -463,7 +463,7 @@ echo form_hidden('project_percent',$percent);
                     }else if (data == 2){
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -497,7 +497,7 @@ echo form_hidden('project_percent',$percent);
                         $('#timesheet_task_id').append($option).change();
                         $('#add_task_to_select').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

@@ -710,7 +710,6 @@ class Clients extends ClientsController
         $this->view('legals');
         $this->layout();
     }
-
     
     public function project($id)
     {
@@ -1610,6 +1609,56 @@ class Clients extends ClientsController
         $this->zip->clear_data();
     }
 
+    public function download_all_case_files($id)
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+
+        $files = $this->case->get_files($id);
+
+        if (count($files) == 0) {
+            set_alert('warning', _l('no_files_found'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $path = get_upload_path_by_type('case') . $id;
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download(slug_it(get_case_name_by_id($id)) . '-files.zip');
+        $this->zip->clear_data();
+    }
+
+    public function download_all_oservice_files($id)
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+
+        $files = $this->other->get_files($id);
+
+        if (count($files) == 0) {
+            set_alert('warning', _l('no_files_found'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $path = get_upload_path_by_type('oservice') . $id;
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download(slug_it(get_oservice_name_by_id($id)) . '-files.zip');
+        $this->zip->clear_data();
+    }
+
     public function files()
     {
         $files_where = 'visible_to_customer = 1 AND id IN (SELECT file_id FROM ' . db_prefix() . 'shared_customer_files WHERE contact_id =' . get_contact_user_id() . ')';
@@ -2095,7 +2144,7 @@ class Clients extends ClientsController
                 $this->form_validation->set_rules('company', _l('clients_company'), 'required');
             }
 
-            if (active_clients_theme() == 'perfex') {
+            if (active_clients_theme() == 'babil') {
                 // Fix for custom fields checkboxes validation
                 $this->form_validation->set_rules('company_form', '', 'required');
             }
@@ -2626,5 +2675,35 @@ class Clients extends ClientsController
     public function contact_email_profile_unique($email)
     {
         return total_rows(db_prefix() . 'contacts', 'id !=' . get_contact_user_id() . ' AND email="' . get_instance()->db->escape_str($email) . '"') > 0 ? false : true;
+    }
+
+    public function procuration_pdf($id)
+    {
+        if (!$id) {
+            redirect(site_url());
+        }
+
+        $procuration = $this->procurations->get($id);
+        //$procuration        = hooks()->apply_filters('before_admin_view_procuration_pdf', $procuration);
+
+        try {
+            $pdf = procuration_pdf($procuration);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+        $type = 'D';
+
+        if ($this->input->get('output_type')) {
+            $type = $this->input->get('output_type');
+        }
+
+        if ($this->input->get('print')) {
+            $type = 'I';
+        }
+
+        $pdf_name = $procuration->name;
+        $pdf->Output(mb_strtoupper(slug_it($pdf_name)) . '.pdf', $type);
     }
 }

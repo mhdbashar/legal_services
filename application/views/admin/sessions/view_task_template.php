@@ -1,4 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php if (is_rtl()) { ?>
+<style>
+    .checklist-items-template-select .checklist-item-template-remove {
+        left: 17px;
+        right: auto;
+    }
+</style>
+<?php } ?>
 <div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>" data-status="<?php echo $task->status; ?>">
    <?php if($this->input->get('opened_from_lead_id')){ ?>
    <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;" class="back-to-from-task color-white" data-placement="left" data-toggle="tooltip" data-title="<?php echo _l('back_to_lead'); ?>">

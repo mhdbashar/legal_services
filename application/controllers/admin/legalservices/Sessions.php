@@ -64,12 +64,12 @@ class Sessions extends AdminController
         }
 
         $data['title'] = _l('sessions');
-        $this->load->view('admin/sessions/my_manage', $data);
+        $this->load->view('admin/sessions/manage', $data);
     }
 
     public function kanban_for_LegalServices($rel_type)
     {
-        echo $this->load->view('admin/sessions/my_kan_ban', ['rel_type' => $rel_type], true);
+        echo $this->load->view('admin/sessions/kan_ban', ['rel_type' => $rel_type], true);
     }
 
     public function table($session_status='')
@@ -181,7 +181,7 @@ class Sessions extends AdminController
         }
     }
 
-    public function detailed_overview()
+    /*public function old_detailed_overview()
     {
         $overview = [];
 
@@ -311,10 +311,11 @@ class Sessions extends AdminController
             $this->db->select($sqlTasksSelect);
 
             if($day != ''){
-                if($hijriStatus == 'on')
+                if($hijriStatus == 'on') {
                     $this->db->where('DAY(' . $fetch_month_from . ')', $ad_day);
-                else
+                }else {
                     $this->db->where('DAY(' . $fetch_month_from . ')', $day);
+                }
             }
             if($hijriStatus == 'on' && $month != ''){
                 // $this->db->where('MONTH(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad . ' and ' . $end_month_ad);
@@ -340,8 +341,9 @@ class Sessions extends AdminController
                     $fetch_month_from . '>' => $start_year_ad,
                     $fetch_month_from . '<' => $end_year_ad
                 ]);
-            }else
+            }else {
                 $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
+            }
 
             if($rel_type && $rel_type != ''){
                 $this->db->where('rel_id', $project_id);
@@ -388,6 +390,145 @@ class Sessions extends AdminController
             $overview[$m] = $this->db->get(db_prefix() . 'tasks')->result_array();
 
         }
+        unset($overview[0]);
+
+        $overview = [
+            'staff_id' => $staff_id,
+            'detailed' => $overview,
+        ];
+        $data['members']  = $this->staff_model->get();
+        $data['overview'] = $overview['detailed'];
+        $data['years']    = $this->sessions_model->get_distinct_tasks_years(($this->input->post('month_from') ? $this->input->post('month_from') : 'startdate'));
+        $data['staff_id'] = $overview['staff_id'];
+        $data['title']    = _l('session_detailed_overview');
+        $this->load->view('admin/sessions/detailed_overview', $data);
+    }*/
+
+    public function detailed_overview()
+    {
+        $overview = [];
+
+        $has_permission_create = has_permission('sessions', '', 'create');
+        $has_permission_view   = has_permission('sessions', '', 'view');
+
+        if (!$has_permission_view) {
+            $staff_id = get_staff_user_id();
+        } elseif ($this->input->post('member')) {
+            $staff_id = $this->input->post('member');
+        } else {
+            $staff_id = '';
+        }
+
+        $month = ($this->input->post('month') ? $this->input->post('month') : date('m'));
+        if ($this->input->post() && $this->input->post('month') == '') {
+            $month = '';
+        }
+
+        $status = $this->input->post('status');
+
+        $fetch_month_from = 'startdate';
+
+        $year       = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
+        $project_id = $this->input->get('project_id');
+        $rel_type = $this->input->get('rel_type');
+        if(isset($rel_type)){
+            $data['ServID'] = $this->legal->get_service_id_by_slug($rel_type);
+        }
+        for ($m = 1; $m <= 12; $m++) {
+            if ($month != '' && $month != $m) {
+                continue;
+            }
+
+            // Task rel_name
+            $sqlTasksSelect = '*,' . sessions_rel_name_select_query() . ' as rel_name';
+
+            // Task logged time
+            $selectLoggedTime = get_sql_calc_session_logged_time('tmp-task-id');
+            // Replace tmp-task-id to be the same like tasks.id
+            $selectLoggedTime = str_replace('tmp-task-id', db_prefix() . 'tasks.id', $selectLoggedTime);
+
+            if (is_numeric($staff_id)) {
+                $selectLoggedTime .= ' AND staff_id=' . $this->db->escape_str($staff_id);
+                $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
+            } else {
+                $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
+            }
+
+            $sqlTasksSelect .= ' as total_logged_time';
+
+            // Task checklist items
+            $sqlTasksSelect .= ',' . get_sql_select_session_total_checklist_items();
+
+            if (is_numeric($staff_id)) {
+                $sqlTasksSelect .= ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id AND finished=1 AND finished_from=' . $staff_id . ') as total_finished_checklist_items';
+            } else {
+                $sqlTasksSelect .= ',' . get_sql_select_session_total_finished_checklist_items();
+            }
+
+            // Task total comment and total files
+            $selectTotalComments = ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id';
+            $selectTotalFiles    = ',(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task"';
+
+            if (is_numeric($staff_id)) {
+                $sqlTasksSelect .= $selectTotalComments . ' AND staffid=' . $staff_id . ') as total_comments_staff';
+                $sqlTasksSelect .= $selectTotalFiles . ' AND staffid=' . $staff_id . ') as total_files_staff';
+            }
+
+            $sqlTasksSelect .= $selectTotalComments . ') as total_comments';
+            $sqlTasksSelect .= $selectTotalFiles . ') as total_files';
+
+            // Task assignees
+            $sqlTasksSelect .= ',' . get_sql_select_session_asignees_full_names() . ' as assignees' . ',' . get_sql_select_session_assignees_ids() . ' as assignees_ids';
+
+            $this->db->select($sqlTasksSelect);
+
+            $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
+            $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
+
+            if($rel_type && $rel_type != ''){
+                $this->db->where('rel_id', $project_id);
+                $this->db->where('rel_type', $rel_type);
+            }else{
+                if ($project_id && $project_id != '') {
+                    $this->db->where('rel_id', $project_id);
+                    $this->db->where('rel_type', 'project');
+                }
+            }
+
+
+            if (!$has_permission_view) {
+                $sqlWhereStaff = '(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $staff_id . ')';
+
+                // User dont have permission for view but have for create
+                // Only show tasks createad by this user.
+                if ($has_permission_create) {
+                    $sqlWhereStaff .= ' OR addedfrom=' . get_staff_user_id();
+                }
+
+                $sqlWhereStaff .= ')';
+                $this->db->where($sqlWhereStaff);
+            } elseif ($has_permission_view) {
+                if (is_numeric($staff_id)) {
+                    $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $staff_id . '))');
+                }
+            }
+
+            if ($status) {
+                //$this->db->where('status', $status);
+                if($status === 'previous'):
+                    $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+                else:
+                    $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+                endif;
+            }
+
+            $this->db->where('is_session', 1);
+            $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id='.db_prefix() . 'tasks.id', 'left');
+            $this->db->order_by($fetch_month_from, 'ASC');
+            array_push($overview, $m);
+            $overview[$m] = $this->db->get(db_prefix() . 'tasks')->result_array();
+        }
+
         unset($overview[0]);
 
         $overview = [
@@ -995,7 +1136,7 @@ class Sessions extends AdminController
                 $desc = $this->input->post('description');
                 $desc = trim($desc);
                 $this->sessions_model->update_checklist_item($this->input->post('listid'), $desc);
-                echo json_encode(['can_be_template' => (total_rows(db_prefix() . 'tasks_checklist_templates', ['description' => $desc]) == 0)]);
+                echo json_encode(['can_be_template' => (total_rows(db_prefix() . 'sessions_checklist_templates', ['description' => $desc]) == 0)]);
             }
         }
     }

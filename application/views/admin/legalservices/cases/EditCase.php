@@ -102,7 +102,7 @@
                                         <?php } ?>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case, 'number'); ?>
+                                                <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -821,7 +821,7 @@
                         $('#clientid').append(newOption).trigger('change');
                         $('#add-client').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -849,7 +849,7 @@
                         $('#opponent_id').append(newOption).trigger('change');
                         $('#add-opponent').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -874,7 +874,7 @@
                         $("#court_id").append(new Option(court_name, data));
                         $('#add-court').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -902,7 +902,7 @@
                         $('.judge_select').selectpicker("refresh");
                         $('#add-judge').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });
@@ -931,7 +931,7 @@
                         $('#jud_num').append($option).change();
                         $('#AddJudicialDeptModal').modal('hide');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

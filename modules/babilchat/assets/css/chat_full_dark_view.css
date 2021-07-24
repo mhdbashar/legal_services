@@ -2623,18 +2623,18 @@ body #frame .white-text {
 }
 
 
-/* Perfex Light Theme Support */
+/* babil Light Theme Support */
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #wrapper li.active a,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact:hover {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact.active,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector.active,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector .group_wrapper:hover,
+body.babil_dark_theme_initiated.chat_light #wrapper li.active a,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact:hover {
     background: #fff;
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a {
+body.babil_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a {
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
     -moz-border-radius: 0 !important;
@@ -2642,7 +2642,7 @@ body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a
     -o-border-radius: 0 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
+body.babil_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
     border: 1px solid #cbcfd4 !important;
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
@@ -2651,75 +2651,75 @@ body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
     -o-border-radius: 0 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li a:hover,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li a:hover {
+body.babil_dark_theme_initiated.chat_light #add_members_modal li a:hover,
+body.babil_dark_theme_initiated.chat_light #chat_groups_custom_modal li a:hover {
     background: #cbcfd4 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li span,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li span {
+body.babil_dark_theme_initiated.chat_light #add_members_modal li span,
+body.babil_dark_theme_initiated.chat_light #chat_groups_custom_modal li span {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:focus,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:hover {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:focus,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:hover {
     background: #cbcfd4 !important;
     color: #fff !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown.open ul li a {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown.open ul li a {
     color: #333 !important;
     background: #2b2f38;
     border: none;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .client_chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .group_chatbox {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .client_chatbox,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .chatbox,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .group_chatbox {
     background: #fff !important;
     border-color: #363a46 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .shared_items_span,
-body.perfex_dark_theme_initiated.chat_light #frame #bottom-bar #add_group_btn {
+body.babil_dark_theme_initiated.chat_light #frame .shared_items_span,
+body.babil_dark_theme_initiated.chat_light #frame #bottom-bar #add_group_btn {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .chat_group_options .dismiss_chat_group {
+body.babil_dark_theme_initiated.chat_light #frame .chat_group_options .dismiss_chat_group {
     background: #5f5f5f !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.member_name_other,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.friend {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p.member_name_other,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p.friend {
     color: #333;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p:not(.you):not(.own_group_message) {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p:not(.you):not(.own_group_message) {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel i.fa.fa-search,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #bottom-bar button,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame a {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel i.fa.fa-search,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #bottom-bar button,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame a {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active :hover,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact.active a,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact a:hover {
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector .group_wrapper:hover,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a:hover,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active :hover,
+body.babil_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact.active a,
+body.babil_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact a:hover {
     background: #2b2f38 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button i::before {
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button i::before {
     color: #777;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle,
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle:hover {
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle,
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle:hover {
     background-color: #2b2f38 !important;
     border-color: #363a46 !important;
 }
@@ -3368,19 +3368,19 @@ body.Babilchat_Controller .contact_name_placeholder {
 
 /* Office Theme Support Css */
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #header {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #header {
     position: absolute !important;
 }
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
     margin-top: 62px;
 }
 
 @media screen and (max-width: 735px) {
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
         margin-top: 0px;
     }
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #mobile-search {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #mobile-search {
         margin-top: 60px;
     }
 }

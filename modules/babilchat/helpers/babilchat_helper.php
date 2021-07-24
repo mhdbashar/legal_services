@@ -1,9 +1,9 @@
 <?php
 /*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
+Module Name: Babil CRM Chat
+Description: Chat Module for Babil CRM
+Author: Babil Team
+Author URI: https://www.babil.net.sa
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');

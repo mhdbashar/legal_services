@@ -7,15 +7,16 @@ hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
-
 //hooks()->add_action('pre_admin_init', 'init_hijri_settings');
 hooks()->add_action('admin_init', 'add_hijri_settings');
 hooks()->add_action('app_admin_assets_added', 'admin_assets');
+
 hooks()->add_filter('before_sql_date_format', 'to_AD_date');
 hooks()->add_filter('after_format_date', 'to_hijri_date');
 hooks()->add_filter('after_format_datetime', 'to_hijri_date');
 hooks()->add_filter('before_settings_updated', 'set_my_options');
 hooks()->add_filter('available_date_formats', 'add_hijri_option');
+hooks()->add_filter('sms_gateways', 'add_sms_gateway');
 
 function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
 {
@@ -241,26 +242,26 @@ function my_module_clients_area_menu_items()
         'href'     => site_url('my_module/acme'),
         'position' => 10,
     ]);*/
-    // Show menu item only if client is logged in
-    $CI = &get_instance();
-    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
-    $position = 0;
-    if (has_contact_permission('projects')) {
-        if (is_client_logged_in()) {
-            foreach ($services as $service):
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => $service->name,
-                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
-                'position' => $position+5,
-            ]);
-            endforeach;
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => _l('services'),
-                'href'     => site_url('clients/imported/'),
-                'position' => 40,
-            ]);
-        }
-    }
+//    // Show menu item only if client is logged in
+//    $CI = &get_instance();
+//    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
+//    $position = 0;
+//    if (has_contact_permission('projects')) {
+//        if (is_client_logged_in()) {
+//            foreach ($services as $service):
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => $service->name,
+//                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
+//                'position' => $position+5,
+//            ]);
+//            endforeach;
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => _l('services'),
+//                'href'     => site_url('clients/imported/'),
+//                'position' => 40,
+//            ]);
+//        }
+//    }
 }
 
 function my_custom_setup_menu_items()
@@ -762,12 +763,9 @@ function get_legal_service_slug_by_id($service_id)
     return false;
 }
 
-hooks()->add_filter('sms_gateways', 'add_sms_gateway');
-
 function add_sms_gateway($gateways)
 {
     array_push($gateways, 'sms/sms_mobily');
-    
     return $gateways;
 }
 
@@ -1036,9 +1034,9 @@ function _gregorian_hijri_date($date, $input=false)
         if ($date == '' || is_null($date) || $date == '0000-00-00') {
             return $formatted;
         }else{
-            if($input){
+            if ($input) {
                 return force_to_hijri_date($date);
-            }else{
+            } else {
                 return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
             }
         }
@@ -1047,91 +1045,110 @@ function _gregorian_hijri_date($date, $input=false)
     }
 }
 
-//    public function test()
-//    {
-//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
-//
-//    }
+//Split Contacts name By Baraa Alhalabi
+function split_name($name)
+{
+    $parts = array();
+    $name = trim($name);
+    $string = mb_split(' ',$name);
+    foreach ($string as $word) {
+        $parts[] = $word;
+    }
+    if (empty($parts) || count($parts) === 1) {
+        return false;
+    }
+    $name = array();
+    $name['firstname'] = $parts[0];
+    $name['fathername'] = (isset($parts[2])) ? $parts[1] : '';
+    $name['grandfathername'] = (isset($parts[3])) ? $parts[2] : '';
+    $name['lastname'] = (isset($parts[3])) ? $parts[3] : (isset($parts[2]) ? $parts[2] : (isset($parts[1]) ? $parts[1] : ''));
+    return $name;
+}
 
-// function my_custom_date($date)
-// {
-//     $opt = explode('|', get_option('dateformat'));
-//     if(isset($opt[2]) && $opt[2]=='hijri'){
-//         $datetime = explode(' ', $date);
-//         $date = new DateTime($datetime[0]);
-//         $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
-//         // First condition for date and datetime
-//         // Second condition for 12 or 24 (Time Format)
-//         if (isset($datetime[1])){
-//         $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
-//         }
-//         return $date;
-//     }
-// }
+/*public function my_create_new_email_template()
+{
+    create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+}*/
 
-//function search_book_api()
-//{
-//    if($this->input->post()){
-//        $tags_array = $this->input->post();
-//        if(isset($tags_array['tags']) && !empty($tags_array['tags'])){
-//            $new_tag_name = str_replace(' ', '', $tags_array['tags']);
-//
-//            $tags_name = explode(',', $new_tag_name);
-//
-//            foreach ($tags_name as $tag) {
-//                $this->db->like('tag_name', $tag);
-//                $result[] = $this->db->get('tag')->result();
-//            }
-//            if($result){
-//                foreach ($result as $value => $key) {
-//                    foreach ($result[$value] as $item){
-//                        $arr[] = $item->tag_id;
-//                    }
-//                }
-//                $sql = "SELECT section_id,book_id,book_title,url,file,
-//                        COUNT(book_title) AS relevance
-//                        FROM
-//                        (SELECT book.section_id,book.book_id,file,url, book_title
-//                         FROM book,book_tag,section
-//                         WHERE  book.book_id = book_tag.book_id
-//                         AND book.main_section = section.section_id
-//                         AND tag_id IN('" . implode("','", $arr) . "')
-//                         ) AS matches
-//                         GROUP BY section_id, book_id, book_title, url, file
-//                         ORDER BY relevance DESC";
-//                $books = $this->db->query($sql)->result();
-//
-//                foreach ($books as $book) {
-//                    $sql2 = "SELECT c.*
-//                            FROM (
-//                                SELECT
-//                                    @r AS _id,
-//                                    (SELECT @r := parent_id FROM section WHERE section_id = _id) AS parent_id,
-//                                    @l := @l + 1 AS level
-//                                FROM
-//                                    (SELECT @r := " . $book->section_id . ", @l := 0) vars, section m
-//                                WHERE @r <> 0) d
-//                            JOIN section c
-//                            ON d._id = c.section_id ORDER BY section_id ASC";
-//                    $sections = $this->db->query($sql2)->result();
-//                    $book->sections = $sections;
-//                }
-//                // set response code - 200 OK
-//                http_response_code(200);
-//                echo json_encode(array("message" => "success", "books" => $books), JSON_UNESCAPED_UNICODE);
-//            }else{
-//                // set response code - 503 service unavailable
-//                http_response_code(503);
-//                echo json_encode(array("message" => "No data found."));
-//            }
-//        }else{
-//            // set response code - 400 bad request
-//            http_response_code(400);
-//            echo json_encode(array("message" => "Unable to read tags. The data is incomplete."));
-//        }
-//    }else{
-//        // set response code - 405 method not allowed
-//        http_response_code(405);
-//        echo json_encode(array("message" => "Method Not Allowed"));
-//    }
-//}
+/*function my_custom_date($date)
+{
+    $opt = explode('|', get_option('dateformat'));
+    if(isset($opt[2]) && $opt[2]=='hijri'){
+        $datetime = explode(' ', $date);
+        $date = new DateTime($datetime[0]);
+        $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
+        // First condition for date and datetime
+        // Second condition for 12 or 24 (Time Format)
+        if (isset($datetime[1])){
+        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+        }
+        return $date;
+    }
+}*/
+
+/*function search_book_api()
+{
+    if($this->input->post()){
+        $tags_array = $this->input->post();
+        if(isset($tags_array['tags']) && !empty($tags_array['tags'])){
+            $new_tag_name = str_replace(' ', '', $tags_array['tags']);
+
+            $tags_name = explode(',', $new_tag_name);
+
+            foreach ($tags_name as $tag) {
+                $this->db->like('tag_name', $tag);
+                $result[] = $this->db->get('tag')->result();
+            }
+            if($result){
+                foreach ($result as $value => $key) {
+                    foreach ($result[$value] as $item){
+                        $arr[] = $item->tag_id;
+                    }
+                }
+                $sql = "SELECT section_id,book_id,book_title,url,file,
+                        COUNT(book_title) AS relevance
+                        FROM
+                        (SELECT book.section_id,book.book_id,file,url, book_title
+                         FROM book,book_tag,section
+                         WHERE  book.book_id = book_tag.book_id
+                         AND book.main_section = section.section_id
+                         AND tag_id IN('" . implode("','", $arr) . "')
+                         ) AS matches
+                         GROUP BY section_id, book_id, book_title, url, file
+                         ORDER BY relevance DESC";
+                $books = $this->db->query($sql)->result();
+
+                foreach ($books as $book) {
+                    $sql2 = "SELECT c.*
+                            FROM (
+                                SELECT
+                                    @r AS _id,
+                                    (SELECT @r := parent_id FROM section WHERE section_id = _id) AS parent_id,
+                                    @l := @l + 1 AS level
+                                FROM
+                                    (SELECT @r := " . $book->section_id . ", @l := 0) vars, section m
+                                WHERE @r <> 0) d
+                            JOIN section c
+                            ON d._id = c.section_id ORDER BY section_id ASC";
+                    $sections = $this->db->query($sql2)->result();
+                    $book->sections = $sections;
+                }
+                // set response code - 200 OK
+                http_response_code(200);
+                echo json_encode(array("message" => "success", "books" => $books), JSON_UNESCAPED_UNICODE);
+            }else{
+                // set response code - 503 service unavailable
+                http_response_code(503);
+                echo json_encode(array("message" => "No data found."));
+            }
+        }else{
+            // set response code - 400 bad request
+            http_response_code(400);
+            echo json_encode(array("message" => "Unable to read tags. The data is incomplete."));
+        }
+    }else{
+        // set response code - 405 method not allowed
+        http_response_code(405);
+        echo json_encode(array("message" => "Method Not Allowed"));
+    }
+}*/

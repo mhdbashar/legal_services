@@ -32,8 +32,16 @@
                         </div>
                         <?php } ?>
                         <!-- // For email exist check -->
-                        <?php $value=( isset($contact) ? $contact->firstname: ''); ?>
-                        <?php echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
+                        <?php //$value=( isset($contact) ? $contact->firstname: ''); ?>
+                        <?php //echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
+                        <?php $value=( isset($contact) ? $contact->firstname : ''); ?>
+                        <?php echo render_input( 'firstname', 'firstname',$value); ?>
+                        <?php $value=( isset($contact) ? $contact->fathername : ''); ?>
+                        <?php echo render_input( 'fathername', 'fathername',$value); ?>
+                        <?php $value=( isset($contact) ? $contact->grandfathername : ''); ?>
+                        <?php echo render_input( 'grandfathername', 'grandfathername',$value); ?>
+                        <?php $value=( isset($contact) ? $contact->lastname : ''); ?>
+                        <?php echo render_input( 'lastname', 'lastname',$value); ?>
                         <?php echo form_hidden('contactid',$contactid); ?>
                         <?php $value=( isset($contact) ? $contact->title : ''); ?>
                         <?php echo render_input( 'title', 'contact_position',$value); ?>

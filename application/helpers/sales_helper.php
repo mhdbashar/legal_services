@@ -493,9 +493,9 @@ if (!function_exists('format_organization_info')) {
 
         $format = _info_format_replace('company_name', '<b style="color:black" class="company-name-formatted">' . get_option('invoice_company_name') . '</b>', $format);
         $format = _info_format_replace('address', get_option('invoice_company_address'), $format);
+        $format = _info_format_replace('bo_box', get_option('invoice_company_country_code'), $format);
         $format = _info_format_replace('city', get_option('invoice_company_city'), $format);
         $format = _info_format_replace('state', get_option('company_state'), $format);
-
         $format = _info_format_replace('zip_code', get_option('invoice_company_postal_code'), $format);
         $format = _info_format_replace('country_code', get_option('invoice_company_country_code'), $format);
         $format = _info_format_replace('phone', get_option('invoice_company_phonenumber'), $format);

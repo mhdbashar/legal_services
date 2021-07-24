@@ -11,18 +11,13 @@
 					</h4>
 					<hr class="hr-panel-heading" />
 						<?php echo form_open($this->uri->uri_string()); ?>
-
 						<?php $value = (isset($procurationtype) ? $procurationtype->procurationtype : ''); ?>
 						<!-- enable language edit -->
-                        <?php echo render_input('procurationtype',_l('procuration_type'),$value); ?> 
-
+                        <?php echo render_input('procurationtype',_l('procuration_type'),$value); ?>
                         <!-- for testing -->
-                        
-						<!-- <p class="bold"><?php echo _l('procurationtype_message'); ?></p> -->
-						<!-- <?php $contents = ''; if(isset($procurationtype)){$contents = $procurationtype->message;} ?> -->
-						<!-- <?php echo render_textarea('message','',$contents,array(),array(),'','tinymce'); ?> -->
-
-					
+						<!-- <p class="bold"><?php //echo _l('procurationtype_message'); ?></p> -->
+						<!-- <?php //$contents = ''; if(isset($procurationtype)){$contents = $procurationtype->message;} ?> -->
+						<!-- <?php //echo render_textarea('message','',$contents,array(),array(),'','tinymce'); ?> -->
 						<button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
 						<?php echo form_close(); ?>
 					</div>

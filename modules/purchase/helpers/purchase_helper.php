@@ -505,9 +505,9 @@ function get_payment_mode_by_id($id){
 function handle_item_attachments($id)
 {
 
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     $path = PURCHASE_MODULE_ITEM_UPLOAD_FOLDER . $id . '/';
@@ -647,7 +647,7 @@ function handle_pur_vendor_attachments_upload($id, $customer_upload = false)
             $tmpFilePath = $_FILES['file']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES['file']['error'][$i])
+                if (_babil_upload_error($_FILES['file']['error'][$i])
                     || !_upload_extension_allowed($_FILES['file']['name'][$i])) {
                     continue;
                 }
@@ -1156,7 +1156,7 @@ function handle_pur_contract_file($id){
             $tmpFilePath = $_FILES['attachments']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES['attachments']['error'][$i])
+                if (_babil_upload_error($_FILES['attachments']['error'][$i])
                     || !_upload_extension_allowed($_FILES['attachments']['name'][$i])) {
                     continue;
                 }
@@ -1497,7 +1497,7 @@ function handle_pur_invoice_file($id) {
             $tmpFilePath = $_FILES['attachments']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES['attachments']['error'][$i])
+                if (_babil_upload_error($_FILES['attachments']['error'][$i])
                     || !_upload_extension_allowed($_FILES['attachments']['name'][$i])) {
                     continue;
                 }

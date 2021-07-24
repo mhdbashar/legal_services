@@ -461,12 +461,13 @@ $lang['leads_canban_notes'] = "ملاحظات: %s";
 $lang['leads_canban_source'] = "المصدر: %s";
 $lang['lead_new_source'] = "مصدر جديد";
 $lang['lead_sources'] = "مصادر العملاء المتوقعين";
+$lang['lead_link'] = "الرابط";
 $lang['lead_source'] = "مصدر العميل المتوقع";
 $lang['lead_source_lowercase'] = "lمصدر العميل المتوقع";
 $lang['leads_sources_not_found'] = "لم يتم العثور على مصادر عملاء متوقعين";
 $lang['leads_sources_table_name'] = "إسم المصدر";
 $lang['lead_new_status'] = "حالة عميل متوقع جديدة";
-$lang['lead_status'] = "حالة العميل المتوقع";
+$lang['lead_status'] = "الحالة";
 $lang['lead_status_lowercase'] = "حالة العميل المتوقع";
 $lang['leads_status_table_name'] = "اسم الحالة";
 $lang['leads_status_add_edit_name'] = "اسم الحالة";
@@ -482,6 +483,15 @@ $lang['leads_dt_status'] = "الحالة";
 $lang['leads_dt_last_contact'] = "أخر اتصال";
 $lang['lead_add_edit_name'] = "الأسم";
 $lang['lead_add_edit_email'] = "عنوان البريد الإلكتروني";
+$lang['lead_add_edit_header'] = 'عنوان رأس الصفحة';
+$lang['lead_add_edit_paragraph'] = 'الفقرة';
+$lang['lead_add_edit_file'] = 'تحميل ملف';
+$lang['lead_add_edit_text'] = 'نص';
+$lang['lead_add_edit_textarea'] = 'مساحة كتابة';
+$lang['lead_add_edit_select'] = 'قائمة منسدلة';
+$lang['lead_add_edit_checkbox_group'] = 'مجموعة إختيار متعدد';
+$lang['lead_add_edit_radio_group'] = 'مجموعة إختيار من متعدد';
+$lang['lead_add_edit_date'] = 'تاريخ';
 $lang['lead_add_edit_phonenumber'] = "رقم الهاتف";
 $lang['lead_add_edit_source'] = "المصدر";
 $lang['lead_add_edit_status'] = "الحالة";
@@ -815,6 +825,10 @@ $lang['lead_convert_to_client'] = "التحويل لعميل";
 $lang['lead_convert_to_email'] = "البريد الإلكتروني";
 $lang['lead_convert_to_client_firstname'] = "الأسم الاول";
 $lang['lead_convert_to_client_lastname'] = "الاسم الأخير";
+$lang['lead_email'] = "البريد الإلكتروني";
+$lang['lead_name'] = "الاسم";
+$lang['lead_assigned'] = "تعيين الى";
+$lang['lead_phone_number'] = "الهاتف";
 $lang['lead_email_already_exists'] = "البريد الإلكتروني للعميل المتوقع موجود بالفعل في بيانات العملاء";
 $lang['lead_to_client_base_converted_success'] = "تم التحويل لعميل بنجاح";
 $lang['lead_have_client_profile'] = "هذا العميل المتوقع لديه ملف عميل.";
@@ -2393,6 +2407,7 @@ $lang['lead_city'] = "المدينة";
 $lang['lead_state'] = "المنطقة";
 $lang['lead_country'] = "الدولة";
 $lang['lead_zip'] = "الرمز البريدي";
+$lang['lead_description'] = "الوصف";
 $lang['lead_is_public_yes'] = "نعم";
 $lang['lead_is_public_no'] = "لا";
 $lang['lead_info'] = "معلومات العميل المتوقع";
@@ -2499,6 +2514,7 @@ $lang['search_ajax_searching'] = "البحث ...";
 $lang['search_ajax_initialized'] = "ابدأ الكتابة للبحث";
 $lang['lead_description'] = "الوصف";
 $lang['lead_website'] = "الموقع الإلكتروني";
+$lang['lead_position'] = "المنصب";
 $lang['invoice_activity_auto_converted_from_estimate'] = "تم إنشاء الفاتورة تلقائيا من عرض السعر رقم %s";
 $lang['hour_of_day_perform_auto_operations'] = "الساعة من اليوم لأداء العمليات التلقائية";
 $lang['hour_of_day_perform_auto_operations_format'] = "تنسيق 24 ساعة مثال. 9 لـ 9 ص أو 15 لـ 3 م.";
@@ -3170,7 +3186,7 @@ $lang['lead_value']                         = 'قيمة العميل المحت�
 $lang['lead_value_tooltip']                 = 'سيتم استخدام العملة الأساسية.';
 $lang['leads_dt_lead_value']                = 'قيمة العميل المحتمل';
 $lang['leads_canban_lead_value']            = 'قيمة العميل المحتمل : %s ';
-$lang['lead_add_edit_lead_value']           = 'قيمة العميل المحتمل';
+$lang['lead_add_edit_lead_value']           = 'القيمة';
 
 # Version 2.6.0
 $lang['gantt_view_day'] = 'عرض الأيام';
@@ -3304,6 +3320,8 @@ $lang['task_checklist_assign'] = 'الموظف المعين';
 $lang['task_checklist_assigned'] = 'تخصيص إلى %s';
 
 $lang['sms_invoice_overdue_notice'] = "إشعار بفاتورة متأخرة";
+$lang['sms_invoice_due_notice'] = 'إشعار استحقاق الفاتورة';
+$lang['sms_trigger_when_invoice_due_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار استحقاق الفاتورة إلى جهات اتصال العميل.';
 $lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = "يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.";
 $lang['sms_invoice_payment_recorded'] = "تسجيل دفعة على الفاتورة";
 $lang['sms_trigger_when_invoice_payment_is_recorded'] = "يتم تشغيله عند تسجيل دفع الفاتورة.";

@@ -631,6 +631,22 @@ $(function() {
     //Disable manual typing in all datepicker
     $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
 
+    /* Insert new checklist items on enter press */
+    $("body").on('keypress', 'textarea[name="checklist-description-session"]', function (event) {
+        if (event.which == '13') {
+            var that = $(this);
+            update_session_checklist_item(that).done(function () {
+                add_session_checklist_item(that.attr('data-taskid'));
+            });
+            return false;
+        }
+    });
+
+    /* Update session checklist items when focusing out */
+    $("body").on('blur paste', 'textarea[name="checklist-description-session"]', function () {
+        update_session_checklist_item($(this));
+    });
+
 });
 
 $(document).on('show.bs.modal', '.modal', function () {
@@ -1148,11 +1164,6 @@ function make_session_public(task_id) {
     });
 }
 
-// Init session kan ban
-function sessions_kanban() {
-    init_kanban('legalservices/sessions/kanban', sessions_kanban_update, '.tasks-status', 265, 360);
-}
-
 // Updates session when action performed form kan ban area eq status changed.
 function sessions_kanban_update(ui, object) {
     if (object === ui.item.parent()[0]) {
@@ -1268,7 +1279,7 @@ function edit_session_inline_description(e, id) {
     tinymce.init({
         selector: '#task_view_description',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         contextmenu: "link table paste pastetext",
@@ -1471,7 +1482,7 @@ function edit_session_inline_court_decision(e, id) {
     tinymce.init({
         selector: '#court_decision',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',
@@ -1510,7 +1521,7 @@ function edit_session_inline_session_information(e, id) {
     tinymce.init({
         selector: '#session_information',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',
@@ -1580,4 +1591,53 @@ function init_rel_sessions_table(rel_id, rel_type, selector) {
     }
 
     initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
+}
+
+// New session checklist items template
+function save_checklist_item_template_session(id, field) {
+    var description = $('.checklist[data-checklist-id="' + id + '"] textarea').val();
+    $.post(admin_url + 'legalservices/sessions/save_checklist_item_template', {
+        description: description
+    }).done(function (response) {
+        response = JSON.parse(response);
+        $(field).addClass('hide');
+        var singleChecklistTemplate = $('.checklist-templates-wrapper');
+        singleChecklistTemplate.find('select option[value=""]').after('<option value="' + response.id + '">' + description.trim() + '</option>');
+        singleChecklistTemplate.removeClass('hide');
+        singleChecklistTemplate.find('select').selectpicker('refresh');
+    });
+}
+
+function update_session_checklist_item(textArea) {
+    var deferred = $.Deferred();
+    setTimeout(function () {
+        var description = textArea.val();
+        description = description.trim();
+        var listid = textArea.parents('.checklist').data('checklist-id');
+
+        $.post(admin_url + 'legalservices/sessions/update_checklist_item', {
+            description: description,
+            listid: listid
+        }).done(function (response) {
+            deferred.resolve();
+            response = JSON.parse(response);
+            if (response.can_be_template === true) {
+                textArea.parents('.checklist').find('.save-checklist-template').removeClass('hide');
+            }
+            if (description === '') {
+                $('#checklist-items').find('.checklist[data-checklist-id="' + listid + '"]').remove();
+            }
+        });
+    }, 300);
+    return deferred.promise();
+}
+
+// Remove session checklist item from the session
+function delete_checklist_item_session(id, field) {
+    requestGetJSON('legalservices/sessions/delete_checklist_item/' + id).done(function (response) {
+        if (response.success === true || response.success == 'true') {
+            $(field).parents('.checklist').remove();
+            recalculate_checklist_items_progress();
+        }
+    });
 }

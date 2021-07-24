@@ -182,6 +182,14 @@ class Legal_procedures_model extends App_Model
             unset($data['action']);
         }
 
+        if (isset($data['service_type_id'])) {
+            unset($data['service_type_id']);
+        }
+        
+        if (isset($data['service_id'])) {
+            unset($data['service_id']);
+        }
+
         $data['dateadded'] = date('Y-m-d H:i:s');
 
         if ($client == false) {

@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo render_input('settings[sessions_kanban_limit]','sessions_kanban_limit',get_option('sessions_kanban_limit'),'number'); ?>
+<?php echo render_input('settings[sessions_kanban_limit]','sessions_kanban_limit',get_option('tasks_kanban_limit'),'number'); ?>
 <hr />
 <?php echo render_yes_no_option('show_all_sessions_for_project_member','show_all_sessions_for_project_member'); ?>
 <hr />

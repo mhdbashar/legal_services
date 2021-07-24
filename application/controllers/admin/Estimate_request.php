@@ -385,12 +385,24 @@ class Estimate_request extends AdminController
         $predefinedFields = [];
 
         $fields = [
-            'email' => 'Email',
+            'header' => _l('lead_add_edit_header'),
+            'paragraph' => _l('lead_add_edit_paragraph'),
+            'file' => _l('lead_add_edit_file'),
+            'email' => _l('lead_add_edit_email'),
+            'text' => _l('lead_add_edit_text'),
+            'textarea' => _l('lead_add_edit_textarea'),
+            'select' => _l('lead_add_edit_select'),
+            'checkbox-group' => _l('lead_add_edit_checkbox_group'),
+            'radio-group' => _l('lead_add_edit_radio_group'),
+            'date' => _l('lead_add_edit_date')
         ];
 
         $className = 'form-control';
 
         foreach ($fields as $field => $label) {
+//            echo "<pre>";
+//            print_r($label);
+//            exit;
             $_field_object = new stdClass();
             $type          = 'text';
             $subtype       = '';

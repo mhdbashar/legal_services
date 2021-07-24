@@ -62,7 +62,7 @@
                 if(data == 1){
                     alert_float('success', '<?php echo _l('Done'); ?>');
                 }else {
-                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                    alert_float('danger', '<?php echo _l('Faild'); ?>');
                 }
             }
         });

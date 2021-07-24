@@ -669,9 +669,9 @@ function get_recruitment_option($name)
 function handle_company_attachments($id)
 {
 
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     $path = RECRUITMENT_COMPANY_UPLOAD . $id . '/';

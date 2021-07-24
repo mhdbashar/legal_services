@@ -52,7 +52,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                     <div id="kanban-params">
                                         <?php echo form_hidden('project_id',$this->input->get('project_id')); ?>
                                     </div>
-                                    <div class="container-fluid">
+                                    <div class="container-fluid" style="width: 100%">
                                         <div id="kan-ban"></div>
                                     </div>
                                 </div>
@@ -139,12 +139,17 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
 <?php init_tail(); ?>
 <script>
     taskid = '<?php echo $taskid; ?>';
+    rel_type =  '<?php echo isset($rel_type) ? $rel_type : ''; ?>';
     $(function(){
         sessions_kanban();
-
         initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
         initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
     });
+
+    // Init session kan ban
+    function sessions_kanban() {
+        init_kanban('legalservices/sessions/kanban_for_legalservices/'+rel_type, sessions_kanban_update, '.tasks-status', 265, 360);
+    }
 
     function print_session_report(task_id) {
         disabled_print_btn(task_id);
@@ -198,7 +203,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                 }else if (data == 2){
                     alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                 }else {
-                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                    alert_float('danger', '<?php echo _l('Faild'); ?>');
                 }
             }
         });
@@ -235,7 +240,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                     }else if (data == 'error_opponent'){
                         alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

@@ -40,7 +40,7 @@
                            $editors = array();
                            array_push($editors,'message['.$template->emailtemplateid.']');
                            ?>
-                        <h4 class="bold font-medium">English</h4>
+                        <h4 class="bold font-medium">Arabic</h4>
                         <p class="bold"><?php echo _l('email_template_email_message'); ?></p>
                         <?php echo render_textarea('message['.$template->emailtemplateid.']','',$template->message,array('data-url-converter-callback'=>'myCustomURLConverter'),array(),'','tinymce tinymce-manual'); ?>
                         <?php foreach($available_languages as $availableLanguage){

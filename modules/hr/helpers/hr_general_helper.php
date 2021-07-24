@@ -40,9 +40,9 @@ function get_insurance_types_relation_data($book_num) {
  */
 function handle_hr_contract_attachment($id)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {

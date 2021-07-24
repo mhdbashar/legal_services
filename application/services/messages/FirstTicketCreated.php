@@ -17,6 +17,6 @@ class FirstTicketCreated extends AbstractPopupMessage
 
     public function getMessage(...$params)
     {
-        return 'First Ticket Created! <br /> <span style="font-size:26px;">Did you know that you can embed Ticket Form (Setup->Settings->Support->Ticket Form) directly in your websites?</span>';
+        return _l('first_ticket_created_alert');
     }
 }

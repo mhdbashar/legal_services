@@ -633,3 +633,12 @@ function is_session_created_by_staff($taskId, $staffId = null)
         
     return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
 }
+
+function session_statuses()
+{
+    $session_statuses = array(
+        ['name' => 'previous', 'id' => 4, 'color' => '#989898'],
+        ['name' => 'waiting', 'id' => 4, 'color' => '#03A9F4']
+    );
+    return $session_statuses;
+}

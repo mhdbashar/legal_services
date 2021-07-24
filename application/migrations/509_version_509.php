@@ -38,5 +38,10 @@ class Migration_Version_509 extends CI_Migration
         update_option('invoice_company_name', 'Babil INC');
 
         update_option('_v283_update_clients_theme', active_clients_theme());
+
+        @rename(APPPATH . 'views/themes/perfex', APPPATH . 'views/themes/babil');
+        @rename('assets/themes/perfex','assets/themes/babil');
+
+
     }
 }

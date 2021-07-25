@@ -73,6 +73,7 @@ function set_senders_options($data)
 {
 
     if(isset($data['settings']['receive_sms_token'])){
+        $settings = $data['settings'];
 
         unset($data['settings']);
         $senders = [];
@@ -85,6 +86,7 @@ function set_senders_options($data)
         }else{
             add_option('sms_senders',json_encode($senders));
         }
+        return ['settings' => $settings];
     }else{
         return $data;
     }

@@ -862,7 +862,7 @@ class Clients extends AdminController
             access_denied('Customer Groups');
         }
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_customers_company_groups');
+            $this->app->get_table_data('customers_company_groups');
         }
         $data['title'] = _l('customer_company_groups');
         $this->load->view('admin/clients/company_groups_manage', $data);

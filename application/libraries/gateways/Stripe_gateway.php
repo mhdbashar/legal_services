@@ -8,9 +8,6 @@ class Stripe_gateway extends App_gateway
 
     public function __construct()
     {
-        //Disable payment gateway
-        return false;
-
         $this->webhookEndPoint = site_url('gateways/stripe/webhook_endpoint');
 
         /**

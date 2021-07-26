@@ -456,22 +456,17 @@ function my_get_cities($country_id = '')
 function admin_assets()
 {
     $CI = &get_instance();
-
     $CI->app_css->add('bootstrap-datetimepicker-css', 'assets/css/bootstrap-datetimepicker.css');
     $CI->app_css->add('bootstrap4-toggle-css', 'assets/css/bootstrap4-toggle.css');
     $CI->app_scripts->add('bootstrap4-toggle-js', 'assets/js/bootstrap4-toggle.min.js');
     $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
-//    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js'); // ddd
     $CI->app_scripts->add('moment-with-data-js', 'assets/js/moment-with-data.js');
-//    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js'); // ddd
-//    $CI->app_scripts->add('moment-hijri-js', 'https://raw.githubusercontent.com/xsoh/moment-hijri/master/moment-hijri.js');
     $CI->app_scripts->add('moment-hijri-js', 'assets/js/moment-hijri.js');
     $CI->app_scripts->add('bootstrap-hijri-datetimepicker-js', 'assets/js/bootstrap-hijri-datetimepicker.js');
-//  $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
-    $CI->app_scripts->add(
-        'custom-js',
-        base_url($CI->app_scripts->core_file('assets/js', 'custom.js')) . '?v=' . $CI->app_css->core_version(),
-    );
+    $CI->app_scripts->add('custom-js',base_url($CI->app_scripts->core_file('assets/js', 'custom.js')) . '?v=' . $CI->app_css->core_version());
+    //$CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js');
+    //$CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js');
+    //$CI->app_scripts->add('moment-hijri-js', 'https://raw.githubusercontent.com/xsoh/moment-hijri/master/moment-hijri.js');
 }
 
 function to_AD_date($date)

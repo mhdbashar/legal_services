@@ -15,7 +15,7 @@ $aColumns = array_merge($aColumns, [
     'company',
     db_prefix() . 'contacts.phonenumber as phonenumber',
     'title',
-    'last_login',
+    //'last_login',
     db_prefix() . 'contacts.active as active',
 ]);
 
@@ -101,7 +101,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['title'];
 
-    $row[] = (!empty($aRow['last_login']) ? '<span class="text-has-action is-date" data-toggle="tooltip" data-title="' . _dt($aRow['last_login']) . '">' . time_ago($aRow['last_login']) . '</span>' : '');
+    //$row[] = (!empty($aRow['last_login']) ? '<span class="text-has-action is-date" data-toggle="tooltip" data-title="' . _dt($aRow['last_login']) . '">' . time_ago($aRow['last_login']) . '</span>' : '');
 
     $outputActive = '<div class="onoffswitch">
                 <input type="checkbox"' . ($aRow['registration_confirmed'] == 0 ? ' disabled' : '') . ' data-switch-url="' . admin_url() . 'clients/change_contact_status" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '"' . ($aRow['active'] == 1 ? ' checked': '') . '>

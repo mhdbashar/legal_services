@@ -400,9 +400,6 @@ class Estimate_request extends AdminController
         $className = 'form-control';
 
         foreach ($fields as $field => $label) {
-//            echo "<pre>";
-//            print_r($label);
-//            exit;
             $_field_object = new stdClass();
             $type          = 'text';
             $subtype       = '';

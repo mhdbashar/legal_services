@@ -41,6 +41,8 @@ class Migration_Version_509 extends CI_Migration
 
         @rename(APPPATH . 'views/themes/perfex', APPPATH . 'views/themes/babil');
         @rename('assets/themes/perfex','assets/themes/babil');
+        @rename('assets/plugins/tinymce/skins/perfex','assets/plugins/tinymce/skins/babil');
+        @rename('modules/account_planning/assets/plugins/tinymce/skins/perfex','modules/account_planning/assets/plugins/tinymce/skins/babil');
 
 
     }

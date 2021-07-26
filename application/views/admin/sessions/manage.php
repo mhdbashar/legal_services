@@ -28,9 +28,9 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                 <?php if(has_permission('sessions','','create')){ ?>
                                     <a href="#" onclick="new_session(<?php if($this->input->get('project_id')){ echo "'".admin_url('legalservices/sessions/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_session'); ?></a>
                                 <?php } ?>
-                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('legalservices/sessions/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
+                                <?php /*<a href="<?php if(!$this->input->get('project_id')){ echo admin_url('legalservices/sessions/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
                                     <?php if($switch_kanban == 1){ echo _l('switch_to_list_view');}else{echo _l('leads_switch_to_kanban');}; ?>
-                                </a>
+                                </a>*/ ?>
                             </div>
                             <div class="col-md-4">
                                 <?php if($this->session->has_userdata('tasks_kanban_view') && $this->session->userdata('tasks_kanban_view') == 'true') { ?>

@@ -13,7 +13,7 @@ class Stripe_ideal_gateway extends App_gateway
     public function __construct()
     {
         //Disable payment gateway
-        //return false;
+        return false;
 
         $this->webhookEndPoint = site_url('gateways/stripe_ideal/webhook');
 

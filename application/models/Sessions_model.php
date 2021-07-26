@@ -258,7 +258,7 @@ class Sessions_model extends App_Model
 
     public function get_distinct_tasks_years($get_from)
     {
-        $hijriStatus= get_option('isHijri');
+        /*$hijriStatus= get_option('isHijri');
         if($hijriStatus == 'on'){
             $hijri_years = [];
             $ad_years = $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
@@ -273,7 +273,7 @@ class Sessions_model extends App_Model
                 }
             }
             return $hijri_years;
-        }
+        }*/
         return $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
     }
 

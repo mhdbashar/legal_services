@@ -606,3 +606,12 @@ textarea[name="checklist-description-session"]:disabled {
     color: #212121;
     opacity: 1;
 }
+
+.toggle-group .btn{
+    font-size: 13px !important;
+    right: auto !important;
+}
+
+.toggle.btn {
+    min-width: 8.7rem !important;
+}

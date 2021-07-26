@@ -138,7 +138,7 @@ body #frame #no_messages {
 }
 
 #frame .dropdown-menu {
-    left: -123px;
+    right: -123px;
     min-width: 166px;
 }
 

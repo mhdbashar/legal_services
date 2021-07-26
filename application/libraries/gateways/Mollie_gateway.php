@@ -10,6 +10,9 @@ class Mollie_gateway extends App_gateway
     public function __construct()
     {
 
+        //Disable payment gateway
+        return false;
+
          /**
          * Call App_gateway __construct function
          */

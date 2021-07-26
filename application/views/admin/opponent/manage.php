@@ -43,8 +43,8 @@
                             <?php if (has_permission('customers','','create')) { ?>
                                 <a href="<?php echo admin_url('opponents/client'); ?>" class="btn btn-info mright5 test pull-left display-block">
                                     <?php echo _l('new_opponent'); ?></a>
-                                <a href="<?php echo admin_url('opponents/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
-                                    <?php echo _l('import_opponent'); ?></a>
+                               <?php /* <a href="<?php echo admin_url('opponents/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
+                                    <?php echo _l('import_opponent'); ?></a>*/?>
                             <?php } ?>
                             <a href="<?php echo admin_url('opponents/all_contacts'); ?>" class="btn btn-info pull-left display-block mright5">
                                 <?php echo _l('customer_contacts'); ?></a>

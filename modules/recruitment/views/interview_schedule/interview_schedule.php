@@ -16,7 +16,7 @@
                   <?php if (has_permission('recruitment', '', 'create') || is_admin()) {?>
                   <a href="#" onclick="new_interview_schedule(); return false;" class="btn btn-info pull-left display-block"><?php echo _l('new_interview_schedule'); ?></a>
                   <?php }?>
-                  
+
                   <?php if (has_permission('recruitment', '', 'view') || is_admin()) {?>
                   <a href="<?php echo admin_url('recruitment/calendar_interview_schedule'); ?>" class="btn btn-default pull-left display-block mleft5"><?php echo _l('calendar_view'); ?></a>
                   <?php }?>
@@ -29,7 +29,7 @@
                   <?php render_datatable(array(
 
 	_l('interview_schedules_name'),
-	_l('time'),
+	_l('rec_time'),
 	_l('interview_day'),
 	_l('recruitment_campaign'),
 	_l('candidate'),
@@ -82,29 +82,31 @@
 
                     </div>
                     <div class="col-md-4">
-                      
+
                       <div class="form-group">
                        <label for="position"><?php echo _l('position'); ?></label>
                         <select name="position" id="position" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
                           <option value=""></option>
                             <?php foreach ($positions as $p) {?>
-                              <option value="<?php echo html_entity_decode($p['position_id']); ?>"><?php echo html_entity_decode($p['position_name'] ); ?></option>
+                              <option value="<?php echo html_entity_decode($p['position_id']); ?>"><?php echo html_entity_decode($p['position_name']); ?></option>
                               <?php }?>
 
                         </select>
                       </div>
 
-                    </div>  
+                    </div>
 
                     <div class="col-md-4">
                       <?php echo render_date_input('interview_day', 'interview_day'); ?>
                     </div>
                     <div class="col-md-4">
-                      <?php echo render_datetime_input('from_time', 'from_time') ?>
+                      <?php echo render_input('from_time', 'from_time', '', 'time'); ?>
+
                     </div>
 
                     <div class="col-md-4">
-                        <?php echo render_datetime_input('to_time', 'to_time') ?>
+                        <?php echo render_input('to_time', 'to_time', '', 'time'); ?>
+
                     </div>
 
                     <div class="col-md-12 form-group">
@@ -138,7 +140,8 @@
                           <select name="candidate[0]" onchange="candidate_infor_change(this); return false;" id="candidate[0]" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" required>
                               <option value=""></option>
                               <?php foreach ($candidates as $s) {?>
-                              <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name']); ?></option>
+                                <?php echo var_dump($candidates); ?>
+                              <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name'] . ' ' . $s['last_name']); ?></option>
                                 <?php }?>
                           </select>
                         </div>

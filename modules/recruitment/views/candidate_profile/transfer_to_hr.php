@@ -3,7 +3,7 @@
 <div id="wrapper">
  <div class="content">
  	<?php echo form_hidden('cd_id',$candidate->id); ?>
- 	<?php echo form_open_multipart(admin_url('recruitment/transfer_hr/'.$candidate->id),array('class'=>'transfer-form','autocomplete'=>'off')); ?>
+ 	<?php echo form_open(admin_url('recruitment/transfer_hr/'.$candidate->id),array('class'=>'transfer-form','autocomplete'=>'off')); ?>
     <div class="col-md-8 col-md-offset-2" id="small-table">
    <div class="panel_s">
      <div class="panel-body">
@@ -24,21 +24,31 @@
        <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="tab_staff_profile">          	
           	<div class="row">
-	          	<div class="col-md-6">
+	          	<div class="col-md-12">
 	          		<?php $attrs = (isset($candidate) ? array() : array('autofocus'=>true)); ?>
-	             	<?php echo render_input('staff_identifi','identification','','text',$attrs); ?>
+	          		<?php $staff_identifi = $staff_code ?>
+	             	<?php echo render_input('staff_identifi','re_staff_code', $staff_identifi,'text',$attrs); ?>
 	          	</div>
-
 	            
-	            <div class="col-md-6">
-	             <?php $value = (isset($candidate) ? $candidate->candidate_name : ''); ?>
-	             <?php $attrs = (isset($candidate) ? array() : array('autofocus'=>true)); ?>
-	             <?php echo render_input('firstname','full_name',$value,'text',$attrs); ?>  
-	         	</div>
             </div>
             <div class="row">
 	            <div class="col-md-6">
-	             <?php echo render_input('email','staff_add_edit_email','','email',array('autocomplete'=>'off')); ?>
+	             <?php $value = (isset($candidate) ? $candidate->candidate_name : ''); ?>
+	             <?php $attrs = (isset($candidate) ? array() : array('autofocus'=>true)); ?>
+	             <?php echo render_input('firstname','first_name',$value,'text',$attrs); ?>  
+	         	</div>
+
+	         	<div class="col-md-6">
+	             <?php $last_name = (isset($candidate) ? $candidate->last_name : ''); ?>
+	             <?php $attrs = (isset($candidate) ? array() : array('autofocus'=>true)); ?>
+	             <?php echo render_input('lastname','last_name',$last_name,'text',$attrs); ?>  
+	         	</div>
+            	
+            </div>
+            <div class="row">
+	            <div class="col-md-6">
+	            	<?php $email = isset($candidate) ? $candidate->email : ''; ?>
+	             <?php echo render_input('email','staff_add_edit_email', $email,'email',array('autocomplete'=>'off')); ?>
 	            </div>
 	             
 	            <div class="col-md-6">
@@ -131,18 +141,21 @@
              <input type="password" class="form-control password hide" name="password" value="123456a@" autocomplete="off">
 
              <?php if(get_option('disable_language') == 0){ ?>
-             <div class="form-group select-placeholder row col-md-12">
-                <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?><i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i></label>
-                <select name="default_language" data-live-search="true" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                   <option value=""><?php echo _l('system_default_string'); ?></option>
-                   <?php foreach($this->app->get_available_languages() as $availableLanguage){
-                      $selected = '';
-                      
-                      ?>
-                   <option value="<?php echo html_entity_decode($availableLanguage); ?>" <?php echo html_entity_decode($selected); ?>><?php echo ucfirst($availableLanguage); ?></option>
-                   <?php } ?>
-                </select>
-             </div>
+             	<div class="row">
+             		<div class="form-group select-placeholder col-md-12">
+             			<label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?><i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i></label>
+             			<select name="default_language" data-live-search="true" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+             				<option value=""><?php echo _l('system_default_string'); ?></option>
+             				<?php foreach($this->app->get_available_languages() as $availableLanguage){
+             					$selected = '';
+
+             					?>
+             					<option value="<?php echo html_entity_decode($availableLanguage); ?>" <?php echo html_entity_decode($selected); ?>><?php echo ucfirst($availableLanguage); ?></option>
+             				<?php } ?>
+             			</select>
+             		</div>
+             	</div>
+
              <?php } ?>
           </div>
           <div role="tabpanel" class="tab-pane" id="staff_permissions">
@@ -170,7 +183,7 @@
 
         </div>
         <div class=" text-right btn-toolbar-container-out">
-             <button type="submit" onclick="action_transfer_hr()" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('transfer'); ?></button>
+             <button type="submit" onclick="action_transfer_hr()"  class="btn btn-info"><?php echo _l('transfer'); ?></button>
         </div>
         <?php echo form_close(); ?>
      </div>

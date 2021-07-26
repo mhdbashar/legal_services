@@ -1,0 +1,8 @@
+[08-Jul-2021 23:32:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _l() in /home/babillawnet/public_html/portal/modules/hr/assets/js/hr_record/includes/importxlsx_js.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/babillawnet/public_html/portal/modules/hr/assets/js/hr_record/includes/importxlsx_js.php on line 10
+[08-Jul-2021 23:41:10 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _l() in /home/babillawnet/public_html/portal/modules/hr/assets/js/hr_record/includes/importxlsx_js.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/babillawnet/public_html/portal/modules/hr/assets/js/hr_record/includes/importxlsx_js.php on line 10

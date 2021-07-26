@@ -4,16 +4,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: وحدة التوظيف
 Description: بوابة إدارة عمليات التوظيف في المنشأة
-Version: 1.1.5
+Version: 1.1.6
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://www.babiltec.com
- */
+*/
 
 define('RECRUITMENT_MODULE_NAME', 'recruitment');
 define('RECRUITMENT_MODULE_UPLOAD_FOLDER', module_dir_path(RECRUITMENT_MODULE_NAME, 'uploads'));
 define('RECRUITMENT_PATH', 'modules/recruitment/uploads/');
 define('RECRUITMENT_COMPANY_UPLOAD', module_dir_path(RECRUITMENT_MODULE_NAME, 'uploads/company_images/'));
+define('TEMFOLDER_EXPORT_CANDIDATE', module_dir_path(RECRUITMENT_MODULE_NAME, 'uploads/export_candidate/'));
+define('CANDIDATE_IMAGE_UPLOAD', module_dir_path(RECRUITMENT_MODULE_NAME, 'uploads/candidate/avartar/'));
+
 
 
 hooks()->add_action('admin_init', 'recruitment_permissions');
@@ -21,11 +24,12 @@ hooks()->add_action('app_admin_head', 'recruitment_head_components');
 hooks()->add_action('app_admin_footer', 'recruitment_add_footer_components');
 hooks()->add_action('admin_init', 'recruitment_module_init_menu_items');
 
-// hooks()->add_action('customers_navigation_start', 'recruitment_portal_menu_item');
 hooks()->add_action('app_customers_portal_head', 'recruitment_portal_add_head_components');
 hooks()->add_action('app_customers_portal_footer', 'recruitment_portal_add_footer_components');
 hooks()->add_action('forms_head', 'forms_add_head_components');
 hooks()->add_action('forms_footer', 'forms_add_footer_components');
+
+define('RE_REVISION', 116);
 
 /**
  * Register activation module hook
@@ -151,41 +155,41 @@ function recruitment_head_components() {
 	$CI = &get_instance();
 	$viewuri = $_SERVER['REQUEST_URI'];
 	if (!(strpos($viewuri, '/admin/recruitment') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/styles.css') . '"  rel="stylesheet" type="text/css" />';	
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/styles.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';	
 	}	
 	if (!(strpos($viewuri, '/admin/recruitment/dashboard') === false)) {	
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/dashboard.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/dashboard.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/candidates') === false)) {	
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/candidate') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate_detail.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate_detail.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/setting.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/setting.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/interview_schedule') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/interview_schedule_preview.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/interview_schedule_preview.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_campaign') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/campaign_preview.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/campaign_preview.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/candidate_profile') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate_profile.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/candidate_profile.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_proposal') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_campaign') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=company') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/company.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/company.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_portal/job_detail') === false)) {
-		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') . '"  rel="stylesheet" type="text/css" />';
+		echo '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/recruitment_proposal.css') .'?v=' . RE_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	
 }
@@ -197,6 +201,11 @@ function recruitment_head_components() {
 function recruitment_add_footer_components() {
 	$CI = &get_instance();
 	$viewuri = $_SERVER['REQUEST_URI'];
+
+	if (!(strpos($viewuri, '/admin/recruitment') === false)) {
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/deactivate_hotkey.js') .'?v=' . RE_REVISION.'"></script>';
+	}
+
 	if (!(strpos($viewuri, '/admin/recruitment/dashboard') === false)) {	
 		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/plugins/highcharts/highcharts.js') . '"></script>';
 		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/plugins/highcharts/modules/variable-pie.js') . '"></script>';
@@ -206,75 +215,62 @@ function recruitment_add_footer_components() {
 		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/plugins/highcharts/highcharts-3d.js') . '"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_proposal') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/proposal.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/proposal.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/candidates') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/candidate.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/candidate.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/candidate_profile') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/candidate_profile.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/candidate_profile.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/transfer_to_hr') === false)) {
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/transferhr.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/transferhr.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=evaluation_criteria') === false)) {		
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/evaluation_criteria.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/evaluation_criteria.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=evaluation_form') === false)) {		
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/evaluation_form.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/evaluation_form.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=job_position') === false) || !(strpos($viewuri, '/admin/recruitment/setting') === false)) {		
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/job_position.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/job_position.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=tranfer_personnel') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/tranfer_personnel.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/tranfer_personnel.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/interview_schedule') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/interview_schedule.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/interview_schedule.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_campaign') === false)) {		
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/campaign.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/campaign.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_campaign') === false)) {
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/recruitment_channel') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/channel.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/channel.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/calendar_interview_schedule') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/interview_schedule.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/interview_schedule.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=skills') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/skill.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/skill.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=recruitment_campaign_setting') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/recruitment_campaign_setting.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/recruitment_campaign_setting.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 
 	if (!(strpos($viewuri, '/admin/recruitment/setting?group=industry_list') === false)) {	
-		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/industry.js') . '"></script>';
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/industry.js') .'?v=' . RE_REVISION.'"></script>';
+	}
+
+	if (!(strpos($viewuri, '/recruitment_portal/job_detail') === false)) {	
+		echo '<script src="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/js/job_detail_portal.js') .'?v=' . RE_REVISION.'"></script>';
 	}
 	
 
 }
 
-/**
- * recruitment portal menu item
- * 
- *       
- */
-// function recruitment_portal_menu_item()
-// {
-	// $item ='';
-
-	// $item .= '<li class="customers-nav-item">';
- //                  $item .= '<a href="'.site_url('recruitment/recruitment_portal').'">'._l("recruitment_portal").'';        
- //                  $item .= '</a>';
- //               $item .= '</li>';
-
- //    echo html_entity_decode($item);
-
-// }
 
 /**
  * recruitment portal add head components

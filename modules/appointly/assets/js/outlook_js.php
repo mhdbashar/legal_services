@@ -95,7 +95,7 @@
                loginButton.setAttribute('onclick', 'outlookSignOut();');
                loginButton.setAttribute('data-toggle', 'tooltip');
                loginButton.setAttribute('title', "<?= _l('appointments_outlook_revoke'); ?>");
-               loginButton.insertAdjacentHTML('afterBegin', ' <i class="fa fa-envelope fixLine" aria-hidden="true"></i>');
+               loginButton.insertAdjacentHTML('afterBegin', '<i class="fa fa-envelope fixLine" aria-hidden="true"></i>');
           } else {
                loginButton.innerHTML = "<?= _l('appointment_logout_from_outlook'); ?>";
           }

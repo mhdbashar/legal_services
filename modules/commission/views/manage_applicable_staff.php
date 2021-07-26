@@ -23,7 +23,8 @@
             <div class="col-md-3">
               <?php $commission_policy_type = [ 0 => ['id' => '1', 'name' => _l('calculated_as_ladder')],
                                               1 => ['id' => '2', 'name' => _l('calculated_as_percentage')],
-                                              2 => ['id' => '3', 'name' => _l('calculated_by_the_product')]];
+                                              2 => ['id' => '3', 'name' => _l('calculated_by_the_product')],
+                                             3 => ['id' => '4', 'name' => _l('calculated_product_as_ladder')]];
               echo render_select('commission_policy_type', $commission_policy_type, array('id', 'name'), 'commission_policy_type', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
             </div>
             <div class="col-md-3">

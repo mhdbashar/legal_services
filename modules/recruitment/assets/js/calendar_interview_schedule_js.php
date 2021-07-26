@@ -2,8 +2,14 @@
 (function($) {
 "use strict";
 
-    $('#start_time').datetimepicker();
-    $('#end_time').datetimepicker();
+    $('#from_time').datetimepicker({
+        datepicker: false,
+        format: 'H:i'
+      });
+      $('#to_time').datetimepicker({
+        datepicker: false,
+        format: 'H:i'
+      });
 
     if(get_url_param('eventid')) {
     	view_event(get_url_param('eventid'));
@@ -27,7 +33,7 @@
     if (calendar_selector.length > 0) {
         validate_calendar_form();
         var calendar_settings = {
-            themeSystem: 'bootstrap3',
+            //themeSystem: 'bootstrap3',
             customButtons: {},
             header: {
                 left: 'prev,next today',
@@ -35,73 +41,94 @@
                 right: 'month,agendaWeek,agendaDay,viewFullCalendar,calendarFilter'
             },
             editable: false,
-            eventLimit: parseInt(app.options.calendar_events_limit) + 1,
+            dayMaxEventRows: parseInt(app.options.calendar_events_limit) + 1,
 
             views: {
                 day: {
                     eventLimit: false
                 }
             },
-            defaultView: app.options.default_view_calendar,
-            isRTL: (isRTL == 'true' ? true : false),
+            direction: (isRTL == 'true' ? 'rtl' : 'ltr'),
             eventStartEditable: false,
-            timezone: app.options.timezone,
             firstDay: parseInt(app.options.calendar_first_day),
-            year: moment.tz(app.options.timezone).format("YYYY"),
-            month: moment.tz(app.options.timezone).format("M"),
-            date: moment.tz(app.options.timezone).format("DD"),
-            loading: function(isLoading, view) {
-                isLoading && $('#calendars .fc-header-toolbar .btn-default').addClass('btn-info').removeClass('btn-default').css('display', 'block');
+            initialView: app.options.default_view_calendar,
+            timeZone: app.options.timezone,
+            loading: function (isLoading, view) {
                 !isLoading ? $('.dt-loader').addClass('hide') : $('.dt-loader').removeClass('hide');
             },
-            eventSources: [{
-                url: admin_url + 'recruitment/get_calendar_interview_schedule_data',
-                data: function() {
-                    var params = {};
-                    $('#calendar_filters').find('input:checkbox:checked').map(function() {
+            eventSources: [function(info, successCallback, failureCallback){
+                var params = {};
+                  $('#calendar_filters').find('input:checkbox:checked').map(function () {
                         params[$(this).attr('name')] = true;
                     }).get();
+
                     if (!jQuery.isEmptyObject(params)) {
                         params['calendar_filters'] = true;
                     }
-                    return params;
-                },
-                type: 'POST',
-                error: function() {
-                    console.error('There was error fetching calendar data');
-                },
-            }, ],
-            eventLimitClick: function(cellInfo, jsEvent) {
-                $('#calendars').fullCalendar('gotoDate', cellInfo.date);
-                $('#calendars').fullCalendar('changeView', 'basicDay');
+
+                return $.getJSON(admin_url + 'recruitment/get_calendar_interview_schedule_data', $.extend({}, params, {
+                    start: info.startStr,
+                    end: info.endStr,
+                })).then(function(data){
+                    successCallback(data.map(function(e){
+                        return $.extend( {}, e, {
+                            start: e.start || e.date,
+                            end: e.end || e.date
+                        });
+                    }));
+                });
+            }],
+            moreLinkClick: function (info) {
+                calendar.gotoDate( info.date )
+                calendar.changeView('dayGridDay');
+
+                setTimeout(function(){
+                    $('.fc-popover-close').click();
+                }, 250)
             },
-            eventRender: function(event, element) {
-                element.attr('title', event._tooltip);
-                element.attr('onclick', event.onclick);
-                element.attr('data-toggle', 'tooltip');
-                if (!event.url) {
-                    element.click(function() { view_event(event.eventid); });
+
+           eventDidMount: function (data) {
+                var $el = $(data.el);
+                $el.attr('title', data.event.extendedProps._tooltip);
+                $el.attr('onclick', data.event.extendedProps.onclick);
+                $el.attr('data-toggle', 'tooltip');
+                if (!data.event.extendedProps.url) {
+                    $el.on('click', function(){
+                        view_event(data.event.extendedProps.eventid);
+                    });
                 }
             },
-            dayClick: function(date, jsEvent, view) {
-                var d = date.format();
-                if (!$.fullCalendar.moment(d).hasTime()) {
-                    d += ' 00:00';
+            dateClick: function (info) {
+                if (info.dateStr.length <= 10) { // has not time
+                    info.dateStr += ' 00:00';
                 }
-                var vformat = (app.options.time_format == 24 ? app.options.date_format + ' H:i' : app.options.date_format + ' g:i A');
+
                 var fmt = new DateFormatter();
-                var d1 = fmt.formatDate(new Date(d), vformat);
+                var vformat = (app.options.time_format == 24 ? app.options.date_format + ' H:i' : app.options.date_format + ' g:i A');
+                var d1 = fmt.formatDate(new Date(info.dateStr), vformat);
                 $("input[name='interview_day'].datetimepicker").val(d1);
                 $('#interview_schedules_modal').modal('show');
+                $('.add-title').removeClass('hide');
+                $('.edit-title').addClass('hide');
+                $('#from_time').datetimepicker({
+                    datepicker: false,
+                    format: 'H:i'
+                  });
+                  $('#to_time').datetimepicker({
+                    datepicker: false,
+                    format: 'H:i'
+                  });
                 return false;
             }
         };
-       
+
 
         if (app.user_is_staff_member == 1) {
+
             if (app.options.google_api !== '') {
                 calendar_settings.googleCalendarApiKey = app.options.google_api;
             }
+
             if (app.calendarIDs !== '') {
                 app.calendarIDs = JSON.parse(app.calendarIDs);
                 if (app.calendarIDs.length != 0) {
@@ -118,7 +145,9 @@
             }
         }
         // Init calendar
-        calendar_selector.fullCalendar(calendar_settings);
+        var calendar = new FullCalendar.Calendar(calendar_selector[0], calendar_settings)
+        calendar.render();
+
         var new_event = get_url_param('new_event');
         if (new_event) {
             $("input[name='interview_day'].datetimepicker").val(get_url_param('date'));

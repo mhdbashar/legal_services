@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المحاسبة ومسك الدفاتر
 Description: المحاسبة هي عملية تسجيل البيانات المالية وتتبعها لمعرفة السلامة المالية للكيان. 
-Version: 1.0.1
+Version: 1.0.5
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://www.babiltec.com
@@ -15,6 +15,7 @@ define('ACCOUNTING_MODULE_NAME', 'accounting');
 define('ACCOUTING_MODULE_UPLOAD_FOLDER', module_dir_path(ACCOUNTING_MODULE_NAME, 'uploads'));
 define('ACCOUTING_IMPORT_ITEM_ERROR', 'modules/accounting/uploads/import_item_error/');
 define('ACCOUTING_ERROR', FCPATH );
+define('ACCOUTING_EXPORT_XLSX', 'modules/accounting/uploads/export_xlsx/');
 
 hooks()->add_action('app_admin_head', 'accounting_add_head_component');
 hooks()->add_action('app_admin_footer', 'accounting_load_js');
@@ -28,7 +29,7 @@ hooks()->add_action('before_payment_deleted', 'acc_delete_payment_convert');
 hooks()->add_action('after_expense_deleted', 'acc_delete_expense_convert');
 hooks()->add_action('invoice_status_changed', 'acc_invoice_status_changed');
 
-define('ACCOUTING_REVISION', 101);
+define('ACCOUTING_REVISION', 105);
 
 
 /**
@@ -145,6 +146,10 @@ function accounting_load_js()
 
     if (!(strpos($viewuri, 'admin/accounting/setting?group=banking_rules') === false)) {
         echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/setting/banking_rules.js') . '?v=' . ACCOUTING_REVISION . '"></script>';
+    }
+
+    if (!(strpos($viewuri, 'admin/accounting/setting?group=account_type_details') === false)) {
+        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/setting/account_type_details.js') . '?v=' . ACCOUTING_REVISION . '"></script>';
     }
 
     if (!(strpos($viewuri, 'admin/accounting/new_rule') === false)) {
@@ -364,7 +369,7 @@ function acc_automatic_invoice_conversion($invoice_id){
 
 function acc_automatic_payment_conversion($payment_id){
     if($payment_id){
-        if(get_option('acc_payment_automatic_conversion') == 1){
+        if(get_option('acc_payment_automatic_conversion') == 1 || get_option('acc_active_payment_mode_mapping') == 1){
             $CI = &get_instance();
             $CI->load->model('accounting/accounting_model');
 
@@ -378,7 +383,7 @@ function acc_automatic_payment_conversion($payment_id){
 
 function acc_automatic_expense_conversion($expense_id){
     if($expense_id){
-        if(get_option('acc_expense_automatic_conversion') == 1){
+        if(get_option('acc_expense_automatic_conversion') == 1 || get_option('acc_active_expense_category_mapping') == 1){
             $CI = &get_instance();
             $CI->load->model('accounting/accounting_model');
             $CI->accounting_model->automatic_expense_conversion($expense_id);

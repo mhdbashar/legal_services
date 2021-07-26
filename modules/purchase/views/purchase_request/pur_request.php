@@ -39,48 +39,16 @@
                       echo render_input('pur_rq_name','pur_rq_name', $pur_rq_name); ?>
                     </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
-                                <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option value=""></option>
-                                    <?php foreach ($legal_services as $service): ?>
-                                        <option value="<?php echo true ? $service->slug : 'project'; ?>"
-                                            <?php if(isset($pur_request) || $this->input->get('rel_type')){
-                                                if(true){
-                                                    if($pur_request->rel_type == $service->slug){
-                                                        echo 'selected';
-                                                    }
-                                                }else{
-                                                    if($rel_type == 'project'){
-                                                        echo 'selected';
-                                                    }
-                                                }
-                                            } ?>><?php echo $service->name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <?php $rel_id = isset($pur_request)? $pur_request->rel_id : '' ?>
-                            <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
-                                <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
-                                <div id="rel_id_select">
-                                    <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <?php if(true){ //if($rel_id != '' && $rel_type != ''){
-                                            $rel_data = get_relation_data($pur_request->rel_type,$pur_request->rel_id);
-                                            $rel_val = get_relation_values($rel_data,$pur_request->rel_type);
-                                            if(!$rel_data){
-                                                echo '<option value="'.$pur_request->rel_id.'" selected>'.$pur_request->rel_id.'</option>';
-                                            }else{
-                                                echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-6 form-group">
+                      <label for="project"><?php echo _l('project'); ?></label>
+                        <select name="project" id="project" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+                          <option value=""></option>
+                          <?php foreach($projects as $s) { ?>
+                            <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($pur_request) && $s['id'] == $pur_request->project){ echo 'selected'; } ?>><?php echo html_entity_decode($s['name']); ?></option>
+                            <?php } ?>
+                        </select>
+                        <br><br>
+                    </div>
 
                     <div class="col-md-6 form-group">
                       <label for="type"><?php echo _l('type'); ?></label>
@@ -235,47 +203,6 @@
 </div>
 
 <?php init_tail(); ?>
-<script>
-    var _rel_id = $('#rel_id'),
-        _rel_type = $('#rel_type'),
-        _rel_id_wrapper = $('#rel_id_wrapper'),
-        data = {};
-
-    $(function (){
-        $('.rel_id_label').html(_rel_type.find('option:selected').text());
-
-        _rel_type.on('change', function() {
-            var clonedSelect = _rel_id.html('').clone();
-            _rel_id.selectpicker('destroy').remove();
-            _rel_id = clonedSelect;
-            $('#rel_id_select').append(clonedSelect);
-            $('.rel_id_label').html(_rel_type.find('option:selected').text());
-
-            task_rel_select();
-            if($(this).val() != ''){
-                _rel_id_wrapper.removeClass('hide');
-            } else {
-                _rel_id_wrapper.addClass('hide');
-            }
-            init_project_details(_rel_type.val());
-        });
-
-
-        $('#time').datetimepicker({
-            datepicker:false,
-            format:'H:i'
-        });
-
-    });
-
-    function task_rel_select(){
-        var serverData = {};
-        serverData.rel_id = _rel_id.val();
-        data.type = _rel_type.val();
-        init_ajax_search(_rel_type.val(),_rel_id,serverData);
-    }
-
-</script>
 </body>
 </html>
 <?php require 'modules/purchase/assets/js/pur_request_js.php';?>

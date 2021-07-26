@@ -64,3 +64,20 @@ function check_applicable_client($clientid){
 	}
 	return false;
 }
+
+/**
+ * get status modules for all 
+ * @param  string $module_name 
+ * @return boolean             
+ */
+function commission_get_status_modules_all($module_name){
+    $CI             = &get_instance();
+   
+    $sql = 'select * from '.db_prefix().'modules where module_name = "'.$module_name.'" AND active =1 ';
+    $module = $CI->db->query($sql)->row();
+    if($module){
+        return true;
+    }else{
+        return false;
+    }
+}

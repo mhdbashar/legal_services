@@ -65,7 +65,7 @@
             $("body").find('.dt-loader').remove();
             if (r.success === 'true') {
                 $('.table-callbacks').DataTable().ajax.reload();
-                alert_float('success', '<?= _l('callback_status_changed'); ?>');
+                alert_float('success', "<?= _l('callback_status_changed'); ?>");
             }
         });
     }
@@ -123,7 +123,7 @@
                 response = JSON.parse(response);
                 if (response.success === true || response.success == 'true') {
                     _initCallbackHtmlReturnData(response.callbackHtml);
-                    alert_float('success', '<?= _l('callback_assignee_added_success'); ?>');
+                    alert_float('success', "<?= _l('callback_assignee_added_success'); ?>");
                 }
             });
         }

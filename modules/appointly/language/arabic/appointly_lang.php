@@ -159,7 +159,6 @@ $lang['appointment_send_an_sms'] = 'إرسال SMS';
 $lang['appointment_call_number'] = 'رقم التواصل';
 $lang['appointments_your_settings'] = 'إعدادات خاصة';
 
-
 # Version 1.1.2
 $lang['appointments_resp_person_not_set'] = 'لم يتم تعيين الشخص المسؤول عن المواعيد ، يرجى تعيين هذا الخيار في %s';
 $lang['appointly_settings_label_pointer'] = '<strong> الإعداد -> الإعدادات -> المواعيد </ strong>';
@@ -299,3 +298,18 @@ $lang['appointment_marked_as_approved'] = 'تم تحديد الموعد على �
 
 # Version 1.1.8
 $lang['appointment_menu_form_link'] = 'معلومات النموذج';
+
+# Version 1.1.9
+$lang['appointment_label'] = 'المواعيد';
+$lang['appointment_create_href'] = '| إنشاء موعد';
+$lang['appointment_create_cle'] = 'جهة اتصال ، عميل محتمل ، خارجية';
+$lang['appointment_staff_meeting'] = 'إجتماعات فريق العمل';
+$lang['appointment_internal_staff'] = 'موظفين داخليين';
+$lang['appointment_google_maps'] = 'الفتح في خرائط قوقل';
+$lang['appointment_ism_label'] = 'إجتماعات الموظفين الداخليين';
+$lang['appointment_create_label'] = 'إنشاء';
+$lang['appointment_recurring_re_created'] = 'تم إعادة إنشاء الموعد المتكرر';
+$lang['appointment_recurring'] = 'يتكرر';
+
+# Version 1.2.0
+$lang['appointly_view_all_in_calendar'] = 'السماح للشخص المسؤول بعرض جميع المواعيد في التقويم';

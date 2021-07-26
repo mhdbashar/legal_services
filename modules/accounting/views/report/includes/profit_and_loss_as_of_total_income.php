@@ -12,13 +12,22 @@
             <div class="col-md-6">
               <div class="row">
               <?php echo form_open(admin_url('accounting/view_report'),array('id'=>'filter-form')); ?>
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <?php echo render_date_input('from_date','from_date', _d($from_date)); ?>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <?php echo render_date_input('to_date','to_date', _d($to_date)); ?>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
+                  <?php 
+                  $method = [
+                          1 => ['id' => 'cash', 'name' => _l('cash')],
+                          2 => ['id' => 'accrual', 'name' => _l('accrual')],
+                         ];
+                  echo render_select('accounting_method', $method, array('id', 'name'),'accounting_method', $accounting_method, array(), array(), '', '', false);
+                  ?>
+                </div>
+                <div class="col-md-3">
                   <?php echo form_hidden('type', 'profit_and_loss_as_of_total_income'); ?>
                   <button type="submit" class="btn btn-info btn-submit mtop25"><?php echo _l('filter'); ?></button>
                 </div>

@@ -793,3 +793,16 @@ $lang['total_amount_due_uppercase'] = 'TOTAL AMOUNT DUE';
 $lang['financial_year'] = 'Financial year';
 $lang['amount_after_convert'] = 'Amount after convert';
 $lang['acc_converted'] = 'Has been mapped';
+$lang['payment_mode_mapping'] = 'Payment mode mapping';
+
+$lang['accrual_method_note_1'] = '- When you use the accrual method in reports:';
+$lang['accrual_method_note_2'] = '+ Your report counts income and expenses as if they happened when you sent the invoice or got the bill';
+$lang['accrual_method_note_3'] = '+ It includes income and expenses even if the money hasn’t changed hands yet';
+$lang['account_type_details'] = 'Account detail types';
+$lang['account_type_detail'] = 'Account detail type';
+$lang['cannot_delete_account_already_exists'] = 'Cannot delete an account detail type when a account already exists';
+$lang['acc_export_excel'] = 'Export to excel';
+$lang['other_shareholder_equity'] = 'Other shareholder\'s equity';
+$lang['acc_preferred_payment_method'] = 'Preferred the payment method';
+$lang['mapping_status'] = 'Mapping status';
+$lang['acc_invoice_status'] = 'Invoice status';

@@ -54,9 +54,6 @@ class Accounting extends AdminController
             $data['count_payment'] = $this->accounting_model->count_payment_not_convert_yet();
             $data['invoices'] = $this->accounting_model->get_data_invoices_for_select();
             $data['payment_modes'] = $this->payment_modes_model->get();
-            $data['deposit_accounts'] = $this->accounting_model->get_accounts('', '(account_type_id = 2 or account_type_id = 3)');
-        }elseif ($data['group'] == 'expenses') {
-            $data['payment_accounts'] = $this->accounting_model->get_accounts('', '(account_type_id = 2 or account_type_id = 3 or account_type_id = 7)');
         }
         
         $data['accounts'] = $this->accounting_model->get_accounts();
@@ -244,7 +241,8 @@ class Accounting extends AdminController
                 'clientid',
                 'number',
                 db_prefix() .'invoices.date as date',
-                '(select count(*) from ' . db_prefix() . 'acc_account_history where ' . db_prefix() . 'acc_account_history.rel_id = ' . db_prefix() . 'invoices.id and ' . db_prefix() . 'acc_account_history.rel_type = "invoice") as count_account_historys'
+                '(select count(*) from ' . db_prefix() . 'acc_account_history where ' . db_prefix() . 'acc_account_history.rel_id = ' . db_prefix() . 'invoices.id and ' . db_prefix() . 'acc_account_history.rel_type = "invoice") as count_account_historys',
+                db_prefix() . 'invoices.status'
             ];
             $where = [];
             if ($this->input->post('invoice')) {
@@ -337,9 +335,9 @@ class Accounting extends AdminController
                 $categoryOutput .= '</div>';
                 $row[] = $categoryOutput;
 
+                $row[] = _d($aRow['date']);
                 $row[] = app_format_money($aRow['total'], $aRow['currency_name']);
 
-                $row[] = _d($aRow['date']);
                 $row[] = get_company_name($aRow['clientid']);
 
                 $status_name = _l('has_not_been_converted');
@@ -351,6 +349,8 @@ class Accounting extends AdminController
                 } 
 
                 $row[] = '<span class="label label-' . $label_class . ' s-status invoice-status-' . $aRow['id'] . '">' . $status_name . '</span>';
+
+                $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 
                 $options = '';
                 if($aRow['count_account_historys'] == 0 && has_permission('accounting_transaction', '', 'create') && (($acc_closing_date != '' && strtotime($acc_closing_date) <= strtotime($aRow['date'])) || $acc_closing_date == '' || strtotime(date('Y-m-d')) <= strtotime($acc_closing_date))){
@@ -706,6 +706,7 @@ class Accounting extends AdminController
         $data['tab'][] = 'general';
         $data['tab'][] = 'banking_rules';
         $data['tab'][] = 'mapping_setup';
+        $data['tab'][] = 'account_type_details';
         
         if ($data['group'] == '') {
             $data['group'] = 'general';
@@ -723,6 +724,11 @@ class Accounting extends AdminController
             $data['_categories'] = $this->expenses_model->get_category();
             $data['categories'] = $this->accounting_model->get_expense_category_not_yet_auto();
 
+            $this->load->model('payment_modes_model');
+            $data['_payment_modes'] = $this->payment_modes_model->get();
+            $data['payment_modes'] = $this->accounting_model->get_payment_mode_not_yet_auto();
+        }elseif ($data['group'] == 'account_type_details') {
+            $data['account_types'] = $this->accounting_model->get_account_types();
         }
         $data['accounts'] = $this->accounting_model->get_accounts();
         $data['title']        = _l($data['group']);
@@ -850,12 +856,22 @@ class Accounting extends AdminController
                 $ft_detail_type = $this->input->post('ft_detail_type');
                 array_push($where, 'AND account_detail_type_id IN (' . implode(', ', $ft_detail_type) . ')');
             }
+
+            $accounting_method = get_option('acc_accounting_method');
+
+            if($accounting_method == 'cash'){
+                $debit = '(SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id) AND (('.db_prefix().'acc_account_history.rel_type = "invoice" AND '.db_prefix().'acc_account_history.paid = 1) or rel_type != "invoice")) as debit';
+                $credit = '(SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id) AND (('.db_prefix().'acc_account_history.rel_type = "invoice" AND '.db_prefix().'acc_account_history.paid = 1) or rel_type != "invoice")) as credit';
+            }else{
+                $debit = '(SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as debit';
+                $credit = '(SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as credit';
+            }
+
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'acc_accounts';
             $join         = [];
-            $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['number', 'description', 'balance_as_of', '(SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id) as debit', '(SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id) as credit', 'default_account']);
-
+            $result       = $this->accounting_model->get_account_data_tables($aColumns, $sIndexColumn, $sTable, $join, $where, ['number', 'description', 'balance_as_of', $debit, $credit, 'default_account']);
             $output  = $result['output'];
             $rResult = $result['rResult'];
 
@@ -863,17 +879,21 @@ class Accounting extends AdminController
                 $row   = [];
                 $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
+                $categoryOutput = '';
+                if(isset($aRow['level'])){
+                    for ($i=0; $i < $aRow['level']; $i++) { 
+                        $categoryOutput .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    }
+                }
+                
+                if($acc_enable_account_numbers == 1 && $acc_show_account_numbers == 1 && $aRow['number'] != ''){
+                    $categoryOutput .= $aRow['number'] .' - ';
+                }
 
-                if($acc_enable_account_numbers == 1 && $acc_show_account_numbers == 1){
-                    $row[] = $aRow['number'];
-                }
-                if ($aRow['key_name'] != '' && str_contains($aRow['key_name'], 'acc_interest')) {
-                    continue;
-                }
                 if($aRow['name'] == ''){
-                    $categoryOutput = _l($aRow['key_name']);
+                    $categoryOutput .= _l($aRow['key_name']);
                 }else{
-                    $categoryOutput = $aRow['name'];
+                    $categoryOutput .= $aRow['name'];
                 }
 
                 $categoryOutput .= '<div class="row-options">';
@@ -893,9 +913,9 @@ class Accounting extends AdminController
                 }else{
                     $row[] = '';
                 }
-                $row[] = $account_type_name[$aRow['account_type_id']];
-                $row[] = $detail_type_name[$aRow['account_detail_type_id']];
-                if($aRow['account_type_id'] == 15 || $aRow['account_type_id'] == 14 || $aRow['account_type_id'] == 13 || $aRow['account_type_id'] == 9 || $aRow['account_type_id'] == 7 || $aRow['account_type_id'] == 8){
+                $row[] = isset($account_type_name[$aRow['account_type_id']]) ? $account_type_name[$aRow['account_type_id']] : '';
+                $row[] = isset($detail_type_name[$aRow['account_detail_type_id']]) ? $detail_type_name[$aRow['account_detail_type_id']] : '';
+                if($aRow['account_type_id'] == 11 || $aRow['account_type_id'] == 12 || $aRow['account_type_id'] == 8 || $aRow['account_type_id'] == 9 || $aRow['account_type_id'] == 10 || $aRow['account_type_id'] == 7){
                     $row[] = app_format_money($aRow['credit'] - $aRow['debit'], $currency->name);
                 }else{
                     $row[] = app_format_money($aRow['debit'] - $aRow['credit'], $currency->name);
@@ -940,14 +960,13 @@ class Accounting extends AdminController
      */
     public function account()
     {
-        if (!has_permission('accounting_chart_of_accounts', '', 'edit') && !has_permission('acc_account', '', 'create')) {
+        if (!has_permission('accounting_chart_of_accounts', '', 'edit') && !has_permission('accounting_chart_of_accounts', '', 'create')) {
             access_denied('accounting');
         }
 
         if ($this->input->post()) {
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
-
             $message = '';
             if ($data['id'] == '') {
                 if (!has_permission('accounting_chart_of_accounts', '', 'create')) {
@@ -1046,6 +1065,20 @@ class Accounting extends AdminController
             }
             $html .=   '</tbody>
                   </table>';
+            if($invoice->currency_name != $currency->name){
+                $amount = $this->accounting_model->currency_converter($invoice->currency_name, $currency->name, 1);
+
+                $edit_template = "";
+                $edit_template .= render_input('edit_exchange_rate','exchange_rate', $amount, 'number');
+                $edit_template .= "<div class='text-center mtop10'>";
+                $edit_template .= "<button type='button' class='btn btn-success edit_conversion_rate_action'>"._l('copy_task_confirm')."</button>";
+                $edit_template .= "</div>";
+                $html .= form_hidden('currency_from', $invoice->currency_name);
+                $html .= form_hidden('currency_to', $currency->name);
+                $html .= form_hidden('exchange_rate', $amount);
+                $html .= '<h4>'._l('currency_converter').'</h4><div class="row"><div class="col-md-12"><label class="currency_converter_label th font-medium mbot15 pull-left">1 '.$invoice->currency_name.' = '.$amount.' '.$currency->name.'</label><a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="'. htmlspecialchars($edit_template) .'" data-html="true" data-original-title class="pull-left mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a><br></div></div>';
+                
+            }
             $debit = get_option('acc_payment_deposit_to');
             $credit = get_option('acc_payment_payment_account');
         }elseif ($type == 'expense') {
@@ -1298,6 +1331,7 @@ class Accounting extends AdminController
 
         $this->db->where('rel_id', $id);
         $this->db->where('rel_type', $type);
+        $this->db->where('tax', 0);
         $account_history = $this->db->get(db_prefix(). 'acc_account_history')->result_array();
         
         foreach ($account_history as $key => $value) {
@@ -1553,7 +1587,11 @@ class Accounting extends AdminController
                 $categoryOutput .= '<div class="row-options">';
 
                 if (has_permission('accounting_journal_entry', '', 'edit')) {
-                    $categoryOutput .= '<a href="' . admin_url('accounting/new_journal_entry/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+                    $categoryOutput .= '<a href="' . admin_url('accounting/journal_entry_export/' . $aRow['id']) . '" class="text-success">' . _l('acc_export_excel') . '</a>';
+                }
+
+                if (has_permission('accounting_journal_entry', '', 'edit')) {
+                    $categoryOutput .= ' | <a href="' . admin_url('accounting/new_journal_entry/' . $aRow['id']) . '">' . _l('edit') . '</a>';
                 }
 
                 if (has_permission('accounting_journal_entry', '', 'delete')) {
@@ -1667,6 +1705,7 @@ class Accounting extends AdminController
         $data['title'] = _l('balance_sheet');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/balance_sheet', $data);
     }
@@ -1681,6 +1720,8 @@ class Accounting extends AdminController
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
+        $data['accounting_method'] = get_option('acc_accounting_method');
+
         $this->load->view('report/includes/balance_sheet_comparison', $data);
     }
 
@@ -1693,6 +1734,7 @@ class Accounting extends AdminController
         $data['title'] = _l('balance_sheet_detail');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/balance_sheet_detail', $data);
     }
@@ -1706,6 +1748,7 @@ class Accounting extends AdminController
         $data['title'] = _l('balance_sheet_summary');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/balance_sheet_summary', $data);
     }
@@ -1731,6 +1774,7 @@ class Accounting extends AdminController
         $data['title'] = _l('custom_summary_report');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/custom_summary_report', $data);
     }
@@ -1744,6 +1788,7 @@ class Accounting extends AdminController
         $data['title'] = _l('profit_and_loss_as_of_total_income');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/profit_and_loss_as_of_total_income', $data);
     }
@@ -1757,6 +1802,7 @@ class Accounting extends AdminController
         $data['title'] = _l('profit_and_loss_comparison');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/profit_and_loss_comparison', $data);
     }
@@ -1770,6 +1816,7 @@ class Accounting extends AdminController
         $data['title'] = _l('profit_and_loss_detail');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/profit_and_loss_detail', $data);
     }
@@ -1784,6 +1831,7 @@ class Accounting extends AdminController
         $data['currency'] = $this->currencies_model->get_base_currency();
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $this->load->view('report/includes/profit_and_loss_year_to_date_comparison', $data);
     }
 
@@ -1796,6 +1844,7 @@ class Accounting extends AdminController
         $data['title'] = _l('profit_and_loss');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/profit_and_loss', $data);
     }
@@ -1822,6 +1871,7 @@ class Accounting extends AdminController
         $data['title'] = _l('statement_of_changes_in_equity');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/statement_of_changes_in_equity', $data);
     }
@@ -1848,6 +1898,7 @@ class Accounting extends AdminController
         $data['title'] = _l('income_by_customer_summary');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/income_by_customer_summary', $data);
     }
@@ -1872,8 +1923,9 @@ class Accounting extends AdminController
     public function rp_account_list(){
         $this->load->model('currencies_model');
         $data['title'] = _l('account_list');
+        $data['from_date'] = date('Y-01-01');
+        $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
-        $data['data_report'] = $this->accounting_model->get_data_account_list([]);
         $this->load->view('report/includes/account_list', $data);
     }
 
@@ -1901,6 +1953,7 @@ class Accounting extends AdminController
         $data['title'] = _l('general_ledger');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/general_ledger', $data);
     }
@@ -1940,6 +1993,7 @@ class Accounting extends AdminController
         $data['title'] = _l('transaction_detail_by_account');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/transaction_detail_by_account', $data);
     }
@@ -1966,6 +2020,7 @@ class Accounting extends AdminController
         $data['title'] = _l('trial_balance');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/trial_balance', $data);
     }
@@ -2032,6 +2087,7 @@ class Accounting extends AdminController
         $filename ='';
         if($this->input->post()){
             if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+                $this->delete_error_file_day_before(1, ACCOUTING_IMPORT_ITEM_ERROR);
 
                 // Get the temp file path
                 $tmpFilePath = $_FILES['file_csv']['tmp_name'];                
@@ -2244,7 +2300,7 @@ class Accounting extends AdminController
     }
 
     /**
-     * get data transfer
+     * get data account
      * @param  integer $id 
      * @return json     
      */
@@ -2777,6 +2833,9 @@ class Accounting extends AdminController
             case 'tax_liability_report':
                     $data['data_report'] = $this->accounting_model->get_data_tax_liability_report($data_filter);
                 break;
+            case 'account_list':
+                    $data['data_report'] = $this->accounting_model->get_data_account_list($data_filter);
+                break;
             default:
                 break;
         }
@@ -2818,7 +2877,7 @@ class Accounting extends AdminController
         redirect(admin_url('accounting/setting?group=general'));
     }
 
-    /* Change status to staff active or inactive / ajax */
+    /* Change status to account active or inactive / ajax */
     public function change_account_status($id, $status)
     {
         if (has_permission('accounting_chart_of_accounts', '', 'edit')) {
@@ -3254,6 +3313,7 @@ class Accounting extends AdminController
                 db_prefix() . 'acc_expense_category_mappings.id as id',
                 'name',
                 'description',
+                'preferred_payment_method',
             ];
             $where = [];
 
@@ -3273,8 +3333,9 @@ class Accounting extends AdminController
                 $categoryOutput .= '<div class="row-options">';
                     
                 if (has_permission('accounting_setting', '', 'edit')) {
-                    $categoryOutput .= '<a href="#" onclick="edit_expense_category_mapping(this); return false;" data-id="'.$aRow['id'].'" data-deposit-to="'.$aRow['deposit_to'].'" data-payment-account="'.$aRow['payment_account'].'" data-category-id="'.$aRow['category_id'].'">' . _l('edit') . '</a>';
+                    $categoryOutput .= '<a href="#" onclick="edit_expense_category_mapping(this); return false;" data-id="'.$aRow['id'].'" data-deposit-to="'.$aRow['deposit_to'].'" data-payment-account="'.$aRow['payment_account'].'" data-category-id="'.$aRow['category_id'].'" data-preferred-payment-method="'.$aRow['preferred_payment_method'].'">' . _l('edit') . '</a>';
                 }
+
                 if (has_permission('accounting_setting', '', 'delete')) {
                     $categoryOutput .= ' | <a href="' . admin_url('accounting/delete_expense_category_mapping/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
                 }
@@ -3285,6 +3346,19 @@ class Accounting extends AdminController
 
                 $row[] = $aRow['description'];
 
+                $checked = '';
+                if ($aRow['preferred_payment_method'] == 1) {
+                    $checked = 'checked';
+                }
+
+                $_data = '<div class="onoffswitch">
+                    <input type="checkbox" ' . ((!is_admin() && has_permission('accounting_setting', '', 'edit')) ? 'disabled' : '') . ' data-switch-url="' . admin_url() . 'accounting/change_preferred_payment_method" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . $checked . '>
+                    <label class="onoffswitch-label" for="c_' . $aRow['id'] . '"></label>
+                </div>';
+
+                // For exporting
+                $_data .= '<span class="hide">' . ($checked == 'checked' ? _l('is_active_export') : _l('is_not_active_export')) . '</span>';
+                $row[] = $_data;
                 $output['aaData'][] = $row;
             }
 
@@ -3358,6 +3432,7 @@ class Accounting extends AdminController
         $data['title'] = _l('tax_detail_report');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/tax_detail_report', $data);
     }
@@ -3375,6 +3450,7 @@ class Accounting extends AdminController
 
         $data['title'] = _l('tax_summary_report');
         $data['from_date'] = date('Y-m-01');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $data['to_date'] = date('Y-m-d');
         $this->load->view('report/includes/tax_summary_report', $data);
     }
@@ -3393,6 +3469,7 @@ class Accounting extends AdminController
         $data['title'] = _l('tax_liability_report');
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
         $this->load->view('report/includes/tax_liability_report', $data);
     }
 
@@ -3431,5 +3508,428 @@ class Accounting extends AdminController
         $data['sales_chart'] = $this->accounting_model->get_data_sales_chart($data_filter);
 
         echo json_encode($data);
+    }
+
+    /**
+     * payment mode mapping table
+     * @return json
+     */
+    public function payment_mode_mapping_table()
+    {
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+           
+            $select = [
+                db_prefix() . 'acc_payment_mode_mappings.id as id',
+                'name',
+            ];
+            $where = [];
+
+            $aColumns     = $select;
+            $sIndexColumn = 'id';
+            $sTable       = db_prefix() . 'acc_payment_mode_mappings';
+            $join         = ['LEFT JOIN ' . db_prefix() . 'payment_modes ON ' . db_prefix() . 'payment_modes.id = ' . db_prefix() . 'acc_payment_mode_mappings.payment_mode_id'];
+            $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['payment_mode_id', 'payment_account', 'deposit_to', 'description']);
+
+            $output  = $result['output'];
+            $rResult = $result['rResult'];
+
+            foreach ($rResult as $aRow) {
+                $row   = [];
+                $categoryOutput = $aRow['name'];
+
+                $categoryOutput .= '<div class="row-options">';
+                    
+                if (has_permission('accounting_setting', '', 'edit')) {
+                    $categoryOutput .= '<a href="#" onclick="edit_payment_mode_mapping(this); return false;" data-id="'.$aRow['id'].'" data-deposit-to="'.$aRow['deposit_to'].'" data-payment-account="'.$aRow['payment_account'].'" data-payment-mode-id="'.$aRow['payment_mode_id'].'">' . _l('edit') . '</a>';
+                }
+                if (has_permission('accounting_setting', '', 'delete')) {
+                    $categoryOutput .= ' | <a href="' . admin_url('accounting/delete_payment_mode_mapping/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                }
+
+                $categoryOutput .= '</div>';
+                $row[] = $categoryOutput;
+
+                $row[] = $aRow['description'];
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    /**
+     * add or edit payment mode mapping
+     * @return json
+     */
+    public function payment_mode_mapping(){
+        $data = $this->input->post();
+        if($data['id'] == ''){
+            if (!has_permission('accounting_setting', '', 'create')) {
+                access_denied('accounting');
+            }
+            $success = $this->accounting_model->add_payment_mode_mapping($data);
+            if($success){
+                $message = _l('added_successfully', _l('payment_mode_mapping'));
+            }else {
+                $message = _l('add_failure');
+            }
+        }else{
+            if (!has_permission('accounting_setting', '', 'edit')) {
+                access_denied('accounting');
+            }
+            $id = $data['id'];
+            unset($data['id']);
+            $success = $this->accounting_model->update_payment_mode_mapping($data, $id);
+            $message = _l('fail');
+            if ($success) {
+                $message = _l('updated_successfully', _l('payment_mode_mapping'));
+            }
+        }
+
+        echo json_encode(['success' => $success, 'message' => $message]);
+        die();
+    }
+
+    /**
+     * delete payment mode mapping
+     * @param  integer $id
+     * @return
+     */
+    public function delete_payment_mode_mapping($id)
+    {
+        if (!has_permission('accounting_setting', '', 'delete')) {
+            access_denied('accounting');
+        }
+
+        $success = $this->accounting_model->delete_payment_mode_mapping($id);
+        $message = '';
+        if ($success) {
+            $message = _l('deleted', _l('payment_mode_mapping'));
+            set_alert('success', $message);
+        } else {
+            $message = _l('can_not_delete');
+            set_alert('warning', $message);
+        }
+        redirect(admin_url('accounting/setting?group=mapping_setup'));
+    }
+
+    /* Change status to payment mode mapping active or inactive / ajax */
+    public function change_active_payment_mode_mapping($id, $status)
+    {
+        if (has_permission('accounting_setting', '', 'edit')) {
+            if ($this->input->is_ajax_request()) {
+                $this->accounting_model->change_active_payment_mode_mapping($status);
+            }
+        }
+    }
+
+    /* Change status to expense category mapping active or inactive / ajax */
+    public function change_active_expense_category_mapping($id, $status)
+    {
+        if (has_permission('accounting_setting', '', 'edit')) {
+            if ($this->input->is_ajax_request()) {
+                $this->accounting_model->change_active_expense_category_mapping($status);
+            }
+        }
+    }
+
+    /**
+     * account type details table
+     * @return json
+     */
+    public function account_type_details_table(){
+        if ($this->input->is_ajax_request()) {
+           
+            $this->load->model('currencies_model');
+            $account_types = $this->accounting_model->get_account_types();
+
+            $account_type_name = [];
+            foreach ($account_types as $key => $value) {
+                $account_type_name[$value['id']] = $value['name'];
+            }
+
+            $currency = $this->currencies_model->get_base_currency();
+            $select = [
+                'id',
+                'name',
+            ];
+
+            $where = [];
+            $from_date = '';
+            $to_date   = '';
+
+            $aColumns     = $select;
+            $sIndexColumn = 'id';
+            $sTable       = db_prefix() . 'acc_account_type_details';
+            $join         = [];
+            $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['account_type_id']);
+
+            $output  = $result['output'];
+            $rResult = $result['rResult'];
+
+            foreach ($rResult as $aRow) {
+                $row   = [];
+
+                $categoryOutput = $aRow['name'];
+
+                $categoryOutput .= '<div class="row-options">';
+
+                if (has_permission('accounting_setting', '', 'edit')) {
+                    $categoryOutput .= '<a href="#" onclick="edit_account_type_detail(' . $aRow['id'] . '); return false;">' . _l('edit') . '</a>';
+                }
+
+                if (has_permission('accounting_setting', '', 'delete')) {
+                    $categoryOutput .= ' | <a href="' . admin_url('accounting/delete_account_type_detail/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                }
+
+                $categoryOutput .= '</div>';
+                $row[] = $categoryOutput;
+                $row[] = isset($account_type_name[$aRow['account_type_id']]) ? $account_type_name[$aRow['account_type_id']] : '';
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    /**
+     *
+     *  add or edit account type detail
+     *  @param  integer  $id     The identifier
+     *  @return view
+     */
+    public function account_type_detail()
+    {
+        if (!has_permission('accounting_setting', '', 'edit') && !has_permission('accounting_setting', '', 'create')) {
+            access_denied('accounting');
+        }
+
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $data['note'] = $this->input->post('note', false);
+            $message = '';
+            if ($data['id'] == '') {
+                if (!has_permission('accounting_setting', '', 'create')) {
+                    access_denied('accounting');
+                }
+                $success = $this->accounting_model->add_account_type_detail($data);
+                if ($success) {
+                    $message = _l('added_successfully', _l('account_type_detail'));
+                }else {
+                    $message = _l('add_failure');
+                }
+            } else {
+                if (!has_permission('accounting_setting', '', 'edit')) {
+                    access_denied('accounting');
+                }
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->accounting_model->update_account_type_detail($data, $id);
+                if ($success) {
+                    $message = _l('updated_successfully', _l('account_type_detail'));
+                }else {
+                    $message = _l('updated_fail');
+                }
+            }
+
+            echo json_encode(['success' => $success, 'message' => $message]);
+            die();
+        }
+    }
+
+    /**
+     * delete account type detail
+     * @param  integer $id
+     * @return
+     */
+    public function delete_account_type_detail($id)
+    {
+        if (!has_permission('accounting_setting', '', 'delete')) {
+            access_denied('accounting_setting');
+        }
+        $success = $this->accounting_model->delete_account_type_detail($id);
+        $message = '';
+        
+        if ($success === 'have_account') {
+            $message = _l('cannot_delete_account_already_exists');
+            set_alert('warning', $message);
+        }elseif ($success) {
+            $message = _l('deleted', _l('account_type_detail'));
+            set_alert('success', $message);
+        } else {
+            $message = _l('can_not_delete');
+            set_alert('warning', $message);
+        }
+        redirect(admin_url('accounting/setting?group=account_type_details'));
+    }
+
+    /**
+     * get data account type detail
+     * @param  integer $id 
+     * @return json     
+     */
+    public function get_data_account_type_detail($id){
+        $account_type_detail = $this->accounting_model->get_data_account_type_details($id);
+
+        echo json_encode($account_type_detail);
+    }
+
+    public function journal_entry_export($id){
+        $this->delete_error_file_day_before(1,ACCOUTING_EXPORT_XLSX); 
+
+        $this->load->model('currencies_model');
+
+        $currency = $this->currencies_model->get_base_currency();
+
+        $header = [];
+        $header = [ _l('asp_order'), _l('asp_date'), _l('asp_creation_date'), _l('asp_invoice_number'), _l('asp_reference'), _l('asp_book'), _l('asp_account'), _l('asp_nif'), _l('asp_desc'), _l('asp_total_invoice'), _l('asp_subtotal_1'), _l('asp_vat_1'), _l('asp_subtotal_2'), _l('asp_vat_2'), _l('asp_subtotal_3'), _l('asp_vat_3'),  _l('asp_subtotal_4'), _l('asp_vat_4'),  _l('asp_subtotal_5'), _l('asp_vat_5'), _l('asp_libro_contrapartida'), _l('asp_cuenta_contrapartida'), _l('asp_lote_a_contabilizar')];
+
+        $accounts = $this->accounting_model->get_accounts();
+
+        $account_name = [];
+        foreach ($accounts as $key => $value) {
+            $account_name[$value['id']] = $value['name'];
+        }
+
+        $journal_entry = $this->accounting_model->get_journal_entry($id);
+
+        if(!class_exists('XLSXWriter')){
+            require_once(module_dir_path(ACCOUNTING_MODULE_NAME).'/assets/plugins/XLSXWriter/xlsxwriter.class.php');             
+        }
+
+        $header = [ 
+           1 => _l('acc_account'), 
+           2 => _l('debit'), 
+           3 => _l('credit'), 
+           4 => _l('description'), 
+        ];
+
+        $widths_arr = array();
+       
+        for($i = 1; $i <= count($header); $i++ ){
+            if($i == 1){
+                $widths_arr[] = 60;
+            }else if($i == 8){
+                $widths_arr[] = 60;
+            }else{
+                $widths_arr[] = 40;
+            }
+        }
+
+        $writer = new XLSXWriter();
+        $writer->writeSheetRow('Sheet1', []);
+        $writer->writeSheetRow('Sheet1', [1 => _l('journal_date').': '. _d($journal_entry->journal_date), ]);
+        $writer->writeSheetRow('Sheet1', [1 => _l('number').': '. $journal_entry->number, ]);
+        $writer->writeSheetRow('Sheet1', [1 => _l('description').': '. $journal_entry->Description, ]);
+        $writer->writeSheetRow('Sheet1', []);
+
+        
+        $style3 = array('fill' => '#C65911', 'height'=>25, 'font-style'=>'bold', 'color' => '#FFFFFF', 'border'=>'left,right,top,bottom', 'border-color' => '#FFFFFF', 'font-size' => 15, 'font' => 'Calibri');
+        $style1 = array('fill' => '#F8CBAD', 'height'=>25, 'border'=>'left,right,top,bottom', 'border-color' => '#FFFFFF', 'font-size' => 15, 'font' => 'Calibri', 'color' => '#000000');
+        $style2 = array('fill' => '#FCE4D6', 'height'=>25, 'border'=>'left,right,top,bottom', 'border-color' => '#FFFFFF', 'font-size' => 15, 'font' => 'Calibri', 'color' => '#000000');
+
+        $writer->writeSheetRow('Sheet1', $header, $style3);
+
+        foreach($journal_entry->details as $k => $row){
+            $row['account'] = isset($account_name[$row['account']]) ? $account_name[$row['account']] : $row['account'];
+            $row['debit'] =$row['debit'] > 0 ? app_format_money($row['debit'], $currency->name) : '';
+            $row['credit'] =$row['credit'] > 0 ? app_format_money($row['credit'], $currency->name) : '';
+            if(($k%2) == 0){
+                $writer->writeSheetRow('Sheet1', $row , $style1);
+            }else{
+                $writer->writeSheetRow('Sheet1', $row , $style2);
+            }
+        }
+
+        $writer->writeSheetRow('Sheet1', [1 => _l('total'), 2 => app_format_money($journal_entry->amount, $currency->name), 3 => app_format_money($journal_entry->amount, $currency->name), 4 => ''], $style3);
+
+        $filename = 'journal_entry_'.time().'.xlsx';
+        $writer->writeToFile(str_replace($filename, ACCOUTING_EXPORT_XLSX.$filename, $filename));
+        $this->download_xlsx_file(ACCOUTING_EXPORT_XLSX.$filename);
+        die();
+    }
+
+    /**
+     * download xlsx file
+     * @param  string $filename
+     */
+    public function download_xlsx_file($filename){
+        $file = $filename;
+        $mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        ob_end_clean();
+        header('Content-Description: File Transfer');
+        header('Content-Type: ' . $mime);
+        header("Content-Transfer-Encoding: Binary");
+        header("Content-disposition: attachment; filename=\"" . basename($file) . "\"");
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        readfile($file);
+        unlink($file);
+        exit();
+    }
+
+    /**
+     * delete error file day before
+     * @param  string $before_day  
+     * @param  string $folder_name 
+     * @return boolean              
+     */
+    public function delete_error_file_day_before($before_day ='', $folder_name='')
+    {
+        if($before_day != ''){
+            $day = $before_day;
+        }else{
+            $day = '7';
+        }
+
+        if($folder_name != ''){
+            $folder = $folder_name;
+        }else{
+            $folder = ACCOUTING_IMPORT_ITEM_ERROR;
+        }
+
+        //Delete old file before 7 day
+        $date = date_create(date('Y-m-d H:i:s'));
+        date_sub($date,date_interval_create_from_date_string($day." days"));
+        $before_7_day = strtotime(date_format($date,"Y-m-d H:i:s"));
+
+        foreach(glob($folder . '*') as $file) {
+
+            $file_arr = explode("/",$file);
+            $filename = array_pop($file_arr);
+
+            if(file_exists($file)) {
+                //don't delete index.html file
+                if($filename != 'index.html'){
+                    $file_name_arr = explode("_",$filename);
+                    $date_create_file = array_pop($file_name_arr);
+                    $date_create_file =  str_replace('.xlsx', '', $date_create_file);
+
+                    if((float)$date_create_file <= (float)$before_7_day){
+                        unlink($folder.$filename);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /* Change status to preferred payment method on or off / ajax */
+    public function change_preferred_payment_method($id, $status)
+    {
+        if (has_permission('staff', '', 'edit')) {
+            if ($this->input->is_ajax_request()) {
+                $this->accounting_model->change_preferred_payment_method($id, $status);
+            }
+        }
     }
 }

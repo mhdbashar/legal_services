@@ -30,7 +30,7 @@ class General extends AdminController{
         $number = $this->input->post('number');
 
 
-        $query = $this->db->get_where(db_prefix().'hr_extra_info', array('emloyee_id' => $number, 'id!=' => $id));
+        $query = $this->db->get_where(db_prefix().'hr_extra_info', array('emloyee_id' => $number, 'staff_id!=' => $id));
         if($query->num_rows() < 1){
             $data['status'] = TRUE;
         }else{
@@ -282,6 +282,7 @@ class General extends AdminController{
 //                        $this->Branches_model->delete_branch('staff', $id);
 //                    }                handle_staff_profile_image_upload($id);
                 $data['lastname'] = '';
+                $data['role'] = $this->input->post('role');
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
                     $response = $this->staff_model->update($data, $id);

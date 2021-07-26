@@ -65,6 +65,8 @@ statistics_cost_of_purchase_orders;
      $(this).find('tfoot td.total').html(sums.total);
      $(this).find('tfoot td.total_commission').html(sums.total_commission);
    });
+
+   init_report($('#btn_commission_table'),'commission_table');
 })(jQuery);
 
 

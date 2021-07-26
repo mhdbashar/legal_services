@@ -11,7 +11,7 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get job position
-	 * @param  boolean $id 
+	 * @param  boolean $id
 	 * @return object
 	 */
 	public function get_job_position($id = false) {
@@ -46,15 +46,15 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update job position
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_job_position($data, $id) {
 		if (isset($data['job_skill'])) {
 			$data['job_skill'] = implode(',', $data['job_skill']);
-		}else{
+		} else {
 
-			$data['job_skill']='';
+			$data['job_skill'] = '';
 		}
 
 		$this->db->where('position_id', $id);
@@ -102,7 +102,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update recruitment proposal
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_recruitment_proposal($data, $id) {
@@ -123,7 +123,7 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * delete recruitment proposal
-	 * @param  int $id 
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function delete_recruitment_proposal($id) {
@@ -143,9 +143,9 @@ class Recruitment_model extends App_Model {
 	}
 
 	/**
-	 * get rec proposal 
+	 * get rec proposal
 	 * @param  string $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_rec_proposal($id = '') {
 		if ($id != '') {
@@ -211,8 +211,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get proposal attachments
 	 * @param  object $proposal
-	 * @param  string $id      
-	 * @return int          
+	 * @param  string $id
+	 * @return int
 	 */
 	public function get_proposal_attachments($proposal, $id = '') {
 		// If is passed id get return only 1 attachment
@@ -234,7 +234,7 @@ class Recruitment_model extends App_Model {
 	 * get file
 	 * @param  int  $id
 	 * @param  boolean $rel_id
-	 * @return object         
+	 * @return object
 	 */
 	public function get_file($id, $rel_id = false) {
 		$this->db->where('id', $id);
@@ -251,8 +251,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * approve reject proposal
 	 * @param  int $type
-	 * @param  int $id  
-	 * @return bool      
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function approve_reject_proposal($type, $id) {
 		if ($type == 'approved') {
@@ -277,9 +277,9 @@ class Recruitment_model extends App_Model {
 	 * @param object $data
 	 */
 	public function add_recruitment_campaign($data) {
-		if(isset($data['display_salary'])){
+		if (isset($data['display_salary'])) {
 			$data['display_salary'] = 1;
-		}else{
+		} else {
 			$data['display_salary'] = 0;
 
 		}
@@ -305,6 +305,7 @@ class Recruitment_model extends App_Model {
 		$data['cp_to_date'] = to_sql_date($data['cp_to_date']);
 		$data['cp_date_add'] = date('Y-m-d');
 		$data['cp_status'] = 1;
+		$data['cp_add_from'] = get_staff_user_id();
 		$this->db->insert(db_prefix() . 'rec_campaign', $data);
 		$insert_id = $this->db->insert_id();
 		return $insert_id;
@@ -313,13 +314,13 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update recruitment campaign
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_recruitment_campaign($data, $id) {
-		if(isset($data['display_salary'])){
+		if (isset($data['display_salary'])) {
 			$data['display_salary'] = 1;
-		}else{
+		} else {
 			$data['display_salary'] = 0;
 
 		}
@@ -342,6 +343,8 @@ class Recruitment_model extends App_Model {
 		$data['cp_salary_to'] = reformat_currency_rec($data['cp_salary_to']);
 		$data['cp_from_date'] = to_sql_date($data['cp_from_date']);
 		$data['cp_to_date'] = to_sql_date($data['cp_to_date']);
+		$data['cp_add_from'] = get_staff_user_id();
+
 		$this->db->where('cp_id', $id);
 		$this->db->update(db_prefix() . 'rec_campaign', $data);
 		if ($this->db->affected_rows() > 0) {
@@ -352,8 +355,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * delete recruitment campaign
-	 * @param  [type] $id 
-	 * @return [type]     
+	 * @param  [type] $id
+	 * @return [type]
 	 */
 	public function delete_recruitment_campaign($id) {
 		$this->db->where('rel_id', $id);
@@ -374,7 +377,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get rec campaign
 	 * @param  string $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_rec_campaign($id = '') {
 		if ($id != '') {
@@ -399,7 +402,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete campaign attachment
 	 * @param  int $id
-	 * @return bool    
+	 * @return bool
 	 */
 	public function delete_campaign_attachment($id) {
 		$attachment = $this->get_campaign_attachments('', $id);
@@ -430,8 +433,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get campaign attachments
 	 * @param  object $campaign
-	 * @param  int $id      
-	 * @return object          
+	 * @param  int $id
+	 * @return object
 	 */
 	public function get_campaign_attachments($campaign, $id = '') {
 		// If is passed id get return only 1 attachment
@@ -457,13 +460,13 @@ class Recruitment_model extends App_Model {
 
 		$data['birthday'] = $data['birthday'];
 
-		if(!$this->check_format_date($data['birthday'])){
+		if (!$this->check_format_date($data['birthday'])) {
 			$data['birthday'] = to_sql_date($data['birthday']);
 		}
 
 		$data['days_for_identity'] = $data['days_for_identity'];
 
-		if(!$this->check_format_date($data['days_for_identity'])){
+		if (!$this->check_format_date($data['days_for_identity'])) {
 			$data['days_for_identity'] = to_sql_date($data['days_for_identity']);
 		}
 
@@ -571,19 +574,19 @@ class Recruitment_model extends App_Model {
 			unset($data['phone']);
 		}
 
-		if(isset($data['skill_name'])){
+		if (isset($data['skill_name'])) {
 			$skill_name = $data['skill_name'];
 			unset($data['skill_name']);
 		}
 
-		if(isset($data['skill_description'])){
+		if (isset($data['skill_description'])) {
 			$skill_description = $data['skill_description'];
 			unset($data['skill_description']);
 		}
 
-		if(isset($data['skill'])){
-           $data['skill'] = implode(',',$data['skill']);
-        }	
+		if (isset($data['skill'])) {
+			$data['skill'] = implode(',', $data['skill']);
+		}
 
 		$this->db->insert(db_prefix() . 'rec_candidate', $data);
 		$insert_id = $this->db->insert_id();
@@ -591,10 +594,10 @@ class Recruitment_model extends App_Model {
 			foreach ($from_date as $key => $val) {
 				if ($from_date[$key] != '') {
 
-					if(!$this->check_format_date($val)){
+					if (!$this->check_format_date($val)) {
 						$val = to_sql_date($val);
 					}
-					if(!$this->check_format_date($to_date[$key])){
+					if (!$this->check_format_date($to_date[$key])) {
 						$to_date[$key] = to_sql_date($to_date[$key]);
 					}
 
@@ -615,14 +618,13 @@ class Recruitment_model extends App_Model {
 			foreach ($literacy_from_date as $key => $val) {
 				if ($literacy_from_date[$key] != '') {
 
-					if(!$this->check_format_date($val)){
+					if (!$this->check_format_date($val)) {
 						$val = to_sql_date($val);
 					}
 
-					if(!$this->check_format_date($literacy_to_date[$key])){
+					if (!$this->check_format_date($literacy_to_date[$key])) {
 						$literacy_to_date[$key] = to_sql_date($literacy_to_date[$key]);
 					}
-					
 
 					$this->db->insert(db_prefix() . 'cd_literacy', [
 						'candidate' => $insert_id,
@@ -639,7 +641,7 @@ class Recruitment_model extends App_Model {
 			foreach ($relationship as $key => $val) {
 				if ($relationship[$key] != '') {
 
-					if(!$this->check_format_date($fi_birthday[$key])){
+					if (!$this->check_format_date($fi_birthday[$key])) {
 						$fi_birthday[$key] = to_sql_date($fi_birthday[$key]);
 					}
 
@@ -654,13 +656,13 @@ class Recruitment_model extends App_Model {
 					]);
 				}
 			}
-			
+
 			foreach ($skill_name as $key => $val) {
 				if ($skill_name[$key] != '') {
 					$this->db->insert(db_prefix() . 'cd_skill', [
 						'candidate' => $insert_id,
 						'skill_name' => $val,
-						'skill_description' => $skill_description[$key],						
+						'skill_description' => $skill_description[$key],
 					]);
 				}
 			}
@@ -672,8 +674,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * change status campaign
 	 * @param  int $status
-	 * @param  int $id    
-	 * @return bool        
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function change_status_campaign($status, $id) {
 		$this->db->where('cp_id', $id);
@@ -716,7 +718,6 @@ class Recruitment_model extends App_Model {
 
 			$this->db->where('candidate', $id);
 			$candidate->care = $this->db->get(db_prefix() . 'cd_care')->result_array();
-			
 
 			return $candidate;
 		}
@@ -725,20 +726,19 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update cadidate
 	 * @param  object $data
-	 * @param  int $id  
-	 * @return 
+	 * @param  int $id
+	 * @return
 	 */
 	public function update_cadidate($data, $id) {
-		
 
 		$data['birthday'] = $data['birthday'];
-		
-		if(!$this->check_format_date($data['birthday'])){
+
+		if (!$this->check_format_date($data['birthday'])) {
 			$data['birthday'] = to_sql_date($data['birthday']);
 		}
 
 		$data['days_for_identity'] = $data['days_for_identity'];
-		if(!$this->check_format_date($data['days_for_identity'])){
+		if (!$this->check_format_date($data['days_for_identity'])) {
 			$data['days_for_identity'] = to_sql_date($data['days_for_identity']);
 		}
 
@@ -854,9 +854,9 @@ class Recruitment_model extends App_Model {
 			unset($data['skill_description']);
 		}
 
-		if(isset($data['skill'])){
-           $data['skill'] = implode(',',$data['skill']);
-        }	
+		if (isset($data['skill'])) {
+			$data['skill'] = implode(',', $data['skill']);
+		}
 
 		$this->db->where('id', $id);
 		$this->db->update(db_prefix() . 'rec_candidate', $data);
@@ -866,10 +866,10 @@ class Recruitment_model extends App_Model {
 		foreach ($from_date as $key => $val) {
 			if ($from_date[$key] != '') {
 
-				if(!$this->check_format_date($val)){
+				if (!$this->check_format_date($val)) {
 					$val = to_sql_date($val);
 				}
-				if(!$this->check_format_date($to_date[$key])){
+				if (!$this->check_format_date($to_date[$key])) {
 					$to_date[$key] = to_sql_date($to_date[$key]);
 				}
 
@@ -892,11 +892,11 @@ class Recruitment_model extends App_Model {
 		foreach ($literacy_from_date as $key => $val) {
 			if ($literacy_from_date[$key] != '') {
 
-				if(!$this->check_format_date($val)){
+				if (!$this->check_format_date($val)) {
 					$val = to_sql_date($val);
 				}
 
-				if(!$this->check_format_date($literacy_to_date[$key])){
+				if (!$this->check_format_date($literacy_to_date[$key])) {
 					$literacy_to_date[$key] = to_sql_date($literacy_to_date[$key]);
 				}
 
@@ -917,7 +917,7 @@ class Recruitment_model extends App_Model {
 		foreach ($relationship as $key => $val) {
 			if ($relationship[$key] != '') {
 
-				if(!$this->check_format_date($fi_birthday[$key])){
+				if (!$this->check_format_date($fi_birthday[$key])) {
 					$fi_birthday[$key] = to_sql_date($fi_birthday[$key]);
 				}
 
@@ -940,7 +940,7 @@ class Recruitment_model extends App_Model {
 				$this->db->insert(db_prefix() . 'cd_skill', [
 					'candidate' => $id,
 					'skill_name' => $val,
-					'skill_description' => $skill_description[$key],	
+					'skill_description' => $skill_description[$key],
 				]);
 			}
 		}
@@ -971,13 +971,13 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * add interview schedules
-	 * @param object $data 
+	 * @param object $data
 	 */
 	public function add_interview_schedules($data) {
 
 		$data['interview_day'] = $data['interview_day'];
 
-		if(!$this->check_format_date($data['interview_day'])){
+		if (!$this->check_format_date($data['interview_day'])) {
 			$data['interview_day'] = to_sql_date($data['interview_day']);
 		}
 
@@ -985,20 +985,16 @@ class Recruitment_model extends App_Model {
 		$data['added_from'] = get_staff_user_id();
 		$data['added_date'] = date('Y-m-d');
 
-		$data['from_time'] = date_format(date_create($data['from_time']),"H:i");
-		$data['to_time'] = date_format(date_create($data['to_time']),"H:i");
-
 		$data['from_hours'] = ($data['interview_day'] . ' ' . $data['from_time'] . ':00');
 		$data['to_hours'] = $data['interview_day'] . ' ' . $data['to_time'] . ':00';
 
-		if(!$this->check_format_date($data['interview_day'])){
-			$data['from_hours'] = to_sql_date($data['interview_day']).' '.$data['from_time'].':00';
+		if (!$this->check_format_date($data['interview_day'])) {
+			$data['from_hours'] = to_sql_date($data['interview_day']) . ' ' . $data['from_time'] . ':00';
 		}
 
-		if(!$this->check_format_date($data['interview_day'])){
-			$data['to_hours'] = to_sql_date($data['interview_day']).' '.$data['to_time'].':00';
+		if (!$this->check_format_date($data['interview_day'])) {
+			$data['to_hours'] = to_sql_date($data['interview_day']) . ' ' . $data['to_time'] . ':00';
 		}
-
 
 		if (isset($data['candidate'])) {
 			$candidate = $data['candidate'];
@@ -1024,7 +1020,7 @@ class Recruitment_model extends App_Model {
 	 * update interview schedules
 	 * @param  object $data
 	 * @param  int $id
-	 * @return bool 
+	 * @return bool
 	 */
 	public function update_interview_schedules($data, $id) {
 		$data['interview_day'] = to_sql_date($data['interview_day']);
@@ -1032,25 +1028,21 @@ class Recruitment_model extends App_Model {
 		$data['added_from'] = get_staff_user_id();
 		$data['added_date'] = date('Y-m-d');
 
-		$data['from_time'] = date_format(date_create($data['from_time']),"H:i");
-		$data['to_time'] = date_format(date_create($data['to_time']),"H:i");
-
 		$data['from_hours'] = ($data['interview_day'] . ' ' . $data['from_time'] . ':00');
 		$data['to_hours'] = $data['interview_day'] . ' ' . $data['to_time'] . ':00';
 
-		if(!$this->check_format_date($data['interview_day'])){
-			$data['from_hours'] = to_sql_date($data['interview_day']).' '.$data['from_time'].':00';
+		if (!$this->check_format_date($data['interview_day'])) {
+			$data['from_hours'] = to_sql_date($data['interview_day']) . ' ' . $data['from_time'] . ':00';
 		}
 
-		if(!$this->check_format_date($data['interview_day'])){
-			$data['to_hours'] = to_sql_date($data['interview_day']).' '.$data['to_time'].':00';
+		if (!$this->check_format_date($data['interview_day'])) {
+			$data['to_hours'] = to_sql_date($data['interview_day']) . ' ' . $data['to_time'] . ':00';
 		}
 
 		if (isset($data['candidate'])) {
 			$candidate = $data['candidate'];
 			unset($data['candidate']);
 		}
-
 		$this->db->where('interview', $id);
 		$this->db->delete(db_prefix() . 'cd_interview');
 
@@ -1110,7 +1102,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete candidate attachment
 	 * @param  int $id
-	 * @return bool   
+	 * @return bool
 	 */
 	public function delete_candidate_attachment($id) {
 		$attachment = $this->get_candidate_attachments('', $id);
@@ -1141,7 +1133,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete candidate avar attachment
 	 * @param  int $id
-	 * @return bool    
+	 * @return bool
 	 */
 	public function delete_candidate_avar_attachment($id) {
 		$attachment = $this->get_candidate_avar_attachments('', $id);
@@ -1171,9 +1163,9 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get candidate avar attachments
-	 * @param  object $candidate 
-	 * @param  string $id        
-	 * @return object            
+	 * @param  object $candidate
+	 * @param  string $id
+	 * @return object
 	 */
 	public function get_candidate_avar_attachments($candidate, $id = '') {
 		// If is passed id get return only 1 attachment
@@ -1194,8 +1186,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get candidate attachments
 	 * @param  object $candidate
-	 * @param  string $id       
-	 * @return object           
+	 * @param  string $id
+	 * @return object
 	 */
 	public function get_candidate_attachments($candidate, $id = '') {
 		// If is passed id get return only 1 attachment
@@ -1215,7 +1207,7 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * add care candidate
-	 * @param object $data 
+	 * @param object $data
 	 */
 	public function add_care_candidate($data) {
 		$data['care_time'] = to_sql_date($data['care_time'], true);
@@ -1229,7 +1221,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * rating candidate
 	 * @param  object $data
-	 * @return bool      
+	 * @return bool
 	 */
 	public function rating_candidate($data) {
 		$rs = 0;
@@ -1269,7 +1261,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * send mail candidate
 	 * @param  object $data
-	 * @return bool      
+	 * @return bool
 	 */
 	public function send_mail_candidate($data) {
 		$staff_id = get_staff_user_id();
@@ -1314,7 +1306,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * send mail list candidate
 	 * @param  object $data
-	 * @return object      
+	 * @return object
 	 */
 	public function send_mail_list_candidate($data) {
 		$staff_id = get_staff_user_id();
@@ -1361,11 +1353,12 @@ class Recruitment_model extends App_Model {
 	/**
 	 * check candidate interview
 	 * @param  object $data
-	 * @return object      
+	 * @return object
 	 */
 	public function check_candidate_interview($data) {
 		$data['interview_day'] = to_sql_date($data['interview_day']);
 		$cd = $data['candidate'];
+
 		$from_hours = $data['interview_day'] . ' ' . $data['from_time'] . ':00';
 		$to_hours = $data['interview_day'] . ' ' . $data['to_time'] . ':00';
 
@@ -1385,8 +1378,9 @@ class Recruitment_model extends App_Model {
 	 * get list cd
 	 * @return object
 	 */
+
 	public function get_list_cd() {
-		$this->db->select('id, candidate_name as label');
+		$this->db->select('id, CONCAT(candidate_name," ",last_name) as label');
 		return $this->db->get(db_prefix() . 'rec_candidate')->result_array();
 	}
 
@@ -1420,7 +1414,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get interview schedule
 	 * @param  string $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_interview_schedule($id = '') {
 		if ($id == '') {
@@ -1436,7 +1430,7 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * add evaluation criteria
-	 * @param object $data 
+	 * @param object $data
 	 */
 	public function add_evaluation_criteria($data) {
 		$data['add_from'] = get_staff_user_id();
@@ -1449,8 +1443,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update evaluation criteria
 	 * @param  object $data
-	 * @param  int $id  
-	 * @return bool      
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function update_evaluation_criteria($data, $id) {
 		$this->db->where('criteria_id', $id);
@@ -1464,7 +1458,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete evaluation criteria
 	 * @param  int $id
-	 * @return bool    
+	 * @return bool
 	 */
 	public function delete_evaluation_criteria($id) {
 		$affected_rows = 0;
@@ -1493,7 +1487,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get group evaluation criteria
 	 * @param  string $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_group_evaluation_criteria($id = '') {
 		if ($id == '') {
@@ -1529,7 +1523,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get criteria by group
 	 * @param  int $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_criteria_by_group($id) {
 		$this->db->where('group_criteria', $id);
@@ -1586,8 +1580,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update evaluation form
 	 * @param  object $data
-	 * @param  int $id  
-	 * @return bool      
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function update_evaluation_form($data, $id) {
 
@@ -1634,7 +1628,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete evaluation form
 	 * @param  int $id
-	 * @return bool    
+	 * @return bool
 	 */
 	public function delete_evaluation_form($id) {
 		$affected_rows = 0;
@@ -1660,7 +1654,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get list evaluation form
 	 * @param  string $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_list_evaluation_form($id = '') {
 		if ($id == '') {
@@ -1674,15 +1668,20 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get list criteria edit
 	 * @param  int $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_list_criteria_edit($id) {
+		$group_criteria = 0;
+		$evaluation_criteria = 0;
+
 		$groups = $this->get_group_evaluation_criteria();
 		$list_group = $this->db->query('SELECT distinct(tblrec_list_criteria.group_criteria) as id, criteria_title FROM tblrec_list_criteria
                       LEFT JOIN tblrec_criteria on tblrec_criteria.criteria_id = tblrec_list_criteria.group_criteria where tblrec_list_criteria.evaluation_form = ' . $id)->result_array();
 		$html = '<div class="new-kpi-group-al">';
 		$count_group = 0;
 		foreach ($list_group as $gr) {
+			$group_criteria++;
+
 			$list_criter = $this->db->query('select evaluation_criteria, criteria_title, percent from tblrec_list_criteria
                         left join tblrec_criteria on tblrec_criteria.criteria_id = tblrec_list_criteria.evaluation_criteria
                          where tblrec_list_criteria.evaluation_form = ' . $id . ' AND tblrec_list_criteria.group_criteria = ' . $gr['id'])->result_array();
@@ -1719,6 +1718,8 @@ class Recruitment_model extends App_Model {
                                 <div class="col-md-11 new-kpi-al pull-right margin-left-right-20-0">';
 			$count_criter = 0;
 			foreach ($list_criter as $li) {
+				$evaluation_criteria++;
+
 				$l_i = 'fa-plus';
 				$l_class = 'success';
 				$l_click = 'new_kpi';
@@ -1770,13 +1771,18 @@ class Recruitment_model extends App_Model {
 			$count_group++;
 		}
 
-		return $html;
+		$result = [];
+		$result['html'] = $html;
+		$result['group_criteria'] = $group_criteria;
+		$result['evaluation_criteria'] = $evaluation_criteria;
+
+		return $result;
 	}
 
 	/**
 	 * get evaluation form by position
 	 * @param  string $position
-	 * @return object          
+	 * @return object
 	 */
 	public function get_evaluation_form_by_position($position = '') {
 		$this->db->where('position', $position);
@@ -1813,8 +1819,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get interview by candidate
-	 * @param  object $candidate 
-	 * @return object            
+	 * @param  object $candidate
+	 * @return object
 	 */
 	public function get_interview_by_candidate($candidate) {
 		return $this->db->query('SELECT * FROM tblcd_interview LEFT JOIN tblrec_interview on tblrec_interview.id = tblcd_interview.interview where tblcd_interview.candidate = ' . $candidate)->result_array();
@@ -1823,8 +1829,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * change status candidate
 	 * @param  int $status
-	 * @param  int $id    
-	 * @return bool        
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function change_status_candidate($status, $id) {
 		$this->db->where('id', $id);
@@ -1842,7 +1848,7 @@ class Recruitment_model extends App_Model {
 	 */
 	public function add_setting_tranfer($data) {
 		$data['add_from'] = get_staff_user_id();
-		$data['add_date'] = date('Y-m-d');		
+		$data['add_date'] = date('Y-m-d');
 		if (isset($data['email_to'])) {
 			$data['email_to'] = implode(',', $data['email_to']);
 		}
@@ -1857,11 +1863,11 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update setting tranfer
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_setting_tranfer($data, $id) {
-		$rs = 0;		
+		$rs = 0;
 		if (isset($data['email_to'])) {
 			$data['email_to'] = implode(',', $data['email_to']);
 		}
@@ -1905,7 +1911,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * delete setting tranfer
 	 * @param  int $id
-	 * @return object    
+	 * @return object
 	 */
 	public function delete_setting_tranfer($id) {
 		$rs = 0;
@@ -1948,7 +1954,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get list set transfer
 	 * @param  boolean $id
-	 * @return object     
+	 * @return object
 	 */
 	public function get_list_set_transfer($id = false) {
 		if (is_numeric($id)) {
@@ -1972,7 +1978,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * action transfer hr
 	 * @param  object $data
-	 * @return object      
+	 * @return object
 	 */
 	public function action_transfer_hr($data) {
 
@@ -2002,15 +2008,17 @@ class Recruitment_model extends App_Model {
 			$ci->email->subject($inbox['subject']);
 			$ci->email->message($inbox['body']);
 
-			$attachment_url = site_url(RECRUITMENT_PATH . 'set_transfer/' . $data['id'] . '/' . $file->file_name);
-			$ci->email->attach($attachment_url);
+			if ($file) {
+				$attachment_url = site_url(RECRUITMENT_PATH . 'set_transfer/' . $data['id'] . '/' . $file->file_name);
+				$ci->email->attach($attachment_url);
+			}
 
 			$ci->email->send(true);
 		}
 	}
 
 	/**
-	 * get rec dashboard count 
+	 * get rec dashboard count
 	 * @return object
 	 */
 	public function get_rec_dashboard_count() {
@@ -2052,7 +2060,7 @@ class Recruitment_model extends App_Model {
 		$plans = $this->get_rec_proposal();
 
 		$chart = [];
-		$status_1 = ['name' => _l('_proposal'), 'color' => '#777', 'y' => 0, 'z' => 100];
+		$status_1 = ['name' => _l('planning'), 'color' => '#777', 'y' => 0, 'z' => 100];
 		$status_2 = ['name' => _l('approved'), 'color' => '#ff6f00', 'y' => 0, 'z' => 100];
 		$status_3 = ['name' => _l('made_finish'), 'color' => '#03a9f4', 'y' => 0, 'z' => 100];
 		$status_4 = ['name' => _l('reject'), 'color' => '#fc2d42', 'y' => 0, 'z' => 100];
@@ -2132,14 +2140,14 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get upcoming interview
-	 * @return object 
+	 * @return object
 	 */
 	public function get_upcoming_interview() {
 		return $this->db->query('select * from tblrec_interview where from_hours >= "' . date('Y-m-d H:i:s') . '"')->result_array();
 	}
 
 	/**
-	 * get form 
+	 * get form
 	 * @param  string $where
 	 * @return object
 	 */
@@ -2188,8 +2196,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * convert data campaign
-	 * @param  object $data 
-	 * @return object       
+	 * @param  object $data
+	 * @return object
 	 */
 	public function convert_data_campaign($data) {
 
@@ -2221,7 +2229,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * get recruitment channel
 	 * @param  boolean $id
-	 * @return object    
+	 * @return object
 	 */
 	public function get_recruitment_channel($id = false) {
 		if (is_numeric($id)) {
@@ -2237,9 +2245,9 @@ class Recruitment_model extends App_Model {
 	}
 
 	/**
-	 * delete recruitment channel 
-	 * @param  int $id 
-	 * @return bool    
+	 * delete recruitment channel
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function delete_recruitment_channel($id) {
 		$this->db->where('id', $id);
@@ -2252,9 +2260,9 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * count cv from recruitment channel
-	 * @param  int $id               
+	 * @param  int $id
 	 * @param  object $recruitment_channel
-	 * @return object                     
+	 * @return object
 	 */
 	public function count_cv_from_recruitment_channel($id, $recruitment_channel) {
 		$this->db->where('rec_campaign', $id);
@@ -2276,40 +2284,46 @@ class Recruitment_model extends App_Model {
 	 * @param string $form_key
 	 */
 	public function add_candidate_forms($data, $form_key = '') {
+
+		//Remove terms conditions checkbox
+		if (isset($data['accept_terms_and_conditions'])) {
+			unset($data['accept_terms_and_conditions']);
+		}
+
 		$this->db->where('form_key', $form_key);
 		$rec_campaign_form_web = $this->db->get(db_prefix() . 'rec_campaign_form_web')->row();
 		$count_row = $this->recruitment_model->count_row_all_candidate_profile();
 
-		if(isset($data['birthday'])){
+		if (isset($data['birthday'])) {
 			$data['birthday'] = $data['birthday'];
-			if(!$this->check_format_date($data['birthday'])){
+			if (!$this->check_format_date($data['birthday'])) {
 				$data['birthday'] = to_sql_date($data['birthday']);
 			}
 
 		}
 
-		if(isset($data['days_for_identity'])){
+		if (isset($data['days_for_identity'])) {
 
 			$data['days_for_identity'] = $data['days_for_identity'];
-			if(!$this->check_format_date($data['days_for_identity'])){
+			if (!$this->check_format_date($data['days_for_identity'])) {
 				$data['days_for_identity'] = to_sql_date($data['days_for_identity']);
 			}
 		}
 
 		/*general candidate code*/
-        $sql_where = 'SELECT * FROM '.db_prefix().'rec_candidate order by id desc limit 1';
-        $last_candidate_id = $this->db->query($sql_where)->row();
+		$sql_where = 'SELECT * FROM ' . db_prefix() . 'rec_candidate order by id desc limit 1';
+		$last_candidate_id = $this->db->query($sql_where)->row();
 
-        if($last_candidate_id){
-        	$last_id = (int)($last_candidate_id->id) + 1;
-        	$data['candidate_code'] = "WEB_" . $last_id;
-        }else{
-        	$data['candidate_code'] = "WEB_1";
-        }
+		if ($last_candidate_id) {
+			$last_id = (int) ($last_candidate_id->id) + 1;
+			$data['candidate_code'] = "WEB_" . $last_id;
+		} else {
+			$data['candidate_code'] = "WEB_1";
+		}
 
 		$data['recruitment_channel'] = 1; /*type: forms*/
 
-		if(isset($data['rec_campaignid'])){
+		if (isset($data['rec_campaignid'])) {
 			$data['rec_campaign'] = $data['rec_campaignid'];
 			unset($data['rec_campaignid']);
 
@@ -2320,7 +2334,7 @@ class Recruitment_model extends App_Model {
 			unset($data['desired_salary']);
 		}
 
-		if($rec_campaign_form_web){
+		if ($rec_campaign_form_web) {
 			$data['status'] = $rec_campaign_form_web->lead_status;
 		}
 
@@ -2329,7 +2343,7 @@ class Recruitment_model extends App_Model {
 		if (isset($data['from_date'])) {
 			$from_date = $data['from_date'];
 
-			if(!$this->check_format_date($data['from_date'])){
+			if (!$this->check_format_date($data['from_date'])) {
 				$from_date = to_sql_date($data['from_date']);
 			}
 
@@ -2341,7 +2355,7 @@ class Recruitment_model extends App_Model {
 		if (isset($data['to_date'])) {
 			$to_date = $data['to_date'];
 
-			if(!$this->check_format_date($data['to_date'])){
+			if (!$this->check_format_date($data['to_date'])) {
 				$to_date = to_sql_date($data['to_date']);
 			}
 
@@ -2392,25 +2406,25 @@ class Recruitment_model extends App_Model {
 		if (isset($data['literacy_from_date'])) {
 			$literacy_from_date = $data['literacy_from_date'];
 
-			if(!$this->check_format_date($data['literacy_from_date'])){
+			if (!$this->check_format_date($data['literacy_from_date'])) {
 				$literacy_from_date = to_sql_date($data['literacy_from_date']);
 			}
 
 			unset($data['literacy_from_date']);
 
-		}else{
-			$literacy_from_date='';
+		} else {
+			$literacy_from_date = '';
 		}
 
 		if (isset($data['literacy_to_date'])) {
 			$literacy_to_date = $data['literacy_to_date'];
 
-			if(!$this->check_format_date($data['literacy_to_date'])){
+			if (!$this->check_format_date($data['literacy_to_date'])) {
 				$literacy_to_date = to_sql_date($data['literacy_to_date']);
 			}
 
 			unset($data['literacy_to_date']);
-		}else{
+		} else {
 			$literacy_to_date = '';
 		}
 
@@ -2447,12 +2461,12 @@ class Recruitment_model extends App_Model {
 		if (isset($data['fi_birthday'])) {
 			$fi_birthday = $data['fi_birthday'];
 
-			if(!$this->check_format_date($data['fi_birthday'])){
+			if (!$this->check_format_date($data['fi_birthday'])) {
 				$fi_birthday = to_sql_date($data['fi_birthday']);
 			}
 
 			unset($data['fi_birthday']);
-		}else{
+		} else {
 			$fi_birthday = '';
 		}
 
@@ -2500,9 +2514,9 @@ class Recruitment_model extends App_Model {
 			unset($data['position_id']);
 		}
 
-		if(isset($data['skill'])){
-           $data['skill'] = implode(',',$data['skill']);
-        }		
+		if (isset($data['skill'])) {
+			$data['skill'] = implode(',', $data['skill']);
+		}
 
 		$this->db->insert(db_prefix() . 'rec_candidate', $data);
 		$insert_id = $this->db->insert_id();
@@ -2637,8 +2651,8 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update recruitment channel
 	 * @param  object $data
-	 * @param  int $id  
-	 * @return bool      
+	 * @param  int $id
+	 * @return bool
 	 */
 	public function update_recruitment_channel($data, $id) {
 		if (isset($data['r_form_name'])) {
@@ -2678,116 +2692,112 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get calendar interview schedule data
-	 * @param  [type]  $start   
-	 * @param  [type]  $end     
-	 * @param  boolean $filters 
-	 * @return [type]           
+	 * @param  [type]  $start
+	 * @param  [type]  $end
+	 * @param  boolean $filters
+	 * @return [type]
 	 */
-	public function get_calendar_interview_schedule_data($start, $end, $data){
-        $data = [];
-        $list_interview = $this->get_interview_schedule();
+	public function get_calendar_interview_schedule_data($start, $end, $data) {
+		$data = [];
+		$list_interview = $this->get_interview_schedule();
 
-        foreach($list_interview as $interview){
+		foreach ($list_interview as $interview) {
 
-            $calendar['title'] = $interview['is_name'];
-            $calendar['color'] = '#7cb342';
-            $calendar['_tooltip'] = $interview['is_name']."\n".' Day: '._d($interview['interview_day'])."\n".' Start: '.($interview['from_time']).' End: '.($interview['to_time']);
+			$calendar['title'] = $interview['is_name'];
+			$calendar['color'] = '#7cb342';
+			$calendar['_tooltip'] = $interview['is_name'] . "\n" . ' Day: ' . _d($interview['interview_day']) . "\n" . ' Start: ' . ($interview['from_time']) . ' End: ' . ($interview['to_time']);
 
-            $calendar['url'] = admin_url('recruitment/interview_schedule/'.$interview['id']);
-            $calendar['start'] = $interview['from_hours'];
-            $calendar['end'] = $interview['to_hours'];
-            array_push($data, $calendar);
-        }
+			$calendar['url'] = admin_url('recruitment/interview_schedule/' . $interview['id']);
+			$calendar['start'] = $interview['from_hours'];
+			$calendar['end'] = $interview['to_hours'];
+			array_push($data, $calendar);
+		}
 
-        return $data;
-        
-    }
+		return $data;
 
-    /**
+	}
+
+	/**
 	 * check format date Y-m-d
 	 *
 	 * @param      String   $date   The date
 	 *
-	 * @return     boolean 
+	 * @return     boolean
 	 */
-	public function check_format_date($date){
-		if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)) {
-		    return true;
+	public function check_format_date($date) {
+		if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
+			return true;
 		} else {
-		    return false;
+			return false;
 		}
 	}
 
 	/**
 	 * do kanban query
-	 * @param  [type]  $status 
-	 * @param  string  $search 
-	 * @param  integer $page   
-	 * @param  boolean $count  
-	 * @param  array   $where  
-	 * @return [type]          
+	 * @param  [type]  $status
+	 * @param  string  $search
+	 * @param  integer $page
+	 * @param  boolean $count
+	 * @param  array   $where
+	 * @return [type]
 	 */
-	public function do_kanban_query($status, $search = '', $page = 1, $count = false, $where = [])
-    {
-    	$candidates_profile_limit = 50;
-        $candidate_where = '';
+	public function do_kanban_query($status, $search = '', $page = 1, $count = false, $where = []) {
+		$candidates_profile_limit = 50;
+		$candidate_where = '';
 
-        $this->db->select('*');
+		$this->db->select('*');
 
-        $this->db->from(db_prefix() . 'rec_candidate');
-        $this->db->where('status', $status);
+		$this->db->from(db_prefix() . 'rec_candidate');
+		$this->db->where('status', $status);
 
-        $this->db->where($where);
+		$this->db->where($where);
 
-        if ($candidate_where != '') {
-            $this->db->where($candidate_where);
-        }
+		if ($candidate_where != '') {
+			$this->db->where($candidate_where);
+		}
 
+		$this->db->order_by('id', 'desc');
 
-        $this->db->order_by('id', 'desc');
+		if ($count == false) {
+			if ($page > 1) {
+				$page--;
+				$position = ($page * $candidates_profile_limit);
+				$this->db->limit($candidates_profile_limit, $position);
+			} else {
+				$this->db->limit($candidates_profile_limit);
+			}
+		}
 
-        if ($count == false) {
-            if ($page > 1) {
-                $page--;
-                $position = ($page * $candidates_profile_limit);
-                $this->db->limit($candidates_profile_limit, $position);
-            } else {
-                $this->db->limit($candidates_profile_limit);
-            }
-        }
+		if ($count == false) {
+			return $this->db->get()->result_array();
+		}
 
-        if ($count == false) {
-            return $this->db->get()->result_array();
-        }
-
-        return $this->db->count_all_results();
-    }
-
-
-    /**
-     * get recruitment channel form rec campaingn
-     * @param  integer $id 
-     * @return array      
-     */
-    public function get_recruitment_channel_form_campaingn($campaingn_id) {
-    	$form_id='';
-    	/*get form id from rec_campain*/
-    	$rec_campain_value = $this->get_rec_campaign($campaingn_id);
-    	if($rec_campain_value){
-    		$form_id = $rec_campain_value->rec_channel_form_id;
-    	}
-
-    	$this->db->where('id', $form_id);
-    	$data = $this->db->get(db_prefix() . 'rec_campaign_form_web')->row();
-    	return $data;
-    	
+		return $this->db->count_all_results();
 	}
 
+	/**
+	 * get recruitment channel form rec campaingn
+	 * @param  integer $id
+	 * @return array
+	 */
+	public function get_recruitment_channel_form_campaingn($campaingn_id) {
+		$form_id = '';
+		/*get form id from rec_campain*/
+		$rec_campain_value = $this->get_rec_campaign($campaingn_id);
+		if ($rec_campain_value) {
+			$form_id = $rec_campain_value->rec_channel_form_id;
+		}
+
+		$this->db->where('id', $form_id);
+		$data = $this->db->get(db_prefix() . 'rec_campaign_form_web')->row();
+		return $data;
+
+	}
 
 	/**
 	 * get skill
-	 * @param  boolean $id 
-	 * @return object      
+	 * @param  boolean $id
+	 * @return object
 	 */
 	public function get_skill($id = false) {
 
@@ -2803,10 +2813,9 @@ class Recruitment_model extends App_Model {
 
 	}
 
-
 	/**
 	 * add skill
-	 * @param object $data 
+	 * @param object $data
 	 */
 	public function add_skill($data) {
 		$this->db->insert(db_prefix() . 'rec_skill', $data);
@@ -2817,7 +2826,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update skill
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_skill($data, $id) {
@@ -2846,308 +2855,295 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * do kanban query
-	 * @param  [type]  $status 
-	 * @param  string  $search 
-	 * @param  integer $page   
-	 * @param  boolean $count  
-	 * @param  array   $where  
-	 * @return [type]          
+	 * @param  [type]  $status
+	 * @param  string  $search
+	 * @param  integer $page
+	 * @param  boolean $count
+	 * @param  array   $where
+	 * @return [type]
 	 */
-	public function do_recruitment_portal_search($status, $search = '', $page = 1, $count = false, $where = [])
-    {
+	public function do_recruitment_portal_search($status, $search = '', $page = 1, $count = false, $where = []) {
 
-    	$rec_campaign_limit = 10;
+		$rec_campaign_limit = 10;
 
-        $rec_campaign_where = '';
+		$rec_campaign_where = '';
 
-        $this->db->select('*,'.db_prefix().'rec_campaign.company_id');
-        $this->db->from(db_prefix() . 'rec_campaign');
+		$this->db->select('*,' . db_prefix() . 'rec_campaign.company_id');
+		$this->db->from(db_prefix() . 'rec_campaign');
 
-        $this->db->join(db_prefix() . 'rec_job_position', '' . db_prefix() . 'rec_job_position.position_id = ' . db_prefix() . 'rec_campaign.cp_position', 'left');
+		$this->db->join(db_prefix() . 'rec_job_position', '' . db_prefix() . 'rec_job_position.position_id = ' . db_prefix() . 'rec_campaign.cp_position', 'left');
 
-        $this->db->join(db_prefix() . 'rec_company', '' . db_prefix() . 'rec_campaign.company_id = ' . db_prefix() . 'rec_company.id', 'left');
+		$this->db->join(db_prefix() . 'rec_company', '' . db_prefix() . 'rec_campaign.company_id = ' . db_prefix() . 'rec_company.id', 'left');
 
-        $this->db->join(db_prefix() . 'job_industry', '' . db_prefix() . 'rec_job_position.industry_id = ' . db_prefix() . 'job_industry.id', 'left');
+		$this->db->join(db_prefix() . 'job_industry', '' . db_prefix() . 'rec_job_position.industry_id = ' . db_prefix() . 'job_industry.id', 'left');
 
-        $this->db->where('cp_status','3');
-		
+		$this->db->where('cp_status', '3');
+
 		$this->db->group_start();
 
-        $this->db->like('campaign_code', $search);
-        $this->db->or_like('campaign_name', $search);
-        $this->db->or_like('cp_proposal', $search);
-        $this->db->or_like(db_prefix().'rec_job_position.position_name', $search);
+		$this->db->like('campaign_code', $search);
+		$this->db->or_like('campaign_name', $search);
+		$this->db->or_like('cp_proposal', $search);
+		$this->db->or_like(db_prefix() . 'rec_job_position.position_name', $search);
 
-        $this->db->or_like('cp_form_work', $search);
-        $this->db->or_like('cp_form_work', str_replace(' ', '_', $search));
-        $this->db->or_like('cp_workplace', $search);
-        $this->db->or_like('cp_salary_from', $search);
-        $this->db->or_like('cp_salary_to', $search);
-        $this->db->or_like('cp_ages_from', $search);
-        $this->db->or_like('cp_ages_to', $search);
-        $this->db->or_like('cp_gender', $search);
-        $this->db->or_like('cp_literacy', $search);
+		$this->db->or_like('cp_form_work', $search);
+		$this->db->or_like('cp_form_work', str_replace(' ', '_', $search));
+		$this->db->or_like('cp_workplace', $search);
+		$this->db->or_like('cp_salary_from', $search);
+		$this->db->or_like('cp_salary_to', $search);
+		$this->db->or_like('cp_ages_from', $search);
+		$this->db->or_like('cp_ages_to', $search);
+		$this->db->or_like('cp_gender', $search);
+		$this->db->or_like('cp_literacy', $search);
 
-        $this->db->or_like('cp_experience', $search );
-        $this->db->or_like('cp_experience', str_replace(' ', '_', $search));
-        $this->db->or_like('company_name', $search );
-        $this->db->or_like('company_industry', $search );
-        $this->db->or_like('company_address', $search );
-        $this->db->or_like('industry_name', $search );
-        $this->db->or_like('industry_description', $search );
+		$this->db->or_like('cp_experience', $search);
+		$this->db->or_like('cp_experience', str_replace(' ', '_', $search));
+		$this->db->or_like('company_name', $search);
+		$this->db->or_like('company_industry', $search);
+		$this->db->or_like('company_address', $search);
+		$this->db->or_like('industry_name', $search);
+		$this->db->or_like('industry_description', $search);
 
-        $this->db->group_end();
-        
+		$this->db->group_end();
 
-        $this->db->where($where);
+		$this->db->where($where);
 
-        if ($rec_campaign_where != '') {
-            $this->db->where($rec_campaign_where);
-        }
+		if ($rec_campaign_where != '') {
+			$this->db->where($rec_campaign_where);
+		}
 
-        $this->db->order_by('cp_id', 'desc');
+		$this->db->order_by('cp_id', 'desc');
 
-        if ($count == false) {
-            if ($page > 1) {
-                $page--;
-                $position = ($page * $rec_campaign_limit);
-                $this->db->limit($rec_campaign_limit, $position);
-            } else {
-                $this->db->limit($rec_campaign_limit);
-            }
-        }
+		if ($count == false) {
+			if ($page > 1) {
+				$page--;
+				$position = ($page * $rec_campaign_limit);
+				$this->db->limit($rec_campaign_limit, $position);
+			} else {
+				$this->db->limit($rec_campaign_limit);
+			}
+		}
 
-        if ($count == false) {
-         $data =   $this->db->get()->result_array();
+		if ($count == false) {
+			$data = $this->db->get()->result_array();
 
+			/*get company logo*/
+			foreach ($data as $key => $value) {
+				$data[$key]['company_logo'] = RECRUITMENT_PATH . 'no_logo.jpg';
+				$data[$key]['alt_logo'] = 'no_logo.jpg';
 
-         /*get company logo*/
-         foreach ($data as $key => $value) {
-         	$data[$key]['company_logo'] = RECRUITMENT_PATH.'no_logo.jpg';
-         	$data[$key]['alt_logo'] = 'no_logo.jpg';
+				if (($value['company_id'] != '') && ($value['company_id'] != 0)) {
+					$this->db->where('rel_id', $value['company_id']);
+					$this->db->where('rel_type', "rec_company");
+					$logo = $this->db->get(db_prefix() . 'files')->row();
+					if ($logo) {
+						$data[$key]['company_logo'] = RECRUITMENT_PATH . '/company_images/' . $value['company_id'] . '/' . $logo->file_name;
+						$data[$key]['alt_logo'] = $logo->file_name;
 
-
-             if( ($value['company_id'] != '') && ($value['company_id'] != 0) ){
-             	 $this->db->where('rel_id', $value['company_id']);
-             	 $this->db->where('rel_type', "rec_company");
-             	$logo = $this->db->get(db_prefix().'files')->row();
-             	if($logo){
-         			$data[$key]['company_logo'] = RECRUITMENT_PATH.'/company_images/'.$value['company_id'].'/'.$logo->file_name;
-         			$data[$key]['alt_logo'] = $logo->file_name;
-
-             	}
-
-             }
-         }
-         return $data;
-         
-        }
-
-       return $this->db->count_all_results();
-    }
-
-    /**
-     * [do_recruitment_portal_search
-     * @param  [type]  $status 
-     * @param  string  $search 
-     * @param  integer $page   
-     * @param  boolean $count  
-     * @param  array   $where  
-     * @return [type]          
-     */
-    public function do_recruitment_show_more_job($status, $search = '', $page = 1, $count = false, $where = [])
-    {
-
-    	$arr_job = $this->do_recruitment_portal_search($status, $search, $page, $count, $where = []);
-
-    	$string_job ='';
-    	if(count($arr_job) > 0){
-    		foreach ($arr_job as $key => $rec_value) {
-
-    		    $string_job .= '<div class="job" id="job_68268">';
-
-    		    $string_job .= '<div class="row">';
-                          $string_job .='<div class="col-md-12">';
-                           $string_job .='<div class="row">';
-
-                    $string_job .= '<div class="job_content col-md-12">';
-
-                    	if(!isset($rec_value["company_id"]) || ($rec_value["company_id"] == "0")){
-
-                            $string_job .= '<div class="job-company-logo col-md-2 hide">';
-                    	}else{
-                            $string_job .= '<div class="job-company-logo col-md-2 ">';
-
-                    	}
-
-
-                                        $string_job .= '<img class="images_w_table" src="'.site_url($rec_value['company_logo']) .'" alt="'.$rec_value['alt_logo'] .'">';
-                                    $string_job .= '</div>';
-                      if(!isset($rec_value["company_id"]) || ($rec_value["company_id"] == "0")){
-                        $string_job .= '<div class="job__description col-md-7 job__description_margin">';
-
-                      }else{
-                        $string_job .= '<div class="job__description col-md-7 ">';
-
-                      }
-
-                            $string_job .= '<div class="job__body">';
-                                $string_job .= '<div class="details">';
-
-                                    $string_job .= '<h2 class="title"><a class="bold a-color" data-controller="utm-tracking" href="'.site_url("recruitment/recruitment_portal/job_detail/".$rec_value['cp_id']) .'">'.$rec_value['campaign_name'].'</a>';
-                                    $string_job .= '</h2>';
-
-                                			$string_job .= '<div class="salary not-signed-in">';
-                                                
-                                                $string_job .= '<a class="view-salary text-muted " data-toggle="modal" data-target="#sign-in-modal" rel="nofollow" href="#">'._l($rec_value['company_name']).'</a>';
-                                            $string_job .= '</div>';
-
-
-                                   				$string_job .= '<div class="salary not-signed-in">';
-
-                                                    $string_job .= '<div class="job-bottom">';
-                                                        $string_job .= '<div class="tag-list ">';
-                                                             if($rec_value['cp_form_work']){ 
-                                                                $string_job .= '<a class="job__skill ilabel mkt-track '.$rec_value['cp_form_work'].'-color" data-controller="utm-tracking" href="#">
-                                                                    <span>
-                                                                    '. _l($rec_value['cp_form_work']).'
-                                                                    </span>
-                                                                </a>';
-                                                            	}
-
-                                                            $string_job .= '<a class="job__skill ilabel-cp-workplace  mkt-track " data-controller="utm-tracking" href="#">
-
-                                                                <span> - '.$rec_value['cp_workplace'].'</span>
-                                                           		</a>';
-                                                            
-                                                        $string_job .= '</div>';
-                                                        
-                                                    $string_job .= '</div>';
-
-                                                $string_job .= '</div>';
-
-                                                $string_job .= '<div class="salary not-signed-in">';
-                                                    
-                                                    $string_job .= '<h5 class="view-salary bold " data-toggle="modal" data-target="#sign-in-modal" rel="nofollow" href="#">'._l($rec_value['position_name']).'</h5>';
-                                                $string_job .= '</div>';
-
-                              
-
-                                $string_job .= '<div class="job-description">';
-                                    
-                                    
-                                  $string_job .= '<p>'.$rec_value['cp_job_description'].' ...'.'</p>';
-                                $string_job .= '</div>';
-
-                                $string_job .= '</div>';
-                            $string_job .= '</div>';
-
-                        $string_job .= '</div>';
-
-                        $string_job .= '<div class="city_and_posted_date hidden-xs col-md-3">';
-
-                        	$string_job .= '<div class="feature-view_detail new text ">';
-                                            $string_job .= '<a class="bold a-color text-uppercase" data-controller="utm-tracking" href="'.site_url('recruitment/recruitment_portal/job_detail/'.$rec_value['cp_id']).'">'._l('view_detail').'</a>';
-                                        $string_job .= '</div>';
-
-                             if(strtotime(date("Y-m-d")) > strtotime($rec_value['cp_to_date'])){
-                                $string_job .= '<div class="feature new text ">'._l('overdue') .'</div>';
-                            }else{
-                                $string_job .= '<div class=""></div>';
-                            } 
-
-                            $string_job .= '<div class="distance-time-job-posted">';
-                                $string_job .= '<span class="distance-time highlight">'.
-                                	$rec_value['cp_from_date'].' - '.$rec_value['cp_to_date'].'
-                                </span>';
-                            $string_job .= '</div>';
-
-                        $string_job .= '</div>';
-                    $string_job .= '</div>';
-                    $string_job .='</div>';
-
-                        $string_job .='</div>';
-                      $string_job .= '</div> ';
-
-                $string_job .= '</div>';
-    		}
-
-    		$status = true;
-    	}else{
-
-    		$status = false;
-    	}
-
-    	$data=[];
-    	$data['value'] = $string_job;
-    	$data['status'] = $status;
-    	$data['page'] = (int)$page+1;
-
-    	return $data;
-    	    	
-    }
-
-    /**
-     * list position by campaign
-     * @param  integer $campaingn_id 
-     * @return string               
-     */
-    public function list_position_by_campaign($campaingn_id)
-	{
-        $options = '';
-        if($campaingn_id){
-			$this->db->where('cp_id', $campaingn_id);
-			$rec_campaign = $this->db->get(db_prefix().'rec_campaign')->row();
-			if($rec_campaign){
-				$position = $this->get_job_position($rec_campaign->cp_position);
-				if($position){
-						$options .= '<option value=""></option>';
-		             $options .= '<option value="' . $position->position_id . '">' . $position->position_name . '</option>';
+					}
 
 				}
-		    }
-        }else{
-        	$position = $this->get_job_position();
-        	if(count($position) > 0){
-        		$options .= '<option value=""></option>';
+			}
+			return $data;
 
-        		foreach ($position as $po_value) {
-        		    $options .= '<option value="' . $po_value['position_id'] . '">' . $po_value['position_name'] . '</option>';
-        		}
-        	}
+		}
 
-        }
-        return $options;
+		return $this->db->count_all_results();
+	}
+
+	/**
+	 * [do_recruitment_portal_search
+	 * @param  [type]  $status
+	 * @param  string  $search
+	 * @param  integer $page
+	 * @param  boolean $count
+	 * @param  array   $where
+	 * @return [type]
+	 */
+	public function do_recruitment_show_more_job($status, $search = '', $page = 1, $count = false, $where = []) {
+
+		$arr_job = $this->do_recruitment_portal_search($status, $search, $page, $count, $where = []);
+
+		$string_job = '';
+		if (count($arr_job) > 0) {
+			foreach ($arr_job as $key => $rec_value) {
+
+				$string_job .= '<div class="job" id="job_68268">';
+
+				$string_job .= '<div class="row">';
+				$string_job .= '<div class="col-md-12">';
+				$string_job .= '<div class="row">';
+
+				$string_job .= '<div class="job_content col-md-12">';
+
+				if (!isset($rec_value["company_id"]) || ($rec_value["company_id"] == "0")) {
+
+					$string_job .= '<div class="job-company-logo col-md-2 hide">';
+				} else {
+					$string_job .= '<div class="job-company-logo col-md-2 ">';
+
+				}
+
+				$string_job .= '<img class="images_w_table" src="' . site_url($rec_value['company_logo']) . '" alt="' . $rec_value['alt_logo'] . '">';
+				$string_job .= '</div>';
+				if (!isset($rec_value["company_id"]) || ($rec_value["company_id"] == "0")) {
+					$string_job .= '<div class="job__description col-md-7 job__description_margin">';
+
+				} else {
+					$string_job .= '<div class="job__description col-md-7 ">';
+
+				}
+
+				$string_job .= '<div class="job__body">';
+				$string_job .= '<div class="details">';
+
+				$string_job .= '<h2 class="title"><a class="bold a-color" data-controller="utm-tracking" href="' . site_url("recruitment/recruitment_portal/job_detail/" . $rec_value['cp_id']) . '">' . $rec_value['campaign_name'] . '</a>';
+				$string_job .= '</h2>';
+
+				$string_job .= '<div class="salary not-signed-in">';
+
+				$string_job .= '<a class="view-salary text-muted " data-toggle="modal" data-target="#sign-in-modal" rel="nofollow" href="#">' . _l($rec_value['company_name']) . '</a>';
+				$string_job .= '</div>';
+
+				$string_job .= '<div class="salary not-signed-in">';
+
+				$string_job .= '<div class="job-bottom">';
+				$string_job .= '<div class="tag-list ">';
+				if ($rec_value['cp_form_work']) {
+					$string_job .= '<a class="job__skill ilabel mkt-track ' . $rec_value['cp_form_work'] . '-color" data-controller="utm-tracking" href="#">
+                                                                    <span>
+                                                                    ' . _l($rec_value['cp_form_work']) . '
+                                                                    </span>
+                                                                </a>';
+				}
+
+				$string_job .= '<a class="job__skill ilabel-cp-workplace  mkt-track " data-controller="utm-tracking" href="#">
+
+                                                                <span> - ' . $rec_value['cp_workplace'] . '</span>
+                                                           		</a>';
+
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+
+				$string_job .= '<div class="salary not-signed-in">';
+
+				$string_job .= '<h5 class="view-salary bold " data-toggle="modal" data-target="#sign-in-modal" rel="nofollow" href="#">' . _l($rec_value['position_name']) . '</h5>';
+				$string_job .= '</div>';
+
+				$string_job .= '<div class="job-description">';
+
+				$string_job .= '<p>' . $rec_value['cp_job_description'] . ' ...' . '</p>';
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+
+				$string_job .= '<div class="city_and_posted_date hidden-xs col-md-3">';
+
+				$string_job .= '<div class="feature-view_detail new text ">';
+				$string_job .= '<a class="bold a-color text-uppercase" data-controller="utm-tracking" href="' . site_url('recruitment/recruitment_portal/job_detail/' . $rec_value['cp_id']) . '">' . _l('view_detail') . '</a>';
+				$string_job .= '</div>';
+
+				if (strtotime(date("Y-m-d")) > strtotime($rec_value['cp_to_date'])) {
+					$string_job .= '<div class="feature new text ">' . _l('overdue') . '</div>';
+				} else {
+					$string_job .= '<div class=""></div>';
+				}
+
+				$string_job .= '<div class="distance-time-job-posted">';
+				$string_job .= '<span class="distance-time highlight">' .
+					$rec_value['cp_from_date'] . ' - ' . $rec_value['cp_to_date'] . '
+                                </span>';
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+				$string_job .= '</div>';
+				$string_job .= '</div>';
+
+				$string_job .= '</div>';
+				$string_job .= '</div> ';
+
+				$string_job .= '</div>';
+			}
+
+			$status = true;
+		} else {
+
+			$status = false;
+		}
+
+		$data = [];
+		$data['value'] = $string_job;
+		$data['status'] = $status;
+		$data['page'] = (int) $page + 1;
+
+		return $data;
 
 	}
 
 	/**
-     * { recruitment campaign setting }
-     *
-     * @param      <type>   $data   The data
-     *
-     * @return     boolean 
-     */
-    public function recruitment_campaign_setting($data)
-    {
+	 * list position by campaign
+	 * @param  integer $campaingn_id
+	 * @return string
+	 */
+	public function list_position_by_campaign($campaingn_id) {
+		$options = '';
+		if ($campaingn_id) {
+			$this->db->where('cp_id', $campaingn_id);
+			$rec_campaign = $this->db->get(db_prefix() . 'rec_campaign')->row();
+			if ($rec_campaign) {
+				$position = $this->get_job_position($rec_campaign->cp_position);
+				if ($position) {
+					$options .= '<option value=""></option>';
+					$options .= '<option value="' . $position->position_id . '">' . $position->position_name . '</option>';
 
-            $val = $data['input_name_status'] == 'true' ? 1 : 0;
-            $this->db->where('name',$data['input_name']);
-            $this->db->update(db_prefix() . 'options', [
-                    'value' => $val,
-                ]);
-            if ($this->db->affected_rows() > 0) {
-                return true;
-            }else{
-                return false;
-            }
-    }
+				}
+			}
+		} else {
+			$position = $this->get_job_position();
+			if (count($position) > 0) {
+				$options .= '<option value=""></option>';
 
+				foreach ($position as $po_value) {
+					$options .= '<option value="' . $po_value['position_id'] . '">' . $po_value['position_name'] . '</option>';
+				}
+			}
 
-    /**
+		}
+		return $options;
+
+	}
+
+	/**
+	 * { recruitment campaign setting }
+	 *
+	 * @param      <type>   $data   The data
+	 *
+	 * @return     boolean
+	 */
+	public function recruitment_campaign_setting($data) {
+
+		$val = $data['input_name_status'] == 'true' ? 1 : 0;
+		$this->db->where('name', $data['input_name']);
+		$this->db->update(db_prefix() . 'options', [
+			'value' => $val,
+		]);
+		if ($this->db->affected_rows() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * get skill
-	 * @param  boolean $id 
-	 * @return object      
+	 * @param  boolean $id
+	 * @return object
 	 */
 	public function get_company($id = false) {
 
@@ -3163,10 +3159,9 @@ class Recruitment_model extends App_Model {
 
 	}
 
-
 	/**
 	 * add skill
-	 * @param object $data 
+	 * @param object $data
 	 */
 	public function add_company($data) {
 		$this->db->insert(db_prefix() . 'rec_company', $data);
@@ -3177,7 +3172,7 @@ class Recruitment_model extends App_Model {
 	/**
 	 * update skill
 	 * @param  object $data
-	 * @param  int $id  
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function update_company($data, $id) {
@@ -3200,10 +3195,10 @@ class Recruitment_model extends App_Model {
 		$this->db->where('rel_id', $id);
 		$this->db->where('rel_type', 'rec_company');
 
-		$array_file =  $this->db->get(db_prefix() . 'files')->result_array();
-		if(count($array_file) > 0 ){
+		$array_file = $this->db->get(db_prefix() . 'files')->result_array();
+		if (count($array_file) > 0) {
 			foreach ($array_file as $key => $file_value) {
-			    $this->delete_company_file($file_value['id']);
+				$this->delete_company_file($file_value['id']);
 			}
 		}
 
@@ -3218,8 +3213,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get company attachments
-	 * @param  integer $company_id 
-	 * @return array             
+	 * @param  integer $company_id
+	 * @return array
 	 */
 	public function get_company_attachments($company_id) {
 
@@ -3233,8 +3228,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * delete company file
-	 * @param  integer $attachment_id 
-	 * @return boolean                
+	 * @param  integer $attachment_id
+	 * @return boolean
 	 */
 	public function delete_company_file($attachment_id) {
 		$deleted = false;
@@ -3281,11 +3276,10 @@ class Recruitment_model extends App_Model {
 		return $deleted;
 	}
 
-
 	/**
 	 * get company attachments delete
-	 * @param  integer $id 
-	 * @return object     
+	 * @param  integer $id
+	 * @return object
 	 */
 	public function get_company_attachments_delete($id) {
 
@@ -3296,11 +3290,10 @@ class Recruitment_model extends App_Model {
 		}
 	}
 
-
 	/**
 	 * get industry
-	 * @param  boolean $id 
-	 * @return array      
+	 * @param  boolean $id
+	 * @return array
 	 */
 	public function get_industry($id = false) {
 
@@ -3316,10 +3309,9 @@ class Recruitment_model extends App_Model {
 
 	}
 
-
 	/**
 	 * add industry
-	 * @param array $data 
+	 * @param array $data
 	 */
 	public function add_industry($data) {
 		$this->db->insert(db_prefix() . 'job_industry', $data);
@@ -3329,9 +3321,9 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * update industry
-	 * @param  array $data 
-	 * @param  integer $id   
-	 * @return boolean       
+	 * @param  array $data
+	 * @param  integer $id
+	 * @return boolean
 	 */
 	public function update_industry($data, $id) {
 		$this->db->where('id', $id);
@@ -3344,8 +3336,8 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * delete industry
-	 * @param  integer $id 
-	 * @return boolean     
+	 * @param  integer $id
+	 * @return boolean
 	 */
 	public function delete_industry($id) {
 
@@ -3360,130 +3352,510 @@ class Recruitment_model extends App_Model {
 
 	/**
 	 * get rec campaign detail
-	 * @param  integer $id 
-	 * @return  object     
+	 * @param  integer $id
+	 * @return  object
 	 */
 	public function get_rec_campaign_detail($id) {
-		
-			$this->db->where('cp_id', $id);
-	        $rec_campaign = $this->db->get(db_prefix() . 'rec_campaign')->row();
 
-	        if($rec_campaign){
-	        	/*get rec job position*/
-	        	$this->db->where('position_id', $rec_campaign->cp_position);
-	        	$rec_job_position = $this->db->get(db_prefix() . 'rec_job_position')->row();
+		$this->db->where('cp_id', $id);
+		$rec_campaign = $this->db->get(db_prefix() . 'rec_campaign')->row();
 
-	        	$rec_campaign->position_name = '';
-	        	$rec_campaign->position_description = '';
-	        	$rec_campaign->industry_name = '';
-	        	$rec_campaign->industry_description = '';
+		if ($rec_campaign) {
+			/*get rec job position*/
+			$this->db->where('position_id', $rec_campaign->cp_position);
+			$rec_job_position = $this->db->get(db_prefix() . 'rec_job_position')->row();
 
-	        	$rec_campaign->company_name = '';
-    			$rec_campaign->company_description = '';
-    			$rec_campaign->company_address = '';
-    			$rec_campaign->company_industry = '';
+			$rec_campaign->position_name = '';
+			$rec_campaign->position_description = '';
+			$rec_campaign->industry_name = '';
+			$rec_campaign->industry_description = '';
 
-    			$rec_campaign->company_logo = RECRUITMENT_PATH.'no_logo.jpg';
-			    $rec_campaign->alt_logo = 'no_logo.jpg';
+			$rec_campaign->company_name = '';
+			$rec_campaign->company_description = '';
+			$rec_campaign->company_address = '';
+			$rec_campaign->company_industry = '';
 
-	        	if($rec_job_position){
-	        		$rec_campaign->position_name = $rec_job_position->position_name;
-	        		$rec_campaign->position_description = $rec_job_position->position_description;
-					
-					/*get job industry*/	        		
-					$this->db->where('id', $rec_job_position->industry_id);
-	        		$rec_job_industry = $this->db->get(db_prefix() . 'job_industry')->row();
+			$rec_campaign->company_logo = RECRUITMENT_PATH . 'no_logo.jpg';
+			$rec_campaign->alt_logo = 'no_logo.jpg';
 
-	        		if($rec_job_industry){
-						$rec_campaign->industry_name = $rec_job_industry->industry_name;
-	        			$rec_campaign->industry_description = $rec_job_industry->industry_description;
-					
-	        		}
+			if ($rec_job_position) {
+				$rec_campaign->position_name = $rec_job_position->position_name;
+				$rec_campaign->position_description = $rec_job_position->position_description;
 
-	        		/*get job company*/	        		
-					$this->db->where('id', $rec_campaign->company_id);
-	        		$rec_company = $this->db->get(db_prefix() . 'rec_company')->row();
+				/*get job industry*/
+				$this->db->where('id', $rec_job_position->industry_id);
+				$rec_job_industry = $this->db->get(db_prefix() . 'job_industry')->row();
 
-	        		if($rec_company){
-	        			$rec_campaign->company_name = $rec_company->company_name;
-	        			$rec_campaign->company_description = $rec_company->company_description;
-	        			$rec_campaign->company_address = $rec_company->company_address;
-	        			$rec_campaign->company_industry = $rec_company->company_industry;
+				if ($rec_job_industry) {
+					$rec_campaign->industry_name = $rec_job_industry->industry_name;
+					$rec_campaign->industry_description = $rec_job_industry->industry_description;
 
-	        			/*get company logo*/
-	        			
-			             	 $this->db->where('rel_id', $rec_campaign->company_id);
-			             	 $this->db->where('rel_type', "rec_company");
-			             	$logo = $this->db->get(db_prefix().'files')->row();
-			             	if($logo){
-			         			$rec_campaign->company_logo = RECRUITMENT_PATH.'/company_images/'.$rec_campaign->company_id.'/'.$logo->file_name;
-			         			$rec_campaign->alt_logo = $logo->file_name;
+				}
 
-			             	}
+				/*get job skill*/
+				if ($rec_job_position->job_skill) {
 
-				        /*get job skill*/
-				        if($rec_job_position->job_skill){
+					$this->db->where('id IN ' . '(' . $rec_job_position->job_skill . ')');
+					$rec_job_skill = $this->db->get(db_prefix() . 'rec_skill')->result_array();
 
-					        $this->db->where('id IN '. '('.$rec_job_position->job_skill.')');
-		        			$rec_job_skill = $this->db->get(db_prefix() . 'rec_skill')->result_array();
+					$rec_campaign->rec_job_skill = $rec_job_skill;
 
-		        			$rec_campaign->rec_job_skill = $rec_job_skill;
+				}
 
-				        }
+				/*get job company*/
+				$this->db->where('id', $rec_campaign->company_id);
+				$rec_company = $this->db->get(db_prefix() . 'rec_company')->row();
 
-			            /*get job in company*/
-			            $this->db->select('*,'.db_prefix().'rec_campaign.company_id');
-				        $this->db->from(db_prefix() . 'rec_campaign');
+				if ($rec_company) {
+					$rec_campaign->company_name = $rec_company->company_name;
+					$rec_campaign->company_description = $rec_company->company_description;
+					$rec_campaign->company_address = $rec_company->company_address;
+					$rec_campaign->company_industry = $rec_company->company_industry;
 
-				        $this->db->join(db_prefix() . 'rec_job_position', '' . db_prefix() . 'rec_job_position.position_id = ' . db_prefix() . 'rec_campaign.cp_position', 'left');
+					/*get company logo*/
 
-				        $this->db->join(db_prefix() . 'rec_company', '' . db_prefix() . 'rec_campaign.company_id = ' . db_prefix() . 'rec_company.id', 'left');
+					$this->db->where('rel_id', $rec_campaign->company_id);
+					$this->db->where('rel_type', "rec_company");
+					$logo = $this->db->get(db_prefix() . 'files')->row();
+					if ($logo) {
+						$rec_campaign->company_logo = RECRUITMENT_PATH . '/company_images/' . $rec_campaign->company_id . '/' . $logo->file_name;
+						$rec_campaign->alt_logo = $logo->file_name;
 
-				        $this->db->join(db_prefix() . 'job_industry', '' . db_prefix() . 'rec_job_position.industry_id = ' . db_prefix() . 'job_industry.id', 'left');
+					}
 
-				        $this->db->where(db_prefix().'rec_campaign.company_id',$rec_company->id);
-				        $this->db->where('cp_id !=', $id);
-				        $this->db->where('cp_status =', '3');
+					/*get job in company*/
+					$this->db->select('*,' . db_prefix() . 'rec_campaign.company_id');
+					$this->db->from(db_prefix() . 'rec_campaign');
 
-						$this->db->order_by('cp_id', 'desc');
-						$this->db->limit(10);
+					$this->db->join(db_prefix() . 'rec_job_position', '' . db_prefix() . 'rec_job_position.position_id = ' . db_prefix() . 'rec_campaign.cp_position', 'left');
 
-						$job_in_company =   $this->db->get()->result_array();
-						     /*get company logo*/
-					         foreach ($job_in_company as $key => $value) {
-					         	$job_in_company[$key]['company_logo'] = RECRUITMENT_PATH.'no_logo.jpg';
-					         	$job_in_company[$key]['alt_logo'] = 'no_logo.jpg';
+					$this->db->join(db_prefix() . 'rec_company', '' . db_prefix() . 'rec_campaign.company_id = ' . db_prefix() . 'rec_company.id', 'left');
 
+					$this->db->join(db_prefix() . 'job_industry', '' . db_prefix() . 'rec_job_position.industry_id = ' . db_prefix() . 'job_industry.id', 'left');
 
-					             if( ($value['company_id'] != '') && ($value['company_id'] != 0) ){
-					             	 $this->db->where('rel_id', $value['company_id']);
-					             	 $this->db->where('rel_type', "rec_company");
-					             	$logo = $this->db->get(db_prefix().'files')->row();
-					             	if($logo){
-					         			$job_in_company[$key]['company_logo'] = RECRUITMENT_PATH.'/company_images/'.$value['company_id'].'/'.$logo->file_name;
-					         			$job_in_company[$key]['alt_logo'] = $logo->file_name;
+					$this->db->where(db_prefix() . 'rec_campaign.company_id', $rec_company->id);
+					$this->db->where('cp_id !=', $id);
+					$this->db->where('cp_status =', '3');
 
-					             	}
+					$this->db->order_by('cp_id', 'desc');
+					$this->db->limit(10);
 
-					             }
-					         }
+					$job_in_company = $this->db->get()->result_array();
+					/*get company logo*/
+					foreach ($job_in_company as $key => $value) {
+						$job_in_company[$key]['company_logo'] = RECRUITMENT_PATH . 'no_logo.jpg';
+						$job_in_company[$key]['alt_logo'] = 'no_logo.jpg';
 
-						$rec_campaign->job_in_company = $job_in_company;
+						if (($value['company_id'] != '') && ($value['company_id'] != 0)) {
+							$this->db->where('rel_id', $value['company_id']);
+							$this->db->where('rel_type', "rec_company");
+							$logo = $this->db->get(db_prefix() . 'files')->row();
+							if ($logo) {
+								$job_in_company[$key]['company_logo'] = RECRUITMENT_PATH . '/company_images/' . $value['company_id'] . '/' . $logo->file_name;
+								$job_in_company[$key]['alt_logo'] = $logo->file_name;
 
+							}
 
-	        		}
-	        	}
+						}
+					}
 
+					$rec_campaign->job_in_company = $job_in_company;
 
-	        }
-	        return $rec_campaign;
-	        
+				}
+			}
+
+		}
+		return $rec_campaign;
 
 	}
 
+	/**
+	 * portal send mail to friend
+	 * @param  [type] $data
+	 * @return [type]
+	 */
+	public function portal_send_mail_to_friend($data) {
 
+		$inbox['body'] = _strip_tags($data['content']);
+		$inbox['body'] = nl2br_save_html($inbox['body']);
 
+		$ci = &get_instance();
+		$ci->email->initialize();
+		$ci->load->library('email');
+		$ci->email->clear(true);
 
+		if (strlen(get_option('smtp_host_sms_email')) > 0 && strlen(get_option('smtp_password_sms_email')) > 0 && strlen(get_option('smtp_username_sms_email'))) {
 
+			$ci->email->from(get_option('smtp_email_sms_email'), get_option('companyname'));
+
+		} else {
+			$ci->email->from(get_option('smtp_email'), get_option('companyname'));
+
+		}
+
+		$ci->email->to($data['email']);
+
+		$ci->email->message(get_option('email_header') . $inbox['body'] . get_option('email_footer'));
+
+		$ci->email->subject(_strip_tags($data['subject']));
+
+		if ($ci->email->send(true)) {
+			return true;
+		}
+
+	}
+
+	public function get_tranfer_personnel_file($id) {
+		$data = [];
+		$arr_file = $this->re_get_attachments_file($id, 'rec_set_transfer');
+
+		$htmlfile = '';
+		//get file attachment html
+		if (isset($arr_file)) {
+			$htmlfile = '<div class="row col-md-12" id="attachment_file">';
+			foreach ($arr_file as $attachment) {
+				$href_url = site_url('modules/recruitment/uploads/set_transfer/' . $attachment['rel_id'] . '/' . $attachment['file_name']) . '" download';
+				if (!empty($attachment['external'])) {
+					$href_url = $attachment['external_link'];
+				}
+				$htmlfile .= '<div class="display-block contract-attachment-wrapper">';
+				$htmlfile .= '<div class="col-md-10">';
+				$htmlfile .= '<div class="col-md-1 mr-5">';
+				$htmlfile .= '<a name="preview-btn" onclick="preview_file_tranfer_personnel(this); return false;" rel_id = "' . $attachment['rel_id'] . '" id = "' . $attachment['id'] . '" href="Javascript:void(0);" class="mbot10 btn btn-success pull-left" data-toggle="tooltip" title data-original-title="' . _l("preview_file") . '">';
+				$htmlfile .= '<i class="fa fa-eye"></i>';
+				$htmlfile .= '</a>';
+				$htmlfile .= '</div>';
+				$htmlfile .= '<div class=col-md-9>';
+				$htmlfile .= '<div class="pull-left"><i class="' . get_mime_class($attachment['filetype']) . '"></i></div>';
+				$htmlfile .= '<a href="' . $href_url . '>' . $attachment['file_name'] . '</a>';
+				$htmlfile .= '<p class="text-muted">' . $attachment["filetype"] . '</p>';
+				$htmlfile .= '</div>';
+				$htmlfile .= '</div>';
+				$htmlfile .= '<div class="col-md-2 text-right">';
+				if (is_admin() || hrm_permissions('recruitment', '', 'delete')) {
+					$htmlfile .= '<a href="#" class="text-danger" onclick="delete_tranfer_personnel_attachment(this,' . $attachment['id'] . '); return false;"><i class="fa fa fa-times"></i></a>';
+				}
+				$htmlfile .= '</div>';
+				$htmlfile .= '<div class="clearfix"></div><hr/>';
+				$htmlfile .= '</div>';
+			}
+			$htmlfile .= '</div>';
+		}
+
+		$data['htmlfile'] = $htmlfile;
+
+		return $data;
+
+	}
+
+	/**
+	 * re get attachments file
+	 * @param  [type] $rel_id
+	 * @param  [type] $rel_type
+	 * @return [type]
+	 */
+	public function re_get_attachments_file($rel_id, $rel_type, $id = false) {
+		if (is_numeric($id)) {
+			$this->db->where('id', $id);
+			$this->db->where('rel_type', $rel_type);
+			$result = $this->db->get(db_prefix() . 'files');
+
+			return $result->row();
+		}
+
+		if ($id == false) {
+			$this->db->order_by('dateadded', 'desc');
+			$this->db->where('rel_id', $rel_id);
+			$this->db->where('rel_type', $rel_type);
+
+			return $this->db->get(db_prefix() . 'files')->result_array();
+		}
+
+	}
+
+	/**
+	 * delete transfer personnal attachment file
+	 * @param  [type] $attachment_id
+	 * @return [type]
+	 */
+	public function delete_transfer_personnal_attachment_file($id) {
+		$attachment = $this->re_get_attachments_file('', 'rec_set_transfer', $id);
+		$deleted = false;
+		if ($attachment) {
+			if (empty($attachment->external)) {
+				unlink(RECRUITMENT_MODULE_UPLOAD_FOLDER . '/set_transfer/' . $attachment->rel_id . '/' . $attachment->file_name);
+			}
+			$this->db->where('id', $attachment->id);
+			$this->db->delete('tblfiles');
+			if ($this->db->affected_rows() > 0) {
+				$deleted = true;
+			}
+
+			if (is_dir(RECRUITMENT_MODULE_UPLOAD_FOLDER . '/set_transfer/' . $attachment->rel_id)) {
+				// Check if no attachments left, so we can delete the folder also
+				$other_attachments = list_files(RECRUITMENT_MODULE_UPLOAD_FOLDER . '/set_transfer/' . $attachment->rel_id);
+				if (count($other_attachments) == 0) {
+					// okey only index.html so we can delete the folder also
+					delete_dir(RECRUITMENT_MODULE_UPLOAD_FOLDER . '/set_transfer/' . $attachment->rel_id);
+				}
+			}
+		}
+
+		return $deleted;
+	}
+
+	/**
+	 * rec add staff
+	 * @param  [type] $data
+	 * @return [type]
+	 */
+	public function rec_add_staff($data) {
+		$data['birthday'] = to_sql_date($data['birthday']);
+		$data['days_for_identity'] = to_sql_date($data['days_for_identity']);
+		if (isset($data['fakeusernameremembered'])) {
+			unset($data['fakeusernameremembered']);
+		}
+		if (isset($data['fakepasswordremembered'])) {
+			unset($data['fakepasswordremembered']);
+		}
+		if (isset($data['DataTables_Table_3_length'])) {
+			unset($data['DataTables_Table_3_length']);
+		}
+		if (isset($data['DataTables_Table_1_length'])) {
+			unset($data['DataTables_Table_1_length']);
+		}
+		if (isset($data['DataTables_Table_2_length'])) {
+			unset($data['DataTables_Table_2_length']);
+		}
+		if (isset($data['DataTables_Table_11_length'])) {
+			unset($data['DataTables_Table_11_length']);
+		}
+		if (isset($data['DataTables_Table_12_length'])) {
+			unset($data['DataTables_Table_12_length']);
+		}
+		if (isset($data['DataTables_Table_13_length'])) {
+			unset($data['DataTables_Table_13_length']);
+		}
+		// First check for all cases if the email exists.
+		$this->db->where('email', $data['email']);
+		$email = $this->db->get(db_prefix() . 'staff')->row();
+		if ($email) {
+			die('Email already exists');
+		}
+		$data['admin'] = 0;
+		if (is_admin()) {
+			if (isset($data['administrator'])) {
+				$data['admin'] = 1;
+				unset($data['administrator']);
+			}
+		}
+
+		$send_welcome_email = true;
+		$original_password = $data['password'];
+		if (!isset($data['send_welcome_email'])) {
+			$send_welcome_email = false;
+		} else {
+			unset($data['send_welcome_email']);
+		}
+
+		$data['password'] = app_hash_password($data['password']);
+		$data['datecreated'] = date('Y-m-d H:i:s');
+		if (isset($data['departments'])) {
+			$departments = $data['departments'];
+			unset($data['departments']);
+		}
+
+		$permissions = [];
+		if (isset($data['permissions'])) {
+			$permissions = $data['permissions'];
+			unset($data['permissions']);
+		}
+
+		if (isset($data['custom_fields'])) {
+			$custom_fields = $data['custom_fields'];
+			unset($data['custom_fields']);
+		}
+		if (isset($data['nationality'])) {
+			unset($data['nationality']);
+		}
+		if ($data['admin'] == 1) {
+			$data['is_not_staff'] = 0;
+		}
+
+		$this->db->insert(db_prefix() . 'staff', $data);
+		$data['lastname'] = '';
+		$staffid = $this->db->insert_id();
+		if ($staffid) {
+			$slug = $data['firstname'] . ' ' . $data['lastname'];
+
+			if ($slug == ' ') {
+				$slug = 'unknown-' . $staffid;
+			}
+
+			if ($send_welcome_email == true) {
+				send_mail_template('staff_created', $data['email'], $staffid, $original_password);
+			}
+
+			$this->db->where('staffid', $staffid);
+			$this->db->update(db_prefix() . 'staff', [
+				'media_path_slug' => slug_it($slug),
+			]);
+
+			if (isset($custom_fields)) {
+				handle_custom_fields_post($staffid, $custom_fields);
+			}
+			if (isset($departments)) {
+				foreach ($departments as $department) {
+					$this->db->insert(db_prefix() . 'staff_departments', [
+						'staffid' => $staffid,
+						'departmentid' => $department,
+					]);
+				}
+			}
+
+			// Delete all staff permission if is admin we dont need permissions stored in database (in case admin check some permissions)
+			$this->rec_update_permissions($data['admin'] == 1 ? [] : $permissions, $staffid);
+
+			log_activity('New Staff Member Added [ID: ' . $staffid . ', ' . $data['firstname'] . ' ' . $data['lastname'] . ']');
+
+			// Get all announcements and set it to read.
+			$this->db->select('announcementid');
+			$this->db->from(db_prefix() . 'announcements');
+			$this->db->where('showtostaff', 1);
+			$announcements = $this->db->get()->result_array();
+			foreach ($announcements as $announcement) {
+				$this->db->insert(db_prefix() . 'dismissed_announcements', [
+					'announcementid' => $announcement['announcementid'],
+					'staff' => 1,
+					'userid' => $staffid,
+				]);
+			}
+			hooks()->do_action('staff_member_created', $staffid);
+
+			return $staffid;
+		}
+
+		return false;
+	}
+
+	/**
+	 * rec update permissions
+	 * @param  [type] $permissions
+	 * @param  [type] $id
+	 * @return [type]
+	 */
+	public function rec_update_permissions($permissions, $id) {
+		$this->db->where('staff_id', $id);
+		$this->db->delete('staff_permissions');
+
+		$is_staff_member = is_staff_member($id);
+
+		foreach ($permissions as $feature => $capabilities) {
+			foreach ($capabilities as $capability) {
+
+				// Maybe do this via hook.
+				if ($feature == 'leads' && !$is_staff_member) {
+					continue;
+				}
+
+				$this->db->insert('staff_permissions', ['staff_id' => $id, 'feature' => $feature, 'capability' => $capability]);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * candidate export pdf
+	 * @param  [type] $export_candidate
+	 * @return [type]
+	 */
+	public function candidate_export_pdf($export_candidate) {
+		return app_pdf('export_candidate', module_dir_path(RECRUITMENT_MODULE_NAME, 'libraries/pdf/Export_candidate_pdf.php'), $export_candidate);
+	}
+
+	/**
+	 * get candidate profile by id
+	 * @param  [type] $ids
+	 * @return [type]
+	 */
+	public function get_candidate_profile_by_id($ids) {
+		$arr_id = implode(",", $ids);
+
+		$this->db->where('id IN (' . $arr_id . ')');
+		$candidates = $this->db->get(db_prefix() . 'rec_candidate')->result_array();
+
+		$this->db->where('candidate IN (' . $arr_id . ')');
+		$literacy = $this->db->get(db_prefix() . 'cd_literacy')->result_array();
+
+		$candidate_literacy = [];
+		foreach ($literacy as $value) {
+			$candidate_literacy[$value['candidate']][] = $value;
+		}
+
+		$this->db->where('candidate IN (' . $arr_id . ')');
+		$work_experience = $this->db->get(db_prefix() . 'cd_work_experience')->result_array();
+
+		$candidate_experience = [];
+		foreach ($work_experience as $w_value) {
+			$candidate_experience[$w_value['candidate']][] = $w_value;
+		}
+
+		$this->db->where('rel_id IN (' . $arr_id . ')');
+		$this->db->where('rel_type', 'rec_cadidate_avar');
+		$result = $this->db->get(db_prefix() . 'files')->result_array();
+
+		$cadidate_avatar = [];
+		foreach ($result as $avatar) {
+			$cadidate_avatar[$avatar['rel_id']] = $avatar;
+		}
+
+		/*get job skill*/
+
+		$rec_job_skill = $this->db->get(db_prefix() . 'rec_skill')->result_array();
+		$rec_skill = [];
+		foreach ($rec_job_skill as $value) {
+			$rec_skill[$value['id']] = $value['skill_name'];
+		}
+
+		//get job name by campaign
+		$sql_where = 'SELECT cp.cp_id, jp.position_name FROM ' . db_prefix() . 'rec_campaign as cp
+		left join ' . db_prefix() . 'rec_job_position as jp on cp.cp_position = jp.position_id
+		';
+		$campaigns = $this->db->query($sql_where)->result_array();
+
+		$job_positions = [];
+		foreach ($campaigns as $campaign) {
+			$job_positions[$campaign['cp_id']] = $campaign['position_name'];
+		}
+
+		$data = [];
+		$data['candidate'] = $candidates;
+		$data['candidate_literacy'] = $candidate_literacy;
+		$data['candidate_experience'] = $candidate_experience;
+		$data['cadidate_avatar'] = $cadidate_avatar;
+		$data['rec_skill'] = $rec_skill;
+		$data['job_positions'] = $job_positions;
+
+		return $data;
+	}
+
+	/**
+	 * get last staff id
+	 * @return [type]
+	 */
+	public function get_last_staff_id() {
+		$sql_where = "SELECT * FROM " . db_prefix() . "staff
+    	order by staffid desc
+    	limit 1
+    	;";
+
+		$staff = $this->db->query($sql_where)->row();
+		if ($staff) {
+			return $staff->staffid;
+		} else {
+			return 1;
+		}
+	}
 
 }

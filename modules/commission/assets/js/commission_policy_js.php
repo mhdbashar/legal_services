@@ -54,7 +54,7 @@
     rowHeaders: true,
     colHeaders: [
       '<?php echo _l('product_groups'); ?>',
-      '<?php echo _l('product'); ?>',
+      '<?php echo _l('commission_product'); ?>',
       '<?php echo _l('from_number'); ?>',
       '<?php echo _l('to_number'); ?>',
       '<?php echo _l('percent_enjoyed'); ?>',
@@ -109,6 +109,90 @@
     });
   });
 
+var Input_totall = $('#task_checklist_category').children().length;
+    var addMoreInputKey = 100;
+
+  $("body").on('click', '.new_template', function() {
+
+    var new_template = $('#task_checklist_category').find('.template_children').eq(0).clone().appendTo('#task_checklist_category');
+
+    for(var i = 0; i <= new_template.find('#template-item').length ; i++){
+        if(i > 0){
+          new_template.find('#template-item').eq(i).remove();
+        }
+        new_template.find('#template-item').eq(1).remove();
+    }
+
+    new_template.find('.template').attr('value', Input_totall);
+    new_template.find('button[role="combobox"]').remove();
+    new_template.find('select').selectpicker('refresh');
+    // start expense
+    
+    new_template.find('label[for="ladder_product[0]"]').attr('for', 'ladder_product[' + Input_totall + ']');
+    new_template.find('select[name="ladder_product[0]"]').attr('name', 'ladder_product[' + Input_totall + ']');
+    new_template.find('select[id="ladder_product[0]"]').attr('id', 'ladder_product[' + Input_totall + ']').selectpicker('refresh');
+
+    new_template.find('input[id="from_amount_product[0][0]"]').attr('name', 'from_amount_product['+Input_totall+'][0]').val('');
+    new_template.find('input[id="from_amount_product[0][0]"]').attr('id', 'from_amount_product['+Input_totall+'][0]').val('');
+
+    new_template.find('input[id="to_amount_product[0][0]"]').attr('name', 'to_amount_product['+Input_totall+'][0]').val('');
+    new_template.find('input[id="to_amount_product[0][0]"]').attr('id', 'to_amount_product['+Input_totall+'][0]').val('');
+
+    new_template.find('input[id="percent_enjoyed_ladder_product[0][0]"]').attr('name', 'percent_enjoyed_ladder_product['+Input_totall+'][0]').val('');
+    new_template.find('input[id="percent_enjoyed_ladder_product[0][0]"]').attr('id', 'percent_enjoyed_ladder_product['+Input_totall+'][0]').val('');
+
+    new_template.find('button[name="add_template"] i').removeClass('fa-plus').addClass('fa-minus');
+    new_template.find('button[name="add_template"]').removeClass('new_template').addClass('remove_template').removeClass('btn-success').addClass('btn-danger');
+
+    Input_totall++;
+
+    $("input[data-type='currency']").on({
+      keyup: function() {
+        formatCurrency($(this));
+      },
+      blur: function() {
+        formatCurrency($(this), "blur");
+      }
+  });
+
+});
+
+  $("body").on('click', '.new_template_item', function() {
+  var idrow = $(this).parents('.template').attr("value");
+
+  var new_item = $(this).parents('.template').find('#template-item').eq(0).clone().appendTo($(this).parents('.template'));
+
+    new_item.find('input[id="from_amount_product[' + idrow + '][0]"]').attr('name', 'from_amount_product['+idrow+'][' + addMoreInputKey + ']').val('');
+    new_item.find('input[id="from_amount_product[' + idrow + '][0]"]').attr('id', 'from_amount_product['+idrow+'][' + addMoreInputKey + ']').val('');
+
+    new_item.find('input[id="to_amount_product[' + idrow + '][0]"]').attr('name', 'to_amount_product['+idrow+'][' + addMoreInputKey + ']').val('');
+    new_item.find('input[id="to_amount_product[' + idrow + '][0]"]').attr('id', 'to_amount_product['+idrow+'][' + addMoreInputKey + ']').val('');
+
+    new_item.find('input[id="percent_enjoyed_ladder_product[' + idrow + '][0]"]').attr('name', 'percent_enjoyed_ladder_product['+idrow+'][' + addMoreInputKey + ']').val('');
+    new_item.find('input[id="percent_enjoyed_ladder_product[' + idrow + '][0]"]').attr('id', 'percent_enjoyed_ladder_product['+idrow+'][' + addMoreInputKey + ']').val('');
+
+    new_item.find('button[name="add"] i').removeClass('fa-plus').addClass('fa-minus');
+    new_item.find('button[name="add"]').removeClass('new_template_item').addClass('remove_template_item').removeClass('btn-success').addClass('btn-danger');
+    addMoreInputKey++;
+
+    $("input[data-type='currency']").on({
+      keyup: function() {
+        formatCurrency($(this));
+      },
+      blur: function() {
+        formatCurrency($(this), "blur");
+      }
+  });
+    });
+
+$("body").on('click', '.remove_template_item', function() {
+    $(this).parents('#template-item').remove();
+});
+
+$("body").on('click', '.remove_template', function() {
+    $(this).parents('.template_children').remove();
+});
+
   $('.commission-policy-form-submiter').on('click', function() {
     $('input[name="product_setting"]').val(JSON.stringify(hot.getData()));
   });
@@ -130,18 +214,27 @@
     if($(this).val() == '2'){
       $("div[id='calculated_as_percentage']").removeClass('hide');
       $("div[id='calculated_by_the_product']").addClass('hide');
+      $("div[id='calculated_product_as_ladder']").addClass('hide');
       $("div[id='calculated_as_ladder']").addClass('hide');
     }else if($(this).val() == '3'){
       $("div[id='calculated_by_the_product']").removeClass('hide');
       $("div[id='calculated_as_percentage']").addClass('hide');
+      $("div[id='calculated_product_as_ladder']").addClass('hide');
       $("div[id='calculated_as_ladder']").addClass('hide');
     }else if($(this).val() == '1'){
       $("div[id='calculated_as_ladder']").removeClass('hide');
       $("div[id='calculated_by_the_product']").addClass('hide');
+      $("div[id='calculated_product_as_ladder']").addClass('hide');
       $("div[id='calculated_as_percentage']").addClass('hide');
+    }else if($(this).val() == '4'){
+      $("div[id='calculated_product_as_ladder']").removeClass('hide');
+      $("div[id='calculated_by_the_product']").addClass('hide');
+      $("div[id='calculated_as_percentage']").addClass('hide');
+      $("div[id='calculated_as_ladder']").addClass('hide');
     }else{
       $("div[id='calculated_as_percentage']").addClass('hide');
       $("div[id='calculated_by_the_product']").addClass('hide');
+      $("div[id='calculated_product_as_ladder']").addClass('hide');
       $("div[id='calculated_as_ladder']").addClass('hide');
     }
   });
@@ -182,6 +275,53 @@
       $('#div_commmission_first_invoices').addClass('hide');
     }
   });
+
+  if ($('input[name=commission_type]:checked').val() == 'fixed') {
+      $('label[for^="percent_first_invoices"]').text('<?php echo _l('commmission_first_invoices')."(Fixed)"; ?>');
+      $('label[for^="percent_enjoyed"]').text('<?php echo _l('commission')."(Fixed)"; ?>');
+      hot.updateSettings({
+          colHeaders: [ '<?php echo _l('product_groups'); ?>',
+                        '<?php echo _l('commission_product'); ?>',
+                        '<?php echo _l('from_number'); ?>',
+                        '<?php echo _l('to_number'); ?>',
+                        '<?php echo _l('commission')."(Fixed)"; ?>']
+        });
+  } else if ($('input[name=commission_type]:checked').val() == 'percentage') {
+      $('label[for^="percent_first_invoices"]').text('<?php echo _l('commmission_first_invoices')."(%)"; ?>');
+      $('label[for^="percent_enjoyed"]').text('<?php echo _l('commission')."(%)"; ?>');
+      hot.updateSettings({
+          colHeaders: [ '<?php echo _l('product_groups'); ?>',
+                        '<?php echo _l('commission_product'); ?>',
+                        '<?php echo _l('from_number'); ?>',
+                        '<?php echo _l('to_number'); ?>',
+                        '<?php echo _l('commission')."(%)"; ?>']
+        });
+  }
+
+  $('input[name=commission_type]').change(function() {
+    if (this.value == 'fixed') {
+        $('label[for^="percent_first_invoices"]').text('<?php echo _l('commmission_first_invoices')."(Fixed)"; ?>');
+        $('label[for^="percent_enjoyed"]').text('<?php echo _l('commission')."(Fixed)"; ?>');
+        hot.updateSettings({
+          colHeaders: [ '<?php echo _l('product_groups'); ?>',
+                        '<?php echo _l('commission_product'); ?>',
+                        '<?php echo _l('from_number'); ?>',
+                        '<?php echo _l('to_number'); ?>',
+                        '<?php echo _l('commission')."(Fixed)"; ?>']
+        });
+    }
+    else if (this.value == 'percentage') {
+        $('label[for^="percent_first_invoices"]').text('<?php echo _l('commmission_first_invoices')."(%)"; ?>');
+        $('label[for^="percent_enjoyed"]').text('<?php echo _l('commission')."(%)"; ?>');
+        hot.updateSettings({
+          colHeaders: [ '<?php echo _l('product_groups'); ?>',
+                        '<?php echo _l('commission_product'); ?>',
+                        '<?php echo _l('from_number'); ?>',
+                        '<?php echo _l('to_number'); ?>',
+                        '<?php echo _l('commission')."(%)"; ?>']
+        });
+    }
+});
 })(jQuery);
 function formatNumber(n) {
   "use strict";

@@ -1,3 +1,7 @@
+body {
+    background: #e2e7ed !important;
+}
+
 body .label {
     font-size: 13px;
 }
@@ -32,7 +36,7 @@ body .has-error .form-control:focus {
 }
 
 body .busy_google_time {
-    background: #ffb100!important;
+    background: #ffb100 !important;
     color: #fff !important;
     font-weight: 300 !important;
     pointer-events: none;
@@ -47,6 +51,16 @@ body .busy_google_time {
     max-width: 150px;
     height: auto;
     float: left;
+}
+
+.logo.img-responsive.navbar-brand.logo {
+    margin-bottom: 0;
+    margin-left: -20px;
+}
+
+.logo.img-responsive.navbar-brand.logo {
+    margin-bottom: 0;
+    margin-left: -20px;
 }
 
 .datetimepicker {
@@ -80,7 +94,9 @@ body .busy_google_time {
 
 .main_wrapper {
     padding: 25px;
-    box-shadow: 0px 0px 3px 0px rgba(1, 1, 1, 0.25);
+    box-shadow: 0px 0px 0px 1px rgb(1 1 1 / 8%);
+    border-radius: 4px;
+    background: #fff;
 }
 
 .hwp {
@@ -107,6 +123,7 @@ body input {
     .xdsoft_datetimepicker {
         left: 2px !important;
     }
+
     .btn {
         width: 100%;
     }

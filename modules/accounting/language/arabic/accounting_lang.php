@@ -793,3 +793,16 @@ $lang['total_amount_due_uppercase'] = 'إجمالي المبلغ المستحق'
 $lang['financial_year'] = 'Financial year';
 $lang['amount_after_convert'] = 'المبلغ بعد التحويل';
 $lang['acc_converted'] = 'تم تعيينه';
+$lang['payment_mode_mapping'] = 'تعيين وضع الدفع';
+
+$lang['accrual_method_note_1'] = '- عند استخدام طريقة الاستحقاق في التقارير:';
+$lang['accrual_method_note_2'] = '+ يحسب تقريرك الدخل والمصروفات كما لو أنها حدثت عندما أرسلت الفاتورة أو حصلت على الفاتورة';
+$lang['accrual_method_note_3'] = '+ يشمل الدخل والنفقات حتى لو لم يتم تداول الأموال بعد';
+$lang['account_type_details'] = 'أنواع تفاصيل الحساب';
+$lang['account_type_detail'] = 'نوع تفاصيل الحساب';
+$lang['cannot_delete_account_already_exists'] = 'لا يمكن حذف نوع تفاصيل الحساب عندما يكون الحساب موجودًا بالفعل';
+$lang['acc_export_excel'] = 'تصدير إلى Excel';
+$lang['other_shareholder_equity'] = 'حقوق المساهمين الآخرين';
+$lang['acc_preferred_payment_method'] = 'فضل طريقة الدفع';
+$lang['mapping_status'] = 'حالة التعيين';
+$lang['acc_invoice_status'] = 'حالة الفاتورة';

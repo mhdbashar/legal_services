@@ -170,7 +170,7 @@ function edit_campaign(invoker,id){
 
 
   if($(invoker).data('form_work') != 0 ){
-    $('#recruitment_campaign select[name="cp_form_work"]').val($(invoker).data('unit_id')).change();
+    $('#recruitment_campaign select[name="cp_form_work"]').val($(invoker).data('form_work')).change();
   }else{
 
    $('#recruitment_campaign select[name="cp_form_work"]').val('').change();

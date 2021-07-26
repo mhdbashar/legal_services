@@ -22,16 +22,6 @@
                $(this).removeData();
           });
 
-          $('#by_sms, #by_email').on('change', function() {
-               var anyChecked = $('#by_sms').prop('checked') || $('#by_email').prop('checked');
-               if (anyChecked) {
-                    $('.appointment-reminder').removeClass('hide');
-               } else {
-                    $('.appointment-reminder').addClass('hide');
-               }
-          });
-
-
           $('#appointment-form').on('submit', function(e) {
                e.preventDefault();
           });

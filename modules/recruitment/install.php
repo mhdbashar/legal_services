@@ -139,6 +139,12 @@ if (!$CI->db->table_exists(db_prefix() . 'cd_work_experience')) {
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 
+if ($CI->db->field_exists('job_description' ,db_prefix() . 'cd_work_experience')) { 
+  $CI->db->query('ALTER TABLE `' . db_prefix() . "cd_work_experience`
+    CHANGE COLUMN `job_description` `job_description` TEXT NULL
+  ;");
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'cd_literacy')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "cd_literacy` (
       `li_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -565,4 +571,11 @@ if (recruitment_row_options_exist('"recruitment_create_campaign_with_plan "') ==
     $CI->db->query('ALTER TABLE `'.db_prefix() . 'rec_campaign` 
     ADD COLUMN `company_id` int(15) null
     ;');            
+  }
+
+  //version 115
+  if (!$CI->db->field_exists('last_name' ,db_prefix() . 'rec_candidate')) { 
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "rec_candidate`
+      ADD COLUMN `last_name` VARCHAR(200) NULL
+      ;");
   }

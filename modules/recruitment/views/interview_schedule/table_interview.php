@@ -19,7 +19,7 @@ $join         = [];
 $where = [];
 
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['to_time','position']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['to_time','position', 'from_hours','to_hours']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -46,7 +46,7 @@ foreach ($rResult as $aRow) {
             $name .= '<a href="' . admin_url('recruitment/interview_schedule/' . $aRow['id'] ).'" onclick="init_recruitment_interview_schedules('.$aRow['id'].'); return false;">' . _l('view') . '</a>';
 
             if (has_permission('recruitment', '', 'edit') || is_admin()) {
-                $name .= ' | <a href="#" onclick='.'"'.'edit_interview_schedule(this,' . $aRow['id'] . '); return false;'.'"'.' data-is_name="'.$aRow['is_name'].'" data-campaign="'.$aRow['campaign'].'" data-interview_day="'._d($aRow['interview_day']).'" data-from_time="'.$aRow['from_time'].'" data-to_time="'.$aRow['to_time'].'" data-interviewer="'. $aRow['interviewer'].' "data-position="'. $aRow['position'].'" >' ._l('edit') . '</a>';
+                $name .= ' | <a href="#" onclick='.'"'.'edit_interview_schedule(this,' . $aRow['id'] . '); return false;'.'"'.' data-is_name="'.$aRow['is_name'].'" data-campaign="'.$aRow['campaign'].'" data-interview_day="'._d($aRow['interview_day']).'" data-from_time="'.$aRow['from_time'].'" data-to_time="'.$aRow['to_time'].'" data-interviewer="'.$aRow['interviewer'].'" data-position="'. $aRow['position'].'" >' ._l('edit') . '</a>';
             }
 
             if (has_permission('recruitment', '', 'delete') || is_admin()) {
@@ -58,7 +58,27 @@ foreach ($rResult as $aRow) {
             $_data = $name;
 
         }elseif($aColumns[$i] == 'from_time'){
-            $_data = $aRow['from_time'].' - '.$aRow['to_time'];
+            $from_hours_format='';
+            $to_hours_format='';
+
+            $from_hours = _dt($aRow['from_hours']);
+            $from_hours = explode(" ", $from_hours);
+
+            foreach ($from_hours as $key => $value) {
+              if($key != 0){
+                $from_hours_format .= $value;
+                }
+            }
+
+            $to_hours = _dt($aRow['to_hours']);
+            $to_hours = explode(" ", $to_hours);
+            foreach ($to_hours as $key => $value) {
+                  if($key != 0){
+                    $to_hours_format .= $value;
+                }
+            }
+
+            $_data = $from_hours_format.' - '.$to_hours_format;
         }elseif ($aColumns[$i] == 'interview_day') {
             $_data = _d($aRow['interview_day']);
         }elseif ($aColumns[$i] == 'campaign') {

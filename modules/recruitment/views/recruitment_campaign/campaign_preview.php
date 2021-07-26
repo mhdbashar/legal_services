@@ -21,17 +21,29 @@
 
     	</div>
 
+        <?php
+        $get_base_currency = get_base_currency();
+        $current_id='';
+        if($get_base_currency){
+          $current_id= $get_base_currency->id;
+        }
+
+         $manager = explode(',', $campaigns->cp_manager); 
+        $curent_user = get_staff_user_id();
+        if((in_array($curent_user, $manager) || $curent_user == $campaigns->cp_add_from || is_admin()) ){
+        ?>
+
         <div class=" col-md-3 pull-right">
           <select name="change_status" id="change_status" class="selectpicker dropdown bootstrap-select show-tick bs3" onchange="change_status_campaign(this,<?php echo html_entity_decode($campaigns->cp_id); ?>); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('change_status_to'); ?>">
 
-            <option value=""></option>
-            <option value="1" class="<?php if ($campaigns->cp_status == 1) {echo 'hide';}?>"><?php echo _l('planning'); ?></option>
-            <option value="3" class="<?php if ($campaigns->cp_status == 3) {echo 'hide';}?>"><?php echo _l('in_progress'); ?></option>
-            <option value="4" class="<?php if ($campaigns->cp_status == 4) {echo 'hide';}?>"><?php echo _l('finish'); ?></option>
-            <option value="5" class="<?php if ($campaigns->cp_status == 5) {echo 'hide';}?>"><?php echo _l('cancel'); ?></option>
+            <option value="1" <?php if ($campaigns->cp_status == 1) {echo 'selected';}?>><?php echo _l('planning'); ?></option>
+            <option value="3" <?php if ($campaigns->cp_status == 3) {echo 'selected';}?>><?php echo _l('in_progress'); ?></option>
+            <option value="4" <?php if ($campaigns->cp_status == 4) {echo 'selected';}?>><?php echo _l('finish'); ?></option>
+            <option value="5" <?php if ($campaigns->cp_status == 5) {echo 'selected';}?>><?php echo _l('cancel'); ?></option>
 
           </select>
         </div>
+      <?php } ?>
 
       <div class="col-md-12"><hr class="general-infor-hr" /></div>
       <div class="row">
@@ -59,7 +71,7 @@
 
                <tr class="project-overview">
                   <td class="bold"><?php echo _l('starting_salary'); ?></td>
-                  <td><?php echo app_format_money($campaigns->cp_salary_from, '') . ' - ' . app_format_money($campaigns->cp_salary_to, ''); ?></td>
+                  <td><?php echo app_format_money($campaigns->cp_salary_from, $current_id) . ' - ' . app_format_money($campaigns->cp_salary_to, $current_id); ?></td>
                </tr>
                 <tr class="project-overview">
                   <td class="bold"><?php echo _l('recruitment_channel_form'); ?></td>

@@ -8,7 +8,7 @@ class Appointments extends AdminController
     {
         parent::__construct();
 
-        $this->staff_no_view_permissions  = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
+            $this->staff_no_view_permissions = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
 
         $this->load->model('appointly_model', 'apm');
     }
@@ -36,6 +36,10 @@ class Appointments extends AdminController
      */
     public function view()
     {
+        if ($this->staff_no_view_permissions) {
+            access_denied('Appointments');
+        }
+
         $appointment_id = $this->input->get('appointment_id');
 
         $attendees = $this->atm->attendees($appointment_id);
@@ -83,7 +87,7 @@ class Appointments extends AdminController
     /**
      * Get contact data
      *
-     * @return json
+     * @return void
      */
     public function fetch_contact_data()
     {
@@ -111,8 +115,6 @@ class Appointments extends AdminController
             show_404();
         }
 
-        $this->load->model('staff_model');
-
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
 
         $data['contacts'] = appointly_get_staff_customers();
@@ -132,6 +134,61 @@ class Appointments extends AdminController
 
             $this->load->view('modals/update', $data);
         }
+    }
+
+    /**
+     * Modal edit and modal update trigger views with data
+     *
+     * @return void
+     */
+    public function modal_internal_crm()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+
+        if ($this->input->post('slug') === 'create') {
+            $this->load->view('modals/create_internal_crm', $data);
+        } else {
+            $data['appointment_id'] = $this->input->post('appointment_id');
+            $data['history'] = fetch_appointment_data($data['appointment_id']);
+            if (isset($data['notes'])) {
+                $data['notes'] = htmlentities($data['notes']);
+            }
+            $this->load->view('modals/update_internal_crm', $data);
+        }
+    }
+
+    /**
+     * Modal edit and modal update trigger views with data
+     *
+     * @return void
+     */
+    public function modal_leads_contacts_crm()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+
+        $user_id = $this->input->post('user_id');
+        $type = $this->input->post('type');
+
+        if ($data['staff']) {
+            if ($user_id && $type == 'lead') {
+                $this->load->model('leads_model');
+                $data['user'] = $this->leads_model->get($user_id);
+                $data['user']->type = _l('lead');
+            } else {
+                $this->load->model('clients_model');
+                $data['user'] = $this->clients_model->get_contact($user_id);
+                $data['user']->type = _l('contact');
+            }
+        }
+
+        $this->load->view('modals/create_leads_contacts_crm', $data);
     }
 
     /**
@@ -155,6 +212,28 @@ class Appointments extends AdminController
         }
     }
 
+
+    /**
+     * Update appointment
+     *
+     * @return void
+     */
+    public function update_internal_crm()
+    {
+
+        $appointment = $this->input->post();
+        $appointment['notes'] = $this->input->post('notes', false);
+
+        if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
+            if ($appointment) {
+                if ($this->apm->update_internal_crm_appointment($appointment)) {
+                    header('Content-Type: application/json');
+                    echo json_encode(['result' => true]);
+                }
+            }
+        }
+    }
+
     /**
      * Create appointment
      *
@@ -166,11 +245,32 @@ class Appointments extends AdminController
             access_denied();
         }
 
-        $data = array();
-
         $data = $this->input->post();
+
         if (!empty($data)) {
             if ($this->apm->insert_appointment($data)) {
+                header('Content-Type: application/json');
+                echo json_encode(['result' => true]);
+            }
+        }
+    }
+
+
+    /**
+     * Create internal appointment for staff
+     *
+     * @return void
+     */
+    public function create_internal_crm()
+    {
+        if (!staff_can('create', 'appointments') && !staff_appointments_responsible()) {
+            access_denied();
+        }
+
+        $data = $this->input->post();
+
+        if (!empty($data)) {
+            if ($this->apm->insert_internal_crm_appointment($data)) {
                 header('Content-Type: application/json');
                 echo json_encode(['result' => true]);
             }
@@ -181,6 +281,7 @@ class Appointments extends AdminController
      * Delete appointment
      *
      * @param [type] appointment $id
+     *
      * @return mixed
      */
     public function delete($id)
@@ -230,7 +331,7 @@ class Appointments extends AdminController
     /**
      * Mark appointment as finished
      *
-     * @return json
+     * @return bool
      */
     public function finished()
     {
@@ -248,7 +349,7 @@ class Appointments extends AdminController
     /**
      * Mark appointment as ongoing
      *
-     * @return json
+     * @return void|boolean
      */
     public function mark_as_ongoing_appointment()
     {
@@ -266,7 +367,7 @@ class Appointments extends AdminController
     /**
      * Mark appointment as cancelled
      *
-     * @return json
+     * @return void|boolean
      */
     public function cancel_appointment()
     {
@@ -282,7 +383,7 @@ class Appointments extends AdminController
     }
 
     /**
-     * Get todays appointments
+     * Get today's appointments
      *
      * @return array
      */
@@ -294,8 +395,7 @@ class Appointments extends AdminController
     /**
      * Send appointment early reminders
      *
-     * @param [string] appointment_id
-     * @return json
+     * @return void
      */
     public function send_appointment_early_reminders()
     {
@@ -311,19 +411,18 @@ class Appointments extends AdminController
     }
 
 
-    /** 
+    /**
      * Load user settings view
-     * @return view
+     *
+     * @return void Returns view
      */
     public function user_settings_view()
     {
-        $data = [];
-
         if ($this->staff_no_view_permissions) {
             access_denied();
         }
 
-        $data = getAppoinlyUserMeta();
+        $data = getAppointlyUserMeta();
 
         $data['filters'] = get_appointments_table_filters();
 
@@ -331,19 +430,19 @@ class Appointments extends AdminController
     }
 
 
-
-    /** 
+    /**
      * User settings request for updating options in meta table
+     *
      * @return void
      */
     public function user_settings()
     {
-        $data  = $this->input->post();
+        $data = $this->input->post();
 
         if ($data) {
 
             $meta = [
-                'appointly_show_summary' => $this->input->post('appointly_show_summary'),
+                'appointly_show_summary'         => $this->input->post('appointly_show_summary'),
                 'appointly_default_table_filter' => $this->input->post('appointly_default_table_filter'),
             ];
 
@@ -353,9 +452,10 @@ class Appointments extends AdminController
         }
     }
 
-    /** 
+    /**
      * Add new appointment type
-     * @return json
+     *
+     * @return bool
      */
     public function new_appointment_type()
     {
@@ -378,7 +478,9 @@ class Appointments extends AdminController
 
     /**
      * Delete appointment type
+     *
      * @param [string] id
+     *
      * @return boolean
      */
     public function delete_appointment_type()
@@ -389,9 +491,10 @@ class Appointments extends AdminController
         return $this->apm->delete_appointment_type($this->input->post('id'));
     }
 
-    /** 
+    /**
      * Add event to google calendar
-     * @return json
+     *
+     * @return void
      */
     public function addEventToGoogleCalendar()
     {
@@ -403,7 +506,7 @@ class Appointments extends AdminController
             access_denied();
         }
 
-        $data = array();
+        $data = [];
 
         $data = $this->input->post();
         if ($data && !empty($data)) {
@@ -419,7 +522,8 @@ class Appointments extends AdminController
      * Request new appointment feedback
      *
      * @param string $id
-     * @return json
+     *
+     * @return void
      */
     public function requestAppointmentFeedback($id)
     {
@@ -435,7 +539,7 @@ class Appointments extends AdminController
     /**
      * Get attendee details
      *
-     * @return json
+     * @return void
      */
     public function getAttendeeData()
     {
@@ -452,7 +556,7 @@ class Appointments extends AdminController
     /**
      * Add new outlook event to calendar
      *
-     * @return json
+     * @return void
      */
     public function newOutlookEvent()
     {
@@ -460,19 +564,20 @@ class Appointments extends AdminController
             show_404();
         }
 
-        $data = array();
+        $data = [];
 
         $data = $this->input->post();
 
         if ($data && !empty($data)) {
             header('Content-Type: application/json');
-            echo json_encode(['result' => $this->apm->inserNewOutlookEvent($data)]);
+            echo json_encode(['result' => $this->apm->insertNewOutlookEvent($data)]);
         }
     }
+
     /**
-     * Add new outlook event to calendar from existing appointnent
+     * Add new outlook event to calendar from existing appointment
      *
-     * @return json
+     * @return void
      */
     public function updateAndAddExistingOutlookEvent()
     {
@@ -480,7 +585,7 @@ class Appointments extends AdminController
             show_404();
         }
 
-        $data = array();
+        $data = [];
         $data = $this->input->post();
 
         if ($data && !empty($data)) {
@@ -492,7 +597,7 @@ class Appointments extends AdminController
     /**
      * Send custom email to request meet via Google Meet
      *
-     * @return json
+     * @return void
      */
     public function sendCustomEmail()
     {
@@ -500,7 +605,7 @@ class Appointments extends AdminController
             show_404();
         }
 
-        $data = array();
+        $data = [];
 
         $data = $this->input->post();
 
@@ -509,4 +614,5 @@ class Appointments extends AdminController
             echo json_encode($this->apm->sendGoogleMeetRequestEmail($data));
         }
     }
+
 }

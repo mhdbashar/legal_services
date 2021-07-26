@@ -45,10 +45,10 @@ foreach ($rResult as $aRow) {
             $_data = $name;
         } elseif($aColumns[$i] == 'responsible'){
 
-            $name = '<a href="' . admin_url('recruitment/candidate/' . $aRow['responsible']) . '">'.candidate_profile_image($aRow['responsible'],[
+            $name = '<a href="' . admin_url('staff/member/' . $aRow['responsible']) . '">'.staff_profile_image($aRow['responsible'],[
                     'staff-profile-image-small mright5',
                     ], 'small').'</a>';
-            $name .= '<a href="' . admin_url('recruitment/candidate/' . $aRow['responsible'] ).'" >' . get_candidate_name($aRow['responsible']) . '</a>';
+            $name .= '<a href="' . admin_url('staff/member/' . $aRow['responsible'] ).'" >' . get_staff_full_name($aRow['responsible']) . '</a>';
 
             $_data = $name;
         }

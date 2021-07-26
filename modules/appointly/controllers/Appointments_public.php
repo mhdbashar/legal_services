@@ -1,8 +1,9 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Appointments_public extends ClientsController
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -10,71 +11,64 @@ class Appointments_public extends ClientsController
         $this->load->model('staff_model');
     }
 
-
     /**
-     * Clients hash view
+     * Clients hash view.
      *
-     * @return view
+     * @return void
      */
     public function client_hash()
     {
         $hash = $this->input->get('hash');
 
-        if (!$hash) {
-            show_404();
-        }
+        if (!$hash) show_404();
 
         $appointment = $this->apm->getByHash($hash);
 
-        if (!$appointment) {
-            show_404();
-        }
+        if (!$appointment) show_404();
 
         $appointment['url'] = site_url('appointly/appointments_public/cancel_appointment');
 
         $appointment['feedback_url'] = site_url('appointly/appointments_public/handleFeedbackPost');
 
-        if ($appointment['feedback_comment'] !== null) {
-            $appointment['feedback_comment'] = true;
-        }
+        if ($appointment['feedback_comment'] !== null) $appointment['feedback_comment'] = true;
 
         $this->load->view('clients/clients_hash', ['appointment' => $appointment]);
     }
 
-
     /**
-     * Fetches contact data if client who requested meeting is already in the system
+     * Fetches contact data if client who requested meeting is already in the system.
      *
-     * @return json
+     * @return void
      */
     public function external_fetch_contact_data()
     {
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
+        if (!$this->input->is_ajax_request()) show_404();
+
         $id = $this->input->post('contact_id');
 
         header('Content-Type: application/json');
         echo json_encode($this->apm->apply_contact_data($id, false));
     }
 
-
     /**
-     * Handles clients external public form
+     * Handles clients external public form.
      *
-     * @return view
+     * @return void
      */
     public function form()
     {
-        $form            = new stdClass();
-        $form->language  = get_option('active_language');
+        $form = new stdClass();
+
+        $form->language = get_option('active_language');
 
         $this->lang->load($form->language . '_lang', $form->language);
+
         if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
             $this->lang->load('custom_lang', $form->language);
         }
 
         if ($this->input->post() && $this->input->is_ajax_request()) {
+
             $post_data = $this->input->post();
 
             $required = ['subject', 'description', 'name', 'email'];
@@ -85,13 +79,6 @@ class Appointments_public extends ClientsController
                     die;
                 }
             }
-
-            $post_data = [
-                'email'      => $post_data['email'],
-                'name'       => $post_data['name'],
-                'subject'    => $post_data['subject'],
-                'description' => $post_data['description']
-            ];
             die;
         }
 
@@ -101,16 +88,13 @@ class Appointments_public extends ClientsController
         $this->load->view('forms/appointments_form', $data);
     }
 
-
     /**
-     * Handles creation of an external appointment
+     * Handles creation of an external appointment.
      *
-     * @return json
+     * @return void
      */
     public function create_external_appointment()
     {
-        $data = array();
-
         $data = $this->input->post();
 
         if (!$data) {
@@ -124,18 +108,16 @@ class Appointments_public extends ClientsController
             if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '') {
                 if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
                     echo json_encode([
-                        'success' => false,
+                        'success'   => false,
                         'recaptcha' => false,
-                        'message' => _l('recaptcha_error'),
+                        'message'   => _l('recaptcha_error'),
                     ]);
                     die;
                 }
             }
         }
 
-        if (isset($data['g-recaptcha-response'])) {
-            unset($data['g-recaptcha-response']);
-        }
+        if (isset($data['g-recaptcha-response'])) unset($data['g-recaptcha-response']);
 
         if ($this->apm->insert_external_appointment($data)) {
             echo json_encode([
@@ -145,62 +127,55 @@ class Appointments_public extends ClientsController
         }
     }
 
-
     /**
-     * Handles appointment cancelling
+     * Handles appointment cancelling.
      *
-     * @return void
+     * @return bool|void
      */
     public function cancel_appointment()
     {
         if ($this->input->get('hash')) {
+
             $hash = $this->input->get('hash');
             $notes = $this->input->get('notes');
 
-            if ($notes == '') {
-                return false;
-            }
+            if ($notes == '') return false;
 
-            if (!$hash) {
-                show_404();
-            }
+            if (!$hash) show_404();
 
             $appointment = $this->apm->getByHash($hash);
 
             if (!$appointment) {
                 show_404();
             } else {
-
-                $cancellation_in_progress =  $this->apm->checkIfCancellationIsInProgress($hash);
+                $cancellation_in_progress = $this->apm->checkIfCancellationIsInProgress($hash);
 
                 header('Content-Type: application/json');
-                if ($cancellation_in_progress['cancel_notes'] === NULL) {
-
+                if ($cancellation_in_progress['cancel_notes'] === null) {
                     $responsible_person = get_option('appointly_responsible_person');
                     $touserid = '';
 
                     if ($responsible_person != '') {
                         $touserid = $responsible_person;
-                    } elseif ($responsible_person == '' && $appointment['created_by'] !== NULL) {
+                    } else if ($responsible_person == '' && $appointment['created_by'] !== null) {
                         $touserid = $appointment['created_by'];
                     } else {
                         /** If none of above conditions are true
-                         * Goes to default eg. first admin created with id of 1
+                         * Goes to default eg. first admin created with id of 1.
                          */
                         $touserid = 1;
                     }
 
                     add_notification([
-                        'description'     => 'appointment_cancel_notification',
-                        'touserid'        => $touserid,
-                        'fromcompany'     => true,
-                        'link'            => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                        'description' => 'appointment_cancel_notification',
+                        'touserid'    => $touserid,
+                        'fromcompany' => true,
+                        'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
                     ]);
 
                     pusher_trigger_notification([$touserid]);
                     echo json_encode($this->apm->applyForAppointmentCancellation($hash, $notes));
                 } else {
-
                     echo json_encode(['response' => [
                         'message' => _l('appointments_already_applied_for_cancelling'),
                         'success' => false
@@ -213,7 +188,7 @@ class Appointments_public extends ClientsController
     }
 
     /**
-     * Get busy appointment times
+     * Get busy appointment times.
      *
      * @return void
      */
@@ -226,61 +201,42 @@ class Appointments_public extends ClientsController
         return $this->apm->getBusyTimes();
     }
 
-    /** 
-     * Handles external callback post
+    /**
+     * Handles external callback post.
      */
     public function request_callback_external()
     {
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
+        if (!$this->input->is_ajax_request()) show_404();
 
         $data = $this->input->post();
 
-        if (!$data) {
-            show_404();
-        }
-        /**
+        if (!$data) show_404();
+
+        /*
          * Init callbacks model
          */
         $this->load->model('callbacks_model', 'callbackm');
 
-        echo json_encode(
-            [
-                'success' => $this->callbackm->handle_callback_request_data($data)
-            ]
-        );
+        echo json_encode(['success' => $this->callbackm->handle_callback_request_data($data)]);
     }
 
     public function handleFeedbackPost()
     {
-
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
+        if (!$this->input->is_ajax_request()) show_404();
 
         $id = $this->input->get('id');
 
-        if (!$id) {
-            show_404();
-        }
+        if (!$id) show_404();
 
         $rating = $this->input->get('rating');
 
         $comment = ($this->input->get('feedback_comment')) ? $this->input->get('feedback_comment') : null;
 
         if ($this->apm->handle_feedback_post($id, $rating, $comment)) {
-            echo json_encode(
-                [
-                    'success' => true
-                ]
-            );
+            echo json_encode(['success' => true]);
         } else {
-            echo json_encode(
-                [
-                    'success' => false
-                ]
-            );
+            echo json_encode(['success' => false]);
         }
     }
+
 }

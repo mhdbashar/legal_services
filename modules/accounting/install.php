@@ -31,6 +31,8 @@ add_option('acc_tax_deposit_to', 1);
 add_option('acc_expense_tax_payment_account', 13);
 add_option('acc_expense_tax_deposit_to', 29);
 
+add_option('acc_active_payment_mode_mapping', 1);
+add_option('acc_active_expense_category_mapping', 1);
 
 if (!$CI->db->table_exists(db_prefix() . 'acc_accounts')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "acc_accounts` (
@@ -229,4 +231,45 @@ if (!$CI->db->field_exists('expense_payment_account' ,db_prefix() . 'acc_tax_map
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_tax_mappings`
     ADD COLUMN `expense_payment_account` INT(11) NOT NULL DEFAULT \'0\',
     ADD COLUMN `expense_deposit_to` INT(11) NOT NULL DEFAULT \'0\';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'acc_payment_mode_mappings')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "acc_payment_mode_mappings` (
+      `id` INT(11) NOT NULL AUTO_INCREMENT,
+      `payment_mode_id` INT(11) NOT NULL,
+      `payment_account` INT(11) NOT NULL DEFAULT 0,
+      `deposit_to` INT(11) NOT NULL DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+add_option('acc_payment_expense_automatic_conversion', 1);
+add_option('acc_payment_sale_automatic_conversion', 1);
+add_option('acc_expense_payment_payment_account', 1);
+add_option('acc_expense_payment_deposit_to', 1);
+
+if (!$CI->db->table_exists(db_prefix() . 'acc_account_type_details')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "acc_account_type_details` (
+      `id` INT(11) NOT NULL AUTO_INCREMENT,
+      `account_type_id` INT(11) NOT NULL,
+      `name` VARCHAR(255) NOT NULL,
+      `note` TEXT NULL,
+      `statement_of_cash_flows` VARCHAR(255) NULL,
+      PRIMARY KEY (`id`)
+    ) AUTO_INCREMENT=200, ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->field_exists('preferred_payment_method' ,db_prefix() . 'acc_expense_category_mappings')) {
+  $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_expense_category_mappings`
+    ADD COLUMN `preferred_payment_method` INT(11) NOT NULL DEFAULT \'0\';');
+}
+
+if (!$CI->db->field_exists('expense_payment_account' ,db_prefix() . 'acc_payment_mode_mappings')) {
+  $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_payment_mode_mappings`
+    ADD COLUMN `expense_payment_account` INT(11) NOT NULL DEFAULT \'0\',
+    ADD COLUMN `expense_deposit_to` INT(11) NOT NULL DEFAULT \'0\';');
+}
+
+if (get_option('acc_expense_deposit_to') == 37){
+  update_option('acc_expense_deposit_to', 80);
 }

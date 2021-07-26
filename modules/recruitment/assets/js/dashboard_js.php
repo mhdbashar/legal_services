@@ -1,4 +1,4 @@
-<script>    
+<script>
 (function($) {
     "use strict";
     rec_chart_by_status('rec_plan_chart_by_status',<?php echo html_entity_decode($rec_plan_chart_by_status); ?>, <?php echo json_encode(_l('rec_plan_chart_by_status')); ?>);
@@ -28,7 +28,7 @@
                 enabled: false
             },
             tooltip: {
-                pointFormat: '<span style="color:{series.color}">'+<?php echo json_encode(_l('invoice_table_quantity_heading')); ?>+'</span>: <b>{point.y}</b> <br/> <span>'+<?php echo json_encode(_l('invoice_table_percentage')); ?>+'</span>: <b>{point.percentage:.0f}%</b><br/>',
+                pointFormat: '<span style="color:{series.color}">'+<?php echo json_encode(_l('invoice_table_quantity_heading')); ?>+'</span>: <b>{point.y}</b> <br/> <span>'+<?php echo json_encode(_l('rec_ratio')); ?>+'</span>: <b>{point.percentage:.0f}%</b><br/>',
                 shared: true
             },
              plotOptions: {
@@ -36,7 +36,7 @@
                     dataLabels: {
                         enabled: false,
                         },
-                    showInLegend: true        
+                    showInLegend: true
                 }
             },
             series: [{
@@ -49,7 +49,7 @@
                       events:{
                           click: function (event) {
                              if(this.statusLink !== undefined)
-                             { 
+                             {
                                window.location.href = this.statusLink;
 
                              }

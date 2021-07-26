@@ -7,7 +7,7 @@ class Forms extends ClientsController
 {
     public function index()
     {
-        // show_404();
+        show_404();
     }
 
     /**
@@ -39,6 +39,9 @@ class Forms extends ClientsController
         if ($this->input->post('key')) {
             $data1 = $this->input->post();
             if ($this->input->post('key') == $key) {
+                if(isset($data1['csrf_token_name'])){
+                    unset($data1['csrf_token_name']);
+                }
                 $ids = $this->recruitment_model->add_candidate_forms($data1, $key);
                 if ($ids) {
                     handle_rec_candidate_file_form($ids);
@@ -48,6 +51,14 @@ class Forms extends ClientsController
 
                     $data['form'] = $form;
                     $data['message'] =$form->success_submit_msg;
+
+
+                    echo json_encode([
+                        'success' => $success,
+                        'message' => $form->success_submit_msg,
+                    ]);
+                    die;
+                    
                 }
             }
         }

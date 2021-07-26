@@ -5,7 +5,7 @@
       <div class="col-md-12 task-name">
 
         <a href="<?php echo admin_url('recruitment/candidate/' . $candidate['id']); ?>" >
-          <span class="inline-block full-width mtop10 mbot10"><?php echo html_entity_decode($candidate['candidate_code'] .'_'.$candidate['candidate_name']); ?></span>
+          <span class="inline-block full-width mtop10 mbot10"><?php echo html_entity_decode($candidate['candidate_code'] .'_'.$candidate['candidate_name'].' '.$candidate['last_name']); ?></span>
         </a>
       </div>
       <div class="col-md-2 text-muted">

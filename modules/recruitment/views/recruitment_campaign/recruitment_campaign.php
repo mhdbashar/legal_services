@@ -191,10 +191,41 @@
                       <?php echo render_input('cp_workplace', 'workplace', ''); ?>
                     </div>
                     <div class="col-md-6"> <?php
-$attr = array();
-$attr = ['data-type' => 'currency'];
-echo render_input('cp_salary_from', 'starting_salary_from', '', 'text', $attr);?></div>
-                    <div class="col-md-6"> <?php echo render_input('cp_salary_to', 'starting_salary_to', '', 'text', $attr); ?></div>
+                      $attr = array();
+                      $attr = ['data-type' => 'currency'];
+                    ?>
+
+                          <label><?php echo _l('starting_salary_from'); ?></label>
+                          <div class="input-group">
+                              <input type="text" class="form-control text-right" name="cp_salary_from" value="" data-type="currency">
+
+                             <div class="input-group-addon">
+                                <div class="dropdown">
+                                   <span class="discount-type-selected">
+                                    <?php echo html_entity_decode($base_currency->name) ;?>
+                                   </span>
+                                </div>
+                             </div>
+                          </div>
+
+                    </div>
+
+                    <div class="col-md-6"> 
+                      
+                      <label><?php echo _l('starting_salary_to'); ?></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control text-right" name="cp_salary_to" value="" data-type="currency">
+
+                        <div class="input-group-addon">
+                          <div class="dropdown">
+                            <span class="discount-type-selected">
+                              <?php echo html_entity_decode($base_currency->name) ;?>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
 
                     <div class="col-md-12">
                         <div class="form-group">

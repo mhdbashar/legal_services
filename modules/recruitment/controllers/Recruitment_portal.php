@@ -58,6 +58,7 @@ class Recruitment_portal extends App_Controller
         $data['title']            = _l('recruitment_portal');
         $data['rec_campaingn'] = $this->recruitment_model->get_rec_campaign_detail($id);
         $data['rec_channel'] = $this->recruitment_model->get_recruitment_channel_form_campaingn($id);
+        $data['id'] = $id;
 
         $this->data($data);
 
@@ -137,6 +138,38 @@ class Recruitment_portal extends App_Controller
 
 
     }
+
+    /**
+     * send mail list candidate
+     * @return redirect
+     */
+    public function send_mail_list_candidate() {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+
+            if(isset($data['job_detail_id'])){
+                $job_detail_id .= $data['job_detail_id'] ;
+                unset($data['job_detail_id']);
+            }
+
+            $rs = $this->recruitment_model->portal_send_mail_to_friend($data);
+            if ($rs == true) {
+                set_alert('success', _l('send_mail_successfully'));
+
+            }
+
+            if(isset($job_detail_id)){
+                redirect(site_url('recruitment/recruitment_portal/job_detail/'.$job_detail_id));
+
+            }else{
+                redirect(site_url('recruitment/recruitment_portal'));
+
+            }
+
+        }
+    }
+
+
 
 
     /**

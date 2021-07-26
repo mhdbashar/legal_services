@@ -42,8 +42,15 @@
                </tr>
                
                <tr class="project-overview">
+                <?php 
+                  $get_base_currency = get_base_currency();
+                  $current_id='';
+                  if($get_base_currency){
+                    $current_id= $get_base_currency->id;
+                  }
+                 ?>
                   <td class="bold"><?php echo _l('starting_salary'); ?></td>
-                  <td><?php echo app_format_money($proposals->salary_from,'').' - '.app_format_money($proposals->salary_to,''); ?></td>
+                  <td><?php echo app_format_money($proposals->salary_from, $current_id).' - '.app_format_money($proposals->salary_to, $current_id); ?></td>
                </tr>
                <tr class="project-overview">
                   <td class="bold"><?php echo _l('campaign'); ?></td>

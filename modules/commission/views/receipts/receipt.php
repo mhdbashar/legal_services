@@ -9,7 +9,6 @@
 						<div class="panel_s">
 							<?php echo form_open($this->uri->uri_string()); ?>
 							<div class="panel-body">
-								<!-- <h4 class="no-margin"><?php echo _l('payment_edit_for_invoice'); ?> <a href="<?php echo admin_url('invoices/list_invoices/'.$receipt->invoiceid); ?>"><?php echo format_invoice_number($receipt->invoice->id); ?></a></h4> -->
 								<hr class="hr-panel-heading" />
 								<?php $value = (isset($receipt) ? $receipt->list_commission_id : '') ?>
 								<?php echo render_select('list_commission[]', $list_commission, array('id','commission_info', 'amount'), 'commission', $value, array('multiple' => true, 'data-actions-box' => true), array(), '', '', false);
@@ -137,6 +136,7 @@
 										        <th><?php echo _l('sale_agent_string'); ?></th>
 										        <th><?php echo _l('sale_amount'); ?></th>
 										        <th><?php echo _l('commission'); ?></th>
+										        <th><?php echo _l('paid'); ?></th>
 											</tr>
 											</thead>
 											<tbody>
@@ -149,6 +149,7 @@
 													<td><?php echo html_entity_decode($value['sale_name']); ?></td>
 													<td><?php echo app_format_money($value['total'], $currency->name); ?></td>
 													<td><?php echo app_format_money($value['amount'], $currency->name); ?></td>
+													<td class="text-success"><?php echo app_format_money($value['receipt_amount_paid'], $currency->name); ?></td>
 													
 												</tr>
 												<?php } ?>

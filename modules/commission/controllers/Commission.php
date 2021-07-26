@@ -36,7 +36,7 @@ class Commission extends AdminController
         $this->load->model('staff_model');
         $this->load->model('commission_model');
         $this->load->model('clients_model');
-            
+
 		$data['title'] = _l('commission_policy');
         $data['staffs'] = $this->staff_model->get('', ['active' => 1]);
 
@@ -161,9 +161,6 @@ class Commission extends AdminController
 
         if ($this->input->post()) {
             $data                = $this->input->post();
-            if (!has_permission('commission_applicable_staff', '', 'create')) {
-                access_denied('applicable_staff');
-            }
             $success = $this->commission_model->add_applicable_staff($data);
             if ($success) {
                 set_alert('success', _l('added_successfully', _l('applicable_staff')));
@@ -223,7 +220,7 @@ class Commission extends AdminController
                 db_prefix() . 'commission.date as commission_date',
                 get_sql_select_client_company(),
                 'staffid',
-                'total',
+                'subtotal',
                 'amount',
                 'paid',
             ];
@@ -299,7 +296,7 @@ class Commission extends AdminController
             $aColumns     = $select;
             $sIndexColumn = 'invoice_id';
             $sTable       = db_prefix() . 'commission';
-            $join         = ['LEFT JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'commission.invoice_id',
+            $join         = ['JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'commission.invoice_id',
         'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',];
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,[db_prefix() . 'invoices.clientid', 'is_client']);
@@ -334,8 +331,8 @@ class Commission extends AdminController
 
                 $row[] = $_data;
 
-                $row[] = app_format_money($aRow['total'], $currency->name);
-                $footer_data['total'] += $aRow['total'];
+                $row[] = app_format_money($aRow['subtotal'], $currency->name);
+                $footer_data['total'] += $aRow['subtotal'];
 
                 $row[] = app_format_money($aRow['amount'], $currency->name);
                 $footer_data['total_commission'] += $aRow['amount'];
@@ -599,8 +596,11 @@ class Commission extends AdminController
 
                 $row[] = _d($aRow['from_date']);
                 $row[] = _d($aRow['to_date']);
-
-                $options = icon_btn('commission/delete_applicable_staff/' . $aRow['applicable_staff_id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                if($aRow['is_client'] == 1){
+                    $options = icon_btn('commission/delete_applicable_client/' . $aRow['applicable_staff_id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                }else{
+                    $options = icon_btn('commission/delete_applicable_staff/' . $aRow['applicable_staff_id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                }
 
                 $row[] =  $options;
 
@@ -684,6 +684,8 @@ class Commission extends AdminController
                    $commission_policy_type = _l('calculated_as_percentage');
                 }elseif($aRow['commission_policy_type'] == '3'){
                    $commission_policy_type = _l('calculated_by_the_product');
+                }elseif($aRow['commission_policy_type'] == '4'){
+                   $commission_policy_type = _l('calculated_product_as_ladder');
                 }
                 $row[] = $commission_policy_type;
 
@@ -811,7 +813,7 @@ class Commission extends AdminController
      * manage applicable client
      */
     public function applicable_client(){
-        if (!has_permission('commission_applicable_staff', '', 'view') && !is_admin() ) {
+        if (!has_permission('commission_applicable_client', '', 'view') && !is_admin() ) {
             access_denied('applicable_staff');
         }
         $this->load->model('clients_model');
@@ -835,9 +837,6 @@ class Commission extends AdminController
 
         if ($this->input->post()) {
             $data                = $this->input->post();
-            if (!has_permission('commission_applicable_client', '', 'create')) {
-                access_denied('applicable_client');
-            }
             $success = $this->commission_model->add_applicable_staff($data);
             if ($success) {
                 set_alert('success', _l('added_successfully', _l('applicable_client')));
@@ -858,11 +857,34 @@ class Commission extends AdminController
     }
 
     /**
+     * delete applicable client
+     *
+     * @param      <type>  $id     The identifier
+     */
+    public function delete_applicable_client($id){
+
+        if (!has_permission('commission_applicable_client', '', 'delete')) {
+            access_denied('applicable_client');
+        }
+        if (!$id) {
+            redirect(admin_url('commission/applicable_client'));
+        }
+        $this->load->model('commission_model');
+        $success = $this->commission_model->delete_applicable_staff($id);
+        if ($success == true) {
+            set_alert('success', _l('deleted', _l('applicable_client')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('applicable_client')));
+        }
+        redirect(admin_url('commission/applicable_client'));
+    }
+
+    /**
      * setting
      * @return view
      */
     public function setting() {
-        if (!has_permission('commission', '', 'view_setting') && !is_admin()) {
+        if (!has_permission('commission_setting', '', 'view') && !is_admin()) {
             access_denied('commission');
         }
         $this->load->model('commission_model');
@@ -872,6 +894,7 @@ class Commission extends AdminController
         $data['title'] = _l('commission_setting');
         $data['tab'][] = 'hierarchy';
         $data['tab'][] = 'salesadmin_customer_group';
+        $data['tab'][] = 'general_settings';
         if ($data['group'] == '' || $data['group'] == 'hierarchy') {
             $data['group'] = 'hierarchy';
             $data['hierarchys'] = $this->commission_model->get_hierarchy();
@@ -897,6 +920,9 @@ class Commission extends AdminController
             $message = '';
             $data = $this->input->post();
             if (!$this->input->post('id')) {
+                if (!has_permission('commission_setting', '', 'create') && !is_admin()) {
+                    access_denied('commission_setting');
+                }
                 $id = $this->commission_model->add_hierarchy($data);
                 if ($id) {
                     $success = true;
@@ -904,6 +930,9 @@ class Commission extends AdminController
                     set_alert('success', $message);
                 }
             } else {
+                if (!has_permission('commission_setting', '', 'edit') && !is_admin()) {
+                    access_denied('commission_setting');
+                }
                 $id = $data['id'];
                 unset($data['id']);
                 $success = $this->commission_model->update_hierarchy($data, $id);
@@ -924,8 +953,8 @@ class Commission extends AdminController
      */
     public function delete_hierarchy($id){
 
-        if (!has_permission('commission', '', 'view_setting')) {
-            access_denied('commission');
+        if (!has_permission('commission_setting', '', 'delete')) {
+            access_denied('commission_setting');
         }
         if (!$id) {
             redirect(admin_url('commission/setting'));
@@ -950,6 +979,9 @@ class Commission extends AdminController
             $message = '';
             $data = $this->input->post();
             if (!$this->input->post('id')) {
+                if (!has_permission('commission_setting', '', 'create') && !is_admin()) {
+                    access_denied('commission_setting');
+                }
                 $id = $this->commission_model->add_salesadmin_group($data);
                 if ($id) {
                     $success = true;
@@ -957,6 +989,9 @@ class Commission extends AdminController
                     set_alert('success', $message);
                 }
             } else {
+                if (!has_permission('commission_setting', '', 'edit') && !is_admin()) {
+                    access_denied('commission_setting');
+                }
                 $id = $data['id'];
                 unset($data['id']);
                 $success = $this->commission_model->update_salesadmin_group($data, $id);
@@ -976,8 +1011,8 @@ class Commission extends AdminController
      * @param      <type>  $id     The identifier
      */
     public function delete_salesadmin_customer_group($id){
-        if (!has_permission('commission', '', 'view_setting')) {
-            access_denied('commission');
+        if (!has_permission('commission_setting', '', 'delete')) {
+            access_denied('commission_setting');
         }
         if (!$id) {
             redirect(admin_url('commission/setting?group=salesadmin_customer_group'));
@@ -1045,13 +1080,13 @@ class Commission extends AdminController
                 }
                 $i++;
             }
-            $where = '(paid = 0 or (select count(*) from '.db_prefix().'commission_receipt_detail where receipt_id = '.$id.' and commission_id = '.db_prefix() . 'commission.id))';
+            $where = '(amount > amount_paid or (select count(*) from '.db_prefix().'commission_receipt_detail where receipt_id = '.$id.' and commission_id = '.db_prefix() . 'commission.id))';
         }else{
 
             $data['payment_modes'] = $this->payment_modes_model->get('', [
                 'expenses_only !=' => 1,
             ]);
-            $where = 'paid = 0';
+            $where = 'amount > amount_paid';
         }
 
         
@@ -1059,6 +1094,15 @@ class Commission extends AdminController
         $list_commission = $this->commission_model->get_commission('', $where);
         $data['list_commission'] = [];
         $data['currency'] = $this->currencies_model->get_base_currency();
+        $receipt_list_commission_id = [];
+        $receipt_list_commission_amount = [];
+        if(isset($receipt)){
+            foreach ($receipt->list_commission as $key => $value) {
+                $receipt_list_commission_id[] = $value['commission_id'];
+                $receipt_list_commission_amount[$value['commission_id']] = $value['amount_paid'];
+            }
+        }
+
         $list_commission_json = [];
 
         foreach ($list_commission as $key => $value) {
@@ -1066,7 +1110,11 @@ class Commission extends AdminController
                 continue;
             }
             $list_commission_json[$value['id']] = $value['amount'];
-            $value['amount'] = app_format_money($value['amount'], $data['currency']->name);
+            if(in_array($value['id'], $receipt_list_commission_id)){
+                $value['amount'] = app_format_money($value['amount'] - $value['amount_paid'] + $receipt_list_commission_amount[$value['id']], $data['currency']->name);
+            }else{
+                $value['amount'] = app_format_money($value['amount'] - $value['amount_paid'], $data['currency']->name);
+            }
             
             if($value['is_client'] == 1){
                 $value['commission_info'] = _l('client').' - '.format_invoice_number($value['invoice_id']).' - '.get_company_name($value['staffid']);
@@ -1075,7 +1123,6 @@ class Commission extends AdminController
             }
             $data['list_commission'][] = $value;
         }
-
         $data['list_commission_json'] = json_encode($list_commission_json);
 
         $data['staffs'] = $this->staff_model->get('', ['active' => 1]);
@@ -1191,7 +1238,11 @@ class Commission extends AdminController
             }elseif($from_date != ''){
                 array_push($where, 'AND (date >= "'.$from_date.'")');
             }elseif($to_date != ''){
-                array_push($where, 'AND (date <= "'.$to_date.'"');
+                array_push($where, 'AND (date <= "'.$to_date.'")');
+            }
+
+            if (!is_admin()) {
+                array_push($where, 'AND id IN (SELECT receipt_id FROM ' . db_prefix() . 'commission_receipt_detail WHERE commission_id IN (SELECT id FROM ' . db_prefix() . 'commission where staffid = "'.get_staff_user_id().'"))');
             }
 
             $aColumns     = $select;
@@ -1234,7 +1285,11 @@ class Commission extends AdminController
                 $row[] = _d($aRow['date']);
 
                 if($aRow['convert_expense'] == 0){
-                    $_data = '<a href="javascript:void(0)" onclick="convert_expense('.$aRow['id'].','.$aRow['amount'].'); return false;" class="btn btn-warning btn-icon">'._l('convert').'</a>';
+                    if(has_permission('commission_receipt','','create') || is_admin()){
+                        $_data = '<a href="javascript:void(0)" onclick="convert_expense('.$aRow['id'].','.$aRow['amount'].'); return false;" class="btn btn-warning btn-icon">'._l('convert').'</a>';
+                    }else {
+                        $_data  = '<span class="label label-warning">'._l('not_yet_converted').'</span>';
+                    }
                 }else{
                     $_data = '<a href="'.admin_url('expenses/list_expenses/'.$aRow['convert_expense']).'" class="btn btn-success btn-icon">'._l('view_expense').'</a>';
                 }
@@ -1364,4 +1419,39 @@ class Commission extends AdminController
 
         redirect(admin_url('commission/receipt/' . $id));
     }
+
+    /**
+     * update general setting
+     */
+    public function update_setting(){
+        if (!has_permission('commission_setting', '', 'edit') && !is_admin()) {
+            access_denied('commission_setting');
+        }
+        $this->load->model('commission_model');
+        $data = $this->input->post();
+        $success = $this->commission_model->update_setting($data,$id);
+        if($success == true){
+            $message = _l('updated_successfully', _l('general_settings'));
+            set_alert('success', $message);
+        }
+        redirect(admin_url('commission/setting?group=general_settings'));
+    }
+
+    /**
+     * update reset all data commission module
+     */
+    public function reset_data(){
+        if (!has_permission('commission_setting', '', 'edit') && !is_admin()) {
+            access_denied('commission_setting');
+        }
+        $this->load->model('commission_model');
+        $data = $this->input->post();
+        $success = $this->commission_model->reset_data($data,$id);
+        if($success == true){
+            $message = _l('reset_data_successfully');
+            set_alert('success', $message);
+        }
+        redirect(admin_url('commission/setting?group=general_settings'));
+    }
+    
 }

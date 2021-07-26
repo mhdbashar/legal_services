@@ -11,7 +11,7 @@
 <table class="table dt-table">
  <thead>
     <th><?php echo _l('add_from'); ?></th>
-    <th><?php echo _l('title'); ?></th>
+    <th><?php echo _l('criteria_title'); ?></th>
     <th><?php echo _l('type'); ?></th>
     <th><?php echo _l('date_add'); ?></th>
     <th><?php echo _l('options'); ?></th>

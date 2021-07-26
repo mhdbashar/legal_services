@@ -68,9 +68,18 @@ echo render_input('order', '<span class="text-danger">* </span>' . _l('order') .
                         </div>
 
 
+
                         <?php
 echo render_input('subject', '<span class="text-danger">* </span>' . _l('subject') . '', '', 'text', $attr); ?>
                         <?php echo render_textarea('content', 'content', '', array(), array(), '', 'tinymce') ?>
+                        
+                    <!-- view attachment file -->
+                    <div class="row">
+                      <div id="tranfer_personnel_attachments" class="mtop30 col-md-12 ">
+
+                      </div>
+                    </div>
+
                         <?php echo render_input('attachment', 'attachment', '', 'file'); ?>
                     </div>
                     </div>
@@ -85,5 +94,6 @@ echo render_input('subject', '<span class="text-danger">* </span>' . _l('subject
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 </div>
+<div id="personnel_attachments_file_data"></div>
 </body>
 </html>

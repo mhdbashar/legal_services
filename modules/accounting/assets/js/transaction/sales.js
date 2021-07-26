@@ -1,4 +1,4 @@
-var id, type, amount;
+var id, amount;
 
 var fnServerParams;
 (function($) {
@@ -68,7 +68,6 @@ var fnServerParams;
       $('.amount_after_convert').html(format_money(($('input[name="exchange_rate"]').val() * $('input[name="payment_amount"]').val())));
       $('.currency_converter_label').html('1 '+$('input[name="currency_from"]').val() +' = '+$('input[name="edit_exchange_rate"]').val()+' '+ $('input[name="currency_to"]').val());
   });
-
 })(jQuery);
 
 function convert(invoker){

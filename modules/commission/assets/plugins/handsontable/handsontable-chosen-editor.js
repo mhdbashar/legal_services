@@ -169,7 +169,7 @@
         this.$textarea.empty();
         this.$textarea.append("<option value=''></option>");
         var el = null;
-        var originalValue = (this.originalValue + "").split(",");
+        var originalValue = (this.originalValue + "").split("|");
         if (options.data && options.data.length) {
             for (var i = 0; i < options.data.length; i++) {
                 el = $("<option />");

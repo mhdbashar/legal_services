@@ -12,8 +12,29 @@
                   <td><?php echo html_entity_decode($intv_sch->is_name); ?></td>
                </tr>
                <tr class="project-overview">
-                  <td class="bold" width="30%"><?php echo _l('time'); ?></td>
-                  <td><?php echo html_entity_decode($intv_sch->from_time . ' - ' . $intv_sch->to_time); ?></td>
+                  <td class="bold" width="30%"><?php echo _l('rec_time'); ?></td>
+                  <?php
+$from_hours_format = '';
+$to_hours_format = '';
+
+$from_hours = _dt($intv_sch->from_hours);
+$from_hours = explode(" ", $from_hours);
+foreach ($from_hours as $key => $value) {
+	if ($key != 0) {
+		$from_hours_format .= $value;
+	}
+}
+
+$to_hours = _dt($intv_sch->to_hours);
+$to_hours = explode(" ", $to_hours);
+foreach ($to_hours as $key => $value) {
+	if ($key != 0) {
+		$to_hours_format .= $value;
+	}
+}
+
+?>
+                  <td><?php echo html_entity_decode($from_hours_format . ' - ' . $to_hours_format); ?></td>
                </tr>
                <tr class="project-overview">
                   <td class="bold"><?php echo _l('interview_day'); ?></td>
@@ -67,7 +88,7 @@ echo html_entity_decode($ata);
                   <div class="thumbnail">
                     <div class="caption" onclick="location.href='<?php echo admin_url('recruitment/candidate/' . $cd['candidate']) ?>'">
 
-                      <h4 id="thumbnail-label"><?php echo candidate_profile_image($cd['candidate'], ['staff-profile-image-small mright5'], 'small') . ' #' . $cd['candidate_code'] . ' - ' . $cd['candidate_name']; ?></h4>
+                      <h4 id="thumbnail-label"><?php echo candidate_profile_image($cd['candidate'], ['staff-profile-image-small mright5'], 'small') . ' #' . $cd['candidate_code'] . ' - ' . $cd['candidate_name'] . ' ' . $cd['last_name']; ?></h4>
 
                       <p><?php echo _l('email') . ': ' . $cd['email']; ?></p>
 

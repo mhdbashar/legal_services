@@ -37,9 +37,6 @@
           <table class="table table-accounts">
             <thead>
               <th><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="accounts"><label></label></div></th>
-              <?php if(get_option('acc_enable_account_numbers') == 1 && get_option('acc_show_account_numbers') == 1){ ?>
-                <th><?php echo _l('number'); ?></th>
-              <?php } ?>
               <th><?php echo _l('name'); ?></th>
               <th><?php echo _l('parent_account'); ?></th>
               <th><?php echo _l('type'); ?></th>

@@ -46,5 +46,28 @@
 	      $('#div_close_book_password').removeClass('hide');
 	    }
 	});
+
+	$('select[name="acc_accounting_method"]').on('change', function() {
+		console.log('a');
+	    if($('select[name="acc_accounting_method"]').val() == 'cash'){
+	    	$('.detail_type_note_1').html($('#detail_type_note_cash_1').html());
+		    $('.detail_type_note_2').html($('#detail_type_note_cash_2').html());
+		    $('.detail_type_note_3').html($('#detail_type_note_cash_3').html());
+	    }else{
+	      	$('.detail_type_note_1').html($('#detail_type_note_accrual_1').html());
+	      	$('.detail_type_note_2').html($('#detail_type_note_accrual_2').html());
+	      	$('.detail_type_note_3').html($('#detail_type_note_accrual_3').html());
+	    }
+	});
+
+	if($('select[name="acc_accounting_method"]').val() == 'cash'){
+      $('.detail_type_note_1').html($('#detail_type_note_cash_1').html());
+      $('.detail_type_note_2').html($('#detail_type_note_cash_2').html());
+      $('.detail_type_note_3').html($('#detail_type_note_cash_3').html());
+    }else{
+      $('.detail_type_note_1').html($('#detail_type_note_accrual_1').html());
+      $('.detail_type_note_2').html($('#detail_type_note_accrual_2').html());
+      $('.detail_type_note_3').html($('#detail_type_note_accrual_3').html());
+    }
 	
 })(jQuery);

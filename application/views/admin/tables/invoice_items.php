@@ -72,7 +72,7 @@ foreach ($rResult as $aRow) {
     }
 
     if (has_permission('items', '', 'create')) {
-        $descriptionOutput .= ' | <a href="' . admin_url('invoice_items/copy/' . $aRow['id']) . '" class=" _edit_item">' . _l('copy') . '</a>';
+        $descriptionOutput .= '<a href="' . admin_url('invoice_items/copy/' . $aRow['id']) . '" class=" _edit_item">' . _l('copy') . '</a>';
     }
 
     $descriptionOutput .= '</div>';

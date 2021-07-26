@@ -50,7 +50,7 @@
     </div>
   </div>
   <div class="col-md-12 mtop5">
-      Applied to the Timesheets overview report and when invoicing a task/project.
+      <?php echo _l('Applied_to_the_Timesheets'); ?>
   </div>
 </div>
 <hr />

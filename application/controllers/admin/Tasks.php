@@ -10,8 +10,8 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -65,12 +65,12 @@ class Tasks extends AdminController
         }
 
         $data['title'] = _l('tasks');
-        $this->load->view('admin/tasks/my_manage', $data);
+        $this->load->view('admin/tasks/manage', $data);
     }
 
     public function kanban_for_LegalServices($rel_type)
     {
-        echo $this->load->view('admin/tasks/my_kan_ban', ['rel_type' => $rel_type], true);
+        echo $this->load->view('admin/tasks/kan_ban', ['rel_type' => $rel_type], true);
     }
 
     public function table()
@@ -533,7 +533,7 @@ class Tasks extends AdminController
         $data['judges']         = $this->sessions_model->get_judges();
         $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
-        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
+        $this->load->view('admin/legalservices/services_sessions/modal_session', $data);
     }*/
 
     public function copy()
@@ -660,9 +660,9 @@ class Tasks extends AdminController
         }
 
         if ($return == false) {
-            $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data);
+            $this->load->view('admin/legalservices/services_sessions/view_session_template', $data);
         } else {
-            return $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data, true);
+            return $this->load->view('admin/legalservices/services_sessions/view_session_template', $data, true);
         }
     }
 
@@ -670,8 +670,14 @@ class Tasks extends AdminController
     {
         $message    = '';
         $alert_type = 'warning';
-        if ($this->input->post()) {
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+        $data = $this->input->post();
+        if ($data) {
+            //Merge date with time
+            if(isset($data['time'])){
+                $data['date'] = $data['date'].' '.$data['time'];
+                unset($data['time']);
+            }
+            $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
@@ -688,8 +694,14 @@ class Tasks extends AdminController
     {
         $message    = '';
         $alert_type = 'warning';
-        if ($this->input->post()) {
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+        $data = $this->input->post();
+        if ($data) {
+            //Merge date with time
+            if(isset($data['time'])){
+                $data['date'] = $data['date'].' '.$data['time'];
+                unset($data['time']);
+            }
+            $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
@@ -1546,7 +1558,17 @@ class Tasks extends AdminController
 
     public function log_time()
     {
-        $success = $this->tasks_model->timesheet($this->input->post());
+        $data = $this->input->post();
+        //Merge date with time
+        if(isset($data['ts_start_time'])){
+            $data['start_time'] = $data['start_time'].' '.$data['ts_start_time'];
+            unset($data['ts_start_time']);
+        }
+        if(isset($data['ts_end_time'])){
+            $data['end_time'] = $data['end_time'].' '.$data['ts_end_time'];
+            unset($data['ts_end_time']);
+        }
+        $success = $this->tasks_model->timesheet($data);
         if ($success === true) {
             $this->session->set_flashdata('task_single_timesheets_open', true);
             $message = _l('added_successfully', _l('project_timesheet'));

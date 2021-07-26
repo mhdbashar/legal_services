@@ -1,5 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<style>
+    <?php if(is_rtl()){ ?>
+    .col-md-5ths {
+        float: right;
+    }
+    <?php } ?>
+</style>
 <div id="wrapper">
    <div class="content">
       <div class="row">
@@ -243,7 +250,7 @@
       $gr.removeClass('hide');
       $gr.find('span').css('position','absolute');
       $gr.find('span').css('top','2px');
-      $gr.find('span').css((isRTL == 'true' ? 'right' : 'left'),'-90px');
+      $gr.find('span').css((isRTL == 'true' ? 'right' : 'left'),'-135px');
       $dtFilter.before($gr,'<div class="clearfix"></div>');
     });
 

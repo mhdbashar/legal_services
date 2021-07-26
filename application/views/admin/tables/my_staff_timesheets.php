@@ -379,7 +379,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['note'];
 
-    $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
     $service_id = $this->ci->legal->get_service_id_by_slug($aRow['rel_type']);
     if (!empty($service_id)) {
         if ($service_id == 1) {

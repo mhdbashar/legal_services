@@ -71,7 +71,7 @@ function call_logs_migration_tables_to_replace_old_links($tables)
 
     return $tables;
 }
-/* This functions tie up Perfex CRM permission system with Call Log Module. */
+/* This functions tie up Babil CRM permission system with Call Log Module. */
 function call_logs_permissions()
 {
     $capabilities = [];

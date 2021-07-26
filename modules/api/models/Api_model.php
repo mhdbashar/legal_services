@@ -15,19 +15,19 @@ class Api_model extends App_Model
                 return $this->Projects_model->get($id);
                 break;
             case 'cases':
-                $this->load->model('LegalServices/Cases_model', 'case');  
+                $this->load->model('legalservices/Cases_model', 'case');  
                 return $this->case->get($id);
                 break;
             case 'Service2':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
+                $this->load->model('legalservices/Other_services_model', 'other');  
                 return $this->other->get(2, $id);
                 break;
             case 'Service3':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
+                $this->load->model('legalservices/Other_services_model', 'other');  
                 return $this->other->get(3, $id);
                 break;
             case 'Service10':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
+                $this->load->model('legalservices/Other_services_model', 'other');  
                 return $this->other->get(10, $id);
                 break;
             case 'tasks':

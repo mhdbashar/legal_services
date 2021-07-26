@@ -15,7 +15,7 @@
                     <button class="btn btn-danger" id="deleteConversation" onClick="deleteConversation(<?php echo $id; ?>)">
                         <?= _l("chat_delete_conversation"); ?>
                     </button>
-                    <a class="btn btn-primary" id="exportConversation" href="<?= admin_url('babilchat/Prchat_Controller/exportCSV?user=' . $id); ?>"><?= _l("chat_export_messages_label"); ?></a>
+                    <a class="btn btn-primary" id="exportConversation" href="<?= admin_url('babilchat/Babilchat_Controller/exportCSV?user=' . $id); ?>"><?= _l("chat_export_messages_label"); ?></a>
                 <?php endif; ?>
             </div>
         </div>

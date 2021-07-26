@@ -192,7 +192,7 @@
                   <p class="bold mbot5"><?php echo _l('project'); ?></p>
                   <p class="mbot15"><a href="<?php echo admin_url('projects/view/'.$expense->project_id); ?>"><?php echo $expense->project_data->name; ?></a></p>
                   <?php }else{
-                      $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                      $this->load->model('legalservices/LegalServicesModel', 'legal');
                       $ServID = $this->legal->get_service_id_by_slug($expense->rel_stype);
                       if($ServID == 1){ ?>
                           <p class="bold mbot5"><?php echo _l('ServiceTitle'); ?></p>

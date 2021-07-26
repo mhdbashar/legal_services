@@ -6,6 +6,10 @@
       <hr class="hr-panel-heading" />
       <?php } ?>
       <div class="row">
+      <?php if (isset($estimate_request_id) && $estimate_request_id != '') {
+              echo form_hidden('estimate_request_id',$estimate_request_id);
+          }
+          ?>
          <div class="col-md-6">
             <div class="f_client_id">
              <div class="form-group select-placeholder">
@@ -38,8 +42,10 @@
            </div> */ ?>
 
              <?php
-             if((!isset($estimate)) || (isset($estimate) && !customer_has_cases($estimate->clientid)) || (isset($estimate) && !customer_has_oservices($estimate->clientid))){
-                 $hide_project_selector = 'hide';
+             if((!isset($estimate_request_id)) && (!isset($estimate) || (isset($estimate) && !customer_has_cases($estimate->clientid)))){
+                 $hide_project_selector = ' hide';
+             }elseif((!isset($estimate_request_id)) && (!isset($estimate) || (isset($estimate) && !customer_has_oservices($estimate->clientid)))){
+                 $hide_project_selector = ' hide';
              }else{
                  $hide_project_selector = '';
              }
@@ -54,7 +60,7 @@
                      <option selected disabled></option>
                      <?php
                      if(isset($estimate) && $estimate->rel_sid != 0){
-                         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                         $this->load->model('legalservices/LegalServicesModel', 'legal');
                          $slug = (isset($estimate) ? $estimate->rel_stype : '');
                          $ServID = $this->legal->get_service_id_by_slug($slug);
                          if($ServID == 1){

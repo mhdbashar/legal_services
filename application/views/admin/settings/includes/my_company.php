@@ -44,10 +44,10 @@
     <p>
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{company_name}</a>
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{address}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{bo_box}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{city}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{state}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{zip_code}</a>,
-        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{bo_box}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{phone}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number_with_label}</a>

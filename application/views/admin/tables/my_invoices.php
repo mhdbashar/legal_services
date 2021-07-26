@@ -167,7 +167,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['year'];
 
-    $row[] = _dha($aRow['date']);
+    $row[] = _gregorian_hijri_date($aRow['date']);
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
@@ -180,7 +180,7 @@ foreach ($rResult as $aRow) {
         if($aRow['rel_stype'] == 'imported'){
             $row[] = '<a href="' . admin_url('SImported/view/' . $aRow['rel_sid']) . '">' . '</a>';
         }else{
-            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
             $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
             if($ServID == 1){
                 $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
@@ -195,7 +195,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _dha($aRow['duedate']);
+    $row[] = _gregorian_hijri_date($aRow['duedate']);
 
     $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 

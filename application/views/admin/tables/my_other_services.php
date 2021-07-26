@@ -80,17 +80,17 @@ foreach ($rResult as $aRow) {
         $_data .= '  <a href="' . admin_url('SOther/edit/' . $ServID . '/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
     if ($hasPermissionDelete) {
-        $_data .= ' | <a href="' . admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $_data .= ' | <a href="' . admin_url('legalservices/other_services/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $_data .= ' | <a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
-    // $_data .= ' | <a href="'.admin_url("LegalServices/other_services_controller/export_service/".$ServID."/".$aRow['id']."").'">'. _l('export') .'</a>';
+    // $_data .= ' | <a href="'.admin_url("legalservices/other_services/export_service/".$ServID."/".$aRow['id']."").'">'. _l('export') .'</a>';
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsServices($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = _dha($aRow['start_date']);
-    $row[] = _dha($aRow['deadline']);
+    $row[] = _gregorian_hijri_date($aRow['start_date']);
+    $row[] = _gregorian_hijri_date($aRow['deadline']);
     $members = $model->GetMembersServices($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

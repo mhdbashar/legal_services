@@ -58,7 +58,7 @@
                     <span class="add-title"><?php echo _l('add_dialog_box'); ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('Dialog_boxes/add'),array('id'=>'add-dialog-form')); ?>
+            <?php echo form_open(admin_url('dialog_boxes/add'),array('id'=>'add-dialog-form')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -93,7 +93,7 @@
 <?php init_tail(); ?>
 <script type="text/javascript">
     $(function(){
-        initDataTable('.table-my_dialog_boxes', admin_url + 'Dialog_boxes/table');
+        initDataTable('.table-my_dialog_boxes', admin_url + 'dialog_boxes/table');
         _validate_form($('#add-dialog-form'),{title:'required',desc_ar:'required',desc_en:'required',page_url:'required'});
         $('#DataTables_Table_0_wrapper').removeClass('form-inline');
     });
@@ -105,7 +105,7 @@
                 if(data == 1){
                     alert_float('success', '<?php echo _l('Done'); ?>');
                 }else {
-                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                    alert_float('danger', '<?php echo _l('Faild'); ?>');
                 }
             }
         });

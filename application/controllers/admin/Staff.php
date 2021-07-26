@@ -7,7 +7,7 @@ class Staff extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* List all staff members */

@@ -24,7 +24,3 @@ $call = $client->account->calls->create(
     )
 );
 echo $call->sid;
-// echo "<pre>";
-// print_r($call);
-// echo "</pre>";
-// die();

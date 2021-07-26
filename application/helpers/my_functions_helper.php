@@ -1,11 +1,23 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-//    public function test()
-//    {
-//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
-//
-//    }
+// add_action('after_render_single_aside_menu', 'my_custom_menu_items');
+hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
+hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
+hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
+hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
+//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
+hooks()->add_action('admin_init', 'add_hijri_settings');
+hooks()->add_action('app_admin_assets_added', 'admin_assets');
+
+hooks()->add_filter('before_sql_date_format', 'to_AD_date');
+hooks()->add_filter('after_format_date', 'to_hijri_date');
+hooks()->add_filter('after_format_datetime', 'to_hijri_date');
+hooks()->add_filter('before_settings_updated', 'set_my_options');
+hooks()->add_filter('available_date_formats', 'add_hijri_option');
+hooks()->add_filter('sms_gateways', 'add_sms_gateway');
+
 function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
 {
     $_url = '#';
@@ -19,6 +31,7 @@ function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attribu
     <i class="fa fa-' . $type . '"></i>
     </a>';
 }
+
 function curl_get_contents($url)
 {
     $ch = curl_init();
@@ -105,23 +118,6 @@ function my_check_license()
             break;
     }
 }
-// add_action('after_render_single_aside_menu', 'my_custom_menu_items');
-hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
-hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
-hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
-hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
-hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
-
-//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
-hooks()->add_action('admin_init', 'add_hijri_settings');
-hooks()->add_action('app_admin_assets_added', 'admin_assets');
-hooks()->add_filter('before_sql_date_format', 'to_AD_date');
-hooks()->add_filter('after_format_date', 'to_hijri_date');
-hooks()->add_filter('after_format_datetime', 'to_hijri_date');
-hooks()->add_filter('before_settings_updated', 'set_my_options');
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-// hooks()->add_action('after_format_datetime', 'my_custom_date');
-// hooks()->add_action('after_format_date', 'my_custom_date');
 
 function my_app_init_customer_profile_tabs()
 {
@@ -213,7 +209,7 @@ function my_module_menu_item_collapsible()
 
     $CI->app_menu->add_sidebar_menu_item('sessions', [
         'name'     => _l("sessions"), // The name if the item
-        'href'     => admin_url('LegalServices/sessions'), // URL of the item
+        'href'     => admin_url('legalservices/sessions'), // URL of the item
         'position' => 5, // The menu position, see below for default positions.
         'icon'     => 'fa fa-font-awesome', // Font awesome icon
     ]);
@@ -246,26 +242,26 @@ function my_module_clients_area_menu_items()
         'href'     => site_url('my_module/acme'),
         'position' => 10,
     ]);*/
-    // Show menu item only if client is logged in
-    $CI = &get_instance();
-    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
-    $position = 0;
-    if (has_contact_permission('projects')) {
-        if (is_client_logged_in()) {
-            foreach ($services as $service):
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => $service->name,
-                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
-                'position' => $position+5,
-            ]);
-            endforeach;
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => _l('services'),
-                'href'     => site_url('clients/imported/'),
-                'position' => 40,
-            ]);
-        }
-    }
+//    // Show menu item only if client is logged in
+//    $CI = &get_instance();
+//    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
+//    $position = 0;
+//    if (has_contact_permission('projects')) {
+//        if (is_client_logged_in()) {
+//            foreach ($services as $service):
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => $service->name,
+//                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
+//                'position' => $position+5,
+//            ]);
+//            endforeach;
+//            add_theme_menu_item('LegalServices'.$service->id, [
+//                'name'     => _l('services'),
+//                'href'     => site_url('clients/imported/'),
+//                'position' => 40,
+//            ]);
+//        }
+//    }
 }
 
 function my_custom_setup_menu_items()
@@ -275,7 +271,7 @@ function my_custom_setup_menu_items()
     // $CI->app_menu->add_setup_menu_item('0', [
     //     'name'     => _l("dialog_box_manage"), // The name if the item
     //     'position' => 0, // The menu position
-    //     'href'     => admin_url('Dialog_boxes'), // URL of the item
+    //     'href'     => admin_url('dialog_boxes'), // URL of the item
     // ]);
     $CI->app_menu->add_setup_menu_item('1', [
         'name' => _l("legal_services_settings"), // The name if the item
@@ -296,7 +292,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item2', // Required ID/slug UNIQUE for the child menu
             'name' => _l("Judges"), // The name if the item
-            'href' => admin_url('Judge'), // URL of the item
+            'href' => admin_url('judge'), // URL of the item
             'position' => 2, // The menu position
         ]);
     }
@@ -305,7 +301,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item3', // Required ID/slug UNIQUE for the child menu
             'name' => _l("case_status"), // The name if the item
-            'href' => admin_url('Case_status'), // URL of the item
+            'href' => admin_url('case_status'), // URL of the item
             'position' => 3, // The menu position
         ]);
     }
@@ -314,7 +310,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item4', // Required ID/slug UNIQUE for the child menu
             'name' => _l("CourtsManagement"), // The name if the item
-            'href' => admin_url('courts_control'), // URL of the item
+            'href' => admin_url('courts'), // URL of the item
             'position' => 4, // The menu position
         ]);
     }
@@ -332,7 +328,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
             'name' => _l("legal_services_phases"), // The name if the item
-            'href' => admin_url('LegalServices/Phases_controller'), // URL of the item
+            'href' => admin_url('legalservices/phases'), // URL of the item
             'position' => 6, // The menu position
         ]);
     }
@@ -341,7 +337,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item7', // Required ID/slug UNIQUE for the child menu
             'name' => _l("LService_recycle_bin"), // The name if the item
-            'href' => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
+            'href' => admin_url('legalservices/legal_services/legal_recycle_bin'), // URL of the item
             'position' => 7, // The menu position
         ]);
     }
@@ -350,7 +346,7 @@ function my_custom_setup_menu_items()
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu
             'name' => _l("legal_procedures_management"), // The name if the item
-            'href' => admin_url('LegalServices/legal_procedures'), // URL of the item
+            'href' => admin_url('legalservices/legal_procedures'), // URL of the item
             'position' => 8, // The menu position
         ]);
     }
@@ -433,27 +429,6 @@ function app_init_opponent_profile_tabs()
     ]);
 }
 
-// function my_custom_date($date)
-// {
-//     $opt = explode('|', get_option('dateformat'));
-//     if(isset($opt[2]) && $opt[2]=='hijri'){
-//         $datetime = explode(' ', $date);
-//         $date = new DateTime($datetime[0]);
-//         $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
-//         // First condition for date and datetime
-//         // Second condition for 12 or 24 (Time Format)
-//         if (isset($datetime[1])){
-//         $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
-//         }
-//         return $date;
-//     }
-// }
-
-/**
- * custom
- * Get all countries stored in database
- * @return array
- */
 function my_get_all_countries()
 {
     $CI = & get_instance();
@@ -461,11 +436,6 @@ function my_get_all_countries()
     return $CI->db->get('tblcountries')->result_array();
 }
 
-/**
- * custom
- * Get all cities for a specific country Stored in database
- * @return array
- */
 function my_get_cities($country_id = '')
 {
     $CI = & get_instance();
@@ -486,28 +456,17 @@ function my_get_cities($country_id = '')
 function admin_assets()
 {
     $CI = &get_instance();
-
     $CI->app_css->add('bootstrap-datetimepicker-css', 'assets/css/bootstrap-datetimepicker.css');
-
     $CI->app_css->add('bootstrap4-toggle-css', 'assets/css/bootstrap4-toggle.css');
-
     $CI->app_scripts->add('bootstrap4-toggle-js', 'assets/js/bootstrap4-toggle.min.js');
-
-//    $CI->app_scripts->add('jquery-js', 'assets/js/jquery-3.3.1.js');
-//    $CI->app_scripts->add('bootstrap-js', 'assets/js/bootstrap.js');
     $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
-//    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js'); // ddd
     $CI->app_scripts->add('moment-with-data-js', 'assets/js/moment-with-data.js');
-//    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js'); // ddd
-
-//    $CI->app_scripts->add('moment-hijri-js', 'https://raw.githubusercontent.com/xsoh/moment-hijri/master/moment-hijri.js');
-
     $CI->app_scripts->add('moment-hijri-js', 'assets/js/moment-hijri.js');
-
     $CI->app_scripts->add('bootstrap-hijri-datetimepicker-js', 'assets/js/bootstrap-hijri-datetimepicker.js');
-
-    $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
-
+    $CI->app_scripts->add('custom-js',base_url($CI->app_scripts->core_file('assets/js', 'custom.js')) . '?v=' . $CI->app_css->core_version());
+    //$CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js');
+    //$CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js');
+    //$CI->app_scripts->add('moment-hijri-js', 'https://raw.githubusercontent.com/xsoh/moment-hijri/master/moment-hijri.js');
 }
 
 function to_AD_date($date)
@@ -520,50 +479,41 @@ function to_AD_date($date)
     }
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
-    $formatMode =$formats[0];  //for general dateformat
+    $formatMode = $formats[0];  //for general dateformat
 
     /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-
-    if (  $hijri_convert && $hijriStatus =="on") {
+    if ($hijri_convert && $hijriStatus == "on") {
         $hijri_settings['adj_data'] = get_option('adjust_data');
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
-        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day']);
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    } else {
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
-    if(isset($time)){
-        $date = $date.' '.$time;
+    if (isset($time)) {
+        $date = $date . ' ' . $time;
     }
-
     return $date;
 }
 
 function force_to_AD_date($date)
 {
-    if(strpos($date, ' ') !== false){    //is datetime
+    if(strpos($date, ' ') !== false){
+        //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -572,51 +522,27 @@ function force_to_AD_date($date)
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
     if (false) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
-//                var_dump($hijri_settings['adj_data'].'fghf');exit();
-
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    }else{
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
     return $date;
 }
 
 function force_to_AD_date_for_filter($date)
 {
-    if(strpos($date, ' ') !== false){    //is datetime
+    if(strpos($date, ' ') !== false){
+        //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -625,45 +551,20 @@ function force_to_AD_date_for_filter($date)
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
     if (true) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
-//                var_dump($hijri_settings['adj_data'].'fghf');exit();
-
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
-
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
-
-
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
         $date = date($formatMode, strtotime($date));
-    }else{ // AD date
-
+    }else{
+        // AD date
         $date = date($formatMode, strtotime($date));
-
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
     return $date;
 }
 
@@ -678,7 +579,6 @@ function search_url($pages, $url)
                 }
             }
         }
-
     }
     return $i;
 }
@@ -690,55 +590,36 @@ function to_hijri_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-
     }
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-
-
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-
-
-/*******************************************************************/
-
-    if($hijri_convert && $hijriStatus =="on"){
-
+    if ($hijri_convert && $hijriStatus == "on") {
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
         $adj = new CalendarAdjustment();
         $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
-
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
-
-         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
-
-
+        $date = $hijri_date['y'] . '-' . ($hijri_date['m'] < 10 ? '0'.$hijri_date['m'] : $hijri_date['m']) . '-' . ($hijri_date['d'] < 10 ? '0'.$hijri_date['d'] : $hijri_date['d']);
         // First condition for date and datetime
         // Second condition for 12 or 24 (Time Format)
         if (isset($datetime[1])){
-        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+            $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
         }
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-        return $date;
+    return $date;
 }
 
 function force_to_hijri_date($date)
@@ -748,55 +629,25 @@ function force_to_hijri_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-
     }
-
-    /** to check if this hijri status is on from database **/
-    $hijriStatus= get_option('isHijri');
-    /*******************************************************************/
-
-
-    /** to check if this page are included in database hijri option **/
-    // $hijri_pages = json_decode(get_option('hijri_pages'));
-    // // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    // $admin_url = admin_url();
-    // $this_page = str_replace(admin_url(),'',$current_url);
-
-
-    // if(search_url($hijri_pages, $this_page) > 0){
-    //     $hijri_convert = true;
-    // }else{
-    //     $hijri_convert = false;
-    // }
-
-
-/*******************************************************************/
-
     if(true){
-
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
         $adj = new CalendarAdjustment();
         $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
-
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
-
-         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
-
-
+        $date = $hijri_date['y'] . '-' . ($hijri_date['m'] < 10 ? '0'.$hijri_date['m'] : $hijri_date['m']) . '-' . ($hijri_date['d'] < 10 ? '0'.$hijri_date['d'] : $hijri_date['d']);
         // First condition for date and datetime
         // Second condition for 12 or 24 (Time Format)
         if (isset($datetime[1])){
-        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+            $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
         }
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
-        return $date;
+    return $date;
 }
 
 function set_my_options($data){
@@ -845,8 +696,6 @@ function set_my_options($data){
         }else{
             add_option('hijri_pages',json_encode($links_array));
         }
-//    var_dump(json_encode($links_array));exit();
-//    add_option('dateformat',$data['dateformat']);
     }else{
         return $data;
     }
@@ -909,12 +758,9 @@ function get_legal_service_slug_by_id($service_id)
     return false;
 }
 
-hooks()->add_filter('sms_gateways', 'add_sms_gateway');
-
 function add_sms_gateway($gateways)
 {
     array_push($gateways, 'sms/sms_mobily');
-    
     return $gateways;
 }
 
@@ -1138,89 +984,166 @@ function format_dispute_invoice_number($id)
     ]);
 }
 
-function _dha($date) {
-    $hijriStatus= get_option('isHijri');
+function _dha($date)
+{
+    $formatted = '';
+    /** to check if this hijri status is on from database **/
+    $hijriStatus = get_option('isHijri');
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-    if(search_url($hijri_pages, $this_page) > 0){
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
         $hijri_convert = true;
-    }else{
+    } else {
         $hijri_convert = false;
     }
-    if($hijriStatus =="on"){
-        return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
-    }else
+    if ($hijri_convert && $hijriStatus == "on") {
+        if ($date == '' || is_null($date) || $date == '0000-00-00') {
+            return $formatted;
+        }else{
+            return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
+        }
+    } else {
         return _d($date);
+    }
 }
 
-//function search_book_api()
-//{
-//    if($this->input->post()){
-//        $tags_array = $this->input->post();
-//        if(isset($tags_array['tags']) && !empty($tags_array['tags'])){
-//            $new_tag_name = str_replace(' ', '', $tags_array['tags']);
-//
-//            $tags_name = explode(',', $new_tag_name);
-//
-//            foreach ($tags_name as $tag) {
-//                $this->db->like('tag_name', $tag);
-//                $result[] = $this->db->get('tag')->result();
-//            }
-//            if($result){
-//                foreach ($result as $value => $key) {
-//                    foreach ($result[$value] as $item){
-//                        $arr[] = $item->tag_id;
-//                    }
-//                }
-//                $sql = "SELECT section_id,book_id,book_title,url,file,
-//                        COUNT(book_title) AS relevance
-//                        FROM
-//                        (SELECT book.section_id,book.book_id,file,url, book_title
-//                         FROM book,book_tag,section
-//                         WHERE  book.book_id = book_tag.book_id
-//                         AND book.main_section = section.section_id
-//                         AND tag_id IN('" . implode("','", $arr) . "')
-//                         ) AS matches
-//                         GROUP BY section_id, book_id, book_title, url, file
-//                         ORDER BY relevance DESC";
-//                $books = $this->db->query($sql)->result();
-//
-//                foreach ($books as $book) {
-//                    $sql2 = "SELECT c.*
-//                            FROM (
-//                                SELECT
-//                                    @r AS _id,
-//                                    (SELECT @r := parent_id FROM section WHERE section_id = _id) AS parent_id,
-//                                    @l := @l + 1 AS level
-//                                FROM
-//                                    (SELECT @r := " . $book->section_id . ", @l := 0) vars, section m
-//                                WHERE @r <> 0) d
-//                            JOIN section c
-//                            ON d._id = c.section_id ORDER BY section_id ASC";
-//                    $sections = $this->db->query($sql2)->result();
-//                    $book->sections = $sections;
-//                }
-//                // set response code - 200 OK
-//                http_response_code(200);
-//                echo json_encode(array("message" => "success", "books" => $books), JSON_UNESCAPED_UNICODE);
-//            }else{
-//                // set response code - 503 service unavailable
-//                http_response_code(503);
-//                echo json_encode(array("message" => "No data found."));
-//            }
-//        }else{
-//            // set response code - 400 bad request
-//            http_response_code(400);
-//            echo json_encode(array("message" => "Unable to read tags. The data is incomplete."));
-//        }
-//    }else{
-//        // set response code - 405 method not allowed
-//        http_response_code(405);
-//        echo json_encode(array("message" => "Method Not Allowed"));
-//    }
-//}
+function _gregorian_hijri_date($date, $input=false)
+{
+    $formatted = '';
+    /** to check if this hijri status is on from database **/
+    $hijriStatus = get_option('isHijri');
+    /** to check if this page are included in database hijri option **/
+    $hijri_pages = json_decode(get_option('hijri_pages'));
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    //$current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    $this_page = str_replace(admin_url(), '', $current_url);
+    if (search_url($hijri_pages, $this_page) > 0) {
+        $hijri_convert = true;
+    } else {
+        $hijri_convert = false;
+    }
+    if ($hijri_convert && $hijriStatus == "on") {
+        if ($date == '' || is_null($date) || $date == '0000-00-00') {
+            return $formatted;
+        }else{
+            if ($input) {
+                return force_to_hijri_date($date);
+            } else {
+                return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
+            }
+        }
+    } else {
+        return _d($date);
+    }
+}
+
+//Split Contacts name By Baraa Alhalabi
+function split_name($name)
+{
+    $parts = array();
+    $name = trim($name);
+    $string = mb_split(' ',$name);
+    foreach ($string as $word) {
+        $parts[] = $word;
+    }
+    if (empty($parts) || count($parts) === 1) {
+        return false;
+    }
+    $name = array();
+    $name['firstname'] = $parts[0];
+    $name['fathername'] = (isset($parts[2])) ? $parts[1] : '';
+    $name['grandfathername'] = (isset($parts[3])) ? $parts[2] : '';
+    $name['lastname'] = (isset($parts[3])) ? $parts[3] : (isset($parts[2]) ? $parts[2] : (isset($parts[1]) ? $parts[1] : ''));
+    return $name;
+}
+
+/*public function my_create_new_email_template()
+{
+    create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+}*/
+
+/*function my_custom_date($date)
+{
+    $opt = explode('|', get_option('dateformat'));
+    if(isset($opt[2]) && $opt[2]=='hijri'){
+        $datetime = explode(' ', $date);
+        $date = new DateTime($datetime[0]);
+        $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
+        // First condition for date and datetime
+        // Second condition for 12 or 24 (Time Format)
+        if (isset($datetime[1])){
+        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+        }
+        return $date;
+    }
+}*/
+
+/*function search_book_api()
+{
+    if($this->input->post()){
+        $tags_array = $this->input->post();
+        if(isset($tags_array['tags']) && !empty($tags_array['tags'])){
+            $new_tag_name = str_replace(' ', '', $tags_array['tags']);
+
+            $tags_name = explode(',', $new_tag_name);
+
+            foreach ($tags_name as $tag) {
+                $this->db->like('tag_name', $tag);
+                $result[] = $this->db->get('tag')->result();
+            }
+            if($result){
+                foreach ($result as $value => $key) {
+                    foreach ($result[$value] as $item){
+                        $arr[] = $item->tag_id;
+                    }
+                }
+                $sql = "SELECT section_id,book_id,book_title,url,file,
+                        COUNT(book_title) AS relevance
+                        FROM
+                        (SELECT book.section_id,book.book_id,file,url, book_title
+                         FROM book,book_tag,section
+                         WHERE  book.book_id = book_tag.book_id
+                         AND book.main_section = section.section_id
+                         AND tag_id IN('" . implode("','", $arr) . "')
+                         ) AS matches
+                         GROUP BY section_id, book_id, book_title, url, file
+                         ORDER BY relevance DESC";
+                $books = $this->db->query($sql)->result();
+
+                foreach ($books as $book) {
+                    $sql2 = "SELECT c.*
+                            FROM (
+                                SELECT
+                                    @r AS _id,
+                                    (SELECT @r := parent_id FROM section WHERE section_id = _id) AS parent_id,
+                                    @l := @l + 1 AS level
+                                FROM
+                                    (SELECT @r := " . $book->section_id . ", @l := 0) vars, section m
+                                WHERE @r <> 0) d
+                            JOIN section c
+                            ON d._id = c.section_id ORDER BY section_id ASC";
+                    $sections = $this->db->query($sql2)->result();
+                    $book->sections = $sections;
+                }
+                // set response code - 200 OK
+                http_response_code(200);
+                echo json_encode(array("message" => "success", "books" => $books), JSON_UNESCAPED_UNICODE);
+            }else{
+                // set response code - 503 service unavailable
+                http_response_code(503);
+                echo json_encode(array("message" => "No data found."));
+            }
+        }else{
+            // set response code - 400 bad request
+            http_response_code(400);
+            echo json_encode(array("message" => "Unable to read tags. The data is incomplete."));
+        }
+    }else{
+        // set response code - 405 method not allowed
+        http_response_code(405);
+        echo json_encode(array("message" => "Method Not Allowed"));
+    }
+}*/

@@ -4,7 +4,7 @@
    <div class="content">
       <div class="row">
          <div class="col-md-12">
-            <?php if(isset($client) && $client->registration_confirmed == 0 && is_admin()){ ?>
+            <?php /*if(isset($client) && $client->registration_confirmed == 0 && is_admin()){ ?>
                <div class="alert alert-warning">
                   <?php echo _l('customer_requires_registration_confirmation'); ?>
                   <br />
@@ -16,7 +16,7 @@
                <br />
                <a href="<?php echo admin_url('opponents/mark_as_active/'.$client->userid); ?>"><?php echo _l('mark_as_active'); ?></a>
             </div>
-            <?php } ?>
+            <?php }*/ ?>
             <?php if(isset($client) && (!has_permission('customers','','view') && is_customer_admin($client->userid))){?>
             <div class="alert alert-info">
                <?php echo _l('opponent_admin_login_as_client_message',get_staff_full_name(get_staff_user_id())); ?>

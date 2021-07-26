@@ -442,7 +442,7 @@ class Call_logs extends AdminController
                 $result['twilio_number'],
                 [
                     "method" => "GET",
-                    "statusCallback" => "http://localhost/perfex_crm/testing.php
+                    "statusCallback" => "http://localhost/babil/testing.php
 ",
                     "statusCallbackEvent" => ["initiated","ringing","answered","complete"],
                     "statusCallbackMethod" => "POST",

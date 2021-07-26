@@ -31,7 +31,7 @@ class Dialog_boxes extends AdminController
             $added = $this->dialog->add($data);
             if($added){
                 set_alert('success', _l('added_successfully'));
-                redirect(admin_url("Dialog_boxes"));
+                redirect(admin_url("dialog_boxes"));
             }
         }
     }
@@ -43,7 +43,7 @@ class Dialog_boxes extends AdminController
             $updated = $this->dialog->update($id, $data);
             if($updated){
                 set_alert('success', _l('updated_successfully'));
-                redirect(admin_url("Dialog_boxes"));
+                redirect(admin_url("dialog_boxes"));
             }
         }
     }
@@ -56,7 +56,7 @@ class Dialog_boxes extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
-        redirect(admin_url('Dialog_boxes'));
+        redirect(admin_url('dialog_boxes'));
     }
 
     public function active_dialog($id)

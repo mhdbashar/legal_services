@@ -43,14 +43,14 @@ class Judge extends AdminController
                 $id = $this->Judges_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('Judge')));
-                    redirect(admin_url('Judge'));
+                    redirect(admin_url('judge'));
                 }
             } else {
                 $success = $this->Judges_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('Judge')));
                 }
-                redirect(admin_url('Judge'));
+                redirect(admin_url('judge'));
             }
         }
         if ($id == '') {
@@ -69,7 +69,7 @@ class Judge extends AdminController
             access_denied('Judge');
         }
         if (!$id) {
-            redirect(admin_url('Judge/judgecu'));
+            redirect(admin_url('judge/judgecu'));
         }
         $response = $this->Judges_model->delete($id);
         if ($response == true) {

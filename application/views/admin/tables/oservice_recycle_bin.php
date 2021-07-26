@@ -20,7 +20,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['name'];
     $_data = '';
     if (has_permission('legal_recycle_bin', '', 'restore')) {
-        $_data =  '<a href='.admin_url("LegalServices/LegalServices_controller/restore_legal_services/".$ServID.'/'.$aRow['id']."").' class="btn btn-warning btn-icon _delete" data-toggle="tooltip" data-placement="top" title="'._l('restore').'"><i class="fa fa-undo"></i></a>';
+        $_data =  '<a href='.admin_url("legalservices/legal_services/restore_legal_services/".$ServID.'/'.$aRow['id']."").' class="btn btn-warning btn-icon _delete" data-toggle="tooltip" data-placement="top" title="'._l('restore').'"><i class="fa fa-undo"></i></a>';
     }
     if (has_permission('legal_recycle_bin', '', 'delete')) {
         $_data .= '<a href=' . admin_url("SOther/delete/" . $ServID . '/' . $aRow['id'] . "") . ' class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-placement="top" title="' . _l('delete') . '"><i class="fa fa-trash"></i></a>';

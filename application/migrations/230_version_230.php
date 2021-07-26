@@ -93,16 +93,16 @@ class Migration_Version_230 extends CI_Migration
             $this->db->query("ALTER TABLE $tableName ENGINE=InnoDB;");
         }
 
-        if (file_exists(VIEWPATH . 'themes/perfex/scripts.php')) {
-            @unlink(VIEWPATH . 'themes/perfex/scripts.php');
+        if (file_exists(VIEWPATH . 'themes/babil/scripts.php')) {
+            @unlink(VIEWPATH . 'themes/babil/scripts.php');
         }
 
         $themes = get_all_client_themes();
 
         foreach ($themes as $theme) {
-            if ($theme != 'perfex') {
+            if ($theme != 'babil') {
                 if (!file_exists(VIEWPATH . 'themes/' . $theme . '/functions.php')) {
-                    copy(VIEWPATH . 'themes/perfex/functions.php', VIEWPATH . 'themes/' . $theme . '/functions.php');
+                    copy(VIEWPATH . 'themes/babil/functions.php', VIEWPATH . 'themes/' . $theme . '/functions.php');
                 }
             }
         }

@@ -53,7 +53,7 @@
 </a>
 <a href="#" onclick="window.location.href = '<?php echo admin_url('projects/download_all_files/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-project-files"><?php echo _l('download_all'); ?></a>
 <div class="clearfix"></div>
-<table class="table dt-table scroll-responsive table-project-files" data-order-col="7" data-order-type="desc">
+<table class="table dt-table table-project-files" data-order-col="7" data-order-type="desc">
   <thead>
     <tr>
       <th data-orderable="false"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="project-files"><label></label></div></th>

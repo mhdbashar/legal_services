@@ -18,26 +18,26 @@ class Sms_mobily extends App_sms
         $this->api_key  = $this->get_option('mobily', 'api_key');
 
         $this->add_gateway('mobily', [
-                'info'    => _l("sms_babil_sms_integration_is_one_way_messaging"),
-                'name'    => 'Babil SMS',
-                'options' => [
-                    [
-                        'name'  => 'sender_id',
-                        'label' => _l('sms_sender_id_trans'),
-                        // 'info'  => '<p><a href="https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
-                    ],
-                     [
-                        'name'  => 'api_key',
-                        'label' => _l('sms_api_key_trans'),
-                    ],
+            'info'    => _l("sms_babil_sms_integration_is_one_way_messaging"),
+            'name'    => 'Babil SMS',
+            'options' => [
+                [
+                    'name'  => 'sender_id',
+                    'label' => _l('sms_sender_id_trans'),
+                    // 'info'  => '<p><a href="https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
                 ],
-            ]);
+                [
+                    'name'  => 'api_key',
+                    'label' => _l('sms_api_key_trans'),
+                ],
+            ],
+        ]);
     }
 
     public function send($number, $message)
     {
-     
-	   //الرسائل الناتجه من دالة الإرسال
+
+        //الرسائل الناتجه من دالة الإرسال
         $arraySendMsg = array();
         $arraySendMsg[0] = "لم يتم الاتصال بالخادم";
         $arraySendMsg[1] = "تمت عملية الإرسال بنجاح";
@@ -60,7 +60,7 @@ class Sms_mobily extends App_sms
         $arraySendMsg[18] = "تم ايقاف الارسال من المزود";
         $arraySendMsg[19] = "لم يتم العثور على مفتاح نوع التطبيق";
 
-        
+
         // is_numeric($this->set_two_factor_auth_code($userdata->staffid,2)) ? $code= $this->set_two_factor_auth_code($userdata->staffid,2) : "Unavailable";
         $numbers = $number;
         // $msg = 'Your verification code is: ' . $code;
@@ -93,8 +93,8 @@ class Sms_mobily extends App_sms
 
         if ($viewResult)
             $result = $this->printStringResult(trim($result), $arraySendMsg);
-        
-       
+
+
         return $result;
     }
 

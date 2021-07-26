@@ -478,7 +478,7 @@ class Leads extends REST_Controller {
 
                 // Make sure we have a filepath
                 if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                    if (_perfex_upload_error($_FILES[$index_name]['error'][$i])
+                    if (_babil_upload_error($_FILES[$index_name]['error'][$i])
                         || !_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
                         continue;
                     }

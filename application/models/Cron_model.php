@@ -39,11 +39,11 @@ class Cron_model extends App_Model
         parent::__construct();
         $this->load->model('emails_model');
         $this->load->model('staff_model');
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/Other_services_model', 'other');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Other_services_model', 'other');
         $this->load->model('tasks_model');
-        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
+        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
     }
 
     public function run($manually = false)
@@ -87,6 +87,8 @@ class Cron_model extends App_Model
             $this->empty_legal_services_recycle_bin();
 
             $this->send_lawyer_daily_agenda();
+
+            $this->fix_and_separate_names();
 
             /**
              * Finally send any emails in the email queue - if enabled and any
@@ -977,7 +979,6 @@ class Cron_model extends App_Model
         pusher_trigger_notification($notifiedUsers);
     }
 
-
     private function staff_reminders()
     {
         $this->db->select('' . db_prefix() . 'reminders.*, email, phonenumber');
@@ -1109,6 +1110,11 @@ class Cron_model extends App_Model
         $invoices = $this->db->get()->result_array();
 
         foreach ($invoices as $invoice) {
+
+            if(empty($invoice['duedate'])) {
+                continue;
+            }
+
             if (!$invoice['last_due_reminder']) {
                 $due_date               = new DateTime($invoice['duedate']);
                 $diff                   = $due_date->diff(new DateTime(date('Y-m-d')))->format('%a');
@@ -1870,7 +1876,7 @@ class Cron_model extends App_Model
                     'fromcompany'     => true,
                     'touserid'        => get_staff_user_id(),
                     'description'     => 'ConfirmEmptyLegalServicesRecycleBin',
-                    'link'            => 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin',
+                    'link'            => 'legalservices/legal_services/confirm_empty_recycle_bin',
                 ]);
 
                 if ($notified) {
@@ -2298,5 +2304,22 @@ class Cron_model extends App_Model
         }
 
         return true;
+    }
+
+    function fix_and_separate_names()
+    {
+        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+        foreach ($contacts as $contact) {
+            $parts = split_name($contact['firstname']);
+            if($parts){
+                $this->db->where('id', $contact['id']);
+                $this->db->update(db_prefix() . 'contacts', [
+                    'firstname' => $parts['firstname'],
+                    'fathername' => $parts['fathername'],
+                    'grandfathername' => $parts['grandfathername'],
+                    'lastname' => $parts['lastname']
+                ]);
+            }
+        }
     }
 }

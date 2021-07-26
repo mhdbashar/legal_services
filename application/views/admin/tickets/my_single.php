@@ -55,6 +55,7 @@
                               <?php echo _l('ticket_single_settings'); ?>
                            </a>
                         </li>
+                        <?php hooks()->do_action('add_single_ticket_tab_menu_item', $ticket); ?>
                      </ul>
                   </div>
                </div>
@@ -71,7 +72,7 @@
                         <?php if($ticket->project_id != 0){
                            echo '<br /><small>'._l('ticket_linked_to_project','<a href="'.admin_url('projects/view/'.$ticket->project_id).'">'.get_project_name_by_id($ticket->project_id).'</a>') .'</small>';
                         }else{
-                            $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                            $this->load->model('legalservices/LegalServicesModel', 'legal');
                             $ServID = $this->legal->get_service_id_by_slug($ticket->rel_stype);
                             if ($ServID == 1) {
                                 echo '<br /><small>'._l('ticket_linked_to_project','<a href="'.admin_url('Case/view/'.$ServID.'/'.$ticket->rel_sid).'">'.get_case_name_by_id($ticket->rel_sid).'</a>') .'</small>';
@@ -390,6 +391,7 @@
                      <?php echo render_custom_fields('tickets',$ticket->ticketid); ?>
                   </div>
                </div>
+               <?php hooks()->do_action('add_single_ticket_tab_menu_content', $ticket); ?>
                <div class="row">
                   <div class="col-md-12 text-center">
                      <hr />

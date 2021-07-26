@@ -98,7 +98,7 @@ class Expenses_model extends App_Model
                     $expense->attachment_added_from = $file->staffid;
                 }
 
-                $this->load->model('LegalServices/Cases_model', 'case');
+                $this->load->model('legalservices/Cases_model', 'case');
                 $expense->currency_data = get_currency($expense->currency);
 
                 if ($expense->project_id != 0) {
@@ -152,7 +152,7 @@ class Expenses_model extends App_Model
                     $expense->attachment_added_from = $file->staffid;
                 }
 
-                $this->load->model('LegalServices/Other_services_model', 'other');
+                $this->load->model('legalservices/Other_services_model', 'other');
                 $expense->currency_data = get_currency($expense->currency);
 
                 if ($expense->project_id != 0) {
@@ -316,7 +316,7 @@ class Expenses_model extends App_Model
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
             if (isset($data['project_id']) && !empty($data['project_id'])) {
-                $this->load->model('LegalServices/Cases_model', 'case');
+                $this->load->model('legalservices/Cases_model', 'case');
                 $project_settings = $this->case->get_case_settings($data['project_id']);
                 $visible_activity = 0;
                 foreach ($project_settings as $s) {
@@ -395,7 +395,7 @@ class Expenses_model extends App_Model
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
             if (isset($data['project_id']) && !empty($data['project_id'])) {
-                $this->load->model('LegalServices/Other_services_model', 'other');
+                $this->load->model('legalservices/Other_services_model', 'other');
                 $project_settings = $this->other->get_project_settings($data['project_id']);
                 $visible_activity = 0;
                 foreach ($project_settings as $s) {

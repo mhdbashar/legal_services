@@ -202,7 +202,7 @@
                         alert_float('success', '<?php echo _l('deleted_successfully'); ?>');
                         $('.project_contacts').html(data);
                     }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
                 }
             });

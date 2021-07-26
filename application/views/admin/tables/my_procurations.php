@@ -34,13 +34,13 @@ $ci = &get_instance();
 $ci->load->model('procurationtype_model');
 $ci->load->model('procurationstate_model');
 $ci->load->model('procurations_model');
-$ci->load->model('LegalServices/Cases_model', 'case');
+$ci->load->model('legalservices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
-    $row[] = _dha($aRow['start_date']);
-    $row[] = _dha($aRow['end_date']);
+    $row[] = _gregorian_hijri_date($aRow['start_date']);
+    $row[] = _gregorian_hijri_date($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';

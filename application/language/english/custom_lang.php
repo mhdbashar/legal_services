@@ -4,48 +4,37 @@ $lang['add_only_main_salary'] = 'Add only main salary';
 $lang['designation_group'] = 'Designation group';
 $lang['new_designation_group'] = 'New designation_group';
 $lang['designations_groups'] = 'Designations groups';
-
 $lang['follower_staff'] = 'Follower staff';
-
 $lang['staff_chart_by_department'] = 'Staff chart by department';
 $lang['staff_chart_by_designation'] = 'Staff chart by designation';
-
-
 $lang['hr_contract_prefix'] = 'Hr contract prefix';
 $lang['next_hr_contract_number'] = 'Next hr contract number';
 $lang['hr_staff_prefix'] = 'Staff prefix';
 $lang['next_hr_staff_number'] = 'Next staff number';
-
 $lang['hr_designation_prefix'] = 'Designation prefix';
 $lang['next_hr_designation_number'] = 'Next designation number';
 $lang['designation_code'] = 'Designation code';
-
 $lang['total_salary'] = 'Total salary';
-
 $lang['add_insurance_type'] = 'Add insurance type';
 $lang['can_it_for_staff'] = 'Can it be for staff?';
 $lang['add_insurance_book_num'] = 'Add insurance book number';
 $lang['loan_note'] = 'سيتم اقتطاع قيمة هذا القرض من راتب الموظف بشكل شهري خلال المدة المحدد للقرض';
-
 $lang['Spreadsheet_name'] = "Spreadsheet Files";
 $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
-
 $lang['imported_service_edited'] = 'Imported service edited';
 $lang['imported_service_file_deleted'] = 'Imported service file deleted';
 $lang['new_imported_service_added'] = 'New imported service added';
 $lang['add_imported_service'] = 'Add imported service';
 $lang['edit_imported_service'] = 'Edit imported service';
-
 $lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
 $lang['waiting'] = 'Waiting';
 $lang['approved'] = 'Approved';
 $lang['rejected'] = 'Rejected';
 $lang['new_imported_service'] = 'New imported service';
 $lang['imported_service_name'] = 'Imported service name';
-
 $lang['failed_to_export_service'] = 'Failed to export service';
 $lang['service_exported_successfully'] = 'Service exported succcesfully';
-$lang['imported'] = 'Imported';
+$lang['imported'] = 'Acceptable';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
@@ -59,109 +48,49 @@ $lang['timer_started_change_status_in_progress_session'] = 'Change session statu
 $lang['new_session_auto_follower_current_member'] = 'Auto add session creator as session follower when new session is created';
 $lang['widower'] = 'Widower';
 $lang['settings_general_company_logo_tooltip'] = "Recommended dimensions: 300 x 68px";
-
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
 $lang['active'] = 'Active';
 $lang['inactive'] = 'in-active';
-
 $lang['principalId'] = "identification number for one of the attorney principals";
 $lang['agentId'] = "identification number for one of the attorney agents";
 $lang['loading'] = 'Loading';
-
 $lang['settings_general_wathq_api_key'] = 'Wathq api key';
 $lang['total_should_be_equal_to_disputes_total'] = 'Total should be equal to disputes total';
-
 $lang['projects_charts'] = "Projects Charts";
 $lang['home_my_sessions'] = "Sessions";
-
 $lang['project_linked_successfully'] = 'Service linked successfully';
 $lang['failed_to_link_project'] = 'Failed to link service';
 $lang['linked_services'] = "Linked services";
 $lang['father_linked_services'] = 'Main linked service';
 $lang['child_linked_services'] = 'Branch linked services';
 $lang['link_service'] = 'Link service';
-
+$lang['Cases'] = "Cases";
 $lang['updated_at'] = "Updated at";
 $lang['cases_summary'] = "Cases Summary";
 $lang['summary'] = "Summary";
+$lang['Case'] = "Case";
+$lang['Cases'] = "Cases";
+$lang['AddCase'] = "Add Case";
+$lang['CaseCode'] = "Case Code";
+$lang['CaseTitle'] = "Case Title";
 $lang['home_my_cases'] = "Cases";
 $lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
 $lang['zoom_name'] = 'Zoom meetings';
 $lang['zoom_desc'] = 'You can set your zoom account and start your meetings within the Babel APP';
-
-$lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
-$lang['imported_services'] = 'Imported Services';
 $lang['license_info'] = 'License Info';
 $lang['project_setting_view_session_logs'] = 'view session logs';
-
 $lang['project_setting_view_procurations'] = 'view procurations';
 $lang['license_key'] = 'License Key';
 $lang['nothing_was_specified'] = 'Nothing was specified';
 $lang['appointly'] = 'Appointment';
-
 $lang['tbookmarks_name'] = 'Bookmark your Task';
 $lang['tbookmarks_desc'] = 'Group and bookmark your tasks';
-
 $lang['account_name'] = 'Account Analysis';
 $lang['account_desc'] = 'Strategic account planning through a customer-centric approach to identifying priority accounts, capturing and analysing critical information, developing a strategy to expand and grow existing customer relationships.';
-
 $lang['save_last_order_for_tables_infor']="\"Currently supported tables: Customers, Leads, Tickets, Tasks, Projects, Payments, Expenses, Proposals, Knowledge Base, Contracts <br /><br /> Note: Changing this option will delete all saved table orders!\"";
-
-$lang['sms_invoice_overdue_notice'] = 'Invoice Overdue Notice';
-$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'Trigger when invoice overdue notice is sent to customer contacts.';
-
-$lang['sms_invoice_payment_recorded'] = 'Invoice Payment Recorded';
-$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'Trigger when invoice payment is recorded.';
-
-$lang['sms_estimate_expiration_reminder'] = 'Estimate Expiration Reminder';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'Trigger when expiration reminder should be send to customer contacts.';
-
-$lang['sms_proposal_expiration_reminder'] = 'Proposal Expiration Reminder';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'Trigger when expiration reminder should be send to proposal.';
-
-$lang['sms_new_comment_on_proposal_to_customer'] = 'New Comment on Proposal (to customer)';
-$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'Trigger when staff member comments on proposal, SMS will be sent to proposal number (customer/lead).';
-
-$lang['sms_new_comment_on_proposal_to_staff'] = 'New Comment on Proposal (to staff)';
-$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'Trigger when customer/lead comments on proposal, SMS will be sent to proposal creator and assigned staff member.';
-
-$lang['sms_new_comment_on_contract_to_customer'] = 'New Comment on Contract (to customer)';
-$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'Trigger when staff member add comment to contract, SMS will be sent customer contacts.';
-
-$lang['sms_new_comment_on_contract_to_staff'] = 'New Comment on Contract (to staff)';
-$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'Trigger when customer add comment to contract, SMS will be sent to contract creator.';
-
-$lang['sms_contract_expiration_reminder'] = 'Contract Expiration Reminder';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'Trigger when expiration reminder should be send via Cron Job to customer contacts.';
-
-$lang['sms_staff_reminder'] = 'Staff Reminder';
-$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "Trigger when staff is notified for a specific custom <a href=\"%s\">reminder</a>.";
-
-$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p>Clickatell SMS integration is one way messaging, means that your customers wont be able to reply to the SMS.</p><hr class=\'hr-10\'>';
-
-$lang['sms_api_key_trans'] = 'API Key';
-
-$lang['sms_babil_sms_integration_is_one_way_messaging'] = '<p>Babil SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS.</p><hr class=\'hr-10\'>';
-
-$lang['sms_sender_id_trans'] = 'Sender ID';
-
-$lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p>MSG91 SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS.</p><hr class=\'hr-10\'>';
-
-$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p>Twilio SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS. Phone numbers must be in format <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. Click <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\">here</a> to read more how phone numbers should be formatted.</p><hr class=\"hr-10\" />";
-
-$lang['sms_appointment_approved_Sent_to_contact'] = 'Appointment approved (Sent to Contact)';
-$lang['sms_trigger_when_appointment_is_approved'] = 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.';
-
-$lang['appointment_cancelled_sent_to_contact'] = 'Appointment cancelled (Sent to Contact)';
-$lang['sms_trigger_when_appointment_is_cancelled'] = 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.';
-
-$lang['sms_appointment_reminder_Sent_to_contact'] = 'Appointment reminder (Sent to Contact)';
-$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.';
-
-
 $lang['gdpr_portability_contacts'] = 'Contacts';
 $lang['gdpr_portability_enable_contact_to_export_data'] = 'Enable contact to export data (JSON)';
 $lang['gdpr_potability_on_export_the_data'] = 'On export, export the following data';
@@ -202,7 +131,6 @@ $lang['gdpr_portability_leads'] = 'Leads';
 $lang['gdpr_portability_leads_update_info'] = 'The leads you add in the system will have unique URL to view their information you store for them and they will be able to update the information when they access the URL.';
 $lang['gdpr_portability_leads_custom_fields'] = 'Show lead custom fields on public form';
 $lang['gdpr_portability_leads_attachments'] = 'Show lead attachments on public form and allow attachments to removed by the lead';
-
 $lang['gdpr_consent_incloudes_page_new_consent_purpose'] = 'New consent purpose';
 $lang['gdpr_name_puropse'] = 'Name / Purpose';
 $lang['gdpr_desc'] = 'Description';
@@ -210,26 +138,21 @@ $lang['gdpr_new_consent_purpose'] = 'New Consent Purpose';
 $lang['gdpr_consent_includes_page_describe'] = 'Briefly describe the purpose of this consent. Eq. for what the data will be used.';
 $lang['gdpr_consent_includes_page_close'] = 'Close';
 $lang['gdpr_consent_includes_page_save'] = 'Save';
-
 $lang['gdpr_consent_user_info_history'] = 'History';
 $lang['gdpr_consent_user_info_purpose'] = 'Purpose';
 $lang['gdpr_consent_user_info_date'] = 'Date';
 $lang['gdpr_consent_user_info_action'] = 'Action';
 $lang['gdpr_consent_user_info_additional_description'] = 'Additional Description';
-    
 $lang['gdpr_informed_enable_terms_conditions_for_registration_and_customers_portal'] = 'Enable Terms & Conditions for registration and customers portal';
 $lang['gdpr_informed_enable_terms__onditions_for_web_to_lead_forms'] = 'Enable Terms & Conditions for web to lead forms';
 $lang['gdpr_informed_enable_terms_conditions_for_ticket_form'] = 'Enable Terms & Conditions for ticket form';
 $lang['gdpr_informed_show_terms_conditions_in_customers_area_footer'] = 'Show Terms & Conditions in customers area footer';
 $lang['gdpr_informed_terms_and_conditions'] = 'Terms and Conditions';
 $lang['gdpr_informed_privacy_policy'] = 'Privacy Policy';
-
 $lang['gdpr_general_enable_gdpr'] = 'Enable GDPR';
 $lang['gdpr_general_show_gdpr_link_in_customers_area_navigation'] = 'Show GDPR link in customers area navigation';
 $lang['gdpr_general_show_gdpr_link_in_customers_area_footer'] = 'Show GDPR link in customers area footer';
 $lang['gdpr_general_gdpr_page_top_information_block'] = 'GDPR page top information block';
-    
-
 $lang['gdpr_config'] = 'Config';
 $lang['gdpr_removal_requests'] = 'Removal Requests';
 $lang['gdpr_contacts'] = 'Contacts';
@@ -247,8 +170,6 @@ $lang['gdpr_request_date'] = 'Request Date';
 $lang['gdpr_forgotten_pending'] = 'Pending';
 $lang['gdpr_forgotten_removed'] = 'Removed';
 $lang['gdpr_forgottin_refused'] = 'Refused';
-
-
 $lang['gdbr_enable_consent_for_contacts'] = 'Enable consent for contacts';
 $lang['gdpr_enable_consent_for_leads'] = 'Enable consent for leads';
 $lang['gdpr_public_page_consent_information_block'] = 'Public page consent information block';
@@ -258,67 +179,38 @@ $lang['gdpr_description'] = 'Description';
 $lang['gdpr_created'] = 'Created';
 $lang['gdpr_last_update'] = 'Last Updated';
 $lang['gdpr_options'] = 'Options';
-
-
 $lang['appointly_name'] = "Appointment";
 $lang['appointly_desc'] = "Appointment Module";
-
 $lang['assets_name'] = "Resources Management";
 $lang['assets_desc'] = "Resources management module, allocation, recovery, depreciation, asset status";
-
 $lang['db_name'] = "Database Backup";
 $lang['db_desc'] = "Default module to perform database backup";
-
-
 $lang['branches_name'] = "Branches";
 $lang['branches_desc'] = "Management Branches";
-
-
 $lang['smsemail_name'] = "My Email & SMS Notifications";
 $lang['smsemail_desc'] = "Default module to send sms or email to customers";
-
-
 $lang['disputes_name'] = "Disputes";
 $lang['disputes_desc'] = "Default module for managing Financial disputes";
-
-
 $lang['goals_name'] = "Goals";
 $lang['goals_desc'] = "Default module for defining goals";
-
-
 $lang['hr_name'] = "H.R.M";
 $lang['hr_desc'] = "H.R.M";
-
-
 $lang['label_name'] = "Labels Management";
 $lang['label_desc'] = "Translate Label (Arabic- English).";
-
-
 $lang['loc_name'] = "Location Module";
 $lang['loc_desc'] = "Manages cities and countries inside your app by adding, modifying and deleting Countries or Cities";
-
 $lang['maily_name'] = "Maily";
 $lang['maily_desc'] = "Maily is a webmail client.";
-
 $lang['menu_name'] = "Menu Setup";
 $lang['menu_desc'] = "Default module to apply changes to the menus";
-
-
 $lang['mcreator_name'] = "Mail templates creator";
 $lang['mcreator_desc'] = "Simple mail templates creator module";
-
-
 $lang['chat_name'] = "Chat & Meetings";
 $lang['chat_desc'] = "Chat & Meetings Module";
-
-
 $lang['surveys_name'] = "Surveys";
 $lang['surveys_desc'] = "Default module for sending surveys";
-
-
 $lang['theme_name'] = "Theme Style";
 $lang['theme_desc'] = "Default module to apply additional CSS styles";
-
 $lang['install']= "Install";
 $lang['module_upload']= "Upload Module";
 $lang['module_upload_msg']= "If you have a module in a .zip format, you may install it by uploading it here.";
@@ -344,20 +236,17 @@ $lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system
 $lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
 $lang['settings_sales_bo_box'] = "BO Box";
 $lang['global_hr_setting'] = 'Global HR Settings';
-$lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';
 $lang['attendance_date'] = 'Attendance Date';
 $lang['calendar_date'] = 'Calendar Date';
 $lang['training'] = 'Training';
 $lang['add_training_type'] = 'Add Training Type';
-
 $lang['employee_id'] = "Employee id";
 $lang['over_time'] = "Overtime";
 $lang['early_leaving'] = "Early Leaving";
 $lang['late'] = "Late";
 $lang['total_work'] = "Total Work";
 $lang['total_rest'] = "Total Rest";
-
 $lang['is_default'] = "Is Default ?";
 $lang['shift_name'] = "Shift name";
 $lang['office_shift'] = "Office shift";
@@ -368,7 +257,6 @@ $lang['tuesday'] = "Tuesday";
 $lang['wednesday'] = "Wednesday";
 $lang['thursday'] = "Thursday";
 $lang['friday'] = "Friday";
-
 $lang['saturday_in'] = "Saturday in";
 $lang['sunday_in'] = "Sunday in";
 $lang['monday_in'] = "Monday in";
@@ -376,7 +264,6 @@ $lang['tuesday_in'] = "Tuesday in";
 $lang['wednesday_in'] = "Wednesday in";
 $lang['thursday_in'] = "Thursday in";
 $lang['friday_in'] = "Friday in";
-
 $lang['saturday_out'] = "Saturday out";
 $lang['sunday_out'] = "Sunday out";
 $lang['monday_out'] = "Monday out";
@@ -384,37 +271,31 @@ $lang['tuesday_out'] = "Tuesday out";
 $lang['wednesday_out'] = "Wednesday out";
 $lang['thursday_out'] = "Thursday out";
 $lang['friday_out'] = "Fiday out";
-
 $lang['new_office_shift'] = "New office shift";
 $lang['default'] = "Default";
 $lang['not_default'] = "Not Default";
-
 $lang['if_you_insert_time_in_you_must_insert_time_out'] = "if you insert time in you must insert time out";
 $lang['overtime_requests'] = "Overtime Requests";
 $lang['new_overtime_request'] = "New Overtime Request";
 $lang['in_time'] = "In Time";
 $lang['out_time'] = "Out Time";
 $lang['overtime_status'] = "Status";
-
 $lang['hr_document'] = "HR Documents";
 $lang['hr_document_reminder_notification_before'] = "HR Document Reminder Notification Before";
 $lang['procurations_reminder_notification_before'] = "Procuration Reminder Notification Before";
 $lang['not_document_deadline_reminder'] = "Not Document Deadline Reminder";
-
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
 $lang['processing'] = "Processing";
 $lang['cancelled'] = "Cancelled";
 $lang['not_completed'] = "Not Completed";
 $lang['completed_with_hr_system'] = "Integrated With Hr System";
-
 $lang['contract_subject'] = "Contract Subject";
 $lang['contract_description'] = "Contract Description";
 $lang['contract_date_start'] = "Contract Date Start";
 $lang['contract_date_end'] = "Contract Date End";
 $lang['contract_value'] = "Contract Value";
 $lang['contract_link'] = "Contract Link";
-
 $lang['credit_note_number'] = "Credit Note Number";
 $lang['date'] = "Date";
 $lang['status'] = "Status";
@@ -422,7 +303,6 @@ $lang['total'] = "Total";
 $lang['subtotal'] = "Subtotal";
 $lang['credits_used'] = "Credits Used";
 $lang['credits_remaining'] = "Credits Remaining";
-
 $lang['estimate_link'] = "Estimate Link";
 $lang['estimate_number'] = "Estimate Number";
 $lang['est_ref_no'] = "Reference no";
@@ -431,13 +311,11 @@ $lang['estimate_date'] = "Estimate Date";
 $lang['estimate_status'] = "Estimate Status";
 $lang['estimate_sale_agent'] = "Estimate Sale Agent";
 $lang['estimate_total'] = "Estimate Total";
-
 $lang['event_title'] = "Event Title";
 $lang['event_description'] = "Event Description";
 $lang['start_date'] = "Start Date";
 $lang['end_date'] = "End Date";
 $lang['event_link'] = "Event Link";
-
 $lang['invoice_link'] = "Invoice Link";
 $lang['invoice_number'] = "Invoice Number";
 $lang['invoice_duedate'] = "Invoice Duedate";
@@ -449,24 +327,6 @@ $lang['invoice_subtotal'] = "Invoice Subtotal";
 $lang['invoice_amount_due'] = "Invoice Amount Due";
 $lang['payment_recorded_total'] = "Payment Recorded Total";
 $lang['payment_recorded_date'] = "Payment Recorded Date";
-
-$lang['lead_name'] = "Lead Name";
-$lang['lead_email'] = "Lead Email";
-$lang['lead_position'] = "Lead Position";
-$lang['lead_website'] = "Lead Website";
-$lang['lead_description'] = "Lead Description";
-$lang['lead_phone_number'] = "Lead Phone Number";
-$lang['lead_company'] = "Lead Company";
-$lang['lead_country'] = "Lead Country";
-$lang['lead_zip'] = "Lead Zip";
-$lang['lead_city'] = "Lead City";
-$lang['lead_state'] = "Lead State";
-$lang['lead_address'] = "Lead Address";
-$lang['lead_assigned'] = "Lead Assigned";
-$lang['lead_status'] = "Lead Status";
-$lang['lead_souce'] = "Lead Souce";
-$lang['lead_link'] = "Lead Link";
-
 $lang['project_name'] = "Project Name";
 $lang['project_description'] = "Project Description";
 $lang['project_start_date'] = "Project Start Date";
@@ -479,7 +339,6 @@ $lang['discussion_subject'] = "Discussion Subject";
 $lang['discussion_description'] = "Discussion Description";
 $lang['discussion_creator'] = "Discussion Creator";
 $lang['discussion_comment'] = "Discussion Comment";
-
 $lang['proposal_id'] = "Proposal ID";
 $lang['proposal_number'] = "Proposal Number";
 $lang['subject'] = "Subject";
@@ -496,7 +355,6 @@ $lang['country'] = "Country";
 $lang['email'] = "Email";
 $lang['phone'] = "Phone";
 $lang['proposal_link'] = "Proposal Link";
-
 $lang['staff_contact_who_take_action_on_session'] = "Staff/Contact who take action on session";
 $lang['session_link'] = "Session Link";
 $lang['comment_link'] = "Comment Link";
@@ -513,13 +371,11 @@ $lang['next_session_time'] = "Next Session Time";
 $lang['session_type'] = "Session Type";
 $lang['session_information'] = "Proceedings of Session";
 $lang['court_decision'] = "Court Decision";
-
 $lang['subscription_id'] = "Subscription ID";
 $lang['subscription_name'] = "Subscription Name";
 $lang['subscription_description'] = "Subscription Description";
 $lang['subscription_subscribe_link'] = "Subscription Subscribe Link";
 $lang['subscription_authorization_link'] = "Subscription Authorization Link";
-
 $lang['staff_contact_who_take_action_on_task'] = "Staff/Contact who take action on task";
 $lang['task_link'] = "Task Link";
 $lang['comment_link'] = "Comment Link";
@@ -531,7 +387,6 @@ $lang['task_priority'] = "Task Priority";
 $lang['task_start_date'] = "Task Start Date";
 $lang['task_due_date'] = "Task Due Date";
 $lang['related_to'] = "Related to";
-
 $lang['ticket_id'] = "Ticket ID";
 $lang['ticket_customers_area_url'] = "Ticket Customers Area URL";
 $lang['ticket_public_url'] = "Ticket Public URL";
@@ -543,8 +398,6 @@ $lang['ticket_message'] = "Ticket Message";
 $lang['ticket_status'] = "Ticket Status";
 $lang['ticket_priority'] = "Ticket Priority";
 $lang['ticket_service'] = "Ticket Service";
-
-
 $lang['staff_fullname'] = 'Staff Fullname';
 $lang['staff_email'] = 'Staff Email';
 $lang['staff_datecreated'] = 'Staff Date Created';
@@ -557,7 +410,6 @@ $lang['two_factor_auth_code'] = 'Two Factor Auth Code';
 $lang['password'] = 'Password';
 $lang['lead_public_form_url'] = 'Lead Public Form Url';
 $lang['lead_public_consent_url'] = 'Lead Public Consent Url';
-
 $lang['appraisal_date'] = 'Appraisal date';
 $lang['select_month'] = 'Select month';
 $lang['technical_competencies'] = 'Technical competencies';
@@ -580,7 +432,6 @@ $lang['add_organizational_competencie_type'] = 'Add organizational competencie t
 $lang['add_technical_competencie_type'] = 'Add technical competencie type';
 $lang['technical_competencie'] = 'Technical competencie';
 $lang['organizational_competencie'] = 'Organizational competencie';
-
 $lang['leave_type'] = 'Leave Type';
 $lang['request_duration'] = 'Request Duration';
 $lang['applied_on'] = 'Applied on';
@@ -594,7 +445,6 @@ $lang['leave'] = 'Leave';
 $lang['new_leave'] = 'New leave';
 $lang['apply_halfday_leave_for_more_than_one_day'] = 'You cannot apply halfday leave for more than one day';
 $lang['you_cannot_add_this_leave_for_this_staff'] = 'You cannot add this leave for this staff';
-
 $lang['logo_url'] = 'Logo url';
 $lang['logo_image_with_url'] = 'Logo image with url';
 $lang['dark_logo_image_with_url'] = 'Dark logo image with url';
@@ -613,8 +463,6 @@ $lang['client_zip'] = 'Client zip';
 $lang['contact_email'] = 'Contact email';
 $lang['download_sample'] = 'Download sample';
 $lang['staff_add_edit_fullname'] = 'Full Name';
-
-
 $lang['label'] = 'Label';
 $lang['translate'] = 'Translate';
 $lang['native'] = 'Native';
@@ -622,14 +470,11 @@ $lang['custom'] = 'Custom';
 $lang['add_new_lable'] = 'Add New Label';
 $lang['arabic'] = 'Arabic';
 $lang['english'] = 'English';
-
 $lang['contact_phonenumber'] = 'Contact Phone Number';
 $lang['phonenumber'] = 'Phone Number';
 $lang['longitude'] = 'Longitude';
 $lang['latitude'] = 'Latitude';
 $lang['branch_id'] = "Branch Name";
-$lang['firstname'] = "Firstname";
-$lang['lastname'] = "Lastname";
 $lang['client_type'] = "Client Type";
 $lang['add_new_holiday'] = 'Add New Holiday';
 $lang['event_name'] = "Event Name";
@@ -645,16 +490,13 @@ $lang['constants'] = "Constants";
 $lang['hr_status'] = 'Status';
 $lang['fullname'] = 'Full Name';
 $lang['official'] = 'Official';
-
 $lang['payslip_type'] = "Payslips Type";
 $lang['constants'] = "Constants";
 $lang['new_travel'] = "New travel";
-
 $lang['is_primary'] = "Is Primary";
 $lang['is_dependent'] = "Is Dependent";
 $lang['travels'] = "Travels";
 $lang['new_travel'] = "New Travel";
-
 $lang['total_allowance'] = "Total Allowance";
 $lang['total_commissions'] = "Total commissions";
 $lang['total_loan'] = "Total loan";
@@ -669,27 +511,21 @@ $lang['expected_budget'] = "Expected budget";
 $lang['actual_budget'] = "Actual budget";
 $lang['purpose_of_visit'] = "Purpose of visit";
 $lang['place_of_visit'] = "Place of visit";
-
 $lang['promotions'] = "Promotions";
 $lang['promotion_title'] = "Promotion Title";
 $lang['new_promotion'] = "New Promotion";
 $lang['promotion_date'] = "Promotion Date";
-
 $lang['details'] = "Details";
-
 $lang['resignation_date'] = "Resignation Date";
 $lang['resignation_reason'] = "Resignation Reason";
 $lang['new_resignation'] = "New Resignation";
 $lang['resignations'] = "Resignations";
-
 $lang['complaint_from'] = "Complaint From";
 $lang['complaint_againts'] = "Complaint Againts";
 $lang['complaint_date'] = "Complaint Date";
 $lang['complaint_title'] = "Complaint Title";
 $lang['new_complaint'] = "New Complaint";
 $lang['complaints'] = "Complaints";
-
-
 $lang['new_transfer'] = 'New Transfer';
 $lang['core_hr'] = "Core HR";
 $lang['organization'] = "Organization";
@@ -697,11 +533,9 @@ $lang['transfers'] = "Transfers";
 $lang['transfer_date'] = "Transfer Date";
 $lang['to_department'] = "To Department";
 $lang['to_sub_department'] = "To Sub Department";
-
 $lang['new_warning'] = 'New Warning';
 $lang['new_award'] = 'New Award';
 $lang['new_termination'] = 'New Termination';
-
 $lang['warning_to'] = 'Warning To';
 $lang['warning_by'] = 'Warning By';
 $lang['warning_date'] = "Warning Date";
@@ -724,14 +558,12 @@ $lang['cash'] = "Cash";
 $lang['award_information'] = "Award Information";
 $lang['award_photo'] = "Award Photo";
 $lang['award_type'] = "Award Type";
-
 $lang['date_birth'] = 'Date Birth';
 $lang['gendre'] = "Gendre";
 $lang['emloyee_id'] = "Emloyee ID";
 $lang['office_sheft'] = "Office Sheft";
 $lang['branches'] = 'Branches';
 $lang['professional_courses'] = "Professional Cources";
-
 $lang['hr'] = "H.R.M";
 $lang['add_new_procuration'] = "Add New Procuration";
 $lang['edit_procuration'] = "Edit Procuration";
@@ -862,8 +694,6 @@ $lang['loan'] = "Loan";
 $lang['commissions'] = "Commissions";
 $lang['allowances'] = "Allowances";
 $lang['update_salary'] = "Update Salary";
-
-
 $lang['client_full_name'] = "Full Name";
 $lang['procuration_number'] = "Procuration Number";
 $lang['come_from'] = "Come From";
@@ -927,7 +757,7 @@ $lang['add_new'] = "Add new %s";
 $lang['deleted'] = "%s deleted";
 $lang['is_referenced'] = "The ID of the %s is already using.";
 $lang['close'] = "Close";
-$lang['send'] = "send";
+$lang['send'] = "Send";
 $lang['cancel'] = "cancel";
 $lang['go_back'] = "Go Back";
 $lang['error_uploading_file'] = "Error uploading file";
@@ -966,129 +796,6 @@ $lang['announcement_message'] = "Message";
 $lang['announcement_show_to_staff'] = "Show to staff";
 $lang['announcement_show_to_clients'] = "Show to clients";
 $lang['announcement_show_my_name'] = "Show my name";
-$lang['clients'] = "Customers";
-$lang['client'] = "Customer";
-$lang['new_client'] = "New Customer";
-$lang['client_lowercase'] = "customer";
-$lang['client_firstname'] = "First Name";
-$lang['client_lastname'] = "Last Name";
-$lang['client_email'] = "Email";
-$lang['client_company'] = "Company";
-$lang['client_vat_number'] = "VAT Number";
-$lang['client_address'] = "Address";
-$lang['client_city'] = "City";
-$lang['client_postal_code'] = "Zip Code";
-$lang['client_state'] = "State";
-$lang['client_password'] = "Password";
-$lang['client_password_change_populate_note'] = "Note: if you populate this field, password will be changed on this contact.";
-$lang['client_password_last_changed'] = "Password last changed:";
-$lang['login_as_client'] = "Login as client";
-$lang['client_invoices_tab'] = "Invoices";
-$lang['contracts_invoices_tab'] = "Contracts";
-$lang['contracts_tickets_tab'] = "Tickets";
-$lang['contracts_notes_tab'] = "Notes";
-$lang['note_description'] = "Note description";
-$lang['client_do_not_send_welcome_email'] = "Do not send welcome email";
-$lang['clients_notes_table_description_heading'] = "Description";
-$lang['clients_notes_table_addedfrom_heading'] = "Added From";
-$lang['clients_notes_table_dateadded_heading'] = "Date Added";
-$lang['clients_list_full_name'] = "Full Name";
-$lang['clients_list_last_login'] = "Last Login";
-$lang['contracts'] = "Contracts";
-$lang['contract'] = "Contract";
-$lang['new_contract'] = "New Contract";
-$lang['contract_lowercase'] = "contract";
-$lang['contract_start_date'] = "Start Date";
-$lang['contract_end_date'] = "End Date";
-$lang['contract_subject'] = "Subject";
-$lang['contract_description'] = "Description";
-$lang['contract_subject_tooltip'] = "Subject is also visible to customer";
-$lang['contract_client_string'] = "Customer";
-$lang['contract_attach'] = "Attach document";
-$lang['contract_list_client'] = "Customer";
-$lang['contract_list_subject'] = "Subject";
-$lang['contract_list_start_date'] = "Start Date";
-$lang['contract_list_end_date'] = "End Date";
-$lang['currencies'] = "Currencies";
-$lang['currency'] = "Currency";
-$lang['new_currency'] = "New Currency";
-$lang['currency_lowercase'] = "currency";
-$lang['base_currency_set'] = "This is now your base currency.";
-$lang['make_base_currency'] = "Make base currency";
-$lang['base_currency_string'] = "Base Currency";
-$lang['currency_list_name'] = "Name";
-$lang['currency_list_symbol'] = "Symbol";
-$lang['currency_add_edit_description'] = "Currency Code";
-$lang['currency_add_edit_rate'] = "Symbol";
-$lang['currency_edit_heading'] = "Edit Currency";
-$lang['currency_add_heading'] = "Add New Currency";
-$lang['departments'] = "Departments";
-$lang['department'] = "Department";
-$lang['new_department'] = "New Department";
-$lang['department_lowercase'] = "department";
-$lang['department_name'] = "Department Name";
-$lang['department_email'] = "Department Email";
-$lang['department_hide_from_client'] = "Hide from client?";
-$lang['department_list_name'] = "Name";
-$lang['email_templates'] = "Email Templates";
-$lang['email_template'] = "Email Template";
-$lang['email_template_lowercase'] = "email template";
-$lang['email_templates_lowercase'] = "email templates";
-$lang['email_template_ticket_fields_heading'] = "Tickets";
-$lang['email_template_invoices_fields_heading'] = "Invoices";
-$lang['email_template_clients_fields_heading'] = "Customers";
-$lang['template_name'] = "Template Name";
-$lang['template_subject'] = "Subject";
-$lang['template_fromname'] = "From Name";
-$lang['template_fromemail'] = "From Email";
-$lang['send_as_plain_text'] = "Send as Plaintext";
-$lang['email_template_disabled'] = "Disabled";
-$lang['email_template_email_message'] = "Email message";
-$lang['available_merge_fields'] = "Available merge fields";
-$lang['dashboard_string'] = "Dashboard";
-$lang['home_latest_todos'] = "Latest to do's";
-$lang['home_no_latest_todos'] = "No todos found";
-$lang['home_latest_finished_todos'] = "Latest finished to do's";
-$lang['home_no_finished_todos_found'] = "No finished todos found";
-$lang['home_tickets_awaiting_reply_by_department'] = "Tickets Awaiting Reply by Department";
-$lang['home_tickets_awaiting_reply_by_status'] = "Tickets Awaiting Reply by Status";
-$lang['home_this_week_events'] = "This Week events";
-$lang['home_upcoming_events_next_week'] = "Upcoming events Next Week";
-$lang['home_event_added_by'] = "Event added by";
-$lang['home_public_event'] = "Public event";
-$lang['home_weekly_payment_records'] = "Weekly Payment Records";
-$lang['home_weekend_ticket_opening_statistics'] = "Weekly Ticket Openings Statistics";
-$lang['whats_on_your_mind'] = "Share documents, ideas..";
-$lang['new_post'] = "Post";
-$lang['newsfeed_upload_tooltip'] = "Tip:Drag and drop files to upload";
-$lang['newsfeed_all_departments'] = "All Departments";
-$lang['newsfeed_pin_post'] = "Pin post";
-$lang['newsfeed_unpin_post'] = "Unpin post";
-$lang['newsfeed_delete_post'] = "Delete";
-$lang['newsfeed_published_post'] = "Published";
-$lang['newsfeed_you_like_this'] = "You like this";
-$lang['newsfeed_like_this'] = "like this";
-$lang['newsfeed_one_other'] = "other";
-$lang['newsfeed_you'] = "You";
-$lang['newsfeed_and'] = "and";
-$lang['newsfeed_you_and'] = "You and";
-$lang['newsfeed_like_this_saying'] = "Like this";
-$lang['newsfeed_unlike_this_saying'] = "Unlike this";
-$lang['newsfeed_show_more_comments'] = "Show more comments";
-$lang['comment_this_post_placeholder'] = "Comment this post..";
-$lang['newsfeed_post_likes_modal_heading'] = "Colleagues who like this post";
-$lang['newsfeed_comment_likes_modal_heading'] = "Colleagues who like this comment";
-$lang['newsfeed_newsfeed_post_only_visible_to_departments'] = "This post is only visible to the following departments: %s";
-$lang['invoice_items'] = "Invoice Items";
-$lang['invoice_item'] = "Invoice Item";
-$lang['new_invoice_item'] = "New Item";
-$lang['invoice_item_lowercase'] = "invoice item";
-$lang['invoice_items_list_description'] = "Description";
-$lang['invoice_items_list_rate'] = "Rate";
-$lang['invoice_item_add_edit_description'] = "Description";
-$lang['invoice_item_add_edit_rate'] = "Rate";
-$lang['invoice_item_edit_heading'] = "Edit Item";
-$lang['invoice_item_add_heading'] = "Add New Item";
 $lang['invoices'] = "Invoices";
 $lang['invoice'] = "Invoice";
 $lang['invoice_lowercase'] = "invoice";
@@ -2235,7 +1942,8 @@ $lang['edit_expense_category'] = "Edit Expense Category";
 $lang['customer_default_country'] = "Default Country";
 $lang['settings_sales_require_client_logged_in_to_view_estimate'] = "Require client to be logged in to view estimate";
 $lang['set_reminder'] = "Set Reminder";
-$lang['set_reminder_date'] = "Date to be notified";
+$lang['submit_s'] = "Submit";
+$lang['set_reminder_time'] = "Time to be notified";
 $lang['reminder_description'] = "Description";
 $lang['reminder_notify_me_by_email'] = "Send also an email for this reminder";
 $lang['reminder_added_successfully'] = "Reminder added successfully. You will be notified in time.";
@@ -2412,7 +2120,6 @@ $lang['not_estimate_status_updated'] = "Estimate Status Updated: From: %s to %s"
 $lang['not_assigned_lead_to_you'] = "assigned lead %s to you";
 $lang['not_lead_activity_assigned_to'] = "%s assigned to %s";
 $lang['not_lead_activity_attachment_deleted'] = "Deleted Attachment";
-$lang['not_lead_activity_status_updated'] = "%s updated lead status from %s to %s";
 $lang['not_lead_activity_contacted'] = "%s contacted this lead on %s";
 $lang['not_lead_activity_created'] = "%s created lead";
 $lang['not_lead_activity_marked_lost'] = "Marked as lost";
@@ -2525,7 +2232,7 @@ $lang['zip_invoices'] = "Zip Invoices";
 $lang['zip_estimates'] = "Zip Estimates";
 $lang['zip_payments'] = "Zip Payments";
 $lang['setup_help'] = "Help";
-$lang['clients_list_company'] = "Company";
+$lang['opponents_list_company'] = "Opponent Name";
 $lang['dt_button_export'] = "Export";
 $lang['dt_entries'] = "entries";
 $lang['invoice_total_paid'] = "Total Paid";
@@ -2789,7 +2496,6 @@ $lang['invoice_unmark_as'] = "Unmark as %s";
 $lang['invoice_status_cancelled'] = "Cancelled";
 $lang['tasks_reminder_notification_before_help'] = "Notify task assignees about deadline before X days. The notification/email is sent only to the assignees. If the difference between task start date and task due date is smaller then the reminders day no notification will be sent.";
 $lang['project_invoice_select_all_tasks'] = "Select all tasks";
-$lang['lead_company'] = "Company";
 $lang['admin_auth_forgot_password_button'] = "Confirm";
 $lang['task_assigned'] = "Assigned to";
 $lang['switch_to_pipeline'] = "Switch to pipeline";
@@ -3290,12 +2996,6 @@ $lang['expense_name_help'] = "For personal usage";
 $lang['adjustments'] = "Adjustments";
 $lang['payments_received'] = "Payments Received";
 $lang['not_lead_activity_created_proposal'] = "Created new proposal - %s";
-$lang['lead_title'] = "Position";
-$lang['lead_address'] = "Address";
-$lang['lead_city'] = "City";
-$lang['lead_state'] = "State";
-$lang['lead_country'] = "Country";
-$lang['lead_zip'] = "Zip Code";
 $lang['lead_is_public_yes'] = "Yes";
 $lang['lead_is_public_no'] = "No";
 $lang['lead_info'] = "Lead Information";
@@ -3403,7 +3103,6 @@ $lang['search_ajax_empty'] = "Select and begin typing";
 $lang['search_ajax_placeholder'] = "Type to search...";
 $lang['search_ajax_searching'] = "Searching...";
 $lang['search_ajax_initialized'] = "Start typing to search";
-$lang['lead_description'] = "Description";
 $lang['lead_website'] = "Website";
 $lang['invoice_activity_auto_converted_from_estimate'] = "Invoice auto created from estimate with number %s";
 $lang['hour_of_day_perform_auto_operations'] = "Hour of day to perform automatic operations";
@@ -3790,7 +3489,6 @@ $lang['use_company_name_instead'] = "Use company name instead";
 $lang['customer_delete_transactions_warning'] = "This customer has transactions, %s, you must delete the transactions or move to another customer in order to perform this action.";
 $lang['help_leads_create_permission'] = "All staff can create leads, except members marked as not staff members";
 $lang['help_leads_edit_permission'] = "Everyone who has access to specific lead can edit most of the lead information";
-$lang['triggers'] = "Triggers";
 $lang['notice_only_one_active_sms_gateway'] = "Only 1 active SMS gateway is allowed";
 $lang['sms_trigger_disable_tip'] = "Leave contents blank to disable specific trigger.";
 $lang['tables'] = "Tables";
@@ -3825,7 +3523,6 @@ $lang['tracked_email_not_opened'] = "Not Opened";
 $lang['not_viewed_yet'] = "This %s is not viewed yet by the customer";
 $lang['undo'] = "Undo";
 $lang['sign_document_validation'] = "Please sign the document.";
-$lang['document_customer_signature_text'] = "Signature (Customer)";
 $lang['document_staff_signature_text'] = "Signature (Staff)";
 $lang['accept_identity_confirmation_and_signature_sign'] = "Require digital signature and identity confirmation on accept";
 $lang['legal_bound_text'] = "Legal Bound Text";
@@ -4059,6 +3756,7 @@ $lang['new_procuration_state'] = "New Procuration state";
 $lang['new_procuration'] = "New Procuration";
 $lang['company'] = "Company";
 $lang['individual'] = "Individual";
+$lang['Individual_or_Company'] = "Company or Individual";
 $lang['customer_details'] = "Customer Name (Company or Individual)";
 $lang['customer_type'] = "Customer Type";
 $lang['customer_representative'] = "Customer Representative";
@@ -4084,6 +3782,9 @@ $lang['LService_activity_created'] = "Created the Legal Service";
 $lang['LService_activity_uploaded_file'] = "Uploaded Legal Service file";
 $lang['LService_activity_invoiced_project'] = "Invoiced Legal Service";
 $lang['CaseMov_activity_created'] = "Created the Case Movement";
+$lang['CaseMovement'] = "Case Movement";
+$lang['Done'] = "Operation Done";
+$lang['Faild'] = "Operation Failed";
 $lang['NewCaseMovement'] = "New Case Movement";
 $lang['LService_not_found'] = "Legal Service not found";
 $lang['LService_recycle_bin'] = "Recycle bin";
@@ -4225,7 +3926,6 @@ $lang['phase_order_number'] =  'Order number';
 $lang['phase_registration_number'] =  'Registration number';
 $lang['phase_belongs_to'] = "Phase belongs to";
 $lang['no_phases'] = "There are no stages for this service yet! Create it";
-
 $lang['hijri_date'] = "Hijri date";
 $lang['gregorian_date'] = "Gregorian date";
 $lang['assign_department'] = "Department";
@@ -4239,9 +3939,7 @@ $lang['waiver'] = "Waiver";
 $lang['file_phase'] = "If there are attachments please upload them in tab files";
 $lang['create_fields'] = "Create fields from Manage Custom Fields for this phase";
 $lang['daily_agenda'] = "Lawyer's daily agenda";
-
 $lang['daily_agenda_hour'] = "Send the lawyer agenda every day in the hour";
-
 $lang['send_report_session'] = "Send Report Session";
 $lang['linked_to_previous_case'] = "Choose if there are related case law";
 $lang['linked_case'] = "This case is related to the case:";
@@ -4249,7 +3947,6 @@ $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
 $lang['single_legal_summary'] = "Legal Service Summary";
-
 $lang['services_locks'] = "Please enter the password to continue!";
 $lang['open_lock'] = "Open lock";
 $lang['case_confidential'] = "Set a password if the case is confidential";
@@ -4263,8 +3960,6 @@ $lang['title'] = "Title";
 $lang['desc_ar'] = "Description arabic";
 $lang['desc_en'] = "Description english";
 $lang['link_for_page'] = "Here the link for the page where you want the dialog box to appear is determined";
-
-
 $lang['modify_module'] = "To modify the data of this service, go to the module page";
 $lang['clients_'] = "Clients";
 $lang['invoice_disputes'] = "Invoice Disputes";
@@ -4298,23 +3993,26 @@ $lang['clients_import_inst1'] = "Your CSV data should be in the format below. Th
 $lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
 $lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
 $lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";
-
 $lang['procedure_subject'] = "Procedure Subject";
 $lang['view_procedure']    = 'View Procedure';
 $lang['procedure_previous_text'] = 'Previous texts';
-
+$lang['project_activity_session_assignee_removed'] = "Removed session assignee";
 $lang['procedure_editor'] = 'Edited by:';
 $lang['procedure_copy_date'] = 'Copy date';
+$lang['session_unmarked_as_complete'] = 'Session unmarked as complete';
+$lang['session_marked_as_success'] = 'Session marked as %s successfully';
+$lang['session_follower_removed'] = "Session follower removed successfully";
+$lang['session_assignee_removed'] = 'Session assignee removed successfully';
 $lang['procedure_save_as_template'] = 'Save procedure as template';
 $lang['procedure_template_assigned_to_service'] = 'The current procedure has been saved as a template for the selected legal service';
 $lang['procedure_not_found'] = "legal procedure not found. Maybe is deleted, check activity log";
-
 $lang['delete_list'] = "Delete List";
 $lang['delete_procedure'] = "Delete Legal Procedure";
 $lang['judges_manage'] = "Judges management";
+$lang['LegalServiceManage'] = "Legal Services Management";
+$lang['Judges'] = "Judges";
 $lang['categories_management'] = "Categories management";
 $lang['date_time'] = "Date / Time";
-
 $lang['written_reports'] = "Written reports";
 $lang['report'] = "Report";
 $lang['date_updated'] = "Edited on";
@@ -4323,8 +4021,36 @@ $lang['auto_close_edit_written_reports_after'] = "Close editing on the next repo
 $lang['written_reports_cant_edit'] = "You can no longer edit this report!";
 $lang['editable_until'] = "Editable Until";
 $lang['dont_have_edit_permission'] = "You do not have permission to edit!";
-
 $lang['session_no_assignees'] = 'No assignees for this session';
-
 $lang['task_filter_detailed_all_days'] = "All Days";
 $lang['view_book'] = "View Book";
+$lang['iframe_note'] = "When placing the iframe snippet code consider the following:";
+$lang['iframe_note2'] = "1. If the protocol of your installation is http use a http page inside the iframe.";
+$lang['iframe_note3'] = "2. If the protocol of your installation is https use a https page inside the iframe.";
+$lang['iframe_note4'] = "None SSL installation will need to place the link in non ssl eq. landing page and backwards.";
+$lang['bootstrap_container'] = "Change form container column (Bootstrap)";
+$lang['share_direct_link'] = "Share direct link";
+$lang['first_ticket_created_alert'] = 'First Ticket Created! <br /> <span style="font-size:26px;">Did you know that you can embed Ticket Form (Setup->Settings->Support->Ticket Form) directly in your websites?</span>';
+
+$lang['firstname'] = "First Name";
+$lang['fathername'] = "Father Name";
+$lang['grandfathername'] = "Grandfather Name";
+$lang['lastname'] = "Family Name";
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
+$lang['migration_lang_1'] = "Database upgrade is required!";
+$lang['migration_lang_2'] = "You need to perform a database upgrade before proceeding. Your <b>files version is %s</b> and <b>database version is %s.</b>";
+$lang['migration_lang_3'] = "Make sure that you have backup of your database before performing an upgrade.";
+$lang['migration_lang_4'] = "Upgrade now";
+$lang['migration_lang_5'] = "This message may shown if you uploaded files from newer version downloaded from Babil to your existing installation or you used auto upgrade tool.";
+$lang['migration_lang_6'] = "A Note of After Upgrade Errors.";
+$lang['migration_lang_7'] = "First make sure that you re-check all your custom files, including <b>my_functions_helper.php</b>, <b>my_ prefixed files</b>, <b>custom hooks</b>, <b>custom clients area themes</b> and any <b>third party modules</b>.";
+$lang['migration_lang_8'] = "<b>Sometimes can happen not all files to be extracted while extracting the files from the upgrade</b> .zip (mostly caused by wrong files permissions), the upgrade files are copied to <b>%s</b>,
+                you can try to <b>extract them manually</b> for all cases to re-replace the files e.q. via cPanel or command line, use the best method that is suitable for you. <br />";
+$lang['migration_lang_9'] = "The copied upgrade zip file will be <b> available for the next %s minutes</b>";
+$lang['migration_lang_10'] = "<b>Remember that</b> that in case you need to extract the files manually, you must extract the contents of the <b>%s</b> file in <b>%s</b>";
+$lang['migration_lang_11'] = "You can copy the text above in case you need to extract the files manually so you can know the location of the upgrade file.";
+$lang['migration_lang_12'] = "Please wait...";
+$lang['migration_lang_13'] = "Hi! Thanks for updating Babil - You are using version %s";
+$lang['migration_lang_14'] = "This window will reload automaticaly in 10 seconds and will try to clear your browser/cloudflare cache, however its recomended to clear your browser cache manually.";
+$lang['migration_lang_15'] = "Your database is up to date";

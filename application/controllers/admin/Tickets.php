@@ -11,7 +11,7 @@ class Tickets extends AdminController
             redirect(admin_url());
         }
         $this->load->model('tickets_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function table_tickets_case($status = '', $userid = '')

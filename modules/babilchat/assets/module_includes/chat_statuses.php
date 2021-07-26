@@ -10,7 +10,7 @@
 
           $("body").on('click', '#status-options ul li', function() {
                $("#sidepanel #profile-img").removeClass();
-               $("#prchat-header-wrapper #chat_status_top_icon").removeClass(_chat_string_status);
+               $("#babilchat-header-wrapper #chat_status_top_icon").removeClass(_chat_string_status);
                $(_chat_statuses).removeClass("active");
                $(this).addClass("active");
                var newStatus = '';
@@ -22,7 +22,7 @@
                     }
                });
 
-               $('#sidepanel #profile-img, #prchat-header-wrapper #chat_status_top_icon').addClass(newStatus);
+               $('#sidepanel #profile-img, #babilchat-header-wrapper #chat_status_top_icon').addClass(newStatus);
 
                handleChatStatusUpdatePost(status);
 
@@ -33,7 +33,7 @@
           function updateCurrentUserChatStatus() {
                if (user_chat_status.length) {
                     $('#sidepanel #profile-img').removeClass().addClass(user_chat_status);
-                    $('#prchat-header-wrapper #chat_status_top_icon').removeClass(_chat_string_status).addClass(user_chat_status);
+                    $('#babilchat-header-wrapper #chat_status_top_icon').removeClass(_chat_string_status).addClass(user_chat_status);
 
                     $('#status-options ul li, #top_status-options ul li').each(function() {
                          $(this).removeClass();
@@ -82,7 +82,7 @@
 
           function handleChatStatusUpdatePost(status) {
                $.post(
-                    prchatSettings.handleChatStatus, {
+                    babilchatSettings.handleChatStatus, {
                          user_id: userSessionId,
                          status: status
                     }).done(function(response) {
@@ -98,7 +98,7 @@
 <?php
 if (!is_staff_member()) { ?>
      <style>
-          body nav #prchat-header-wrapper svg#chat_status_top_icon {
+          body nav #babilchat-header-wrapper svg#chat_status_top_icon {
                right: -45px;
                position: absolute;
           }

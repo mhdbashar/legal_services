@@ -14,11 +14,11 @@ class  Countries_model  extends App_Model{
     // }
 
     // public function get_by_countryName($country_name){
-    //     return $this->db->where('country_name_en',$country_name)->get('perfexcountries')->row();
+    //     return $this->db->where('country_name_en',$country_name)->get('babilcountries')->row();
     // }
 
     // public function get_by_countryId($country_id){
-    //     return $this->db->where('Id',$country_id)->get('perfexcountries')->row();
+    //     return $this->db->where('Id',$country_id)->get('babilcountries')->row();
     // }
     public function get_all_cities(){
         return $this->db->get('cities')->result();

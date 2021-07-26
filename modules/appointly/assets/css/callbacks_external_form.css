@@ -41,7 +41,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     background-color: rgb(51, 170, 255)
 } */
 
-#perfex-callbacks-form .vertical {
+#babil-callbacks-form .vertical {
     cursor: pointer;
     position: absolute;
     transform-origin: 0 0;
@@ -88,7 +88,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     transform: translate(-50%, -50%);
 }
 
-#perfex-callbacks-form .alert_active_success {
+#babil-callbacks-form .alert_active_success {
     background: #c55c3b;
     color: #f1f1f1;
     font-style: italic;
@@ -123,7 +123,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     border: 1px solid #e3e3e3;
 }
 
-#perfex-callbacks-form .alert_status {
+#babil-callbacks-form .alert_status {
     background: #c55c3b !important;
     color: #f1f1f1 !important;
     font-style: italic !important;

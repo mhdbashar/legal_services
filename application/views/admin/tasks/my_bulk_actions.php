@@ -42,7 +42,7 @@
                   $staff_bulk_assigned = $this->staff_model->get('', ['active'=>1]);
                   echo render_select('task_bulk_assignees',$staff_bulk_assigned,array('staffid',array('firstname','lastname')),'task_assigned','',array('multiple'=>true));
                   if(isset($project)){
-                      $this->load->model('LegalServices/Cases_model', 'case');
+                      $this->load->model('legalservices/Cases_model', 'case');
                     echo render_select('task_bulk_milestone', $this->case->get_milestones($service->slug,$project->id), array(
                       'id',
                       'name'

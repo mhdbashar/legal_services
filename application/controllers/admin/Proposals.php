@@ -9,7 +9,7 @@ class Proposals extends AdminController
         parent::__construct();
         $this->load->model('proposals_model');
         $this->load->model('currencies_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function index($proposal_id = '')

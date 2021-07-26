@@ -66,7 +66,7 @@ foreach ($rResult as $aRow) {
     $_data .= '<div class="row-options">';
     if (has_permission('imported_services', '', 'delete')) {
         
-        $_data .= ' | <a href="' . admin_url('LegalServices/Imported_services_controller/move_to_recycle_bin/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a> | ';
+        $_data .= ' | <a href="' . admin_url('legalservices/imported_services/move_to_recycle_bin/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a> | ';
     }
     $_data .= '<a href="' . admin_url('SImported/view/' . $aRow['id']) . '">' . _l('view') . '</a>';
     $_data .= '</div>';

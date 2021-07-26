@@ -8,7 +8,7 @@ class Credit_notes extends AdminController
     {
         parent::__construct();
         $this->load->model('credit_notes_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* Get all credit ntoes in case user go on index page */

@@ -44,17 +44,17 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['id'];
     if (has_permission('case_status', '', 'create') && has_permission('case_status', '', 'edit')) {
-        $link = admin_url('Case_status/cstatuscu/' . $aRow['id']);
+        $link = admin_url('case_status/cstatuscu/' . $aRow['id']);
     }else{
         $link = '#';
     }
     $_data = ' <a href="' . $link . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
     if (has_permission('case_status', '', 'edit')){
-        $_data .= ' <a href="' . admin_url('Case_status/cstatuscu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+        $_data .= ' <a href="' . admin_url('case_status/cstatuscu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
     if (has_permission('case_status', '', 'delete')) {
-        $_data .= ' | <a href="' . admin_url('Case_status/cstatusd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $_data .= ' | <a href="' . admin_url('case_status/cstatusd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $row[] = $_data;
 

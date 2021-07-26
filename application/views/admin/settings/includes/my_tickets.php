@@ -66,9 +66,25 @@
     </p>
     <p><b><?php echo _l('form_file_location');?>:</b> <code><?php echo hooks()->apply_filters('ticket_form_file_location_settings', VIEWPATH.'forms\ticket.php'); ?></code></p>
     <hr />
-    <h4 class="bold"><?php echo _l('embed_form');?></h4>
+    <h4 class="bold font-medium"><?php echo _l('embed_form');?></h4>
     <p><?php echo _l('form_integration_code_help'); ?></p>
     <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/ticket'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
+    <h4 class="mtop15 font-medium bold"><?php echo _l('Share_direct_link'); ?></h4>
+    <p>
+      <span class="label label-default">
+        <a href="<?php echo site_url('forms/ticket').'?styled=1'; ?>" target="_blank">
+          <?php echo site_url('forms/ticket').'?styled=1'; ?>
+        </a>
+      </span>
+      <br />
+      <br />
+      <span class="label label-default">
+        <a href="<?php echo site_url('forms/ticket').'?styled=1&with_logo=1'; ?>" target="_blank">
+          <?php echo site_url('forms/ticket').'?styled=1&with_logo=1'; ?>
+        </a>
+      </span>
+    </p>
+    <hr />
     <p class="bold mtop15"><?php echo _l('tick_inst');?></p>
     <p class="<?php if(strpos(site_url(),'http://') !== false){echo 'bold text-success';} ?>"><?php echo _l('tick_inst1');?></p>
     <p class="<?php if(strpos(site_url(),'https://') !== false){echo 'bold text-success';} ?>"><?php echo _l('tick_inst2');?></p>

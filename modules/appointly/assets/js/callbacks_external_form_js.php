@@ -1,7 +1,7 @@
 <script>
     $(function() {
 
-        var callback_form = $('#perfex-callbacks-form');
+        var callback_form = $('#babil-callbacks-form');
         var call_types = [];
         var validation_phone_lang = "<?= _l('callback_phone_validate'); ?>";
 
@@ -24,7 +24,7 @@
             }
         });
 
-        appValidateForm($("#perfex-callbacks-form"), {
+        appValidateForm($("#babil-callbacks-form"), {
             client_firstname: "required",
             client_lastname: "required",
             client_email: "required",

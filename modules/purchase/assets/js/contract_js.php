@@ -42,7 +42,7 @@ var selector = typeof(selector) == 'undefined' ? 'div.editable' : selector;
      browser_spellcheck: true,
      height: 400,
      theme: 'modern',
-     skin: 'perfex',
+     skin: 'babil',
      language: app.tinymce_lang,
        relative_urls: false,
        remove_script_host: false,

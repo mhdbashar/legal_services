@@ -8,7 +8,7 @@ Description: An complete attendance management system application with timesheet
 Version: 1.1.2
 Requires at least: 2.3.*
 Author: GreenTech Solutions
-Author URI: https://codecanyon.net/user/greentech_solutions
+Author URI: https://www.babil.net.sa/user/greentech_solutions
 */
 
 define('TIMESHEETS_MODULE_NAME', 'timesheets');

@@ -143,7 +143,7 @@ class Projects_merge_fields extends App_merge_fields
         $comm_table  = 'projectdiscussioncomments';
         $custom_fields_var = 'projects';
         if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
-            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
             if($additional_data['ServID'] == 1){
                 $serv_table  = 'my_cases';
                 $dis_table   = 'casediscussions';

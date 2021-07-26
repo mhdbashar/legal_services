@@ -267,7 +267,7 @@ class Cases extends REST_Controller {
                         $insert_data['project_members'] = $project_members;
                     }
                 // insert data                    
-                $this->load->model('LegalServices/Cases_model', 'case');              
+                $this->load->model('legalservices/Cases_model', 'case');              
                 $output = $this->case->add($insert_data);                
                 if($output > 0 && !empty($output)){
                     handle_project_file_uploads($output);
@@ -332,7 +332,7 @@ class Cases extends REST_Controller {
         else
         {
             // delete data
-            $this->load->model('LegalServices/Cases_model', 'case');
+            $this->load->model('legalservices/Cases_model', 'case');
             $output = $this->case->delete($id);
             if($output === TRUE){
                 // success
@@ -458,7 +458,7 @@ class Cases extends REST_Controller {
 
             $update_data = $this->input->post();
             // update data
-            $this->load->model('LegalServices/Cases_model', 'case');
+            $this->load->model('legalservices/Cases_model', 'case');
             $output = $this->case->update($update_data, $id);
             if($output == true && !empty($output)){
                 // success

@@ -1479,6 +1479,11 @@ class Migration_Version_271 extends CI_Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1;');
         }
 
+        //Alter table tbltasks
+        if (!$this->db->field_exists('exported_service_id', db_prefix() . 'my_imported_services')) {
+            $this->db->query("ALTER TABLE `tblmy_imported_services` ADD `exported_service_id` int(11) NOT NULL;");
+        }
+
     }
 
 }

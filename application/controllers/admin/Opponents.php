@@ -67,7 +67,7 @@ class Opponents extends AdminController
     public function all_contacts()
     {
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_all_contacts_opponent');
+            $this->app->get_table_data('all_contacts_opponent');
         }
 
         if (is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1') {
@@ -372,9 +372,9 @@ class Opponents extends AdminController
 
         if ($this->input->post()) {
             $data             = $this->input->post();
-            $data['firstname'] = $data['full_name'];
-            unset($data['full_name']);
-            $data['lastname'] = '';
+//            $data['firstname'] = $data['full_name'];
+//            unset($data['full_name']);
+//            $data['lastname'] = '';
             
             $data['password'] = $this->input->post('password', false);
             unset($data['contactid']);

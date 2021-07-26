@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Perfex CRM Powerful Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
+Module Name: Babil Chat
+Description: Chat Module for Babil
+Author: Babil Team
+Author URI: https://babil.net.sa
 Requires at least: 2.3.2
 */
 
@@ -134,7 +134,7 @@ class Babilchat_ClientsController extends ClientsController
                     'presence-clients',
                     'send-event',
                     array(
-                        'message' => BABIL_CHAT_convertLinkImageToString($message),
+                        'message' => babil_chat_convertLinkImageToString($message),
                         'from' => $from,
                         'to' => $receiver,
                         'client_id' => $client_id,

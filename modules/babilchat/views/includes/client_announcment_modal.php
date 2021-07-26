@@ -65,7 +65,7 @@
             var formData = $(this).serialize();
 
             $.ajax({
-                url: prchatSettings.clientsAnnouncementPost,
+                url: babilchatSettings.clientsAnnouncementPost,
                 method: "POST",
                 data: formData,
                 beforeSend: function() {

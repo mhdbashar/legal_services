@@ -24,7 +24,7 @@ foreach ($rResult as $aRow) {
     $_data = $aRow['title'];
     $_data .= '<div class="row-options">';
     $_data .= '<a href="#" data-toggle="modal" data-target="#edit' . $aRow['id'] . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('Dialog_boxes/remove/'.$aRow["id"]).'"  class="text-danger _delete">' . _l('delete') . '</a>';
+    $_data .= ' | <a href="' . admin_url('dialog_boxes/remove/'.$aRow["id"]).'"  class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= '</div>';
     $row[] = $_data;
     $row[] = $aRow['desc_ar'];
@@ -53,7 +53,7 @@ foreach ($rResult as $aRow) {
     $_data1 .= '   <span class="add-title">' . _l('edit_dialog_box') . '</span>';
     $_data1 .= '  </h4>';
     $_data1 .= ' </div>';
-    $_data1 .= form_open(admin_url('Dialog_boxes/edit/' . $aRow['id']), array('id' => 'edit-dialog-form'.$aRow['id']));
+    $_data1 .= form_open(admin_url('dialog_boxes/edit/' . $aRow['id']), array('id' => 'edit-dialog-form'.$aRow['id']));
     $_data1 .= ' <div class="modal-body">';
     $_data1 .= ' <div class="row">';
     $_data1 .= '    <div class="col-md-12">';

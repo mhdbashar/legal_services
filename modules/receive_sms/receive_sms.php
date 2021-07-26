@@ -23,6 +23,7 @@ hooks()->add_action('admin_init', 'init_receive_sms');
 hooks()->add_filter('before_settings_updated', 'set_senders_options');
 hooks()->add_action('admin_init', 'add_device_sms_settings');
 hooks()->add_action('admin_init', 'receive_sms_permissions');
+hooks()->add_action('app_admin_footer', 'receive_sms_load_js');
 register_activation_hook(RECEIVE_SMS_MODULE_NAME, 'receive_sms_module_activation_hook');
 /**
  * Load the module helper
@@ -90,6 +91,16 @@ function set_senders_options($data)
     }else{
         return $data;
     }
+}
+
+function receive_sms_load_js()
+{
+
+    $viewuri = $_SERVER['REQUEST_URI'];
+    if (strpos($viewuri, 'settings?group=device_sms') !== false) {
+        echo '<script src="'.module_dir_url('receive_sms', 'assets/js/settings.js').'"></script>';
+    }
+
 }
 
 function add_device_sms_settings()

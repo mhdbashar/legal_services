@@ -149,7 +149,7 @@
                                     </table>
                                 </div>
                             </div>
-                                <!-- <div class="clearfix"></div>
+                             <?php /*  <div class="clearfix"></div>
                                 <?php hooks()->do_action('before_subscriptions_email_templates'); ?>
                              <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -184,7 +184,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div> -->
+                            </div> */?>
                             <div class="clearfix"></div>
                             <?php hooks()->do_action('before_credit_notes_email_templates'); ?>
                               <div class="col-md-12">
@@ -366,7 +366,6 @@
                                     </table>
                                 </div>
                             </div>
-
                             <?php /*hooks()->do_action('before_projects_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -401,7 +400,6 @@
                                     </table>
                                 </div>
                             </div> */?>
-
                             <?php hooks()->do_action('before_staff_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -542,7 +540,6 @@
                                     </table>
                                 </div>
                             </div>
-
                             <?php hooks()->do_action('before_dispute_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -578,10 +575,6 @@
                                     </table>
                                 </div>
                             </div>
-
-
-
-
                             <?php hooks()->do_action('before_sessions_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -616,7 +609,6 @@
                                     </table>
                                 </div>
                             </div>
-                            <?php //hooks()->do_action('after_sessions_email_templates'); ?>
                             <?php hooks()->do_action('before_written_report_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -651,7 +643,6 @@
                                     </table>
                                 </div>
                             </div>
-                            <?php //hooks()->do_action('after_written_report_email_templates'); ?>
                             <?php hooks()->do_action('after_email_templates'); ?>
                             <div class="clearfix"></div>
                         </div>

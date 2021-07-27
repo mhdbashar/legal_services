@@ -1585,10 +1585,10 @@ if (!function_exists('add_purchase_email_templates')) {
      * @return void
      */
     function add_purchase_email_templates() {
+
         $CI = &get_instance();
-
-        $data['purchase_templates'] = $CI->emails_model->get(['type' => 'purchase_order', 'language' => 'english']);
-
+        $lang = get_staff_default_language();
+        $data['purchase_templates'] = $CI->emails_model->get(['type' => 'purchase_order', 'language' => $lang]);
         $CI->load->view('purchase/email_templates', $data);
     }
 }

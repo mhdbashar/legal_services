@@ -77,38 +77,47 @@ class Emails extends AdminController
             'type'     => 'tasks',
             'language' => $lang,
         ]);
+
         $data['client'] = $this->emails_model->get([
             'type'     => 'client',
             'language' => $lang,
         ]);
+
         $data['tickets'] = $this->emails_model->get([
             'type'     => 'ticket',
             'language' => $lang,
         ]);
+
         $data['invoice'] = $this->emails_model->get([
             'type'     => 'invoice',
             'language' => $lang,
         ]);
+
         $data['estimate'] = $this->emails_model->get([
             'type'     => 'estimate',
             'language' => $lang,
         ]);
+
         $data['contracts'] = $this->emails_model->get([
             'type'     => 'contract',
             'language' => $lang,
         ]);
+
         $data['proposals'] = $this->emails_model->get([
             'type'     => 'proposals',
             'language' => $lang,
         ]);
+
         $data['projects'] = $this->emails_model->get([
             'type'     => 'project',
             'language' => $lang,
         ]);
+
         /*$data['other_services'] = $this->emails_model->get([
             'type'     => 'other_services',
             'language' => $lang,
         ]);*/
+
         $data['leads'] = $this->emails_model->get([
             'type'     => 'leads',
             'language' => $lang,
@@ -128,13 +137,6 @@ class Emails extends AdminController
             'type'     => 'sessions',
             'language' => $lang,
         ]);
-
-        /*if($this->app_modules->is_active('hr')){
-            $data['hr'] = $this->emails_model->get([
-                'type'     => 'hr',
-                'language' => $lang,
-            ]);
-        }*/
 
         $data['estimate_request'] = $this->emails_model->get([
             'type'     => 'estimate_request',

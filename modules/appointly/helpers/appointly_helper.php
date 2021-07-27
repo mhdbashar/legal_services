@@ -8,7 +8,7 @@ hooks()->add_action('after_email_templates', 'add_appointly_email_templates');
 hooks()->add_action('clients_init', 'appointly_clients_area_schedule_appointment');
 
 /**
- * DOMDocument must be loaded and Perfex CRM version 2.8.0 and UP
+ * DOMDocument must be loaded and Babil version 2.8.0 and UP
  */
 if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current_db_version() >= 280) {
 

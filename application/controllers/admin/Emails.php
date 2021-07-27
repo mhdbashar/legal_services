@@ -113,11 +113,6 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
-        /*$data['other_services'] = $this->emails_model->get([
-            'type'     => 'other_services',
-            'language' => $lang,
-        ]);*/
-
         $data['leads'] = $this->emails_model->get([
             'type'     => 'leads',
             'language' => $lang,
@@ -140,7 +135,7 @@ class Emails extends AdminController
 
         $data['estimate_request'] = $this->emails_model->get([
             'type'     => 'estimate_request',
-            'language' => 'english',
+            'language' => $lang,
         ]);
 
         $data['written_report'] = $this->emails_model->get([

@@ -23,7 +23,7 @@ class Emails extends AdminController
             $langCheckings = unserialize($langCheckings);
         }
 
-        $lang = get_staff_default_language();
+        $lang = get_staff_default_language() != '' ? get_staff_default_language(): 'arabic';
         $this->db->where('language', $lang);
         $email_templates_english = $this->db->get(db_prefix() . 'emailtemplates')->result_array();
         foreach ($this->app->get_available_languages() as $avLanguage) {

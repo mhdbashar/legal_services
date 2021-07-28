@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="theme-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <?php hooks()->do_action('customers_navigation_start'); ?>
-
+                <?php if (is_client_logged_in()) { ?>
                 <li class="dropdown customers-nav-item-LegalServices">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
@@ -47,6 +47,7 @@
                         } ?>
                     </ul>
                 </li>
+                <?php } ?>
                 <?php foreach ($menu as $item_id => $item) { ?>
                     <li class="customers-nav-item-<?php echo $item_id; ?>"
                         <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>

@@ -409,7 +409,6 @@ $lang['invoice_subtotal'] = "المجموع الفرعي للفاتورة";
 $lang['invoice_amount_due'] = "المبلغ المستحق";
 $lang['payment_recorded_total'] = "مجموع الدفعات المسجلة";
 $lang['payment_recorded_date'] = "تاريخ تسجيل الدفعة";
-$lang['project_name'] = "إسم الخدمة";
 $lang['project_description'] = "وصف الخدمة";
 $lang['project_start_date'] = "تاريخ بداية الخدمة";
 $lang['project_deadline'] = "تاريخ إنتهاء الخدمة";

@@ -1742,7 +1742,7 @@ $lang['project_invoiced_successfully'] = "تم انشاء فاتورة للخد�
 $lang['new_project'] = "خدمة جديدة";
 $lang['project_files'] = "الملفات";
 $lang['project_activity'] = "النشاط";
-$lang['project_name'] = "الموضوع";
+$lang['project_name'] = "إسم الخدمة";
 $lang['project_description'] = "الوصف";
 $lang['project_customer'] = "العميل";
 $lang['project_start_date'] = "تاريخ البداية";

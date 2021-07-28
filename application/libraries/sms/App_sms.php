@@ -38,7 +38,8 @@ class App_sms
                 CURLOPT_RETURNTRANSFER => true,
             ]
         );
-        $this->set_default_triggers();
+        $language = get_staff_default_language(get_staff_user_id());
+        $language == 'english' ? $this->set_default_triggers() : $this->set_default_triggers_ar();
     }
 
     public function add_gateway($id, $data = [])
@@ -380,6 +381,140 @@ class App_sms
                 ],
                 'label' => _l('sms_staff_reminder'),
                 'info'  => _l('sms_trigger_when_staff_is_notified_for_specific_custom',admin_url('misc/reminders')),
+            ],
+        ];
+
+        $this->triggers = hooks()->apply_filters('sms_triggers', $triggers);
+    }
+
+    private function set_default_triggers_ar()
+    {
+        $customer_merge_fields = [
+            '{contact_firstname}',
+            '{contact_lastname}',
+            '{client_company}',
+            '{client_vat_number}',
+            '{client_id}',
+        ];
+
+        $invoice_merge_fields = [
+            '{invoice_link}',
+            '{invoice_number}',
+            '{invoice_duedate}',
+            '{invoice_date}',
+            '{invoice_status}',
+            '{invoice_subtotal}',
+            '{invoice_total}',
+            '{invoice_amount_due}',
+            '{invoice_short_url}',
+        ];
+
+        $proposal_merge_fields = [
+            '{proposal_number}',
+            '{proposal_id}',
+            '{proposal_subject}',
+            '{proposal_open_till}',
+            '{proposal_subtotal}',
+            '{proposal_total}',
+            '{proposal_proposal_to}',
+            '{proposal_link}',
+            '{proposal_short_url}',
+        ];
+
+        $contract_merge_fields = [
+            '{contract_id}',
+            '{contract_subject}',
+            '{contract_datestart}',
+            '{contract_dateend}',
+            '{contract_contract_value}',
+            '{contract_link}',
+            '{contract_short_url}',
+        ];
+
+        $triggers = [
+
+            SMS_TRIGGER_INVOICE_OVERDUE => [
+                'merge_fields' => array_merge($customer_merge_fields, $invoice_merge_fields, ['{total_days_overdue}']),
+                'label'        =>  'إشعار بفاتورة متأخرة',
+                'info'         =>  'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.',
+            ],
+
+            SMS_TRIGGER_INVOICE_DUE => [
+                'merge_fields' => array_merge($customer_merge_fields, $invoice_merge_fields),
+                'label'        => 'إشعار استحقاق الفاتورة',
+                'info'         => 'يتم تشغيله عند إرسال إشعار استحقاق الفاتورة إلى جهات اتصال العميل.',
+            ],
+
+            SMS_TRIGGER_PAYMENT_RECORDED => [
+                'merge_fields' => array_merge($customer_merge_fields, $invoice_merge_fields, ['{payment_total}', '{payment_date}']),
+                'label'        => 'تسجيل دفعة على الفاتورة',
+                'info'         => 'يتم تشغيله عند تسجيل دفع الفاتورة.',
+            ],
+
+            SMS_TRIGGER_ESTIMATE_EXP_REMINDER => [
+                'merge_fields' => array_merge(
+                    $customer_merge_fields,
+                    [
+                        '{estimate_link}',
+                        '{estimate_number}',
+                        '{estimate_date}',
+                        '{estimate_status}',
+                        '{estimate_subtotal}',
+                        '{estimate_total}',
+                        '{estimate_short_url}',
+                    ]
+                ),
+                'label' => 'تذكير بانتهاء صلاحية عرض الاتعاب',
+                'info'  => 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.',
+            ],
+
+            SMS_TRIGGER_PROPOSAL_EXP_REMINDER => [
+                'merge_fields' => $proposal_merge_fields,
+                'label'        => 'تذكير بانتهاء صلاحية العطاء',
+                'info'         => 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.',
+            ],
+
+            SMS_TRIGGER_PROPOSAL_NEW_COMMENT_TO_CUSTOMER => [
+                'merge_fields' => $proposal_merge_fields,
+                'label'        => 'تعليق جديد على العطاء (للعميل)',
+                'info'         => 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).',
+            ],
+
+            SMS_TRIGGER_PROPOSAL_NEW_COMMENT_TO_STAFF => [
+                'merge_fields' => $proposal_merge_fields,
+                'label'        => 'تعليق جديد على العطاء (لفريق العمل)',
+                'info'         => 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.',
+            ],
+
+            SMS_TRIGGER_CONTRACT_NEW_COMMENT_TO_CUSTOMER => [
+                'merge_fields' => array_merge($customer_merge_fields, $contract_merge_fields),
+                'label'        => 'تعليق جديد على العقد (للعميل)',
+                'info'         => 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.',
+            ],
+
+            SMS_TRIGGER_CONTRACT_NEW_COMMENT_TO_STAFF => [
+                'merge_fields' => $contract_merge_fields,
+                'label'        => 'تعليق جديد على العقد (لفريق العمل)',
+                'info'         => 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.',
+            ],
+
+            SMS_TRIGGER_CONTRACT_EXP_REMINDER => [
+                'merge_fields' => array_merge($customer_merge_fields, $contract_merge_fields),
+                'label'        => 'تذكير بانتهاء العقد',
+                'info'         => 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.',
+            ],
+
+            SMS_TRIGGER_STAFF_REMINDER => [
+                'merge_fields' => [
+                    '{staff_firstname}',
+                    '{staff_lastname}',
+                    '{staff_reminder_description}',
+                    '{staff_reminder_date}',
+                    '{staff_reminder_relation_name}',
+                    '{staff_reminder_relation_link}',
+                ],
+                'label' => _l('تذكيرات فريق العمل'),
+                'info'  => 'يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href="'.admin_url('misc/reminders').'">تذكير</a> مخصص.',
             ],
         ];
 

@@ -2,3 +2,4 @@
 .idea/workspace.xml
 logs/
 node_modules/
+application/config/app-config.php

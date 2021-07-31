@@ -25,12 +25,8 @@ class Mods extends AdminController
 
     public function activate($name)
     {
-        if($name == 'api'){
-            redirect(admin_url('api/user?activate=1'));
-        }else{
-            $this->app_modules->activate($name);
-            $this->to_modules();
-        }
+        $this->app_modules->activate($name);
+        $this->to_modules();
     }
 
     public function deactivate($name)

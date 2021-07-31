@@ -2,6 +2,7 @@
   var addnewkpi;
   var table_registration_leave = $('table.table-table_registration_leave');
   var table_additional_timesheets  = $('table.table-table_additional_timesheets');
+  var table_type_of_leave  = $('table.table-table_type_of_leave');
   var rest_time = 0;
   var time = 0;
   var hour_working;
@@ -50,7 +51,10 @@
       });
     });
 
-     var addtimesheetServerParams = {
+      initDataTable(table_type_of_leave,admin_url + 'timesheets/table_type_of_leave');
+
+
+      var addtimesheetServerParams = {
       "status_filter_ats": "[name='status_filter_ats[]']",
       "rel_type_filter_ats": "[name='rel_type_filter_ats[]']",
       "chose_ats": "[name='chose_ats']",

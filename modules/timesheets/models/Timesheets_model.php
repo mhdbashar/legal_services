@@ -5107,23 +5107,83 @@ public function get_timesheet($staffid='', $from_date, $to_date){
 		return true;
 	}
 
-/**
-	 * delete additional timesheets
-	 * @param  integer $id 
-	 * @return boolean     
-	 */
-public function delete_additional_timesheets($id){
+    /**
+     * delete additional timesheets
+     * @param  integer $id
+     * @return boolean
+     */
+    public function delete_additional_timesheets($id){
 
-	$this->db->where('id', $id);
-	$this->db->delete(db_prefix().'timesheets_additional_timesheet');
-	if ($this->db->affected_rows() > 0) {
-		$this->db->where('relate_id', $id);
-		$this->db->where('relate_type', 'additional_timesheet');
-		$this->db->delete(db_prefix() . 'timesheets_timesheet');
-		return true;
-	}
-	return false;
-}
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix().'timesheets_additional_timesheet');
+        if ($this->db->affected_rows() > 0) {
+            $this->db->where('relate_id', $id);
+            $this->db->where('relate_type', 'additional_timesheet');
+            $this->db->delete(db_prefix() . 'timesheets_timesheet');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * add type of leave
+     * @param  array $data
+     * @return boolean
+     */
+    public function add_type_of_leave($data){
+
+        $allocations = $data['allocation'];
+        unset($data['allocation']);
+        $this->db->insert(db_prefix() . 'type_of_leave', $data);
+        $insert_id = $this->db->insert_id();
+        if($insert_id){
+            foreach ($allocations as $allocation){
+                $this->db->insert(db_prefix() . 'type_of_leave_allocation', [
+                    'percent' => $allocation['percent'],
+                    'days' => $allocation['days'],
+                    'type_of_leave_id' => $insert_id
+                ]);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
+    /**
+     * get type of leave
+     * @param  integer $id
+     * @return array
+     */
+    public function get_type_of_leave($id){
+
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'type_of_leave')->row();
+        }else{
+            return [];
+        }
+    }
+
+
+    /**
+     * delete type of leave
+     * @param  integer $id
+     * @return boolean
+     */
+    public function delete_type_of_leave($id){
+
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix().'type_of_leave');
+        if ($this->db->affected_rows() > 0) {
+            $this->db->where('type_of_leave_id', $id);
+            $this->db->delete(db_prefix() . 'type_of_leave_allocation');
+            return true;
+        }
+        return false;
+    }
 
 
 	/**

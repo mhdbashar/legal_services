@@ -1325,12 +1325,12 @@ class Accounting_model extends App_Model
 //                'account_type_id' => 14,
 //                'account_detail_type_id' => 118,
 //            ],
-            [
-                'name' => '',
-                'key_name' => 'acc_interest_income',
-                'account_type_id' => 12,
-                'account_detail_type_id' => 93,
-            ],
+//            [
+//                'name' => '',
+//                'key_name' => 'acc_interest_income',
+//                'account_type_id' => 12,
+//                'account_detail_type_id' => 93,
+//            ],
             [
                 'name' => '',
                 'key_name' => 'acc_inventory',

@@ -305,16 +305,16 @@ $appointly_show_summary = get_option('appointly_show_summary');
             <h4 class="bold">Embed form</h4>
             <p><?php echo _l('form_integration_code_help'); ?></p>
             <textarea class="form-control" rows="1"><iframe width="600" height="850" src="<?php echo site_url('appointly/appointments_public/form'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
-            <p class="bold mtop15">When placing the iframe snippet code consider the following:</p>
+            <p class="bold mtop15"><?php echo _l('iframe_note1'); ?></p>
             <p class="<?php if (strpos(site_url(), 'http://') !== false) {
                             echo 'bold text-success';
-                        } ?>">1. If the protocol of your installation is http use a http page inside the iframe.</p>
+                        } ?>"><?php echo _l('iframe_note1'); ?></p>
             <p class="<?php if (strpos(site_url(), 'https://') !== false) {
                             echo 'bold text-success';
-                        } ?>">2. If the protocol of your installation is https use a https page inside the iframe.</p>
-            <p>None SSL installation will need to place the link in non ssl eq. landing page and backwards.</p>
+                        } ?>"><?php echo _l('iframe_note2'); ?></p>
+            <p><?php echo _l('iframe_note3'); ?></p>
             <hr />
-            <h4 class="bold">Change form container column (Bootstrap)</h4>
+            <h4 class="bold"><?php echo _l('bootstrap_container'); ?></h4>
             <p>
                 <span class="label label-default">
                     <a href="<?php echo site_url('appointly/appointments_public/form?col=col-md-8'); ?>" target="_blank">

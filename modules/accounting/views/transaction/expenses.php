@@ -51,7 +51,7 @@
         <div id="div_info" class="mbot25"></div>
         <div class="row">
           <div class="col-md-6">
-            <?php echo render_select('payment_account',$payment_accounts,array('id','name', 'account_type_name'),'payment_account',13,array(),array(),'','',false); ?>
+            <?php echo render_select('payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',13,array(),array(),'','',false); ?>
           </div>
           <div class="col-md-6">
             <?php echo render_select('deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',37,array(),array(),'','',false); ?>

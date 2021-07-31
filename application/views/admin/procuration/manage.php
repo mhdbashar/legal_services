@@ -16,7 +16,7 @@
 						<div class="clearfix"></div>
 						<?php render_datatable(array(
 							_l('name'),
-							_l('NO'),
+							_l('no'),
 							_l('start_date'),
 							_l('end_date'),
 							_l('case_id'),

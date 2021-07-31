@@ -75,7 +75,7 @@
 
                                                             <a class="job__skill ilabel-cp-workplace  mkt-track " data-controller="utm-tracking" href="#">
 
-                                                                <span> - <?php echo html_entity_decode($rec_value['cp_workplace']) ?></span>
+                                                                <span> - <?php echo $rec_value['cp_workplace'] ?></span>
                                                             </a>
                                                             
                                                         </div>

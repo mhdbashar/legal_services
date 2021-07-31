@@ -2,6 +2,7 @@
 
 # Version 1.1.0
 
+$lang['disputes'] = "قضايا مالية";
 $lang['project_address1'] = 'العنوان السطر 1';
 $lang['project_address2'] = 'العنوان السطر 2';
 $lang['project_addressed_to'] = 'موجهة الى';

@@ -41,7 +41,7 @@ function add_disputes_reminder_tab_content(){
 }
 
 function my_custom_menu_items($item){
-    if($item['slug']==2) echo '<li><a href="'.admin_url('disputes/statuses').'"> حالات النزاع المالي</a></li>';
+    if($item['slug']==2) echo '<li><a href="'.admin_url('disputes/statuses').'">'._l("projects_statuses").'</a></li>';
 }
 
 
@@ -151,7 +151,7 @@ function disputes_module_init_menu_items()
     if (has_permission('disputes', '', 'view')) {
         $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
                 'slug'     => 'disputes',
-                'name'     => _l('قضايا مالية'),
+                'name'     => _l('disputes'),
                 'href'     => admin_url('disputes'),
                 'position' => 24,
         ]);

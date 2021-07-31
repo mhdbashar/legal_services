@@ -639,6 +639,12 @@ class Tasks_model extends App_Model
             }
         }
 
+        $withDefaultAssignee = true;
+        if (isset($data['withDefaultAssignee'])) {
+            $withDefaultAssignee = $data['withDefaultAssignee'];
+            unset($data['withDefaultAssignee']);
+        }
+
         $data = hooks()->apply_filters('before_add_task', $data);
 
         $tags = '';
@@ -726,7 +732,11 @@ class Tasks_model extends App_Model
             if ($clientRequest == false) {
                 $new_task_auto_assign_creator = (get_option('new_task_auto_assign_current_member') == '1' ? true : false);
 
-                if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
+                if ( isset($data['rel_type'])
+                    && $data['rel_type'] == 'project'
+                    && !$this->projects_model->is_member($data['rel_id'])
+                    || !$withDefaultAssignee
+                    ) {
                     $new_task_auto_assign_creator = false;
                 }
                 if ($new_task_auto_assign_creator == true) {

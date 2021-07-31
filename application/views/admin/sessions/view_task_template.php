@@ -1,4 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php if (is_rtl()) { ?>
+<style>
+    .checklist-items-template-select .checklist-item-template-remove {
+        left: 17px;
+        right: auto;
+    }
+</style>
+<?php } ?>
 <div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>" data-status="<?php echo $task->status; ?>">
    <?php if($this->input->get('opened_from_lead_id')){ ?>
    <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;" class="back-to-from-task color-white" data-placement="left" data-toggle="tooltip" data-title="<?php echo _l('back_to_lead'); ?>">
@@ -179,7 +187,7 @@
                            <?php
                               if(!$task->billed){
                                    if(has_permission('sessions','','delete') || (has_permission('projects','','delete') && $task->rel_type == 'project') || $timesheet['staff_id'] == get_staff_user_id()){
-                                    echo '<a href="'.admin_url('LegalServices/sessions/delete_timesheet/'.$timesheet['id']).'" class="session-single-delete-timesheet pull-right text-danger mtop5" data-task-id="'.$task->id.'"><i class="fa fa-remove"></i></a>';
+                                    echo '<a href="'.admin_url('legalservices/sessions/delete_timesheet/'.$timesheet['id']).'" class="session-single-delete-timesheet pull-right text-danger mtop5" data-task-id="'.$task->id.'"><i class="fa fa-remove"></i></a>';
                                  }
                               }
                               if($timesheet['time_spent'] == NULL){
@@ -205,10 +213,12 @@
                         <td colspan="5">
                            <div class="timesheet-start-end-time">
                               <div class="col-md-6">
-                                 <?php echo render_datetime_input('timesheet_start_time','task_log_time_start'); ?>
+                                 <?php echo render_date_input('timesheet_start_time','task_log_time_start'); ?>
+                                 <?php echo render_input('ts_start_time','project_invoice_timesheet_start_time','','time'); ?>
                               </div>
                               <div class="col-md-6">
-                                 <?php echo render_datetime_input('timesheet_end_time','task_log_time_end'); ?>
+                                  <?php echo render_date_input('timesheet_end_time','task_log_time_end'); ?>
+                                  <?php echo render_input('ts_end_time','project_invoice_timesheet_end_time','','time'); ?>
                               </div>
                            </div>
                            <div class="timesheet-duration hide">
@@ -296,7 +306,7 @@
               echo '<div class="no-margin tc-content task-no-description" id="session_information"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
           } ?>
          <div class="clearfix"></div>
-          <hr />
+         <?php hooks()->do_action('before_task_description_section', $task); ?>
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
          <?php if(has_permission('sessions','','edit')){ ?><a href="#" onclick="edit_session_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>
@@ -436,7 +446,7 @@
             <?php } ?>
             <div class="col-md-12 text-center">
                <hr />
-               <a href="<?php echo admin_url('LegalServices/sessions/download_files/'.$task->id); ?>" class="bold">
+               <a href="<?php echo admin_url('legalservices/sessions/download_files/'.$task->id); ?>" class="bold">
                <?php echo _l('download_all'); ?> (.zip)
                </a>
             </div>
@@ -447,7 +457,7 @@
             <h4 class="mbot20 font-medium"><?php echo _l('task_comments'); ?></h4>
          </a>
          <div class="tasks-comments inline-block full-width simple-editor"<?php if(count($task->comments) == 0){echo ' style="display:none"';} ?>>
-            <?php echo form_open_multipart(admin_url('LegalServices/sessions/add_task_comment'),array('id'=>'task-comment-form','class'=>'dropzone dropzone-manual','style'=>'min-height:auto;background-color:#fff;')); ?>
+            <?php echo form_open_multipart(admin_url('legalservices/sessions/add_task_comment'),array('id'=>'task-comment-form','class'=>'dropzone dropzone-manual','style'=>'min-height:auto;background-color:#fff;')); ?>
             <textarea name="comment" placeholder="<?php echo _l('task_single_add_new_comment'); ?>" id="task_comment" rows="3" class="form-control ays-ignore"></textarea>
             <div id="dropzoneTaskComment" class="dropzoneDragArea dz-default dz-message hide task-comment-dropzone">
                <span><?php echo _l('drop_files_here_to_upload'); ?></span>
@@ -466,7 +476,7 @@
                   $i = 0;
                   foreach ($task->comments as $comment) {
                     $comments .= '<div id="comment_'.$comment['id'].'" data-commentid="' . $comment['id'] . '" data-task-attachment-id="'.$comment['file_id'].'" class="tc-content task-comment'.(strtotime($comment['dateadded']) >= strtotime('-16 hours') ? ' highlight-bg' : '').'">';
-                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('LegalServices/sessions/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
+                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('legalservices/sessions/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
                     if($comment['staffid'] != 0){
                      $comments .= '<a href="' . admin_url('profile/' . $comment['staffid']) . '" target="_blank">' . staff_profile_image($comment['staffid'], array(
                       'staff-profile-image-small',
@@ -509,7 +519,7 @@
                    $comment['content'] .='<div class="clearfix"></div>';
                    $comment['content'] .='<div class="text-center download-all">
                    <hr class="hr-10" />
-                   <a href="'.admin_url('LegalServices/sessions/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
+                   <a href="'.admin_url('legalservices/sessions/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
                    </a>
                    </div>';
                   }
@@ -567,7 +577,7 @@
                   <?php } ?>
                   <?php if(has_permission('sessions','','delete')){ ?>
                   <li>
-                     <a href="<?php echo admin_url('LegalServices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                     <a href="<?php echo admin_url('legalservices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                      <?php echo _l('task_single_delete'); ?>
                      </a>
                   </li>
@@ -812,7 +822,7 @@
                         <i class="fa fa-edit"></i>
                         </a>
                         <?php } ?>
-                        <a href="<?php echo admin_url('LegalServices/sessions/delete_reminder/' . $task->id . '/' . $reminder['id']); ?>" class="text-danger delete-reminder"><i class="fa fa-remove"></i></a>
+                        <a href="<?php echo admin_url('legalservices/sessions/delete_reminder/' . $task->id . '/' . $reminder['id']); ?>" class="text-danger delete-reminder"><i class="fa fa-remove"></i></a>
                         <?php } ?>
                      </p>
                      <?php
@@ -844,7 +854,8 @@
          <hr class="task-info-separator" />
          <div class="clearfix"></div>
          <h4 class="task-info-heading font-normal font-medium-xs"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo _l('task_single_assignees'); ?></h4>
-         <?php if(has_permission('sessions','','edit') || has_permission('sessions','','create')){ ?>
+            <?php if(staff_can('edit','sessions') ||
+               ($task->current_user_is_creator && staff_can('create','sessions'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-session-assignees" data-live-search="true" title='<?php echo _l('session_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -868,7 +879,8 @@
                $_assignees = '';
                foreach ($task->assignees as $assignee) {
                 $_remove_assigne = '';
-                if(has_permission('sessions','','edit') || has_permission('sessions','','create')){
+                if(staff_can('edit','sessions') ||
+                ($task->current_user_is_creator && staff_can('create','sessions'))) {
                   $_remove_assigne = ' <a href="#" class="remove-task-user text-danger" onclick="remove_session_assignee(' . $assignee['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                }
                $_assignees .= '
@@ -890,7 +902,8 @@
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <?php echo _l('task_single_followers'); ?>
          </h4>
-         <?php if(has_permission('sessions','','edit') || has_permission('sessions','','create')){ ?>
+         <?php if(staff_can('edit','sessions') ||
+                  ($task->current_user_is_creator && staff_can('create','sessions'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-session-followers" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -910,7 +923,8 @@
                $_followers        = '';
                foreach ($task->followers as $follower) {
                  $_remove_follower = '';
-                 if(has_permission('sessions','','edit') || has_permission('sessions','','create')){
+                 if(staff_can('edit','sessions') ||
+                 ($task->current_user_is_creator && staff_can('create','sessions'))) {
                    $_remove_follower = ' <a href="#" class="remove-task-user text-danger" onclick="remove_session_follower(' . $follower['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                 }
                 $_followers .= '
@@ -927,7 +941,7 @@
                ?>
          </div>
          <hr class="task-info-separator" />
-         <?php echo form_open_multipart('admin/LegalServices/sessions/upload_file',array('id'=>'task-attachment','class'=>'dropzone')); ?>
+         <?php echo form_open_multipart('admin/legalservices/sessions/upload_file',array('id'=>'task-attachment','class'=>'dropzone')); ?>
          <?php echo form_close(); ?>
          <div class="mtop10 text-right">
             <button class="gpicker mbot5">

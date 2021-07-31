@@ -90,7 +90,7 @@
                           <select name="candidate[0]" onchange="candidate_infor_change(this); return false;" id="candidate[0]" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" required>
                               <option value=""></option>
                               <?php foreach ($candidates as $s) {?>
-                              <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name']); ?></option>
+                              <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name'].' '.$s['last_name']); ?></option>
                                 <?php }?>
                           </select>
                         </div>

@@ -178,7 +178,7 @@
                ?>
             <div class="form-group">
                <label for="number">
-                  <?php echo _l('invoice_add_edit_number'); ?> 
+                  <?php echo _l('invoice_add_edit_number'); ?>
                   <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('invoice_number_not_applied_on_draft') ?>" data-placement="top"></i>
             </label>
                <div class="input-group">

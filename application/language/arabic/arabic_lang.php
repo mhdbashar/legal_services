@@ -8,6 +8,7 @@ $lang['settings_number_padding_prefix'] = "تنسيق البدايات الصف�
 $lang['new_credit_note'] = "رصيد دائن جديد";
 $lang['leads_source_add_edit_name'] = "إسم المصدر";
 $lang['lead_created'] = "أُنشيء";
+$lang['Share_direct_link'] = "مشاركة الرابط المباشر";
 $lang['kb_group_order'] = "الترتيب";
 $lang['invoice_payments_table_number_heading'] = "# المدفوعات";
 $lang['invoice_item_add_edit_rate_currency'] = "سعر - %s";
@@ -460,12 +461,13 @@ $lang['leads_canban_notes'] = "ملاحظات: %s";
 $lang['leads_canban_source'] = "المصدر: %s";
 $lang['lead_new_source'] = "مصدر جديد";
 $lang['lead_sources'] = "مصادر العملاء المتوقعين";
+$lang['lead_link'] = "الرابط";
 $lang['lead_source'] = "مصدر العميل المتوقع";
 $lang['lead_source_lowercase'] = "lمصدر العميل المتوقع";
 $lang['leads_sources_not_found'] = "لم يتم العثور على مصادر عملاء متوقعين";
 $lang['leads_sources_table_name'] = "إسم المصدر";
 $lang['lead_new_status'] = "حالة عميل متوقع جديدة";
-$lang['lead_status'] = "حالة العميل المتوقع";
+$lang['lead_status'] = "الحالة";
 $lang['lead_status_lowercase'] = "حالة العميل المتوقع";
 $lang['leads_status_table_name'] = "اسم الحالة";
 $lang['leads_status_add_edit_name'] = "اسم الحالة";
@@ -481,6 +483,15 @@ $lang['leads_dt_status'] = "الحالة";
 $lang['leads_dt_last_contact'] = "أخر اتصال";
 $lang['lead_add_edit_name'] = "الأسم";
 $lang['lead_add_edit_email'] = "عنوان البريد الإلكتروني";
+$lang['lead_add_edit_header'] = 'عنوان رأس الصفحة';
+$lang['lead_add_edit_paragraph'] = 'الفقرة';
+$lang['lead_add_edit_file'] = 'تحميل ملف';
+$lang['lead_add_edit_text'] = 'نص';
+$lang['lead_add_edit_textarea'] = 'مساحة كتابة';
+$lang['lead_add_edit_select'] = 'قائمة منسدلة';
+$lang['lead_add_edit_checkbox_group'] = 'مجموعة إختيار متعدد';
+$lang['lead_add_edit_radio_group'] = 'مجموعة إختيار من متعدد';
+$lang['lead_add_edit_date'] = 'تاريخ';
 $lang['lead_add_edit_phonenumber'] = "رقم الهاتف";
 $lang['lead_add_edit_source'] = "المصدر";
 $lang['lead_add_edit_status'] = "الحالة";
@@ -814,6 +825,10 @@ $lang['lead_convert_to_client'] = "التحويل لعميل";
 $lang['lead_convert_to_email'] = "البريد الإلكتروني";
 $lang['lead_convert_to_client_firstname'] = "الأسم الاول";
 $lang['lead_convert_to_client_lastname'] = "الاسم الأخير";
+$lang['lead_email'] = "البريد الإلكتروني";
+$lang['lead_name'] = "الاسم";
+$lang['lead_assigned'] = "تعيين الى";
+$lang['lead_phone_number'] = "الهاتف";
 $lang['lead_email_already_exists'] = "البريد الإلكتروني للعميل المتوقع موجود بالفعل في بيانات العملاء";
 $lang['lead_to_client_base_converted_success'] = "تم التحويل لعميل بنجاح";
 $lang['lead_have_client_profile'] = "هذا العميل المتوقع لديه ملف عميل.";
@@ -946,7 +961,7 @@ $lang['time_ago_years'] = "منذ %s سنوات";
 $lang['estimates'] = "عروض الأسعار";
 $lang['estimate'] = "عرض سعر";
 $lang['estimate_lowercase'] = "عرض سعر";
-$lang['create_new_estimate'] = "إنشاءعرض سعر";
+$lang['create_new_estimate'] = "إنشاء عرض سعر";
 $lang['view_estimate'] = "إستعراض عرض السعر";
 $lang['estimate_sent_to_client_success'] = "تم إرسال عرض السعر إلى العميل بنجاح";
 $lang['estimate_sent_to_client_fail'] = "مشكلة عن إرسال عرض السعر إلى العميل";
@@ -1225,13 +1240,13 @@ $lang['customer_map'] = "الخريطة";
 $lang['set_password_email_sent_to_client'] = "تم إرسال البريد الإلكتروني لتعيين كلمة المرور بنجاح";
 $lang['set_password_email_sent_to_client_and_profile_updated'] = "تم تحديث الملف الشخصي وإرسالة رسالة إعادة تعيين كلمة المرور إلى العميل بنجاح";
 $lang['customer_attachments'] = "الملفات";
-$lang['customer_longitude'] = "خط الطول (Google Maps)";
-$lang['customer_latitude'] = "خط العرض (Google Maps)";
+$lang['customer_longitude'] = "خط الطول (خرائط جوجل)";
+$lang['customer_latitude'] = "خط العرض (خرائط جوجل)";
 $lang['admin_auth_set_password'] = "كلمة المرور";
 $lang['admin_auth_set_password_repeat'] = "إعد إدخال كلمة المرور";
 $lang['admin_auth_set_password_heading'] = "ضبط كلمة المرور";
 $lang['apply'] = "طبق";
-$lang['department_calendar_id'] = "معرف تقويم Google";
+$lang['department_calendar_id'] = "معرف تقويم جوجل";
 $lang['localization_default_language'] = "اللغة الإفتراضية";
 $lang['system_default_string'] = "الافتراضي";
 $lang['advanced_options'] = "الخيارات المتقدمة";
@@ -1361,7 +1376,7 @@ $lang['items'] = "العناصر";
 $lang['support'] = "خدمة العملاء";
 $lang['calendar_lead_reminder'] = "تذكيرات العميل المتوقع";
 $lang['lead_set_reminder_title'] = "تعيين تذكير عميل متوقع";
-$lang['set_reminder_tooltip'] = "يتيح لك هذا الخيار عدم نسيان أي شيء يخص وكلائك.";
+$lang['set_reminder_tooltip'] = "يتيح لك هذا الخيار عدم نسيان أي شيء يخص عملائك.";
 $lang['client_reminders_tab'] = "التذكيرات";
 $lang['leads_reminders_tab'] = "التذكيرات";
 $lang['delete_ticket_reply'] = "حذف الرد";
@@ -1727,7 +1742,7 @@ $lang['project_invoiced_successfully'] = "تم انشاء فاتورة للخد�
 $lang['new_project'] = "خدمة جديدة";
 $lang['project_files'] = "الملفات";
 $lang['project_activity'] = "النشاط";
-$lang['project_name'] = "الموضوع";
+$lang['project_name'] = "إسم الخدمة";
 $lang['project_description'] = "الوصف";
 $lang['project_customer'] = "العميل";
 $lang['project_start_date'] = "تاريخ البداية";
@@ -2098,7 +2113,7 @@ $lang['from_date'] = "من تاريخ";
 $lang['to_date'] = "إلى تاريخ";
 $lang['not_results_found'] = "لم يتم العثور على نتائج";
 $lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير العملاء المتوقعين بعد تحويلهم إلى عملاء (لاينطبق على المسؤولين)";
-$lang['toggle_full_view'] = "Toggle full view";
+$lang['toggle_full_view'] = "تبديل الى عرض كامل";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
 $lang['invoice_number_exists'] = "رقم الفاتورة هذا موجود للسنة الجارية.";
@@ -2392,6 +2407,7 @@ $lang['lead_city'] = "المدينة";
 $lang['lead_state'] = "المنطقة";
 $lang['lead_country'] = "الدولة";
 $lang['lead_zip'] = "الرمز البريدي";
+$lang['lead_description'] = "الوصف";
 $lang['lead_is_public_yes'] = "نعم";
 $lang['lead_is_public_no'] = "لا";
 $lang['lead_info'] = "معلومات العميل المتوقع";
@@ -2498,6 +2514,7 @@ $lang['search_ajax_searching'] = "البحث ...";
 $lang['search_ajax_initialized'] = "ابدأ الكتابة للبحث";
 $lang['lead_description'] = "الوصف";
 $lang['lead_website'] = "الموقع الإلكتروني";
+$lang['lead_position'] = "المنصب";
 $lang['invoice_activity_auto_converted_from_estimate'] = "تم إنشاء الفاتورة تلقائيا من عرض السعر رقم %s";
 $lang['hour_of_day_perform_auto_operations'] = "الساعة من اليوم لأداء العمليات التلقائية";
 $lang['hour_of_day_perform_auto_operations_format'] = "تنسيق 24 ساعة مثال. 9 لـ 9 ص أو 15 لـ 3 م.";
@@ -2530,7 +2547,7 @@ $lang['open_in_dropbox'] = "افتح في Dropbox";
 $lang['show_primary_contact'] = "عرض الاسم الكامل لجهة الاتصال الأساسية في %s";
 $lang['view_members_timesheets'] = "اظهار جميع الجداول الزمنية";
 $lang['priority'] = "الاولوية";
-$lang['fetch_from_google'] = "الجلب من Google";
+$lang['fetch_from_google'] = "الجلب من جوجل";
 $lang['customer_fetch_lat_lng_usage'] = "للحصول على أفضل نتيجة يرجى ملء العنوان والمدينة والبلد للحصول على أفضل نتيجة قبل الجلب. لا يمكن العثور عليها ، يرجى المحاولة مرة أخرى";
 $lang['g_search_address_not_found'] = "لم يتم العثور على العنوان ، يرجى المحاولة مرة أخرى";
 $lang['proposals_report'] = "تقرير العطاءات";
@@ -3169,7 +3186,7 @@ $lang['lead_value']                         = 'قيمة العميل المحت�
 $lang['lead_value_tooltip']                 = 'سيتم استخدام العملة الأساسية.';
 $lang['leads_dt_lead_value']                = 'قيمة العميل المحتمل';
 $lang['leads_canban_lead_value']            = 'قيمة العميل المحتمل : %s ';
-$lang['lead_add_edit_lead_value']           = 'قيمة العميل المحتمل';
+$lang['lead_add_edit_lead_value']           = 'القيمة';
 
 # Version 2.6.0
 $lang['gantt_view_day'] = 'عرض الأيام';
@@ -3194,55 +3211,55 @@ $lang['two_factor_authentication_disabed']                    = 'معطل';
 $lang['enable_google_two_factor_authentication']              = 'تمكين مصادقة Google';
 $lang['set_google_two_factor_authentication_failed']          = 'فشل حفظ المصادقة ، يرجى المحاولة مرة أخرى';
 $lang['enter_two_factor_auth_code_from_mobile']               = 'أدخل رمز المصادقة من تطبيق أداة المصادقة';
-$lang['staff_two_factor_authentication']                      = 'المصادقة الثنائية';
-$lang['google_authentication_code']                           = 'أدخل الرمز من تطبيق أداة المصادقة';
-$lang['set_two_factor_authentication_successful']             = 'تم تحديث إعدادات المصادقة الثنائية بنجاح';
-$lang['set_two_factor_authentication_failed']                 = 'تعذر تحديث إعدادات المصادقة الثنائية';
-$lang['google_2fa_code_valid']                                = 'تم التحقق من المصادقة بنجاح';
-$lang['google_2fa_code_invalid']                              = 'تم إدخال رمز مصادقة غير صالح ، حاول مرة أخرى.';
-$lang['google_2fa_scan_qr_guide']                             = 'امسح QR أدناه باستخدام تطبيق Google Authenticator على جهازك المحمول ، بعد ذلك املأ الحقل أدناه بالرمز الذي تم إنشاؤه في التطبيق';
-$lang['google_2fa_manul_input_secret']                        = 'مفتاح سري للإدخال اليدوي';
+$lang['staff_two_factor_authentication'] = 'المصادقة الثنائية';
+$lang['google_authentication_code'] = 'أدخل الرمز من تطبيق أداة المصادقة';
+$lang['set_two_factor_authentication_successful'] = 'تم تحديث إعدادات المصادقة الثنائية بنجاح';
+$lang['set_two_factor_authentication_failed'] = 'تعذر تحديث إعدادات المصادقة الثنائية';
+$lang['google_2fa_code_valid'] = 'تم التحقق من المصادقة بنجاح';
+$lang['google_2fa_code_invalid'] = 'تم إدخال رمز مصادقة غير صالح ، حاول مرة أخرى.';
+$lang['google_2fa_scan_qr_guide'] = 'امسح QR أدناه باستخدام تطبيق Google Authenticator على جهازك المحمول ، بعد ذلك املأ الحقل أدناه بالرمز الذي تم إنشاؤه في التطبيق';
+$lang['google_2fa_manul_input_secret'] = 'مفتاح سري للإدخال اليدوي';
 
 # Version 5.0.1
-$lang['templates']                                   = 'Templates';
-$lang['add_template']                                = 'Add Template';
-$lang['edit_template']                               = 'Edit Template';
-$lang['template_added']                              = 'Template added successfully';
-$lang['template_updated']                            = 'Template updated successfully';
-$lang['template_name']                               = 'Template Title';
-$lang['template_content']                            = 'Template Content';
-$lang['insert_template']                             = 'Insert';
-$lang['items_table_amounts_exclude_currency_symbol'] = 'Exclude currency symbol from items table Amount';
+$lang['templates'] = 'القوالب';
+$lang['add_template'] = 'أضف قالبًا';
+$lang['edit_template'] = 'تحرير القالب';
+$lang['template_added'] = 'تمت إضافة القالب بنجاح';
+$lang['template_updated'] = 'تم تحديث القالب بنجاح';
+$lang['template_name'] = 'عنوان النموذج';
+$lang['template_content'] = 'محتوى النموذج';
+$lang['insert_template'] = 'إدراج';
+$lang['items_table_amounts_exclude_currency_symbol'] = 'استبعاد رمز العملة من جدول العناصر المبلغ';
 
-$lang['multiplies_of']               = 'Multiplies of';
-$lang['round_off_task_timer_option'] = 'Round off task timer';
-$lang['task_timer_dont_round_off']   = 'Don\'t round off';
-$lang['task_timer_round_up']         = 'Round up';
-$lang['task_timer_round_down']       = 'Round down';
-$lang['task_timer_round_nearest']    = 'Round to nearest';
-$lang['calendar_task_reminder']      = 'Task Reminder';
-$lang['projects_chart']              = 'Projects Chart';
-$lang['overdue_by_days']             = 'OVERDUE BY %s DAYS';
-
-$lang['two_checkout_payment_processing'] = 'Payment is been processed,you will be notified if successful';
-$lang['two_checkout_payment_cancelled']  = 'Payment Cancelled';
-$lang['two_checkout_merchant_code']      = 'Merchant Code';
-$lang['two_checkout_secret_Key']         = 'Secret Code';
-$lang['two_gateway_webhook_notice']      = 'The IPN Endpoint for 2Checkout is ( %s )';
-$lang['something_went_wrong']            = 'Something went wrong. Try again';
-$lang['imap_folder']                     = 'Folder';
-$lang['retrieve_folders']                = 'Retrieve Folders';
-$lang['email_to_ticket_config']          = 'Email to ticket configuration';
+$lang['multiplies_of'] = 'مضاعفات';
+$lang['round_off_task_timer_option'] = 'تقريب المهمة الموقت';
+$lang['task_timer_dont_round_off'] = 'لا تقرب';
+$lang['task_timer_round_up'] = 'تقريب لاعلى';
+$lang['task_timer_round_down'] = 'تقريب لادنى';
+$lang['task_timer_round_nearest'] = 'تقريب لاقرب';
+$lang['calendar_task_reminder'] = 'تذكير المهمة';
+$lang['projects_chart'] = 'مخطط الخدمات';
+$lang['overdue_by_days'] = 'تجاوز بمقدار %s أيام';
+$lang['Applied_to_the_Timesheets'] = 'يتم تطبيقه على تقرير النظرة العامة على سجلات الدوام وعند إصدار فواتير لمهمة / خدمة.';
+$lang['two_checkout_payment_processing'] = 'تمت معالجة الدفع ، وسيتم إخطارك في حالة نجاحها';
+$lang['two_checkout_payment_cancelled'] = 'تم إلغاء الدفع';
+$lang['two_checkout_merchant_code'] = 'كود التاجر';
+$lang['two_checkout_secret_Key'] = 'الرمز السري';
+$lang['two_gateway_webhook_notice'] = 'The IPN Endpoint for 2Checkout is ( %s )';
+$lang['something_went_wrong'] = 'هناك خطأ ما. حاول مرة أخرى';
+$lang['imap_folder'] = 'مجلد';
+$lang['retrieve_folders'] = 'استرجاع المجلدات';
+$lang['email_to_ticket_config'] = 'تكوين البريد الإلكتروني للتذكرة';
 
 # Version 2.8.0
-$lang['enable_support_menu_badges']     = 'تفعيل شارة عنصر قائمة الدعم ';
-$lang['item_copy_success']              = 'تم نسخ العنصر بنجاح';
-$lang['item_copy_fail']                 = 'فشل في نسخ العنصر';
+$lang['enable_support_menu_badges'] = 'تفعيل شارة عنصر قائمة الدعم ';
+$lang['item_copy_success'] = 'تم نسخ العنصر بنجاح';
+$lang['item_copy_fail'] = 'فشل في نسخ العنصر';
 $lang['attach_invoice_to_payment_receipt_email'] = 'إرفاق الفاتورة بتنسيق PDF عند إرسال إيصال الدفع بالبريد الإلكتروني';
 
-$lang['estimate_request']                       = 'طلب عرض سعر';
-$lang['estimate_requests']                      = 'طلبات عروض الأسعار';
-$lang['estimate_request_form']                  = 'نموذج طلب عرض السعر';
+$lang['estimate_request'] = 'طلب عرض سعر';
+$lang['estimate_requests'] = 'طلبات عروض الأسعار';
+$lang['estimate_request_form'] = 'نموذج طلب عرض السعر';
 $lang['acs_estimate_request']                   = 'طلب عرض سعر';
 $lang['acs_estimate_request_forms']             = 'النماذج';
 $lang['estimate_request_forms']             = 'نماذج طلبات عروض الأسعار';
@@ -3291,42 +3308,67 @@ $lang['estimate_request_assigned_to_staff']     = 'تم تخصيص طلب عرض
 $lang['activity_due_reminder_is_sent']          = 'أصبحت الفاتورة المرسلة من %s بمثابة تذكير مستحق';
 $lang['invoice_due_notice_before']              = 'إرسال تذكير بالوقت المحدد قبل X أيام من تاريخ الاستحقاق';
 $lang['overdue_notices']                        = 'التنبيهات المتأخرة';
-$lang['invoice_overdue_notices_info']           = 'يتم إرسال تنبيهات التأخير عندما تصبح الفاتورة متأخرة.';
-$lang['due_reminders']                          = 'التذكيرات المستحقة';
-$lang['due_reminders_for_invoices_info']        = 'يتم إرسال التذكيرات المستحقة إلى الفواتير غير المدفوعة والمدفوعة جزئيًا كتذكير للعميل بدفع الفاتورة قبل استحقاقها.';
-$lang['expenses_list_made_payment_by']          = 'تم الدفع بواسطة %s';
+$lang['invoice_overdue_notices_info'] = 'يتم إرسال تنبيهات التأخير عندما تصبح الفاتورة متأخرة.';
+$lang['due_reminders'] = 'التذكيرات المستحقة';
+$lang['due_reminders_for_invoices_info'] = 'يتم إرسال التذكيرات المستحقة إلى الفواتير غير المدفوعة والمدفوعة جزئيًا كتذكير للعميل بدفع الفاتورة قبل استحقاقها.';
+$lang['expenses_list_made_payment_by'] = 'تم الدفع بواسطة %s';
 
 # Version 2.8.2
-$lang['hide_task_checklist_items_completed']          = 'إخفاء العناصر المكتملة';
-$lang['show_task_checklist_items_completed']          = 'إظهار العناصر المكتملة %s';
-$lang['task_checklist_assign']                        = 'الموظف المعين';
-$lang['task_checklist_assigned']                      = 'تخصيص إلى %s';
-$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
-$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+$lang['hide_task_checklist_items_completed'] = 'إخفاء العناصر المكتملة';
+$lang['show_task_checklist_items_completed'] = 'إظهار العناصر المكتملة %s';
+$lang['task_checklist_assign'] = 'الموظف المعين';
+$lang['task_checklist_assigned'] = 'تخصيص إلى %s';
 
-$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
-$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
-
-$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
-
-$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
-
-$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
-$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
-
-$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
-$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
-
-$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
-$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
-
-$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
-$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
-
-$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
-
-$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['sms_invoice_overdue_notice'] = "إشعار بفاتورة متأخرة";
+$lang['sms_invoice_due_notice'] = 'إشعار استحقاق الفاتورة';
+$lang['sms_trigger_when_invoice_due_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار استحقاق الفاتورة إلى جهات اتصال العميل.';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = "يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.";
+$lang['sms_invoice_payment_recorded'] = "تسجيل دفعة على الفاتورة";
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = "يتم تشغيله عند تسجيل دفع الفاتورة.";
+$lang['sms_estimate_expiration_reminder'] = "تذكير بانتهاء صلاحية عرض الاتعاب";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.";
+$lang['sms_proposal_expiration_reminder'] = "تذكير بانتهاء صلاحية العطاء";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.";
+$lang['sms_new_comment_on_proposal_to_customer'] = "تعليق جديد على العطاء (للعميل)";
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = "يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).";
+$lang['sms_new_comment_on_proposal_to_staff'] = "تعليق جديد على العطاء (لفريق العمل)";
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = "يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.";
+$lang['sms_new_comment_on_contract_to_customer'] = "تعليق جديد على العقد (للعميل)";
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = "يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.";
+$lang['sms_new_comment_on_contract_to_staff'] = "تعليق جديد على العقد (لفريق العمل)";
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = "يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.";
+$lang['sms_contract_expiration_reminder'] = "تذكير بانتهاء العقد";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = "يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.";
+$lang['sms_staff_reminder'] = "تذكيرات فريق العمل";
 $lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";
+$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_api_key_trans'] = "مفتاح API";
+$lang['sms_babil_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_sender_id_trans'] = "معرف المرسل";
+$lang['sms_msg91_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن وكلائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"%s\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class=\'hr-10\' />";
+$lang['sms_appointment_approved_Sent_to_contact'] = "الموافقة على الموعد (مرسلة إلى جهة الاتصال)";
+$lang['sms_trigger_when_appointment_is_approved'] = "يتم تشغيله عند الموافقة على الموعد ، سيتم إرسال SMS إلى رقم جهة الاتصال.";
+$lang['sms_trigger_when_appointment_is_cancelled'] = "يتم تشغيله عند إلغاء الموعد ، سيتم إرسال الرسائل القصيرة إلى رقم جهة الاتصال.";
+$lang['sms_appointment_reminder_Sent_to_contact'] = "تذكير بالموعد (مرسلة إلى جهة الاتصال)";
+$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = "يتم تشغيله عندما يتم تعيين تذكير قبل التاريخ عند إنشاء الموعد ، سيتم إرسال SMS إلى جهات الاتصال.";
+
+# Version 2.8.3
+$lang['projects_send_contact_notification'] = 'إرسال التنبيهات إلى جهات الاتصال';
+$lang['project_send_all_contacts_with_notifications_enabled'] = 'لجميع جهات الاتصال مع تمكين التنبيهات للخدمات';
+$lang['project_do_not_send_contacts_notifications'] = 'لا تقم بإرسال تنبيهات';
+$lang['project_send_specific_contacts_with_notification'] = 'جهات اتصال محددة';
+$lang['project_contacts_to_notify'] = 'إختبر جهة إتصال للتنبيه';
+$lang['contract_signed_by'] = 'إسم الموقع';
+$lang['contract_signed_date'] = 'تاريخ التوقيع';
+$lang['contract_signed_ip'] = 'عنوان IP';
+$lang['show_estimate_request_in_customers_area'] = 'إظهار رابط طلب عرض السعر في منطقة العملاء؟';
+$lang['customers_estimate_request_link_text'] = 'طلب عرض سعر';
+$lang['total_expenses_deleted'] = 'إجمالي المصروفات المحذوفة: s%';
+$lang['estimate_convert_to_project'] = 'التحويل إلى خدمة';
+$lang['estimate_items_convert_to_tasks'] = 'العناصر التي سيتم تحويلها إلى مهام';
+$lang['Share_direct_link'] = "مشاركة الرابط المباشر";
+$lang['permission_create_milestones'] = "إضافة مراحل خطة العمل";
+$lang['permission_edit_milestones'] = "تعديل مراحل خطة العمل";
+$lang['permission_delete_milestones'] = "حذف مراحل خطة العمل";
+$lang['custom_field_add_edit_default_value'] = "القيمة الإفتراضية";

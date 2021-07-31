@@ -99,7 +99,7 @@ $lang['appointment_pending_cancellation'] = 'Pending Cancellation';
 $lang['appointment_no_staff_members'] = 'No staff members were found, you should add staff member and reload this view in order to select a responsible person for new appointments submitted via iFrame form.';
 $lang['appointment_request_cancellation'] = 'Client has requested appointment cancellation';
 
-# Version 1.1
+// Version 1.1
 $lang['appointly_schedule_new_appointment'] = 'Schedule Appointment';
 $lang['appointly_allow_non_logged_clients_appointment'] = 'Allow non-logged clients to be able to request new appointment via clients login area';
 $lang['appointly_show_appointments_menu_item_in_clients_area'] = 'Show request appointment menu item in clients area (If logged in)';
@@ -113,7 +113,7 @@ $lang['appointly_reminders_sent'] = 'Appointment reminders has been sent to all 
 $lang['appointment_send_early_reminders_label'] = 'Send Early Reminders';
 $lang['appointments_admin_label'] = 'Administrator';
 $lang['appointments_staff_label'] = 'Staff';
-$lang['appointment_manually_send_reminders_info'] = 'Manually send early reminders to all staff attendees and contact. Sending early reminders will not affect last reminder notification date.';
+$lang['appointment_manually_send_reminders_info'] = 'Manually send early reminders to all attendees. Sending early reminders will not affect last reminder notification date.';
 $lang['appointment_your_settings'] = 'Your Appointments Settings';
 $lang['appointment_appointments_dashboard'] = 'Dashboard';
 $lang['appointments_no_delete_permissions'] = 'This appointment was not created by you, unable to delete';
@@ -130,7 +130,7 @@ $lang['appointments_type_added_successfully'] = 'New appointment type added succ
 $lang['appointments_type_deleted_successfully'] = 'Appointment type deleted successfully';
 $lang['appointment_preview_url_label'] = 'Preview';
 
-# Version 1.1.1
+// Version 1.1.1
 $lang['appointments_applies_for_clients'] = '(applies only for clients)';
 $lang['appointment_cancellation_description_label'] = 'Cancellation reason';
 $lang['appointment_add_to_google_calendar'] = 'Add to Google Calendar';
@@ -159,12 +159,11 @@ $lang['appointment_send_an_sms'] = 'Send and SMS';
 $lang['appointment_call_number'] = 'Call number';
 $lang['appointments_your_settings'] = 'Own Settings';
 
-
-# Version 1.1.2
+// Version 1.1.2
 $lang['appointments_resp_person_not_set'] = 'Appointments Responsible person is not set, please set this option in %s';
 $lang['appointly_settings_label_pointer'] = '<strong>Setup -> Settings -> Appointments</strong>';
 
-# Version 1.1.3
+// Version 1.1.3
 $lang['appointly_callbacks'] = 'Callbacks';
 $lang['appointly_recaptcha_label'] = 'Enable <strong>reCAPTCHA</strong> for Appointments external form';
 $lang['appointly_back_to_appointments'] = 'Back to Appointments';
@@ -223,7 +222,7 @@ $lang['callbacks_deleted_success'] = 'Callback deleted successfully';
 $lang['callbacks_new_note'] = 'added a new note on calback';
 $lang['callbacks_assignee_removed'] = 'Callback assigneed successfully removed';
 
-# Version 1.1.4
+// Version 1.1.4
 $lang['appointly_module_name'] = 'Appointly';
 $lang['appointments_contact_name_task'] = 'Appointment: Contact name';
 $lang['appointments_convert_to_lead'] = 'Convert Appointment to Lead';
@@ -257,7 +256,7 @@ $lang['appointment_email_not_read'] = 'Not Read';
 $lang['appointment_feedback_reuested_alert'] = 'Feedback was successfully requested, you will be notified by email if feedback is given!';
 $lang['appointment_source_leads_label'] = 'Leads (Internal)';
 
-#Version 1.1.5
+//Version 1.1.5
 $lang['appointment_add_to_outlook'] = 'Add to Outlook';
 $lang['appointment_login_to_outlook'] = 'Sign In With Outlook';
 $lang['appointment_logout_from_outlook'] = 'Sign Out from Outlook';
@@ -273,7 +272,7 @@ $lang['appointment_leave_a_comment'] = 'Do you want to leave a comment';
 $lang['appointment_redirect_url_logout'] = 'Outlook Authorization and Redirect URI';
 $lang['appointment_outlook_api_label'] = 'Outlook Calendar API';
 $lang['appointment_outlook_client_id'] = 'Application (client) ID';
-$lang['appointment_google_meet_connect_message'] = 'Send email to client and attendees and ask to connect via Google Meet';
+$lang['appointment_google_meet_connect_message'] = 'Send email to attendees and ask to connect via Google Meet';
 $lang['appointment_want_to_go_back'] = 'Back to Dashboard';
 $lang['appointly_current_version'] = 'Current module version: ';
 $lang['appointment_outlook_not_added_yet'] = 'Seems like this appointment is not added to any staff members Outlook Calendar. Would you like to add this appointment to your Outlook Calendar?';
@@ -284,7 +283,7 @@ $lang['appointment_notes_updated'] = 'Appointment notes successfully updated';
 $lang['appointment_viewing_notes'] = 'Viewing notes for appointment';
 $lang['appointment_google_meet_modal_custom_label'] = 'Invite staff and clients to Google Meet via Email';
 
-# Version 1.1.6
+// Version 1.1.6
 $lang['appointly_integrations'] = 'Integrations';
 $lang['appointments_table_calendar'] = 'Added to Calendars';
 $lang['appointment_not_added_to_calendars_yet'] = 'Not added to any calendar yet.';
@@ -297,5 +296,20 @@ $lang['appointment_mark_as_cancelled'] = 'Cancelled';
 $lang['appointment_mark_as_finished'] = 'Finished';
 $lang['appointment_marked_as_approved'] = 'Appointment was marked as approved';
 
-# Version 1.1.8
+// Version 1.1.8
 $lang['appointment_menu_form_link'] = 'Form Info';
+
+# Version 1.1.9
+$lang['appointment_label'] = 'Appointment';
+$lang['appointment_create_href'] = '| Create Appointment';
+$lang['appointment_create_cle'] = 'Contact, Lead, External';
+$lang['appointment_staff_meeting'] = 'Staff Meeting';
+$lang['appointment_internal_staff'] = 'Internal Staff';
+$lang['appointment_google_maps'] = 'Open in Google Maps';
+$lang['appointment_ism_label'] = 'Internal Staff Meeting';
+$lang['appointment_create_label'] = 'Create';
+$lang['appointment_recurring_re_created'] = 'Recurring appointment was recreated';
+$lang['appointment_recurring'] = 'Recurring';
+
+# Version 1.2.0
+$lang['appointly_view_all_in_calendar'] = 'Allow Responsible person to view all appointments in Calendar';

@@ -77,29 +77,69 @@
                                 </optgroup>
                                 <optgroup label="<?php echo _l('legal_services_phases'); ?>">
                                     <?php foreach ($legal_services_phases as $phase): ?>
-                                        <option data-action="hide" value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
+                                        <option data-action="hide"
+                                                value="<?php echo $phase->slug . '_' . get_legal_service_slug_by_id($phase->service_id); ?>" <?php if (isset($custom_field) && $custom_field->fieldto == $phase->slug . '_' . get_legal_service_slug_by_id($phase->service_id)) {
+                                            echo 'selected';
+                                        } ?>><?php echo $phase->name; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>
                           </div>
-                            <div class="clearfix"></div>
-                            <?php $value = (isset($custom_field) ? $custom_field->name : ''); ?>
-                            <?php echo render_input('name','custom_field_name',$value); ?>
-                           <div class="select-placeholder form-group">
-                                <label for="type"><?php echo _l('custom_field_add_edit_type'); ?></label>
-                            <select name="type" id="type" class="selectpicker"<?php if(isset($custom_field) && total_rows(db_prefix().'customfieldsvalues',array('fieldid'=>$custom_field->id,'fieldto'=>$custom_field->fieldto)) > 0){echo ' disabled';} ?> data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-hide-disabled="true">
+                        <div class="clearfix"></div>
+                        <?php $value = (isset($custom_field) ? $custom_field->name : ''); ?>
+                        <?php echo render_input('name', 'custom_field_name', $value); ?>
+                        <div class="select-placeholder form-group">
+                            <label for="type"><?php echo _l('custom_field_add_edit_type'); ?></label>
+                            <select name="type" id="type"
+                                    class="selectpicker"<?php if (isset($custom_field) && total_rows(db_prefix() . 'customfieldsvalues', array('fieldid' => $custom_field->id, 'fieldto' => $custom_field->fieldto)) > 0) {
+                                echo ' disabled';
+                            } ?> data-width="100%"
+                                    data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"
+                                    data-hide-disabled="true">
                                 <option value=""></option>
-                                <option value="input" <?php if(isset($custom_field) && $custom_field->type == 'input'){echo 'selected';} ?>>Input</option>
-                                <option value="number" <?php if(isset($custom_field) && $custom_field->type == 'number'){echo 'selected';} ?>>Number</option>
-                                <option value="textarea" <?php if(isset($custom_field) && $custom_field->type == 'textarea'){echo 'selected';} ?>>Textarea</option>
-                                <option value="select" <?php if(isset($custom_field) && $custom_field->type == 'select'){echo 'selected';} ?>>Select</option>
-                                <option value="multiselect" <?php if(isset($custom_field) && $custom_field->type == 'multiselect'){echo 'selected';} ?>>Multi Select</option>
-                                <option value="checkbox" <?php if(isset($custom_field) && $custom_field->type == 'checkbox'){echo 'selected';} ?>>Checkbox</option>
-                                <option value="date_picker" <?php if(isset($custom_field) && $custom_field->type == 'date_picker'){echo 'selected';} ?>>Date Picker</option>
-                                <option value="date_picker_time" <?php if(isset($custom_field) && $custom_field->type == 'date_picker_time'){echo 'selected';} ?>>Datetime Picker</option>
-                                <option value="colorpicker" <?php if(isset($custom_field) && $custom_field->type == 'colorpicker'){echo 'selected';} ?>>Color Picker</option>
-                                <option value="link" <?php if(isset($custom_field) && $custom_field->type == 'link'){echo 'selected';} ?><?php if(isset($custom_field) && $custom_field->fieldto == 'items'){echo 'disabled';} ?>>Hyperlink</option>
+                                <option value="input" <?php if (isset($custom_field) && $custom_field->type == 'input') {
+                                    echo 'selected';
+                                } ?>>Input
+                                </option>
+                                <option value="number" <?php if (isset($custom_field) && $custom_field->type == 'number') {
+                                    echo 'selected';
+                                } ?>>Number
+                                </option>
+                                <option value="textarea" <?php if (isset($custom_field) && $custom_field->type == 'textarea') {
+                                    echo 'selected';
+                                } ?>>Textarea
+                                </option>
+                                <option value="select" <?php if (isset($custom_field) && $custom_field->type == 'select') {
+                                    echo 'selected';
+                                } ?>>Select
+                                </option>
+                                <option value="multiselect" <?php if (isset($custom_field) && $custom_field->type == 'multiselect') {
+                                    echo 'selected';
+                                } ?>>Multi Select
+                                </option>
+                                <option value="checkbox" <?php if (isset($custom_field) && $custom_field->type == 'checkbox') {
+                                    echo 'selected';
+                                } ?>>Checkbox
+                                </option>
+                                <option value="date_picker" <?php if (isset($custom_field) && $custom_field->type == 'date_picker') {
+                                    echo 'selected';
+                                } ?>>Date Picker
+                                </option>
+                                <option value="date_picker_time" <?php if (isset($custom_field) && $custom_field->type == 'date_picker_time') {
+                                    echo 'selected';
+                                } ?>>Datetime Picker
+                                </option>
+                                <option value="colorpicker" <?php if (isset($custom_field) && $custom_field->type == 'colorpicker') {
+                                    echo 'selected';
+                                } ?>>Color Picker
+                                </option>
+                                <option value="link" <?php if (isset($custom_field) && $custom_field->type == 'link') {
+                                    echo 'selected';
+                                } ?><?php if (isset($custom_field) && $custom_field->fieldto == 'items') {
+                                    echo 'disabled';
+                                } ?>>Hyperlink
+                                </option>
                             </select>
                            </div>
                             <div class="clearfix"></div>
@@ -108,6 +148,33 @@
                                 <?php $value = (isset($custom_field) ? $custom_field->options : ''); ?>
                                 <?php echo render_textarea('options','custom_field_add_edit_options',$value,array('rows'=>3)); ?>
                             </div>
+                           <div id="default-value-field">
+                            <?php
+                                $value = (isset($custom_field) ? $custom_field->default_value : '');
+
+                                echo render_textarea(
+                                    isset($custom_field) && $custom_field->type === 'textarea' ? 'default_value' : '',
+                                    _l('custom_field_add_edit_default_value'),
+                                    $value,
+                                    [],
+                                    [],
+                                    'default-value-textarea-input' . (isset($custom_field) && ($custom_field->type !== 'textarea' || $custom_field->type === 'link') ? ' hide' : ''),
+                                    'default-value'
+                                );
+
+                                echo render_input(
+                                    isset($custom_field) && !in_array($custom_field->type, ['textarea', 'link']) ? 'default_value' : '',
+                                    _l('custom_field_add_edit_default_value'),
+                                    $value,
+                                    'text',
+                                    [],
+                                    [],
+                                    'default-value-text-input' . (isset($custom_field) && ($custom_field->type == 'link' || $custom_field->type === 'textarea') ? ' hide' : ''),
+                                    'default-value'
+                                );
+                            ?>
+                           </div>
+                            <div id="default-value-error" class="hide alert alert-danger"></div>
                             <?php $value = (isset($custom_field) ? $custom_field->field_order : ''); ?>
                             <?php echo render_input('field_order','custom_field_add_edit_order',$value,'number'); ?>
                             <div class="form-group">
@@ -117,7 +184,6 @@
                                     <input type="number" max="12" class="form-control" name="bs_column" id="bs_column" value="<?php if(!isset($custom_field)){echo 12;} else{echo $custom_field->bs_column;} ?>">
                                 </div>
                             </div>
-                            <div id="without_phases">
                             <div class="checkbox checkbox-primary">
                                 <input type="checkbox" name="disabled" id="disabled" <?php if(isset($custom_field) && $custom_field->active == 0){echo 'checked';} ?>>
                                 <label for="disabled"><?php echo _l('custom_field_add_edit_disabled'); ?></label>
@@ -156,8 +222,7 @@
                                 <input type="checkbox" value="1" name="show_on_ticket_form" id="show_on_ticket_form" <?php if(isset($custom_field) && $custom_field->show_on_ticket_form == 1){echo 'checked';} ?>>
                                 <label for="show_on_ticket_form"><?php echo _l('show_on_ticket_form'); ?></label>
                             </div>
-                            </div>
-                            <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+                            <button type="submit" class="btn btn-info pull-right" id="submitForm"><?php echo _l('submit'); ?></button>
                             <?php echo form_close(); ?>
                         </div>
                     </div>
@@ -170,40 +235,47 @@
 var pdf_fields = <?php echo json_encode($pdf_fields); ?>;
 var client_portal_fields = <?php echo json_encode($client_portal_fields); ?>;
 var client_editable_fields = <?php echo json_encode($client_editable_fields); ?>;
-$(function () {
-    var element = $('#fieldto').find('option:selected');
-    var myTag = element.attr("data-action");
-    if(myTag == 'hide'){
-        $('#without_phases').css("visibility", "hidden");
-    }else{
-        $('#without_phases').css("visibility", "visible");
-    }
 
-    appValidateForm($('form'), {
-        fieldto: 'required',
-        name: 'required',
-        type: 'required',
-        bs_column: 'required',
-        options: {
-            required: {
-                depends: function (element) {
-                    var type = $('#type').val();
-                    return type == 'select' || type == 'checkbox' || type == 'multiselect';
+    $(function () {
+
+        var element = $('#fieldto').find('option:selected');
+        var myTag = element.attr("data-action");
+        if (myTag == 'hide') {
+            $('#without_phases').css("visibility", "hidden");
+        } else {
+            $('#without_phases').css("visibility", "visible");
+        }
+
+        appValidateForm($('form'), {
+            fieldto: 'required',
+            name: 'required',
+            type: 'required',
+            bs_column: 'required',
+            options: {
+                required: {
+                    depends: function (element) {
+                        return ['select', 'checkbox', 'multiselect'].indexOf($('#type').val()) > -1
+                    }
                 }
             }
-        }
+        }, function (form) {
+            validateDefaultValueField().then(function (validation) {
+                if (validation.valid) {
+                    $('#fieldto,#type').prop('disabled', false);
+
+               $.post(form.action, $(form).serialize(), function(data) {
+                   window.location.href = admin_url+'custom_fields/field/'+data.id;
+               }, 'json');
+           }
+        });
+
+        return false;
     });
-    $('form').on('submit', function () {
-        $('#fieldto,#type').prop('disabled', false);
-        return true;
-    });
+
     $('select[name="fieldto"]').on('change', function () {
         var field = $(this).val();
-        if ($.inArray(field, pdf_fields) !== -1) {
-            $('.show-on-pdf').removeClass('hide');
-        } else {
-            $('.show-on-pdf').addClass('hide');
-        }
+
+        $.inArray(field, pdf_fields) !== -1 ? $('.show-on-pdf').removeClass('hide') : $('.show-on-pdf').addClass('hide');
 
         if ($.inArray(field, client_portal_fields) !== -1) {
             $('.show-on-client-portal').removeClass('hide');
@@ -226,29 +298,10 @@ $(function () {
             $('.show-on-ticket-form input').prop('checked', false);
         }
 
-        if (field == 'customers') {
-            $('.customers_field_info').removeClass('hide');
-        } else {
-            $('.customers_field_info').addClass('hide');
-        }
-
-        if (field == 'items') {
-            $('.items_field_info').removeClass('hide');
-        } else {
-            $('.items_field_info').addClass('hide');
-        }
-
-        if (field == 'company') {
-            $('.company_field_info').removeClass('hide');
-        } else {
-            $('.company_field_info').addClass('hide');
-        }
-
-        if (field == 'proposal') {
-            $('.proposal_field_info').removeClass('hide');
-        } else {
-            $('.proposal_field_info').addClass('hide');
-        }
+        field == 'customers' ? $('.customers_field_info').removeClass('hide') : $('.customers_field_info').addClass('hide');
+        field == 'items' ? $('.items_field_info').removeClass('hide') : $('.items_field_info').addClass('hide');
+        field == 'company' ? $('.company_field_info').removeClass('hide') : $('.company_field_info').addClass('hide');
+        field == 'proposal' ? $('.proposal_field_info').removeClass('hide') : $('.proposal_field_info').addClass('hide');
 
         if (field == 'company') {
             $('#only_admin').prop('disabled', true).prop('checked', false);
@@ -270,10 +323,22 @@ $(function () {
         }
         $('#type').selectpicker('refresh');
     });
+
     $('select[name="type"]').on('change', function () {
         var type = $(this).val();
         var options_wrapper = $('#options_wrapper');
         var display_inline = $('.display-inline-checkbox')
+        var default_value = $('#default-value-field');
+
+        $('textarea.default-value, input.default-value').val('');
+
+        if(type !== 'link' && type !== 'textarea'){
+            $('textarea.default-value').removeAttr('name');
+            $('input.default-value').attr('name', 'default_value');
+            $('.default-value-textarea-input').addClass('hide');
+            $('.default-value-text-input').removeClass('hide');
+        }
+
         if (type == 'select' || type == 'checkbox' || type == 'multiselect') {
             options_wrapper.removeClass('hide');
             if (type == 'checkbox') {
@@ -282,11 +347,21 @@ $(function () {
                 display_inline.addClass('hide');
                 display_inline.find('input').prop('checked', false);
             }
+        } else if(type === 'link') {
+            default_value.addClass('hide');
+        } else if(type === 'textarea') {
+            $('textarea.default-value').attr('name', 'default_value');
+            $('input.default-value').removeAttr('name');
+            $('.default-value-textarea-input').removeClass('hide');
+            $('.default-value-text-input').addClass('hide');
         } else {
             options_wrapper.addClass('hide');
             display_inline.addClass('hide');
+            default_value.removeClass('hide')
             display_inline.find('input').prop('checked', false);
         }
+
+        validateDefaultValueField();
     });
 
     $('body').on('change', 'input[name="only_admin"]', function () {
@@ -294,17 +369,119 @@ $(function () {
         $('#disalow_client_to_edit').prop('disabled', $(this).prop('checked')).prop('checked', false);
     });
 
-    $("#fieldto").change(function(){
-        var element = $(this).find('option:selected');
-        var myTag = element.attr("data-action");
-        if(myTag == 'hide'){
-            $('#without_phases').css("visibility", "hidden");
-        }else{
-            $('#without_phases').css("visibility", "visible");
-        }
-
+    $('body').on('blur', '[name="default_value"], #options', function(){
+        validateDefaultValueField();
     });
 });
+
+function validateDefaultValueField() {
+
+    var value = $('[name="default_value"]').val();
+    var type = $('#type').val();
+    var message = '';
+    var valid = jQuery.Deferred();
+    var $error = $('#default-value-error');
+    var $label = $('label[for="default_value"]');
+    $label.find('.sample').remove();
+
+    if(type == '') {
+        $error.addClass('hide');
+        return;
+    }
+
+    value = value.trim();
+
+    switch(type) {
+        case 'input':
+        case 'textarea':
+        valid.resolve({
+            valid: true,
+        });
+        break;
+        case 'number':
+            valid.resolve({
+                valid: value === '' ? true : new RegExp(/^-?(?:\d+|\d*\.\d+)$/).test(value),
+                message: 'Enter a valid number.',
+            });
+        break;
+        case 'multiselect':
+        case 'checkbox':
+        case 'select':
+        if(value === ''){
+            valid.resolve({
+                valid: true,
+            });
+        } else {
+            var defaultOptions = value.split(',')
+            .map(function(option) {
+                return option.trim();
+            }).filter(function(option) {
+                return option !== ''
+            });
+
+            if(type === 'select' && defaultOptions.length > 1) {
+                valid.resolve({
+                    valid: true,
+                    message: 'You cannot have multiple options selected on "Select" field type.',
+                });
+            } else {
+                var availableOptions = $('#options').val().split(',')
+                .map(function(option) {
+                    return option.trim();
+                }).filter(function(option) {
+                    return option !== ''
+                });
+
+                var nonExistentOptions = defaultOptions.filter(function(i) {return availableOptions.indexOf(i) < 0;});
+
+                valid.resolve({
+                    valid: nonExistentOptions.length === 0,
+                    message: nonExistentOptions.join(',') + ' options are not available in the options field.',
+                });
+            }
+        }
+
+        break;
+        case 'date_picker':
+        case 'date_picker_time':
+
+        if(value !== ''){
+            $.post(admin_url+'custom_fields/validate_default_date', {
+                date: value,
+                type: type,
+            }, function(data) {
+               valid.resolve({
+                valid: data.valid,
+                message: 'Enter date in '+ (type === 'date_picker' ? 'Y-m-d' : 'Y-m-d H:i') + ' format or English date format for the PHP "<a href=\'https://www.php.net/manual/en/function.strtotime.php\'" target="_blank">strtotime</a> function.',
+               });
+
+               if(data.valid) {
+                 $label.append(' <small class="sample">Sample: '+data.sample+'</small>');
+               }
+            }, 'json');
+        } else {
+             valid.resolve({
+                valid: true,
+            });
+        }
+
+        break;
+        case 'colorpicker':
+            valid.resolve({
+                valid: value === '' ? true : new RegExp(/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/gm).test(value),
+                message: 'Enter color in HEX format, for example: #f2dede',
+            })
+        break;
+    }
+
+    valid.done(function(validation) {
+        $('#submitForm').prop('disabled', !validation.valid);
+        validation.valid ? $error.addClass('hide') : $error.removeClass('hide');
+        $error.html(validation.message);
+    });
+
+    return valid;
+}
 </script>
 </body>
 </html>

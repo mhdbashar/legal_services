@@ -113,6 +113,8 @@ class recruitment extends AdminController {
 	public function recruitment_proposal($id = '') {
 		$this->load->model('departments_model');
 		$this->load->model('staff_model');
+		$this->load->model('currencies_model');
+		$data['base_currency'] = $this->currencies_model->get_base_currency();
 
 		$data['departments'] = $this->departments_model->get();
 		$data['positions'] = $this->recruitment_model->get_job_position();
@@ -274,6 +276,8 @@ class recruitment extends AdminController {
 	public function recruitment_campaign($id = '') {
 		$this->load->model('departments_model');
 		$this->load->model('staff_model');
+		$this->load->model('currencies_model');
+		$data['base_currency'] = $this->currencies_model->get_base_currency();
 
 		$data['rec_proposal'] = $this->recruitment_model->get_rec_proposal_by_status(2);
 		$data['departments'] = $this->departments_model->get();
@@ -297,9 +301,13 @@ class recruitment extends AdminController {
 			$data = $this->input->post();
 			$data = $this->input->post();
 			$data['cp_job_description'] = $this->input->post('cp_job_description', false);
+
 			if ($this->input->post('no_editor')) {
-				$data['cp_job_description'] = nl2br(clear_textarea_breaks($this->input->post('cp_job_description')));
+				$data['cp_job_description'] = trim(nl2br(clear_textarea_breaks($this->input->post('cp_job_description'))));
 			}
+			
+			// var_dump($data['cp_job_description']);die;
+			
 			if (!$this->input->post('cp_id')) {
 				$id = $this->recruitment_model->add_recruitment_campaign($data);
 				if ($id) {
@@ -455,12 +463,14 @@ class recruitment extends AdminController {
 
 			$data['candidate'] = $this->recruitment_model->get_candidates($id);
 
-			$data['title'] = $data['candidate']->candidate_name;
+			$data['title'] = $data['candidate']->candidate_name.' '.$data['candidate']->last_name;
 
 		} else {
 
 			$data['title'] = _l('new_candidate');
 		}
+		$this->load->model('currencies_model');
+		$data['base_currency'] = $this->currencies_model->get_base_currency();
 
 		$data['rec_campaigns'] = $this->recruitment_model->get_rec_campaign();
 		$data['skills'] = $this->recruitment_model->get_skill();
@@ -629,7 +639,6 @@ class recruitment extends AdminController {
 		if ($this->input->post()) {
 			$message = '';
 			$data = $this->input->post();
-
 			if (!$this->input->post('id')) {
 
 				$id = $this->recruitment_model->add_interview_schedules($data);
@@ -920,6 +929,7 @@ class recruitment extends AdminController {
 		$cd = $this->recruitment_model->get_candidates();
 		$html = '';
 		$count = 0;
+		$total_candidate = 0;
 		foreach ($list_cd as $l) {
 			if ($count == 0) {
 				$class = 'success';
@@ -939,7 +949,7 @@ class recruitment extends AdminController {
 				if ($s['id'] == $l['candidate']) {
 					$attr = 'selected';
 				}
-				$html .= '<option value="' . $s['id'] . '" ' . $attr . ' >' . $s['candidate_code'] . ' ' . $s['candidate_name'] . '</option>';
+				$html .= '<option value="' . $s['id'] . '" ' . $attr . ' >' . $s['candidate_code'] . ' ' . $s['candidate_name']. ' ' . $s['last_name'] . '</option>';
 			}
 			$html .= '</select>
                         </div>
@@ -956,9 +966,11 @@ class recruitment extends AdminController {
                         </div>
                       </div>';
 			$count++;
+			$total_candidate++;
 		}
 		echo json_encode([
 			'html' => $html,
+			'total_candidate' => $total_candidate
 		]);
 	}
 
@@ -1117,7 +1129,9 @@ class recruitment extends AdminController {
 	public function get_list_criteria_edit($id) {
 		$list = $this->recruitment_model->get_list_criteria_edit($id);
 		echo json_encode([
-			'html' => $list,
+			'html' => $list['html'],
+			'group_criteria' => $list['group_criteria'],
+			'evaluation_criteria' => $list['evaluation_criteria'],
 		]);
 	}
 
@@ -1192,8 +1206,8 @@ class recruitment extends AdminController {
 				$id = $data['id'];
 				unset($data['id']);
 				$success = $this->recruitment_model->update_setting_tranfer($data, $id);
+				handle_rec_set_transfer_record($id);
 				if ($success) {
-					handle_rec_set_transfer_record($id);
 					$message = _l('updated_successfully', _l('setting_tranfer'));
 					set_alert('success', $message);
 				}
@@ -1233,6 +1247,17 @@ class recruitment extends AdminController {
 		$data['candidate'] = $this->recruitment_model->get_candidates($candidate);
 		$data['title'] = _l('tranfer_personnel');
 		$data['roles'] = $this->roles_model->get();
+
+		if(rec_get_status_modules('hr_profile')){
+			$prefix_str = get_hr_profile_option('staff_code_prefix');
+			$next_number = (int) get_hr_profile_option('staff_code_number');
+			$data['staff_code'] = $prefix_str.str_pad($next_number,5,'0',STR_PAD_LEFT);
+		}else{
+			$prefix_str = 'EC';
+			$next_number = (int)$this->recruitment_model->get_last_staff_id();
+			$data['staff_code'] = $prefix_str.str_pad($next_number,5,'0',STR_PAD_LEFT);
+		}
+
 		$this->load->view('candidate_profile/transfer_to_hr', $data);
 	}
 
@@ -1243,11 +1268,9 @@ class recruitment extends AdminController {
 	 */
 	public function transfer_hr($candidate) {
 
-		$this->load->model('hrm/hrm_model');
-
 		if ($this->input->post()) {
 			$data = $this->input->post();
-			$id = $this->hrm_model->add_staff($data);
+			$id = $this->recruitment_model->rec_add_staff($data);
 			if ($id) {
 				$change = $this->recruitment_model->change_status_candidate(9, $candidate);
 				//handle_staff_profile_image_upload($id);
@@ -1258,6 +1281,7 @@ class recruitment extends AdminController {
 				redirect(admin_url('recruitment/candidate_profile'));
 			}
 		}
+		redirect(admin_url('recruitment/candidate_profile'));
 	}
 
 	/**
@@ -1311,7 +1335,7 @@ class recruitment extends AdminController {
 
 		}
 		echo json_encode([
-			'rs' => true,
+			'rs' => _l('successful_personnel_file_transfer'),
 		]);
 	}
 
@@ -1374,6 +1398,9 @@ class recruitment extends AdminController {
 	 */
 	public function get_tranfer_personnel_edit($id) {
 		$list = $this->recruitment_model->get_list_set_transfer($id);
+		//get attachment file
+		$tranfer_personnel_file = $this->recruitment_model->get_tranfer_personnel_file($id);
+
 		if (isset($list)) {
 			$description = $list->content;
 		} else {
@@ -1382,7 +1409,7 @@ class recruitment extends AdminController {
 		}
 		echo json_encode([
 			'description' => $description,
-
+			'htmlfile' => $tranfer_personnel_file['htmlfile'],
 		]);
 	}
 
@@ -1473,6 +1500,7 @@ class recruitment extends AdminController {
 		$db_fields = [];
 		$fields = [
 			'candidate_name',
+			'last_name',
 			'candidate_code',
 			'birthday',
 			'gender',
@@ -1546,8 +1574,10 @@ class recruitment extends AdminController {
 			}
 
 			if ($f == 'candidate_name') {
-				$label = _l('candidate_name');
-			} elseif ($f == 'email') {
+				$label = _l('first_name');
+			} elseif ($f == 'last_name') {
+				$label = _l('last_name');
+			}elseif ($f == 'email') {
 				$label = _l('lead_add_edit_email');
 			} elseif ($f == 'phonenumber') {
 				$label = _l('lead_add_edit_phonenumber');
@@ -2349,8 +2379,189 @@ class recruitment extends AdminController {
 		redirect(admin_url('recruitment/setting?group=industry_list'));
 	}
 
+	/**
+	 * delete transfer personnal attachment file
+	 * @param  [type] $attachment_id 
+	 * @return [type]                
+	 */
+	public function delete_transfer_personnal_attachment_file($attachment_id)
+    {
+        if (!has_permission('recruitment', '', 'delete') && !is_admin()) {
+            access_denied('recruitment');
+        }
 
+        $file = $this->misc_model->get_file($attachment_id);
+        $result = $this->recruitment_model->delete_transfer_personnal_attachment_file($attachment_id);
 
+	        if($result == true){
+	        	$message = _l('transfer_personnel_file_s');
+	        }else{
+	        	$message =  _l('transfer_personnel_file_f');
+	        }
+
+            echo json_encode([
+                'message' => $message,
+                'success' => $result,
+            ]);
+    }
+
+    /**
+     * re preview transfer personnal file
+     * @param  [type] $id     
+     * @param  [type] $rel_id 
+     * @return [type]         
+     */
+    public function re_preview_transfer_personnal_file($id, $rel_id)
+    {
+        $data['discussion_user_profile_image_url'] = staff_profile_image_url(get_staff_user_id());
+        $data['current_user_is_admin']             = is_admin();
+        $data['file'] = $this->recruitment_model->get_file($id, $rel_id);
+        if (!$data['file']) {
+            header('HTTP/1.0 404 Not Found');
+            die;
+        }
+        $this->load->view('recruitment/includes/tranfer_personnel_file', $data);
+    }
+
+    /**
+     * get candidate sample
+     * @return [type] 
+     */
+    public function get_candidate_sample()
+    {
+    	if ($this->input->is_ajax_request()) { 
+
+    		$cd = $this->recruitment_model->get_candidates();
+    		$html = '';
+    		$total_candidate = 1;
+    		$count = 0;
+
+    		$class = 'success';
+    		$class_btn = 'new_candidates';
+    		$i = 'plus';
+
+			$html .= '<div class="row col-md-12" id="candidates-item">
+                        <div class="col-md-4 form-group">
+                          <select name="candidate[' . $count . ']" onchange="candidate_infor_change(this); return false;" id="candidate[' . $count . ']" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="' . _l('ticket_settings_none_assigned') . '" required>
+                              <option value=""></option>';
+			foreach ($cd as $s) {
+				$attr = '';
+				$html .= '<option value="' . $s['id'] . '" ' . $attr . ' >' . $s['candidate_code'] . ' ' . $s['candidate_name'] .' '. $s['last_name'] . '</option>';
+			}
+			$html .= '</select>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="text" disabled="true" name="email[' . $count . ']" id="email[' . $count . ']" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                          <input type="text" disabled="true" name="phonenumber[' . $count . ']" id="phonenumber[' . $count . ']"  class="form-control" />
+                        </div>
+                        <div class="col-md-1 lightheight-34-nowrap">
+                              <span class="input-group-btn pull-bot">
+                                  <button name="add" class="btn ' . $class_btn . ' btn-' . $class . ' border-radius-4" data-ticket="true" type="button"><i class="fa fa-' . $i . '"></i></button>
+                              </span>
+                        </div>
+                      </div>';
+
+    		echo json_encode([
+				'html' => $html,
+				'total_candidate' => $total_candidate,
+			]);
+    	}
+    }
+
+    /**
+     * item print candidate
+     * @return [type] 
+     */
+    public function item_print_candidate()
+	{
+		$data = $this->input->post();
+		//delete sub folder STOCK_EXPORT
+        foreach(glob(TEMFOLDER_EXPORT_CANDIDATE . '*') as $file) { 
+        	$file_arr = explode("/",$file);
+        	$filename = array_pop($file_arr);
+
+        	if(file_exists($file)) {
+        		unlink(TEMFOLDER_EXPORT_CANDIDATE.$filename);
+        	}
+        }
+
+		$candidate_ids = $data['item_select_print_candidate'];
+    	$get_candidate_profile = $this->recruitment_model->get_candidate_profile_by_id($candidate_ids);
+
+    	$candidate_profile = $get_candidate_profile['candidate'];
+    	$candidate_literacy = $get_candidate_profile['candidate_literacy'];
+    	$candidate_experience = $get_candidate_profile['candidate_experience'];
+    	$cadidate_avatar = $get_candidate_profile['cadidate_avatar'];
+
+        foreach ($candidate_profile as $candidate) {
+        	$temp_candidate_literacy='';
+        	$temp_candidate_experience='';
+        	$temp_cadidate_avatar='';
+
+        	if(isset($candidate_literacy[$candidate['id']])){
+        		$temp_candidate_literacy = $candidate_literacy[$candidate['id']];
+        	}
+
+        	if(isset($candidate_experience[$candidate['id']])){
+        		$temp_candidate_experience = $candidate_experience[$candidate['id']];
+        	}
+
+        	if(isset($cadidate_avatar[$candidate['id']])){
+        		$temp_cadidate_avatar = $cadidate_avatar[$candidate['id']];
+        	}
+
+        	$data=[];
+        	$data['candidate'] =$candidate;
+        	$data['temp_candidate_literacy'] =$temp_candidate_literacy;
+        	$data['temp_candidate_experience'] =$temp_candidate_experience;
+        	$data['cadidate_avatar'] =$temp_cadidate_avatar;
+        	$data['rec_skill'] =$get_candidate_profile['rec_skill'];
+        	$data['job_positions'] =$get_candidate_profile['job_positions'];
+
+        	$html = $this->load->view('recruitment/candidate_profile/export_candidate_pdf', $data, true);
+
+        	$html .= '<link href="' . module_dir_url(RECRUITMENT_MODULE_NAME, 'assets/css/export_candidate_pdf.css') . '"  rel="stylesheet" type="text/css" />';
+
+        	try {
+        		$pdf = $this->recruitment_model->candidate_export_pdf($html);
+        	} catch (Exception $e) {
+        		echo html_entity_decode($e->getMessage());
+        		die;
+        	}
+
+            $this->re_save_to_dir($pdf, strtoupper(slug_it($candidate['candidate_code'].'-'.$candidate['candidate_name'].' '.$candidate['last_name'])) . '.pdf');
+        }
+
+        $this->load->library('zip');
+
+        //get list file
+        foreach(glob(TEMFOLDER_EXPORT_CANDIDATE . '*') as $file) { 
+        	$file_arr = explode("/",$file);
+        	$filename = array_pop($file_arr);
+
+            $this->zip->read_file(TEMFOLDER_EXPORT_CANDIDATE. $filename);
+        }
+
+        $this->zip->download(slug_it(get_option('companyname')) . '-candidate_profile.zip');
+        $this->zip->clear_data();
+    }
+
+    /**
+     * re save to dir
+     * @param  [type] $pdf       
+     * @param  [type] $file_name 
+     * @return [type]            
+     */
+    private function re_save_to_dir($pdf, $file_name)
+    {
+        $dir = TEMFOLDER_EXPORT_CANDIDATE;
+        
+        $dir .= $file_name;
+
+        $pdf->Output($dir, 'F');
+    }
 
 
 

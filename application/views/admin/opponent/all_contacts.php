@@ -36,7 +36,7 @@
         _l('clients_list_company'),
         _l('client_phonenumber'),
         _l('contact_position'),
-        _l('clients_list_last_login'),
+        //_l('clients_list_last_login'),
         _l('contact_active'),
       ));
        $custom_fields = get_custom_fields('contacts',array('show_on_table'=>1));

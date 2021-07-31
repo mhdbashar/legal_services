@@ -60,15 +60,15 @@
                      <label for="show_primary_contact"><?php echo _l('show_primary_contact',_l('invoices').', '._l('estimates').', '._l('payments').', '._l('credit_notes')); ?></label>
                   </div>
                </div>
-
                <div class="col-md-12">
                     <div class="form-group mtop10 no-mbot">
                         <p><?php echo _l('individual'); ?></p>
                         <div class="onoffswitch">
                            <input type="hidden" name="individual" value=<?php if(isset($client)){echo $client->individual;}else{echo '0';}  ?>><input type="checkbox" id="individual" class="onoffswitch-checkbox" <?php if(isset($client)){if($client->individual == '1'){echo 'checked';}}; ?>  onclick="this.previousSibling.value=1-this.previousSibling.value" >
-                           <label class="onoffswitch-label" for="individual" data-toggle="tooltip" title="<?php echo _l('Individual or Company'); ?>"></label>
+                           <label class="onoffswitch-label" for="individual" data-toggle="tooltip" title="<?php echo _l('Individual_or_Company'); ?>"></label>
                         </div>
                     </div>
+                   <br>
                </div>
                <div class="col-md-6">
                   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_details'); ?>"></i>

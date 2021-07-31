@@ -6,9 +6,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Eq in the tasks section there is field where this task is related eq invoice with number INV-0005
  * @param  string $type
  * @param  string $rel_id
+ * @param  array $extra
  * @return mixed
  */
-function get_relation_data($type, $rel_id = '')
+function get_relation_data($type, $rel_id = '', $extra = [])
 {
     $CI = & get_instance();
     $q  = '';
@@ -30,6 +31,10 @@ function get_relation_data($type, $rel_id = '')
             $data = $CI->clients_model->get_contact($rel_id);
         } else {
             $where_contacts = db_prefix() . 'contacts.active=1';
+            if (isset($extra['client_id']) && $extra['client_id'] != '') {
+                $where_contacts .= ' AND '. db_prefix() . 'contacts.userid='. $extra['client_id'];
+            }
+
             if ($CI->input->post('tickets_contacts')) {
                 if (!has_permission('customers', '', 'view') && get_option('staff_members_open_tickets_to_all_contacts') == 0) {
                     $where_contacts .= ' AND ' . db_prefix() . 'contacts.userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';
@@ -53,10 +58,10 @@ function get_relation_data($type, $rel_id = '')
 
      elseif ($type == 'client_cases') {
         if ($rel_id != '') {
-            $CI->load->model('LegalServices/Cases_model');
+            $CI->load->model('legalservices/Cases_model');
             $data = $CI->Cases_model->get();
         } else {
-            $CI->load->model('LegalServices/Cases_model');
+            $CI->load->model('legalservices/Cases_model');
             $data = $CI->Cases_model->get(['clientid' => $rel_id]);
         }
     }
@@ -148,25 +153,25 @@ function get_relation_data($type, $rel_id = '')
         }
     } elseif ($type == 'mycategory') {
         if ($rel_id != '') {
-            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $CI->load->model('legalservices/LegalServicesModel', 'legal');
             $data = $CI->legal->GetCategoryByServId($rel_id);
         }
     } elseif ($type == 'cat_modules') {
         if ($rel_id != '') {
-            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $CI->load->model('legalservices/LegalServicesModel', 'legal');
             $data = $CI->legal->getCatModules($rel_id);
         }
     } elseif ($type == 'childmycategory') {
         if ($rel_id != '') {
-            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $CI->load->model('legalservices/LegalServicesModel', 'legal');
             $data = $CI->legal->GetChildByCategory($rel_id);
         }
     }elseif ($type == 'mycourts') {
-        $CI->load->model('LegalServices/Courts_model', 'courts');
+        $CI->load->model('legalservices/Courts_model', 'courts');
         $data = $CI->courts->get_all_courts();
     }elseif ($type == 'myjudicial') {
         if ($rel_id != '') {
-            $CI->load->model('LegalServices/Courts_model', 'courts');
+            $CI->load->model('legalservices/Courts_model', 'courts');
             $data = $CI->courts->get_judicial_of_courts($rel_id)->result();
         }
     }elseif ($type == 'representative') {
@@ -191,10 +196,10 @@ function get_relation_data($type, $rel_id = '')
         }
         $data = $CI->clients_model->get($rel_id, $where_clients);
     }elseif ($type == 'cases') {
-        $CI->load->model('LegalServices/Cases_model');
+        $CI->load->model('legalservices/Cases_model');
         $data = $CI->Cases_model->get();
     }else{
-        $CI->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $CI->load->model('legalservices/LegalServicesModel' , 'legal');
         if (strpos($type, 'session') !== false) {
             $pure_slug = substr($type,8);
             $where = ['service_session_link' => 1];
@@ -204,13 +209,15 @@ function get_relation_data($type, $rel_id = '')
         }
         $service_id = $CI->legal->get_service_id_by_slug($pure_slug);
         if($service_id == 1){
-            $CI->load->model('LegalServices/Cases_model', 'case_serv');
+            $CI->load->model('legalservices/Cases_model', 'case_serv');
             $data = $CI->case_serv->get($rel_id);
         }else{
-            $CI->load->model('LegalServices/Other_services_model', 'other_serv');
+            $CI->load->model('legalservices/Other_services_model', 'other_serv');
             $data = $CI->other_serv->get($service_id, $rel_id, $where);
         }
     }
+
+    $data = hooks()->apply_filters('get_relation_data', $data, compact('type', 'rel_id', 'extra'));
 
     return $data;
 }
@@ -405,7 +412,7 @@ function get_relation_values($relation, $type)
 
         $link = admin_url('projects/view/' . $id);
     }else {
-        $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+        $CI->load->model('legalservices/LegalServicesModel', 'legal');
         $service_id = $CI->legal->get_service_id_by_slug($type);
         if (!empty($service_id)) {
             if (is_array($relation)) {
@@ -514,6 +521,8 @@ function init_relation_options($data, $type, $rel_id = '')
         $_data[] = $relation_values;
         //  echo '<option value="' . $relation_values['id'] . '"' . $selected . '>' . $relation_values['name'] . '</option>';
     }
+
+    $_data = hooks()->apply_filters('init_relation_options', $_data, compact('data', 'type', 'rel_id'));
 
     return $_data;
 }

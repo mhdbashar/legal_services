@@ -13,21 +13,11 @@
       <tbody>
         <?php
           $row_index = 1;
-          $total = 0;
+          $data = $this->accounting_model->get_html_statement_of_changes_in_equity($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], 0, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total = $data['total_amount'];
           ?>
-            <?php foreach ($data_report['data']['owner_equity'] as $key => $value) { 
-              $total += $value['amount'];
-              $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo app_format_money($value['amount'], $currency->name); ?> 
-              </td>
-            </tr>
-            <?php } $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total treegrid-parent-10000">
               <td class="parent"><?php echo _l('total_equity'); ?></td>
               <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?> </td>

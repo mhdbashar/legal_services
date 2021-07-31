@@ -58,7 +58,7 @@ foreach ($rResult as $aRow) {
      $label_class = 'primary';
      $tooltip = '';
 
-     // Check with Perfex CRM default timezone configured in Setup->Settings->Localization
+     // Check with Babil CRM default timezone configured in Setup->Settings->Localization
      if (date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i')) {
           $label_class = 'danger';
           $tooltip = 'data-toggle="tooltip" title="' . _l('appointment_missed') . '"';

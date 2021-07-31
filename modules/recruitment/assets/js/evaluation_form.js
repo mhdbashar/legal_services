@@ -1,8 +1,15 @@
+
+var Input_totall;
+var addnewkpi;
 (function($) {
     "use strict";    
+
+
+
     window.addEventListener('load',function(){
+        addnewkpi = $('.new-kpi-al').children().length;
+
        $("body").on('click', '.new_kpi', function() {
-        var addnewkpi = $('.new-kpi-al').children().length;
         console.log(addnewkpi);
           //get position row
           var idrow = $(this).parents('.new-kpi-al').find('.get_id_row').attr("value");
@@ -29,10 +36,11 @@
             $(this).parents('#new_kpi').remove();
         });
 
+        Input_totall = $('.new-kpi-group-al').children().length;
+
        $("body").on('click', '.new_kpi_group', function() {
              if ($(this).hasClass('disabled')) { return false; }
 
-            var Input_totall = $('.new-kpi-group-al').children().length;
             var addMore = 0;
 
             var newkpigroup = $('.new-kpi-group-al').find('#new_kpi_group').eq(0).clone().appendTo('.new-kpi-group-al');
@@ -101,6 +109,9 @@ function edit_evaluation_form(invoker,id){
         response = JSON.parse(response);
         $('#list_criteria').html('');
         $('#list_criteria').append(response.html);
+        Input_totall = response.group_criteria;
+        addnewkpi = response.evaluation_criteria;
+
         $('.selectpicker').selectpicker({
         });
 

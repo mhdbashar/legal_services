@@ -64,12 +64,13 @@ var addMoreWorkexperienceInputKey = $('.work_experience input[name*="from_date"]
       newattachment.find('input[id="reason_quitwork[0]"]').attr('name', 'reason_quitwork[' + addMoreWorkexperienceInputKey + ']').val('');
       newattachment.find('input[id="reason_quitwork[0]"]').attr('id', 'reason_quitwork[' + addMoreWorkexperienceInputKey + ']').val('');
 
-      newattachment.find('input[id="job_description[0]"]').attr('name', 'job_description[' + addMoreWorkexperienceInputKey + ']').val('');
-      newattachment.find('input[id="job_description[0]"]').attr('id', 'job_description[' + addMoreWorkexperienceInputKey + ']').val('');
+      newattachment.find('textarea[id="job_description[0]"]').attr('name', 'job_description[' + addMoreWorkexperienceInputKey + ']').val('');
+      newattachment.find('textarea[id="job_description[0]"]').attr('id', 'job_description[' + addMoreWorkexperienceInputKey + ']').val('');
        
       newattachment.find('button[name="add"] i').removeClass('fa-plus').addClass('fa-minus');
       newattachment.find('button[name="add"]').removeClass('new_work_experience').addClass('remove_work_experience').removeClass('btn-success').addClass('btn-danger');
       init_datepicker();
+
       addMoreWorkexperienceInputKey++;
 
   });
@@ -226,3 +227,4 @@ function formatCurrency(input, blur) {
   caret_pos = updated_len - original_len + caret_pos;
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
+

@@ -22,7 +22,8 @@
     <th><?php echo _l('invoice_payments_table_date_heading'); ?></th>
     <th><?php echo _l('acc_amount'); ?></th>
     <th><?php echo _l('customer'); ?></th>
-    <th><?php echo _l('status'); ?></th>
+    <th><?php echo _l('mapping_status'); ?></th>
+    <th><?php echo _l('acc_invoice_status'); ?></th>
     <th><?php echo _l('acc_convert'); ?></th>
   </thead>
   <tbody>

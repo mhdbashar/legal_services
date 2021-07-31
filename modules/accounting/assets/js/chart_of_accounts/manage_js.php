@@ -159,15 +159,21 @@ function edit_account(id) {
 
       $('select[name="account_type_id"]').val(response.account_type_id).change();
       $('select[name="account_detail_type_id"]').val(response.account_detail_type_id).change();
-      $('select[name="parent_account"]').val(response.parent_account).change();
-
+      if(response.parent_account != 0){
+        $('select[name="parent_account"]').val(response.parent_account).change();
+      }else{
+        $('select[name="parent_account"]').val('').change();
+      }
+      $('input[name="number"]').val(response.number);
       $('input[name="name"]').val(response.name);
       $('input[name="id"]').val(id);
       $('input[name="balance"]').val(response.balance);
       $('input[name="balance_as_of"]').val(response.balance_as_of);
 
-      if(response.description != '' && response.description != null){
+      if(response.description != null){
           tinyMCE.activeEditor.setContent(response.description);
+      }else{
+            tinyMCE.activeEditor.setContent('');
       }
       $('textarea[name="description"]').val(response.description);
       if(response.balance > 0){
@@ -183,7 +189,8 @@ function edit_account(id) {
 function account_form_handler(form) {
     "use strict";
     $('#account-modal').find('button[type="submit"]').prop('disabled', true);
-
+    tinyMCE.triggerSave();
+    
     var formURL = form.action;
     var formData = new FormData($(form)[0]);
 
@@ -282,7 +289,7 @@ function init_account_table() {
   if ($.fn.DataTable.isDataTable('.table-accounts')) {
     $('.table-accounts').DataTable().destroy();
   }
-  initDataTable('.table-accounts', admin_url + 'accounting/accounts_table', [0], [0], fnServerParams,[1, 'desc']);
+  initDataTable('.table-accounts', admin_url + 'accounting/accounts_table', [0], [0,1,2,3,4,5,6,7,8], fnServerParams, []);
   $('.dataTables_filter').addClass('hide');
 }
 

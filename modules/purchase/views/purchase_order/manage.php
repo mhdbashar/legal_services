@@ -68,6 +68,14 @@
                         </select>
                        </div>
 
+                       <div class="col-md-3 form-group">
+                        <label for="project"><?php echo _l('project'); ?></label>
+                        <select name="project[]" id="project" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('leads_all'); ?>">
+                           <?php foreach($projects as $pj){ ?>
+                            <option value="<?php echo html_entity_decode($pj['id']); ?>" ><?php echo html_entity_decode($pj['name']); ?></option>
+                           <?php } ?>
+                        </select>
+                       </div>
 
                        <div class="col-md-3 form-group">
                            <label for="department"><?php echo _l('department'); ?></label>

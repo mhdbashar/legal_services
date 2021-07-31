@@ -72,7 +72,7 @@
 
         // Send data to controller
         $.ajax({
-          url: prchatSettings.addChatGroupMembers,
+          url: babilchatSettings.addChatGroupMembers,
           method: "POST",
           data: formData,
           beforeSend: function() {

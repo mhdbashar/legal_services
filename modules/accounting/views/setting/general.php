@@ -67,11 +67,21 @@
           <?php
               $method = [
                           1 => ['id' => 'cash', 'name' => _l('cash')],
+                          2 => ['id' => 'accrual', 'name' => _l('accrual')],
                          ];
                echo render_select('acc_accounting_method', $method, array('id', 'name'), _l('accounting_method') .' <i class="fa fa-question-circle" data-toggle="tooltip" data-title="'. _l('accounting_method_note').'"></i> ', $acc_accounting_method, array(), array(), '', '', false); ?>
-              <p><i class="detail_type_note"><?php echo _l('cash_method_note_1'); ?></i></p>
-              <p><i class="detail_type_note"><?php echo _l('cash_method_note_2'); ?></i></p>
-              <p><i class="detail_type_note"><?php echo _l('cash_method_note_3'); ?></i></p>
+              <p><i class="detail_type_note_1"></i></p>
+              <p><i class="detail_type_note_2"></i></p>
+              <p><i class="detail_type_note_3"></i></p>
+          </div>
+          <div class="hide">
+            <i id="detail_type_note_cash_1"><?php echo _l('cash_method_note_1'); ?></i>
+            <i id="detail_type_note_cash_2"><?php echo _l('cash_method_note_2'); ?></i>
+            <i id="detail_type_note_cash_3"><?php echo _l('cash_method_note_3'); ?></i>
+
+            <i id="detail_type_note_accrual_1"><?php echo _l('accrual_method_note_1'); ?></i>
+            <i id="detail_type_note_accrual_2"><?php echo _l('accrual_method_note_2'); ?></i>
+            <i id="detail_type_note_accrual_3"><?php echo _l('accrual_method_note_3'); ?></i>
           </div>
         </div>
         <div class="row">

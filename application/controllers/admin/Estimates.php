@@ -8,7 +8,7 @@ class Estimates extends AdminController
     {
         parent::__construct();
         $this->load->model('estimates_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* Get all estimates in case user go on index page */

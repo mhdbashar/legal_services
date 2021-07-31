@@ -3,7 +3,7 @@
 $aColumns = [
     'subject',
     'last_activity',
-    '(SELECT COUNT(*) FROM ' . db_prefix() . 'oservicediscussioncomments WHERE discussion_id = ' . db_prefix() . 'oservicediscussions.id AND discussion_type="regular")',
+    '(SELECT COUNT(*) FROM ' . db_prefix() . 'oservicediscussioncomments WHERE discussion_id = ' . db_prefix() . 'oservicediscussions.id AND discussion_type="regular") as totalComments',
     'show_to_customer',
 ];
 $sIndexColumn = 'id';

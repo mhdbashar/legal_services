@@ -8,6 +8,10 @@ class Sms_msg91 extends App_sms
 
     private $sender_id;
 
+    private $dlt_te_id;
+
+    private $api_type;
+
     private $apiRequestUrl = 'http://api.msg91.com/api/v2/sendsms';
 
     private $worldRequestUrl = 'http://world.msg91.com/api/sendhttp.php';
@@ -19,15 +23,16 @@ class Sms_msg91 extends App_sms
         $this->sender_id = $this->get_option('msg91', 'sender_id');
         $this->auth_key  = $this->get_option('msg91', 'auth_key');
         $this->api_type  = $this->get_option('msg91', 'api_type');
+        $this->dlt_te_id = $this->get_option('msg91', 'dlt_te_id');
 
         $this->add_gateway('msg91', [
-                'info'    => "<p>MSG91 SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
+                'info' => _l("sms_msg91_sms_integration_is_one_way_messaging"),
                 'name'    => 'MSG91',
                 'options' => [
                     [
                         'name'  => 'sender_id',
                         'label' => 'Sender ID',
-                        'info'  => '<p><a href="https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
+                        'info'  => _l('sms_sender_id_trans'),
                     ],
                     [
                         'name'          => 'api_type',
@@ -42,6 +47,11 @@ class Sms_msg91 extends App_sms
                     [
                         'name'  => 'auth_key',
                         'label' => 'Auth Key',
+                    ],
+                    [
+                        'name'  => 'dlt_te_id',
+                        'label' => 'DLT Template ID (India only)',
+                        'info'  => '<p><a href="https://help.msg91.com/category/341-dlt-related-process" target="_blank">DLT Related Process</a> | <a href="https://help.msg91.com/article/369-map-your-dlt-entity-pe-id" target="_blank">Map DLT With SenderID</a></p>',
                     ],
                 ],
             ]);
@@ -167,12 +177,15 @@ class Sms_msg91 extends App_sms
      */
     protected function getCommonQueryString()
     {
-        return hooks()->apply_filters('msg91_common_options', [
-                'route'   => 4,
-                'country' => 0,
-                'unicode' => 1,
-                'sender'  => $this->getSender(),
-            ]);
+        return hooks()->apply_filters('msg91_common_options', array_filter([
+                'route'     => 4,
+                'country'   => 0,
+                'unicode'   => 1,
+                'sender'    => $this->getSender(),
+                'DLT_TE_ID' => $this->dlt_te_id ?: null,
+            ], function ($value) {
+                return !is_null($value);
+            }));
     }
 
     /**

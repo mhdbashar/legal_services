@@ -11,7 +11,7 @@ class Subscriptions extends AdminController
         $this->load->model('subscriptions_model');
         $this->load->model('currencies_model');
         $this->load->model('taxes_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function index()

@@ -34,14 +34,19 @@
                           <br><br>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                           <?php $candidate_code = (isset($candidate) ? $candidate->candidate_code : '');
 echo render_input('candidate_code', 'candidate_code', $candidate_code)?>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                           <?php $candidate_name = (isset($candidate) ? $candidate->candidate_name : '');
-echo render_input('candidate_name', 'candidate_name', $candidate_name)?>
+echo render_input('candidate_name', 'first_name', $candidate_name)?>
+                        </div>
+
+                        <div class="col-md-6">
+                          <?php $last_name = (isset($candidate) ? $candidate->last_name : '');
+echo render_input('last_name', 'last_name', $last_name)?>
                         </div>
 
                         <div class="col-md-4">
@@ -61,9 +66,25 @@ echo render_date_input('birthday', 'birthday', $birthday)?>
 
                         <div class="col-md-4">
                           <?php $arrAtt = array();
-$arrAtt['data-type'] = 'currency';
-$desired_salary = (isset($candidate) ? app_format_money($candidate->desired_salary, '') : '');
-echo render_input('desired_salary', 'desired_salary', $desired_salary, 'text', $arrAtt)?>
+                          $arrAtt['data-type'] = 'currency';
+                          $desired_salary = (isset($candidate) ? app_format_money($candidate->desired_salary, '') : '');
+                          ?>
+
+                          <div class="form-group">
+                            <label><?php echo _l('desired_salary'); ?></label>
+                            <div class="input-group">
+                              <input type="text" class="form-control text-right" name="desired_salary" value="<?php echo html_entity_decode($desired_salary) ?>" data-type="currency">
+
+                              <div class="input-group-addon">
+                                <div class="dropdown">
+                                 <span class="discount-type-selected">
+                                  <?php echo html_entity_decode($base_currency->name) ;?>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                         </div>
 
                         <div class="col-md-6">
@@ -121,7 +142,10 @@ echo render_input('weight', 'weight', $weight);?>
                         <div class="col-md-12">
 
                           <?php $introduce_yourself = (isset($candidate) ? $candidate->introduce_yourself : '');
-echo render_textarea('introduce_yourself', 'introduce_yourself', $introduce_yourself)?>
+
+                          $rows=[];
+                          $rows['rows'] = 12;
+echo render_textarea('introduce_yourself', 'introduce_yourself', $introduce_yourself, $rows)?>
                         </div>
 
 
@@ -252,14 +276,14 @@ echo render_textarea('current_accommodation', 'current_accommodation', $current_
 		echo render_input('salary[' . $key . ']', 'salary', $salary)?>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                              <?php $reason_quitwork = $val['reason_quitwork'];
 		echo render_input('reason_quitwork[' . $key . ']', 'reason_quitwork', $reason_quitwork)?>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-12">
                              <?php $job_description = $val['job_description'];
-		echo render_input('job_description[' . $key . ']', 'job_description', $job_description)?>
+		echo render_textarea('job_description[' . $key . ']', 'job_description', $job_description)?>
                             </div>
 
                             <?php if ($key == 0) {?>
@@ -302,12 +326,16 @@ echo render_textarea('current_accommodation', 'current_accommodation', $current_
                              <?php echo render_input('salary[0]', 'salary') ?>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                              <?php echo render_input('reason_quitwork[0]', 'reason_quitwork') ?>
                             </div>
 
-                            <div class="col-md-3">
-                             <?php echo render_input('job_description[0]', 'job_description') ?>
+                            <div class="col-md-12">
+
+                             <p class="bold"><?php echo _l('job_description'); ?></p>
+                              <?php echo render_textarea('job_description[0]','',''); ?>
+                                  
+
                             </div>
 
                             <div class="col-md-12 line-height-content">

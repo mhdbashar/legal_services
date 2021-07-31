@@ -66,7 +66,9 @@ class Appointly_merge_fields extends App_merge_fields
 
     /**
      * Merge field for appointments
-     * @param  mixed $appointment_id 
+     *
+     * @param mixed $appointment_id
+     *
      * @return array
      */
     public function format($appointment_id)
@@ -77,20 +79,19 @@ class Appointly_merge_fields extends App_merge_fields
 
         $appointment = $this->ci->db->get(db_prefix() . 'appointly_appointments')->row();
 
-        if (!$appointment) {
-            return $fields;
-        }
+        if (!$appointment) return $fields;
 
-        $fields['{appointment_subject}']                    = $appointment->subject;
-        $fields['{appointment_description}']                = $appointment->description;
-        $fields['{appointment_client_name}']                = $appointment->name;
-        $fields['{apppointment_client_email}']              = $appointment->email;
-        $fields['{appointment_client_phone}']               = $appointment->phone;
-        $fields['{appointment_date}']                        = _dt($appointment->date . '' . $appointment->start_hour);
-        $fields['{appointment_location}']                    = $appointment->address;
-        $fields['{appointment_admin_url}']                  = admin_url('appointly/appointments/view?appointment_id=' . $appointment->id);
-        $fields['{appointment_public_url}']                  = site_url('appointly/appointments_public/client_hash?hash=' . $appointment->hash);
+        $fields['{appointment_subject}'] = $appointment->subject;
+        $fields['{appointment_description}'] = $appointment->description;
+        $fields['{appointment_client_name}'] = $appointment->name;
+        $fields['{appointment_client_email}'] = $appointment->email;
+        $fields['{appointment_client_phone}'] = $appointment->phone;
+        $fields['{appointment_date}'] = _dt($appointment->date . '' . $appointment->start_hour);
+        $fields['{appointment_location}'] = $appointment->address;
+        $fields['{appointment_admin_url}'] = admin_url('appointly/appointments/view?appointment_id=' . $appointment->id);
+        $fields['{appointment_public_url}'] = site_url('appointly/appointments_public/client_hash?hash=' . $appointment->hash);
 
         return $fields;
     }
+
 }

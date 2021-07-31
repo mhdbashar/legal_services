@@ -211,11 +211,11 @@ class Clients extends AdminController
                         ]);
                 }
             } elseif ($group == 'cases') {
-                $this->load->model('LegalServices/Cases_model', 'case');
+                $this->load->model('legalservices/Cases_model', 'case');
                 $data['model'] = $this->case;
                 $data['project_statuses'] = $this->case->get_project_statuses();
             } elseif ($group == 'legal_services') {
-                $this->load->model('LegalServices/Other_services_model', 'other');
+                $this->load->model('legalservices/Other_services_model', 'other');
                 $data['model'] = $this->other;
                 $data['project_statuses'] = $this->other->get_project_statuses();
             }
@@ -336,9 +336,9 @@ class Clients extends AdminController
         
         if ($this->input->post()) {
             $data             = $this->input->post();
-            $data['firstname'] = $data['full_name'];
-            unset($data['full_name']);
-            $data['lastname'] = '';
+//            $data['firstname'] = $data['full_name'];
+//            unset($data['full_name']);
+//            $data['lastname'] = '';
             $data['password'] = $this->input->post('password', false);
 
             unset($data['contactid']);
@@ -364,7 +364,7 @@ class Clients extends AdminController
                 echo json_encode([
                     'success'             => $success,
                     'message'             => $message,
-                    'has_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
+                    'hn as_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
                     'is_individual'       => is_empty_customer_company($customer_id) && total_rows(db_prefix() . 'contacts', ['userid' => $customer_id]) == 1,
                 ]);
                 die;
@@ -827,7 +827,24 @@ class Clients extends AdminController
         $this->load->view('admin/clients/import', $data);
     }
 
+    /*public function groups()
+    {
+        if (!is_admin()) {
+            access_denied('Customer Groups');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('customers_groups');
+        }
+        $data['title'] = _l('customer_groups');
+        $this->load->view('admin/clients/groups_manage', $data);
+    }*/
+
     public function groups()
+    {
+        $this->personal_groups();
+    }
+
+    public function personal_groups()
     {
         if (!is_admin()) {
             access_denied('Customer Groups');
@@ -845,7 +862,7 @@ class Clients extends AdminController
             access_denied('Customer Groups');
         }
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_customers_company_groups');
+            $this->app->get_table_data('customers_company_groups');
         }
         $data['title'] = _l('customer_company_groups');
         $this->load->view('admin/clients/company_groups_manage', $data);
@@ -881,6 +898,7 @@ class Clients extends AdminController
             }
         }
     }
+
     public function group_company()
     {
         if (!is_admin() && get_option('staff_members_create_inline_customer_groups') == '0') {

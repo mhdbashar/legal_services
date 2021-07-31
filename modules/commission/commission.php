@@ -4,14 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: العمولات
 Description: الوصف: قم بإعداد برنامج عمولات للموظفين.
-Version: 1.0.4
+Version: 1.0.7
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa
  */
 
 define('COMMISSION_MODULE_NAME', 'commission');
-define('COMMISSION_REVISION', 104);
+define('COMMISSION_REVISION', 107);
 hooks()->add_action('admin_init', 'commission_module_init_menu_items');
 hooks()->add_action('admin_init', 'commission_permissions');
 hooks()->add_action('app_admin_head', 'commission_add_head_components');
@@ -105,11 +105,6 @@ function commission_add_footer_components() {
 	if ($viewuri == '/admin' || $viewuri == '/admin/') {
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/js/commission_dashboard.js') . '?v=' . COMMISSION_REVISION.'"></script>';
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/highcharts.js') . '"></script>';
-		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/modules/variable-pie.js') . '"></script>';
-		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/modules/export-data.js') . '"></script>';
-		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/modules/accessibility.js') . '"></script>';
-		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/modules/exporting.js') . '"></script>';
-		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/highcharts-3d.js') . '"></script>';
 	}
 }
 
@@ -227,7 +222,15 @@ function commission_permissions() {
 		'create' => _l('permission_create'),
         'delete' => _l('permission_delete'),
 	];
-	register_staff_capabilities('commission_applicable_staff', $capabilities, _l('applicable_staff'));
+	register_staff_capabilities('commission_applicable_staff', $capabilities, _l('commission_applicable_staff'));
+
+	$capabilities = [];
+	$capabilities['capabilities'] = [
+		'view'   => _l('permission_view'),
+		'create' => _l('permission_create'),
+        'delete' => _l('permission_delete'),
+	];
+	register_staff_capabilities('commission_applicable_client', $capabilities, _l('commission_applicable_client'));
 
 	$capabilities = [];
 	$capabilities['capabilities'] = [
@@ -237,6 +240,15 @@ function commission_permissions() {
         'delete' => _l('permission_delete'),
 	];
 	register_staff_capabilities('commission_policy', $capabilities, _l('commission_policy'));
+
+	$capabilities = [];
+	$capabilities['capabilities'] = [
+		'view'   => _l('permission_view'),
+		'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
+	];
+	register_staff_capabilities('commission_setting', $capabilities, _l('commission_setting'));
 }
 
 /**
@@ -318,10 +330,10 @@ function add_tab_commission_in_client($client){
 }
 
 function add_content_commission_in_client($client){
-    if($client != null){
-        $CI = &get_instance();
-        if(check_applicable_client($client->userid)){
-            require 'modules/commission/views/client/commission_tab.php';
-        }
+    $CI = &get_instance();
+    if($client){
+		if(check_applicable_client($client->userid)){
+			require 'modules/commission/views/client/commission_tab.php';
+	    }
     }
 }

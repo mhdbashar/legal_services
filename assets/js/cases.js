@@ -183,7 +183,7 @@ $(function() {
     _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 
     slug_expenses_case = $(".table-case-expenses").attr('data-slug');
-    _table_api_case = initDataTable('.table-case-expenses', admin_url + 'LegalServices/Cases_controller/expenses/' + project_id + '/' + slug_expenses_case, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+    _table_api_case = initDataTable('.table-case-expenses', admin_url + 'legalservices/cases/expenses/' + project_id + '/' + slug_expenses_case, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 
     if (_table_api) {
         _table_api.column(0).visible(false, false).columns.adjust();
@@ -208,13 +208,13 @@ $(function() {
     initDataTable('.table-timesheets', admin_url + 'projects/timesheets/' + project_id, [8], [8], Timesheets_ServerParams, [3, 'desc']);
 
     slug_timesheets_case = $(".table-timesheets_case").attr('data-new-rel-slug');
-    initDataTable('.table-timesheets_case', admin_url + 'LegalServices/Cases_controller/timesheets/' + project_id + '/' + slug_timesheets_case , [8], [8], Timesheets_ServerParams, [3, 'desc']);
+    initDataTable('.table-timesheets_case', admin_url + 'legalservices/cases/timesheets/' + project_id + '/' + slug_timesheets_case , [8], [8], Timesheets_ServerParams, [3, 'desc']);
 
     initDataTable('.table-project-discussions', admin_url + 'projects/discussions/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
     slug_case_discussions = $(".table-case-discussions").attr('data-new-rel-slug');
-    initDataTable('.table-case-discussions', admin_url + 'LegalServices/Cases_controller/discussions/' + project_id + '/' + slug_case_discussions, undefined, undefined, 'undefined', [1, 'desc']);
+    initDataTable('.table-case-discussions', admin_url + 'legalservices/cases/discussions/' + project_id + '/' + slug_case_discussions, undefined, undefined, 'undefined', [1, 'desc']);
 
-    initDataTable('.table-case-procuration', admin_url + 'LegalServices/Cases_controller/procurations/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
+    initDataTable('.table-case-procuration', admin_url + 'legalservices/cases/procurations/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
 
 
     appValidateForm($('#milestone_form'), {
@@ -378,7 +378,7 @@ function milestones_case_switch_view(ServID, slug) {
     $('#milestones-table').toggleClass('hide');
     $('.case-milestones-kanban').toggleClass('hide');
     if (!$.fn.DataTable.isDataTable('.table-milestones_case')) {
-        initDataTable('.table-milestones_case', admin_url + 'LegalServices/Cases_controller/milestones/' + project_id + '/' + ServID + '/' + slug);
+        initDataTable('.table-milestones_case', admin_url + 'legalservices/cases/milestones/' + project_id + '/' + ServID + '/' + slug);
     }
 }
 
@@ -474,7 +474,7 @@ function edit_discussion(invoker, id) {
 }
 
 function mass_stop_timers(only_billable,servid) {
-    requestGetJSON('LegalServices/Cases_controller/mass_stop_timers/' + project_id + '/' + only_billable).done(function(response) {
+    requestGetJSON('legalservices/cases/mass_stop_timers/' + project_id + '/' + only_billable).done(function(response) {
         alert_float(response.type, response.message);
         setTimeout(function() {
             $('body').find('.modal-backdrop').eq(0).remove();
@@ -494,7 +494,7 @@ function pre_invoice_project() {
 }
 
 function pre_invoice_case(servid) {
-    requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
+    requestGet('legalservices/cases/get_pre_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
         $('#pre_invoice_project').html(response);
         $('#pre_invoice_project_settings').modal('show');
     });
@@ -657,7 +657,7 @@ function invoice_case(ServID , project_id) {
         return $(this).val();
     }).get();
 
-    $.post(admin_url + 'LegalServices/Other_services_controller/get_invoice_project_data/'+ServID, data).done(function(response) {
+    $.post(admin_url + 'legalservices/other_services/get_invoice_project_data/'+ServID, data).done(function(response) {
         $('#invoice_project').html(response);
         $('#invoice-project-modal').modal({
             show: true,
@@ -691,7 +691,7 @@ function invoice_project(ServID , project_id) {
         return $(this).val();
     }).get();
 
-    $.post(admin_url + 'LegalServices/Cases_controller/get_invoice_project_data/'+ServID, data).done(function(response) {
+    $.post(admin_url + 'legalservices/cases/get_invoice_project_data/'+ServID, data).done(function(response) {
         $('#invoice_project').html(response);
         $('#invoice-project-modal').modal({
             show: true,
@@ -711,7 +711,7 @@ function delete_project_discussion(id) {
 
 function delete_case_discussion(id) {
     if (confirm_delete()) {
-        requestGetJSON('LegalServices/Cases_controller/delete_discussion/' + id).done(function(response) {
+        requestGetJSON('legalservices/cases/delete_discussion/' + id).done(function(response) {
             alert_float(response.alert_type, response.message);
             $('.table-case-discussions').DataTable().ajax.reload(null, false);
         });
@@ -750,7 +750,7 @@ function view_project_file(id, $project_id) {
 
 function view_case_file(id, $project_id) {
     $('#project_file_data').empty();
-    $("#project_file_data").load(admin_url + 'LegalServices/Cases_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
+    $("#project_file_data").load(admin_url + 'legalservices/cases/file/' + id + '/' + project_id, function(response, status, xhr) {
         if (status == "error") {
             alert_float('danger', xhr.statusText);
         }
@@ -762,7 +762,7 @@ function update_file_data(id) {
     data.id = id;
     data.subject = $('body input[name="file_subject"]').val();
     data.description = $('body textarea[name="file_description"]').val();
-    $.post(admin_url + 'LegalServices/Cases_controller/update_file_data/', data);
+    $.post(admin_url + 'legalservices/cases/update_file_data/', data);
 }
 
 function project_mark_as_modal(status_id, $project_id, target) {
@@ -850,7 +850,7 @@ function case_files_bulk_action(e) {
         $(e).addClass('disabled');
 
         setTimeout(function() {
-            $.post(admin_url + 'LegalServices/Cases_controller/bulk_action_files', data).done(function() {
+            $.post(admin_url + 'legalservices/cases/bulk_action_files', data).done(function() {
                 window.location.reload();
             });
         }, 200);
@@ -908,7 +908,7 @@ function confirm_case_status_change(e, slug) {
 
     data.notify_project_members_status_change = $('#notify_project_members_status_change').prop('checked') === true ? 1 : 0;
 
-    $.post(admin_url + 'LegalServices/Cases_controller/mark_as/' + slug, data).done(function(response) {
+    $.post(admin_url + 'legalservices/cases/mark_as/' + slug, data).done(function(response) {
         response = JSON.parse(response);
         alert_float(response.success === true ? 'success' : 'warning', response.message);
         setTimeout(function() {
@@ -956,7 +956,7 @@ function milestones_case_kanban_update(ui, object) {
         check_kanban_empty_col('[data-task-id]');
 
         setTimeout(function() {
-            $.post(admin_url + 'LegalServices/Cases_controller/update_task_milestone', data)
+            $.post(admin_url + 'legalservices/cases/update_task_milestone', data)
         }, 50);
     }
 }
@@ -967,7 +967,7 @@ function milestones_kanban() {
 
 function milestones_case_kanban() {
     slug_case_kanban = $(".table-milestones_case").attr('data-slug');
-    init_kanban('LegalServices/Cases_controller/milestones_kanban/' + slug_case_kanban, milestones_case_kanban_update, '.case-milestone', 445, 360, after_milestones_case_kanban);
+    init_kanban('legalservices/cases/milestones_kanban/' + slug_case_kanban, milestones_case_kanban_update, '.case-milestone', 445, 360, after_milestones_case_kanban);
 }
 
 function after_milestones_case_kanban() {
@@ -993,7 +993,7 @@ function after_milestones_case_kanban() {
                 i++;
             });
 
-            $.post(admin_url + 'LegalServices/Cases_controller/update_milestones_order', data);
+            $.post(admin_url + 'legalservices/cases/update_milestones_order', data);
         }
     });
 
@@ -1028,7 +1028,7 @@ function after_milestones_kanban() {
                 i++;
             });
 
-            $.post(admin_url + 'LegalServices/Cases_controller/update_milestones_order', data);
+            $.post(admin_url + 'legalservices/cases/update_milestones_order', data);
         }
     });
 

@@ -3,6 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
+    'id',  
     'candidate_code',  
     'candidate_name',
     'rate',
@@ -36,7 +37,7 @@ if($string_query!=''){
   $where=["where".' '.$string_query];
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'last_name']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -46,12 +47,14 @@ foreach ($rResult as $aRow) {
     for ($i = 0; $i < count($aColumns); $i++) {
         $_data = $aRow[$aColumns[$i]];
 
-        if($aColumns[$i] == 'candidate_name'){
+        if($aColumns[$i] == 'id'){
+            $_data = $aRow['id'];
+        }elseif($aColumns[$i] == 'candidate_name'){
             $name = '<a href="' . admin_url('recruitment/candidate/' . $aRow['id']) . '">'.candidate_profile_image($aRow['id'],[
                     'staff-profile-image-small mright5',
                     ], 'small').'</a>';
 
-            $name .= '<a href="' . admin_url('recruitment/candidate/' . $aRow['id'] ).'" >' . $aRow['candidate_name'] . '</a>';
+            $name .= '<a href="' . admin_url('recruitment/candidate/' . $aRow['id'] ).'" >' . $aRow['candidate_name'].' '.$aRow['last_name']. '</a>';
 
             $name .= '<div class="row-options">';
 
@@ -71,11 +74,17 @@ foreach ($rResult as $aRow) {
         }elseif ($aColumns[$i] == 'birthday') {
             $_data = _d($aRow['birthday']);
         }elseif ($aColumns[$i] == 'rec_campaign') {
-            $cp = get_rec_campaign_hp($aRow['rec_campaign']);
-            if(isset($cp)){
-                $_data = $cp->campaign_code.' - '.$cp->campaign_name;
+            if($aRow['rec_campaign'] != null){
+
+                $cp = get_rec_campaign_hp($aRow['rec_campaign']);
+                if(isset($cp)){
+                    $_data = $cp->campaign_code.' - '.$cp->campaign_name;
+                }else{
+                    $_data = '';
+                }
             }else{
                 $_data = '';
+
             }
             
         }elseif($aColumns[$i] == 'rate'){

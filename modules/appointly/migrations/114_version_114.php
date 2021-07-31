@@ -15,8 +15,8 @@ class Migration_Version_114 extends App_module_migration
 
         if (!$CI->db->field_exists('feedback', db_prefix() . "appointly_appointments")) {
             $CI->db->query("ALTER TABLE " . db_prefix() . "appointly_appointments 
-            ADD `feedback` SMALLINT NULL DEFAULT NULL AFTER `type_id`, 
-            ADD `feedback_comment` TEXT NULL DEFAULT NULL AFTER `feedback`;
+            ADD `feedback` SMALLINT NULL DEFAULT NULL, 
+            ADD `feedback_comment` TEXT NULL DEFAULT NULL;
             ");
         }
 
@@ -31,4 +31,5 @@ class Migration_Version_114 extends App_module_migration
             bugCheckCommentsField();
         }
     }
+
 }

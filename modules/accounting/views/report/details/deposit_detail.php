@@ -17,423 +17,48 @@
           <?php
            $row_index = 0;
            $parent_index = 0;
-           foreach ($data_report['data']['accounts_receivable'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details']) > 0){ ?>
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-            
-          <?php } ?>
-          <?php }
-          foreach ($data_report['data']['cash_and_cash_equivalents'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details']) > 0){ ?>
+           $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['accounts_receivable'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-          <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['current_assets'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details']) > 0){ ?>
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-          <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['fixed_assets'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details']) > 0){ ?>
-              <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-                <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-              
-          <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['non_current_assets'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details']) > 0){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['cash_and_cash_equivalents'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-              
-          <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['accounts_payable'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details'])){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-          <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['credit_card'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details'])){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['fixed_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-            <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['current_liabilities'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details'])){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['non_current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-            <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['non_current_liabilities'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details'])){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['accounts_payable'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-            <?php } ?>
-          <?php } ?>
-          <?php foreach ($data_report['data']['owner_equity'] as $key => $value) {
-            $row_index += 1;
-            $parent_index = $row_index;
-            $total_amount = 0;
-            ?>
-            <?php if(count($value['details'])){ ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['credit_card'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
 
-            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php foreach ($value['details'] as $val) { 
-                $row_index += 1;
-                $total_amount += $val['amount'];
-              ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-                <td>
-                <?php echo _d($val['date']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['type']); ?> 
-                </td>
-                <td>
-                <?php echo get_company_name($val['customer']); ?> 
-                </td>
-                <td>
-                <?php echo html_entity_decode($val['description']); ?> 
-                </td><td class="total_amount">
-                <?php echo app_format_money($val['amount'], $currency->name); ?> 
-                </td>
-              </tr>
-            <?php }
-              $row_index += 1;
-             ?>
-             
-            <?php } ?>
-          <?php } ?>
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
+
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['non_current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
+
+          $data = $this->accounting_model->get_html_deposit_detail($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_credit' => 0, 'total_debit' => 0], $parent_index, $currency);
+          $row_index = $data['row_index'];
+          echo html_entity_decode($data['html']);
+         
+          ?>
         </tbody>
       </table>
     </div>

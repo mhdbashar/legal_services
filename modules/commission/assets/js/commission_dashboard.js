@@ -3,7 +3,6 @@
   var data = {};
   requestGet('commission/dashboard_commission_chart').done(function(response) {
     response = JSON.parse(response);
-    console.log(response);
     Highcharts.setOptions({
       chart: {
           style: {

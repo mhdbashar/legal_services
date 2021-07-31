@@ -8879,7 +8879,8 @@ class Accounting_model extends App_Model
 
 
         $this->db->select('id, number, name, parent_account, account_type_id, account_detail_type_id, balance, key_name, active, number, description, balance_as_of, '.$debit.', '.$credit.', default_account');
-        $this->db->limit(intval($CI->input->post('length')), intval($CI->input->post('start')));
+        if($CI->input->post('length') != -1)
+            $this->db->limit(intval($CI->input->post('length')), intval($CI->input->post('start')));
         $this->db->order_by('id', 'desc');
 
         $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();

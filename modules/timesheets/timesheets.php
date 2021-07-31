@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: نظام الحضور والإنصراف والإجازات
 Description: يعمل تطبيق نظام إدارة الحضور الكامل مع الجدول الزمني في الغالب مع الحضور والإجازات والعطلات والمناوبة
-Version: 1.1.2
+Version: 1.1.3
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa/

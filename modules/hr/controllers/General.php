@@ -217,7 +217,7 @@ class General extends AdminController{
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
         $hr_data['date_birth'] = to_sql_date($this->input->post('date_birth'));
         $hr_data['state_province'] = $this->input->post('state_province');
-        $hr_data['city'] = $this->input->post('city');
+        $hr_data['city'] = $this->input->post('city') != null ? $this->input->post('city') : '';
         $hr_data['zip_code'] = $this->input->post('zip_code');
         $hr_data['address'] = $this->input->post('address');
         $hr_data['leaves'] = $this->input->post('leaves');

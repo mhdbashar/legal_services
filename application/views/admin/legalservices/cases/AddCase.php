@@ -39,7 +39,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <?php $CodeValue = isset($Numbering->numbering) ? $Numbering->numbering + 1 : $service->numbering; ?>
-                                                <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue); ?>
+                                                <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue, 'text', ['readonly' => true]); ?>
                                             </div>
                                             <div class="col-md-6">
                                                 <?php echo render_input('name', 'CaseTitle'); ?>

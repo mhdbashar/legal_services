@@ -38,7 +38,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <?php echo render_input('code', 'CaseCode', $service->prefix . $case->numbering); ?>
+                                                <?php echo render_input('code', 'CaseCode', $service->prefix . $case->numbering, 'text', ['readonly' => true]); ?>
                                             </div>
                                             <div class="col-md-6">
                                                 <?php echo render_input('name','CaseTitle',$case->name); ?>

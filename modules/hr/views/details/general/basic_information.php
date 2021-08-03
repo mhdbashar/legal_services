@@ -199,7 +199,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="follower_staff" class="control-label"><?php echo _l('follower_staff') ?></label>
-                                        <select required="required" class="form-control" id="follower_staff" name="follower_staff" placeholder="<?php echo _l('follower_staff') ?>" aria-invalid="false">
+                                        <select class="form-control" id="follower_staff" name="follower_staff" placeholder="<?php echo _l('follower_staff') ?>" aria-invalid="false">
                                             <option></option>
                                             <?php
                                             // if(!$this->app_modules->is_active('branches')){

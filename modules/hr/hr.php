@@ -749,15 +749,16 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-history',
         ]);
     }
-    if(has_permission('staffmanage_training','','view')){
-        $CI->app_menu->add_sidebar_children_item('staffs', [
-            'slug'     => 'hr_training_process',
-            'name'     => _l('hr_training_process'),
-            'href'     => admin_url('hr/hr_profile/training'),
-            'position' => 43,
-            'icon'     => 'fa fa-graduation-cap',
-        ]);
-    }
+    // new feature
+//    if(has_permission('staffmanage_training','','view')){
+//        $CI->app_menu->add_sidebar_children_item('staffs', [
+//            'slug'     => 'hr_training_process',
+//            'name'     => _l('hr_training_process'),
+//            'href'     => admin_url('hr/hr_profile/training'),
+//            'position' => 43,
+//            'icon'     => 'fa fa-graduation-cap',
+//        ]);
+//    }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'indicators',
@@ -821,33 +822,36 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-object-group',
         ]);
     }
-    if(has_permission('staffmanage_orgchart','','view')){
-        $CI->app_menu->add_sidebar_children_item('organizations', [
-            'slug'     => 'HR_organizational_chart',
-            'name'     => _l('HR_organizational_chart'),
-            'href'     => admin_url('hr/hr_profile/organizational_chart'),
-            'position' => 72,
-            'icon'     => 'fa fa-th-list',
-        ]);
-    }
-    if(has_permission('hr_manage_q_a','','view')){
-        $CI->app_menu->add_sidebar_children_item('hr', [
-            'slug'     => 'knowledge_base_q_a',
-            'name'     => _l('knowledge_base'),
-            'href'     => admin_url('hr/knowledge_base_q_a'),
-            'position' => 73,
-            'icon'     => 'fa fa-th-list',
-        ]);
-    }
-    if(has_permission('hrm_dependent_person','','view')){
-        $CI->app_menu->add_sidebar_children_item('hr', [
-            'slug'     => 'hr_dependent_persons',
-            'name'     => _l('hr_dependent_persons'),
-            'href'     => admin_url('hr/hr_profile/dependent_persons'),
-            'position' => 74,
-            'icon'     => 'fa fa-th-list',
-        ]);
-    }
+    // new feature
+//    if(has_permission('staffmanage_orgchart','','view')){
+//        $CI->app_menu->add_sidebar_children_item('organizations', [
+//            'slug'     => 'HR_organizational_chart',
+//            'name'     => _l('HR_organizational_chart'),
+//            'href'     => admin_url('hr/hr_profile/organizational_chart'),
+//            'position' => 72,
+//            'icon'     => 'fa fa-th-list',
+//        ]);
+//    }
+    // new feature
+//    if(has_permission('hr_manage_q_a','','view')){
+//        $CI->app_menu->add_sidebar_children_item('hr', [
+//            'slug'     => 'knowledge_base_q_a',
+//            'name'     => _l('knowledge_base'),
+//                'href'     => admin_url('hr/knowledge_base_q_a'),
+//            'position' => 73,
+//            'icon'     => 'fa fa-th-list',
+//        ]);
+//    }
+    // new feature
+//    if(has_permission('hrm_dependent_person','','view')){
+//        $CI->app_menu->add_sidebar_children_item('hr', [
+//            'slug'     => 'hr_dependent_persons',
+//            'name'     => _l('hr_dependent_persons'),
+//            'href'     => admin_url('hr/hr_profile/dependent_persons'),
+//            'position' => 74,
+//            'icon'     => 'fa fa-th-list',
+//        ]);
+//    }
     if (has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view')){
         $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'awards',

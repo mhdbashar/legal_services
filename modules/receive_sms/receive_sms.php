@@ -32,21 +32,22 @@ $CI = &get_instance();
 $CI->load->helper(RECEIVE_SMS_MODULE_NAME . '/receive_sms');
 
 $CI->load->library('app_custom_tabs');
-$CI->app_custom_tabs->add_case_tab('receive_sms', [
-    'name'     => _l('Receive SMS'),
-    'icon'     => 'fa fa-th',
-    'view'     => 'receive_sms/case',
-    'position' => 200,
-]);
+if (has_permission('receive_sms', '', 'view')) {
+    $CI->app_custom_tabs->add_case_tab('receive_sms', [
+        'name' => _l('Receive SMS'),
+        'icon' => 'fa fa-th',
+        'view' => 'receive_sms/case',
+        'position' => 200,
+    ]);
 
 
-$CI->app_custom_tabs->add_oservice_tab('receive_sms', [
-    'name'     => _l('Receive SMS'),
-    'icon'     => 'fa fa-th',
-    'view'     => 'receive_sms/oservice',
-    'position' => 200,
-]);
-
+    $CI->app_custom_tabs->add_oservice_tab('receive_sms', [
+        'name' => _l('Receive SMS'),
+        'icon' => 'fa fa-th',
+        'view' => 'receive_sms/oservice',
+        'position' => 200,
+    ]);
+}
 function receive_sms_module_activation_hook() {
     $CI = &get_instance();
     require_once __DIR__ . '/install.php';
@@ -127,6 +128,7 @@ register_language_files(RECEIVE_SMS_MODULE_NAME, [RECEIVE_SMS_MODULE_NAME]);
 function receive_sms_module_init_menu_items() {
 
     $CI = &get_instance();
+    if (has_permission('receive_sms', '', 'view')) {
         $CI->app_menu->add_sidebar_menu_item('receive_sms', [
             'name' => _l('receive_sms'),
             'icon' => 'fa fa-envelope',
@@ -140,7 +142,6 @@ function receive_sms_module_init_menu_items() {
             'href' => admin_url('receive_sms'),
             'position' => 3,
         ]);
-
 
 
         $CI->app_menu->add_sidebar_children_item('receive_sms', [
@@ -158,5 +159,5 @@ function receive_sms_module_init_menu_items() {
 //            'href' => admin_url('receive_sms/setting'),
 //            'position' => 8,
 //        ]);
-
+    }
 }

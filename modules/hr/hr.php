@@ -637,21 +637,41 @@ function hr_init_hrmApp(){
     register_staff_capabilities('payroll', ['capabilities' => $allPermissionsArray,], _l('payroll'));
     register_staff_capabilities('expired_documents', ['capabilities' => $allPermissionsArray,], _l('expired_documents'));
 
-    $CI->app_menu->add_sidebar_menu_item('hr', [
-        'name'     => _l('hr'),
-        'icon'     => 'fa fa-users',
-        'position' => 200,
-    ]);
-    $CI->app_menu->add_sidebar_menu_item('staffs', [
-        'name'     => _l('staff'),
-        'icon'     => 'fa fa-users',
-        'position' => 205,
-    ]);
-    $CI->app_menu->add_sidebar_menu_item('organizations', [
-        'name'     => _l('organizations'),
-        'icon'     => 'fa fa-users',
-        'position' => 210,
-    ]);
+    if(has_permission('hrm_dashboard','','view') ||
+        has_permission('expired_documents', '', 'view_own') || has_permission('expired_documents', '', 'view') ||
+        has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view') ||
+        has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') ||
+        has_permission('warnings', '', 'view_own') || has_permission('warnings', '', 'view') ||
+        has_permission('transfers', '', 'view_own') || has_permission('transfers', '', 'view') ||
+        has_permission('complaints', '', 'view_own') || has_permission('complaints', '', 'view') ||
+        has_permission('resignations', '', 'view_own') || has_permission('resignations', '', 'view') ||
+        has_permission('promotions', '', 'view_own') || has_permission('promotions', '', 'view') ||
+        has_permission('travels', '', 'view_own') || has_permission('travels', '', 'view')
+    ){
+        $CI->app_menu->add_sidebar_menu_item('hr', [
+            'name'     => _l('hr'),
+            'icon'     => 'fa fa-users',
+            'position' => 200,
+        ]);
+    }
+    if(has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') ||
+        has_permission('insurrance', '', 'view_own') || has_permission('insurrance', '', 'view') ||
+        has_permission('hr_contracts', '', 'view_own') || has_permission('hr_contracts', '', 'view')
+    ){
+        $CI->app_menu->add_sidebar_menu_item('staffs', [
+            'name' => _l('staff'),
+            'icon' => 'fa fa-users',
+            'position' => 205,
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')
+    ) {
+        $CI->app_menu->add_sidebar_menu_item('organizations', [
+            'name' => _l('organizations'),
+            'icon' => 'fa fa-users',
+            'position' => 210,
+        ]);
+    }
 //    $CI->app_menu->add_sidebar_menu_item('core_hr', [
 //        'name'     => _l('core_hr'),
 //        'icon'     => 'fa fa-users',
@@ -777,7 +797,7 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-tachometer',
         ]);
     }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') ){
         $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'official_documents',
             'name'     => _l('official_documents'),

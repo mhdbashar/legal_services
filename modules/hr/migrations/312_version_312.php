@@ -168,17 +168,6 @@ class Migration_Version_312 extends App_module_migration
   ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
         }
 
-        if (!$CI->db->table_exists(db_prefix() . 'hr_p_t_form_question_box')) {
-            $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_p_t_form_question_box` (
-           `boxid` int(11) NOT NULL AUTO_INCREMENT,
-            `boxtype` varchar(10) NOT NULL,
-            `questionid` int(11) NOT NULL,
-        
-          PRIMARY KEY (`boxid`)
-          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
-        }
-
-
 
 
     }

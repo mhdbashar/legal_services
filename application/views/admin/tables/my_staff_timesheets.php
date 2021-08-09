@@ -148,10 +148,10 @@ if ($legal_services && $legal_services != '') {
         return $value !== '';
     });*/
 
-    //if (count($legal_services) > 0) {
-       /* $legal_services = implode(',', array_map(function ($service_id) {
-            return get_instance()->db->escape_str($service_id);
-        }, $legal_services));*/
+//if (count($legal_services) > 0) {
+/* $legal_services = implode(',', array_map(function ($service_id) {
+     return get_instance()->db->escape_str($service_id);
+ }, $legal_services));*/
 //        $rel_type = get_legal_service_slug_by_id($legal_services);
 //        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$rel_type.'")');
 //    //}
@@ -348,7 +348,18 @@ foreach ($rResult as $aRow) {
 
     $status = get_task_status_by_id($aRow['status']);
 
-    $taskName .= '<span class="hidden"> - </span><span class="inline-block pull-right mright5 label" style="border:1px solid ' . $status['color'] . ';color:' . $status['color'] . '" task-status-table="' . $aRow['status'] . '">' . $status['name'] . '</span>';
+    if(is_session($aRow['task_id'])){
+        if((time()-(60*60*24)) > strtotime($aRow['start_time'])){
+            $status_name = _l('previous');
+        }else{
+            $status_name = _l('waiting');
+        }
+        $status['color'] = '#a7a1a1';
+
+    }else
+        $status_name = $status['name'];
+
+    $taskName .= '<span class="hidden"> - </span><span class="inline-block pull-right mright5 label" style="border:1px solid ' . $status['color'] . ';color:' . $status['color'] . '" task-status-table="' . $aRow['status'] . '">' . $status_name . '</span>';
 
     if (!$this->ci->input->post('group_by_task') && (!$aRow['end_time'] && is_admin() && $aRow['billed'] == 0)) {
         $taskName .= '<br /><a href="#"

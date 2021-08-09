@@ -110,13 +110,13 @@ function get_sessions_priorities()
         [
             'id'     => 1,
             'name'   => _l('task_priority_low'),
-             'color' => '#777',
+            'color' => '#777',
 
         ],
         [
             'id'     => 2,
             'name'   => _l('task_priority_medium'),
-             'color' => '#03a9f4',
+            'color' => '#03a9f4',
 
         ],
         [
@@ -162,12 +162,12 @@ function get_session_status_by_id($id)
     $statuses = $CI->sessions_model->get_statuses();
 
     $status = [
-      'id'         => 0,
-      'bg_color'   => '#333',
-      'text_color' => '#333',
-      'name'       => '[Status Not Found]',
-      'order'      => 1,
-      ];
+        'id'         => 0,
+        'bg_color'   => '#333',
+        'text_color' => '#333',
+        'name'       => '[Status Not Found]',
+        'order'      => 1,
+    ];
 
     foreach ($statuses as $s) {
         if ($s['id'] == $id) {
@@ -233,10 +233,10 @@ function format_members_by_ids_and_names_session($ids, $names, $hidden_export_ta
         if ($assigned != '') {
             $outputAssignees .= '<a href="' . admin_url('profile/' . $assignee_id) . '">' .
                 staff_profile_image($assignee_id, [
-                  $image_class . ' mright5',
+                    $image_class . ' mright5',
                 ], 'small', [
-                  'data-toggle' => 'tooltip',
-                  'data-title'  => $assigned,
+                    'data-toggle' => 'tooltip',
+                    'data-title'  => $assigned,
                 ]) . '</a>';
             $exportAssignees .= $assigned . ', ';
         }
@@ -383,8 +383,8 @@ function init_relation_sessions_table($table_attributes = [])
             'name'     => _l('tasks_dt_name'),
             'th_attrs' => [
                 'style' => 'min-width:200px',
-                ],
             ],
+        ],
 
         [
             'name'     =>  _l('session_date'),
@@ -393,23 +393,23 @@ function init_relation_sessions_table($table_attributes = [])
                 'class' => 'duedate',
             ],
         ],
-       _l('session_time'),
+        _l('session_time'),
 
-         [
+        [
             'name'     => _l('session_status'),
             'th_attrs' => [
                 'style' => 'min-width:75px',
 
-                ],
             ],
-         [
+        ],
+        [
             'name'     => _l('task_assigned'),
             'th_attrs' => [
                 'style' => 'min-width:75px',
-                ],
             ],
-       // _l('tags'),
-      //  _l('tasks_list_priority'),
+        ],
+        // _l('tags'),
+        //  _l('tasks_list_priority'),
     ];
 
     array_unshift($table_data, [
@@ -443,9 +443,9 @@ function init_relation_sessions_table($table_attributes = [])
         $table_name = addslashes($table_name);
         if ($table_attributes['data-new-rel-type'] == 'customer' && is_numeric($table_attributes['data-new-rel-id'])) {
             if (total_rows(db_prefix() . 'clients', [
-                'active' => 0,
-                'userid' => $table_attributes['data-new-rel-id'],
-            ]) > 0) {
+                    'active' => 0,
+                    'userid' => $table_attributes['data-new-rel-id'],
+                ]) > 0) {
                 $disabled = ' disabled';
             }
         }
@@ -544,9 +544,9 @@ function sessions_summary_data($rel_id = null, $rel_type = null)
 function get_sql_calc_session_logged_time($session_id)
 {
     /**
-    * Do not remove where session_id=
-    * Used in sessions detailed_overview to overwrite the sessionid
-    */
+     * Do not remove where session_id=
+     * Used in sessions detailed_overview to overwrite the sessionid
+     */
     return 'SELECT SUM(CASE
             WHEN end_time is NULL THEN ' . time() . '-start_time
             ELSE end_time-start_time
@@ -630,7 +630,17 @@ function is_session_created_by_staff($taskId, $staffId = null)
         ->where('addedfrom', $staffId)
         ->where('is_session', 1)
         ->where('id', $taskId);
-        
+
+    return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
+}
+
+function is_session($taskId){
+
+    $CI = &get_instance();
+    $CI->db->select('1')
+        ->where('is_session', 1)
+        ->where('id', $taskId);
+
     return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
 }
 

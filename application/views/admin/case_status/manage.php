@@ -8,7 +8,7 @@
 					<div class="panel-body">
                         <?php if (has_permission('case_status', '', 'create')) { ?>
 						<div class="_buttons">							
-							<a href="<?php echo admin_url('Case_status/cstatuscu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_cstatus'); ?></a>
+							<a href="<?php echo admin_url('case_status/cstatuscu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_cstatus'); ?></a>
 							<div class="clearfix"></div>
 							<hr class="hr-panel-heading" />
 						</div>

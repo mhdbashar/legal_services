@@ -1,6 +1,6 @@
 <div class="cb-form-wrapper pfxcbcontent">
     <link href="<?= module_dir_url('appointly', 'assets/css/callbacks_external_form.css'); ?>" rel="stylesheet" type="text/css">
-    <?php echo form_open('appointly/appointments_public/request_callback_external', array('id' => 'perfex-callbacks-form')); ?>
+    <?php echo form_open('appointly/appointments_public/request_callback_external', array('id' => 'babil-callbacks-form')); ?>
 
     <div class="vertical bar-deactive cb-form-color" data-toggle="tooltip" data-title="<?= _l('callbacks_request_a_callback'); ?>" data-placement="left">
         <!-- <span>Request a Callback</span> -->

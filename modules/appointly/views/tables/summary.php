@@ -10,16 +10,22 @@ unset($data['total_appointments']);
     <div class="col-md-2 col-xs-6 border-right">
         <h3 class="bold no-mtop"><?= $total_appointments_in_database ?></h3>
         <p class="font-medium-xs no-mbot">
-            <span class="bold"><?= _l('appointments_total_found'); ?></span>
+            <a href="" onclick="_toggleSummaryFilter('all'); return false;"><?= _l('appointments_total_found'); ?></a>
         </p>
     </div>
     <?php foreach ($data as $key => $summary) { ?>
         <div class="col-md-2 col-xs-6 border-right appoinment_summary">
             <h3 class="bold no-mtop"><?= $data[$key]['total']; ?></h3>
-            <p style="color:<?= ($summary['color']) ? $summary['color'] : ''; ?>" class="font-medium-xs no-mbot">
-                <?= (!empty($summary['name']) ? $summary['name'] : ''); ?>
-            </p>
+            <a style="color:<?= ($summary['color']) ? $summary['color'] : ''; ?>" href="" onclick="_toggleSummaryFilter('<?= $key ?>'); return false;"><?= (!empty($summary['name']) ? $summary['name'] : ''); ?></a>
         </div>
     <?php } ?>
 </div>
+<script>
+    const _toggleSummaryFilter = (filter) => {
+        const filtersDropdown = $('._filter_data ul.dropdown-menu li');
+        $('._filters._hidden_inputs input').val('');
+        filtersDropdown.removeClass('active');
+        filtersDropdown.find(`a[data-cview='${filter}']`).trigger('click');
+    }
+</script>
 <hr class="hr-panel-heading" />

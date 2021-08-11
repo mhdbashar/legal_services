@@ -7,25 +7,26 @@ class Googlecalendar extends App_Model
 
     protected $googleReminders;
 
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->library('googleplus');
+        $this->load->library('appointly/googleplus');
 
         $this->unauthorized_url_settings = '<h3>Seems that something is wrong, please check that your Client Secret is correctly inserted in <a href="' . admin_url('settings?group=appointly-settings') . '">Setup->Settings->Appointments</a></h3>';
 
         $this->table = db_prefix() . 'appointly_google';
 
         $this->googleReminders = [
-            'useDefault' => FALSE,
-            'overrides' => array(
-                array('method' => 'email', 'minutes' => 24 * 60),
-                array('method' => 'popup', 'minutes' => 60),
-            ),
+            'useDefault' => false,
+            'overrides'  => [
+                ['method' => 'email', 'minutes' => 24 * 60],
+                ['method' => 'popup', 'minutes' => 60],
+            ],
         ];
-        /** 
-         * Init Google Calendar Service instance 
+        /**
+         * Init Google Calendar Service instance
          */
         $this->calendar = new Google_Service_Calendar($this->googleplus->client());
     }
@@ -72,23 +73,23 @@ class Googlecalendar extends App_Model
                 $this->db->where('staff_id', get_staff_user_id());
 
                 $this->db->update($this->table, [
-                    'access_token' => $login['access_token'],
-                    'expires_in' => time() + $login['expires_in'],
-                    'refresh_token' =>  $login['refresh_token'],
+                    'access_token'  => $login['access_token'],
+                    'expires_in'    => time() + $login['expires_in'],
+                    'refresh_token' => $login['refresh_token'],
                 ]);
             } else {
                 if (isset($login['refresh_token'])) {
                     $this->db->insert($this->table, [
-                        'staff_id' => get_staff_user_id(),
-                        'access_token' => $login['access_token'],
+                        'staff_id'      => get_staff_user_id(),
+                        'access_token'  => $login['access_token'],
                         'refresh_token' => $login['refresh_token'],
-                        'expires_in' => time() + $login['expires_in'],
+                        'expires_in'    => time() + $login['expires_in'],
                     ]);
                 } else {
                     $this->db->insert($this->table, [
-                        'staff_id' => get_staff_user_id(),
+                        'staff_id'     => get_staff_user_id(),
                         'access_token' => $login['access_token'],
-                        'expires_in' => time() + $login['expires_in'],
+                        'expires_in'   => time() + $login['expires_in'],
                     ]);
                 }
             }
@@ -132,7 +133,7 @@ class Googlecalendar extends App_Model
         } catch (Exception $e) {
             /**
              * This means that event is not found and return true so error will be not thrown
-             * Just a percusion when relogging with gmail accounts sometimes can get messy 
+             * Just a percusion when relogging with gmail accounts sometimes can get messy
              */
             if ($e->getCode() === 404) {
                 return true;
@@ -165,7 +166,7 @@ class Googlecalendar extends App_Model
             $timeMax = date("c", strtotime($timeMax));
         }
 
-        $optParams = array(
+        $optParams = [
             'maxResults'   => $maxResults,
             'orderBy'      => 'startTime',
             'singleEvents' => true,
@@ -173,25 +174,25 @@ class Googlecalendar extends App_Model
             'timeMax'      => $timeMax,
             'timeZone'     => get_option('default_timezone'),
 
-        );
+        ];
 
-        /** 
+        /**
          * Optional: Get all events
          */
         // $results = $this->googlecalendar->calendar->events->listEvents($calendarId);
 
-        /** 
+        /**
          * Get all events from past 12 months START FROM CURRENT MONTH
          */
         $results = $this->googlecalendar->calendar->events->listEvents($calendarId, $optParams);
 
-        $data = array();
+        $data = [];
 
         foreach ($results->getItems() as $item) {
 
             array_push(
                 $data,
-                array(
+                [
 
                     'id'          => $item->getId(),
                     'summary'     => $item->getSummary(),
@@ -199,7 +200,7 @@ class Googlecalendar extends App_Model
                     'creator'     => $item->getCreator(),
                     'start'       => $item->getStart()->dateTime,
                     'end'         => $item->getEnd()->dateTime,
-                )
+                ]
 
             );
         }
@@ -228,41 +229,42 @@ class Googlecalendar extends App_Model
      */
     function updateEvent($eventid, $data)
     {
-        $event  = $this->fillGoogleCalendarEvent($data);
+        $event = $this->fillGoogleCalendarEvent($data);
 
         return $this->calendar->events->update('primary', $eventid, $event);
     }
 
-    /** 
+    /**
      * Manage data and fill google calendar event array
+     *
      * @return instance of Google_Service_Calendar_Event
      * @return array
      */
     function fillGoogleCalendarEvent($data)
     {
         $event = new Google_Service_Calendar_Event(
-            array(
-                'summary'     => $data['summary'],
-                'description' => $data['description'],
-                'location' => ($data['location']) ? $data['location'] : '',
-                'sendUpdates' => 'all',
-                'start'       => array(
+            [
+                'summary'        => $data['summary'],
+                'description'    => $data['description'],
+                'location'       => ($data['location']) ? $data['location'] : '',
+                'sendUpdates'    => 'all',
+                'start'          => [
                     'dateTime' => $data['start'],
                     'timeZone' => get_option('default_timezone'),
-                ),
-                'end'         => array(
+                ],
+                'end'            => [
                     'dateTime' => $data['start'],
                     'timeZone' => get_option('default_timezone'),
-                ),
-                'attendees' => (array) $data['attendees'],
-                'reminders' => $this->googleReminders,
-                'conferenceData' => array(
+                ],
+                'attendees'      => (array)$data['attendees'],
+                'reminders'      => $this->googleReminders,
+                'conferenceData' => [
                     "createRequest" => [
                         "conferenceSolutionKey" => ["type" => "hangoutsMeet"],
-                        "requestId" => generate_encryption_key() . time()
+                        "requestId"             => generate_encryption_key() . time()
                     ]
-                )
-            )
+                ]
+            ]
         );
 
         return $event;
@@ -287,7 +289,7 @@ class Googlecalendar extends App_Model
 
 
     /**
-     * Google save / update new token values in database 
+     * Google save / update new token values in database
      *
      * @return void
      */
@@ -298,9 +300,10 @@ class Googlecalendar extends App_Model
             $this->table,
             [
                 'refresh_token' => $data['refresh_token'],
-                'access_token' => $data['access_token'],
-                'expires_in' => time() + $data['expires_in']
+                'access_token'  => $data['access_token'],
+                'expires_in'    => time() + $data['expires_in']
             ]
         );
     }
+
 }

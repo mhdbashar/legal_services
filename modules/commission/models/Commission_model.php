@@ -25,6 +25,15 @@ class Commission_model extends App_Model {
 			$ladder_setting[] = $node;
 		}
 
+		$ladder_product_setting = [];
+		foreach ($data['from_amount_product'] as $key => $value) {
+			$node = [];
+			$node['from_amount_product'] = $value;
+			$node['to_amount_product'] = $data['to_amount_product'][$key];
+			$node['percent_enjoyed_ladder_product'] = $data['percent_enjoyed_ladder_product'][$key];
+			$ladder_product_setting[$data['ladder_product'][$key]] = $node;
+		}
+
 		if(isset($data['clients'])){
 			$data['clients'] = implode(',', $data['clients']);
 		}
@@ -37,6 +46,11 @@ class Commission_model extends App_Model {
 		unset($data['to_amount']);
 		unset($data['percent_enjoyed_ladder']);
 
+		unset($data['from_amount_product']);
+		unset($data['to_amount_product']);
+		unset($data['percent_enjoyed_ladder_product']);
+		unset($data['ladder_product']);
+
 		$data['addedfrom'] = get_staff_user_id();
 		$data['datecreated'] = date('Y-m-d H:i:s');
 
@@ -48,6 +62,7 @@ class Commission_model extends App_Model {
 		}
 
 		$data['ladder_setting'] = json_encode($ladder_setting);
+		$data['ladder_product_setting'] = json_encode($ladder_product_setting);
 		$this->db->insert(db_prefix() . 'commission_policy', $data);
 
 		$insert_id = $this->db->insert_id();
@@ -74,6 +89,15 @@ class Commission_model extends App_Model {
 			$ladder_setting[] = $node;
 		}
 
+		$ladder_product_setting = [];
+		foreach ($data['from_amount_product'] as $key => $value) {
+			$node = [];
+			$node['from_amount_product'] = $value;
+			$node['to_amount_product'] = $data['to_amount_product'][$key];
+			$node['percent_enjoyed_ladder_product'] = $data['percent_enjoyed_ladder_product'][$key];
+			$ladder_product_setting[$data['ladder_product'][$key]] = $node;
+		}
+
 		if(isset($data['clients'])){
 			$data['clients'] = implode(',', $data['clients']);
 		}else{
@@ -94,13 +118,20 @@ class Commission_model extends App_Model {
 		unset($data['to_amount']);
 		unset($data['percent_enjoyed_ladder']);
 
+		unset($data['from_amount_product']);
+		unset($data['to_amount_product']);
+		unset($data['percent_enjoyed_ladder_product']);
+		unset($data['ladder_product']);
+
 		if (!$this->check_format_date($data['from_date'])) {
 			$data['from_date'] = to_sql_date($data['from_date']);
 		}
 		if (!$this->check_format_date($data['to_date'])) {
 			$data['to_date'] = to_sql_date($data['to_date']);
 		}
+		
 		$data['ladder_setting'] = json_encode($ladder_setting);
+		$data['ladder_product_setting'] = json_encode($ladder_product_setting);
 
 		$this->db->where('id', $id);
 		$this->db->update(db_prefix() . 'commission_policy', $data);
@@ -242,7 +273,7 @@ class Commission_model extends App_Model {
 			}
 		}
 
-		return $this->db->query('SELECT '.db_prefix().'commission_policy.name, from_date, to_date, percent_enjoyed, product_setting, ladder_setting, commission_policy_type, clients, client_groups, commmission_first_invoices, number_first_invoices, percent_first_invoices FROM ' . db_prefix() . 'applicable_staff JOIN '.db_prefix().'commission_policy ON '.db_prefix().'applicable_staff.commission_policy = '.db_prefix().'commission_policy.id where applicable_staff = "'.$staff . '" and is_client = "'.$is_client.'" and from_date <= "' . $date . '" and to_date >= "' . $date . '" and IF(clients IS NOT NULL, IF(clients != "",find_in_set('.$client_id.',clients), 1=1), 1=1)'.$where_group.' order by '.db_prefix().'commission_policy.datecreated desc')->row();
+		return $this->db->query('SELECT '.db_prefix().'commission_policy.name, commission_type, from_date, to_date, percent_enjoyed, amount_to_calculate, ladder_product_setting, product_setting, ladder_setting, commission_policy_type, clients, client_groups, commmission_first_invoices, number_first_invoices, percent_first_invoices FROM ' . db_prefix() . 'applicable_staff JOIN '.db_prefix().'commission_policy ON '.db_prefix().'applicable_staff.commission_policy = '.db_prefix().'commission_policy.id where applicable_staff = "'.$staff . '" and is_client = "'.$is_client.'" and from_date <= "' . $date . '" and to_date >= "' . $date . '" and IF(clients IS NOT NULL, IF(clients != "",find_in_set('.$client_id.',clients), 1=1), 1=1)'.$where_group.' order by '.db_prefix().'commission_policy.datecreated desc')->row();
 
 	}
 
@@ -394,7 +425,11 @@ class Commission_model extends App_Model {
 		$payment = $this->payments_model->get($payment_id);
 		$affectedRows = 0;
 		$invoices = $this->invoices_model->get($payment->invoiceid);
+		if(get_option('calculate_recurring_invoice') && $invoices->is_recurring_from != ''){
+			return false;
+		}
 		$count = 0;
+		$total_amount_hierarchy = 0;
 		$salesperson = '';
 		if($invoices->sale_agent){
 			$salesperson = $invoices->sale_agent;
@@ -421,32 +456,73 @@ class Commission_model extends App_Model {
 		if ($invoices) {
 			$commission_policy = $this->get_commission_policy_by_staff($salesperson, $invoices->clientid);
 			if ($commission_policy) {
-				if ($commission_policy->commission_policy_type == '2') {
-					$payments_amount = $payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2);
-					if($commission_policy->commmission_first_invoices == 1){
-						$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy->number_first_invoices, $commission_policy);
-						if(in_array($payment->invoiceid, $list_first_invoices)){
-							$count += $payments_amount * ($commission_policy->percent_first_invoices / 100);
-						}else{
-							$count += $payments_amount * ($commission_policy->percent_enjoyed / 100);
+				$profit_percent = 1;
+				$profit = 0;
+
+				if($commission_policy->amount_to_calculate == '1'){
+					foreach ($invoices->items as $value) {
+						$item = $this->get_item_by_name($value['description']);
+						if($item){
+							$profit += ($value['rate'] - $item->purchase_price) * $value['qty'];
 						}
-					}else{
-						$count += $payments_amount * ($commission_policy->percent_enjoyed / 100);
 					}
+
+					$profit_percent = $profit/($invoices->total - $invoices->total_tax);
+				}
+
+				if ($commission_policy->commission_policy_type == '2') {
+                    $payments_amount = ($payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2)) * $profit_percent;
+					$total_amount_hierarchy += $payments_amount;
+					$percent_enjoyed = str_replace(',', '', $commission_policy->percent_enjoyed);
+					$percent_first_invoices = str_replace(',', '', $commission_policy->percent_first_invoices);
+					if ($commission_policy->commission_type == 'percentage') {
+						if($commission_policy->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy->number_first_invoices, $commission_policy);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $payments_amount * ($percent_first_invoices / 100);
+							}else{
+								$count += $payments_amount * ($percent_enjoyed / 100);
+							}
+						}else{
+							$count += $payments_amount * ($percent_enjoyed / 100);
+						}
+                    } else {
+                    	if($commission_policy->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy->number_first_invoices, $commission_policy);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $percent_first_invoices;
+							}else{
+								$count += $percent_enjoyed;
+							}
+						}else{
+							$count += $percent_enjoyed;
+						}
+                    }
 				} elseif ($commission_policy->commission_policy_type == '3') {
 					$product_setting = json_decode($commission_policy->product_setting);
 					if ($invoices->items) {
-						$payments_amount = $payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2);
-						foreach ($invoices->items as $item) {
-							
-							$item_amount = $item['qty'] * $item['rate'];
+						$payments_amount = ($payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2)) * $profit_percent;
 
-							$percent = $item_amount / $invoices->subtotal;
+						foreach ($invoices->items as $item) {
 							$item_id = $this->get_item_id_by_name($item['description']);
 							$it = '';
+							$percent = 0;
 							if($item_id != ''){
-								$it = $this->invoice_items_model->get($item_id);
+								$it = $this->get_item_by_name($item['description']);
+
+								if($commission_policy->amount_to_calculate == '1'){
+									$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+									if($profit > 0){
+										$percent = $item_amount / $profit;
+									}else{
+											$percent = 0;
+									}
+								}else{
+									$item_amount = ($item['qty'] * $item['rate']);
+									$percent = $item_amount / $payments_amount;
+								}
 							}
+
 							foreach ($product_setting as $value){
 								$group_setting = explode('|', $value[0]);
 								$item_setting = explode('|', $value[1]);
@@ -480,34 +556,167 @@ class Commission_model extends App_Model {
 								}
 
 								if ($check == true) {
-									$count += ($percent * $payments_amount) * ($percent_setting / 100);
+									$total_amount_hierarchy += ($percent * $payments_amount);
+									if ($commission_policy->commission_type == 'percentage') {
+                                        $count += ($percent * $payments_amount) * ($percent_setting / 100);
+                                    } else {
+                                        $count += $percent_setting;
+                                    }
 								}
 							}
 						}
 					}
 				} elseif ($commission_policy->commission_policy_type == '1') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
 					$ladder_setting = json_decode($commission_policy->ladder_setting);
-
-					foreach ($ladder_setting as $key => $value) {
-						$from_amount = str_replace(',', '', $value->from_amount);
-						if ($payments_amount > $from_amount) {
-							$to_amount = str_replace(',', '', $value->to_amount);
-							if ($to_amount == '') {
-								$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-								$payments_amount = 0;
-							} else {
-								if ($payments_amount > $to_amount) {
-									$count += $to_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = $payments_amount - $to_amount;
+					$amount = $payments_amount;
+					$total_amount_hierarchy += $payments_amount;
+					if ($commission_policy->commission_type == 'percentage') {
+	                    foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $amount * ($percent_enjoyed / 100);
+									$amount = 0;
+								} else if ($from_amount == '') {
+									$count += $to_amount * ($percent_enjoyed / 100);
+									$amount = $amount - $to_amount;
 								} else {
-									$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = 0;
+									if ($payments_amount > $to_amount) {
+										$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $amount * ($percent_enjoyed / 100);
+										$amount = 0;
+									}
 								}
+							} else {
+								break;
 							}
-						} else {
-							break;
+						}
+                    } else {
+                    	foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = 0;
+								} else if ($from_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = $amount - $to_amount;
+								} else {
+									if ($payments_amount > $to_amount) {
+										$count += $percent_enjoyed;
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $percent_enjoyed;
+										$amount = 0;
+									}
+								}
+							} else {
+								break;
+							}
+						}
+                    }
+				} elseif ($commission_policy->commission_policy_type == '4') {
+					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$ladder_product_setting = json_decode($commission_policy->ladder_product_setting, true);
+
+					foreach ($invoices->items as $item) {
+						$it = $this->get_item_by_name($item['description']);
+
+						if($it){
+							$percent = 0;
+							if($commission_policy->amount_to_calculate == '1'){
+								$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+								if($profit > 0){
+									$percent = $item_amount / $profit;
+								}else{
+										$percent = 0;
+								}
+							}else{
+								$item_amount = ($item['qty'] * $item['rate']);
+								$percent = $item_amount / $payments_amount;
+							}
+							$item_amount = $payments_amount * $percent;
+							$amount = $item_amount;
+
+							if ($commission_policy->commission_type == 'percentage') {
+                                foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+												if ($to_amount == '') {
+													$count += $amount * ($percent_enjoyed / 100);
+													$total_amount_hierarchy += $amount;
+													$amount = 0;
+												} else if ($from_amount == '') {
+													$count += $to_amount * ($percent_enjoyed / 100);
+													$amount = $amount - $to_amount;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+														$total_amount_hierarchy += ($to_amount - $from_amount);
+
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $amount * ($percent_enjoyed / 100);
+														$total_amount_hierarchy += $amount;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            } else {
+                            	foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+
+												if ($to_amount == '') {
+													$count += $percent_enjoyed;
+													$total_amount_hierarchy += $amount;
+													$amount = 0;
+												} else if ($from_amount == '') {
+													$count += $percent_enjoyed;
+													$amount = $amount - $to_amount;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += $percent_enjoyed;
+														$total_amount_hierarchy += ($to_amount - $from_amount);
+
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $percent_enjoyed;
+														$total_amount_hierarchy += $amount;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            }
 						}
 					}
 				}
@@ -522,16 +731,13 @@ class Commission_model extends App_Model {
 				do {
 					foreach ($data as $k => $count) {
 						$hierarchy = $this->get_hierarchy('', ['salesman' => $k]);
-						$count_discount = 0;
 						if($hierarchy){
 							foreach ($hierarchy as $key => $value) {
 								if(!in_array($value['coordinator'], $list_isset)){
-									$data[$value['coordinator']] = round($count * ($value['percent'] / 100), 2);
-									$count_discount += $data[$value['coordinator']];
+									$data[$value['coordinator']] = round($total_amount_hierarchy * ($value['percent'] / 100), 2);
 									$list_isset[] = $value['coordinator'];
 								}
 							}
-							$count = $count - $count_discount;
 						}
 
 						$this->db->where('invoice_id', $invoices->id);
@@ -572,30 +778,71 @@ class Commission_model extends App_Model {
 			$count = 0;
 			$commission_policy_contact = $this->get_commission_policy_by_staff($invoices->clientid, $invoices->clientid, 1);
 			if ($commission_policy_contact) {
-				if ($commission_policy_contact->commission_policy_type == '2') {
-					$payments_amount = $payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2);
-					if($commission_policy_contact->commmission_first_invoices == 1){
-						$list_first_invoices = $this->get_first_invoices($invoices->clientid, $payment->invoiceid, $commission_policy_contact->number_first_invoices, $commission_policy_contact, 1);
-						if(in_array($payment->invoiceid, $list_first_invoices)){
-							$count += $payments_amount * ($commission_policy_contact->percent_first_invoices / 100);
-						}else{
-							$count += $payments_amount * ($commission_policy_contact->percent_enjoyed / 100);
+				$profit_percent = 1;
+				$profit = 0;
+
+				if($commission_policy_contact->amount_to_calculate == '1'){
+					foreach ($invoices->items as $value) {
+						$item = $this->get_item_by_name($value['description']);
+						if($item){
+							$profit += ($value['rate'] - $item->purchase_price) * $value['qty'];
 						}
-					}else{
-						$count += $payments_amount * ($commission_policy_contact->percent_enjoyed / 100);
 					}
+
+					$profit_percent = $profit/($invoices->total - $invoices->total_tax);
+				}
+
+				if ($commission_policy_contact->commission_policy_type == '2') {
+
+					$payments_amount = ($payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2)) * $profit_percent;
+					$percent_enjoyed = str_replace(',', '', $commission_policy_contact->percent_enjoyed);
+					$percent_first_invoices = str_replace(',', '', $commission_policy_contact->percent_first_invoices);
+					if ($commission_policy_contact->commission_type == 'percentage') {
+						if($commission_policy_contact->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy_contact->number_first_invoices, $commission_policy_contact);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $payments_amount * ($percent_first_invoices / 100);
+							}else{
+								$count += $payments_amount * ($percent_enjoyed / 100);
+							}
+						}else{
+							$count += $payments_amount * ($percent_enjoyed / 100);
+						}
+                    } else {
+                    	if($commission_policy_contact->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy_contact->number_first_invoices, $commission_policy_contact);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $percent_first_invoices;
+							}else{
+								$count += $percent_enjoyed;
+							}
+						}else{
+							$count += $percent_enjoyed;
+						}
+                    }
 				} elseif ($commission_policy_contact->commission_policy_type == '3') {
 					$product_setting = json_decode($commission_policy_contact->product_setting);
 					if ($invoices->items) {
-						$payments_amount = $payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2);
+						$payments_amount = ($payment->amount - round(($invoices->total_tax * ($payment->amount/$invoices->total)), 2)) * $profit_percent;
+
 						foreach ($invoices->items as $item) {
-							$item_amount = $item['qty'] * $item['rate'];
-							
-							$percent = $item_amount / $invoices->subtotal;
 							$item_id = $this->get_item_id_by_name($item['description']);
 							$it = '';
+							$percent = 0;
 							if($item_id != ''){
-								$it = $this->invoice_items_model->get($item_id);
+								$it = $this->get_item_by_name($item['description']);
+
+								if($commission_policy_contact->amount_to_calculate == '1'){
+									$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+									if($profit > 0){
+										$percent = $item_amount / $profit;
+									}else{
+										$percent = 0;
+									}
+								}else{
+									$item_amount = ($item['qty'] * $item['rate']);
+									$percent = $item_amount / $payments_amount;
+								}
 							}
 
 							foreach ($product_setting as $value){
@@ -604,6 +851,7 @@ class Commission_model extends App_Model {
 								$from_number_setting = $value[2];
 								$to_number_setting = $value[3];
 								$percent_setting = $value[4];
+
 								$check = true;
 								if($item_id != ''){
 									if($it != ''){
@@ -630,34 +878,147 @@ class Commission_model extends App_Model {
 								}
 
 								if ($check == true) {
-									$count += ($percent * $payments_amount) * ($percent_setting / 100);
+									if ($commission_policy_contact->commission_type == 'percentage') {
+										$count += ($percent * $payments_amount) * ($percent_setting / 100);
+                                    } else {
+                                        $count += $percent_setting;
+                                    }
 								}
 							}
 						}
 					}
 				} elseif ($commission_policy_contact->commission_policy_type == '1') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
 					$ladder_setting = json_decode($commission_policy_contact->ladder_setting);
-
-					foreach ($ladder_setting as $key => $value) {
-						$from_amount = str_replace(',', '', $value->from_amount);
-						if ($payments_amount > $from_amount) {
-							$to_amount = str_replace(',', '', $value->to_amount);
-							if ($to_amount == '') {
-								$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-								$payments_amount = 0;
-							} else {
-								if ($payments_amount > $to_amount) {
-									$count += $to_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = $payments_amount - $to_amount;
+					$amount = $payments_amount;
+					if ($commission_policy_contact->commission_type == 'percentage') {
+	                    foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $amount * ($percent_enjoyed / 100);
+									$amount = 0;
 								} else {
-									$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = 0;
+									if ($payments_amount > $to_amount) {
+										$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $amount * ($percent_enjoyed / 100);
+										$amount = 0;
+									}
 								}
+							} else {
+								break;
 							}
-						} else {
-							break;
+						}
+                    } else {
+                    	foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = 0;
+								} else {
+									if ($payments_amount > $to_amount) {
+										$count += $percent_enjoyed;
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $percent_enjoyed;
+										$amount = 0;
+									}
+								}
+							} else {
+								break;
+							}
+						}
+                    }
+				} elseif ($commission_policy_contact->commission_policy_type == '4') {
+					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$ladder_product_setting = json_decode($commission_policy_contact->ladder_product_setting, true);
+
+					foreach ($invoices->items as $item) {
+						$it = $this->get_item_by_name($item['description']);
+
+						if($it){
+							$percent = 0;
+							if($commission_policy_contact->amount_to_calculate == '1'){
+								$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+								if($profit > 0){
+									$percent = $item_amount / $profit;
+								}else{
+									$percent = 0;
+								}
+							}else{
+								$item_amount = ($item['qty'] * $item['rate']);
+								$percent = $item_amount / $payments_amount;
+							}
+							$item_amount = $payments_amount * $percent;
+							$amount = $item_amount;
+							if ($commission_policy_contact->commission_type == 'percentage') {
+                                foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+											
+												if ($to_amount == '') {
+													$count += $amount * ($percent_enjoyed / 100);
+
+													$amount = 0;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $amount * ($percent_enjoyed / 100);
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            } else {
+                            	foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+											
+												if ($to_amount == '') {
+													$count += $percent_enjoyed;
+
+													$amount = 0;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += $percent_enjoyed;
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $percent_enjoyed;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            }
 						}
 					}
 				}
@@ -940,8 +1301,12 @@ class Commission_model extends App_Model {
 		$this->load->model('invoices_model');
 		$this->load->model('invoice_items_model');
 		$invoices = $this->invoices_model->get($invoice_id);
+		if(get_option('calculate_recurring_invoice') && $invoices->is_recurring_from != ''){
+			return false;
+		}
 		$affectedRows = 0;
 		$count = 0;
+		$total_amount_hierarchy = 0;
 		$salesperson = '';
 		if($invoices->sale_agent){
 			$salesperson = $invoices->sale_agent;
@@ -969,36 +1334,73 @@ class Commission_model extends App_Model {
 			$commission_policy = $this->get_commission_policy_by_staff($salesperson, $invoices->clientid);
 
 			if ($commission_policy) {
+				$profit_percent = 1;
+				$profit = 0;
+
+				if($commission_policy->amount_to_calculate == '1'){
+					foreach ($invoices->items as $value) {
+						$item = $this->get_item_by_name($value['description']);
+						if($item){
+							$profit += ($value['rate'] - $item->purchase_price) * $value['qty'];
+						}
+					}
+
+					$profit_percent = $profit/($invoices->total - $invoices->total_tax);
+				}
+
 				if ($commission_policy->commission_policy_type == '2') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
-					if($commission_policy->commmission_first_invoices == 1){
-						$list_first_invoices = $this->get_first_invoices($salesperson, $invoices->id, $commission_policy->number_first_invoices, $commission_policy);
-						if(in_array($invoices->id, $list_first_invoices)){
-							$count += $payments_amount * ($commission_policy->percent_first_invoices / 100);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$total_amount_hierarchy += $payments_amount;
+					$percent_enjoyed = str_replace(',', '', $commission_policy->percent_enjoyed);
+					$percent_first_invoices = str_replace(',', '', $commission_policy->percent_first_invoices);
+					if ($commission_policy->commission_type == 'percentage') {
+						if($commission_policy->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $invoices->id, $commission_policy->number_first_invoices, $commission_policy);
+							if(in_array($invoices->id, $list_first_invoices)){
+								$count += $payments_amount * ($percent_first_invoices / 100);
+							}else{
+								$count += $payments_amount * ($percent_enjoyed / 100);
+							}
 						}else{
-							$count += $payments_amount * ($commission_policy->percent_enjoyed / 100);
+							$count += $payments_amount * ($percent_enjoyed / 100);
 						}
-					}else{
-						$count += $payments_amount * ($commission_policy->percent_enjoyed / 100);
-					}
+                    } else {
+                    	if($commission_policy->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $invoices->id, $commission_policy->number_first_invoices, $commission_policy);
+							if(in_array($invoices->id, $list_first_invoices)){
+								$count += $percent_first_invoices;
+							}else{
+								$count += $percent_enjoyed;
+							}
+						}else{
+							$count += $percent_enjoyed;
+						}
+                    }
 				} elseif ($commission_policy->commission_policy_type == '3') {
 					$product_setting = json_decode($commission_policy->product_setting);
 					if ($invoices->items) {
 						$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+						$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+
 						foreach ($invoices->items as $item) {
-							$item_tax = $this->get_item_tax($item['id'], $item['rel_id']);
-							if($item_tax != 0){
-								$item_amount = $item['qty'] * $item['rate'] + (($item['qty'] * $item['rate']) * ($item_tax / 100));
-							}else{
-								$item_amount = $item['qty'] * $item['rate'];
-							}
-							$percent = $item_amount / $invoices->subtotal;
 							$item_id = $this->get_item_id_by_name($item['description']);
 							$it = '';
+							$percent = 0;
 							if($item_id != ''){
-								$it = $this->invoice_items_model->get($item_id);
+								$it = $this->get_item_by_name($item['description']);
+
+								if($commission_policy->amount_to_calculate == '1'){
+									$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+									if($profit > 0){
+										$percent = $item_amount / $profit;
+									}else{
+											$percent = 0;
+									}
+								}else{
+									$item_amount = ($item['qty'] * $item['rate']);
+									$percent = $item_amount / $payments_amount;
+								}
 							}
 
 							foreach ($product_setting as $value){
@@ -1007,6 +1409,7 @@ class Commission_model extends App_Model {
 								$from_number_setting = $value[2];
 								$to_number_setting = $value[3];
 								$percent_setting = $value[4];
+
 								$check = true;
 								if($item_id != ''){
 									if($it != ''){
@@ -1033,43 +1436,175 @@ class Commission_model extends App_Model {
 								}
 
 								if ($check == true) {
-									$count += ($percent * $payments_amount) * ($percent_setting / 100);
+									$total_amount_hierarchy += ($percent * $payments_amount);
+									if ($commission_policy->commission_type == 'percentage') {
+										$count += ($percent * $payments_amount) * ($percent_setting / 100);
+                                    } else {
+                                        $count += $percent_setting;
+                                    }
 								}
 							}
 						}
 					}
 				} elseif ($commission_policy->commission_policy_type == '1') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
 					$ladder_setting = json_decode($commission_policy->ladder_setting);
-					foreach ($ladder_setting as $key => $value) {
-						$from_amount = str_replace(',', '', $value->from_amount);
-						if ($payments_amount > $from_amount) {
-							$to_amount = str_replace(',', '', $value->to_amount);
-							if ($to_amount == '') {
-								$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-								$payments_amount = 0;
-							} else {
-								if ($payments_amount > $to_amount) {
-									$count += $to_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = $payments_amount - $to_amount;
+
+					$amount = $payments_amount;
+					$total_amount_hierarchy += $amount;
+					if ($commission_policy->commission_type == 'percentage') {
+	                    foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $amount * ($percent_enjoyed / 100);
+									$amount = 0;
+								} else if ($from_amount == '') {
+									$count += $amount * ($percent_enjoyed / 100);
+									$amount = $amount - $to_amount;
 								} else {
-									$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = 0;
+									if ($payments_amount > $to_amount) {
+										$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $amount * ($percent_enjoyed / 100);
+										$amount = 0;
+									}
 								}
+							} else {
+								break;
 							}
-						} else {
-							break;
+						}
+                    } else {
+                    	foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = 0;
+								} else if ($from_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = $amount - $to_amount;
+								} else {
+									if ($payments_amount > $to_amount) {
+										$count += $percent_enjoyed;
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $percent_enjoyed;
+										$amount = 0;
+									}
+								}
+							} else {
+								break;
+							}
+						}
+                    }
+				} elseif ($commission_policy->commission_policy_type == '4') {
+					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$ladder_product_setting = json_decode($commission_policy->ladder_product_setting, true);
+
+					foreach ($invoices->items as $item) {
+						$it = $this->get_item_by_name($item['description']);
+
+						if($it){
+							$percent = 0;
+							if($commission_policy->amount_to_calculate == '1'){
+								$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+								if($profit > 0){
+									$percent = $item_amount / $profit;
+								}else{
+										$percent = 0;
+								}
+							}else{
+								$item_amount = ($item['qty'] * $item['rate']);
+								$percent = $item_amount / $payments_amount;
+							}
+							$item_amount = $payments_amount * $percent;
+							$amount = $item_amount;
+							if ($commission_policy->commission_type == 'percentage') {
+                                foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+
+												if ($to_amount == '') {
+													$count += $amount * ($percent_enjoyed / 100);
+													$total_amount_hierarchy += $amount;
+													$amount = 0;
+												}  else if ($from_amount == '') {
+													$count += $to_amount * ($percent_enjoyed / 100);
+													$amount = $amount - $to_amount;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+														$total_amount_hierarchy += ($to_amount - $from_amount);
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $amount * ($percent_enjoyed / 100);
+														$total_amount_hierarchy += $amount;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            } else {
+                            	foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+
+												if ($to_amount == '') {
+													$count += $percent_enjoyed;
+													$total_amount_hierarchy += $amount;
+													$amount = 0;
+												} else if ($from_amount == '') {
+													$count += $percent_enjoyed;
+													$amount = $amount - $to_amount;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += $percent_enjoyed;
+														$total_amount_hierarchy += ($to_amount - $from_amount);
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $percent_enjoyed;
+														$total_amount_hierarchy += $amount;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            }
 						}
 					}
 				}
 			}
-
+			
 			$this->db->where('invoice_id', $invoices->id);
 			$this->db->where('is_client', 0);
 			$this->db->where('paid', 0);
 			$this->db->delete(db_prefix() . 'commission');
-
 			if ($count > 0) {
 
 				$data = [];
@@ -1083,12 +1618,10 @@ class Commission_model extends App_Model {
 						if($hierarchy){
 							foreach ($hierarchy as $key => $value) {
 								if(!in_array($value['coordinator'], $list_isset)){
-									$data[$value['coordinator']] = round($count * ($value['percent'] / 100), 2);
-									$count_discount += $data[$value['coordinator']];
+									$data[$value['coordinator']] = round($total_amount_hierarchy * ($value['percent'] / 100), 2);
 									$list_isset[] = $value['coordinator'];
 								}
 							}
-							$count = $count - $count_discount;
 						}
 
 						
@@ -1111,38 +1644,74 @@ class Commission_model extends App_Model {
 
 			$count = 0;
 			$commission_policy_contact = $this->get_commission_policy_by_staff($invoices->clientid, $invoices->clientid, 1);
-
 			if ($commission_policy_contact) {
+				$profit_percent = 1;
+				$profit = 0;
+
+				if($commission_policy_contact->amount_to_calculate == '1'){
+					foreach ($invoices->items as $value) {
+						$item = $this->get_item_by_name($value['description']);
+						if($item){
+							$profit += ($value['rate'] - $item->purchase_price) * $value['qty'];
+						}
+					}
+
+					$profit_percent = $profit/($invoices->total - $invoices->total_tax);
+				}
+				
 				if ($commission_policy_contact->commission_policy_type == '2') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
-					if($commission_policy_contact->commmission_first_invoices == 1){
-						$list_first_invoices = $this->get_first_invoices($invoices->clientid, $invoices->id, $commission_policy_contact->number_first_invoices, $commission_policy_contact, 1);
-						if(in_array($invoices->id, $list_first_invoices)){
-							$count += $payments_amount * ($commission_policy_contact->percent_first_invoices / 100);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$percent_enjoyed = str_replace(',', '', $commission_policy_contact->percent_enjoyed);
+					$percent_first_invoices = str_replace(',', '', $commission_policy_contact->percent_first_invoices);
+					if ($commission_policy_contact->commission_type == 'percentage') {
+						if($commission_policy_contact->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy_contact->number_first_invoices, $commission_policy_contact);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $payments_amount * ($percent_first_invoices / 100);
+							}else{
+								$count += $payments_amount * ($percent_enjoyed / 100);
+							}
 						}else{
-							$count += $payments_amount * ($commission_policy_contact->percent_enjoyed / 100);
+							$count += $payments_amount * ($percent_enjoyed / 100);
 						}
-					}else{
-						$count += $payments_amount * ($commission_policy_contact->percent_enjoyed / 100);
-					}
+                    } else {
+                    	if($commission_policy_contact->commmission_first_invoices == 1){
+							$list_first_invoices = $this->get_first_invoices($salesperson, $payment->invoiceid, $commission_policy_contact->number_first_invoices, $commission_policy_contact);
+							if(in_array($payment->invoiceid, $list_first_invoices)){
+								$count += $percent_first_invoices;
+							}else{
+								$count += $percent_enjoyed;
+							}
+						}else{
+							$count += $percent_enjoyed;
+						}
+                    }
+					
 				} elseif ($commission_policy_contact->commission_policy_type == '3') {
 					$product_setting = json_decode($commission_policy_contact->product_setting);
 					if ($invoices->items) {
 						$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+						$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+
 						foreach ($invoices->items as $item) {
-							$item_tax = $this->get_item_tax($item['id'], $item['rel_id']);
-							if($item_tax != 0){
-								$item_amount = $item['qty'] * $item['rate'] + (($item['qty'] * $item['rate']) * ($item_tax / 100));
-							}else{
-								$item_amount = $item['qty'] * $item['rate'];
-							}
-							$percent = $item_amount / $invoices->subtotal;
 							$item_id = $this->get_item_id_by_name($item['description']);
 							$it = '';
+							$percent = 0;
 							if($item_id != ''){
-								$it = $this->invoice_items_model->get($item_id);
+								$it = $this->get_item_by_name($item['description']);
+
+								if($commission_policy_contact->amount_to_calculate == '1'){
+									$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+									if($profit > 0){
+										$percent = $item_amount / $profit;
+									}else{
+											$percent = 0;
+									}
+								}else{
+									$item_amount = ($item['qty'] * $item['rate']);
+									$percent = $item_amount / $payments_amount;
+								}
 							}
 
 							foreach ($product_setting as $value){
@@ -1151,6 +1720,7 @@ class Commission_model extends App_Model {
 								$from_number_setting = $value[2];
 								$to_number_setting = $value[3];
 								$percent_setting = $value[4];
+
 								$check = true;
 								if($item_id != ''){
 									if($it != ''){
@@ -1177,65 +1747,170 @@ class Commission_model extends App_Model {
 								}
 
 								if ($check == true) {
-									$count += ($percent * $payments_amount) * ($percent_setting / 100);
+									if ($commission_policy_contact->commission_type == 'percentage') {
+										$count += ($percent * $payments_amount) * ($percent_setting / 100);
+                                    } else {
+                                        $count += $percent_setting;
+                                    }
 								}
 							}
 						}
 					}
 				} elseif ($commission_policy_contact->commission_policy_type == '1') {
 					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
-					$payments_amount = $total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2);
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
 					$ladder_setting = json_decode($commission_policy_contact->ladder_setting);
+					$amount = $payments_amount;
 
-					foreach ($ladder_setting as $key => $value) {
-						$from_amount = str_replace(',', '', $value->from_amount);
-						if ($payments_amount > $from_amount) {
-							$to_amount = str_replace(',', '', $value->to_amount);
-							if ($to_amount == '') {
-								$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-								$payments_amount = 0;
-							} else {
-								if ($payments_amount > $to_amount) {
-									$count += $to_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = $payments_amount - $to_amount;
+					if ($commission_policy_contact->commission_type == 'percentage') {
+	                    foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$to_amount = str_replace(',', '', $value->to_amount);
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								if ($to_amount == '') {
+									$count += $amount * ($percent_enjoyed / 100);
+									$amount = 0;
 								} else {
-									$count += $payments_amount * ($value->percent_enjoyed_ladder / 100);
-									$payments_amount = 0;
+									if ($payments_amount > $to_amount) {
+										$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $amount * ($percent_enjoyed / 100);
+										$amount = 0;
+									}
 								}
+							} else {
+								break;
 							}
-						} else {
-							break;
+						}
+                    } else {
+                    	foreach ($ladder_setting as $key => $value) {
+							$from_amount = str_replace(',', '', $value->from_amount);
+							if ($payments_amount > $from_amount) {
+								$percent_enjoyed = str_replace(',', '', $value->percent_enjoyed_ladder);
+								$to_amount = str_replace(',', '', $value->to_amount);
+								if ($to_amount == '') {
+									$count += $percent_enjoyed;
+									$amount = 0;
+								} else {
+									if ($payments_amount > $to_amount) {
+										$count += $percent_enjoyed;
+										$amount = $amount - ($to_amount - $from_amount);
+									} else {
+										$count += $percent_enjoyed;
+										$amount = 0;
+									}
+								}
+							} else {
+								break;
+							}
+						}
+                    }
+						
+				} elseif ($commission_policy_contact->commission_policy_type == '4') {
+					$total_payments = sum_from_table(db_prefix() . 'invoicepaymentrecords', array('field' => 'amount', 'where' => array('invoiceid' => $invoices->id))) ;
+					$payments_amount = ($total_payments - round(($invoices->total_tax * ($total_payments/$invoices->total)), 2)) * $profit_percent;
+					$ladder_product_setting = json_decode($commission_policy_contact->ladder_product_setting, true);
+
+					foreach ($invoices->items as $item) {
+						$it = $this->get_item_by_name($item['description']);
+
+						if($it){
+							$percent = 0;
+							if($commission_policy_contact->amount_to_calculate == '1'){
+								$item_amount = ($item['qty'] * ($item['rate'] - $it->purchase_price));
+								if($profit > 0){
+									$percent = $item_amount / $profit;
+								}else{
+										$percent = 0;
+								}
+							}else{
+								$item_amount = ($item['qty'] * $item['rate']);
+								$percent = $item_amount / $payments_amount;
+							}
+							$item_amount = $payments_amount * $percent;
+							$amount = $item_amount;
+							if ($commission_policy_contact->commission_type == 'percentage') {
+                                foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+											
+												if ($to_amount == '') {
+													$count += $amount * ($percent_enjoyed / 100);
+
+													$amount = 0;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += ($to_amount - $from_amount) * ($percent_enjoyed / 100);
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $amount * ($percent_enjoyed / 100);
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            } else {
+                            	foreach ($ladder_product_setting as $key => $value) {
+									if($it->id == $key){
+										foreach ($value['from_amount_product'] as $k => $val) {
+
+											$from_amount = str_replace(',', '', $val);
+											if ($item_amount > $from_amount) {
+												$to_amount = str_replace(',', '', $value['to_amount_product'][$k]);
+												$percent_enjoyed = str_replace(',', '', $value['percent_enjoyed_ladder_product'][$k]);
+											
+												if ($to_amount == '') {
+													$count += $percent_enjoyed;
+
+													$amount = 0;
+												} else {
+													if ($item_amount > $to_amount) {
+														$count += $percent_enjoyed;
+														$amount = $amount - ($to_amount - $from_amount);
+													} else {
+														$count += $percent_enjoyed;
+														$amount = 0;
+													}
+												}
+											} else {
+												break;
+											}
+										}
+									}
+								}
+                            }
 						}
 					}
 				}
 			}
 
-			if ($count >= 0) {
-				$this->db->where('invoice_id', $invoices->id);
-				$this->db->where('is_client', 1);
-				$this->db->where('staffid', $invoices->clientid);
-				$commission = $this->db->get(db_prefix() . 'commission')->row();
+			$this->db->where('invoice_id', $invoices->id);
+			$this->db->where('is_client', 1);
+			$this->db->where('paid', 0);
+			$this->db->delete(db_prefix() . 'commission');
+			if ($count > 0) {
+				$note = [];
+				$note['staffid'] = $invoices->clientid;
+				$note['invoice_id'] = $invoices->id;
+				$note['amount'] = round($count, 2);
+				$note['is_client'] = 1;
+				$note['date'] = date('Y-m-d');
+				$this->db->insert(db_prefix() . 'commission', $note);
+				$insert_id = $this->db->insert_id();
 
-				if ($commission) {
-
-					$this->db->where('id', $commission->id);
-					$this->db->update(db_prefix() . 'commission', ['amount' => round($count, 2), 'date' => date('Y-m-d')]);
-					if ($this->db->affected_rows() > 0) {
-			            $affectedRows++;
-			        }
-				} else {
-					$note = [];
-					$note['staffid'] = $invoices->clientid;
-					$note['invoice_id'] = $invoices->id;
-					$note['amount'] = round($count, 2);
-					$note['is_client'] = 1;
-					$note['date'] = date('Y-m-d');
-					$this->db->insert(db_prefix() . 'commission', $note);
-					$insert_id = $this->db->insert_id();
-
-					if ($insert_id) {
-                    	$affectedRows++;
-					}
+				if ($insert_id) {
+                	$affectedRows++;
 				}
 			}
 		}
@@ -1298,6 +1973,19 @@ class Commission_model extends App_Model {
 			return $items->id;
 		}
 		return '';
+	}
+
+	/**
+	 * Gets the item by name.
+	 *
+	 * @param      string  $item_name  The itemid
+	 *
+	 * @return     object  The item.
+	 */
+	public function get_item_by_name($item_name) {
+
+		$this->db->where('description', $item_name);
+		return $this->db->get(db_prefix() . 'items')->row();
 	}
 
 	/**
@@ -1397,7 +2085,7 @@ class Commission_model extends App_Model {
 	 */
 	public function get_commission($id = '', $where = []){
 
-		$this->db->select(db_prefix() . 'commission.id as id, invoice_id, '.db_prefix() . 'commission.date as commission_date, '. get_sql_select_client_company().', staffid, total, amount, '.db_prefix() . 'invoices.clientid, is_client, '. db_prefix() . 'invoices.hash as invoice_hash, paid');
+		$this->db->select(db_prefix() . 'commission.id as id, invoice_id, '.db_prefix() . 'commission.date as commission_date, '. get_sql_select_client_company().', staffid, total, amount, '.db_prefix() . 'invoices.clientid, is_client, '. db_prefix() . 'invoices.hash as invoice_hash, paid, amount_paid');
 		$this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'commission.invoice_id', 'left');
         $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid', 'left');
 		if ((is_array($where) && count($where) > 0) || (is_string($where) && $where != '')) {
@@ -1592,9 +2280,12 @@ class Commission_model extends App_Model {
         if ($insert_id) {
     		foreach ($list_commission as $key => $value){
     			$this->db->where('id', $value);
-    			$this->db->update(db_prefix() . 'commission', ['paid' => 1]);
+    			$commission = $this->db->get(db_prefix() . 'commission')->row();
 
-    			$this->db->insert(db_prefix() . 'commission_receipt_detail', ['receipt_id' => $insert_id,'commission_id' =>  $value]);
+    			$this->db->where('id', $value);
+    			$this->db->update(db_prefix() . 'commission', ['paid' => 1, 'amount_paid' => $commission->amount]);
+
+    			$this->db->insert(db_prefix() . 'commission_receipt_detail', ['receipt_id' => $insert_id,'commission_id' =>  $value, 'amount_paid' => $commission->amount - $commission->amount_paid]);
     		}
         	
         	$currency = $this->currencies_model->get_base_currency();
@@ -1631,15 +2322,25 @@ class Commission_model extends App_Model {
         	foreach ($list_commission as $key => $value){
         		if(!in_array($value, $list_commission_id)){
 	    			$this->db->where('id', $value);
-	    			$this->db->update(db_prefix() . 'commission', ['paid' => 1]);
+    				$commission = $this->db->get(db_prefix() . 'commission')->row();
 
-	    			$this->db->insert(db_prefix() . 'commission_receipt_detail', ['receipt_id' => $id,'commission_id' =>  $value]);
+	    			$this->db->where('id', $value);
+	    			$this->db->update(db_prefix() . 'commission', ['paid' => 1, 'amount_paid' => $commission->amount]);
+
+	    			$this->db->insert(db_prefix() . 'commission_receipt_detail', ['receipt_id' => $id,'commission_id' =>  $value, 'amount_paid' => $commission->amount - $commission->amount_paid]);
         		}
     		}
     		foreach ($list_commission_id as $key => $value){
         		if(!in_array($value, $list_commission)){
+        			$this->db->where('id', $value);
+    				$commission = $this->db->get(db_prefix() . 'commission')->row();
+
+	    			$this->db->where('receipt_id', $id);
+	    			$this->db->where('commission_id', $value);
+    				$commission_receipt_detail = $this->db->get(db_prefix() . 'commission_receipt_detail')->row();
+
 	    			$this->db->where('id', $value);
-	    			$this->db->update(db_prefix() . 'commission', ['paid' => 0]);
+	    			$this->db->update(db_prefix() . 'commission', ['paid' => 0, 'amount_paid' => $commission->amount_paid - $commission_receipt_detail->amount_paid]);
 
 	    			$this->db->where('receipt_id', $id);
 	    			$this->db->where('commission_id', $value);
@@ -1672,8 +2373,15 @@ class Commission_model extends App_Model {
 			$this->db->delete(db_prefix() . 'commission_receipt_detail');
 
 			foreach ($list_commission_id as $key => $value){
+				$this->db->where('id', $value);
+				$commission = $this->db->get(db_prefix() . 'commission')->row();
+
+    			$this->db->where('receipt_id', $id);
+    			$this->db->where('commission_id', $value);
+				$commission_receipt_detail = $this->db->get(db_prefix() . 'commission_receipt_detail')->row();
+
     			$this->db->where('id', $value);
-    			$this->db->update(db_prefix() . 'commission', ['paid' => 0]);
+    			$this->db->update(db_prefix() . 'commission', ['paid' => 0, 'amount_paid' => $commission->amount_paid - $commission_receipt_detail->amount_paid]);
     		}
 
 			log_activity('Commission Receipt Deleted [Number:' . $id . ']');
@@ -1731,7 +2439,7 @@ class Commission_model extends App_Model {
 	 * @return     array    The receipt detail.
 	 */
 	public function get_receipt_detail($id, $only_id = false){
-		$this->db->select('*, '. db_prefix() . 'commission.id as commission_id');
+		$this->db->select('*, '. db_prefix() . 'commission.id as commission_id, '.db_prefix() . 'commission_receipt_detail.amount_paid as receipt_amount_paid');
 		$this->db->where('receipt_id', $id);
 		$this->db->join(db_prefix() . 'commission', '' . db_prefix() . 'commission.id = ' . db_prefix() . 'commission_receipt_detail.commission_id', 'left');
 		$this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'commission.invoice_id', 'left');
@@ -1784,4 +2492,80 @@ class Commission_model extends App_Model {
         }
         return false;
     }
+
+    /**
+     * update general setting
+     *
+     * @param      array   $data   The data
+     *
+     * @return     boolean 
+     */
+    public function update_setting($data){
+    	$affectedRows = 0;
+    	if(!isset($data['calculate_recurring_invoice'])){
+			$data['calculate_recurring_invoice'] = 0;
+		}
+	
+    	foreach ($data as $key => $value) {
+			$this->db->where('name', $key);
+            $this->db->update(db_prefix() . 'options', [
+                    'value' => $value,
+                ]);
+	        if ($this->db->affected_rows() > 0) {
+	            $affectedRows++;
+	        }
+    	}
+
+    	if ($affectedRows > 0) {
+            return true;
+        }
+        return false;
+	}
+
+    /**
+	 * delete all data the commission module
+	 *
+	 * @param      int   $id     The identifier
+	 *
+	 * @return     boolean
+	 */
+	public function reset_data(){
+		$affectedRows = 0;
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission_hierarchy');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission_policy');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission_receipt');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission_receipt_detail');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+		$this->db->where('id > 0');
+		$this->db->delete(db_prefix() . 'commission_salesadmin_group');
+		if ($this->db->affected_rows() > 0) {
+            $affectedRows++;
+		}
+		if($affectedRows > 0){
+			return true;
+		}
+		return false;
+	}
+	
 }

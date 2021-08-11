@@ -179,7 +179,7 @@ foreach ($rResult as $aRow) {
             $_data = ticket_priority_translate($aRow['priority']);
         } else {
             if (strpos($aColumns[$i], 'date_picker_') !== false) {
-                $_data = (strpos($_data, ' ') !== false ? _dt($_data) : _dha($_data));
+                $_data = (strpos($_data, ' ') !== false ? _dt($_data) : _gregorian_hijri_date($_data));
             }
         }
 

@@ -8,9 +8,10 @@ class Appointly_appointment_feedback_received extends App_mail_template
 
      public $slug = 'appointly-appointment-feedback-received';
 
+     protected $staff;
+
      protected $appointment;
 
-     protected $staff;
 
      public function __construct($staff, $appointment)
      {

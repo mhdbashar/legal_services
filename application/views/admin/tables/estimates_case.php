@@ -162,9 +162,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _dha($aRow['date']);
+    $row[] = _gregorian_hijri_date($aRow['date']);
 
-    $row[] = _dha($aRow['expirydate']);
+    $row[] = _gregorian_hijri_date($aRow['expirydate']);
 
     $row[] = $aRow['reference_no'];
 

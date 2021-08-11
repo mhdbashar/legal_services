@@ -1,18 +1,15 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
 Module Name: API
-Description: Rest API module for Perfex CRM
-Version: 1.0.2
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
+Description: Rest API
+Version: 1.0.0
 */
 
 define('API_MODULE_NAME', 'api');
 hooks()->add_action('admin_init', 'api_init_menu_items');
-
-\modules\api\core\Apiinit::parse_module_url('api');
 
 /**
 * Load the module helper
@@ -45,67 +42,25 @@ function api_init_menu_items()
     * If the logged in user is administrator, add custom menu in Setup
     */
     if (is_admin()) {
-        $CI = &get_instance();
-        $CI->app_menu->add_sidebar_menu_item('api-options', [
-            'collapse' => true,
-            'name'     => _l('api'),
-            'position' => 40,
-            'icon'     => 'fa fa-cogs',
-        ]);
-        $CI->app_menu->add_sidebar_children_item('api-options', [
-            'slug'     => 'api-register-options',
-            'name'     => _l('api_management'),
-            'href'     => admin_url('api/api_management'),
-            'position' => 5,
-        ]);
+        // $CI = &get_instance();
+        // $CI->app_menu->add_sidebar_menu_item('api-options', [
+        //     'collapse' => true,
+        //     'name'     => _l('api'),
+        //     'position' => 40,
+        //     'icon'     => 'fa fa-cogs',
+        // ]);
+        // $CI->app_menu->add_sidebar_children_item('api-options', [
+        //     'slug'     => 'api-register-options',
+        //     'name'     => _l('api_management'),
+        //     'href'     => admin_url('api/api_management'),
+        //     'position' => 5,
+        // ]);
         
-        $CI->app_menu->add_sidebar_children_item('api-options', [
-            'slug'     => 'api-guide-options',
-            'name'     => _l('api_guide'),
-            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
-            'position' => 10,
-        ]);
+        // $CI->app_menu->add_sidebar_children_item('api-options', [
+        //     'slug'     => 'api-guide-options',
+        //     'name'     => _l('api_guide'),
+        //     'href'     => 'https://babil.net.sa/apiguide/',
+        //     'position' => 10,
+        // ]);
     }
 }
-
-
-//hooks()->add_action('app_init','api_actLib');
-//function api_actLib()
-//{
-//	$CI = & get_instance();
-//    $CI->load->library(FINGER_API_MODULE_NAME.'/Envapi');
-//    $envato_res = $CI->envapi->validatePurchase(FINGER_API_MODULE_NAME);
-//    if (!$envato_res) {
-//        set_alert('danger', "One of your modules failed its verification and got deactivated. Please reactivate or contact support.");
-//        redirect(admin_url('modules'));
-//    }
-//}
-
-//hooks()->add_action('pre_activate_module', 'api_sidecheck');
-//function api_sidecheck($module_name)
-//{
-//    if ($module_name['system_name'] == FINGER_API_MODULE_NAME) {
-//        if (!option_exists(FINGER_API_MODULE_NAME.'_verified') && empty(get_option(FINGER_API_MODULE_NAME.'_verified')) && !option_exists(FINGER_API_MODULE_NAME.'_verification_id') && empty(get_option(FINGER_API_MODULE_NAME.'_verification_id'))) {
-//            $CI = & get_instance();
-//            $data['submit_url'] = $module_name['system_name'].'/env_ver/activate';
-//            $data['original_url'] = admin_url('modules/activate/'.FINGER_API_MODULE_NAME);
-//            $data['module_name'] = FINGER_API_MODULE_NAME;
-//            $data['title']       = $module_name['headers']['module_name']. " module activation";
-//            echo $CI->load->view($module_name['system_name'].'/activate', $data, true);
-//            exit();
-//        }
-//    }
-//}
-
-//hooks()->add_action('pre_deactivate_module', 'api_deregister');
-//function api_deregister($module_name)
-//{
-//    if ($module_name['system_name'] == FINGER_API_MODULE_NAME) {
-//        delete_option(FINGER_API_MODULE_NAME."_verified");
-//        delete_option(FINGER_API_MODULE_NAME."_verification_id");
-//        delete_option(FINGER_API_MODULE_NAME."_last_verification");
-//        if(file_exists(__DIR__."/config/token.php")){
-//            unlink(__DIR__."/config/token.php");
-//        }
-//    }
-//}

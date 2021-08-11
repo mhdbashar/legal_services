@@ -69,7 +69,6 @@ class Items extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-        	$data = $this->Api_model->get_api_custom_data($data,"items", $id);
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -118,8 +117,6 @@ class Items extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-        	$data = $this->Api_model->get_api_custom_data($data,"items");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }

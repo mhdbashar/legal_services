@@ -88,7 +88,7 @@
                   </div>
                
                   <div role="tabpanel" class="tab-pane" id="home_my_sessions">
-                     <a href="<?php echo admin_url('LegalServices/sessions/list_tasks'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
+                     <a href="<?php echo admin_url('legalservices/sessions/list_tasks'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
                      <div class="clearfix"></div>
                      <div class="_hidden_inputs _filters _tasks_filters">
                         <?php

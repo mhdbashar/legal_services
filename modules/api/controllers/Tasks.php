@@ -75,8 +75,6 @@ class Tasks extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"tasks", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -91,7 +89,7 @@ class Tasks extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tasks/search/:keysearch Search Tasks Information
+     * @api {get} api/tasks/search/:keysearch Search Tasks Information.
      * @apiName GetTaskSearch
      * @apiGroup Task
      *
@@ -140,8 +138,6 @@ class Tasks extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"tasks");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -221,11 +217,9 @@ class Tasks extends REST_Controller {
      */
     public function data_post()
     {
-        \modules\api\core\Apiinit::check_url('api');
         // form validation
         $this->form_validation->set_rules('name', 'Task Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Task Name'));
         $this->form_validation->set_rules('startdate', 'Task Start Date', 'trim|required', array('is_unique' => 'This %s already exists please enter another Task Start Date'));
-        $this->form_validation->set_rules('is_public', 'Publicly available task', 'trim', array('is_unique' => 'Public state can be 1. Skip it completely to set it at non-public'));
         if ($this->form_validation->run() == FALSE)
         {
             // form validation error
@@ -241,8 +235,8 @@ class Tasks extends REST_Controller {
             $insert_data = [
                 'name' => $this->input->post('name', TRUE),
                 'startdate' => $this->input->post('startdate', TRUE),
-                'is_public' => $this->input->post('is_public', TRUE),
-				
+                
+                'is_public' => $this->Api_model->value($this->input->post('is_public', TRUE)),
                 'billable' => $this->Api_model->value($this->input->post('billable', TRUE)),
                 'hourly_rate' => $this->Api_model->value($this->input->post('hourly_rate', TRUE)),
                 'milestone' => $this->Api_model->value($this->input->post('milestone', TRUE)),
@@ -257,9 +251,6 @@ class Tasks extends REST_Controller {
                 'tags' => $this->Api_model->value($this->input->post('tags', TRUE)),
                 'description' => $this->Api_model->value($this->input->post('description', TRUE))];
                
-            if (!empty($this->input->post('custom_fields', TRUE))) {
-                $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
-            }
             // insert data
             $this->load->model('tasks_model');
             $output = $this->tasks_model->add($insert_data);
@@ -414,14 +405,6 @@ class Tasks extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

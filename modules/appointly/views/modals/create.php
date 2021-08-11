@@ -6,12 +6,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="<?= _l('close'); ?>"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?= _l('close'); ?>">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?php echo _l('appointment_new_appointment'); ?></h4>
             </div>
             <input type="hidden" id="ms-access-token" value="" />
             <input type="hidden" id="ms-outlook-event-id" value="" />
-            <?php echo form_open('appointly/appointments/create', array('id' => 'appointment-form')); ?>
+            <?php echo form_open('appointly/appointments/create', ['id' => 'appointment-form']); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -19,7 +20,6 @@
                             <input type="checkbox" id="outlook-checkbox">
                             <label data-toggle="tooltip" for="outlook-checkbox" title="<?= _l('appointment_add_to_outlook'); ?>" for="outlook">
                                 <?= _l('appointment_add_to_outlook'); ?>
-                                <!-- <i class="fa fa-envelope" aria-hidden="true"></i> -->
                             </label>
                         </div>
                         <?php if (appointlyGoogleAuth() && get_option('appointly_google_client_secret')) : ?>
@@ -32,7 +32,7 @@
                             </div>
                         <?php endif; ?>
                         <?php echo render_input('subject', 'appointment_subject'); ?>
-                        <?php echo render_textarea('description', 'appointment_description', '', array('rows' => 5)); ?>
+                        <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
                         <div class="form-group select-placeholder">
                             <label for="rel_type" class="control-label"><?php echo _l('proposal_related'); ?></label>
                             <select name="rel_type" id="rel_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="form-group hidden" id="select_contacts">
-                            <?php echo render_select('contact_id', $contacts, array('contact_id', array('firstname', 'lastname', 'company')), 'appointment_select_single_contact', '', array(),  array(), '', '', true); ?>
+                            <?php echo render_select('contact_id', $contacts, ['contact_id', ['firstname', 'lastname', 'company']], 'appointment_select_single_contact', '', [], [], '', '', true); ?>
                         </div>
                         <div class="form-group hidden" id="div_name">
                             <label for="name"><?= _l('appointment_name'); ?></label>
@@ -68,7 +68,7 @@
                             <input type="email" value="" class="form-control" name="email" id="email">
                         </div>
                         <div class="form-group hidden" id="div_phone">
-                            <label for="number"><?= _l('appointment_phone'); ?> (Ex: <?= _l('appointment_your_phone_example'); ?>) </label>
+                            <label for="phone"><?= _l('appointment_phone'); ?> (Ex: <?= _l('appointment_your_phone_example'); ?>) </label>
                             <input type="text" value="" class="form-control" name="phone" id="phone">
                         </div>
                         <div class="pull-right available_times_labels">
@@ -92,7 +92,7 @@
                         </div>
 
                         <div class="form-group">
-                            <?php echo render_select('attendees[]', $staff_members, array('staffid', array('firstname', 'lastname')), 'appointment_select_attendees', [get_staff_user_id()], array('multiple' => true), array(), '', '', false); ?>
+                            <?php echo render_select('attendees[]', $staff_members, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', [get_staff_user_id()], ['multiple' => true], [], '', '', false); ?>
                         </div>
 
                         <?php $appointment_types = get_appointment_types();
@@ -110,8 +110,10 @@
                             </div>
                             <div class=" clearfix mtop15"></div>
                             <hr>
-                        <?php } ?>
-                        <?php
+                        <?php }
+                        // recurring
+                        $this->load->view('view_includes/recurring_wrapper');
+                        // custom fields
                         $rel_cf_id = (isset($appointment) ? $appointment['appointment_id'] : false);
                         echo render_custom_fields('appointly', $rel_cf_id);
                         ?>
@@ -174,6 +176,3 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <?php require('modules/appointly/assets/js/modals/create_js.php'); ?>
-<script>
-
-</script>

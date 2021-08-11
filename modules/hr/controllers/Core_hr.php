@@ -376,8 +376,8 @@ class Core_hr extends AdminController{
     }
 
     public function promotion_json($id){
-        $branch_id = '';
-        if($this->Branches_model->get('promotions', $id))
+        //$branch_id = '';
+        //if($this->Branches_model->get('promotions', $id))
             // $branch_id = $this->Branches_model->get_branch('promotions', $id);
         $data = $this->Promotion_model->get($id);
         // $data->branch_id = $branch_id;

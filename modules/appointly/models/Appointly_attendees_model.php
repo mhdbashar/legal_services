@@ -104,8 +104,8 @@ class Appointly_attendees_model extends App_Model
      */
     public function send_notifications_to_new_attenddees($attendees, $appointment)
     {
-
         foreach ($attendees as $staff) {
+
             if ($staff['staffid'] === get_staff_user_id()) {
                 continue;
             }

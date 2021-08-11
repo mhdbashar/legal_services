@@ -19,7 +19,7 @@ class Sessions_model extends App_Model
         parent::__construct();
         $this->load->model('projects_model');
         $this->load->model('staff_model');
-        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
     }
 
     // Not used?
@@ -200,7 +200,14 @@ class Sessions_model extends App_Model
         $this->db->select('id,name,duedate,startdate,status,' . get_sql_select_session_total_checklist_items() . ',' . get_sql_select_session_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_session_asignees_full_names() . ' as assignees' . ',' . get_sql_select_session_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
 
         $this->db->from(db_prefix() . 'tasks');
-        $this->db->where('status', $status);
+        if ($status) {
+            //$this->db->where('status', $status);
+            if($status === 'previous'):
+                $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+            else:
+                $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+            endif;
+        }
         $this->db->where('is_session', 1);
         $this->db->where($where);
 
@@ -219,16 +226,16 @@ class Sessions_model extends App_Model
                 ');
             }
         }
-
+        $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id='.db_prefix() . 'tasks.id', 'left');
         $this->db->order_by('kanban_order', 'asc');
 
         if ($count == false) {
             if ($page > 1) {
                 $page--;
-                $position = ($page * get_option('sessions_kanban_limit'));
-                $this->db->limit(get_option('sessions_kanban_limit'), $position);
+                $position = ($page * get_option('tasks_kanban_limit'));
+                $this->db->limit(get_option('tasks_kanban_limit'), $position);
             } else {
-                $this->db->limit(get_option('sessions_kanban_limit'));
+                $this->db->limit(get_option('tasks_kanban_limit'));
             }
         }
 
@@ -251,7 +258,7 @@ class Sessions_model extends App_Model
 
     public function get_distinct_tasks_years($get_from)
     {
-        $hijriStatus= get_option('isHijri');
+        /*$hijriStatus= get_option('isHijri');
         if($hijriStatus == 'on'){
             $hijri_years = [];
             $ad_years = $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
@@ -266,7 +273,7 @@ class Sessions_model extends App_Model
                 }
             }
             return $hijri_years;
-        }
+        }*/
         return $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
     }
 
@@ -647,6 +654,12 @@ class Sessions_model extends App_Model
             }
         }
 
+        $withDefaultAssignee = true;
+        if (isset($data['withDefaultAssignee'])) {
+            $withDefaultAssignee = $data['withDefaultAssignee'];
+            unset($data['withDefaultAssignee']);
+        }
+
         $data = hooks()->apply_filters('before_add_task', $data);
 
         $tags = '';
@@ -693,6 +706,7 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+
         $session_info = true;
         //End Block For Legal Services Session
         $this->db->insert(db_prefix() . 'tasks', $data);
@@ -738,9 +752,14 @@ class Sessions_model extends App_Model
             if ($clientRequest == false) {
                 $new_task_auto_assign_creator = (get_option('new_session_auto_assign_current_member') == '1' ? true : false);
 
-                if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
+                if ( isset($data['rel_type'])
+                    && $data['rel_type'] == 'project'
+                    && !$this->projects_model->is_member($data['rel_id'])
+                    || !$withDefaultAssignee
+                ) {
                     $new_task_auto_assign_creator = false;
                 }
+
                 if ($new_task_auto_assign_creator == true) {
                     $this->db->insert(db_prefix() . 'task_assigned', [
                         'taskid'        => $insert_id,
@@ -1005,7 +1024,7 @@ class Sessions_model extends App_Model
 
     public function add_checklist_template($description)
     {
-        $this->db->insert(db_prefix() . 'tasks_checklist_templates', [
+        $this->db->insert(db_prefix() . 'sessions_checklist_templates', [
             'description' => $description,
             ]);
 
@@ -1015,7 +1034,7 @@ class Sessions_model extends App_Model
     public function remove_checklist_item_template($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'tasks_checklist_templates');
+        $this->db->delete(db_prefix() . 'sessions_checklist_templates');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -1027,14 +1046,14 @@ class Sessions_model extends App_Model
     {
         $this->db->order_by('description', 'asc');
 
-        return $this->db->get(db_prefix() . 'tasks_checklist_templates')->result_array();
+        return $this->db->get(db_prefix() . 'sessions_checklist_templates')->result_array();
     }
 
     public function get_checklist_template($id)
     {
         $this->db->where('id', $id);
 
-        return $this->db->get(db_prefix() . 'tasks_checklist_templates')->row();
+        return $this->db->get(db_prefix() . 'sessions_checklist_templates')->row();
     }
 
     /**

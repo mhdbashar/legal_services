@@ -132,7 +132,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $numberOutput;
 
-    $row[] = _dha($aRow['date']);
+    $row[] = _gregorian_hijri_date($aRow['date']);
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
@@ -143,7 +143,7 @@ foreach ($rResult as $aRow) {
     $row[] = format_credit_note_status($aRow['status']);
 
     if ($aRow['project_id'] == 0){
-        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
         $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
         if($ServID == 1){
             $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';

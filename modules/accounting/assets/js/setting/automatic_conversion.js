@@ -1,4 +1,4 @@
-var fnServerParams, id, inventory_asset_account, income_account, expense_account, item_id, tax_id, category_id, payment_account, deposit_to, expense_payment_account, expense_deposit_to;
+var fnServerParams, id, inventory_asset_account, income_account, expense_account, item_id, tax_id, category_id, payment_account, deposit_to, expense_payment_account, expense_deposit_to, payment_mode_id, preferred_payment_method;
 (function($) {
 	"use strict";
 
@@ -9,6 +9,14 @@ var fnServerParams, id, inventory_asset_account, income_account, expense_account
   appValidateForm($('#edit-item-automatic-form'), {
 		item_id: 'required',
     },item_automatic_form_handler);
+
+  appValidateForm($('#payment-mode-mapping-form'), {
+    'payment_mode[]': 'required',
+    },payment_mode_mapping_form_handler);
+
+  appValidateForm($('#edit-payment-mode-mapping-form'), {
+    'payment_mode_id': 'required',
+    },payment_mode_mapping_form_handler);
 
   appValidateForm($('#tax-mapping-form'), {
     'tax[]': 'required',
@@ -64,10 +72,21 @@ var fnServerParams, id, inventory_asset_account, income_account, expense_account
 
   init_item_automatic_table();
   init_expense_category_mapping_table();
-	init_tax_mapping_table();
+  init_payment_mode_mapping_table();
+  init_tax_mapping_table();
+	init_payment_mode_mapping_table();
 })(jQuery);
 
 function init_item_automatic_table() {
+  "use strict";
+
+  if ($.fn.DataTable.isDataTable('.table-item-automatic')) {
+     $('.table-item-automatic').DataTable().destroy();
+  }
+  initDataTable('.table-item-automatic', admin_url + 'accounting/item_automatic_table', false, false, fnServerParams, [0, 'desc']);
+}
+
+function init_expense_category_mapping_table() {
   "use strict";
 
   if ($.fn.DataTable.isDataTable('.table-item-automatic')) {
@@ -92,6 +111,15 @@ function init_tax_mapping_table() {
      $('.table-tax-mapping').DataTable().destroy();
   }
   initDataTable('.table-tax-mapping', admin_url + 'accounting/tax_mapping_table', false, false, fnServerParams, [0, 'desc']);
+}
+
+function init_payment_mode_mapping_table() {
+  "use strict";
+
+  if ($.fn.DataTable.isDataTable('.table-payment-mode-mapping')) {
+     $('.table-payment-mode-mapping').DataTable().destroy();
+  }
+  initDataTable('.table-payment-mode-mapping', admin_url + 'accounting/payment_mode_mapping_table', false, false, fnServerParams, [0, 'desc']);
 }
 
 function add_item_automatic(invoker) {
@@ -239,6 +267,8 @@ function add_expense_category_mapping(invoker) {
   $('#expense-category-mapping-modal select[name="category[]"]').val('').change();
   $('#expense-category-mapping-modal select[name="payment_account"]').val($('#acc_expense_payment_account').val()).change();
   $('#expense-category-mapping-modal select[name="deposit_to"]').val($('#acc_expense_deposit_to').val()).change();
+  $('#expense-category-mapping-modal #preferred_payment_method').attr('checked', false);
+
 }
 
 function edit_expense_category_mapping(invoker) {
@@ -248,12 +278,15 @@ function edit_expense_category_mapping(invoker) {
     category_id = $(invoker).data('category-id');
     payment_account = $(invoker).data('payment-account');
     deposit_to = $(invoker).data('deposit-to');
-    console.log(category_id);
+    preferred_payment_method = $(invoker).data('preferred-payment-method') == 1 ? true : false;
+
     $('#edit-expense-category-mapping-modal').find('button[type="submit"]').prop('disabled', false);
     $('#edit-expense-category-mapping-modal input[name="id"]').val(id);
     $('#edit-expense-category-mapping-modal select[name="category_id"]').val(category_id).change();
     $('#edit-expense-category-mapping-modal select[name="payment_account"]').val(payment_account).change();
     $('#edit-expense-category-mapping-modal select[name="deposit_to"]').val(deposit_to).change();
+
+    $('#edit-expense-category-mapping-modal #edit_preferred_payment_method').attr('checked', preferred_payment_method);
 
     $('#edit-expense-category-mapping-modal').modal('show');
 }
@@ -286,6 +319,69 @@ function expense_category_mapping_form_handler(form) {
         }
         $('#expense-category-mapping-modal').modal('hide');
         $('#edit-expense-category-mapping-modal').modal('hide');
+    }).fail(function(error) {
+        alert_float('danger', JSON.parse(error.mesage));
+    });
+
+    return false;
+}
+
+function add_payment_mode_mapping(invoker) {
+  "use strict";
+
+  $('#payment-mode-mapping-modal').find('button[type="submit"]').prop('disabled', false);
+  $('#payment-mode-mapping-modal').modal('show');
+  $('#payment-mode-mapping-modal input[name="id"]').val('');
+  $('#payment-mode-mapping-modal select[name="payment_mode[]"]').val('').change();
+  $('#payment-mode-mapping-modal select[name="payment_account"]').val($('#acc_payment_payment_account').val()).change();
+  $('#payment-mode-mapping-modal select[name="deposit_to"]').val($('#acc_payment_deposit_to').val()).change();
+}
+
+function edit_payment_mode_mapping(invoker) {
+  "use strict";
+
+    id = $(invoker).data('id');
+    payment_mode_id = $(invoker).data('payment-mode-id');
+    payment_account = $(invoker).data('payment-account');
+    deposit_to = $(invoker).data('deposit-to');
+
+    $('#edit-payment-mode-mapping-modal').find('button[type="submit"]').prop('disabled', false);
+    $('#edit-payment-mode-mapping-modal input[name="id"]').val(id);
+    $('#edit-payment-mode-mapping-modal select[name="payment_mode_id"]').val(payment_mode_id).change();
+    $('#edit-payment-mode-mapping-modal select[name="payment_account"]').val(payment_account).change();
+    $('#edit-payment-mode-mapping-modal select[name="deposit_to"]').val(deposit_to).change();
+
+    $('#edit-payment-mode-mapping-modal').modal('show');
+}
+
+function payment_mode_mapping_form_handler(form) {
+    "use strict";
+    $('#payment-mode-mapping-modal').find('button[type="submit"]').prop('disabled', true);
+    $('#edit-payment-mode-mapping-modal').find('button[type="submit"]').prop('disabled', true);
+
+    var formURL = form.action;
+    var formData = new FormData($(form)[0]);
+
+    $.ajax({
+        type: $(form).attr('method'),
+        data: formData,
+        mimeType: $(form).attr('enctype'),
+        contentType: false,
+        cache: false,
+        processData: false,
+        url: formURL
+    }).done(function(response) {
+        response = JSON.parse(response);
+        if (response.success == 'close_the_book' || $.isNumeric(response.success)) {
+          alert_float('warning', response.message);
+        }else if (response.success === true || response.success == 'true' || $.isNumeric(response.success)) {
+          alert_float('success', response.message);
+          init_payment_mode_mapping_table();
+        }else {
+          alert_float('danger', response.message);
+        }
+        $('#payment-mode-mapping-modal').modal('hide');
+        $('#edit-payment-mode-mapping-modal').modal('hide');
     }).fail(function(error) {
         alert_float('danger', JSON.parse(error.mesage));
     });

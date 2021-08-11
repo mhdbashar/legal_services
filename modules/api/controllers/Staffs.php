@@ -71,8 +71,6 @@ class Staffs extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"staff", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -87,7 +85,7 @@ class Staffs extends REST_Controller {
     }
 
     /**
-     * @api {get} api/staffs/search/:keysearch Search Staff Information
+     * @api {get} api/staffs/search/:keysearch Search Staff Information.
      * @apiName GetStaffSearch
      * @apiGroup Staff
      *
@@ -129,8 +127,6 @@ class Staffs extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"staff");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -214,7 +210,6 @@ class Staffs extends REST_Controller {
      */
     public function data_post()
     {
-        \modules\api\core\Apiinit::check_url('api');
         // form validation
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Staff First Name'));
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', array('is_unique' => 'This %s already exists please enter another Staff Email'));
@@ -275,9 +270,6 @@ class Staffs extends REST_Controller {
             ];
             if($departments != ''){
                 $insert_data['departments'] = $departments;
-            }
-            if (!empty($this->input->post('custom_fields', TRUE))) {
-                $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
             }
             // insert data
             $this->load->model('staff_model');
@@ -429,14 +421,6 @@ class Staffs extends REST_Controller {
     public function data_put($id)
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

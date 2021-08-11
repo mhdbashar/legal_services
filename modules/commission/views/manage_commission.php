@@ -9,7 +9,7 @@
                      <div class="col-md-4 border-right">
                       <h4 class="no-margin font-medium"><i class="fa fa-balance-scale" aria-hidden="true"></i> <?php echo _l('report_by_table'); ?></h4>
                       <hr />
-                      <p><a href="#" class="font-medium" onclick="init_report(this,'commission_table'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('commission_table'); ?></a></p>
+                      <p><a href="#" class="font-medium" id="btn_commission_table" onclick="init_report(this,'commission_table'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('commission_table'); ?></a></p>
                       <p><a href="#" class="font-medium" onclick="init_report(this,'commission_client_table'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('commission_client_table'); ?></a></p>
                      </div>
                     <div class="col-md-4 border-right">

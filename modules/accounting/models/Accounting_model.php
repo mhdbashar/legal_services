@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Accounting_model extends App_Model
 {
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -112,648 +112,648 @@ class Accounting_model extends App_Model
     {
         $account_type_details = hooks()->apply_filters('before_get_account_type_details', [
             [
-                'id'             	=> 1,
-                'account_type_id' 	=> 1,
-                'name'           	=> _l('acc_accounts_receivable'),
-                'note'           	=> _l('acc_accounts_receivable_note'),
-                'order'          	=> 1,
+                'id'                => 1,
+                'account_type_id'   => 1,
+                'name'              => _l('acc_accounts_receivable'),
+                'note'              => _l('acc_accounts_receivable_note'),
+                'order'             => 1,
                 ],
             [
-                'id'             	=> 2,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_allowance_for_bad_debts'),
-                'note'           	=> _l('acc_allowance_for_bad_debts_note'),
-                'order'          	=> 2,
+                'id'                => 2,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_allowance_for_bad_debts'),
+                'note'              => _l('acc_allowance_for_bad_debts_note'),
+                'order'             => 2,
                 ],
             [
-                'id'             	=> 3,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_assets_available_for_sale'),
-                'note'           	=> _l('acc_assets_available_for_sale_note'),
-                'order'          	=> 3,
+                'id'                => 3,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_assets_available_for_sale'),
+                'note'              => _l('acc_assets_available_for_sale_note'),
+                'order'             => 3,
                 ],
             [
-                'id'             	=> 4,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_development_costs'),
-                'note'           	=> _l('acc_development_costs_note'),
-                'order'          	=> 4,
+                'id'                => 4,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_development_costs'),
+                'note'              => _l('acc_development_costs_note'),
+                'order'             => 4,
                 ],
             [
-                'id'             	=> 141,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_employee_cash_advances'),
-                'note'           	=> _l('acc_employee_cash_advances_note'),
-                'order'          	=> 5,
+                'id'                => 141,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_employee_cash_advances'),
+                'note'              => _l('acc_employee_cash_advances_note'),
+                'order'             => 5,
                 ],
             [
-                'id'             	=> 5,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_inventory'),
-                'note'           	=> _l('acc_inventory_note'),
-                'order'          	=> 5,
+                'id'                => 5,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_inventory'),
+                'note'              => _l('acc_inventory_note'),
+                'order'             => 5,
                 ],
             [
-                'id'             	=> 6,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_investments_other'),
-                'note'           	=> _l('acc_investments_other_note'),
-                'order'          	=> 6,
+                'id'                => 6,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_investments_other'),
+                'note'              => _l('acc_investments_other_note'),
+                'order'             => 6,
                 ],
             [
-                'id'             	=> 7,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_loans_to_officers'),
-                'note'           	=> _l('acc_loans_to_officers_note'),
-                'order'          	=> 7,
+                'id'                => 7,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_loans_to_officers'),
+                'note'              => _l('acc_loans_to_officers_note'),
+                'order'             => 7,
                 ],
             [
-                'id'             	=> 8,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_loans_to_others'),
-                'note'           	=> _l('acc_loans_to_others_note'),
-                'order'          	=> 8,
+                'id'                => 8,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_loans_to_others'),
+                'note'              => _l('acc_loans_to_others_note'),
+                'order'             => 8,
                 ],
             [
-                'id'             	=> 9,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_loans_to_shareholders'),
-                'note'           	=> _l('acc_loans_to_shareholders_note'),
-                'order'          	=> 9,
+                'id'                => 9,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_loans_to_shareholders'),
+                'note'              => _l('acc_loans_to_shareholders_note'),
+                'order'             => 9,
                 ],
             [
-                'id'             	=> 10,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_other_current_assets'),
-                'note'           	=> _l('acc_other_current_assets_note'),
-                'order'          	=> 10,
+                'id'                => 10,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_other_current_assets'),
+                'note'              => _l('acc_other_current_assets_note'),
+                'order'             => 10,
                 ],
             [
-                'id'             	=> 11,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_prepaid_expenses'),
-                'note'           	=> _l('acc_prepaid_expenses_note'),
-                'order'          	=> 11,
+                'id'                => 11,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_prepaid_expenses'),
+                'note'              => _l('acc_prepaid_expenses_note'),
+                'order'             => 11,
                 ],
             [
-                'id'             	=> 12,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_retainage'),
-                'note'           	=> _l('acc_retainage_note'),
-                'order'          	=> 12,
+                'id'                => 12,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_retainage'),
+                'note'              => _l('acc_retainage_note'),
+                'order'             => 12,
                 ],
             [
-                'id'             	=> 13,
-                'account_type_id' 	=> 2,
-                'name'           	=> _l('acc_undeposited_funds'),
-                'note'           	=> _l('acc_undeposited_funds_note'),
-                'order'          	=> 13,
+                'id'                => 13,
+                'account_type_id'   => 2,
+                'name'              => _l('acc_undeposited_funds'),
+                'note'              => _l('acc_undeposited_funds_note'),
+                'order'             => 13,
                 ],
             [
-                'id'             	=> 14,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_bank'),
-                'note'           	=> _l('acc_bank_note'),
-                'order'          	=> 14,
+                'id'                => 14,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_bank'),
+                'note'              => _l('acc_bank_note'),
+                'order'             => 14,
                 ],
             [
-                'id'             	=> 15,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_cash_and_cash_equivalents'),
-                'note'           	=> _l('acc_cash_and_cash_equivalents_note'),
-                'order'          	=> 15,
+                'id'                => 15,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_cash_and_cash_equivalents'),
+                'note'              => _l('acc_cash_and_cash_equivalents_note'),
+                'order'             => 15,
                 ],
             [
-                'id'             	=> 16,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_cash_on_hand'),
-                'note'           	=> _l('acc_cash_on_hand_note'),
-                'order'          	=> 16,
+                'id'                => 16,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_cash_on_hand'),
+                'note'              => _l('acc_cash_on_hand_note'),
+                'order'             => 16,
                 ],
             [
-                'id'             	=> 17,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_client_trust_account'),
-                'note'           	=> _l('acc_client_trust_account_note'),
-                'order'          	=> 17,
+                'id'                => 17,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_client_trust_account'),
+                'note'              => _l('acc_client_trust_account_note'),
+                'order'             => 17,
                 ],
             [
-                'id'             	=> 18,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_money_market'),
-                'note'           	=> _l('acc_money_market_note'),
-                'order'          	=> 18,
+                'id'                => 18,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_money_market'),
+                'note'              => _l('acc_money_market_note'),
+                'order'             => 18,
                 ],
             [
-                'id'             	=> 19,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_rents_held_in_trust'),
-                'note'           	=> _l('acc_rents_held_in_trust_note'),
-                'order'          	=> 19,
+                'id'                => 19,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_rents_held_in_trust'),
+                'note'              => _l('acc_rents_held_in_trust_note'),
+                'order'             => 19,
                 ],
             [
-                'id'             	=> 20,
-                'account_type_id' 	=> 3,
-                'name'           	=> _l('acc_savings'),
-                'note'           	=> _l('acc_savings_note'),
-                'order'          	=> 20,
+                'id'                => 20,
+                'account_type_id'   => 3,
+                'name'              => _l('acc_savings'),
+                'note'              => _l('acc_savings_note'),
+                'order'             => 20,
                 ],
             [
-                'id'             	=> 21,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_accumulated_depletion'),
-                'note'           	=> _l('acc_accumulated_depletion_note'),
-                'order'          	=> 21,
+                'id'                => 21,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_accumulated_depletion'),
+                'note'              => _l('acc_accumulated_depletion_note'),
+                'order'             => 21,
                 ],
             [
-                'id'             	=> 22,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_accumulated_depreciation_on_property_plant_and_equipment'),
-                'note'           	=> _l('acc_accumulated_depreciation_on_property_plant_and_equipment_note'),
-                'order'          	=> 22,
+                'id'                => 22,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_accumulated_depreciation_on_property_plant_and_equipment'),
+                'note'              => _l('acc_accumulated_depreciation_on_property_plant_and_equipment_note'),
+                'order'             => 22,
                 ],
             [
-                'id'             	=> 23,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_buildings'),
-                'note'           	=> _l('acc_buildings_note'),
-                'order'          	=> 23,
+                'id'                => 23,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_buildings'),
+                'note'              => _l('acc_buildings_note'),
+                'order'             => 23,
                 ],
             [
-                'id'             	=> 24,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_depletable_assets'),
-                'note'           	=> _l('acc_depletable_assets_note'),
-                'order'          	=> 24,
+                'id'                => 24,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_depletable_assets'),
+                'note'              => _l('acc_depletable_assets_note'),
+                'order'             => 24,
                 ],
             [
-                'id'             	=> 25,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_furniture_and_fixtures'),
-                'note'           	=> _l('acc_furniture_and_fixtures_note'),
-                'order'          	=> 25,
+                'id'                => 25,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_furniture_and_fixtures'),
+                'note'              => _l('acc_furniture_and_fixtures_note'),
+                'order'             => 25,
                 ],
             [
-                'id'             	=> 26,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_land'),
-                'note'           	=> _l('acc_land_note'),
-                'order'          	=> 26,
+                'id'                => 26,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_land'),
+                'note'              => _l('acc_land_note'),
+                'order'             => 26,
                 ],
             [
-                'id'             	=> 27,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_leasehold_improvements'),
-                'note'           	=> _l('acc_leasehold_improvements_note'),
-                'order'          	=> 27,
+                'id'                => 27,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_leasehold_improvements'),
+                'note'              => _l('acc_leasehold_improvements_note'),
+                'order'             => 27,
                 ],
             [
-                'id'             	=> 28,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_machinery_and_equipment'),
-                'note'           	=> _l('acc_machinery_and_equipment_note'),
-                'order'          	=> 28,
+                'id'                => 28,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_machinery_and_equipment'),
+                'note'              => _l('acc_machinery_and_equipment_note'),
+                'order'             => 28,
                 ],
             [
-                'id'             	=> 29,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_other_fixed_assets'),
-                'note'           	=> _l('acc_other_fixed_assets_note'),
-                'order'          	=> 29,
+                'id'                => 29,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_other_fixed_assets'),
+                'note'              => _l('acc_other_fixed_assets_note'),
+                'order'             => 29,
                 ],
             [
-                'id'             	=> 30,
-                'account_type_id' 	=> 4,
-                'name'           	=> _l('acc_vehicles'),
-                'note'           	=> _l('acc_vehicles_note'),
-                'order'          	=> 30,
+                'id'                => 30,
+                'account_type_id'   => 4,
+                'name'              => _l('acc_vehicles'),
+                'note'              => _l('acc_vehicles_note'),
+                'order'             => 30,
                 ],
             [
-                'id'             	=> 31,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_accumulated_amortisation_of_non_current_assets'),
-                'note'           	=> _l('acc_accumulated_amortisation_of_non_current_assets_note'),
-                'order'          	=> 31,
+                'id'                => 31,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_accumulated_amortisation_of_non_current_assets'),
+                'note'              => _l('acc_accumulated_amortisation_of_non_current_assets_note'),
+                'order'             => 31,
                 ],
             [
-                'id'             	=> 32,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_assets_held_for_sale'),
-                'note'           	=> _l('acc_assets_held_for_sale_note'),
-                'order'          	=> 32,
+                'id'                => 32,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_assets_held_for_sale'),
+                'note'              => _l('acc_assets_held_for_sale_note'),
+                'order'             => 32,
                 ],
             [
-                'id'             	=> 33,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_deferred_tax'),
-                'note'           	=> _l('acc_deferred_tax_note'),
-                'order'          	=> 33,
+                'id'                => 33,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_deferred_tax'),
+                'note'              => _l('acc_deferred_tax_note'),
+                'order'             => 33,
                 ],
             [
-                'id'             	=> 34,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_goodwill'),
-                'note'           	=> _l('acc_goodwill_note'),
-                'order'          	=> 34,
+                'id'                => 34,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_goodwill'),
+                'note'              => _l('acc_goodwill_note'),
+                'order'             => 34,
                 ],
             [
-                'id'             	=> 35,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_intangible_assets'),
-                'note'           	=> _l('acc_intangible_assets_note'),
-                'order'          	=> 35,
+                'id'                => 35,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_intangible_assets'),
+                'note'              => _l('acc_intangible_assets_note'),
+                'order'             => 35,
                 ],
             [
-                'id'             	=> 36,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_lease_buyout'),
-                'note'           	=> _l('acc_lease_buyout_note'),
-                'order'          	=> 36,
+                'id'                => 36,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_lease_buyout'),
+                'note'              => _l('acc_lease_buyout_note'),
+                'order'             => 36,
                 ],
             [
-                'id'             	=> 37,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_licences'),
-                'note'           	=> _l('acc_licences_note'),
-                'order'          	=> 37,
+                'id'                => 37,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_licences'),
+                'note'              => _l('acc_licences_note'),
+                'order'             => 37,
                 ],
             [
-                'id'             	=> 38,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_long_term_investments'),
-                'note'           	=> _l('acc_long_term_investments_note'),
-                'order'          	=> 38,
+                'id'                => 38,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_long_term_investments'),
+                'note'              => _l('acc_long_term_investments_note'),
+                'order'             => 38,
                 ],
             [
-                'id'             	=> 39,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_organisational_costs'),
-                'note'           	=> _l('acc_organisational_costs_note'),
-                'order'          	=> 39,
+                'id'                => 39,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_organisational_costs'),
+                'note'              => _l('acc_organisational_costs_note'),
+                'order'             => 39,
                 ],
             [
-                'id'             	=> 40,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_other_non_current_assets'),
-                'note'           	=> _l('acc_other_non_current_assets_note'),
-                'order'          	=> 40,
+                'id'                => 40,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_other_non_current_assets'),
+                'note'              => _l('acc_other_non_current_assets_note'),
+                'order'             => 40,
                 ],
             [
-                'id'             	=> 41,
-                'account_type_id' 	=> 5,
-                'name'           	=> _l('acc_security_deposits'),
-                'note'           	=> _l('acc_security_deposits_note'),
-                'order'          	=> 41,
+                'id'                => 41,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_security_deposits'),
+                'note'              => _l('acc_security_deposits_note'),
+                'order'             => 41,
                 ],
             [
-                'id'             	=> 42,
-                'account_type_id' 	=> 6,
-                'name'           	=> _l('acc_accounts_payable'),
-                'note'           	=> _l('acc_accounts_payable_note'),
-                'order'          	=> 42,
+                'id'                => 42,
+                'account_type_id'   => 6,
+                'name'              => _l('acc_accounts_payable'),
+                'note'              => _l('acc_accounts_payable_note'),
+                'order'             => 42,
                 ],
             [
-                'id'             	=> 43,
-                'account_type_id' 	=> 7,
-                'name'           	=> _l('acc_credit_card'),
-                'note'           	=> _l('acc_credit_card_note'),
-                'order'          	=> 43,
+                'id'                => 43,
+                'account_type_id'   => 7,
+                'name'              => _l('acc_credit_card'),
+                'note'              => _l('acc_credit_card_note'),
+                'order'             => 43,
                 ],
             [
-                'id'             	=> 44,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_accrued_liabilities'),
-                'note'           	=> _l('acc_accrued_liabilities_note'),
-                'order'          	=> 44,
+                'id'                => 44,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_accrued_liabilities'),
+                'note'              => _l('acc_accrued_liabilities_note'),
+                'order'             => 44,
                 ],
             [
-                'id'             	=> 45,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_client_trust_accounts_liabilities'),
-                'note'           	=> _l('acc_client_trust_accounts_liabilities_note'),
-                'order'          	=> 45,
+                'id'                => 45,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_client_trust_accounts_liabilities'),
+                'note'              => _l('acc_client_trust_accounts_liabilities_note'),
+                'order'             => 45,
                 ],
             [
-                'id'             	=> 46,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_current_tax_liability'),
-                'note'           	=> _l('acc_current_tax_liability_note'),
-                'order'          	=> 46,
+                'id'                => 46,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_current_tax_liability'),
+                'note'              => _l('acc_current_tax_liability_note'),
+                'order'             => 46,
                 ],
             [
-                'id'             	=> 47,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_current_portion_of_obligations_under_finance_leases'),
-                'note'           	=> _l('acc_current_portion_of_obligations_under_finance_leases_note'),
-                'order'          	=> 47,
+                'id'                => 47,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_current_portion_of_obligations_under_finance_leases'),
+                'note'              => _l('acc_current_portion_of_obligations_under_finance_leases_note'),
+                'order'             => 47,
                 ],
             [
-                'id'             	=> 48,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_dividends_payable'),
-                'note'           	=> _l('acc_dividends_payable_note'),
-                'order'          	=> 48,
+                'id'                => 48,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_dividends_payable'),
+                'note'              => _l('acc_dividends_payable_note'),
+                'order'             => 48,
                 ],
             [
-                'id'             	=> 50,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_income_tax_payable'),
-                'note'           	=> _l('acc_income_tax_payable_note'),
-                'order'          	=> 50,
+                'id'                => 50,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_income_tax_payable'),
+                'note'              => _l('acc_income_tax_payable_note'),
+                'order'             => 50,
                 ],
             [
-                'id'             	=> 51,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_insurance_payable'),
-                'note'           	=> _l('acc_insurance_payable_note'),
-                'order'          	=> 51,
+                'id'                => 51,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_insurance_payable'),
+                'note'              => _l('acc_insurance_payable_note'),
+                'order'             => 51,
                 ],
             [
-                'id'             	=> 52,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_line_of_credit'),
-                'note'           	=> _l('acc_line_of_credit_note'),
-                'order'          	=> 52,
+                'id'                => 52,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_line_of_credit'),
+                'note'              => _l('acc_line_of_credit_note'),
+                'order'             => 52,
                 ],
             [
-                'id'             	=> 53,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_loan_payable'),
-                'note'           	=> _l('acc_loan_payable_note'),
-                'order'          	=> 53,
+                'id'                => 53,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_loan_payable'),
+                'note'              => _l('acc_loan_payable_note'),
+                'order'             => 53,
                 ],
             [
-                'id'             	=> 54,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_other_current_liabilities'),
-                'note'           	=> _l('acc_other_current_liabilities_note'),
-                'order'          	=> 54,
+                'id'                => 54,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_other_current_liabilities'),
+                'note'              => _l('acc_other_current_liabilities_note'),
+                'order'             => 54,
                 ],
             [
-                'id'             	=> 55,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_payroll_clearing'),
-                'note'           	=> _l('acc_payroll_clearing_note'),
-                'order'          	=> 55,
+                'id'                => 55,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_payroll_clearing'),
+                'note'              => _l('acc_payroll_clearing_note'),
+                'order'             => 55,
                 ],
             [
-                'id'             	=> 56,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_payroll_liabilities'),
-                'note'           	=> _l('acc_payroll_liabilities_note'),
-                'order'          	=> 56,
+                'id'                => 56,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_payroll_liabilities'),
+                'note'              => _l('acc_payroll_liabilities_note'),
+                'order'             => 56,
                 ],
             [
-                'id'             	=> 58,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_prepaid_expenses_payable'),
-                'note'           	=> _l('acc_prepaid_expenses_payable_note'),
-                'order'          	=> 58,
+                'id'                => 58,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_prepaid_expenses_payable'),
+                'note'              => _l('acc_prepaid_expenses_payable_note'),
+                'order'             => 58,
                 ],
             [
-                'id'             	=> 59,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_rents_in_trust_liability'),
-                'note'           	=> _l('acc_rents_in_trust_liability_note'),
-                'order'          	=> 59,
+                'id'                => 59,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_rents_in_trust_liability'),
+                'note'              => _l('acc_rents_in_trust_liability_note'),
+                'order'             => 59,
                 ],
             [
-                'id'             	=> 60,
-                'account_type_id' 	=> 8,
-                'name'           	=> _l('acc_sales_and_service_tax_payable'),
-                'note'           	=> _l('acc_sales_and_service_tax_payable_note'),
-                'order'          	=> 60,
+                'id'                => 60,
+                'account_type_id'   => 8,
+                'name'              => _l('acc_sales_and_service_tax_payable'),
+                'note'              => _l('acc_sales_and_service_tax_payable_note'),
+                'order'             => 60,
                 ],
             [
-                'id'             	=> 61,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_accrued_holiday_payable'),
-                'note'           	=> _l('acc_accrued_holiday_payable_note'),
-                'order'          	=> 61,
+                'id'                => 61,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_accrued_holiday_payable'),
+                'note'              => _l('acc_accrued_holiday_payable_note'),
+                'order'             => 61,
                 ],
             [
-                'id'             	=> 62,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_accrued_non_current_liabilities'),
-                'note'           	=> _l('acc_accrued_non_current_liabilities_note'),
-                'order'          	=> 62,
+                'id'                => 62,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_accrued_non_current_liabilities'),
+                'note'              => _l('acc_accrued_non_current_liabilities_note'),
+                'order'             => 62,
                 ],
             [
-                'id'             	=> 63,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_liabilities_related_to_assets_held_for_sale'),
-                'note'           	=> _l('acc_liabilities_related_to_assets_held_for_sale_note'),
-                'order'          	=> 63,
+                'id'                => 63,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_liabilities_related_to_assets_held_for_sale'),
+                'note'              => _l('acc_liabilities_related_to_assets_held_for_sale_note'),
+                'order'             => 63,
                 ],
             [
-                'id'             	=> 64,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_long_term_debt'),
-                'note'           	=> _l('acc_long_term_debt_note'),
-                'order'          	=> 64,
+                'id'                => 64,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_long_term_debt'),
+                'note'              => _l('acc_long_term_debt_note'),
+                'order'             => 64,
                 ],
             [
-                'id'             	=> 65,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_notes_payable'),
-                'note'           	=> _l('acc_notes_payable_note'),
-                'order'          	=> 65,
+                'id'                => 65,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_notes_payable'),
+                'note'              => _l('acc_notes_payable_note'),
+                'order'             => 65,
                 ],
             [
-                'id'             	=> 66,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_other_non_current_liabilities'),
-                'note'           	=> _l('acc_other_non_current_liabilities_note'),
-                'order'          	=> 66,
+                'id'                => 66,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_other_non_current_liabilities'),
+                'note'              => _l('acc_other_non_current_liabilities_note'),
+                'order'             => 66,
                 ],
             [
-                'id'             	=> 67,
-                'account_type_id' 	=> 9,
-                'name'           	=> _l('acc_shareholder_potes_payable'),
-                'note'           	=> _l('acc_shareholder_potes_payable_note'),
-                'order'          	=> 67,
+                'id'                => 67,
+                'account_type_id'   => 9,
+                'name'              => _l('acc_shareholder_potes_payable'),
+                'note'              => _l('acc_shareholder_potes_payable_note'),
+                'order'             => 67,
                 ],
             [
-                'id'             	=> 68,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_accumulated_adjustment'),
-                'note'           	=> _l('acc_accumulated_adjustment_note'),
-                'order'          	=> 68,
+                'id'                => 68,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_accumulated_adjustment'),
+                'note'              => _l('acc_accumulated_adjustment_note'),
+                'order'             => 68,
                 ],
             [
-                'id'             	=> 69,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_dividend_disbursed'),
-                'note'           	=> _l('acc_dividend_disbursed_note'),
-                'order'          	=> 69,
+                'id'                => 69,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_dividend_disbursed'),
+                'note'              => _l('acc_dividend_disbursed_note'),
+                'order'             => 69,
                 ],
             [
-                'id'             	=> 70,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_equity_in_earnings_of_subsidiaries'),
-                'note'           	=> _l('acc_equity_in_earnings_of_subsidiaries_note'),
-                'order'          	=> 70,
+                'id'                => 70,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_equity_in_earnings_of_subsidiaries'),
+                'note'              => _l('acc_equity_in_earnings_of_subsidiaries_note'),
+                'order'             => 70,
                 ],
             [
-                'id'             	=> 71,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_opening_balance_equity'),
-                'note'           	=> _l('acc_opening_balance_equity_note'),
-                'order'          	=> 71,
+                'id'                => 71,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_opening_balance_equity'),
+                'note'              => _l('acc_opening_balance_equity_note'),
+                'order'             => 71,
                 ],
             [
-                'id'             	=> 72,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_ordinary_shares'),
-                'note'           	=> _l('acc_ordinary_shares_note'),
-                'order'          	=> 72,
+                'id'                => 72,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_ordinary_shares'),
+                'note'              => _l('acc_ordinary_shares_note'),
+                'order'             => 72,
                 ],
             [
-                'id'             	=> 73,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_other_comprehensive_income'),
-                'note'           	=> _l('acc_other_comprehensive_income_note'),
-                'order'          	=> 73,
+                'id'                => 73,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_other_comprehensive_income'),
+                'note'              => _l('acc_other_comprehensive_income_note'),
+                'order'             => 73,
                 ],
             [
-                'id'             	=> 74,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_owner_equity'),
-                'note'           	=> _l('acc_owner_equity_note'),
-                'order'          	=> 74,
+                'id'                => 74,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_owner_equity'),
+                'note'              => _l('acc_owner_equity_note'),
+                'order'             => 74,
                 ],
             [
-                'id'             	=> 75,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_paid_in_capital_or_surplus'),
-                'note'           	=> _l('acc_paid_in_capital_or_surplus_note'),
-                'order'          	=> 75,
+                'id'                => 75,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_paid_in_capital_or_surplus'),
+                'note'              => _l('acc_paid_in_capital_or_surplus_note'),
+                'order'             => 75,
                 ],
             [
-                'id'             	=> 76,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_partner_contributions'),
-                'note'           	=> _l('acc_partner_contributions_note'),
-                'order'          	=> 76,
+                'id'                => 76,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_partner_contributions'),
+                'note'              => _l('acc_partner_contributions_note'),
+                'order'             => 76,
                 ],
             [
-                'id'             	=> 77,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_partner_distributions'),
-                'note'           	=> _l('acc_partner_distributions_note'),
-                'order'          	=> 77,
+                'id'                => 77,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_partner_distributions'),
+                'note'              => _l('acc_partner_distributions_note'),
+                'order'             => 77,
                 ],
             [
-                'id'             	=> 78,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_partner_equity'),
-                'note'           	=> _l('acc_partner_equity_note'),
-                'order'          	=> 78,
+                'id'                => 78,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_partner_equity'),
+                'note'              => _l('acc_partner_equity_note'),
+                'order'             => 78,
                 ],
             [
-                'id'             	=> 79,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_preferred_shares'),
-                'note'           	=> _l('acc_preferred_shares_note'),
-                'order'          	=> 79,
+                'id'                => 79,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_preferred_shares'),
+                'note'              => _l('acc_preferred_shares_note'),
+                'order'             => 79,
                 ],
             [
-                'id'             	=> 80,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_retained_earnings'),
-                'note'           	=> _l('acc_retained_earnings_note'),
-                'order'          	=> 80,
+                'id'                => 80,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_retained_earnings'),
+                'note'              => _l('acc_retained_earnings_note'),
+                'order'             => 80,
                 ],
             [
-                'id'             	=> 81,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_share_capital'),
-                'note'           	=> _l('acc_share_capital_note'),
-                'order'          	=> 81,
+                'id'                => 81,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_share_capital'),
+                'note'              => _l('acc_share_capital_note'),
+                'order'             => 81,
                 ],
             [
-                'id'             	=> 82,
-                'account_type_id' 	=> 10,
-                'name'           	=> _l('acc_treasury_shares'),
-                'note'           	=> _l('acc_treasury_shares_note'),
-                'order'          	=> 82,
+                'id'                => 82,
+                'account_type_id'   => 10,
+                'name'              => _l('acc_treasury_shares'),
+                'note'              => _l('acc_treasury_shares_note'),
+                'order'             => 82,
                 ],
             [
-                'id'             	=> 83,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_discounts_refunds_given'),
-                'note'           	=> _l('acc_discounts_refunds_given_note'),
-                'order'          	=> 83,
+                'id'                => 83,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_discounts_refunds_given'),
+                'note'              => _l('acc_discounts_refunds_given_note'),
+                'order'             => 83,
                 ],
             [
-                'id'             	=> 84,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_non_profit_income'),
-                'note'           	=> _l('acc_non_profit_income_note'),
-                'order'          	=> 84,
+                'id'                => 84,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_non_profit_income'),
+                'note'              => _l('acc_non_profit_income_note'),
+                'order'             => 84,
                 ],
             [
-                'id'             	=> 85,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_other_primary_income'),
-                'note'           	=> _l('acc_other_primary_income_note'),
-                'order'          	=> 85,
+                'id'                => 85,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_other_primary_income'),
+                'note'              => _l('acc_other_primary_income_note'),
+                'order'             => 85,
                 ],
             [
-                'id'             	=> 86,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_revenue_general'),
-                'note'           	=> _l('acc_revenue_general_note'),
-                'order'          	=> 86,
+                'id'                => 86,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_revenue_general'),
+                'note'              => _l('acc_revenue_general_note'),
+                'order'             => 86,
                 ],
             [
-                'id'             	=> 87,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_sales_retail'),
-                'note'           	=> _l('acc_sales_retail_note'),
-                'order'          	=> 87,
+                'id'                => 87,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_sales_retail'),
+                'note'              => _l('acc_sales_retail_note'),
+                'order'             => 87,
                 ],
             [
-                'id'             	=> 88,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_sales_wholesale'),
-                'note'           	=> _l('acc_sales_wholesale_note'),
-                'order'          	=> 88,
+                'id'                => 88,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_sales_wholesale'),
+                'note'              => _l('acc_sales_wholesale_note'),
+                'order'             => 88,
                 ],
             [
-                'id'             	=> 89,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_sales_of_product_income'),
-                'note'           	=> _l('acc_sales_of_product_income_note'),
-                'order'          	=> 89,
+                'id'                => 89,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_sales_of_product_income'),
+                'note'              => _l('acc_sales_of_product_income_note'),
+                'order'             => 89,
                 ],
             [
-                'id'             	=> 90,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_service_fee_income'),
-                'note'           	=> _l('acc_service_fee_income_note'),
-                'order'          	=> 90,
+                'id'                => 90,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_service_fee_income'),
+                'note'              => _l('acc_service_fee_income_note'),
+                'order'             => 90,
                 ],
             [
-                'id'             	=> 91,
-                'account_type_id' 	=> 11,
-                'name'           	=> _l('acc_unapplied_cash_payment_income'),
-                'note'           	=> _l('acc_unapplied_cash_payment_income_note'),
-                'order'          	=> 91,
+                'id'                => 91,
+                'account_type_id'   => 11,
+                'name'              => _l('acc_unapplied_cash_payment_income'),
+                'note'              => _l('acc_unapplied_cash_payment_income_note'),
+                'order'             => 91,
                 ],
             [
-                'id'             	=> 92,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_dividend_income'),
-                'note'           	=> _l('acc_dividend_income_note'),
-                'order'          	=> 92,
+                'id'                => 92,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_dividend_income'),
+                'note'              => _l('acc_dividend_income_note'),
+                'order'             => 92,
                 ],
 //            [
-//                'id'             	=> 93,
-//                'account_type_id' 	=> 12,
-//                'name'           	=> _l('acc_interest_earned'),
-//                'note'           	=> _l('acc_interest_earned_note'),
-//                'order'          	=> 93,
+//                'id'                => 93,
+//                'account_type_id'   => 12,
+//                'name'              => _l('acc_interest_earned'),
+//                'note'              => _l('acc_interest_earned_note'),
+//                'order'             => 93,
 //                ],
             [
                 'id'                => 93,
@@ -763,81 +763,81 @@ class Accounting_model extends App_Model
                 'order'             => 93,
             ],
             [
-                'id'             	=> 94,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_loss_on_disposal_of_assets'),
-                'note'           	=> _l('acc_loss_on_disposal_of_assets_note'),
-                'order'          	=> 94,
+                'id'                => 94,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_loss_on_disposal_of_assets'),
+                'note'              => _l('acc_loss_on_disposal_of_assets_note'),
+                'order'             => 94,
                 ],
             [
-                'id'             	=> 95,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_other_investment_income'),
-                'note'           	=> _l('acc_other_investment_income_note'),
-                'order'          	=> 95,
+                'id'                => 95,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_other_investment_income'),
+                'note'              => _l('acc_other_investment_income_note'),
+                'order'             => 95,
                 ],
             [
-                'id'             	=> 96,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_other_miscellaneous_income'),
-                'note'           	=> _l('acc_other_miscellaneous_income_note'),
-                'order'          	=> 96,
+                'id'                => 96,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_other_miscellaneous_income'),
+                'note'              => _l('acc_other_miscellaneous_income_note'),
+                'order'             => 96,
                 ],
             [
-                'id'             	=> 97,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_other_operating_income'),
-                'note'           	=> _l('acc_other_operating_income_note'),
-                'order'          	=> 97,
+                'id'                => 97,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_other_operating_income'),
+                'note'              => _l('acc_other_operating_income_note'),
+                'order'             => 97,
                 ],
             [
-                'id'             	=> 98,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_tax_exempt_interest'),
-                'note'           	=> _l('acc_tax_exempt_interest_note'),
-                'order'          	=> 98,
+                'id'                => 98,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_tax_exempt_interest'),
+                'note'              => _l('acc_tax_exempt_interest_note'),
+                'order'             => 98,
                 ],
             [
-                'id'             	=> 99,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_unrealised_loss_on_securities_net_of_tax'),
-                'note'           	=> _l('acc_unrealised_loss_on_securities_net_of_tax_note'),
-                'order'          	=> 99,
+                'id'                => 99,
+                'account_type_id'   => 12,
+                'name'              => _l('acc_unrealised_loss_on_securities_net_of_tax'),
+                'note'              => _l('acc_unrealised_loss_on_securities_net_of_tax_note'),
+                'order'             => 99,
                 ],
             [
-                'id'             	=> 100,
-                'account_type_id' 	=> 13,
-                'name'           	=> _l('acc_cost_of_labour_cos'),
-                'note'           	=> _l('acc_cost_of_labour_cos_note'),
-                'order'          	=> 100,
+                'id'                => 100,
+                'account_type_id'   => 13,
+                'name'              => _l('acc_cost_of_labour_cos'),
+                'note'              => _l('acc_cost_of_labour_cos_note'),
+                'order'             => 100,
                 ],
             [
-                'id'             	=> 101,
-                'account_type_id' 	=> 13,
-                'name'           	=> _l('acc_equipment_rental_cos'),
-                'note'           	=> _l('acc_equipment_rental_cos_note'),
-                'order'          	=> 101,
+                'id'                => 101,
+                'account_type_id'   => 13,
+                'name'              => _l('acc_equipment_rental_cos'),
+                'note'              => _l('acc_equipment_rental_cos_note'),
+                'order'             => 101,
                 ],
             [
-                'id'             	=> 102,
-                'account_type_id' 	=> 13,
-                'name'           	=> _l('acc_freight_and_delivery_cos'),
-                'note'           	=> _l('acc_freight_and_delivery_cos_note'),
-                'order'          	=> 102,
+                'id'                => 102,
+                'account_type_id'   => 13,
+                'name'              => _l('acc_freight_and_delivery_cos'),
+                'note'              => _l('acc_freight_and_delivery_cos_note'),
+                'order'             => 102,
                 ],
             [
-                'id'             	=> 103,
-                'account_type_id' 	=> 13,
-                'name'           	=> _l('acc_other_costs_of_sales_cos'),
-                'note'           	=> _l('acc_other_costs_of_sales_cos_note'),
-                'order'          	=> 103,
+                'id'                => 103,
+                'account_type_id'   => 13,
+                'name'              => _l('acc_other_costs_of_sales_cos'),
+                'note'              => _l('acc_other_costs_of_sales_cos_note'),
+                'order'             => 103,
                 ],
             [
-                'id'             	=> 104,
-                'account_type_id' 	=> 13,
-                'name'           	=> _l('acc_supplies_and_materials_cos'),
-                'note'           	=> _l('acc_supplies_and_materials_cos_note'),
-                'order'          	=> 104,
+                'id'                => 104,
+                'account_type_id'   => 13,
+                'name'              => _l('acc_supplies_and_materials_cos'),
+                'note'              => _l('acc_supplies_and_materials_cos_note'),
+                'order'             => 104,
                 ],
             [
                 'id'                => 105,
@@ -939,6 +939,9 @@ class Accounting_model extends App_Model
 //                ],
             [
                 'id'                => 118,
+//                'account_type_id'   => 14,
+//                'name'              => _l('acc_interest_paid'),
+//                'note'              => _l('acc_interest_paid_note'),
                 'account_type_id'   => 15,
                 'name'              => _l('acc_penalties_and_settlements'),
                 'note'              => _l('acc_penalties_and_settlements_note'),
@@ -1091,20 +1094,22 @@ class Accounting_model extends App_Model
                 'note'              => _l('acc_other_expense_note'),
                 'order'             => 139,
                 ],
-//            [
-//                'id'                => 140,
-//                'account_type_id'   => 15,
-//                'name'              => _l('acc_penalties_and_settlements'),
-//                'note'              => _l('acc_penalties_and_settlements_note'),
-//                'order'             => 140,
-//                ],
+            [
+                'id'                => 140,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_penalties_and_settlements'),
+                'note'              => _l('acc_penalties_and_settlements_note'),
+                'order'             => 140,
+                ],
             ]);
 
         usort($account_type_details, function ($a, $b) {
             return $a['order'] - $b['order'];
         });
 
-        return $account_type_details;
+        $account_type_details_2 = $this->db->get(db_prefix().'acc_account_type_details')->result_array();
+
+        return array_merge($account_type_details, $account_type_details_2);
     }
 
     /**
@@ -1320,12 +1325,12 @@ class Accounting_model extends App_Model
 //                'account_type_id' => 14,
 //                'account_detail_type_id' => 118,
 //            ],
-            [
-                'name' => '',
-                'key_name' => 'acc_interest_income',
-                'account_type_id' => 12,
-                'account_detail_type_id' => 93,
-            ],
+//            [
+//                'name' => '',
+//                'key_name' => 'acc_interest_income',
+//                'account_type_id' => 12,
+//                'account_detail_type_id' => 93,
+//            ],
             [
                 'name' => '',
                 'key_name' => 'acc_inventory',
@@ -1681,36 +1686,36 @@ class Accounting_model extends App_Model
      * @return     boolean 
      */
     public function update_general_setting($data){
-    	$affectedRows = 0;
-    	if(!isset($data['acc_close_the_books'])){
-			$data['acc_close_the_books'] = 0;
-		}
-		if(!isset($data['acc_enable_account_numbers'])){
-			$data['acc_enable_account_numbers'] = 0;
-		}
-		if(!isset($data['acc_show_account_numbers'])){
-			$data['acc_show_account_numbers'] = 0;
-		}
+        $affectedRows = 0;
+        if(!isset($data['acc_close_the_books'])){
+            $data['acc_close_the_books'] = 0;
+        }
+        if(!isset($data['acc_enable_account_numbers'])){
+            $data['acc_enable_account_numbers'] = 0;
+        }
+        if(!isset($data['acc_show_account_numbers'])){
+            $data['acc_show_account_numbers'] = 0;
+        }
        
         if($data['acc_closing_date'] != ''){
             $data['acc_closing_date'] = to_sql_date($data['acc_closing_date']);
         }
 
-    	foreach ($data as $key => $value) {
-			$this->db->where('name', $key);
+        foreach ($data as $key => $value) {
+            $this->db->where('name', $key);
             $this->db->update(db_prefix() . 'options', [
                     'value' => $value,
                 ]);
-	        if ($this->db->affected_rows() > 0) {
-	            $affectedRows++;
-	        }
-    	}
+            if ($this->db->affected_rows() > 0) {
+                $affectedRows++;
+            }
+        }
 
-    	if ($affectedRows > 0) {
+        if ($affectedRows > 0) {
             return true;
         }
         return false;
-	}
+    }
 
     /**
      * update automatic conversion
@@ -1754,7 +1759,7 @@ class Accounting_model extends App_Model
         return false;
     }
 
-	/**
+    /**
      * get accounts
      * @param  integer $id    member group id
      * @param  array  $where
@@ -1792,8 +1797,10 @@ class Accounting_model extends App_Model
             if($value['name'] == '' && $value['key_name'] != ''){
                 $accounts[$key]['name'] = _l($value['key_name']);
             }
-            $accounts[$key]['account_type_name'] = $account_type_name[$value['account_type_id']];
-            $accounts[$key]['detail_type_name'] = $detail_type_name[$value['account_detail_type_id']];
+            $_account_type_name = isset($account_type_name[$value['account_type_id']]) ? $account_type_name[$value['account_type_id']] : '';
+            $_detail_type_name = isset($detail_type_name[$value['account_detail_type_id']]) ? $detail_type_name[$value['account_detail_type_id']] : '';
+            $accounts[$key]['account_type_name'] = $_account_type_name;
+            $accounts[$key]['detail_type_name'] = $_detail_type_name;
         }
 
         return $accounts;
@@ -1858,7 +1865,11 @@ class Accounting_model extends App_Model
                     $node['account'] = $account->id;
                     $node['rel_id'] = 0;
                     $node['rel_type'] = 'deposit';
-                    $node['date'] = date('Y-m-d');
+                    if($data['balance_as_of'] != ''){
+                        $node['date'] = $data['balance_as_of'];
+                    }else{
+                        $node['date'] = date('Y-m-d');
+                    }
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
@@ -1878,7 +1889,11 @@ class Accounting_model extends App_Model
                     $node['account'] = $insert_id;
                     $node['rel_id'] = 0;
                     $node['rel_type'] = 'deposit';
-                    $node['date'] = date('Y-m-d');
+                    if($data['balance_as_of'] != ''){
+                        $node['date'] = $data['balance_as_of'];
+                    }else{
+                        $node['date'] = date('Y-m-d');
+                    }
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
@@ -1905,7 +1920,11 @@ class Accounting_model extends App_Model
                         
                         $node['split'] = $insert_id;
                         $node['account'] = $account_id;
-                        $node['date'] = date('Y-m-d');
+                        if($data['balance_as_of'] != ''){
+                            $node['date'] = $data['balance_as_of'];
+                        }else{
+                            $node['date'] = date('Y-m-d');
+                        }
                         $node['rel_id'] = 0;
                         $node['rel_type'] = 'deposit';
                         $node['datecreated'] = date('Y-m-d H:i:s');
@@ -1925,7 +1944,11 @@ class Accounting_model extends App_Model
                         $node['reconcile'] = $reconcile_id;
                         $node['split'] = $account_id;
                         $node['account'] = $insert_id;
-                        $node['date'] = date('Y-m-d');
+                        if($data['balance_as_of'] != ''){
+                            $node['date'] = $data['balance_as_of'];
+                        }else{
+                            $node['date'] = date('Y-m-d');
+                        }
                         $node['rel_id'] = 0;
                         $node['rel_type'] = 'deposit';
                         $node['datecreated'] = date('Y-m-d H:i:s');
@@ -2002,7 +2025,13 @@ class Accounting_model extends App_Model
 
                     $node['split'] = $id;
                     $node['account'] = $account->id;
-                    $node['date'] = date('Y-m-d');
+
+                    if($data['balance_as_of'] != ''){
+                        $node['date'] = $data['balance_as_of'];
+                    }else{
+                        $node['date'] = date('Y-m-d');
+                    }
+
                     $node['rel_id'] = 0;
                     $node['rel_type'] = 'deposit';
                     $node['datecreated'] = date('Y-m-d H:i:s');
@@ -2022,7 +2051,12 @@ class Accounting_model extends App_Model
                     $node['split'] = $account->id;
                     $node['account'] = $id;
                     $node['rel_id'] = 0;
-                    $node['date'] = date('Y-m-d');
+
+                    if($data['balance_as_of'] != ''){
+                        $node['date'] = $data['balance_as_of'];
+                    }else{
+                        $node['date'] = date('Y-m-d');
+                    }
                     $node['rel_type'] = 'deposit';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
@@ -2051,7 +2085,11 @@ class Accounting_model extends App_Model
                         $node['split'] = $id;
                         $node['account'] = $account_id;
                         $node['rel_id'] = 0;
-                        $node['date'] = date('Y-m-d');
+                        if($data['balance_as_of'] != ''){
+                            $node['date'] = $data['balance_as_of'];
+                        }else{
+                            $node['date'] = date('Y-m-d');
+                        }
                         $node['rel_type'] = 'deposit';
                         $node['datecreated'] = date('Y-m-d H:i:s');
                         $node['addedfrom'] = get_staff_user_id();
@@ -2071,7 +2109,11 @@ class Accounting_model extends App_Model
                         $node['split'] = $account_id;
                         $node['account'] = $id;
                         $node['rel_id'] = 0;
-                        $node['date'] = date('Y-m-d');
+                        if($data['balance_as_of'] != ''){
+                            $node['date'] = $data['balance_as_of'];
+                        }else{
+                            $node['date'] = date('Y-m-d');
+                        }
                         $node['rel_type'] = 'deposit';
                         $node['datecreated'] = date('Y-m-d H:i:s');
                         $node['addedfrom'] = get_staff_user_id();
@@ -2109,10 +2151,13 @@ class Accounting_model extends App_Model
         foreach ($accounts as $key => $account) {
             $note = [];
             $note['id'] = $account['id'];
+
+            $_account_type_name = isset($account_type_name[$account['account_type_id']]) ? $account_type_name[$account['account_type_id']] : '';
+
             if($acc_enable_account_numbers == 1 && $acc_show_account_numbers == 1 && $account['number'] != ''){
-                $note['label'] = $account['number'].' - '.$account['name'] .' - '.$account_type_name[$account['account_type_id']];
+                $note['label'] = $account['number'].' - '.$account['name'] .' - '.$_account_type_name;
             }else{
-                $note['label'] = $account['name'].' - '.$account_type_name[$account['account_type_id']];
+                $note['label'] = $account['name'].' - '.$_account_type_name;
             }
             $list_accounts[] = $note;
         }
@@ -2239,76 +2284,111 @@ class Accounting_model extends App_Model
                 }
             }
 
-            
-            $tax_payment_account = get_option('acc_tax_payment_account');
-            $tax_deposit_to = get_option('acc_tax_deposit_to');
+            if(get_option('acc_tax_automatic_conversion') == 1){
+                $tax_payment_account = get_option('acc_tax_payment_account');
+                $tax_deposit_to = get_option('acc_tax_deposit_to');
 
-            $items = get_items_table_data($invoice, 'invoice', 'html', true);
-            foreach($items->taxes() as $tax){
-                $t = explode('|', $tax['tax_name']);
-                $tax_name = '';
-                $tax_rate = 0;
-                if(isset($t[0])){
-                    $tax_name = $t[0];
-                }
-                if(isset($t[1])){
-                    $tax_rate = $t[1];
-                }
+                $items = get_items_table_data($invoice, 'invoice', 'html', true);
+                foreach($items->taxes() as $tax){
+                    $t = explode('|', $tax['tax_name']);
+                    $tax_name = '';
+                    $tax_rate = 0;
+                    if(isset($t[0])){
+                        $tax_name = $t[0];
+                    }
+                    if(isset($t[1])){
+                        $tax_rate = $t[1];
+                    }
 
-                $this->db->where('name', $tax_name);
-                $this->db->where('taxrate', $tax_rate);
-                $_tax = $this->db->get(db_prefix().'taxes')->row();
+                    $this->db->where('name', $tax_name);
+                    $this->db->where('taxrate', $tax_rate);
+                    $_tax = $this->db->get(db_prefix().'taxes')->row();
 
-                $total_tax = $tax['total_tax'];
-                if(isset($data['exchange_rate'])){
-                    $total_tax = round($tax['total_tax'] * $data['exchange_rate'], 2);
-                }elseif($currency_converter == 1){
-                    $total_tax = round($this->currency_converter($invoice->currency_name, $currency->name, $tax['total_tax']), 2);
-                }
+                    $total_tax = $tax['total_tax'];
+                    if(isset($data['exchange_rate'])){
+                        $total_tax = round($tax['total_tax'] * $data['exchange_rate'], 2);
+                    }elseif($currency_converter == 1){
+                        $total_tax = round($this->currency_converter($invoice->currency_name, $currency->name, $tax['total_tax']), 2);
+                    }
 
-                if($_tax){
-                    $tax_mapping = $this->get_tax_mapping($_tax->id);
+                    if($_tax){
+                        $tax_mapping = $this->get_tax_mapping($_tax->id);
 
-                    if($tax_mapping){
-                        $node = [];
-                        $node['split'] = $tax_mapping->payment_account;
-                        $node['account'] = $tax_mapping->deposit_to;
-                        $node['tax'] = $_tax->id;
-                        $node['item'] = 0;
-                        $node['date'] = $invoice->date;
-                        $node['paid'] = $paid;
-                        $node['debit'] = $total_tax;
-                        $node['customer'] = $invoice->clientid;
-                        $node['credit'] = 0;
-                        $node['description'] = '';
-                        $node['rel_id'] = $data['id'];
-                        $node['rel_type'] = 'invoice';
-                        $node['datecreated'] = date('Y-m-d H:i:s');
-                        $node['addedfrom'] = get_staff_user_id();
-                        $data_insert[] = $node;
+                        if($tax_mapping){
+                            $node = [];
+                            $node['split'] = $tax_mapping->payment_account;
+                            $node['account'] = $tax_mapping->deposit_to;
+                            $node['tax'] = $_tax->id;
+                            $node['item'] = 0;
+                            $node['date'] = $invoice->date;
+                            $node['paid'] = $paid;
+                            $node['debit'] = $total_tax;
+                            $node['customer'] = $invoice->clientid;
+                            $node['credit'] = 0;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
 
-                        $node = [];
-                        $node['split'] = $tax_mapping->deposit_to;
-                        $node['customer'] = $invoice->clientid;
-                        $node['account'] = $tax_mapping->payment_account;
-                        $node['tax'] = $_tax->id;
-                        $node['item'] = 0;
-                        $node['date'] = $invoice->date;
-                        $node['paid'] = $paid;
-                        $node['debit'] = 0;
-                        $node['credit'] = $total_tax;
-                        $node['description'] = '';
-                        $node['rel_id'] = $data['id'];
-                        $node['rel_type'] = 'invoice';
-                        $node['datecreated'] = date('Y-m-d H:i:s');
-                        $node['addedfrom'] = get_staff_user_id();
-                        $data_insert[] = $node;
+                            $node = [];
+                            $node['split'] = $tax_mapping->deposit_to;
+                            $node['customer'] = $invoice->clientid;
+                            $node['account'] = $tax_mapping->payment_account;
+                            $node['tax'] = $_tax->id;
+                            $node['item'] = 0;
+                            $node['date'] = $invoice->date;
+                            $node['paid'] = $paid;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }else{
+                            $node = [];
+                            $node['split'] = $tax_payment_account;
+                            $node['account'] = $tax_deposit_to;
+                            $node['tax'] = $_tax->id;
+                            $node['item'] = 0;
+                            $node['date'] = $invoice->date;
+                            $node['paid'] = $paid;
+                            $node['debit'] = $total_tax;
+                            $node['customer'] = $invoice->clientid;
+                            $node['credit'] = 0;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+
+                            $node = [];
+                            $node['split'] = $tax_deposit_to;
+                            $node['customer'] = $invoice->clientid;
+                            $node['date'] = $invoice->date;
+                            $node['account'] = $tax_payment_account;
+                            $node['tax'] = $_tax->id;
+                            $node['item'] = 0;
+                            $node['paid'] = $paid;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }
                     }else{
                         $node = [];
                         $node['split'] = $tax_payment_account;
                         $node['account'] = $tax_deposit_to;
-                        $node['tax'] = $_tax->id;
                         $node['item'] = 0;
+                        $node['tax'] = 0;
                         $node['date'] = $invoice->date;
                         $node['paid'] = $paid;
                         $node['debit'] = $total_tax;
@@ -2324,9 +2404,9 @@ class Accounting_model extends App_Model
                         $node = [];
                         $node['split'] = $tax_deposit_to;
                         $node['customer'] = $invoice->clientid;
-                        $node['date'] = $invoice->date;
                         $node['account'] = $tax_payment_account;
-                        $node['tax'] = $_tax->id;
+                        $node['date'] = $invoice->date;
+                        $node['tax'] = 0;
                         $node['item'] = 0;
                         $node['paid'] = $paid;
                         $node['debit'] = 0;
@@ -2338,40 +2418,6 @@ class Accounting_model extends App_Model
                         $node['addedfrom'] = get_staff_user_id();
                         $data_insert[] = $node;
                     }
-                }else{
-                    $node = [];
-                    $node['split'] = $tax_payment_account;
-                    $node['account'] = $tax_deposit_to;
-                    $node['item'] = 0;
-                    $node['tax'] = 0;
-                    $node['date'] = $invoice->date;
-                    $node['paid'] = $paid;
-                    $node['debit'] = $total_tax;
-                    $node['customer'] = $invoice->clientid;
-                    $node['credit'] = 0;
-                    $node['description'] = '';
-                    $node['rel_id'] = $data['id'];
-                    $node['rel_type'] = 'invoice';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
-
-                    $node = [];
-                    $node['split'] = $tax_deposit_to;
-                    $node['customer'] = $invoice->clientid;
-                    $node['account'] = $tax_payment_account;
-                    $node['date'] = $invoice->date;
-                    $node['tax'] = 0;
-                    $node['item'] = 0;
-                    $node['paid'] = $paid;
-                    $node['debit'] = 0;
-                    $node['credit'] = $total_tax;
-                    $node['description'] = '';
-                    $node['rel_id'] = $data['id'];
-                    $node['rel_type'] = 'invoice';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
                 }
             }
         }else{
@@ -2383,6 +2429,9 @@ class Accounting_model extends App_Model
                 $payment = $this->payments_model->get($data['id']);
                 $date = $payment->date;
                 $invoice = $this->invoices_model->get($payment->invoiceid);
+
+                $this->automatic_invoice_conversion($payment->invoiceid);
+                
                 $customer = $invoice->clientid;
 
                 $this->load->model('currencies_model');
@@ -2393,7 +2442,6 @@ class Accounting_model extends App_Model
                 }elseif($invoice->currency_name != $currency->name){
                     $data['amount'] = round($this->currency_converter($invoice->currency_name, $currency->name, $data['amount']), 2);
                 }
-
             }elseif ($data['type'] == 'expense') {
                 $this->load->model('expenses_model');
                 $expense = $this->expenses_model->get($data['id']);
@@ -2407,6 +2455,153 @@ class Accounting_model extends App_Model
                     $data['amount'] = round($data['amount'] * $data['exchange_rate'], 2);
                 }elseif($expense->currency_data->name != $currency->name){
                     $data['amount'] = round($this->currency_converter($expense->currency_data->name, $currency->name, $data['amount']), 2);
+                }
+
+                if(get_option('acc_tax_automatic_conversion') == 1){
+                    $tax_payment_account = get_option('acc_tax_payment_account');
+                    $tax_deposit_to = get_option('acc_tax_deposit_to');
+
+                    if($expense->tax > 0){
+                        $this->db->where('id', $expense->tax);
+                        $tax = $this->db->get(db_prefix().'taxes')->row();
+                        $total_tax = 0;
+                        if($tax){
+                            $total_tax = ($tax->taxrate/100) * $data['amount'];
+                        }
+                        $tax_mapping = $this->get_tax_mapping($expense->tax);
+                        if($tax_mapping){
+                            $node = [];
+                            $node['split'] = $tax_mapping->expense_payment_account;
+                            $node['account'] = $tax_mapping->expense_deposit_to;
+                            $node['tax'] = $expense->tax;
+                            $node['debit'] = $total_tax;
+                            $node['credit'] = 0;
+                            $node['customer'] = $expense->clientid;
+                            $node['date'] = $expense->date;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+
+                            $node = [];
+                            $node['split'] = $tax_mapping->expense_deposit_to;
+                            $node['customer'] = $expense->clientid;
+                            $node['account'] = $tax_mapping->expense_payment_account;
+                            $node['tax'] = $expense->tax;
+                            $node['date'] = $expense->date;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }else{
+                            $node = [];
+                            $node['split'] = $tax_payment_account;
+                            $node['account'] = $tax_deposit_to;
+                            $node['tax'] = $expense->tax;
+                            $node['date'] = $expense->date;
+                            $node['debit'] = $total_tax;
+                            $node['customer'] = $expense->clientid;
+                            $node['credit'] = 0;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+
+                            $node = [];
+                            $node['split'] = $tax_deposit_to;
+                            $node['customer'] = $expense->clientid;
+                            $node['account'] = $tax_payment_account;
+                            $node['date'] = $expense->date;
+                            $node['tax'] = $expense->tax;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }
+                    }
+
+                    if($expense->tax2 > 0){
+                        $this->db->where('id', $expense->tax2);
+                        $tax = $this->db->get(db_prefix().'taxes')->row();
+                        $total_tax = 0;
+                        if($tax){
+                            $total_tax = ($tax->taxrate/100) * $data['amount'];
+                        }
+                        $tax_mapping = $this->get_tax_mapping($expense->tax2);
+                        if($tax_mapping){
+                            $node = [];
+                            $node['split'] = $tax_mapping->expense_payment_account;
+                            $node['account'] = $tax_mapping->expense_deposit_to;
+                            $node['tax'] = $expense->tax2;
+                            $node['debit'] = $total_tax;
+                            $node['credit'] = 0;
+                            $node['customer'] = $expense->clientid;
+                            $node['date'] = $expense->date;
+                            $node['description'] = '';
+                            $node['rel_id'] = $expense_id;
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+
+                            $node = [];
+                            $node['split'] = $tax_mapping->expense_deposit_to;
+                            $node['customer'] = $expense->clientid;
+                            $node['account'] = $tax_mapping->expense_payment_account;
+                            $node['tax'] = $expense->tax2;
+                            $node['date'] = $expense->date;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $expense_id;
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }else{
+                            $node = [];
+                            $node['split'] = $tax_payment_account;
+                            $node['account'] = $tax_deposit_to;
+                            $node['tax'] = $expense->tax2;
+                            $node['date'] = $expense->date;
+                            $node['debit'] = $total_tax;
+                            $node['customer'] = $expense->clientid;
+                            $node['credit'] = 0;
+                            $node['description'] = '';
+                            $node['rel_id'] = $expense_id;
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+
+                            $node = [];
+                            $node['split'] = $tax_deposit_to;
+                            $node['customer'] = $expense->clientid;
+                            $node['account'] = $tax_payment_account;
+                            $node['date'] = $expense->date;
+                            $node['tax'] = $expense->tax2;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $expense_id;
+                            $node['rel_type'] = 'expense';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }
+                    }
                 }
             }elseif($data['type'] == 'banking'){
                 $banking = $this->get_transaction_banking($data['id']);
@@ -2422,6 +2617,7 @@ class Accounting_model extends App_Model
             $node['customer'] = $customer;
             $node['date'] = $date;
             $node['credit'] = 0;
+            $node['tax'] = 0;
             $node['description'] = '';
             $node['rel_id'] = $data['id'];
             $node['rel_type'] = $data['type'];
@@ -2434,6 +2630,7 @@ class Accounting_model extends App_Model
             $node['account'] = $data['payment_account'];
             $node['customer'] = $customer;
             $node['date'] = $date;
+            $node['tax'] = 0;
             $node['debit'] = 0;
             $node['credit'] = $data['amount'];
             $node['description'] = '';
@@ -2567,6 +2764,11 @@ class Accounting_model extends App_Model
     public function get_data_balance_sheet($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -2642,19 +2844,54 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('rel_type != "expense"');
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
+                    $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+                    $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+
+                    $credits = $account_history->credit != '' ? $account_history->credit : 0;
+                    $debits = $account_history->debit != '' ? $account_history->debit : 0;
+                    $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_balance_sheet_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
+                    if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
+                        $total += $credits - $debits;
                     }else{
-                        $this->db->where('account', $val['id']);
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
+                        $total += $debits - $credits;
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+
+                }
+            }
+            $data_total[$data_key] = $total;
+        }
+
+        $data_total_2 = [];
+        foreach ($data_accounts as $data_key => $data_account) {
+            if($data_key != 'income' && $data_key != 'other_income' && $data_key != 'cost_of_sales' && $data_key != 'expenses' && $data_key != 'other_expenses'){
+                continue;
+            }
+            $total = 0;
+            foreach ($data_account as $key => $value) {
+                $this->db->where('active', 1);
+                $this->db->where('account_detail_type_id', $value['id']);
+                $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+                foreach ($accounts as $val) {
+                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
+                    
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
 
@@ -2663,19 +2900,18 @@ class Accounting_model extends App_Model
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
 
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name)];
                         $total += $credits - $debits;
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name)];
                         $total += $debits - $credits;
                     }
 
                 }
             }
-            $data_total[$data_key] = $total;
+            $data_total_2[$data_key] = $total;
         }
-        $income = $data_total['income'] + $data_total['other_income'];
-        $expenses = $data_total['expenses'] + $data_total['other_expenses'] + $data_total['cost_of_sales'];
+
+        $income = $data_total_2['income'] + $data_total_2['other_income'];
+        $expenses = $data_total_2['expenses'] + $data_total_2['other_expenses'] + $data_total_2['cost_of_sales'];
         $net_income = $income - $expenses;
 
         return ['data' => $data_report, 'total' => $data_total, 'from_date' => $from_date, 'to_date' => $to_date, 'net_income' => $net_income];
@@ -2690,7 +2926,11 @@ class Accounting_model extends App_Model
     public function get_data_balance_sheet_comparison($data_filter){
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -2764,39 +3004,32 @@ class Accounting_model extends App_Model
                 $data_accounts['other_expenses'][] = $value;
             }
         }
-
+        
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
             $total = 0;
             $py_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('rel_type != "expense"');
-                    }
-
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
 
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
                     $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
@@ -2804,12 +3037,13 @@ class Accounting_model extends App_Model
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
 
-                    if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name), 'py_amount' => app_format_money($py_credits - $py_debits, $currency->name)];
+                    $child_account = $this->get_data_balance_sheet_comparison_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method);
+                    if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => ($credits - $debits), 'py_amount' => ($py_credits - $py_debits), 'child_account' => $child_account];
                         $total += $credits - $debits;
                         $py_total += $py_credits - $py_debits;
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name), 'py_amount' => app_format_money($py_debits - $py_credits, $currency->name)];
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => ($debits - $credits), 'py_amount' => ($py_debits - $py_credits), 'child_account' => $child_account];
                         $total += $debits - $credits;
                         $py_total += $py_debits - $py_credits;
                     }
@@ -2818,12 +3052,58 @@ class Accounting_model extends App_Model
             $data_total[$data_key] = ['this_year' => $total, 'last_year' => $py_total];
         }
 
-        $this_income = $data_total['income']['this_year'] + $data_total['other_income']['this_year'];
-        $this_expenses = $data_total['expenses']['this_year'] + $data_total['other_expenses']['this_year'] + $data_total['cost_of_sales']['this_year'];
+        $data_total_2 = [];
+        foreach ($data_accounts as $data_key => $data_account) {
+            if($data_key != 'income' && $data_key != 'other_income' && $data_key != 'cost_of_sales' && $data_key != 'expenses' && $data_key != 'other_expenses'){
+                continue;
+            }
+            $total = 0;
+            foreach ($data_account as $key => $value) {
+                $this->db->where('active', 1);
+                $this->db->where('account_detail_type_id', $value['id']);
+                $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+                foreach ($accounts as $val) {
+                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+                    $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+                    $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+
+                    $credits = $account_history->credit != '' ? $account_history->credit : 0;
+                    $debits = $account_history->debit != '' ? $account_history->debit : 0;
+                    $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+                    $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
+                    $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+                    $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
+                    $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
+
+                    if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7){
+                        $total += $credits - $debits;
+                        $py_total += $py_credits - $py_debits;
+                    }else{
+                        $total += $debits - $credits;
+                        $py_total += $py_debits - $py_credits;
+                    }
+
+                }
+            }
+            $data_total_2[$data_key] = ['this_year' => $total, 'last_year' => $py_total];
+        }
+        
+        $this_income = $data_total_2['income']['this_year'] + $data_total_2['other_income']['this_year'];
+        $this_expenses = $data_total_2['expenses']['this_year'] + $data_total_2['other_expenses']['this_year'] + $data_total_2['cost_of_sales']['this_year'];
         $this_net_income = $this_income - $this_expenses;
 
-        $last_income = $data_total['income']['last_year'] + $data_total['other_income']['last_year'];
-        $last_expenses = $data_total['expenses']['last_year'] + $data_total['other_expenses']['last_year'] + $data_total['cost_of_sales']['last_year'];
+        $last_income = $data_total_2['income']['last_year'] + $data_total_2['other_income']['last_year'];
+        $last_expenses = $data_total_2['expenses']['last_year'] + $data_total_2['other_expenses']['last_year'] + $data_total_2['cost_of_sales']['last_year'];
         $last_net_income = $last_income - $last_expenses;
 
         return ['data' => $data_report, 'total' => $data_total, 'this_year' => $this_year, 'last_year' => $last_year, 'from_date' => $from_date, 'to_date' => $to_date, 'this_net_income' => $this_net_income, 'last_net_income' => $last_net_income];
@@ -2837,7 +3117,11 @@ class Accounting_model extends App_Model
     public function get_data_balance_sheet_detail($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -2914,45 +3198,46 @@ class Accounting_model extends App_Model
             $balance_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('rel_type != "expense"');
-                    }
                     $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
                     $node = [];
                     $balance = 0;
                     $amount = 0;
                     foreach ($account_history as $v) {
-                        if($value['account_type_id'] == 10 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 7){
+                        if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 7){
                             $am = $v['credit'] - $v['debit'];
                         }else{
                             $am = $v['debit'] - $v['credit'];
                         }
 
                         $node[] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'description' => $v['description'],
                                         'debit' => $v['debit'],
                                         'credit' => $v['credit'],
                                         'amount' => $am,
-                                        'balance' => $balance + ($v['debit'] - $v['credit']),
+                                        'balance' => $balance + $am,
                                     ];
-                        if($value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 7){
-                            $amount += $v['credit'] - $v['debit'];
-                            $balance += ($v['credit'] - $v['debit']);
-                        }else{
-                            $amount += $v['debit'] - $v['credit'];
-                            $balance += ($v['debit'] - $v['credit']);
-                        }
+                            $amount += $am;
+                            $balance += $am;
                     }
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => app_format_money($amount, $currency->name), 'balance' => app_format_money($balance, $currency->name), 'details' => $node];
+
+                    $child_account = $this->get_data_balance_sheet_detail_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+                    
+                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $child_account];
+
 
                     $total += $amount;
                     $balance_total += $balance;
@@ -2961,7 +3246,6 @@ class Accounting_model extends App_Model
             $data_total[$data_key] = ['amount' => $total, 'balance' => $balance_total];
             }
         }
-
         $data_total_2 = [];
         foreach ($data_accounts as $data_key => $data_account) {
             if($data_key != 'income' && $data_key != 'other_income' && $data_key != 'cost_of_sales' && $data_key != 'expenses' && $data_key != 'other_expenses'){
@@ -2974,12 +3258,10 @@ class Accounting_model extends App_Model
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
 
@@ -2988,10 +3270,8 @@ class Accounting_model extends App_Model
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
 
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name)];
                         $total += $credits - $debits;
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name)];
                         $total += $debits - $credits;
                     }
 
@@ -3019,7 +3299,11 @@ class Accounting_model extends App_Model
 
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3090,29 +3374,28 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('rel_type != "expense"');
-                    }
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_balance_sheet_summary_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+                    
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name)];
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
                         $total += $credits - $debits;
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name)];
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
                         $total += $debits - $credits;
                     }
                 }
@@ -3139,7 +3422,11 @@ class Accounting_model extends App_Model
 
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3150,7 +3437,6 @@ class Accounting_model extends App_Model
 
         $account_type_details = $this->get_account_type_details();
         $data_report = [];
-        $data_total = [];
         $data_accounts = [];
         
         foreach ($account_type_details as $key => $value) {
@@ -3174,38 +3460,37 @@ class Accounting_model extends App_Model
                 $data_accounts['other_expenses'][] = $value;
             }
         }
+
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
-            $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_custom_summary_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name)];
-                        $total += $credits - $debits;
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name)];
-                        $total += $debits - $credits;
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
                     }
                 }
             }
-            $data_total[$data_key] = $total;
         }
-        return ['data' => $data_report, 'total' => $data_total, 'from_date' => $from_date, 'to_date' => $to_date];
+        return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date];
         
     }
 
@@ -3220,6 +3505,11 @@ class Accounting_model extends App_Model
 
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -3265,12 +3555,10 @@ class Accounting_model extends App_Model
             $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
             foreach ($accounts as $val) {
                 $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                if($val['id'] == 16){
-                    $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                }else{
-                    $this->db->where('account', $val['id']);
+                $this->db->where('account', $val['id']);
+                if($accounting_method == 'cash'){
+                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                 }
-                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                 $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                 $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                 $credits = $account_history->credit != '' ? $account_history->credit : 0;
@@ -3290,16 +3578,15 @@ class Accounting_model extends App_Model
             $percent = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
@@ -3314,10 +3601,12 @@ class Accounting_model extends App_Model
                         $total += $debits - $credits;
                     }
 
+                    $child_account = $this->get_data_profit_and_loss_as_of_total_income_recursive([], $data_total['income'], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
                     if($data_total['income'] != 0){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($r_am, $currency->name), 'percent' => round((($r_am) / $data_total['income']) * 100, 2)];
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $r_am, 'percent' => round((($r_am) / $data_total['income']) * 100, 2), 'child_account' => $child_account];
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($r_am, $currency->name), 'percent' => 0];
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $r_am, 'percent' => 0, 'child_account' => $child_account];
                     }
                 }
             }
@@ -3346,6 +3635,11 @@ class Accounting_model extends App_Model
 
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -3394,50 +3688,44 @@ class Accounting_model extends App_Model
             $py_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
 
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
                     $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
                     $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_profit_and_loss_comparison_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method);
+
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12){
-                        $data_report[$data_key][] = ['name' => $name, 'this_year' => app_format_money($credits - $debits, $currency->name), 'last_year' => app_format_money($py_credits - $py_debits, $currency->name)];
-                        $total += $credits - $debits;
-                        $py_total += $py_credits - $py_debits;
+                        $data_report[$data_key][] = ['name' => $name, 'this_year' => $credits - $debits, 'last_year' => $py_credits - $py_debits, 'child_account' => $child_account];
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'this_year' => app_format_money($debits - $credits, $currency->name), 'last_year' => app_format_money($py_debits - $py_credits, $currency->name)];
-                        $total += $debits - $credits;
-                        $py_total += $py_debits - $py_credits;
+                        $data_report[$data_key][] = ['name' => $name, 'this_year' => $debits - $credits, 'last_year' => $py_debits - $py_credits, 'child_account' => $child_account];
                     }
                 }
             }
-            $data_this_year[$data_key] = $total;
-            $data_last_year[$data_key] = $py_total;
         }
 
-        return ['data' => $data_report, 'this_year' => $data_this_year, 'last_year' => $data_last_year, 'this_year_header' => $this_year, 'last_year_header' => $last_year, 'from_date' => $from_date, 'to_date' => $to_date];
+        return ['data' => $data_report, 'this_year_header' => $this_year, 'last_year_header' => $last_year, 'from_date' => $from_date, 'to_date' => $to_date];
         
     }
 
@@ -3449,7 +3737,11 @@ class Accounting_model extends App_Model
     public function get_data_profit_and_loss_detail($data_filter){
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3502,15 +3794,14 @@ class Accounting_model extends App_Model
             $balance_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
                     $node = [];
@@ -3523,7 +3814,7 @@ class Accounting_model extends App_Model
                             $am = $v['debit'] - $v['credit'];
                         }
                         $node[] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
                                         'description' => $v['description'],
@@ -3531,12 +3822,14 @@ class Accounting_model extends App_Model
                                         'amount' => $am,
                                         'balance' => $balance + $am,
                                     ];
-                        $amount += $v['credit'] - $v['debit'];
-                        $balance += ($v['credit'] - $v['debit']);
+                        $amount += $am;
+                        $balance += $am;
                     }
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => app_format_money($amount, $currency->name), 'balance' => app_format_money($balance, $currency->name), 'details' => $node];
+                    $child_account = $this->get_data_profit_and_loss_detail_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
+                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $child_account];
 
                     $total += $amount;
                     $balance_total += $balance;
@@ -3557,7 +3850,11 @@ class Accounting_model extends App_Model
     public function get_data_profit_and_loss_year_to_date_comparison($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3574,8 +3871,6 @@ class Accounting_model extends App_Model
 
         $account_type_details = $this->get_account_type_details();
         $data_report = [];
-        $data_this_year = [];
-        $data_last_year = [];
         $data_accounts = [];
         
         foreach ($account_type_details as $key => $value) {
@@ -3602,53 +3897,44 @@ class Accounting_model extends App_Model
 
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
-            $total = 0;
-            $py_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
 
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
                     $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
                     $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_profit_and_loss_year_to_date_comparison_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method);
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12){
-                        $data_report[$data_key][] = ['name' => $name, 'this_year' => app_format_money($credits - $debits, $currency->name), 'last_year' => app_format_money($py_credits - $py_debits, $currency->name)];
-                        $total += $credits - $debits;
-                        $py_total += $py_credits - $py_debits;
+                        $data_report[$data_key][] = ['name' => $name, 'this_year' => $credits - $debits, 'last_year' => $py_credits - $py_debits, 'child_account' => $child_account];
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'this_year' => app_format_money($debits - $credits, $currency->name), 'last_year' => app_format_money($py_debits - $py_credits, $currency->name)];
-                        $total += $debits - $credits;
-                        $py_total += $py_debits - $py_credits;
+                        $data_report[$data_key][] = ['name' => $name, 'this_year' => $debits - $credits, 'last_year' => $py_debits - $py_credits, 'child_account' => $child_account];
                     }
                 }
             }
-            $data_this_year[$data_key] = $total;
-            $data_last_year[$data_key] = $py_total;
         }
-        return ['data' => $data_report, 'this_year' => $data_this_year, 'last_year' => $data_last_year, 'from_date' => $from_date, 'to_date' => $to_date];
+        return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date];
         
     }
 
@@ -3663,7 +3949,11 @@ class Accounting_model extends App_Model
 
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3674,7 +3964,6 @@ class Accounting_model extends App_Model
 
         $account_type_details = $this->get_account_type_details();
         $data_report = [];
-        $data_total = [];
         $data_accounts = [];
         
         foreach ($account_type_details as $key => $value) {
@@ -3700,18 +3989,16 @@ class Accounting_model extends App_Model
         }
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
-            $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
@@ -3719,18 +4006,18 @@ class Accounting_model extends App_Model
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+                    $child_account = $this->get_data_profit_and_loss_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($credits - $debits, $currency->name)];
-                        $total += $credits - $debits;
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
                     }else{
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => app_format_money($debits - $credits, $currency->name)];
-                        $total += $debits - $credits;
+                        $data_report[$data_key][] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
                     }
                 }
             }
-            $data_total[$data_key] = $total;
         }
-        return ['data' => $data_report, 'total' => $data_total, 'from_date' => $from_date, 'to_date' => $to_date];
+        return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date];
         
     }
 
@@ -3755,22 +4042,45 @@ class Accounting_model extends App_Model
         $data_report = [];
         $data_total = [];
         $data_accounts = [];
-        
+        $data_accounts['cash_flows_from_operating_activities'] = [];
+        $data_accounts['cash_flows_from_financing_activities'] = [];
+        $data_accounts['cash_flows_from_investing_activities'] = [];
+        $data_accounts['cash_and_cash_equivalents_at_beginning_of_year'] = [];
+
         foreach ($account_type_details as $key => $value) {
+            if(isset($value['statement_of_cash_flows'])){
+                $data_accounts[$value['statement_of_cash_flows']][] = $value;
+                continue;
+            }
+
             if($value['account_type_id'] == 1){
                 $data_accounts['accounts_receivable'][] = $value;
             }
             if($value['account_type_id'] == 2){
-                $data_accounts['current_assets'][] = $value;
+                if($value['id'] == 13){
+                    $data_accounts['current_assets_3'][] = $value;
+                }elseif($value['id'] == 3 || $value['id'] == 6){
+                    $data_accounts['current_assets_2'][] = $value;
+                }else{
+                    $data_accounts['current_assets_1'][] = $value;
+                }
             }
             if($value['account_type_id'] == 3){
                 $data_accounts['cash_and_cash_equivalents'][] = $value;
             }
             if($value['account_type_id'] == 4){
-                $data_accounts['fixed_assets'][] = $value;
+                if($value['id'] == 21 || $value['id'] == 26){
+                    $data_accounts['fixed_assets_2'][] = $value;
+                }else{
+                    $data_accounts['fixed_assets_1'][] = $value;
+                }
             }
             if($value['account_type_id'] == 5){
-                $data_accounts['non_current_assets'][] = $value;
+                if($value['id'] != 31){
+                    $data_accounts['non_current_assets_2'][] = $value;
+                }else{
+                    $data_accounts['non_current_assets_1'][] = $value;
+                }
             }
             if($value['account_type_id'] == 6){
                 $data_accounts['accounts_payable'][] = $value;
@@ -3782,7 +4092,11 @@ class Accounting_model extends App_Model
                 $data_accounts['current_liabilities'][] = $value;
             }
             if($value['account_type_id'] == 9){
-                $data_accounts['non_current_liabilities'][] = $value;
+                if($value['id'] != 63 && $value['id'] != 64){
+                    $data_accounts['non_current_liabilities_2'][] = $value;
+                }else{
+                    $data_accounts['non_current_liabilities_1'][] = $value;
+                }
             }
             if($value['account_type_id'] == 10){
                 $data_accounts['owner_equity'][] = $value;
@@ -3814,38 +4128,41 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
+                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     if($val['id'] == 13){
                         $this->db->where('(rel_type != "invoice" and rel_type != "expense" and rel_type != "payment")');
                     }
-                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+                    $this->db->where('account', $val['id']);
                     
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
-                    }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
 
+                    $child_account = $this->get_data_statement_of_cash_flows_recursive([], $val['id'], $value['account_type_id'], $value['id'], $from_date, $to_date);
+
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7 || $value['account_type_id'] == 4 || $value['account_type_id'] == 5 || $value['account_type_id'] == 6 || $value['account_type_id'] == 2 || $value['account_type_id'] == 9 || $value['account_type_id'] == 1){
-                        $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $credits - $debits];
+                        $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
                         $total += $credits - $debits;
                     }else{
-                        $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $debits - $credits];
+                        $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
                         $total += $debits - $credits;
                     }
                 }
             }
             $data_total[$data_key] = $total;
         }
-        return ['data' => $data_report, 'total' => $data_total, 'from_date' => $from_date, 'to_date' => $to_date];
+
+        $income = $data_total['income'] + $data_total['other_income'];
+        $expenses = $data_total['expenses'] + $data_total['other_expenses'] + $data_total['cost_of_sales'];
+        $net_income = $income - $expenses;
+
+        return ['data' => $data_report, 'total' => $data_total, 'net_income' => $net_income, 'from_date' => $from_date, 'to_date' => $to_date];
         
     }
     
@@ -3857,7 +4174,11 @@ class Accounting_model extends App_Model
     public function get_data_statement_of_changes_in_equity($data_filter){
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -3882,18 +4203,24 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
                     
-                    $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $credits - $debits];
+                    $child_account = $this->get_data_statement_of_changes_in_equity_recursive([], $val['id'], $from_date, $to_date, $accounting_method);
+
+                    $data_report[$data_key][] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
                     $total += $credits - $debits;
 
                 }
@@ -3965,6 +4292,7 @@ class Accounting_model extends App_Model
             $balance_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
@@ -3976,26 +4304,29 @@ class Accounting_model extends App_Model
                     $balance = 0;
                     $amount = 0;
                     foreach ($account_history as $v) {
+                        if($value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7){
+                            $amount += $v['credit'] - $v['debit'];
+                            $am = ($v['credit'] - $v['debit']);
+                        }else{
+                            $amount += $v['debit'] - $v['credit'];
+                            $am = ($v['debit'] - $v['credit']);
+                        }
+
                         $node[] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'description' => $v['description'],
                                         'customer' => $v['customer'],
                                         'debit' => $v['debit'],
                                         'credit' => $v['credit'],
-                                        'amount' =>  $v['credit'] - $v['debit'],
+                                        'amount' =>  $am,
                                     ];
-                        if($value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7){
-                            $amount += $v['credit'] - $v['debit'];
-                            $balance += ($v['credit'] - $v['debit']);
-                        }else{
-                            $amount += $v['debit'] - $v['credit'];
-                            $balance += ($v['debit'] - $v['credit']);
-                        }
                     }
 
+                    $child_account = $this->get_data_deposit_detail_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date);
+
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'details' => $node];
+                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'details' => $node, 'child_account' => $child_account];
 
                     $total += $amount;
                     $balance_total += $balance;
@@ -4015,7 +4346,11 @@ class Accounting_model extends App_Model
     public function get_data_income_by_customer_summary(){
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -4062,13 +4397,10 @@ class Accounting_model extends App_Model
                     $this->db->group_by('customer');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $this->db->where('(customer != 0)');
-
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
 
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
@@ -4233,6 +4565,7 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
@@ -4243,17 +4576,18 @@ class Accounting_model extends App_Model
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
 
-                    if($value['account_type_id'] == 9 || $value['account_type_id'] == 8){
-                        $data_report[$data_key][] = ['number' => $val['number'], 'description' => $val['description'], 'type' => $account_type_name[$val['account_type_id']], 'detail_type' => $detail_type_name[$val['account_detail_type_id']], 'name' => $name, 'amount' => $credits - $debits];
-                        $total += $credits - $debits;
-                    }else{
-                        $data_report[$data_key][] = ['number' => $val['number'], 'description' => $val['description'], 'type' => $account_type_name[$val['account_type_id']], 'detail_type' => $detail_type_name[$val['account_detail_type_id']], 'name' => $name, 'amount' => $debits - $credits];
-                        $total += $debits - $credits;
-                    }
+                    $child_account = $this->get_data_account_list_recursive([], $val['id'], $value['account_type_id'], $account_type_name, $detail_type_name);
+
+                    $_account_type_name = isset($account_type_name[$val['account_type_id']]) ? $account_type_name[$val['account_type_id']] : '';
+                    $_detail_type_name = isset($detail_type_name[$val['account_detail_type_id']]) ? $detail_type_name[$val['account_detail_type_id']] : '';
+                    
+                    $data_report[$data_key][] = ['number' => $val['number'], 'description' => $val['description'], 'type' => $_account_type_name, 'detail_type' => $_detail_type_name, 'name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
+                    $total += $debits - $credits;
                 }
             }
             $data_total[$data_key] = $total;
         }
+
         return ['data' => $data_report, 'total' => $data_total];
         
     }
@@ -4262,13 +4596,17 @@ class Accounting_model extends App_Model
      * get data general ledger 
      * @return array
      */
-    public function get_data_general_ledger(){
+    public function get_data_general_ledger($data_filter){
         $this->load->model('currencies_model');
         $currency = $this->currencies_model->get_base_currency();
 
         $from_date = date('Y-01-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -4348,31 +4686,28 @@ class Accounting_model extends App_Model
             $balance_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('(rel_type != "invoice" and rel_type != "expense" and rel_type != "payment")');
-                    }
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
                     $node = [];
                     $balance = 0;
                     $amount = 0;
                     foreach ($account_history as $v) {
-                        if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7){
+                        if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
                             $am = $v['credit'] - $v['debit'];
                         }else{
                             $am = $v['debit'] - $v['credit'];
                         }
 
                         $node[] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
                                         'description' => $v['description'],
@@ -4380,20 +4715,17 @@ class Accounting_model extends App_Model
                                         'debit' => $v['debit'],
                                         'credit' => $v['credit'],
                                         'amount' => $am,
-                                        'balance' => $balance + ($am),
+                                        'balance' => $balance + $am,
                                     ];
 
-                        if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7){
-                            $amount += $v['credit'] - $v['debit'];
-                            $balance += ($v['credit'] - $v['debit']);
-                        }else{
-                            $amount += $v['debit'] - $v['credit'];
-                            $balance += ($v['debit'] - $v['credit']);
-                        }
+
+                        $amount += $am;
+                        $balance += $am;
                     }
+                    $child_account = $this->get_data_general_ledger_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => app_format_money($amount, $currency->name), 'balance' => app_format_money($balance, $currency->name), 'details' => $node];
+                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $child_account];
 
                     $total += $amount;
                     $balance_total += $balance;
@@ -4432,13 +4764,14 @@ class Accounting_model extends App_Model
         $data_report = [];
         
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
-        $this->db->order_by('datecreated', 'asc');
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
             $data_report[] =   [
-                            'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                            'date' => date('Y-m-d', strtotime($v['date'])),
                             'type' => _l($v['rel_type']),
                             'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
                             'description' => $v['description'],
@@ -4544,17 +4877,23 @@ class Accounting_model extends App_Model
                     
                     $this->db->where('((debit > 0 and (rel_type != "expense" and rel_type != "transfer")) or (credit > 0 and (rel_type = "expense" or rel_type = "transfer")))');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
-                    $this->db->order_by('rel_type,datecreated', 'asc');
+                    $this->db->order_by('rel_type,date', 'asc');
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
                     foreach ($account_history as $v) {
+                        if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
+                            $am = $v['credit'] - $v['debit'];
+                        }else{
+                            $am = $v['debit'] - $v['credit'];
+                        }
+
                         $data_report[$v['rel_type']][] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
                                         'description' => $v['description'],
                                         'customer' => $v['customer'],
-                                        'amount' => $v['debit'] - $v['credit'],
+                                        'amount' => $am,
                                     ];
                     }
                 }
@@ -4573,7 +4912,11 @@ class Accounting_model extends App_Model
         $currency = $this->currencies_model->get_base_currency();
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -4652,17 +4995,14 @@ class Accounting_model extends App_Model
             $balance_total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == get_option('acc_expense_deposit_to')){
-                        $this->db->where('rel_type != "expense"');
-                    }
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_deposit_to') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
                     $node = [];
@@ -4675,7 +5015,7 @@ class Accounting_model extends App_Model
                             $am = $v['debit'] - $v['credit'];
                         }
                         $node[] =   [
-                                        'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                        'date' => date('Y-m-d', strtotime($v['date'])),
                                         'type' => _l($v['rel_type']),
                                         'description' => $v['description'],
                                         'customer' => $v['customer'],
@@ -4690,7 +5030,9 @@ class Accounting_model extends App_Model
                     }
 
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => app_format_money($amount, $currency->name), 'balance' => app_format_money($balance, $currency->name), 'details' => $node];
+                    $child_account = $this->get_data_transaction_detail_by_account_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
+                    $data_report[$data_key][] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $child_account];
 
                     $total += $amount;
                     $balance_total += $balance;
@@ -4724,27 +5066,31 @@ class Accounting_model extends App_Model
         $accounts = $this->accounting_model->get_accounts();
 
         $account_name = [];
+        $account_type = [];
 
         foreach ($accounts as $key => $value) {
             $account_name[$value['id']] = $value['name'];
+            $account_type[$value['id']] = $value['account_type_id'];
         }
+
 
         $data_report = [];
         
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
         $this->db->where('((debit > 0 and (rel_type != "expense" and rel_type != "transfer")) or (credit > 0 and (rel_type = "expense" or rel_type = "transfer")))');
-        $this->db->order_by('datecreated', 'asc');
+        $this->db->order_by('date', 'asc');
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
-            if($value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7){
+            $account_type_id = (isset($account_type[$v['account']]) ? $account_type[$v['account']] : '');
+            if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7 || $account_type_id == 6){
                 $am = $v['credit'] - $v['debit'];
             }else{
                 $am = $v['debit'] - $v['credit'];
             }
             $data_report[] =   [
-                            'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                            'date' => date('Y-m-d', strtotime($v['date'])),
                             'type' => _l($v['rel_type']),
                             'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
                             'name' => isset($account_name[$v['account']]) ? $account_name[$v['account']] : '',
@@ -4767,7 +5113,11 @@ class Accounting_model extends App_Model
     public function get_data_trial_balance($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
 
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
         }
@@ -4839,12 +5189,16 @@ class Accounting_model extends App_Model
             $total = 0;
             foreach ($data_account as $key => $value) {
                 $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
                     $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
                     $credits = $account_history->credit != '' ? $account_history->credit : 0;
                     $debits = $account_history->debit != '' ? $account_history->debit : 0;
@@ -4856,7 +5210,10 @@ class Accounting_model extends App_Model
                         $credits = 0;
                     }
                     $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
-                    $data_report[$data_key][] = ['name' => $name, 'debit' => $debits, 'credit' => $credits];
+
+                    $child_account = $this->get_data_trial_balance_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
+
+                    $data_report[$data_key][] = ['name' => $name, 'debit' => $debits, 'credit' => $credits, 'child_account' => $child_account];
                 }
             }
             $data_total[$data_key] = $total;
@@ -5059,6 +5416,7 @@ class Accounting_model extends App_Model
         $node['account'] = $data['transfer_funds_from'];
         $node['debit'] = 0;
         $node['credit'] = $data['transfer_amount'];
+        $node['date'] = $data['date'];
         $node['rel_id'] = $id;
         $node['rel_type'] = 'transfer';
         $node['datecreated'] = date('Y-m-d H:i:s');
@@ -5070,6 +5428,7 @@ class Accounting_model extends App_Model
         $node['account'] = $data['transfer_funds_to'];
         $node['debit'] = $data['transfer_amount'];
         $node['credit'] = 0;
+        $node['date'] = $data['date'];
         $node['rel_id'] = $id;
         $node['rel_type'] = 'transfer';
         $node['datecreated'] = date('Y-m-d H:i:s');
@@ -5724,6 +6083,8 @@ class Accounting_model extends App_Model
      * @return array              
      */
     public function get_data_profit_and_loss_chart(){
+        $accounting_method = get_option('acc_accounting_method');
+
         $where = $this->get_where_report_period();
         $account_type_details = $this->get_account_type_details();
         $data_report = [];
@@ -5759,12 +6120,10 @@ class Accounting_model extends App_Model
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
                     $this->db->select('sum(credit) as credit, sum(debit) as debit');
                     if($where != ''){
                         $this->db->where($where);
@@ -5820,10 +6179,9 @@ class Accounting_model extends App_Model
         $total = 0;
 
         if($where != ''){
-            $this->db->select('*, IF('.db_prefix().'acc_accounts.id = 16, (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where (account = 16 or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense")) and '.$where.'), (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id and '.$where.')) as amount');
-
+            $this->db->select('*, (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id and '.$where.') as amount');
         }else{
-            $this->db->select('*, IF('.db_prefix().'acc_accounts.id = 16, (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where (account = 16 or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense")) and account = '.db_prefix().'acc_accounts.id), (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id)) as amount');
+            $this->db->select('*, (SELECT (sum(debit) - sum(credit)) as balance FROM '.db_prefix().'acc_account_history where account = '.db_prefix().'acc_accounts.id) as amount');
         }
 
         $this->db->where('(account_type_id = 13 or account_type_id = 14 or account_type_id = 15)');
@@ -5857,6 +6215,7 @@ class Accounting_model extends App_Model
      * @return array              
      */
     public function get_data_income_chart($data_filter){
+        $accounting_method = get_option('acc_accounting_method');
         $where = $this->get_where_report_period('date');
 
         $this->load->model('currencies_model');
@@ -5933,16 +6292,13 @@ class Accounting_model extends App_Model
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
-                    }
-
+                    $this->db->where('account', $val['id']);
                     if($where != ''){
                         $this->db->where($where);
                     }
-                    $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
                     if($currency->id != $data_currency){
                         $this->db->where('1=0');
                     }
@@ -6075,11 +6431,7 @@ class Accounting_model extends App_Model
                 $this->db->where('account_detail_type_id', $value['id']);
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 foreach ($accounts as $val) {
-                    if($val['id'] == 16){
-                        $this->db->where('(account = '. $val['id'].' or (account = '. get_option('acc_expense_payment_account') .' and rel_type = "expense"))');
-                    }else{
-                        $this->db->where('account', $val['id']);
-                    }
+                    $this->db->where('account', $val['id']);
                     $this->db->select('credit, debit, date, datecreated');
                     if($currency->id != $data_currency){
                         $this->db->where('1=0');
@@ -6556,7 +6908,8 @@ class Accounting_model extends App_Model
         if($account != ''){
             $this->db->where('account', $account);
         }
-        $this->db->order_by('datecreated', 'asc');
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         $balance = 0;
         $amount = 0;
@@ -6577,7 +6930,7 @@ class Accounting_model extends App_Model
                 $balance += ($v['debit'] - $v['credit']);
             }
             $data_report[] =   [
-                            'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                            'date' => date('Y-m-d', strtotime($v['date'])),
                             'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
                             'type' => _l($v['rel_type']),
                             'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
@@ -6765,7 +7118,7 @@ class Accounting_model extends App_Model
         update_option('acc_payment_payment_account', 1);
         update_option('acc_payment_deposit_to', 13);
         update_option('acc_expense_payment_account', 13);
-        update_option('acc_expense_deposit_to', 37);
+        update_option('acc_expense_deposit_to', 80);
         update_option('acc_tax_payment_account', 29);
         update_option('acc_tax_deposit_to', 1);
 
@@ -6852,8 +7205,9 @@ class Accounting_model extends App_Model
         $this->db->where('rel_id', $invoice_id);
         $this->db->where('rel_type', 'invoice');
         $count = $this->db->count_all_results(db_prefix() . 'acc_account_history');
+        $affectedRows = 0;
         
-        if($count > 0){
+        if($count > 0 || get_option('acc_invoice_automatic_conversion') == 0){
             return false;
         }
 
@@ -7099,8 +7453,9 @@ class Accounting_model extends App_Model
                     $data_insert[] = $node;
                 }
             }
-            
-            $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            if($data_insert != []){
+                $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            }
                 
             if ($affectedRows > 0) {
                 return true;
@@ -7128,6 +7483,9 @@ class Accounting_model extends App_Model
         $payment = $this->payments_model->get($payment_id);
         $payment_account = get_option('acc_payment_payment_account');
         $deposit_to = get_option('acc_payment_deposit_to');
+        $affectedRows = 0;
+
+        $this->automatic_invoice_conversion($payment->invoiceid);
 
         if($payment){
             if(get_option('acc_close_the_books') == 1){
@@ -7146,37 +7504,77 @@ class Accounting_model extends App_Model
                 $payment_total = round($this->currency_converter($invoice->currency_name, $currency->name, $payment->amount), 2);
             }
 
-            $data_insert = [];
+            if(get_option('acc_active_payment_mode_mapping') == 1){
+                $payment_mode_mapping = $this->get_payment_mode_mapping($payment->paymentmode);
 
-            $node = [];
-            $node['split'] = $payment_account;
-            $node['account'] = $deposit_to;
-            $node['customer'] = $invoice->clientid;
-            $node['debit'] = $payment_total;
-            $node['credit'] = 0;
-            $node['date'] = $payment->date;
-            $node['description'] = '';
-            $node['rel_id'] = $payment_id;
-            $node['rel_type'] = 'payment';
-            $node['datecreated'] = date('Y-m-d H:i:s');
-            $node['addedfrom'] = get_staff_user_id();
-            $data_insert[] = $node;
 
-            $node = [];
-            $node['split'] = $deposit_to;
-            $node['customer'] = $invoice->clientid;
-            $node['account'] = $payment_account;
-            $node['date'] = $payment->date;
-            $node['debit'] = 0;
-            $node['credit'] = $payment_total;
-            $node['description'] = '';
-            $node['rel_id'] = $payment_id;
-            $node['rel_type'] = 'payment';
-            $node['datecreated'] = date('Y-m-d H:i:s');
-            $node['addedfrom'] = get_staff_user_id();
-            $data_insert[] = $node;
+                $data_insert = [];
+                if($payment_mode_mapping){
+                    $node = [];
+                    $node['split'] = $payment_mode_mapping->payment_account;
+                    $node['account'] = $payment_mode_mapping->deposit_to;
+                    $node['date'] = $payment->date;
+                    $node['debit'] = $payment_total;
+                    $node['customer'] = $invoice->clientid;
+                    $node['credit'] = 0;
+                    $node['tax'] = 0;
+                    $node['description'] = '';
+                    $node['rel_id'] = $payment_id;
+                    $node['rel_type'] = 'payment';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
 
-            $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+                    $node = [];
+                    $node['split'] = $payment_mode_mapping->deposit_to;
+                    $node['customer'] = $invoice->clientid;
+                    $node['account'] = $payment_mode_mapping->payment_account;
+                    $node['date'] = $payment->date;
+                    $node['tax'] = 0;
+                    $node['debit'] = 0;
+                    $node['credit'] = $payment_total;
+                    $node['description'] = '';
+                    $node['rel_id'] = $payment_id;
+                    $node['rel_type'] = 'payment';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+                }
+            }else{
+                if(get_option('acc_payment_automatic_conversion') == 1){
+                    $node = [];
+                    $node['split'] = $payment_account;
+                    $node['account'] = $deposit_to;
+                    $node['customer'] = $invoice->clientid;
+                    $node['debit'] = $payment_total;
+                    $node['credit'] = 0;
+                    $node['date'] = $payment->date;
+                    $node['description'] = '';
+                    $node['rel_id'] = $payment_id;
+                    $node['rel_type'] = 'payment';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+
+                    $node = [];
+                    $node['split'] = $deposit_to;
+                    $node['customer'] = $invoice->clientid;
+                    $node['account'] = $payment_account;
+                    $node['date'] = $payment->date;
+                    $node['debit'] = 0;
+                    $node['credit'] = $payment_total;
+                    $node['description'] = '';
+                    $node['rel_id'] = $payment_id;
+                    $node['rel_type'] = 'payment';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+                }
+            }
+
+            if($data_insert != []){
+                $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            }
                 
             if ($affectedRows > 0) {
                 return true;
@@ -7196,6 +7594,11 @@ class Accounting_model extends App_Model
         $expense = $this->expenses_model->get($expense_id);
         $payment_account = get_option('acc_expense_payment_account');
         $deposit_to = get_option('acc_expense_deposit_to');
+        $tax_payment_account = get_option('acc_tax_payment_account');
+        $tax_deposit_to = get_option('acc_tax_deposit_to');
+        $payment_mode_payment_account = get_option('acc_expense_payment_payment_account');
+        $payment_mode_deposit_to = get_option('acc_expense_payment_deposit_to');
+        $affectedRows = 0;
 
         if($expense){
             if(get_option('acc_close_the_books') == 1){
@@ -7203,7 +7606,6 @@ class Accounting_model extends App_Model
                     return false;
                 }
             }
-            $expense_category_mapping = $this->get_expense_category_mapping($expense->category);
 
             $this->load->model('currencies_model');
             $currency = $this->currencies_model->get_base_currency();
@@ -7215,211 +7617,332 @@ class Accounting_model extends App_Model
 
             $data_insert = [];
 
-            if($expense_category_mapping){
-                $node = [];
-                $node['split'] = $expense_category_mapping->payment_account;
-                $node['account'] = $expense_category_mapping->deposit_to;
-                $node['date'] = $expense->date;
-                $node['debit'] = $expense_total;
-                $node['customer'] = $expense->clientid;
-                $node['credit'] = 0;
-                $node['tax'] = 0;
-                $node['description'] = '';
-                $node['rel_id'] = $expense_id;
-                $node['rel_type'] = 'expense';
-                $node['datecreated'] = date('Y-m-d H:i:s');
-                $node['addedfrom'] = get_staff_user_id();
-                $data_insert[] = $node;
+            if(get_option('acc_active_expense_category_mapping') == 1){
+                $expense_category_mapping = $this->get_expense_category_mapping($expense->category);
+                if($expense_category_mapping){
+                    if($expense_category_mapping->preferred_payment_method == 1 && $expense->paymentmode > 0){
+                        $payment_mode_mapping = $this->get_payment_mode_mapping($expense->paymentmode);
 
-                $node = [];
-                $node['split'] = $expense_category_mapping->deposit_to;
-                $node['customer'] = $expense->clientid;
-                $node['account'] = $expense_category_mapping->payment_account;
-                $node['date'] = $expense->date;
-                $node['tax'] = 0;
-                $node['debit'] = 0;
-                $node['credit'] = $expense_total;
-                $node['description'] = '';
-                $node['rel_id'] = $expense_id;
-                $node['rel_type'] = 'expense';
-                $node['datecreated'] = date('Y-m-d H:i:s');
-                $node['addedfrom'] = get_staff_user_id();
-                $data_insert[] = $node;
+                        if($payment_mode_mapping){
+                            if(get_option('acc_active_payment_mode_mapping') == 1){
+                                $node = [];
+                                $node['split'] = $payment_mode_mapping->expense_payment_account;
+                                $node['account'] = $payment_mode_mapping->expense_deposit_to;
+                                $node['tax'] = 0;
+                                $node['debit'] = $expense_total;
+                                $node['credit'] = 0;
+                                $node['customer'] = $expense->clientid;
+                                $node['date'] = $expense->date;
+                                $node['description'] = '';
+                                $node['rel_id'] = $expense_id;
+                                $node['rel_type'] = 'expense';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+
+                                $node = [];
+                                $node['split'] = $payment_mode_mapping->expense_deposit_to;
+                                $node['customer'] = $expense->clientid;
+                                $node['account'] = $payment_mode_mapping->expense_payment_account;
+                                $node['tax'] = 0;
+                                $node['date'] = $expense->date;
+                                $node['debit'] = 0;
+                                $node['credit'] = $expense_total;
+                                $node['description'] = '';
+                                $node['rel_id'] = $expense_id;
+                                $node['rel_type'] = 'expense';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+                            }
+                        }
+                    }
+
+                    if(count($data_insert) == 0){   
+                        $node = [];
+                        $node['split'] = $expense_category_mapping->payment_account;
+                        $node['account'] = $expense_category_mapping->deposit_to;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = $expense_total;
+                        $node['customer'] = $expense->clientid;
+                        $node['credit'] = 0;
+                        $node['tax'] = 0;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+
+                        $node = [];
+                        $node['split'] = $expense_category_mapping->deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $expense_category_mapping->payment_account;
+                        $node['date'] = $expense->date;
+                        $node['tax'] = 0;
+                        $node['debit'] = 0;
+                        $node['credit'] = $expense_total;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }
+
+                }
             }else{
-                $node = [];
-                $node['split'] = $payment_account;
-                $node['account'] = $deposit_to;
-                $node['debit'] = $expense_total;
-                $node['customer'] = $expense->clientid;
-                $node['date'] = $expense->date;
-                $node['tax'] = 0;
-                $node['credit'] = 0;
-                $node['description'] = '';
-                $node['rel_id'] = $expense_id;
-                $node['rel_type'] = 'expense';
-                $node['datecreated'] = date('Y-m-d H:i:s');
-                $node['addedfrom'] = get_staff_user_id();
-                $data_insert[] = $node;
 
-                $node = [];
-                $node['split'] = $deposit_to;
-                $node['account'] = $payment_account;
-                $node['customer'] = $expense->clientid;
-                $node['date'] = $expense->date;
-                $node['tax'] = 0;
-                $node['debit'] = 0;
-                $node['credit'] = $expense_total;
-                $node['description'] = '';
-                $node['rel_id'] = $expense_id;
-                $node['rel_type'] = 'expense';
-                $node['datecreated'] = date('Y-m-d H:i:s');
-                $node['addedfrom'] = get_staff_user_id();
-                $data_insert[] = $node;
+                if(get_option('acc_expense_automatic_conversion') == 1){
+                    $node = [];
+                    $node['split'] = $payment_account;
+                    $node['account'] = $deposit_to;
+                    $node['debit'] = $expense_total;
+                    $node['customer'] = $expense->clientid;
+                    $node['date'] = $expense->date;
+                    $node['tax'] = 0;
+                    $node['credit'] = 0;
+                    $node['description'] = '';
+                    $node['rel_id'] = $expense_id;
+                    $node['rel_type'] = 'expense';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+
+                    $node = [];
+                    $node['split'] = $deposit_to;
+                    $node['account'] = $payment_account;
+                    $node['customer'] = $expense->clientid;
+                    $node['date'] = $expense->date;
+                    $node['tax'] = 0;
+                    $node['debit'] = 0;
+                    $node['credit'] = $expense_total;
+                    $node['description'] = '';
+                    $node['rel_id'] = $expense_id;
+                    $node['rel_type'] = 'expense';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+                }
             }
 
-            if($expense->tax > 0){
-                $this->db->where('id', $expense->tax);
-                $tax = $this->db->get(db_prefix().'taxes')->row();
-                $total_tax = 0;
-                if($tax){
-                    $total_tax = ($tax->taxrate/100) * $expense_total;
-                }
-                $tax_mapping = $this->get_tax_mapping($expense->tax);
-                if($tax_mapping){
-                    $node = [];
-                    $node['split'] = $tax_mapping->expense_payment_account;
-                    $node['account'] = $tax_mapping->expense_deposit_to;
-                    $node['tax'] = $expense->tax;
-                    $node['debit'] = $total_tax;
-                    $node['credit'] = 0;
-                    $node['customer'] = $expense->clientid;
-                    $node['date'] = $expense->date;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+            if(count($data_insert) == 0 && $expense->paymentmode > 0){
+                $payment_mode_mapping = $this->get_payment_mode_mapping($expense->paymentmode);
 
-                    $node = [];
-                    $node['split'] = $tax_mapping->expense_deposit_to;
-                    $node['customer'] = $expense->clientid;
-                    $node['account'] = $tax_mapping->expense_payment_account;
-                    $node['tax'] = $expense->tax;
-                    $node['date'] = $expense->date;
-                    $node['debit'] = 0;
-                    $node['credit'] = $total_tax;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+                if($payment_mode_mapping){
+                    if(get_option('acc_active_payment_mode_mapping') == 1){
+                        $node = [];
+                        $node['split'] = $payment_mode_mapping->expense_payment_account;
+                        $node['account'] = $payment_mode_mapping->expense_deposit_to;
+                        $node['tax'] = 0;
+                        $node['debit'] = $expense_total;
+                        $node['credit'] = 0;
+                        $node['customer'] = $expense->clientid;
+                        $node['date'] = $expense->date;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+
+                        $node = [];
+                        $node['split'] = $payment_mode_mapping->expense_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $payment_mode_mapping->expense_payment_account;
+                        $node['tax'] = 0;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = 0;
+                        $node['credit'] = $expense_total;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }
                 }else{
-                    $node = [];
-                    $node['split'] = $tax_payment_account;
-                    $node['account'] = $tax_deposit_to;
-                    $node['tax'] = $expense->tax;
-                    $node['date'] = $expense->date;
-                    $node['debit'] = $total_tax;
-                    $node['customer'] = $expense->clientid;
-                    $node['credit'] = 0;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+                    if(get_option('acc_payment_expense_automatic_conversion') == 1){
+                        $node = [];
+                        $node['split'] = $payment_mode_payment_account;
+                        $node['account'] = $payment_mode_deposit_to;
+                        $node['tax'] = 0;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = $expense_total;
+                        $node['customer'] = $expense->clientid;
+                        $node['credit'] = 0;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
 
-                    $node = [];
-                    $node['split'] = $tax_deposit_to;
-                    $node['customer'] = $expense->clientid;
-                    $node['account'] = $tax_payment_account;
-                    $node['date'] = $expense->date;
-                    $node['tax'] = $expense->tax;
-                    $node['debit'] = 0;
-                    $node['credit'] = $total_tax;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+                        $node = [];
+                        $node['split'] = $payment_mode_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $payment_mode_payment_account;
+                        $node['date'] = $expense->date;
+                        $node['tax'] = 0;
+                        $node['debit'] = 0;
+                        $node['credit'] = $expense_total;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }
                 }
             }
 
-            if($expense->tax2 > 0){
-                $this->db->where('id', $expense->tax2);
-                $tax = $this->db->get(db_prefix().'taxes')->row();
-                $total_tax = 0;
-                if($tax){
-                    $total_tax = ($tax->taxrate/100) * $expense_total;
+            if(get_option('acc_tax_automatic_conversion') == 1){
+                if($expense->tax > 0){
+                    $this->db->where('id', $expense->tax);
+                    $tax = $this->db->get(db_prefix().'taxes')->row();
+                    $total_tax = 0;
+                    if($tax){
+                        $total_tax = ($tax->taxrate/100) * $expense_total;
+                    }
+                    $tax_mapping = $this->get_tax_mapping($expense->tax);
+                    if($tax_mapping){
+                        $node = [];
+                        $node['split'] = $tax_mapping->expense_payment_account;
+                        $node['account'] = $tax_mapping->expense_deposit_to;
+                        $node['tax'] = $expense->tax;
+                        $node['debit'] = $total_tax;
+                        $node['credit'] = 0;
+                        $node['customer'] = $expense->clientid;
+                        $node['date'] = $expense->date;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+
+                        $node = [];
+                        $node['split'] = $tax_mapping->expense_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $tax_mapping->expense_payment_account;
+                        $node['tax'] = $expense->tax;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = 0;
+                        $node['credit'] = $total_tax;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }else{
+                        $node = [];
+                        $node['split'] = $tax_payment_account;
+                        $node['account'] = $tax_deposit_to;
+                        $node['tax'] = $expense->tax;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = $total_tax;
+                        $node['customer'] = $expense->clientid;
+                        $node['credit'] = 0;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+
+                        $node = [];
+                        $node['split'] = $tax_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $tax_payment_account;
+                        $node['date'] = $expense->date;
+                        $node['tax'] = $expense->tax;
+                        $node['debit'] = 0;
+                        $node['credit'] = $total_tax;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }
                 }
-                $tax_mapping = $this->get_tax_mapping($expense->tax2);
-                if($tax_mapping){
-                    $node = [];
-                    $node['split'] = $tax_mapping->expense_payment_account;
-                    $node['account'] = $tax_mapping->expense_deposit_to;
-                    $node['tax'] = $expense->tax2;
-                    $node['debit'] = $total_tax;
-                    $node['credit'] = 0;
-                    $node['customer'] = $expense->clientid;
-                    $node['date'] = $expense->date;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
 
-                    $node = [];
-                    $node['split'] = $tax_mapping->expense_deposit_to;
-                    $node['customer'] = $expense->clientid;
-                    $node['account'] = $tax_mapping->expense_payment_account;
-                    $node['tax'] = $expense->tax2;
-                    $node['date'] = $expense->date;
-                    $node['debit'] = 0;
-                    $node['credit'] = $total_tax;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
-                }else{
-                    $node = [];
-                    $node['split'] = $tax_payment_account;
-                    $node['account'] = $tax_deposit_to;
-                    $node['tax'] = $expense->tax2;
-                    $node['date'] = $expense->date;
-                    $node['debit'] = $total_tax;
-                    $node['customer'] = $expense->clientid;
-                    $node['credit'] = 0;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+                if($expense->tax2 > 0){
+                    $this->db->where('id', $expense->tax2);
+                    $tax = $this->db->get(db_prefix().'taxes')->row();
+                    $total_tax = 0;
+                    if($tax){
+                        $total_tax = ($tax->taxrate/100) * $expense_total;
+                    }
+                    $tax_mapping = $this->get_tax_mapping($expense->tax2);
+                    if($tax_mapping){
+                        $node = [];
+                        $node['split'] = $tax_mapping->expense_payment_account;
+                        $node['account'] = $tax_mapping->expense_deposit_to;
+                        $node['tax'] = $expense->tax2;
+                        $node['debit'] = $total_tax;
+                        $node['credit'] = 0;
+                        $node['customer'] = $expense->clientid;
+                        $node['date'] = $expense->date;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
 
-                    $node = [];
-                    $node['split'] = $tax_deposit_to;
-                    $node['customer'] = $expense->clientid;
-                    $node['account'] = $tax_payment_account;
-                    $node['date'] = $expense->date;
-                    $node['tax'] = $expense->tax2;
-                    $node['debit'] = 0;
-                    $node['credit'] = $total_tax;
-                    $node['description'] = '';
-                    $node['rel_id'] = $expense_id;
-                    $node['rel_type'] = 'expense';
-                    $node['datecreated'] = date('Y-m-d H:i:s');
-                    $node['addedfrom'] = get_staff_user_id();
-                    $data_insert[] = $node;
+                        $node = [];
+                        $node['split'] = $tax_mapping->expense_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $tax_mapping->expense_payment_account;
+                        $node['tax'] = $expense->tax2;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = 0;
+                        $node['credit'] = $total_tax;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }else{
+                        $node = [];
+                        $node['split'] = $tax_payment_account;
+                        $node['account'] = $tax_deposit_to;
+                        $node['tax'] = $expense->tax2;
+                        $node['date'] = $expense->date;
+                        $node['debit'] = $total_tax;
+                        $node['customer'] = $expense->clientid;
+                        $node['credit'] = 0;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+
+                        $node = [];
+                        $node['split'] = $tax_deposit_to;
+                        $node['customer'] = $expense->clientid;
+                        $node['account'] = $tax_payment_account;
+                        $node['date'] = $expense->date;
+                        $node['tax'] = $expense->tax2;
+                        $node['debit'] = 0;
+                        $node['credit'] = $total_tax;
+                        $node['description'] = '';
+                        $node['rel_id'] = $expense_id;
+                        $node['rel_type'] = 'expense';
+                        $node['datecreated'] = date('Y-m-d H:i:s');
+                        $node['addedfrom'] = get_staff_user_id();
+                        $data_insert[] = $node;
+                    }
                 }
             }
 
-            $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            if($data_insert != []){
+                $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            }
                 
             if ($affectedRows > 0) {
                 return true;
@@ -7825,6 +8348,11 @@ class Accounting_model extends App_Model
             $categorys = $data['category'];
             unset($data['category']);
         }
+        
+        if (!isset($data['preferred_payment_method'])) {
+            $data['preferred_payment_method'] = 0;
+        }
+
         $data_insert = [];
         foreach ($categorys as $value) {
             $this->db->where('category_id', $value);
@@ -7857,6 +8385,10 @@ class Accounting_model extends App_Model
      * @return boolean
      */
     public function update_expense_category_mapping($data, $id){
+        if (!isset($data['preferred_payment_method'])) {
+            $data['preferred_payment_method'] = 0;
+        }
+
         $this->db->where('id', $id);
         $this->db->update(db_prefix().'acc_expense_category_mappings', $data);
        
@@ -7902,6 +8434,11 @@ class Accounting_model extends App_Model
     public function get_data_tax_detail_report($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -7924,7 +8461,11 @@ class Accounting_model extends App_Model
         $data_report['total_taxable_sales_in_period_before_tax'] = [];
 
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and rel_type = "invoice" and debit > 0');
-        $this->db->order_by('datecreated', 'asc');
+        if($accounting_method == 'cash'){
+            $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        }
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         
         $list_invoice = [];        
@@ -7937,7 +8478,7 @@ class Accounting_model extends App_Model
 
 
                 $data_report['total_taxable_sales_in_period_before_tax'][] = [
-                                'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                'date' => date('Y-m-d', strtotime($v['date'])),
                                 'type' => _l($v['rel_type']),
                                 'description' => $v['description'],
                                 'customer' => $v['customer'],
@@ -7949,7 +8490,7 @@ class Accounting_model extends App_Model
             $_tax = $this->db->get(db_prefix().'taxes')->row();
 
             $data_report['tax_collected_on_sales'][] = [
-                            'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                            'date' => date('Y-m-d', strtotime($v['date'])),
                             'type' => _l($v['rel_type']),
                             'tax_name' => $_tax->name,
                             'tax_rate' => $_tax->taxrate,
@@ -7963,7 +8504,11 @@ class Accounting_model extends App_Model
         $data_report['total_taxable_purchases_in_period_before_tax'] = [];
 
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and rel_type = "expense" and credit > 0');
-        $this->db->order_by('datecreated', 'asc');
+        if($accounting_method == 'cash'){
+            $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        }
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
         $list_expense = [];        
@@ -7976,7 +8521,7 @@ class Accounting_model extends App_Model
                 $expense = $this->expenses_model->get($v['rel_id']);
 
                 $data_report['total_taxable_purchases_in_period_before_tax'][] = [
-                                'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                                'date' => date('Y-m-d', strtotime($v['date'])),
                                 'type' => _l($v['rel_type']),
                                 'description' => $v['description'],
                                 'customer' => $v['customer'],
@@ -7988,7 +8533,7 @@ class Accounting_model extends App_Model
             $_tax = $this->db->get(db_prefix().'taxes')->row();
 
             $data_report['tax_reclaimable_on_purchases'][] = [
-                            'date' => date('Y-m-d', strtotime($v['datecreated'])),
+                            'date' => date('Y-m-d', strtotime($v['date'])),
                             'type' => _l($v['rel_type']),
                             'tax_name' => $_tax->name,
                             'tax_rate' => $_tax->taxrate,
@@ -8008,6 +8553,11 @@ class Accounting_model extends App_Model
     public function get_data_tax_summary_report($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -8042,7 +8592,12 @@ class Accounting_model extends App_Model
         $data_report['adjustments_to_reclaimable_tax_on_purchases'] = 0;
 
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax = '.$tax.' and rel_type = "invoice" and debit > 0');
-        $this->db->order_by('datecreated', 'asc');
+
+        if($accounting_method == 'cash'){
+            $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        }
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         
         $list_invoice = [];        
@@ -8060,7 +8615,11 @@ class Accounting_model extends App_Model
         }
 
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax = '.$tax.' and rel_type = "expense" and credit > 0');
-        $this->db->order_by('datecreated', 'asc');
+        if($accounting_method == 'cash'){
+            $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        }
+        $this->db->order_by('date', 'asc');
+        
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
         $this->load->model('expenses_model');
@@ -8087,6 +8646,11 @@ class Accounting_model extends App_Model
     public function get_data_tax_liability_report($data_filter){
         $from_date = date('Y-m-01');
         $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
 
         if(isset($data_filter['from_date'])){
             $from_date = to_sql_date($data_filter['from_date']);
@@ -8107,6 +8671,9 @@ class Accounting_model extends App_Model
         $data_report = [];
 
         $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense") and debit > 0');
+        if($accounting_method == 'cash'){
+            $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        }
         $this->db->order_by('tax, rel_type', 'asc');
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
         
@@ -8140,5 +8707,2192 @@ class Accounting_model extends App_Model
             return $max->max_number + 1;
         }
         return 1;
+    }
+
+    /**
+     * add payment mode mapping
+     * @param array $data
+     * @return boolean
+     */
+    public function add_payment_mode_mapping($data){
+        if(isset($data['id'])){
+            unset($data['id']);
+        }
+        $payment_modes = [];
+        if(isset($data['payment_mode'])){
+            $payment_modes = $data['payment_mode'];
+            unset($data['payment_mode']);
+        }
+        $data_insert = [];
+        foreach ($payment_modes as $value) {
+            $this->db->where('payment_mode_id', $value);
+            $count = $this->db->count_all_results(db_prefix() . 'acc_payment_mode_mappings');
+
+            if($count == 0){
+                $node = [];
+                $node['payment_mode_id'] = $value;
+                $node['payment_account'] = $data['payment_account'];
+                $node['deposit_to'] = $data['deposit_to'];
+
+                $data_insert[] = $node;
+            }
+
+        }
+
+        $affectedRows = $this->db->insert_batch(db_prefix().'acc_payment_mode_mappings',  $data_insert);
+
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * update payment mode mapping
+     * @param array $data
+     * @param  integer $id 
+     * @return boolean
+     */
+    public function update_payment_mode_mapping($data, $id){
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix().'acc_payment_mode_mappings', $data);
+       
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * delete payment mode mapping
+     * @param integer $id
+     * @return boolean
+     */
+
+    public function delete_payment_mode_mapping($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'acc_payment_mode_mappings');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * get payment mode are not yet auto
+     * @return array
+     */
+    public function get_payment_mode_not_yet_auto(){
+        $this->db->where('((select count(*) from ' . db_prefix() . 'acc_payment_mode_mappings where ' . db_prefix() . 'acc_payment_mode_mappings.payment_mode_id = ' . db_prefix() . 'payment_modes.id) = 0)');
+        return $this->db->get(db_prefix().'payment_modes')->result_array();
+    }
+
+    /**
+     * Gets the payment mode mappings
+     *
+     * @param      string  $payment_mode_id  The payment mode id
+     *
+     * @return     object  The expense category mapping.
+     */
+    public function get_payment_mode_mapping($payment_mode_id) {
+
+        $this->db->where('payment_mode_id', $payment_mode_id);
+        return $this->db->get(db_prefix() . 'acc_payment_mode_mappings')->row();
+    }
+
+    /**
+     * Change payment mode mapping active
+     * @param  mixed $status status(0/1)
+     */
+    public function change_active_payment_mode_mapping($status)
+    {
+        $this->db->where('name', 'acc_active_payment_mode_mapping');
+        $this->db->update(db_prefix() . 'options', [
+            'value' => $status,
+        ]);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Change expense category mapping active
+     * @param  mixed $status status(0/1)
+     */
+    public function change_active_expense_category_mapping($status)
+    {
+        $this->db->where('name', 'acc_active_expense_category_mapping');
+        $this->db->update(db_prefix() . 'options', [
+            'value' => $status,
+        ]);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * get account data tables
+     * @param  array $aColumns           table columns
+     * @param  mixed $sIndexColumn       main column in table for bettter performing
+     * @param  string $sTable            table name
+     * @param  array  $join              join other tables
+     * @param  array  $where             perform where in query
+     * @param  array  $additionalSelect  select additional fields
+     * @param  string $sGroupBy group results
+     * @return array
+     */
+    function get_account_data_tables($aColumns, $sIndexColumn, $sTable, $join = [], $where = [], $additionalSelect = [], $sGroupBy = '', $searchAs = [])
+    {
+        $CI          = & get_instance();
+        $__post      = $CI->input->post();
+        $where = implode(' ', $where);
+        $where = trim($where);
+        if (startsWith($where, 'AND') || startsWith($where, 'OR')) {
+            if (startsWith($where, 'OR')) {
+                $where = substr($where, 2);
+            } else {
+                $where = substr($where, 3);
+            }
+
+            $this->db->where($where);
+        }
+
+        if(!$this->input->post('ft_account')){
+            $this->db->where('(parent_account is null or parent_account = 0)');
+        }
+
+        $accounting_method = get_option('acc_accounting_method');
+
+        if($accounting_method == 'cash'){
+            $debit = '(SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id) AND (('.db_prefix().'acc_account_history.rel_type = "invoice" AND '.db_prefix().'acc_account_history.paid = 1) or rel_type != "invoice")) as debit';
+            $credit = '(SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id) AND (('.db_prefix().'acc_account_history.rel_type = "invoice" AND '.db_prefix().'acc_account_history.paid = 1) or rel_type != "invoice")) as credit';
+        }else{
+            $debit = '(SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as debit';
+            $credit = '(SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as credit';
+        }
+
+
+        $this->db->select('id, number, name, parent_account, account_type_id, account_detail_type_id, balance, key_name, active, number, description, balance_as_of, '.$debit.', '.$credit.', default_account');
+        if($CI->input->post('length') != -1)
+            $this->db->limit(intval($CI->input->post('length')), intval($CI->input->post('start')));
+        $this->db->order_by('id', 'desc');
+
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+
+        $rResult = [];
+
+        foreach ($accounts as $key => $value) {
+            $rResult[] = $value;
+            $rResult = $this->get_recursive_account($rResult, $value['id'], $where, 1);
+        }
+
+        /* Data set length after filtering */
+        $sQuery = '
+        SELECT FOUND_ROWS()
+        ';
+        $_query         = $CI->db->query($sQuery)->result_array();
+        $iFilteredTotal = $_query[0]['FOUND_ROWS()'];
+        
+        /* Total data set length */
+        $sQuery = '
+        SELECT COUNT(' . $sTable . '.' . $sIndexColumn . ")
+        FROM $sTable " . ($where != '' ? 'WHERE '.$where : $where);
+        $_query = $CI->db->query($sQuery)->result_array();
+
+        $iTotal = $_query[0]['COUNT(' . $sTable . '.' . $sIndexColumn . ')'];
+        /*
+         * Output
+         */
+        $output = [
+            'draw'                 => $__post['draw'] ? intval($__post['draw']) : 0,
+            'iTotalRecords'        => $iTotal,
+            'iTotalDisplayRecords' => $iTotal,
+            'aaData'               => [],
+            ];
+
+        return [
+            'rResult' => $rResult,
+            'output'  => $output,
+            ];
+    }
+
+    /**
+     * get recursive account
+     * @param  array $accounts  
+     * @param  integer $account_id
+     * @param  string $where     
+     * @param  integer $number    
+     * @return array            
+     */
+    public function get_recursive_account($accounts, $account_id, $where, $number){
+        $this->db->select('id, number, name, parent_account, account_type_id, account_detail_type_id, balance, key_name, active, number, description, balance_as_of, (SELECT sum(debit) as debit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as debit, (SELECT sum(credit) as credit FROM '.db_prefix().'acc_account_history where (account = '.db_prefix().'acc_accounts.id or parent_account = '.db_prefix().'acc_accounts.id)) as credit, default_account');
+        if($where != ''){
+            $this->db->where($where);
+        }
+
+        $this->db->where('parent_account', $account_id);
+        $this->db->order_by('number,name', 'asc');
+        $account_list = $this->db->get(db_prefix().'acc_accounts')->result_array();
+
+        if($account_list){
+            foreach ($account_list as $key => $value) {
+                foreach ($accounts as $k => $val) {
+                    if($value['id'] == $val['id']){
+                        unset($accounts[$k]);
+                    }
+                }
+
+                $value['level'] = $number;
+                array_push($accounts, $value);
+                $accounts = $this->get_recursive_account($accounts, $value['id'], $where, $number + 1);
+            }
+        }
+
+        return $accounts;
+    }
+
+    /**
+     * get data balance sheet comparison recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $last_from_date  
+     * @param  string $last_to_date    
+     * @param  string $accounting_method    
+     * @return array                 
+     */
+    public function get_data_balance_sheet_comparison_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
+            $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
+            $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7 || $account_type_id == 6){
+                $child_account[] = ['name' => $name, 'amount' => ($credits - $debits), 'py_amount' => ($py_credits - $py_debits), 'child_account' => $this->get_data_balance_sheet_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => ($debits - $credits), 'py_amount' => ($py_debits - $py_credits), 'child_account' => $this->get_data_balance_sheet_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account; 
+    }
+
+    /**
+     * get html balance sheet comparision
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_balance_sheet_comparision($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $total_py_amount = 0;
+        $data_return['total_amount'] = 0;
+        $data_return['total_py_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $total_py_amount = $val['py_amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['py_amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $t_py = $data_return['total_py_amount'];
+                $data_return = $this->get_html_balance_sheet_comparision($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                $total_py_amount += $data_return['total_py_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_py_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+                $data_return['total_py_amount'] += $t_py;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+            $data_return['total_py_amount'] += $val['py_amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data balance sheet detail recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_balance_sheet_detail_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+        foreach ($accounts as $val) {
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+            foreach ($account_history as $v) {
+                if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 7){
+                    $am = $v['credit'] - $v['debit'];
+                }else{
+                    $am = $v['debit'] - $v['credit'];
+                }
+
+                $node[] =   [
+                                'date' => date('Y-m-d', strtotime($v['date'])),
+                                'type' => _l($v['rel_type']),
+                                'description' => $v['description'],
+                                'debit' => $v['debit'],
+                                'credit' => $v['credit'],
+                                'amount' => $am,
+                                'balance' => $balance + $am,
+                            ];
+
+                $amount += $am;
+                $balance += $am;
+            }
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            $child_account[] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $this->get_data_balance_sheet_detail_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+        }
+
+        return $child_account; 
+    }
+
+    /**
+     * get html balance sheet detail
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_balance_sheet_detail($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $value) {
+            $amount = 0;
+            $data_return['row_index']++;
+            $_parent_index = $data_return['row_index'];
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' treegrid-parent-'.$parent_index.' parent-node expanded">
+                    <td class="parent">'.$value['name'].'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>';
+            }
+
+            foreach ($value['details'] as $val) { 
+            $data_return['row_index']++;
+                $amount += $val['amount'];
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
+                  <td>
+                  '. _d($val['date']).'
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['type']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['description']).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['debit'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['credit'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['amount'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['balance'], $currency->name).' 
+                  </td>
+                </tr>';
+               }
+            $total_amount = $amount;
+            $data_return['row_index']++;
+           
+            if(count($value['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_balance_sheet_detail($value['child_account'], $data_return, $_parent_index, $currency);
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '
+                  <tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$parent_index.' tr_total">
+                      <td>
+                      '._l('total_for', $value['name']).'
+                      </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                    <td></td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $amount;
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data balance sheet summary recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_balance_sheet_summary_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+        foreach ($accounts as $val) {
+            $this->db->where('account', $val['id']);
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7){
+                $child_account[] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_balance_sheet_summary_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_balance_sheet_summary_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }
+
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html balance sheet summary
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_balance_sheet_summary($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_balance_sheet_summary($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data balance sheet summary recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_balance_sheet_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+        foreach ($accounts as $val) {
+            $this->db->where('account', $val['id']);
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7 || $account_type_id == 6){
+                $child_account[] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_balance_sheet_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_balance_sheet_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }
+
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html balance sheet
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_balance_sheet($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_balance_sheet($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data custom summary recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $accounting_method 
+     * @return array                 
+     */
+    public function get_data_custom_summary_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+       
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12){
+                $child_account[] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_custom_summary_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_custom_summary_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html custom summary
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_custom_summary($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_custom_summary($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data profit and loss as of total income recursive
+     * @param  array $child_account         
+     * @param  integer $income      
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @return array                 
+     */
+    public function get_data_profit_and_loss_as_of_total_income_recursive($child_account, $income, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12){
+                $r_am = $credits - $debits;
+            }else{
+                $r_am = $debits - $credits;
+            }
+
+            if($income != 0){
+                $child_account[] = ['name' => $name, 'amount' => $r_am, 'percent' => round((($r_am) / $income) * 100, 2), 'child_account' => $this->get_data_profit_and_loss_as_of_total_income_recursive([], $income, $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => $r_am, 'percent' => 0, 'child_account' => $this->get_data_profit_and_loss_as_of_total_income_recursive([], $income, $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html profit and loss as of total income
+     * @param  array $child_account 
+     * @param  integer $income 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_profit_and_loss_as_of_total_income($child_account, $income, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        $data_return['percent'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+              <td class="total_amount">
+              '. html_entity_decode($val['percent']).'% 
+              </td>
+            </tr>';
+            
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $p = $data_return['percent'];
+                $data_return = $this->get_html_profit_and_loss_as_of_total_income($val['child_account'], $income, $data_return, $data_return['row_index'], $currency);
+                $total_amount += $data_return['total_amount'];
+
+                if($income != 0){
+                    $percent = round((($total_amount) / $income) * 100, 2);
+                }else{
+                    $percent = 0;
+                }
+
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                  <td class="total_amount">
+                  '. html_entity_decode($percent).'% 
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+                $data_return['percent'] += $p;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+            $data_return['percent'] += $val['percent'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data profit and loss comparison recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date 
+     * @param  string $last_from_date       
+     * @param  string $last_to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_profit_and_loss_comparison_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        $data_return = [];
+       
+        foreach ($accounts as $val) {
+
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+            $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
+            $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
+            $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12){
+                $child_account[] = ['name' => $name, 'this_year' => $credits - $debits, 'last_year' => $py_credits - $py_debits, 'child_account' => $this->get_data_profit_and_loss_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'this_year' => $debits - $credits, 'last_year' => $py_debits - $py_credits, 'child_account' => $this->get_data_profit_and_loss_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html profit and loss comparison
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_profit_and_loss_comparison($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $total_py_amount = 0;
+        $data_return['total_amount'] = 0;
+        $data_return['total_py_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['this_year'];
+            $total_py_amount = $val['last_year'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['this_year'], $currency->name).'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['last_year'], $currency->name).'
+              </td>
+            </tr>';
+            
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $p = $data_return['total_py_amount'];
+                $data_return = $this->get_html_profit_and_loss_comparison($val['child_account'], $data_return, $data_return['row_index'], $currency);
+                $total_amount += $data_return['total_amount'];
+                $total_py_amount += $data_return['total_py_amount'];
+
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_py_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+                $data_return['total_py_amount'] += $p;
+            }
+
+            $data_return['total_amount'] += $val['this_year'];
+            $data_return['total_py_amount'] += $val['last_year'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data profit and loss detail recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_profit_and_loss_detail_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+            foreach ($account_history as $v) {
+                if($account_type_id == 11 || $account_type_id == 12){
+                    $am = $v['credit'] - $v['debit'];
+                }else{
+                    $am = $v['debit'] - $v['credit'];
+                }
+                $node[] =   [
+                                'date' => date('Y-m-d', strtotime($v['date'])),
+                                'type' => _l($v['rel_type']),
+                                'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
+                                'description' => $v['description'],
+                                'customer' => $v['customer'],
+                                'amount' => $am,
+                                'balance' => $balance + $am,
+                            ];
+                $amount += $am;
+                $balance += $am;
+            }
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            
+            $child_account[] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' =>  $this->get_data_profit_and_loss_detail_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+        }
+
+        return $child_account;
+    }
+    
+    /**
+     * get html profit and loss detail
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_profit_and_loss_detail($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $value) {
+            $amount = 0;
+            $data_return['row_index']++;
+            $_parent_index = $data_return['row_index'];
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' treegrid-parent-'.$parent_index.' parent-node expanded">
+                    <td class="parent">'.$value['name'].'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>';
+            }
+
+            foreach ($value['details'] as $val) { 
+            $data_return['row_index']++;
+                $amount += $val['amount'];
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
+                  <td>
+                  '. _d($val['date']).'
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['type']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['description']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['split']).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['amount'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['balance'], $currency->name).' 
+                  </td>
+                </tr>';
+               }
+            $total_amount = $amount;
+            $data_return['row_index']++;
+           
+            if(count($value['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_profit_and_loss_detail($value['child_account'], $data_return, $_parent_index, $currency);
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '
+                  <tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$parent_index.' tr_total">
+                      <td>
+                      '._l('total_for', $value['name']).'
+                      </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                    <td></td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $amount;
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data profit and loss year to date comparison recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $last_from_date       
+     * @param  string $last_to_date         
+     * @param  string $accounting_method         
+     * @return array                 
+     */
+    public function get_data_profit_and_loss_year_to_date_comparison_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date_format(datecreated, \'%Y-%m-%d\') >= "' . $last_from_date . '" and date_format(datecreated, \'%Y-%m-%d\') <= "' . $last_to_date . '")');
+            $py_account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $py_credits = $py_account_history->credit != '' ? $py_account_history->credit : 0;
+            $py_debits = $py_account_history->debit != '' ? $py_account_history->debit : 0;
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            
+            if($account_type_id == 11 || $account_type_id == 12){
+                $child_account[] = ['name' => $name, 'this_year' => $credits - $debits, 'last_year' => $py_credits - $py_debits, 'child_account' => $this->get_data_profit_and_loss_year_to_date_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'this_year' => $debits - $credits, 'last_year' => $py_debits - $py_credits, 'child_account' => $this->get_data_profit_and_loss_year_to_date_comparison_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $last_from_date, $last_to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html profit and loss year to date comparison
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_profit_and_loss_year_to_date_comparison($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $total_py_amount = 0;
+        $data_return['total_amount'] = 0;
+        $data_return['total_py_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['this_year'];
+            $total_py_amount = $val['last_year'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['this_year'], $currency->name).'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['last_year'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $p = $data_return['total_py_amount'];
+                $data_return = $this->get_html_profit_and_loss_year_to_date_comparison($val['child_account'], $data_return, $data_return['row_index'], $currency);
+                $total_amount += $data_return['total_amount'];
+                $total_py_amount += $data_return['total_py_amount'];
+
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_py_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+                $data_return['total_py_amount'] += $p;
+            }
+
+            $data_return['total_amount'] += $val['this_year'];
+            $data_return['total_py_amount'] += $val['last_year'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data profit and loss recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $accounting_method   
+     * @return array                 
+     */
+    public function get_data_profit_and_loss_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+           
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12){
+                $child_account[] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_profit_and_loss_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }else{
+                $child_account[] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_profit_and_loss_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html profit and loss
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_profit_and_loss($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_custom_summary($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data statement of cash flows recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  integer $account_detail_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @return array                 
+     */
+    public function get_data_statement_of_cash_flows_recursive($child_account, $account_id, $account_type_id, $account_detail_type_id, $from_date, $to_date){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            if($val['id'] == 13){
+                $this->db->where('(rel_type != "invoice" and rel_type != "expense" and rel_type != "payment")');
+            }
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 8 || $account_type_id == 7 || $account_type_id == 4 || $account_type_id == 5 || $account_type_id == 6 || $account_type_id == 2 || $account_type_id == 9 || $account_type_id == 1){
+                $child_account[] = ['account_detail_type_id' => $account_detail_type_id, 'name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_statement_of_cash_flows_recursive([], $val['id'], $account_type_id, $account_detail_type_id, $from_date, $to_date)];
+            }else{
+                $child_account[] = ['account_detail_type_id' => $account_detail_type_id, 'name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_statement_of_cash_flows_recursive([], $val['id'], $account_type_id, $account_detail_type_id, $from_date, $to_date)];
+            }
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html statement of cash flows
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_statement_of_cash_flows($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_statement_of_cash_flows($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data statement of changes in equity recursive recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  integer $account_detail_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $accounting_method   
+     * @return array                 
+     */
+    public function get_data_statement_of_changes_in_equity_recursive($child_account, $account_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            
+            $child_account[] = ['account_detail_type_id' => $value['id'], 'name' => $name, 'amount' => $credits - $debits, 'child_account' => $this->get_data_statement_of_cash_flows_recursive([], $val['id'], $from_date, $to_date, $accounting_method)];
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html statement of changes in equity
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_statement_of_changes_in_equity($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_statement_of_changes_in_equity($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data account list recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  array $account_type_name 
+     * @param  array $detail_type_name 
+     * @return array                 
+     */
+    public function get_data_account_list_recursive($child_account, $account_id, $account_type_id, $account_type_name, $detail_type_name){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('account', $val['id']);
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            $_account_type_name = isset($account_type_name[$val['account_type_id']]) ? $account_type_name[$val['account_type_id']] : '';
+            $_detail_type_name = isset($detail_type_name[$val['account_detail_type_id']]) ? $detail_type_name[$val['account_detail_type_id']] : '';
+
+            $child_account[] = ['number' => $val['number'], 'description' => $val['description'], 'type' => $_account_type_name, 'detail_type' => $_detail_type_name, 'name' => $name, 'amount' => $debits - $credits, 'child_account' => $this->get_data_account_list_recursive([], $val['id'], $account_type_id, $account_type_name, $detail_type_name)];
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html account list
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_account_list($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $val) {
+
+            $data_return['row_index']++;
+            $total_amount = $val['amount'];
+            
+            $name = '';
+
+            if($val['number'] != ''){
+                $name .= $val['number'] .' - ';
+            }
+
+            $name .= $val['name'];
+
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$name.'
+              </td>
+              <td>
+              '.$val['type'].'
+              </td>
+              <td>
+              '.$val['detail_type'].'
+              </td>
+              <td>
+              '.$val['description'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['amount'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_account_list($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_amount += $data_return['total_amount'];
+                $data_return['row_index']++;
+                
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $val['amount'];
+        }
+        return $data_return; 
+    }
+
+
+    /**
+     * get data general ledger recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $accounting_method   
+     * @return array                 
+     */
+    public function get_data_general_ledger_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+            foreach ($account_history as $v) {
+                if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 9 || $account_type_id == 8 || $account_type_id == 7 || $account_type_id == 6){
+                    $am = $v['credit'] - $v['debit'];
+                }else{
+                    $am = $v['debit'] - $v['credit'];
+                }
+
+                $node[] =   [
+                                'date' => date('Y-m-d', strtotime($v['date'])),
+                                'type' => _l($v['rel_type']),
+                                'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
+                                'description' => $v['description'],
+                                'customer' => $v['customer'],
+                                'debit' => $v['debit'],
+                                'credit' => $v['credit'],
+                                'amount' => $am,
+                                'balance' => $balance + $am,
+                            ];
+
+                $amount += $am;
+                $balance += $am;
+            }
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            $child_account[] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $this->get_data_general_ledger_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html general ledger
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_general_ledger($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $value) {
+            $amount = 0;
+            $data_return['row_index']++;
+            $_parent_index = $data_return['row_index'];
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
+                    <td class="parent">'.$value['name'].'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>';
+            }
+            
+            foreach ($value['details'] as $val) { 
+            $data_return['row_index']++;
+                $amount += $val['amount'];
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
+                  <td>
+                  '. _d($val['date']).'
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['type']).' 
+                  </td>
+                  <td>
+                  '. get_company_name($val['customer']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['description']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['split']).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['amount'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['balance'], $currency->name).' 
+                  </td>
+                </tr>';
+               }
+            $total_amount = $amount;
+            $data_return['row_index']++;
+            $t = 0;
+            if(count($value['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_general_ledger($value['child_account'], $data_return, $_parent_index, $currency);
+                $total_amount += $data_return['total_amount'];
+            }
+
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['row_index']++;
+                $data_return['html'] .= '
+                  <tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                      <td>'._l('total_for', $value['name']).'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                    <td></td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $amount;
+        }
+        return $data_return; 
+    }
+    
+    /**
+     * get data trial balance recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $accounting_method   
+     * @return array                 
+     */
+    public function get_data_trial_balance_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            if($credits > $debits){
+                $credits = $credits - $debits;
+                $debits = 0;
+            }else{
+                $debits = $debits - $credits;
+                $credits = 0;
+            }
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            $child_account[] = ['name' => $name, 'debit' => $debits, 'credit' => $credits, 'child_account' => $this->get_data_trial_balance_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+
+
+            
+        }
+
+        return $child_account;
+    }
+    
+    /**
+     * get html trial balance
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_trial_balance($child_account, $data_return, $parent_index, $currency){
+        $total_debit = 0;
+        $total_credit = 0;
+        $data_return['total_debit'] = 0;
+        $data_return['total_credit'] = 0;
+        foreach ($child_account as $val) {
+            $data_return['row_index']++;
+            $total_debit = $val['debit'];
+            $total_credit = $val['credit'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td>
+              '.$val['name'].'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['debit'], $currency->name).'
+              </td>
+              <td class="total_amount">
+              '.app_format_money($val['credit'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $d = $data_return['total_debit'];
+                $c = $data_return['total_credit'];
+                $data_return = $this->get_html_trial_balance($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_debit += $data_return['total_debit'];
+                $total_credit += $data_return['total_credit'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td>
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_debit, $currency->name).'
+                  </td>
+                  <td class="total_amount">
+                  '.app_format_money($total_credit, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_debit'] += $d;
+                $data_return['total_credit'] += $c;
+            }
+
+            $data_return['total_debit'] += $val['debit'];
+            $data_return['total_credit'] += $val['credit'];
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data transaction detail by account recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @param  string $accounting_method   
+     * @return array                 
+     */
+    public function get_data_transaction_detail_by_account_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+            foreach ($account_history as $v) {
+                if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 9 || $account_type_id == 8 || $account_type_id == 7 || $account_type_id == 6){
+                    $am = $v['credit'] - $v['debit'];
+                }else{
+                    $am = $v['debit'] - $v['credit'];
+                }
+                $node[] =   [
+                                'date' => date('Y-m-d', strtotime($v['date'])),
+                                'type' => _l($v['rel_type']),
+                                'description' => $v['description'],
+                                'customer' => $v['customer'],
+                                'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
+                                'debit' => $v['debit'],
+                                'credit' => $v['credit'],
+                                'amount' => $am,
+                                'balance' => $balance + ($am),
+                            ];
+                $amount += $am;
+                $balance += $am;
+            }
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+
+            $child_account[] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'balance' => $balance, 'details' => $node, 'child_account' => $this->get_data_transaction_detail_by_account_recursive([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method)];
+        }
+
+        return $child_account;
+    }
+    
+    /**
+     * get html transaction detail by account
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_transaction_detail_by_account($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $value) {
+            $amount = 0;
+            $data_return['row_index']++;
+            $_parent_index = $data_return['row_index'];
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
+                    <td class="parent">'.$value['name'].'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>';
+            }
+            
+            foreach ($value['details'] as $val) { 
+            $data_return['row_index']++;
+                $amount += $val['amount'];
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
+                  <td>
+                  '. _d($val['date']).'
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['type']).' 
+                  </td>
+                  <td>
+                  '. get_company_name($val['customer']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['description']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['split']).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['amount'], $currency->name).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['balance'], $currency->name).' 
+                  </td>
+                </tr>';
+               }
+            $total_amount = $amount;
+            $data_return['row_index']++;
+           
+            if(count($value['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_transaction_detail_by_account($value['child_account'], $data_return, $_parent_index, $currency);
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '
+                  <tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                      <td>
+                      '._l('total_for', $value['name']).'
+                      </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                    <td></td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $amount;
+        }
+        return $data_return; 
+    }
+
+    /**
+     * get data deposit detail recursive
+     * @param  array $child_account         
+     * @param  integer $account_id      
+     * @param  integer $account_type_id 
+     * @param  string $from_date       
+     * @param  string $to_date   
+     * @return array                 
+     */
+    public function get_data_deposit_detail_recursive($child_account, $account_id, $account_type_id, $from_date, $to_date){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            $this->db->where('((rel_type = "payment" and debit > 0) or (rel_type = "deposit"  and credit > 0))');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+            $node = [];
+            $balance = 0;
+            $amount = 0;
+            foreach ($account_history as $v) {
+                if($account_type_id == 10 || $account_type_id == 9 || $account_type_id == 8 || $account_type_id == 7){
+                    $amount += $v['credit'] - $v['debit'];
+                    $am = ($v['credit'] - $v['debit']);
+                }else{
+                    $amount += $v['debit'] - $v['credit'];
+                    $am = ($v['debit'] - $v['credit']);
+                }
+
+                $node[] =   [
+                                'date' => date('Y-m-d', strtotime($v['date'])),
+                                'type' => _l($v['rel_type']),
+                                'description' => $v['description'],
+                                'customer' => $v['customer'],
+                                'debit' => $v['debit'],
+                                'credit' => $v['credit'],
+                                'amount' =>  $am,
+                            ];
+            }
+
+            $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            $child_account[] = ['account' => $val['id'], 'name' => $name, 'amount' => $amount, 'details' => $node, 'child_account' => $this->get_data_deposit_detail_recursive([], $val['id'], $account_type_id, $from_date, $to_date)];
+            
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html transaction detail by account
+     * @param  array $child_account 
+     * @param  array $data_return   
+     * @param  integer $parent_index  
+     * @param  object $currency      
+     * @return array               
+     */
+    public function get_html_deposit_detail($child_account, $data_return, $parent_index, $currency){
+        $total_amount = 0;
+        $data_return['total_amount'] = 0;
+        foreach ($child_account as $value) {
+            $amount = 0;
+            $data_return['row_index']++;
+            $_parent_index = $data_return['row_index'];
+            if(count($value['details']) > 0 || count($value['child_account']) > 0){
+                $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
+                    <td class="parent">'.$value['name'].'</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>';
+            }
+            
+            foreach ($value['details'] as $val) { 
+            $data_return['row_index']++;
+                $amount += $val['amount'];
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
+                  <td>
+                  '. _d($val['date']).'
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['type']).' 
+                  </td>
+                  <td>
+                  '. get_company_name($val['customer']).' 
+                  </td>
+                  <td>
+                  '. html_entity_decode($val['description']).' 
+                  </td>
+                  <td class="total_amount">
+                  '. app_format_money($val['amount'], $currency->name).' 
+                  </td>
+                </tr>';
+               }
+            $total_amount = $amount;
+            $data_return['row_index']++;
+           
+            if(count($value['child_account']) > 0){
+                $t = $data_return['total_amount'];
+                $data_return = $this->get_html_deposit_detail($value['child_account'], $data_return, $_parent_index, $currency);
+                $total_amount += $data_return['total_amount'];
+                
+                $data_return['row_index']++;
+                $data_return['html'] .= '
+                  <tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                      <td>
+                      '._l('total_for', $value['name']).'
+                      </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  <td class="total_amount">
+                  '.app_format_money($total_amount, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_amount'] += $t;
+            }
+
+            $data_return['total_amount'] += $amount;
+        }
+        return $data_return; 
+    }
+    
+
+    /**
+     * add new account type detail
+     * @param array $data
+     * @return integer
+     */
+    public function add_account_type_detail($data)
+    {
+        if (isset($data['id'])) {
+            unset($data['id']);
+        }
+
+        $this->db->insert(db_prefix() . 'acc_account_type_details', $data);
+
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * update account type detail
+     * @param array $data
+     * @param integer $id
+     * @return integer
+     */
+    public function update_account_type_detail($data, $id)
+    {
+        if (isset($data['id'])) {
+            unset($data['id']);
+        }
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'acc_account_type_details', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * delete account type detail
+     * @param integer $id
+     * @return boolean
+     */
+
+    public function delete_account_type_detail($id)
+    {
+        $this->db->where('account_detail_type_id',$id);
+        $count = $this->db->count_all_results(db_prefix() . 'acc_accounts');
+
+        if($count > 0){
+            return 'have_account';
+        }
+
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'acc_account_type_details');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * get account type details
+     * @param  integer $id    member group id
+     * @param  array  $where
+     * @return object
+     */
+    public function get_data_account_type_details($id = '', $where = [])
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'acc_account_type_details')->row();
+        }
+
+        $this->db->where($where);
+        $this->db->order_by('account_type_id', 'desc');
+        $account_type_details = $this->db->get(db_prefix() . 'acc_account_type_details')->result_array();
+
+        $account_types = $this->accounting_model->get_account_types();
+
+        $account_type_name = [];
+
+        foreach ($account_types as $key => $value) {
+            $account_type_name[$value['id']] = $value['name'];
+        }
+
+        foreach ($account_type_details as $key => $value) {
+            $_account_type_name = isset($account_type_name[$value['account_type_id']]) ? $account_type_name[$value['account_type_id']] : '';
+            $account_type_details[$key]['account_type_name'] = $_account_type_name;
+        }
+
+        return $account_type_details;
+    }
+
+    /**
+     * Change preferred payment method status / on / off
+     * @param  mixed $id     staff id
+     * @param  mixed $status status(0/1)
+     */
+    public function change_preferred_payment_method($id, $status)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'acc_expense_category_mappings', [
+            'preferred_payment_method' => $status,
+        ]);
     }
 }

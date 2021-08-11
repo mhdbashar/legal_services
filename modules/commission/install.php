@@ -161,3 +161,30 @@ if (!$CI->db->field_exists('paid', db_prefix() . 'commission')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . "commission`
     ADD COLUMN `paid` INT(11) NOT NULL DEFAULT '0';");
 }
+
+if (!$CI->db->field_exists('ladder_product_setting', db_prefix() . 'commission_policy')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "commission_policy`
+    ADD COLUMN `ladder_product_setting` LONGTEXT NULL;");
+}
+
+if (!$CI->db->field_exists('amount_to_calculate', db_prefix() . 'commission_policy')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "commission_policy`
+    ADD COLUMN `amount_to_calculate` VARCHAR(45) NOT NULL DEFAULT '0';");
+}
+
+if (!$CI->db->field_exists('commission_type', db_prefix() . 'commission_policy')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "commission_policy`
+    ADD COLUMN `commission_type` VARCHAR(45) NOT NULL DEFAULT 'percentage';");
+}
+
+if (!$CI->db->field_exists('amount_paid', db_prefix() . 'commission')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "commission`
+    ADD COLUMN `amount_paid` DECIMAL(15,2) NOT NULL DEFAULT 0");
+}
+
+if (!$CI->db->field_exists('amount_paid', db_prefix() . 'commission_receipt_detail')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "commission_receipt_detail`
+    ADD COLUMN `amount_paid` DECIMAL(15,2) NOT NULL DEFAULT 0");
+}
+
+add_option('calculate_recurring_invoice', 0);

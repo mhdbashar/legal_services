@@ -7,7 +7,12 @@
     };
 
     var table_rec_candidate = $('.table-table_rec_candidate');
-	initDataTable('.table-table_rec_candidate', admin_url+'recruitment/table_candidates', [0], [0], ProposalServerParams);
+	initDataTable('.table-table_rec_candidate', admin_url+'recruitment/table_candidates', [0], [0], ProposalServerParams, [0, 'desc']);
+
+         //hide first column
+         var hidden_columns = [0];
+         $('.table-table_rec_candidate').DataTable().columns(hidden_columns).visible(false, false);
+
     $.each(ProposalServerParams, function(i, obj) {
         $('select' + obj).on('change', function() {  
             table_rec_candidate.DataTable().ajax.reload()
@@ -244,3 +249,32 @@ function check_kanban_empty_col_candidate(selector) {
         }
     });
 }
+
+  function print_candidate_option(invoker) {
+  "use strict";
+   var data={};
+      data.profit_rate_by_purchase_price_sale = invoker.value;
+
+      if(invoker.value == 1){
+        $('.display-select-item').removeClass('hide');
+      }else if(invoker.value == 0){
+        $('.display-select-item').addClass('hide');
+      }
+  }
+
+
+/*print barcode*/
+  function print_candidate_bulk_actions(){
+    "use strict";
+    $('.display-select-item').addClass('hide');
+    $("#y_opt_1_").prop("checked", true);
+
+    $("#table_commodity_list_print_candidate option:selected").prop("selected", false).change()
+    $("table_commodity_list_print_candidate select[id='item_select_print_candidate']").selectpicker('refresh');
+
+    $('#table_commodity_list_print_candidate').modal('show');
+  }
+
+  appValidateForm($("body").find('#item_print_candidate'), {
+        'item_select_print_candidate[]': 'required',
+      }); 

@@ -60,7 +60,7 @@
                                 <option selected disabled></option>
                                 <?php
                                 if(isset($contract) && $contract->rel_sid != 0){
-                                    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                                    $this->load->model('legalservices/LegalServicesModel', 'legal');
                                     $slug = (isset($contract) ? $contract->rel_stype : '');
                                     $ServID = $this->legal->get_service_id_by_slug($slug);
                                     if($ServID == 1){
@@ -310,7 +310,7 @@
                                          style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                                         <?php
                                         if(empty($contract->content) && staff_can('edit','contracts')){
-                                            echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
+                                            echo hooks()->apply_filters('new_contract_default_content', '<span class="text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
                                         } else {
                                             echo $contract->content;
                                         }

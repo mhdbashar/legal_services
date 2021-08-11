@@ -71,8 +71,6 @@ class Leads extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"leads", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -87,7 +85,7 @@ class Leads extends REST_Controller {
     }
 
     /**
-     * @api {get} api/leads/search/:keysearch Search Lead Information
+     * @api {get} api/leads/search/:keysearch Search Lead Information.
      * @apiName GetLeadSearch
      * @apiGroup Lead
      *
@@ -136,8 +134,6 @@ class Leads extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"leads");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -226,7 +222,6 @@ class Leads extends REST_Controller {
      */
     public function data_post()
     {
-        \modules\api\core\Apiinit::check_url('api');
         // form validation
         $this->form_validation->set_rules('name', 'Lead Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Lead Name'));
         $this->form_validation->set_rules('source', 'Source', 'trim|required', array('is_unique' => 'This %s already exists please enter another Lead source'));
@@ -265,9 +260,6 @@ class Leads extends REST_Controller {
                 'is_public' => $this->Api_model->value($this->input->post('is_public', TRUE)),
                 'contacted_today' => $this->Api_model->value($this->input->post('contacted_today', TRUE))
                 ];
-                if (!empty($this->input->post('custom_fields', TRUE))) {
-                    $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
-                }
             // insert data
             $this->load->model('leads_model');
             $output = $this->leads_model->add($insert_data);
@@ -429,14 +421,6 @@ class Leads extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))
@@ -494,7 +478,7 @@ class Leads extends REST_Controller {
 
                 // Make sure we have a filepath
                 if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                    if (_perfex_upload_error($_FILES[$index_name]['error'][$i])
+                    if (_babil_upload_error($_FILES[$index_name]['error'][$i])
                         || !_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
                         continue;
                     }

@@ -34,7 +34,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
 
     $lastElement = end($tasks_related_to);
     foreach ($tasks_related_to as $rel_to) {
-        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
         $ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
 
         if($ServID == 1){
@@ -131,7 +131,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('Legalservices/Sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('legalservices/sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';
     $row[] = $outputName;
@@ -152,14 +152,14 @@ foreach ($rResult as $aRow) {
     endif;
     $row[] = $send;
     // startdate
-    $row[] = _dha($aRow['startdate']);
+    $row[] = _gregorian_hijri_date($aRow['startdate']);
 
     // ~startdate
     $row[] = $aRow['time'];
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
-        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _dha($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _gregorian_hijri_date($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
 
     $output['aaData'][] = $row;

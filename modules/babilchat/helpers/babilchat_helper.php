@@ -1,9 +1,9 @@
 <?php
 /*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
+Module Name: Babil Chat
+Description: Chat Module for Babil
+Author: Babil Team
+Author URI: https://www.babil.net.sa
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -89,7 +89,7 @@ function babilchat_set_session_variable_before_login_for_notification_client()
 function babil_chat_load_js()
 {
     if (!strpos($_SERVER['REQUEST_URI'], 'chat_full_view') !== false) {
-        echo '<script src="' . module_dir_url('babilchat', 'assets/js/pr-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
+        echo '<script src="' . module_dir_url('babilchat', 'assets/js/babil-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
     }
     /**
      * Mentions js
@@ -299,7 +299,9 @@ function getImageFullName($file)
 
 /**
  * Get staff current role.
+ *
  * @param [type] $role_id
+ *
  * @return string
  */
 function get_staff_userrole($role_id)
@@ -309,7 +311,7 @@ function get_staff_userrole($role_id)
     $CI->db->where('roleid', $role_id);
 
     $result = $CI->db->get(db_prefix() . 'roles')->row_array();
-    if ($result !== NULL) {
+    if ($result !== null) {
         return $result['name'];
     }
 }
@@ -343,11 +345,11 @@ function make_url_clickable_cb($matches)
     }
     // removed trailing [.,;:] from URL
     if (in_array(substr($url, -1), [
-        '.',
-        ',',
-        ';',
-        ':',
-    ]) === true) {
+            '.',
+            ',',
+            ';',
+            ':',
+        ]) === true) {
         $ret = substr($url, -1);
         $url = substr($url, 0, strlen($url) - 1);
     }
@@ -371,11 +373,11 @@ function make_web_ftp_clickable_cb($matches)
     }
     // removed trailing [,;:] from URL
     if (in_array(substr($dest, -1), [
-        '.',
-        ',',
-        ';',
-        ':',
-    ]) === true) {
+            '.',
+            ',',
+            ';',
+            ':',
+        ]) === true) {
         $ret = substr($dest, -1);
         $dest = substr($dest, 0, strlen($dest) - 1);
     }
@@ -496,7 +498,6 @@ function validateChatColorBeforeApply($color, $model_check = '')
     if ($model_check == true && $validColor === '#546bf1') {
         return 'unknownColor';
     }
-
     return $validColor;
 }
 
@@ -558,7 +559,7 @@ function get_staff_customers($limit = 50, $offset = 0, $arrayData = false)
     $CI->db->select(db_prefix() . 'clients.userid as client_id, title');
 
     /**
-     * Remove the comment from this if you want all staff to see all clients also navigate in function get_customer_admins() and follow the 
+     * Remove the comment from this if you want all staff to see all clients also navigate in function get_customer_admins() and follow the
      * instructions for all clients to see all staff
      */
     if (!$staffCanViewAllClients) {
@@ -582,7 +583,7 @@ function get_staff_customers($limit = 50, $offset = 0, $arrayData = false)
     if ($CI->db->affected_rows() !== 0) {
         echo json_encode(['customers' => $result]);
     } else {
-        echo json_encode(array('customers' => []));
+        echo json_encode(['customers' => []]);
     }
 }
 
@@ -654,7 +655,9 @@ function chatStaffCanDelete()
 
 /**
  * Get staff current role.
+ *
  * @param [type] $role_id
+ *
  * @return string
  */
 function get_chat_staff_userrole($role_id)
@@ -670,9 +673,10 @@ function get_chat_staff_userrole($role_id)
 }
 
 
-/** 
+/**
  * Get contact user id from contacts table
  * Used for when creating support ticket from messages
+ *
  * @return string
  */
 function get_contact_customer_user_id($contact_id)
@@ -681,14 +685,15 @@ function get_contact_customer_user_id($contact_id)
     $CI->db->select('userid');
     $CI->db->where('id', $contact_id);
     $result = $CI->db->get(db_prefix() . 'contacts')->row_array();
-    if ($result !== NULL) {
+    if ($result !== null) {
         return $result['userid'];
     }
 }
 
 
-/** 
+/**
  * Get last ticket_id inserted
+ *
  * @return string
  */
 function chat_get_tickets_last_inserted_row()
@@ -696,8 +701,9 @@ function chat_get_tickets_last_inserted_row()
     return get_instance()->db->select('ticketid')->order_by('ticketid', "desc")->limit(1)->get(db_prefix() . 'tickets')->row()->ticketid;
 }
 
-/** 
+/**
  * Receives user active chat status
+ *
  * @return string
  */
 function get_user_chat_status()
@@ -706,7 +712,7 @@ function get_user_chat_status()
     $CI->db->where('user_id', get_staff_user_id());
     $CI->db->where('name', 'chat_status');
     $result = $CI->db->get(db_prefix() . 'chatsettings')->row_array();
-    if ($result !== NULL) {
+    if ($result !== null) {
         return $result['value'];
     }
 }
@@ -722,8 +728,9 @@ function isClientsEnabled()
 }
 
 
-/** 
+/**
  * After header is rendered add statuses design functionality
+ *
  * @return string
  */
 if (staff_can('view', BABIL_CHAT_MODULE_NAME)) {
@@ -762,9 +769,24 @@ if (staff_can('view', BABIL_CHAT_MODULE_NAME)) {
     <?php } ?>
 <?php }
 
-/** 
+/**
+ * Returns groups name with who capitals eg My_Group and underscore.
+ *
+ * @param $name
+ *
+ * @return string
+ */
+function slugifyGroupName($name)
+{
+    return rtrim(stripslashes(ucwords(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', ucwords($name))))), '-');
+}
+/**
  * Template components js loader
- * @param $params is user over all components do not remove in any case
+ *
+ * @param       $name
+ * @param array $params is user over all components do not remove in any case
+ *
+ * @return mixed
  */
 function loadChatComponent($name, $params = [])
 {    // Used in chat_full_view as ['prop' => 'class or something else']

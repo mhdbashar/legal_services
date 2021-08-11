@@ -28,12 +28,12 @@ init_head();
                                     </li>
                                     <li class="divider"></li>
                                     <?php
-                                    foreach (getCallbacksTableStatuses() as $status) {
+                                    foreach (getCallbacksTableStatuses() as $key => $status) {
                                         $status = strtolower($status);
-                                    ?>
+                                        ?>
                                         <li class="filter-group" data-filter-group="<?= $status; ?>">
                                             <a href="#" data-cview="<?= $status; ?>" onclick="dt_custom_view('<?= $status; ?>','.table-callbacks'); return false;">
-                                                <?= _l('callback_status_' . $status . ''); ?>
+                                                <?= ucfirst(_l($status)); ?>
                                             </a>
                                         </li>
                                     <?php } ?>

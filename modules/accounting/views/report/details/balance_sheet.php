@@ -20,6 +20,7 @@
           $parent_index = 0;
           $row_index += 1;
           $parent_index = $row_index;
+          $total_current_assets = 0;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1000 parent-node expanded">
             <td class="parent"><?php echo _l('acc_current_assets'); ?></td>
@@ -34,100 +35,68 @@
           </tr>
           <?php 
             $_index = $row_index;
-            foreach ($data_report['data']['accounts_receivable'] as $key => $value) { 
-              $row_index += 1;
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['accounts_receivable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_current_assets += $data['total_amount'];
             ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-          <?php }
+          <?php 
             $row_index += 1;
            ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_for', $value['name']); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['total']['accounts_receivable'], $currency->name); ?> </td>
+            <td class="parent"><?php echo _l('total_accounts_receivable'); ?></td>
+            <td class="total_amount"><?php echo app_format_money($data['total_amount'], $currency->name); ?> </td>
           </tr>
-          <?php foreach ($data_report['data']['cash_and_cash_equivalents'] as $key => $value) {
-            $row_index += 1;
-           ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-          <?php } 
-            $row_index += 1;
-          ?>
-          <?php foreach ($data_report['data']['current_assets'] as $key => $value) { 
-            $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-          <?php } 
+          <?php 
+
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['cash_and_cash_equivalents'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_current_assets += $data['total_amount'];
+
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_current_assets += $data['total_amount'];
+          
             $row_index += 1;
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1000 parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_current_assets'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['total']['current_assets'] + $data_report['total']['cash_and_cash_equivalents'] + $data_report['total']['accounts_receivable'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_current_assets, $currency->name); ?> </td>
           </tr>
           <?php 
             $row_index += 1;
             $parent_index = $row_index;
+            $total_long_term_assets = 0;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1000 parent-node expanded">
             <td class="parent"><?php echo _l('long_term_assets'); ?></td>
             <td></td>
           </tr>
-          <?php foreach ($data_report['data']['fixed_assets'] as $key => $value) { 
-            $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } ?>
-            <?php foreach ($data_report['data']['non_current_assets'] as $key => $value) { 
-            $row_index += 1;
-              ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } 
+          <?php 
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['fixed_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_long_term_assets += $data['total_amount'];
+
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['non_current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_long_term_assets += $data['total_amount'];
+
             $row_index += 1;
             ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1000 parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_long_term_assets'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['total']['fixed_assets']+ $data_report['total']['non_current_assets'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_long_term_assets, $currency->name); ?> </td>
           </tr>
           <?php 
             $row_index += 1;
             ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> tr_total">
             <td class="parent"><?php echo _l('total_assets'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['total']['fixed_assets']+ $data_report['total']['non_current_assets'] + $data_report['total']['current_assets'] + $data_report['total']['cash_and_cash_equivalents'] + $data_report['total']['accounts_receivable'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_current_assets + $total_long_term_assets, $currency->name); ?> </td>
           </tr>
           <?php 
             $row_index += 1;
@@ -139,6 +108,7 @@
             <?php
             $row_index += 1;
             $parent_index = $row_index;
+            $total_current_liabilities = 0;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('acc_current_liabilities'); ?></td>
@@ -151,81 +121,59 @@
             </tr>
             <?php 
               $_index = $row_index;
-              foreach ($data_report['data']['accounts_payable'] as $key => $value) { 
-                $row_index += 1;
+              $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['accounts_payable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $_index, $currency);
+              $row_index = $data['row_index'];
+              echo html_entity_decode($data['html']);
+              $total_current_liabilities += $data['total_amount'];
               ?>
-              <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($_index); ?>">
-                <td>
-                <?php echo html_entity_decode($value['name']); ?> 
-                </td>
-                <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-                </td>
-              </tr>
-            <?php } $row_index += 1; ?>
+            <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> tr_total">
               <td class="parent"><?php echo _l('total_accounts_payable'); ?></td>
-              <td class="total_amount"><?php echo app_format_money($data_report['total']['accounts_payable'], $currency->name); ?> </td>
+              <td class="total_amount"><?php echo app_format_money($data['total_amount'], $currency->name); ?> </td>
             </tr>
-            <?php $row_index += 1; ?>
-            <?php foreach ($data_report['data']['credit_card'] as $key => $value) { 
-              $row_index += 1;
+            <?php 
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['credit_card'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_current_liabilities += $data['total_amount'];
+
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_current_liabilities += $data['total_amount'];
             ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } $row_index += 1; ?>
-            <?php foreach ($data_report['data']['current_liabilities'] as $key => $value) { 
-              $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } $row_index += 1; ?>
+           
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
               <td class="parent"><?php echo _l('total_current_liabilities'); ?></td>
-              <td class="total_amount"><?php echo app_format_money($data_report['total']['credit_card'] + $data_report['total']['current_liabilities'] + $data_report['total']['accounts_payable'], $currency->name); ?> </td>
+              <td class="total_amount"><?php echo app_format_money($total_current_liabilities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <?php
             $row_index += 1;
             $parent_index = $row_index;
+            $total_non_current_liabilities = 0;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('acc_non_current_liabilities'); ?></td>
               <td></td>
             </tr>
-            <?php $row_index += 1; ?>
-            <?php foreach ($data_report['data']['non_current_liabilities'] as $key => $value) { 
-              $row_index += 1;
+            <?php 
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['non_current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_non_current_liabilities += $data['total_amount'];
             ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } $row_index += 1; ?>
+
+            <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
               <td class="parent"><?php echo _l('total_non_current_liabilities'); ?></td>
-              <td class="total_amount"><?php echo app_format_money($data_report['total']['non_current_liabilities'], $currency->name); ?> </td>
+              <td class="total_amount"><?php echo app_format_money($total_non_current_liabilities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <?php
             $row_index += 1;
             $parent_index = $row_index;
+            $total_shareholders_equity = $data_report['net_income'];
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('shareholders_equity'); ?></td>
@@ -241,26 +189,22 @@
               </td>
             </tr>
             <?php $row_index += 1; ?>
-            <?php foreach ($data_report['data']['owner_equity'] as $key => $value) { 
-              $row_index += 1;
+            <?php 
+            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_shareholders_equity += $data['total_amount'];
             ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td >
-                <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-                <?php echo html_entity_decode($value['amount']); ?> 
-              </td>
-            </tr>
-            <?php } $row_index += 1; ?>
+
+            <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
               <td class="parent"><?php echo _l('total_shareholders_equity'); ?></td>
-              <td class="total_amount"><?php echo app_format_money($data_report['total']['owner_equity'] + $data_report['net_income'], $currency->name); ?> </td>
+              <td class="total_amount"><?php echo app_format_money($total_shareholders_equity, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> tr_total">
               <td class="parent"><?php echo _l('total_liabilities_and_equity'); ?></td>
-              <td class="total_amount"><?php echo app_format_money($data_report['total']['owner_equity'] + $data_report['net_income'] + $data_report['total']['non_current_liabilities'] + $data_report['total']['credit_card'] + $data_report['total']['accounts_payable'] + $data_report['total']['current_liabilities'], $currency->name); ?> </td>
+              <td class="total_amount"><?php echo app_format_money($total_shareholders_equity + $total_non_current_liabilities + $total_current_liabilities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
         </tbody>

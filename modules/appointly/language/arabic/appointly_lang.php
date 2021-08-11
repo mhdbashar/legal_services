@@ -146,10 +146,11 @@ $lang['appointments_default_hours_label'] = 'إدارة ساعات موعدك ا
 $lang['appointments_google_calendar_client_id'] = 'Google Calendar API Client Id <strong>(fetched from Settings->Google->API CLIENT ID)</strong>';
 $lang['appointments_google_calendar_client_secret'] = 'Google Calendar API Secret';
 $lang['appointments_redirect_url'] = 'تخويل إعادة توجيه URI';
-$lang['appointments_delete_from_google_label'] = 'قبل حذف الموعد ، احذف أيضًا الموعد الذي تم إنشاؤه في تقويم Google <small>(ينطبق إذا تم تمكين تقويم Google ومزامنته) </ small>';
+$lang['appointments_delete_from_google_label'] = 'قبل حذف الموعد ، احذف أيضًا الموعد الذي تم إنشاؤه في تقويم <Google <small>(ينطبق إذا تم تمكين تقويم Google ومزامنته) </small>';
 $lang['appointments_disable_weekends_label'] = 'تعطيل الموا عيد في نهاية الأسبوع';
 $lang['appointments_approve_automatically_label'] = 'الموافقة تلقائيًا على المواعيد المرسلة من نماذج الويب الخارجية';
-$lang['appointments_buffer_hours_label'] = 'تمكين فاصل ساعات المواعيد <small> (تعطيل الساعات الماضية) </ small>';
+$lang['appointments_buffer_hours_label'] = 'تمكين فاصل ساعات المواعيد <small>(تعطيل الساعات الماضية)</small>';
+
 $lang['appointments_reminder_time_value'] = 'أضف قيمة لتلقي إشعار عبر البريد الإلكتروني قبل موعدك (الافتراضي قبل 30 دقيقة)';
 $lang['appointment_add_to_google_calendar_external'] = 'قم بتضمين هذا الموعد الخارجي في تقويم Google الخاص بك (ضع علامة على أنه محدد وانقر فوق حفظ)';
 $lang['appointment_open_google_calendar'] = 'افتح في تقويم Google';
@@ -158,7 +159,6 @@ $lang['appointment_add_to_calendar'] = 'إضافة إلى التقويم';
 $lang['appointment_send_an_sms'] = 'إرسال SMS';
 $lang['appointment_call_number'] = 'رقم التواصل';
 $lang['appointments_your_settings'] = 'إعدادات خاصة';
-
 
 # Version 1.1.2
 $lang['appointments_resp_person_not_set'] = 'لم يتم تعيين الشخص المسؤول عن المواعيد ، يرجى تعيين هذا الخيار في %s';
@@ -299,3 +299,18 @@ $lang['appointment_marked_as_approved'] = 'تم تحديد الموعد على �
 
 # Version 1.1.8
 $lang['appointment_menu_form_link'] = 'معلومات النموذج';
+
+# Version 1.1.9
+$lang['appointment_label'] = 'المواعيد';
+$lang['appointment_create_href'] = '| إنشاء موعد';
+$lang['appointment_create_cle'] = 'جهة اتصال ، عميل محتمل ، خارجية';
+$lang['appointment_staff_meeting'] = 'إجتماعات فريق العمل';
+$lang['appointment_internal_staff'] = 'موظفين داخليين';
+$lang['appointment_google_maps'] = 'الفتح في خرائط قوقل';
+$lang['appointment_ism_label'] = 'إجتماعات الموظفين الداخليين';
+$lang['appointment_create_label'] = 'إنشاء';
+$lang['appointment_recurring_re_created'] = 'تم إعادة إنشاء الموعد المتكرر';
+$lang['appointment_recurring'] = 'يتكرر';
+
+# Version 1.2.0
+$lang['appointly_view_all_in_calendar'] = 'السماح للشخص المسؤول بعرض جميع المواعيد في التقويم';

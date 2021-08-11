@@ -34,9 +34,9 @@
                     ?>
                     <tr class="project-overview">
                       <td class="bold"><?php echo _l('responsible_person'); ?></td>
-                      <td><?php echo candidate_profile_image($recruitment_channel->responsible,[
+                      <td><?php echo staff_profile_image($recruitment_channel->responsible,[
                     'staff-profile-image-small mright5',
-                    ], 'small') .' '. get_candidate_name($recruitment_channel->responsible); ?></td>
+                    ], 'small') .' '. get_staff_full_name($recruitment_channel->responsible); ?></td>
                    </tr>
 
                    <?php 

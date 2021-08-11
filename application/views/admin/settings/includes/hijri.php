@@ -15,7 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <label for="hiri_check" style="margin-left: 5%">
         <?php echo _l('module_activate') . ' ' . _l('hijri'); ?>
     </label>
-    <input type="checkbox" id="hijri_check" data-toggle="toggle" data-onstyle="primary" name="isHijriVal">
+    <input type="checkbox" id="hijri_check" data-toggle="toggle" data-onstyle="primary" name="isHijriVal" data-on="<?php echo _l('enable'); ?>" data-off="<?php echo _l('disable'); ?>">
 </div>
 <hr/>
 <?php /* <!--<div class="form-group" id="adjust_div">-->

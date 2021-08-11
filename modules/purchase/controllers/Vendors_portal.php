@@ -278,7 +278,7 @@ class Vendors_portal extends App_Controller
                 $this->form_validation->set_rules('company', _l('clients_company'), 'required');
             }
 
-            if (active_clients_theme() == 'perfex') {
+            if (active_clients_theme() == 'babil') {
                 // Fix for custom fields checkboxes validation
                 $this->form_validation->set_rules('company_form', '', 'required');
             }

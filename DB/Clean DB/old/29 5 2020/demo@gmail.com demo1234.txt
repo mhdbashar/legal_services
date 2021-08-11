@@ -1,1 +1,0 @@
-bug in mycategory table it should be filled with two rows

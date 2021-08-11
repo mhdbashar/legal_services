@@ -84,7 +84,7 @@ class Milestones extends REST_Controller {
     }
 
     /**
-     * @api {get} api/milestones/search/:keysearch Search Milestones Information
+     * @api {get} api/milestones/search/:keysearch Search Milestones Information.
      * @apiName GetMilestoneSearch
      * @apiGroup Milestone
      *
@@ -346,14 +346,6 @@ class Milestones extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

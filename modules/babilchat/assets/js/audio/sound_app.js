@@ -15,7 +15,7 @@ if (location.protocol != 'http:') {
     var stopButton = document.getElementById("stopButton");
     var cancelButton = document.getElementById("cancelRecording");
 
-    //var timer;
+    var chat_timer;
     var chat_seconds_element = document.getElementById("chat_rec_seconds");
     var chat_minutes_element = document.getElementById("chat_rec_minutes");
     //add events to those 2 buttons
@@ -62,7 +62,7 @@ if (location.protocol != 'http:') {
                     function padRecordTime(val) {
                         return val > 9 ? val : "0" + val;
                     }
-                    timer = setInterval(function() {
+                    chat_timer = setInterval(function() {
                         chat_seconds_element.innerHTML = padRecordTime(++chat_rec_sec % 60);
                         chat_minutes_element.innerHTML = padRecordTime(parseInt(chat_rec_sec / 60, 10));
                     }, 1000);
@@ -113,7 +113,7 @@ if (location.protocol != 'http:') {
                     $.post(url, { "audio": base64data }, function(res) {
                         if (res.filename) {
 
-                            var audio = '<audio controls src="' + site_url + 'modules/Babilchat/uploads/audio/' + res.filename + '" type="audio/ogg"></audio>';
+                            var audio = '<audio controls src="' + site_url + 'modules/babilchat/uploads/audio/' + res.filename + '" type="audio/ogg"></audio>';
 
                             $('#audio-wrapper').hide(1, function() {
                                 stopRecording();
@@ -198,7 +198,7 @@ if (location.protocol != 'http:') {
         //  button is disabled on send due bugs prevention must enable when wrapper is shown again
         if (recorder !== undefined) {
             recorder.onEncodingCanceled;
-            clearInterval(timer);
+            clearInterval(chat_timer);
             gumStream.getAudioTracks()[0].stop();
 
             //disable the stop button
@@ -219,7 +219,7 @@ if (location.protocol != 'http:') {
     function stopRecording(e) {
         $('#started_recording').html(chatAudioLang.recordingFinished)
         cancelButton.disabled = true;
-        clearInterval(timer);
+        clearInterval(chat_timer);
         $('#recordButton i.fa-circle').removeClass('flashit');
 
         //stop microphone access

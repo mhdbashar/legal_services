@@ -6,7 +6,6 @@ class Disputes_model extends App_Model
 {
     private $project_settings;
 
-
     /*private $shipping_fields = [
         'shipping_street',
         'shipping_city',
@@ -20,7 +19,6 @@ class Disputes_model extends App_Model
     {
         parent::__construct();
     }
-
 
     public function add($data)
     {
@@ -53,7 +51,13 @@ class Disputes_model extends App_Model
             $data['progress_from_tasks'] = 0;
         }
 
-
+        if (isset($data['contact_notification'])) {
+            if ($data['contact_notification'] == 2) {
+                $data['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $data['notify_contacts'] = serialize([]);
+            }
+        }
 
         $data['start_date'] = to_sql_date($data['start_date']);
         if (!empty($data['deadline'])) {
@@ -77,6 +81,14 @@ class Disputes_model extends App_Model
         }*/
 
         $data['addedfrom'] = get_staff_user_id();
+
+        $items_to_convert = false;
+        if (isset($data['items'])) {
+            $items_to_convert = $data['items'];
+            $estimate_id = $data['estimate_id'];
+            $items_assignees = $data['items_assignee'];
+            unset($data['items'], $data['estimate_id'], $data['items_assignee']);
+        }
 
         $data = hooks()->apply_filters('before_add_project', $data);
 
@@ -155,6 +167,14 @@ class Disputes_model extends App_Model
                 }
             }
 
+            if ($items_to_convert && is_numeric($estimate_id)) {
+                $this->convert_estimate_items_to_tasks($insert_id, $items_to_convert, $items_assignees, $data, $project_settings);
+
+                $this->db->where('id', $estimate_id);
+                $this->db->set('project_id', $insert_id);
+                $this->db->update(db_prefix() . 'estimates');
+            }
+
             $this->Projects_model->log_activity($insert_id, 'project_activity_created');
 
             if ($send_created_email == true) {
@@ -174,8 +194,6 @@ class Disputes_model extends App_Model
 
         return false;
     }
-
-
 
     public function update($data, $id)
     {
@@ -327,6 +345,14 @@ class Disputes_model extends App_Model
             $this->Projects_model->cancel_recurring_tasks($id);
         }
 
+        if (isset($data['contact_notification'])) {
+            if ($data['contact_notification'] == 2) {
+                $data['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $data['notify_contacts'] = serialize([]);
+            }
+        }
+
         $data = hooks()->apply_filters('before_update_project', $data, $id);
 
         $this->db->where('id', $id);
@@ -401,5 +427,49 @@ class Disputes_model extends App_Model
         
     }
 
+    public function convert_estimate_items_to_tasks($project_id, $items, $assignees, $project_data, $project_settings)
+    {
+        $this->load->model('tasks_model');
+        foreach ($items as $index => $itemId) {
+
+            $this->db->where('id', $itemId);
+            $_item = $this->db->get(db_prefix() . 'itemable')->row();
+
+            $data = [
+                'billable' => 'on',
+                'name' => $_item->description,
+                'description' => $_item->long_description,
+                'startdate' => $project_data['start_date'],
+                'duedate' => '',
+                'rel_type' => 'project',
+                'rel_id' => $project_id,
+                'hourly_rate' => $project_data['billing_type'] == 3 ? $_item->rate : 0,
+                'priority' => get_option('default_task_priority'),
+                'withDefaultAssignee' => false,
+            ];
+
+            if (isset($project_settings->view_tasks)) {
+                $data['visible_to_client'] = 'on';
+            }
+
+            $task_id = $this->tasks_model->add($data);
+
+            if ($task_id) {
+                $staff_id = $assignees[$index];
+
+                $this->tasks_model->add_task_assignees([
+                    'taskid' => $task_id,
+                    'assignee' => intval($staff_id),
+                ]);
+
+                if (!$this->is_member($project_id, $staff_id)) {
+                    $this->db->insert(db_prefix() . 'project_members', [
+                        'project_id' => $project_id,
+                        'staff_id'   => $staff_id,
+                    ]);
+                }
+            }
+        }
+    }
 
 }

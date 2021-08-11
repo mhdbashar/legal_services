@@ -16,17 +16,9 @@
           init_selectpicker();
           initAppointmentScheduledDates();
 
-          $('#by_sms, #by_email').on('change', function() {
-               var anyChecked = $('#by_sms').prop('checked') || $('#by_email').prop('checked');
-               if (anyChecked) {
-                    $('.appointment-reminder').removeClass('hide');
-               } else {
-                    $('.appointment-reminder').addClass('hide');
-               }
-          })
-
           $('.modal').on('hidden.bs.modal', function(e) {
-               document.getElementById('ms-access-token').value = '';
+               let accessToken = document.getElementById('ms-access-token');
+               if (accessToken != null) accessToken.value = '';
                $('.xdsoft_datetimepicker').remove();
           });
 
@@ -48,7 +40,8 @@
      function apply_appointments_form_data(form) {
           $('button[type="submit"], button.close_btn, #addToOutlookBtn').prop('disabled', true);
           $('#appointment-form .modal-body').addClass('filterBlur');
-          $('.modal-title').html("<?= _l('appointment_please_wait'); ?>");
+          $('.modal-title').html(
+               "<?= _l('appointment_please_wait'); ?>");
           $('button[type="submit"]').html('<i class="fa fa-refresh fa-spin fa-fw"></i>');
 
           var formSerializedData = $(form).serializeArray();
@@ -63,7 +56,9 @@
                     if (isOutlookLoggedIn() && isOutlookChecked != null) {
                          outlookAddOrUpdateEvent(formSerializedData);
                     } else {
-                         alert_float('success', "<?= _l("appointment_updated"); ?>");
+                         alert_float('success',
+                              "<?= _l("appointment_updated"); ?>"
+                         );
                          setTimeout(() => {
                               window.location.reload();
                          }, 500);
@@ -80,7 +75,8 @@
 
      function addEventToGoogleCalendar(button) {
           var form = $('#appointment-form').serialize();
-          var url = "<?= admin_url('appointly/appointments/addEventToGoogleCalendar'); ?>";
+          var url =
+               "<?= admin_url('appointly/appointments/addEventToGoogleCalendar'); ?>";
           var modalBody = $('#appointment-form .modal-body');
           $.ajax({
                url: url,
@@ -90,7 +86,8 @@
                     $(button).attr('disabled', true);
                     $('.modal .btn').attr('disabled', true);
                     modalBody.addClass('filterBlur');
-                    $(button).html('' + appointly_please_wait + '<i class="fa fa-refresh fa-spin fa-fw"></i>');
+                    $(button).html('' + appointly_please_wait +
+                         '<i class="fa fa-refresh fa-spin fa-fw"></i>');
                },
                success: function(r) {
                     if (r.result == 'success') {

@@ -78,7 +78,7 @@ function handle_timesheets_attachments_array($staffid, $index_name = 'attachment
 
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES[$index_name]['error'][$i])
+                if (_babil_upload_error($_FILES[$index_name]['error'][$i])
                     || !_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
                     continue;
             }
@@ -202,9 +202,9 @@ function get_type_of_leave_name($id){
  */
 function handle_requisition_attachments($id)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     $path = TIMESHEETS_MODULE_UPLOAD_FOLDER .'/requisition_leave/'  . $id . '/';
@@ -240,8 +240,8 @@ if (!function_exists('add_timesheets_email_templates')) {
      */
     function add_timesheets_email_templates() {
         $CI = &get_instance();
-
-        $data['timesheets_attendance_mgt_templates'] = $CI->emails_model->get(['type' => 'timesheets_attendance_mgt', 'language' => 'english']);
+        $lang = get_staff_default_language();
+        $data['timesheets_attendance_mgt_templates'] = $CI->emails_model->get(['type' => 'timesheets_attendance_mgt', 'language' => $lang]);
 
         $CI->load->view('timesheets/email_templates', $data);
     }

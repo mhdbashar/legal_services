@@ -31,7 +31,7 @@
                                 echo render_select(
                                     'appointly_default_table_filter',
                                     $filters,
-                                    array('id', array('status')),
+                                    ['id', ['status']],
                                     'appointly_default_table_filter_label',
                                     $appointly_default_table_filter
                                 );
@@ -77,7 +77,7 @@
                 <div class="modal-body">
                     <label for="appointment_type" class="control-label"><?= _l('appointments_type_add_name_label'); ?></label>
                     <input type="text" class="form-control mbot10" name="appointment_type" required>
-                    <?php echo render_color_picker('color',  _l('appointments_type_add_calendar_label')); ?>
+                    <?php echo render_color_picker('color', _l('appointments_type_add_calendar_label')); ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-xs btn-default" data-dismiss="modal"><?= _l('close') ?></button>

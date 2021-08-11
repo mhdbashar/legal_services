@@ -171,7 +171,6 @@ class Invoices extends REST_Controller {
         // Check if the data store contains
 		if ($data)
 		{
-			$data = $this->Api_model->get_api_custom_data($data,"invoice", $id);
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -290,8 +289,6 @@ class Invoices extends REST_Controller {
           // Check if the data store contains
      	if ($data)
      	{
-			$data = $this->Api_model->get_api_custom_data($data,"invoice");
-
               // Set the response and exit
 	          $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 	      }
@@ -467,8 +464,6 @@ class Invoices extends REST_Controller {
 	 * 
  	 */
       public function data_post(){
-      	\modules\api\core\Apiinit::check_url('api');
-      	
       	$data = $this->input->post();
 
       	$this->form_validation->set_rules('clientid', 'Customer', 'trim|required|max_length[255]');

@@ -81,8 +81,6 @@ class Tickets extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"tickets", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -97,7 +95,7 @@ class Tickets extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tickets/search/:keysearch Search Ticket Information
+     * @api {get} api/tickets/search/:keysearch Search Ticket Information.
      * @apiName GetTicketSearch
      * @apiGroup Ticket
      *
@@ -151,8 +149,6 @@ class Tickets extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"tickets");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -252,9 +248,6 @@ class Tickets extends REST_Controller {
                 'project_id' => $this->Api_model->value($this->input->post('project_id', TRUE)),
                 'message' => $this->Api_model->value($this->input->post('message', TRUE))
              ];
-            if (!empty($this->input->post('custom_fields', TRUE))) {
-                $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
-            }
                
             // insert data
             $this->load->model('tickets_model');
@@ -399,14 +392,6 @@ class Tickets extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

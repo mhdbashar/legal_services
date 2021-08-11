@@ -78,8 +78,6 @@ class Projects extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"projects", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -94,7 +92,7 @@ class Projects extends REST_Controller {
     }
 
     /**
-     * @api {get} api/projects/search/:keysearch Search Project Information
+     * @api {get} api/projects/search/:keysearch Search Project Information.
      * @apiName GetProjectSearch
      * @apiGroup Project
      *
@@ -147,8 +145,6 @@ class Projects extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"projects");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -228,7 +224,6 @@ class Projects extends REST_Controller {
      */
     public function data_post()
     {
-            \modules\api\core\Apiinit::check_url('api');
 
             // form validation
             $this->form_validation->set_rules('name', 'Project Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Project Name'));
@@ -270,9 +265,6 @@ class Projects extends REST_Controller {
                     'settings' => array( 'available_features' => array( 'project_overview', 'project_milestones', 'project_gantt', 'project_tasks', 'project_estimates', 'project_subscriptions', 'project_invoices', 'project_expenses', 'project_credit_notes', 'project_tickets', 'project_timesheets', 'project_files', 'project_discussions', 'project_notes', 'project_activity')) ];
                     if($project_members != ''){
                         $insert_data['project_members'] = $project_members;
-                    }
-                    if (!empty($this->input->post('custom_fields', TRUE))) {
-                        $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
                     }
                 // insert data                    
                 $this->load->model('projects_model');                
@@ -451,14 +443,6 @@ class Projects extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

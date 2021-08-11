@@ -138,7 +138,7 @@ body #frame #no_messages {
 }
 
 #frame .dropdown-menu {
-    left: -123px;
+    right: -123px;
     min-width: 166px;
 }
 
@@ -629,6 +629,7 @@ body #wrapper #frame .content .chat_client_messages ul li.sent .you a {
     #frame .content .messages ul li.replies p {
         max-width: 86%;
     }
+
     #frame .content .chat_client_messages ul li.sent p,
     #frame .content .messages ul li.sent p {
         max-width: 86% !important;
@@ -656,7 +657,7 @@ body #wrapper #frame .content .chat_client_messages ul li.sent .you a {
     max-width: 85%;
 }
 
-#frame .content .chat_client_messages ul li img.Babilchat_convertedImage,
+#frame .content .chat_client_messages ul li img.babilchat_convertedImage,
 #frame .content .messages ul li img.babilchat_convertedImage {
     border-radius: 0%;
     /* Safari */
@@ -722,6 +723,7 @@ body #wrapper #frame .content .messages ul li a.quickMentionLink {
     #frame .contact-profile svg.chat_back_mobile {
         display: none;
     }
+
     #frame .content .chat_client_messages ul li p,
     #frame .content .messages ul li p {
         max-width: 100%;
@@ -836,6 +838,7 @@ body #wrapper #frame .content .messages ul li a.quickMentionLink {
     -ms-overflow-y: auto;
     overflow-y: auto;
     scrollbar-width: none;
+    scroll-behavior: smooth;
     max-height: calc(var(--vh, 1vh) * 78);
 }
 
@@ -1034,18 +1037,23 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
     body #frame li.quickMentions {
         display: none;
     }
+
     #frame .content .messages ul li img.babilchat_convertedImage {
         max-width: 50vh;
     }
+
     body #search_messages_modal {
         z-index: 9999999999999999999;
     }
+
     body #frame .contact-profile .user_sound_icon {
         left: 43px;
     }
+
     body #frame .content .contact-profile img {
         margin: 12px 12px 0 50px;
     }
+
     #frame #sidepanel {
         width: inherit;
         max-width: initial;
@@ -1053,54 +1061,67 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
         overflow: unset;
         min-width: initial;
     }
+
     #frame .content .messages ul li img.babilchat_convertedImage {
         max-width: 50vh;
     }
+
     #frame .content .messages ul li p,
     #frame .content .group_messages .own_group_message {
         max-width: 85% !important;
     }
+
     #frame #sidepanel #profile {
         width: 100%;
         margin: 0 auto;
         padding: 10px 0 0 0;
         border-bottom: 1px solid #363a46;
     }
+
     #frame #sidepanel #profile .wrap {
         height: 55px;
         padding: 0px;
         border-bottom: 0px;
     }
+
     #frame #sidepanel #profile .wrap img {
         width: 40px;
         height: 40px;
         margin-top: 0px;
         margin-left: 11px;
     }
+
     #frame .connection_field {
         margin-top: 47px;
     }
+
     #frame #sidepanel #search {
         padding: 18px 0px 11px 10px;
     }
+
     body #wrapper #frame #sidepanel #clients_container {
         height: calc(var(--vh, 1vh) * 78);
     }
+
     body #wrapper #frame #sidepanel #clients_container,
     body #wrapper #frame #sidepanel #contacts,
     body #wrapper #frame #sidepanel #groups {
         overflow-y: scroll;
         overflow-x: hidden;
     }
+
     body #frame #sidepanel #contacts {
         margin-bottom: 16px;
     }
+
     #frame #sidepanel #contacts ul li.contact a {
         padding: 9px 25px 9px 10px;
     }
+
     #frame #sidepanel #contacts ul li.contact .wrap {
         width: 100%;
     }
+
     #frame .content {
         min-width: 320px;
         width: inherit;
@@ -1109,23 +1130,29 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
         height: -webkit-fill-available;
         background: #fff;
     }
+
     #frame .content .messages {
         margin: 0;
     }
+
     #frame .content .message-input .wrap textarea {
         padding: 13px 71px 8px 8px;
     }
+
     #frame .content .message-input .wrap .attachment {
         margin-top: 5px;
         right: 99px;
     }
+
     #frame #sidepanel #contacts ul li.contact .wrap img {
         margin-right: 12px;
         margin-left: 3px;
     }
+
     #frame .content .message-input {
         left: 1px;
     }
+
     #frame .unread-notifications[data-badge]:after,
     #frame .mobile-unread-notifications[data-badge]:after {
         content: attr(data-badge);
@@ -1145,6 +1172,7 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
         border-radius: 50%;
         animation: zoom 3s 3s both infinite;
     }
+
     body.Babilchat_Controller #wrapper {
         min-height: intrinsic !important;
         /* Safari/WebKit uses a non-standard name */
@@ -1154,6 +1182,7 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
         /* Chrome */
         min-height: min-content !important;
     }
+
     #frame .content {
         border-left: 0;
         display: none;
@@ -1164,16 +1193,19 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
         top: -1px;
         height: -webkit-fill-available;
     }
+
     #frame #sidepanel #bottom-bar button {
         float: none;
         width: 100%;
         padding: 15px 0;
         border-left: 1px solid #2f3440;
     }
+
     #frame #sidepanel #bottom-bar button i {
         font-size: 1.3em;
         margin-top: -5px;
     }
+
     #frame #sidepanel #bottom-bar {
         position: absolute;
         margin-bottom: -23px;
@@ -1219,7 +1251,8 @@ img.shaking {
     }
 }
 
-@media screen and (max-width: 360px) {}
+@media screen and (max-width: 360px) {
+}
 
 #sharedFiles i.fa-times-circle-o {
     color: #444343;
@@ -1282,16 +1315,16 @@ img.shaking {
     margin-left: 0px;
 }
 
-#sharedFiles .nav-tabs>li.active>a:focus,
-#sharedFiles .nav-tabs>li>a:hover,
-#sharedFiles .nav-tabs>li.active>a {
+#sharedFiles .nav-tabs > li.active > a:focus,
+#sharedFiles .nav-tabs > li > a:hover,
+#sharedFiles .nav-tabs > li.active > a {
     border-bottom: 3px solid #6986e8;
 }
 
-#sharedFiles .nav-tabs>li>a,
-#sharedFiles .nav-tabs>li.active>a,
-#sharedFiles .nav-tabs>li.active>a:focus,
-#sharedFiles .nav-tabs>li>a:hover {
+#sharedFiles .nav-tabs > li > a,
+#sharedFiles .nav-tabs > li.active > a,
+#sharedFiles .nav-tabs > li.active > a:focus,
+#sharedFiles .nav-tabs > li > a:hover {
     color: #262d33;
     font-weight: 700;
     letter-spacing: 1px;
@@ -1307,7 +1340,7 @@ body .chat_client_messages {
     margin-top: 11px !important;
 }
 
-#sharedFiles .tab-content>.active {
+#sharedFiles .tab-content > .active {
     overflow-y: auto;
     width: 360px;
     margin: 0 auto;
@@ -1339,18 +1372,18 @@ body .chat_client_messages {
     transition: all 0.3s;
 }
 
-#frame .chat_group_options .main_div_shared_files .nav-tabs>li.active>a:focus,
-#frame .chat_group_options .main_div_shared_files .nav-tabs>li>a:hover,
-#frame .chat_group_options .main_div_shared_files .nav-tabs>li.active>a,
-#frame .chat_group_options .main_div_shared_files .nav-tabs>li.active>a:hover {
+#frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a:focus,
+#frame .chat_group_options .main_div_shared_files .nav-tabs > li > a:hover,
+#frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a,
+#frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a:hover {
     border-bottom: 3px solid #6986e8;
     color: #6986e8;
 }
 
-#frame .chat_group_option .nav-tabs>li>a,
-#frame .chat_group_option .nav-tabs>li.active>a,
-#frame .chat_group_option .nav-tabs>li.active>a:focus,
-#frame .chat_group_option .nav-tabs>li>a:hover {
+#frame .chat_group_option .nav-tabs > li > a,
+#frame .chat_group_option .nav-tabs > li.active > a,
+#frame .chat_group_option .nav-tabs > li.active > a:focus,
+#frame .chat_group_option .nav-tabs > li > a:hover {
     color: #262d33;
     letter-spacing: 1px;
     font-weight: 700;
@@ -1367,18 +1400,22 @@ body .chat_client_messages {
         overflow-x: hidden;
         overflow: scroll;
     }
+
     #frame #sidepanel {
         height: 82vh;
     }
+
     #frame .content .messages ul li p,
     #frame .content .group_messages .own_group_message {
         max-width: 83% !important;
     }
+
     #frame .content .messages ul li {
         margin: 3px 4px 6px 10px;
         width: calc(100% - 50px);
         font-size: 14px;
     }
+
     #frame .content .message-input {
         left: 1px;
         width: 260px;
@@ -1802,7 +1839,7 @@ body.rtl #sharedFiles .icon_shared_files {
     color: #3d5063;
 }
 
-body.rtl #sharedFiles .tab-content>.active {
+body.rtl #sharedFiles .tab-content > .active {
     width: auto;
     margin-left: auto;
 }
@@ -2035,10 +2072,10 @@ body #frame .content .group_msg_input .startMic {
     border-right: 1px solid #363a46;
 }
 
-#frame #sidepanel .nav-tabs>li a:hover,
-#frame #sidepanel .nav-tabs>li.active>a,
-#frame #sidepanel .nav-tabs>li.active>a:focus,
-#frame #sidepanel .nav-tabs>li.active>a:hover {
+#frame #sidepanel .nav-tabs > li a:hover,
+#frame #sidepanel .nav-tabs > li.active > a,
+#frame #sidepanel .nav-tabs > li.active > a:focus,
+#frame #sidepanel .nav-tabs > li.active > a:hover {
     color: #6986e8;
     border: 0px;
     transition: unset;
@@ -2051,7 +2088,7 @@ body #frame .content .group_msg_input .startMic {
     -o-transition: all .4s;
 }
 
-#frame #sidepanel .nav-tabs>li a {
+#frame #sidepanel .nav-tabs > li a {
     color: #ffffff;
     cursor: pointer;
 }
@@ -2077,7 +2114,7 @@ body #frame .content .group_msg_input .startMic {
     cursor: pointer;
 }
 
-#frame #sidepanel .nav-tabs>li.active svg {
+#frame #sidepanel .nav-tabs > li.active svg {
     fill: #6986e8;
 }
 
@@ -2110,11 +2147,11 @@ svg {
     cursor: pointer;
 }
 
-#frame #sidepanel .nav-tabs>li a {
+#frame #sidepanel .nav-tabs > li a {
     padding: 4px 0px 4px 0px;
 }
 
-#frame #sidepanel .nav-tabs>li {
+#frame #sidepanel .nav-tabs > li {
     width: 33.3%;
     display: flex;
     text-align: center;
@@ -2311,12 +2348,13 @@ body #frame .active_group_members {
 #frame .chat_groups_list .leave_chat_group {
     position: absolute;
     right: 0;
-    font-size: 11px;
-    padding-top: 1px;
+    font-size: 13px;
+    padding-top: 0;
+    padding-left: 10px;
     margin-top: -26px;
     margin-right: 8px;
     width: 33px;
-    height: 20px;
+    height: 20px
 }
 
 #frame .panel-group#group_options {
@@ -2382,6 +2420,9 @@ body #frame .white-text {
     padding: 6px 0px 0px 20px;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #frame .chat_group_options .main_div_shared_files::-webkit-scrollbar,
@@ -2433,80 +2474,101 @@ body #frame .white-text {
     body .actionTask {
         display: none !important;
     }
+
     body #frame #mainFilterDiv {
         margin-top: 3px;
         margin-right: 10px;
     }
+
     body #frame #mainFilterDiv button {
         padding: 6px 12px;
     }
-    body #sharedFiles .tab-content>.active {
+
+    body #sharedFiles .tab-content > .active {
         overflow: scroll;
         max-height: fit-content;
         margin: 0 auto;
         margin-top: 7px;
     }
+
     body #wrapper #frame .content p audio {
         width: 250px;
     }
-    body #wrapper #frame .nav.nav-tabs.chat_nav>li {
+
+    body #wrapper #frame .nav.nav-tabs.chat_nav > li {
         margin-bottom: 0px !important;
     }
+
     body #wrapper #frame ul[aria-labelledby="dropDownOptions"] li a:hover {
         background: #40434a;
     }
+
     body #wrapper #frame ul[aria-labelledby="dropDownOptions"] li a {
         color: #fff;
     }
+
     body #wrapper #frame ul[aria-labelledby="dropDownOptions"] {
         background-color: #2b2f38;
         border: none;
         left: -23px !important;
         bottom: 50px !important;
     }
+
     body #frame #bottom-bar .clients_settings.dropup {
         width: 50%;
     }
+
     body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup button.dropdown-toggle {
         width: 100% !important;
         border-left: 1px solid #2f3440;
     }
+
     body .modal.left .modal-dialog,
     body .modal.right .modal-dialog {
         width: calc(100%);
     }
+
     body #wrapper #frame .content .contact-profile {
         background: #2b2f38;
         z-index: 99999999999;
     }
+
     body #frame #crm_clients .customers_toggler {
         margin: 0;
     }
+
     body.Babilchat_Controller.mobile #mobile-search {
         display: none;
     }
+
     body.Babilchat_Controller #frame #crm_clients img.chatContactImage {
         left: 10px !important;
     }
+
     body #wrapper #frame .content .contact-profile .client_data p {
         display: none;
     }
+
     body.Babilchat_Controller #frame .client_data span.contact_lang {
         padding: 0px;
         width: calc(100% - 21%);
         margin-left: 46px !important;
     }
+
     body.Babilchat_Controller #crm_clients .contact_name_placeholder_notitle,
     body #frame #sidepanel #crm_clients #bottom-bar button:nth-child(1) {
         width: calc(100% - 51px) !important;
     }
-    #frame #sidepanel .nav-tabs>li {
+
+    #frame #sidepanel .nav-tabs > li {
         width: 50% !important;
         text-align: center !important;
     }
+
     body #wrapper #frame #sidepanel .nav-tabs li.groups {
         border-right: none !important;
     }
+
     body .main_loader_init {
         position: absolute;
         top: -1px;
@@ -2518,104 +2580,128 @@ body #frame .white-text {
         z-index: 99999999999999999;
         overflow: hidden;
     }
+
     #frame .panel-heading .accordion-toggle:after {
         color: #f9f9f9;
     }
+
     #frame .message_loader,
     #frame .message_client_loader,
     #frame .message_group_loader {
         left: 47%;
     }
+
     #frame #sidepanel .nav-tabs {
         border-top: 1px solid #363a46;
         border-bottom: 1px solid #363a46;
     }
+
     #frame #sidepanel li.staff {
         border-right: none;
     }
+
     #frame #sidepanel li.groups {
         border-top: none !important;
     }
-    #frame #sidepanel .nav-tabs>li {
+
+    #frame #sidepanel .nav-tabs > li {
         width: 100% !important;
         text-align: center;
     }
+
     #frame #sidepanel .group_selector .group_wrapper {
         padding-left: 14px;
     }
+
     #frame #sidepanel li.groups.active {
         border: none;
         margin: 0 !important;
     }
+
     #frame #sidepanel li.active.staff,
     #frame #sidepanel li.active.staff a {
         margin: 0 !important;
         border: none;
     }
+
     #frame #sidepanel .nav-tabs {
         border-top: none !important;
         display: flex;
     }
+
     body #wrapper #frame .active_group_members {
         font-size: 10px;
         padding-top: 14px !important;
     }
+
     body #frame .chat_groups_list .g_new_msg i.fa-comments {
         font-size: 15px;
         position: absolute;
         right: 1px;
     }
+
     body #frame .chat_groups_list .g_new_msg {
         float: right;
         margin: 0px;
         color: #5e73e0;
     }
+
     body #wrapper #frame #groupOptionsThree .tab-content,
     body #wrapper #frame #sharedFiles .tab-content {
         border-top: none;
         width: 100%;
     }
+
     #frame .chat_group_options .nav.nav-tabs,
     #sharedFiles .nav.nav-tabs {
         width: -webkit-fill-available;
         width: -moz-available;
         width: fill-available;
     }
+
     body #wrapper #frame #sharedFiles {
         height: inherit;
         top: 60px;
         width: 100%;
     }
+
     body #wrapper #frame .chat_group_options .main_div_shared_files .shared_items_span,
     body #wrapper #frame #sharedFiles .shared_items_span {
         width: 100%;
         margin-left: auto;
         margin-top: 11px;
     }
+
     body #wrapper #frame .chat_group_options .main_div_shared_files .shared_items_span {
         margin-left: 0px;
     }
+
     body #wrapper #frame .chat_group_options {
         top: 71px;
         height: inherit;
         width: 100%;
         right: -100%;
     }
+
     body #wrapper #frame .chat_group_options .main_div_shared_files .shared_files_ahref {
         float: left !important;
         margin-left: 4px;
     }
+
     body #wrapper #frame .chat_group_options .nav.nav-tabs,
     body #wrapper #frame #sharedFiles .nav.nav-tabs {
         display: inline-flex;
     }
-    body #wrapper #frame #sharedFiles .nav-tabs li>a {
+
+    body #wrapper #frame #sharedFiles .nav-tabs li > a {
         margin-top: -13px;
     }
+
     body #wrapper #frame .announcement .dropdown-menu li a:hover {
         color: #fff;
         background: #363a46;
     }
+
     body #wrapper #frame .announcement .dropdown-menu {
         left: -139px;
         border: none;
@@ -2623,18 +2709,18 @@ body #frame .white-text {
 }
 
 
-/* Perfex Light Theme Support */
+/* babil Light Theme Support */
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #wrapper li.active a,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact:hover {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact.active,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector.active,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector .group_wrapper:hover,
+body.babil_dark_theme_initiated.chat_light #wrapper li.active a,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact:hover {
     background: #fff;
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a {
+body.babil_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a {
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
     -moz-border-radius: 0 !important;
@@ -2642,7 +2728,7 @@ body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a
     -o-border-radius: 0 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
+body.babil_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
     border: 1px solid #cbcfd4 !important;
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
@@ -2651,75 +2737,75 @@ body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
     -o-border-radius: 0 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li a:hover,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li a:hover {
+body.babil_dark_theme_initiated.chat_light #add_members_modal li a:hover,
+body.babil_dark_theme_initiated.chat_light #chat_groups_custom_modal li a:hover {
     background: #cbcfd4 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li span,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li span {
+body.babil_dark_theme_initiated.chat_light #add_members_modal li span,
+body.babil_dark_theme_initiated.chat_light #chat_groups_custom_modal li span {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:focus,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:hover {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu > li > a:focus,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu > li > a:hover {
     background: #cbcfd4 !important;
     color: #fff !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown.open ul li a {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown.open ul li a {
     color: #333 !important;
     background: #2b2f38;
     border: none;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .client_chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .group_chatbox {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .client_chatbox,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .chatbox,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame .group_chatbox {
     background: #fff !important;
     border-color: #363a46 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .shared_items_span,
-body.perfex_dark_theme_initiated.chat_light #frame #bottom-bar #add_group_btn {
+body.babil_dark_theme_initiated.chat_light #frame .shared_items_span,
+body.babil_dark_theme_initiated.chat_light #frame #bottom-bar #add_group_btn {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .chat_group_options .dismiss_chat_group {
+body.babil_dark_theme_initiated.chat_light #frame .chat_group_options .dismiss_chat_group {
     background: #5f5f5f !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.member_name_other,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.friend {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p.member_name_other,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p.friend {
     color: #333;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p:not(.you):not(.own_group_message) {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame p:not(.you):not(.own_group_message) {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel i.fa.fa-search,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #bottom-bar button,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame a {
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #sidepanel i.fa.fa-search,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame #bottom-bar button,
+body.babil_dark_theme_initiated.chat_light #wrapper #frame a {
     color: #333 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active :hover,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact.active a,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact a:hover {
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector .group_wrapper:hover,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a:hover,
+body.babil_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active :hover,
+body.babil_dark_theme_initiated.chat_light #frame .tab-content div > ul li.contact.active a,
+body.babil_dark_theme_initiated.chat_light #frame .tab-content div > ul li.contact a:hover {
     background: #2b2f38 !important;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button i::before {
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button i::before {
     color: #777;
 }
 
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle,
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle:hover {
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle,
+body.babil_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle:hover {
     background-color: #2b2f38 !important;
     border-color: #363a46 !important;
 }
@@ -3015,7 +3101,7 @@ body .chat_message_history_own small {
     border-radius: 6px;
 }
 
-body .chat_message_history_view .panel-primary>.panel-heading {
+body .chat_message_history_view .panel-primary > .panel-heading {
     background-color: #2886d3 !important;
     border-color: #eaeaea !important;
 }
@@ -3368,19 +3454,20 @@ body.Babilchat_Controller .contact_name_placeholder {
 
 /* Office Theme Support Css */
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #header {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #header {
     position: absolute !important;
 }
 
-body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
     margin-top: 62px;
 }
 
 @media screen and (max-width: 735px) {
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #frame {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
         margin-top: 0px;
     }
-    body.app.admin.babilchat.Babilchat_Controller.perfex_office_theme_initiated #mobile-search {
+
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #mobile-search {
         margin-top: 60px;
     }
 }
@@ -3671,7 +3758,7 @@ body li.sent .optionsMore:before {
     margin-top: 6px;
     border: 7px solid transparent;
     border-right-color: transparent;
-    transform: rotate( -180deg);
+    transform: rotate(-180deg);
     border-right-color: #808590;
     float: right;
     margin-right: -20.5px;
@@ -3725,7 +3812,7 @@ body .chat_group_messages li.own_group_message_li .messageOptionsDiv .optionsMor
     margin-top: 5px;
     border: 7px solid transparent;
     border-right-color: #808590;
-    transform: rotateY( 180deg);
+    transform: rotateY(180deg);
     margin-right: -7px;
     position: absolute;
     right: -6px;

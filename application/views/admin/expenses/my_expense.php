@@ -118,7 +118,7 @@
                                 <option selected disabled></option>
                                 <?php
                                 if(isset($expense) && $expense->rel_sid != 0){
-                                    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                                    $this->load->model('legalservices/LegalServicesModel', 'legal');
                                     $slug = (isset($expense) ? $expense->rel_stype : '');
                                     $ServID = $this->legal->get_service_id_by_slug($slug);
                                     if($ServID == 1){

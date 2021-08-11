@@ -126,7 +126,7 @@ class BranchApp
         if ($update['success'] == false) {
             show_error($update['message']);
         } else {
-            set_alert('success', 'Your database is up to date');
+            set_alert('success', _l('migration_lang_15'));
 
             if (is_staff_logged_in()) {
                 redirect(admin_url(), 'refresh');

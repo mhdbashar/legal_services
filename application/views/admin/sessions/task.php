@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('LegalServices/Sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
+<?php echo form_open_multipart(admin_url('legalservices/sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
 <div class="modal fade<?php if(isset($task)){echo ' edit';} ?>" id="_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"<?php if($this->input->get('opened_from_lead_id')){echo 'data-lead-id='.$this->input->get('opened_from_lead_id'); } ?>>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -59,7 +59,7 @@
                                         <?php } ?>
                                         <?php if(has_permission('sessions','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                                <a href="<?php echo admin_url('legalservices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                                     <?php echo _l('task_single_delete'); ?>
                                                 </a>
                                             </li>
@@ -172,7 +172,8 @@
                                     <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                     <select class="form-control custom_select_arrow" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('myjudicial',$task->court_id);
+                                        <?php
+                                        $data = (isset($task) ? get_relation_data('myjudicial',$task->court_id) : array());
                                         foreach ($data as $row) {
                                             if($task->dept == $row->j_id) { ?>
                                                 <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
@@ -281,7 +282,7 @@
                                 <?php echo render_date_input('startdate','session_date',$value_startdate, $date_attrs); ?>
                                 <div class="col-md-6 hide">
                                     <?php $value_due_date = (isset($task) ? _d($task->duedate) : ''); ?>
-                                    <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,''); ?>
+                                    <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,[]); ?>
                                 </div>
                             </div>
                            <?php /* <div class="col-md-6">
@@ -422,7 +423,7 @@
             appValidateForm($('#task-form'), {
                 name: 'required',
                 startdate: 'required',
-                judge_id: 'required',
+                //judge_id: 'required',
                 //court_id: 'required',
                 time: 'required',
                 repeat_every_custom: { min: 1},
@@ -562,7 +563,7 @@
             data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
             data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
             data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
-            $.post(admin_url + 'LegalServices/Sessions/copy_session', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/copy_session', data).done(function(response) {
                 response = JSON.parse(response);
                 if (response.success === true || response.success == 'true') {
                     var $taskModal = $('#_task_modal');

@@ -73,7 +73,7 @@
                                  </select>
                               </div>
 
-                              <?php $value = (isset($form->submit_btn_name) ? $form->submit_btn_name : 'Submit');?>
+                              <?php $value = (isset($form->submit_btn_name) ? $form->submit_btn_name : _l('submit_s'));?>
                               <?php echo render_input('submit_btn_name', 'form_btn_submit_text', $value); ?>
 
                               <?php $value = (isset($form->success_submit_msg) ? $form->success_submit_msg : '');?>

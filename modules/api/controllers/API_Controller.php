@@ -90,8 +90,6 @@ class API_Controller extends CI_Controller
         // Load Config Items Values
         $this->API_LIMIT_TABLE_NAME = $this->CI->config->item('api_limit_table_name');
         $this->API_KEYS_TABLE_NAME  = $this->CI->config->item('api_keys_table_name');
-
-        \modules\api\core\Apiinit::check_url('api');
     }
 
 

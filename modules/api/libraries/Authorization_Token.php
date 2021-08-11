@@ -6,9 +6,11 @@
  * API Token Generate/Validation
  * 
  */
-if (!class_exists('JWT')) {
-    require_once __DIR__ .'/../third_party/php-jwt/JWT.php';
-}
+require_once APP_MODULES_PATH . 'api/third_party/php-jwt/JWT.php';
+require_once APP_MODULES_PATH . 'api/third_party/php-jwt/BeforeValidException.php';
+require_once APP_MODULES_PATH . 'api/third_party/php-jwt/ExpiredException.php';
+require_once APP_MODULES_PATH . 'api/third_party/php-jwt/SignatureInvalidException.php';
+
 use \Firebase\JWT\JWT;
 
 class Authorization_Token 

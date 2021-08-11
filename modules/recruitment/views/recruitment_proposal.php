@@ -144,8 +144,40 @@
                     <div class="col-md-6"> <?php 
                     $attr = array();
                     $attr = ['data-type' => 'currency'];
-                    echo render_input('salary_from','starting_salary_from','','text',$attr); ?></div>
-                    <div class="col-md-6"> <?php echo render_input('salary_to','starting_salary_to','','text',$attr); ?></div>
+                     ?>
+                      <div class="form-group">
+                        <label><?php echo _l('starting_salary_from'); ?></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control text-right" name="salary_from" value="" data-type="currency">
+
+                          <div class="input-group-addon">
+                            <div class="dropdown">
+                             <span class="discount-type-selected">
+                              <?php echo html_entity_decode($base_currency->name) ;?>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                      <label><?php echo _l('starting_salary_from'); ?></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control text-right" name="salary_to" value="" data-type="currency">
+
+                          <div class="input-group-addon">
+                            <div class="dropdown">
+                             <span class="discount-type-selected">
+                              <?php echo html_entity_decode($base_currency->name) ;?>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    </div>
 
                     <div class="col-md-6"> <?php echo render_date_input('from_date','from_date',''); ?></div>
                     <div class="col-md-6"> <?php echo render_date_input('to_date','to_date',''); ?></div>

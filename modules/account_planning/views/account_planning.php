@@ -276,7 +276,7 @@ function init_editor_mindmap(selector, settings) {
         browser_spellcheck: true,
         height: 400,
         theme: 'modern',
-        skin: 'perfex',
+        skin: 'babil',
         language: app.tinymce_lang,
         relative_urls: false,
         inline_styles: true,

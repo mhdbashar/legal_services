@@ -79,8 +79,6 @@ class Customers extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"customers", $id);
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -95,7 +93,7 @@ class Customers extends REST_Controller {
     }
 
     /**
-     * @api {get} api/customers/search/:keysearch Search Customer Information
+     * @api {get} api/customers/search/:keysearch Search Customer Information.
      * @apiName GetCustomerSearch
      * @apiGroup Customer
      *
@@ -149,8 +147,6 @@ class Customers extends REST_Controller {
         // Check if the data store contains
         if ($data)
         {
-            $data = $this->Api_model->get_api_custom_data($data,"customers");
-
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -246,7 +242,6 @@ class Customers extends REST_Controller {
      */
     public function data_post()
     {
-        \modules\api\core\Apiinit::check_url('api');
         // form validation
         $this->form_validation->set_rules('company', 'Company', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Company'));
         if ($this->form_validation->run() == FALSE)
@@ -286,17 +281,24 @@ class Customers extends REST_Controller {
                 'shipping_zip' => $this->Api_model->value($this->input->post('shipping_zip', TRUE)),
                 'shipping_country' => $this->Api_model->value($this->input->post('shipping_country', TRUE))
                 ];
-                if (!empty($this->input->post('custom_fields', TRUE))) {
-                    $insert_data['custom_fields'] = $this->Api_model->value($this->input->post('custom_fields', TRUE));
-                }
                 if($groups_in != ''){
                     $insert_data['groups_in'] = $groups_in;
                 }
 
             // insert data
+
+            $contact_data = [
+                'is_primary' => $this->Api_model->value($this->input->post('is_primary', TRUE)),
+                'firstname' => $this->Api_model->value($this->input->post('firstname', TRUE)),
+                'email' => $this->Api_model->value($this->input->post('email', TRUE)),
+                'datecreated' => $this->Api_model->value($this->input->post('datecreated', TRUE)),
+                'password' => $this->Api_model->value($this->input->post('password', TRUE)),
+                'email_verified_at' => $this->Api_model->value($this->input->post('email_verified_at', TRUE)),
+            ];
             $this->load->model('clients_model');
             $output = $this->clients_model->add($insert_data);
             if($output > 0 && !empty($output)){
+                $this->clients_model->add_contact($contact_data, $output, true);
                 // success
                 $message = array(
                 'status' => TRUE,
@@ -457,14 +459,6 @@ class Customers extends REST_Controller {
     public function data_put($id = '')
     {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")), true);
-        if(empty($_POST ) || !isset($_POST ))
-        {
-            $message = array(
-            'status' => FALSE,
-            'message' => 'Data Not Acceptable OR Not Provided'
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_ACCEPTABLE);
-        }
         $this->form_validation->set_data($_POST);
         
         if(empty($id) && !is_numeric($id))

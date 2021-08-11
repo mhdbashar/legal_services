@@ -9,9 +9,9 @@
 		$('select[name="list_commission[]"]').on('change', function() {
 		  	var amount = 0;
 		  	$.each($(this).val(), function( index, value ) {
-			  amount = amount + parseInt(list_commission[value]);
+			  amount = amount + parseFloat(list_commission[value]);
 			});
-			$('input[id="amount"]').val(amount);
+			$('input[id="amount"]').val(amount.toFixed(2));
 	  });
 	});
 </script>

@@ -70,8 +70,51 @@
                   </div>
 
                       <br>
+                      <!-- print barcode -->      
+                <?php echo form_open_multipart(admin_url('recruitment/item_print_candidate'), array('id'=>'item_print_candidate')); ?>      
+                <div class="modal bulk_actions" id="table_commodity_list_print_candidate" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><?php echo _l('print_candidate'); ?></h4>
+                      </div>
+                      <div class="modal-body">
+                        <?php if(has_permission('recruitment','','create') || is_admin()){ ?>
+
+                          <div class="row">
+                            <div class=" col-md-12">
+                              <div class="form-group">
+                                <select name="item_select_print_candidate[]" id="item_select_print_candidate" class="selectpicker" data-live-search="true" multiple="true" data-actions-box="true" data-width="100%" data-none-selected-text="<?php echo _l('select_candidate'); ?>">
+
+                                  <?php foreach($candidates as $candidate) { ?>
+                                    <option value="<?php echo html_entity_decode($candidate['id']); ?>"><?php echo html_entity_decode($candidate['candidate_code'].'-'.$candidate['candidate_name'].' '.$candidate['last_name']); ?></option>
+                                  <?php } ?>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                        <?php } ?>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+
+                        <?php if(has_permission('recruitment','','create') || is_admin()){ ?>
+
+                          <button type="submit" class="btn btn-info" ><?php echo _l('confirm'); ?></button>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <?php echo form_close(); ?>
+
+                <a href="#"  onclick="print_candidate_bulk_actions(); return false;" data-toggle="modal" data-table=".table-table_rec_candidate" data-target="#print_candidate_item" class=" hide print_candidate-bulk-actions-btn table-btn"><?php echo _l('print_candidate'); ?></a>
+
                     <?php render_datatable(array(
-                  	_l('candidate_code'),
+                  	_l('id'),
+                    _l('candidate_code'),
                   	_l('candidate_name'),
                   	_l('tranfer_personnel'),
                   	_l('status'),
@@ -106,7 +149,7 @@
                     <select name="candidate[]" id="candidate" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
 
                         <?php foreach ($candidates as $s) {?>
-                        <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name']); ?></option>
+                        <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['candidate_code'] . ' ' . $s['candidate_name'].' '.$s['last_name']); ?></option>
                           <?php }?>
                     </select>
                     <br><br>

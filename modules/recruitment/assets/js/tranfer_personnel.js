@@ -15,6 +15,7 @@ function new_setting_tranfer(){
 }
 function edit_setting_tranfer(invoker,id){
     "use strict";
+
     $('#additional_tranfer').html('');
     $('#additional_tranfer').append(hidden_input('id',id));
     $('#setting_tranfer input[name="subject"]').val($(invoker).data('subject'));
@@ -24,6 +25,9 @@ function edit_setting_tranfer(invoker,id){
           response = JSON.parse(response);
 
         tinyMCE.activeEditor.setContent(response.description);
+
+        $('#tranfer_personnel_attachments').empty();
+        $('#tranfer_personnel_attachments').append(response.htmlfile);
 
       });
     var _send_to = $(invoker).data('manager');
@@ -124,3 +128,51 @@ function change_send_to(invoker){
         $('select[name="email_to[]"]').removeAttr('required');
     }        
 }
+
+  //contract preview file
+  function preview_file_tranfer_personnel(invoker){
+    "use strict";
+
+    var id = $(invoker).attr('id');
+    var rel_id = $(invoker).attr('rel_id');
+    view_file_tranfer_personnel(id, rel_id);
+  }
+
+   //function view file
+  function view_file_tranfer_personnel(id, rel_id) {   
+      "use strict";
+
+      $('#personnel_attachments_file_data').empty();
+      $("#personnel_attachments_file_data").load(admin_url + 'recruitment/re_preview_transfer_personnal_file/' + id + '/' + rel_id, function(response, status, xhr) {
+          if (status == "error") {
+              alert_float('danger', xhr.statusText);
+          }
+      });
+  }
+
+    //function delete tranfer_personnel file 
+  function delete_tranfer_personnel_attachment(wrapper, id) {
+    "use strict";
+
+    if (confirm_delete()) {
+       $.get(admin_url + 'recruitment/delete_transfer_personnal_attachment_file/' + id, function (response) {
+          if (response.success == true) {
+             $(wrapper).parents('.contract-attachment-wrapper').remove();
+
+             var totalAttachmentsIndicator = $('.attachments-indicator');
+             var totalAttachments = totalAttachmentsIndicator.text().trim();
+             if(totalAttachments == 1) {
+               totalAttachmentsIndicator.remove();
+             } else {
+               totalAttachmentsIndicator.text(totalAttachments-1);
+             }
+
+             alert_float('success', response.message);
+          } else {
+             alert_float('danger', response.message);
+          }
+       }, 'json');
+    }
+    return false;
+   }
+

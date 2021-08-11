@@ -222,56 +222,6 @@ if(search_url(hijriPages,this_page) != 0){
 
 }
 
-if(window.location.href.replace(admin_url, '') == 'settings?group=device_sms'){
-    let sms_senders = "";
-
-    $.ajax({
-        type: 'Get',
-        url: admin_url + 'receive_sms/get_senders',
-        async: false,
-        success: function(data) {
-
-            sms_senders = JSON.parse(data).sms_senders;
-
-        },
-
-    });
-    var arr =[];
-    if(sms_senders != []){
-        arr = JSON.parse(sms_senders);
-    }
-
-    var i=0;
-    if (arr && arr.length != 0) {
-        $.each(arr, function( index, value ) {
-            $('#addr'+index).html("<td>"+ (index+1) +"</td><td><input name='sms_sender"+index+"' type='text' value='"+value+"'  class='form-control input-md'  /> </td>");
-
-            $('#tab_logic').append('<tr id="addr'+(index+1)+'"></tr>');
-            i = index+1;
-        });
-
-    } else {
-        $('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='sms_sender"+i+"' type='text' placeholder='Sender' class='form-control input-md'  /> </td>");
-        $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-        i=1;
-    }
-
-
-
-    $("#add_row").click(function(){
-        $('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='sms_sender"+i+"' type='text' placeholder='Sender' class='form-control input-md'  /> </td>");
-
-        $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-        i++;
-    });
-    $("#delete_row").click(function(){
-        if(i>1){
-            $("#addr"+(i-1)).html('');
-            i--;
-        }
-    });
-}
-
 var hijri_page = window.location.href;
 
 hijri_page = hijri_page.replace(admin_url,'');
@@ -459,7 +409,7 @@ function get_legal_services_by_slug() {
     }
     $.ajax({
         type: 'POST',
-        url: admin_url + 'LegalServices/LegalServices_controller/all_legal_services',
+        url: admin_url + 'legalservices/legal_services/all_legal_services',
         data: {
             clientid : clientid,
             slug : slug
@@ -514,7 +464,7 @@ $(function() {
 
         // Tasks not sortable
         var sessionsTableNotSortable = [0]; // bulk actions
-        var sessionsTableURL = admin_url + 'LegalServices/sessions/table';
+        var sessionsTableURL = admin_url + 'legalservices/sessions/table';
 
         if ($("body").hasClass('tasks-page')) {
             sessionsTableURL += '?bulk_actions=true';
@@ -539,7 +489,7 @@ $(function() {
         data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
         data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
         data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
-        $.post(admin_url + 'LegalServices/sessions/copy', data).done(function(response) {
+        $.post(admin_url + 'legalservices/sessions/copy', data).done(function(response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 var $taskModal = $('#_task_modal');
@@ -562,7 +512,7 @@ $(function() {
         if (data.follower !== '') {
             data.taskid = $(this).attr('data-task-id');
             $("body").append('<div class="dt-loader"></div>');
-            $.post(admin_url + 'LegalServices/Sessions/add_task_followers', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/add_task_followers', data).done(function(response) {
                 response = JSON.parse(response);
                 $("body").find('.dt-loader').remove();
                 _task_append_html(response.taskHtml);
@@ -577,7 +527,7 @@ $(function() {
         data.assignee = $('select[name="select-session-assignees"]').val();
         if (data.assignee !== '') {
             data.taskid = $(this).attr('data-task-id');
-            $.post(admin_url + 'LegalServices/Sessions/add_task_assignees', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/add_task_assignees', data).done(function(response) {
                 $("body").find('.dt-loader').remove();
                 response = JSON.parse(response);
                 reload_sessions_tables();
@@ -591,16 +541,20 @@ $(function() {
         e.preventDefault();
         var start_time = $("body").find('#task-modal input[name="timesheet_start_time"]').val();
         var end_time = $("body").find('#task-modal input[name="timesheet_end_time"]').val();
+        var ts_start_time = $("body").find('#task-modal input[name="ts_start_time"]').val();
+        var ts_end_time = $("body").find('#task-modal input[name="ts_end_time"]').val();
         var duration = $("body").find('#task-modal input[name="timesheet_duration"]').val();
-        if ((start_time !== '' && end_time !== '') || duration !== '') {
+        if ((start_time !== '' && end_time !== '' && ts_start_time !== '' && ts_end_time !== '') || duration !== '') {
             var data = {};
             data.timesheet_duration = duration;
             data.start_time = start_time;
             data.end_time = end_time;
+            data.ts_start_time = ts_start_time;
+            data.ts_end_time = ts_end_time;
             data.timesheet_task_id = $(this).data('task-id');
             data.note = $("body").find('#task_single_timesheet_note').val();
             data.timesheet_staff_id = $("body").find('#task-modal select[name="single_timesheet_staff_id"]').val();
-            $.post(admin_url + 'LegalServices/Sessions/log_time', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/log_time', data).done(function(response) {
                 response = JSON.parse(response);
                 if (response.success === true || response.success == 'true') {
                     init_session_modal(data.timesheet_task_id);
@@ -673,6 +627,35 @@ $(function() {
 
     //Form Phases
     appValidateForm($('#form_phases'), {});
+
+    //Disable manual typing in all datepicker
+    $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
+
+    /* Insert new checklist items on enter press */
+    $("body").on('keypress', 'textarea[name="checklist-description-session"]', function (event) {
+        if (event.which == '13') {
+            var that = $(this);
+            update_session_checklist_item(that).done(function () {
+                add_session_checklist_item(that.attr('data-taskid'));
+            });
+            return false;
+        }
+    });
+
+    /* Update session checklist items when focusing out */
+    $("body").on('blur paste', 'textarea[name="checklist-description-session"]', function () {
+        update_session_checklist_item($(this));
+    });
+
+});
+
+$(document).on('show.bs.modal', '.modal', function () {
+    // run your validation... ( or shown.bs.modal )
+    $(".datepicker,.datetimepicker").keypress(function(event) {event.preventDefault();});
+    //Add 5 min step to all datetimepicker
+    $(".datetimepicker").datetimepicker({
+        step: 5
+    });
 });
 
 $(document).ready(function() {
@@ -743,7 +726,7 @@ function init_table_staff_cases(manual) {
         staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    initDataTable('.table-staff-cases', admin_url + 'LegalServices/Cases_controller/staff_cases', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+    initDataTable('.table-staff-cases', admin_url + 'legalservices/cases/staff_cases', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
 }
 
 // Staff services table in staff profile
@@ -758,7 +741,7 @@ function init_table_staff_services(manual) {
         staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    initDataTable('.table-staff-services', admin_url + 'LegalServices/Other_services_controller/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+    initDataTable('.table-staff-services', admin_url + 'legalservices/other_services/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
 }
 
 // Reload all session possible table where the table data needs to be refreshed after an action is performed on session.
@@ -783,7 +766,7 @@ function reload_sessions_tables() {
 //         queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
 //     }
 //
-//     requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
+//     requestGet('legalservices/sessions/get_task_data/' + task_id + queryStr).done(function(response) {
 //         _task_append_html(response);
 //         if (typeof(comment_id) != 'undefined') {
 //             setTimeout(function() {
@@ -798,7 +781,7 @@ function reload_sessions_tables() {
 
 // New session function, various actions performed
 function new_session(url) {
-    url = typeof(url) != 'undefined' ? url : admin_url + 'LegalServices/Sessions/task';
+    url = typeof(url) != 'undefined' ? url : admin_url + 'legalservices/sessions/task';
 
     var $leadModal = $('#lead-modal');
     if ($leadModal.is(':visible')) {
@@ -858,7 +841,7 @@ function sessions_bulk_action(event) {
         data.ids = ids;
         $(event).addClass('disabled');
         setTimeout(function() {
-            $.post(admin_url + 'LegalServices/Sessions/bulk_action', data).done(function() {
+            $.post(admin_url + 'legalservices/sessions/bulk_action', data).done(function() {
                 window.location.reload();
             });
         }, 200);
@@ -871,7 +854,7 @@ function new_session_from_relation(table, rel_type, rel_id) {
         rel_id = $(table).data('new-rel-id');
         rel_type = $(table).data('new-rel-type');
     }
-    var url = admin_url + 'LegalServices/Sessions/task?rel_id=' + rel_id + '&rel_type=' + rel_type;
+    var url = admin_url + 'legalservices/sessions/task?rel_id=' + rel_id + '&rel_type=' + rel_type;
     new_session(url);
 }
 
@@ -888,7 +871,7 @@ function init_session_modal(task_id, comment_id) {
         queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
     }
 
-    requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
+    requestGet('legalservices/sessions/get_task_data/' + task_id + queryStr).done(function(response) {
         _task_append_html(response);
         if (typeof(comment_id) != 'undefined') {
             setTimeout(function() {
@@ -903,7 +886,7 @@ function init_session_modal(task_id, comment_id) {
 
 // Change session priority from sigle modal
 function session_change_priority(priority_id, task_id) {
-    url = 'LegalServices/Sessions/change_priority/' + priority_id + '/' + task_id;
+    url = 'legalservices/sessions/change_priority/' + priority_id + '/' + task_id;
     var taskModalVisible = $('#task-modal').is(':visible');
     url += '?single_task=' + taskModalVisible;
     requestGetJSON(url).done(function(response) {
@@ -916,7 +899,7 @@ function session_change_priority(priority_id, task_id) {
 
 // Go to edit view
 function edit_session(task_id) {
-    requestGet('LegalServices/Sessions/task/' + task_id).done(function(response) {
+    requestGet('legalservices/sessions/task/' + task_id).done(function(response) {
         $('#_task').html(response);
         $('#task-modal').modal('hide');
         $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
@@ -925,7 +908,7 @@ function edit_session(task_id) {
 
 // Mark session status
 function session_mark_as(status, task_id, url) {
-    url = typeof(url) == 'undefined' ? 'LegalServices/Sessions/mark_as/' + status + '/' + task_id : url;
+    url = typeof(url) == 'undefined' ? 'legalservices/sessions/mark_as/' + status + '/' + task_id : url;
     var taskModalVisible = $('#task-modal').is(':visible');
     url += '?single_task=' + taskModalVisible;
     $("body").append('<div class="dt-loader"></div>');
@@ -952,7 +935,7 @@ function new_session_reminder(id) {
         });
 
         $('#taskReminderFormSubmit').html(app.lang.create_reminder);
-        $container.find('form').attr('action', admin_url + 'LegalServices/Sessions/add_reminder/' + id);
+        $container.find('form').attr('action', admin_url + 'legalservices/sessions/add_reminder_session/' + id);
 
         $container.find('#description').val('');
         $container.find('#date').val('');
@@ -999,7 +982,7 @@ function edit_session_reminder(id, e) {
                     }, 'fast');
                 }
             }
-            actionURL = admin_url + 'LegalServices/Sessions/edit_reminder/' + id;
+            actionURL = admin_url + 'legalservices/sessions/edit_reminder/' + id;
             $('#taskReminderFormSubmit').html(app.lang.save);
         }
 
@@ -1019,7 +1002,7 @@ function edit_session_reminder(id, e) {
 // Remove session assignee
 function remove_session_assignee(id, task_id) {
     if (confirm_delete()) {
-        requestGetJSON('LegalServices/Sessions/remove_assignee/' + id + '/' + task_id).done(function(response) {
+        requestGetJSON('legalservices/sessions/remove_assignee/' + id + '/' + task_id).done(function(response) {
             if (response.success === true || response.success == 'true') {
                 alert_float('success', response.message);
                 _task_append_html(response.taskHtml);
@@ -1031,7 +1014,7 @@ function remove_session_assignee(id, task_id) {
 // Remove session follower
 function remove_session_follower(id, task_id) {
     if (confirm_delete()) {
-        requestGetJSON('LegalServices/Sessions/remove_follower/' + id + '/' + task_id).done(function(response) {
+        requestGetJSON('legalservices/sessions/remove_follower/' + id + '/' + task_id).done(function(response) {
             if (response.success === true || response.success == 'true') {
                 alert_float('success', response.message);
                 _task_append_html(response.taskHtml);
@@ -1050,7 +1033,7 @@ function save_session_edited_comment(id, task_id) {
     if (is_ios()) {
         data.no_editor = true;
     }
-    $.post(admin_url + 'LegalServices/Sessions/edit_comment', data).done(function(response) {
+    $.post(admin_url + 'legalservices/sessions/edit_comment', data).done(function(response) {
         response = JSON.parse(response);
         if (response.success === true || response.success == 'true') {
             alert_float('success', response.message);
@@ -1077,7 +1060,7 @@ function add_session_comment(task_id) {
         data.no_editor = true;
     }
     data.taskid = task_id;
-    $.post(admin_url + 'LegalServices/Sessions/add_task_comment', data).done(function(response) {
+    $.post(admin_url + 'legalservices/sessions/add_task_comment', data).done(function(response) {
         response = JSON.parse(response);
         _task_append_html(response.taskHtml);
         // Remove task comment editor instance
@@ -1109,7 +1092,7 @@ function timer_session_action(e, task_id, timer_id, adminStop) {
         popupData.message = app.lang.task_stop_timer;
         var $popupHTML = system_popup(popupData);
         $popupHTML.attr('id', 'timer-select-task');
-        init_ajax_search('tasks', '#timer_add_task_id', undefined, admin_url + 'LegalServices/Sessions/ajax_search_assign_task_to_timer');
+        init_ajax_search('tasks', '#timer_add_task_id', undefined, admin_url + 'legalservices/sessions/ajax_search_assign_task_to_timer');
         return false;
     }
 
@@ -1121,7 +1104,7 @@ function timer_session_action(e, task_id, timer_id, adminStop) {
     data.note = $("body").find('#timesheet_note').val();
     if (!data.note) { data.note = ''; }
     var taskModalVisible = $('#task-modal').is(':visible');
-    var reqUrl = admin_url + 'LegalServices/Sessions/timer_tracking?single_task=' + taskModalVisible;
+    var reqUrl = admin_url + 'legalservices/sessions/timer_tracking?single_task=' + taskModalVisible;
     if (adminStop) {
         reqUrl += '&admin_stop=' + adminStop;
     }
@@ -1148,14 +1131,14 @@ function timer_session_action(e, task_id, timer_id, adminStop) {
 
 // Fetches all staff timers and append to DOM
 function init_session_timers() {
-    requestGetJSON('LegalServices/Sessions/get_staff_started_timers').done(function(response) {
+    requestGetJSON('legalservices/sessions/get_staff_started_timers').done(function(response) {
         _init_timers_top_html(response);
     });
 }
 
 // Tracking stats modal from session single
 function session_tracking_stats(id) {
-    requestGet('LegalServices/Sessions/task_tracking_stats/' + id).done(function(response) {
+    requestGet('legalservices/sessions/task_tracking_stats/' + id).done(function(response) {
         $('<div/>', { id: 'tracking-stats' }).appendTo('body').html(response);
         $('#task-tracking-stats-modal').modal('toggle');
     });
@@ -1168,22 +1151,17 @@ function session_mark_complete(task_id) {
 
 // Unmarking session as complete
 function session_unmark_complete(task_id) {
-    session_mark_as(4, task_id, 'LegalServices/Sessions/unmark_complete/' + task_id);
+    session_mark_as(4, task_id, 'legalservices/sessions/unmark_complete/' + task_id);
 }
 
 // Makes session public with AJAX request
 function make_session_public(task_id) {
-    requestGetJSON('LegalServices/Sessions/make_public/' + task_id).done(function(response) {
+    requestGetJSON('legalservices/sessions/make_public/' + task_id).done(function(response) {
         if (response.success === true || response.success == 'true') {
             reload_sessions_tables();
             _task_append_html(response.taskHtml);
         }
     });
-}
-
-// Init session kan ban
-function sessions_kanban() {
-    init_kanban('LegalServices/Sessions/kanban', sessions_kanban_update, '.tasks-status', 265, 360);
 }
 
 // Updates session when action performed form kan ban area eq status changed.
@@ -1203,7 +1181,7 @@ function sessions_kanban_update(ui, object) {
         session_mark_as(status, $(ui.item).data('task-id'));
         check_kanban_empty_col('[data-task-id]');
         setTimeout(function () {
-            $.post(admin_url + 'LegalServices/Sessions/update_order', data);
+            $.post(admin_url + 'legalservices/sessions/update_order', data);
         }, 200);
     }
 }
@@ -1241,7 +1219,7 @@ function session_form_handler(form) {
         }
 
         if (window._timer_id) {
-            requestGet(admin_url + '/LegalServices/Sessions/get_task_by_id/' + response.id).done(function (response) {
+            requestGet(admin_url + '/legalservices/sessions/get_task_by_id/' + response.id).done(function (response) {
                 $('[data-timer-id="' + window._timer_id + '"').click();
                 response = JSON.parse(response);
                 var option = '<option value="' + response.id + '" title="' + response.name + '" selected>' + response.name + '</option>';
@@ -1301,7 +1279,7 @@ function edit_session_inline_description(e, id) {
     tinymce.init({
         selector: '#task_view_description',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         contextmenu: "link table paste pastetext",
@@ -1314,7 +1292,7 @@ function edit_session_inline_description(e, id) {
         setup: function (editor) {
             editor.on('blur', function (e) {
                 if (editor.isDirty()) {
-                    $.post(admin_url + 'LegalServices/Sessions/update_task_description/' + id, {
+                    $.post(admin_url + 'legalservices/sessions/update_task_description/' + id, {
                         description: editor.getContent()
                     });
                 }
@@ -1335,7 +1313,7 @@ function add_session_checklist_item(task_id, description, e) {
 
     description = typeof (description) == 'undefined' ? '' : description;
 
-    $.post(admin_url + 'LegalServices/Sessions/add_checklist_item', {
+    $.post(admin_url + 'legalservices/sessions/add_checklist_item', {
         taskid: task_id,
         description: description
     }).done(function () {
@@ -1349,7 +1327,7 @@ function add_session_checklist_item(task_id, description, e) {
 
 // Fetches session checklist items.
 function init_session_checklist_items(is_new, task_id) {
-    $.post(admin_url + 'LegalServices/Sessions/init_checklist_items', {
+    $.post(admin_url + 'legalservices/sessions/init_checklist_items', {
         taskid: task_id
     }).done(function (data) {
         $('#checklist-items').html(data);
@@ -1378,13 +1356,13 @@ function update_session_checklist_order() {
     });
     var data = {};
     data.order = order;
-    $.post(admin_url + 'LegalServices/Sessions/update_checklist_order', data);
+    $.post(admin_url + 'legalservices/sessions/update_checklist_order', data);
 }
 
 // Deletes session comment from database
 function remove_session_comment(commentid) {
     if (confirm_delete()) {
-        requestGetJSON('LegalServices/Sessions/remove_comment/' + commentid).done(function (response) {
+        requestGetJSON('legalservices/sessions/remove_comment/' + commentid).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 $('[data-commentid="' + commentid + '"]').remove();
                 $('[data-comment-attachment="' + commentid + '"]').remove();
@@ -1395,7 +1373,7 @@ function remove_session_comment(commentid) {
 }
 
 function sessionExternalFileUpload(files, externalType, taskId) {
-    $.post(admin_url + 'LegalServices/Sessions/add_external_attachment', {
+    $.post(admin_url + 'legalservices/sessions/add_external_attachment', {
         files: files,
         task_id: taskId,
         external: externalType
@@ -1408,7 +1386,7 @@ function send_written_report (report_id, service_id, msg) {
     var res = confirm(""+msg+"");
     if(res){
         $.ajax({
-            url: admin_url + 'Written_reports/send_mail_to_client/' + report_id + '/' + service_id,
+            url: admin_url + 'written_reports/send_mail_to_client/' + report_id + '/' + service_id,
             success: function (data) {
                 if(data[0] == 1){
                     alert_float('success', data[1]);
@@ -1445,7 +1423,7 @@ function init_previous_sessions_log_table(rel_id, rel_type, selector) {
         TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    var url = admin_url + 'LegalServices/Sessions/init_previous_sessions_log/' + rel_id + '/' + rel_type;
+    var url = admin_url + 'legalservices/sessions/init_previous_sessions_log/' + rel_id + '/' + rel_type;
 
     if ($selector.attr('data-new-rel-type') == rel_type) {
         url += '?bulk_actions=true';
@@ -1470,7 +1448,7 @@ function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
         TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    var url = admin_url + 'LegalServices/Sessions/init_waiting_sessions_log/' + rel_id + '/' + rel_type;
+    var url = admin_url + 'legalservices/sessions/init_waiting_sessions_log/' + rel_id + '/' + rel_type;
 
     if ($selector.attr('data-new-rel-type') == rel_type) {
         url += '?bulk_actions=true';
@@ -1504,7 +1482,7 @@ function edit_session_inline_court_decision(e, id) {
     tinymce.init({
         selector: '#court_decision',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',
@@ -1516,7 +1494,7 @@ function edit_session_inline_court_decision(e, id) {
         setup: function(editor) {
             editor.on('blur', function(e) {
                 if (editor.isDirty()) {
-                    $.post(admin_url + 'LegalServices/Sessions/update_session_court_decision/' + id, {
+                    $.post(admin_url + 'legalservices/sessions/update_session_court_decision/' + id, {
                         court_decision: editor.getContent()
                     });
                 }
@@ -1543,7 +1521,7 @@ function edit_session_inline_session_information(e, id) {
     tinymce.init({
         selector: '#session_information',
         theme: 'inlite',
-        skin: 'perfex',
+        skin: 'babil',
         auto_focus: "task_view_description",
         plugins: 'table link paste contextmenu textpattern',
         insert_toolbar: 'quicktable',
@@ -1555,7 +1533,7 @@ function edit_session_inline_session_information(e, id) {
         setup: function(editor) {
             editor.on('blur', function(e) {
                 if (editor.isDirty()) {
-                    $.post(admin_url + 'LegalServices/Sessions/update_session_information/' + id, {
+                    $.post(admin_url + 'legalservices/sessions/update_session_information/' + id, {
                         session_information: editor.getContent()
                     });
                 }
@@ -1606,11 +1584,60 @@ function init_rel_sessions_table(rel_id, rel_type, selector) {
         TasksServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    var url = admin_url + 'LegalServices/Sessions/init_relation_tasks/' + rel_id + '/' + rel_type;
+    var url = admin_url + 'legalservices/sessions/init_relation_tasks/' + rel_id + '/' + rel_type;
 
     if ($selector.attr('data-new-rel-type') == 'project') {
         url += '?bulk_actions=true';
     }
 
     initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
+}
+
+// New session checklist items template
+function save_checklist_item_template_session(id, field) {
+    var description = $('.checklist[data-checklist-id="' + id + '"] textarea').val();
+    $.post(admin_url + 'legalservices/sessions/save_checklist_item_template', {
+        description: description
+    }).done(function (response) {
+        response = JSON.parse(response);
+        $(field).addClass('hide');
+        var singleChecklistTemplate = $('.checklist-templates-wrapper');
+        singleChecklistTemplate.find('select option[value=""]').after('<option value="' + response.id + '">' + description.trim() + '</option>');
+        singleChecklistTemplate.removeClass('hide');
+        singleChecklistTemplate.find('select').selectpicker('refresh');
+    });
+}
+
+function update_session_checklist_item(textArea) {
+    var deferred = $.Deferred();
+    setTimeout(function () {
+        var description = textArea.val();
+        description = description.trim();
+        var listid = textArea.parents('.checklist').data('checklist-id');
+
+        $.post(admin_url + 'legalservices/sessions/update_checklist_item', {
+            description: description,
+            listid: listid
+        }).done(function (response) {
+            deferred.resolve();
+            response = JSON.parse(response);
+            if (response.can_be_template === true) {
+                textArea.parents('.checklist').find('.save-checklist-template').removeClass('hide');
+            }
+            if (description === '') {
+                $('#checklist-items').find('.checklist[data-checklist-id="' + listid + '"]').remove();
+            }
+        });
+    }, 300);
+    return deferred.promise();
+}
+
+// Remove session checklist item from the session
+function delete_checklist_item_session(id, field) {
+    requestGetJSON('legalservices/sessions/delete_checklist_item/' + id).done(function (response) {
+        if (response.success === true || response.success == 'true') {
+            $(field).parents('.checklist').remove();
+            recalculate_checklist_items_progress();
+        }
+    });
 }

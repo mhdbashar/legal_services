@@ -240,7 +240,7 @@ class App_gateway
      */
     public function decryptSetting($name)
     {
-        return trim($this->ci->encryption->decrypt($this->getSetting($name)));
+        //return trim($this->ci->encryption->decrypt($this->getSetting($name)));
     }
 
     /**

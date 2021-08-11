@@ -31,26 +31,18 @@
           ?>
           <?php 
             $_index = $row_index;
-            foreach ($data_report['data']['income'] as $key => $value) { 
-              $row_index += 1;
+            $data = $this->accounting_model->get_html_profit_and_loss_comparison($data_report['data']['income'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_income = $data['total_amount'];
+            $total_py_income = $data['total_py_amount'];
+
             ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['this_year']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['last_year']); ?> 
-              </td>
-            </tr>
-          <?php } ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_income'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['income'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['income'], $currency->name); ?></td>
+            <td class="total_amount"><?php echo app_format_money($total_income, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_income, $currency->name); ?></td>
           </tr>
           <?php $row_index += 1;
             $parent_index = $row_index;
@@ -60,32 +52,25 @@
             <td></td>
             <td></td>
           </tr>
-          <?php foreach ($data_report['data']['cost_of_sales'] as $key => $value) {
-            $row_index += 1;
-           ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['this_year']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['last_year']); ?>
-              </td>
-            </tr>
-          <?php } ?>
+          <?php 
+          $data = $this->accounting_model->get_html_profit_and_loss_comparison($data_report['data']['cost_of_sales'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_cost_of_sales = $data['total_amount'];
+            $total_py_cost_of_sales = $data['total_py_amount'];
+
+          ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_cost_of_sales'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['cost_of_sales'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['cost_of_sales'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_cost_of_sales, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_cost_of_sales, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('gross_profit_uppercase'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['income'] - $data_report['this_year']['cost_of_sales'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['income'] - $data_report['last_year']['cost_of_sales'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_income - $total_cost_of_sales, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_income - $total_py_cost_of_sales, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
             $parent_index = $row_index;
@@ -95,26 +80,19 @@
             <td></td>
             <td></td>
           </tr>
-          <?php foreach ($data_report['data']['other_income'] as $key => $value) {
-            $row_index += 1;
-           ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['this_year']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['last_year']); ?> 
-              </td>
-            </tr>
-          <?php } ?>
+          <?php 
+          $data = $this->accounting_model->get_html_profit_and_loss_comparison($data_report['data']['other_income'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_other_income = $data['total_amount'];
+            $total_py_other_income = $data['total_py_amount'];
+
+          ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_other_income_loss'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['other_income'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['other_income'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_other_income, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_other_income, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
             $parent_index = $row_index;
@@ -124,26 +102,19 @@
             <td></td>
             <td></td>
           </tr>
-          <?php foreach ($data_report['data']['expenses'] as $key => $value) { 
-            $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['this_year']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['last_year']); ?>
-              </td>
-            </tr>
-          <?php } ?>
+          <?php 
+          $data = $this->accounting_model->get_html_profit_and_loss_comparison($data_report['data']['expenses'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_expenses = $data['total_amount'];
+            $total_py_expenses = $data['total_py_amount'];
+
+           ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_expenses'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['expenses'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['expenses'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_expenses, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_expenses, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
             $parent_index = $row_index;
@@ -153,33 +124,25 @@
             <td></td>
             <td></td>
           </tr>
-          <?php foreach ($data_report['data']['other_expenses'] as $key => $value) { 
-            $row_index += 1;
-            ?>
-            <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?>">
-              <td>
-              <?php echo html_entity_decode($value['name']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['this_year']); ?> 
-              </td>
-              <td class="total_amount">
-              <?php echo html_entity_decode($value['last_year']); ?> 
-              </td>
-            </tr>
-          <?php } 
+          <?php 
+            $data = $this->accounting_model->get_html_profit_and_loss_comparison($data_report['data']['other_expenses'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $row_index = $data['row_index'];
+            echo html_entity_decode($data['html']);
+            $total_other_expenses = $data['total_amount'];
+            $total_py_other_expenses = $data['total_py_amount'];
+            
             $row_index += 1;
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_other_expenses'); ?></td>
-            <td class="total_amount"><?php echo app_format_money($data_report['this_year']['other_expenses'], $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money($data_report['last_year']['other_expenses'], $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_other_expenses, $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money($total_py_other_expenses, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('net_earnings_uppercase'); ?></td>
-            <td class="total_amount"><?php echo app_format_money(($data_report['this_year']['income'] - $data_report['this_year']['cost_of_sales']) - ($data_report['this_year']['other_income'] + $data_report['this_year']['expenses'] + $data_report['this_year']['other_expenses']), $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money(($data_report['last_year']['income'] - $data_report['last_year']['cost_of_sales']) - ($data_report['last_year']['other_income'] + $data_report['last_year']['expenses'] + $data_report['last_year']['other_expenses']), $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money(($total_income + $total_other_income) - ($total_cost_of_sales + $total_expenses + $total_other_expenses), $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money(($total_py_income + $total_py_other_income) - ($total_py_cost_of_sales + $total_py_expenses + $total_py_other_expenses), $currency->name); ?> </td>
           </tr>
         </tbody>
     </table>

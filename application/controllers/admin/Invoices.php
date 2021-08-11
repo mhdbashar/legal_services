@@ -9,7 +9,7 @@ class Invoices extends AdminController
         parent::__construct();
         $this->load->model('invoices_model');
         $this->load->model('credit_notes_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* Get all invoices in case user go on index page */

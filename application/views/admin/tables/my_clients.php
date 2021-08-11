@@ -290,7 +290,7 @@ foreach ($rResult as $aRow) {
 
     // $row[] = $groupsRow;
 
-    $row[] = _dha($aRow['datecreated']);
+    $row[] = _gregorian_hijri_date($aRow['datecreated']);
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));

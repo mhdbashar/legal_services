@@ -92,8 +92,10 @@ foreach ($rResult as $aRow) {
 
             $name .= '<a href="' . admin_url('recruitment/recruitment_proposal/' . $aRow['id'] ).'" onclick="init_recruitment_proposal('.$aRow['id'].'); return false;">' . _l('view') . '</a>';
 
-            if (has_permission('recruitment', '', 'edit') || is_admin()) {
-                $name .= ' | <a href="#" onclick='.'"'.'edit_proposal(this,' . $aRow['id'] . '); return false;'.'"'.' data-proposal_name="'.$aRow['proposal_name'].'" data-position="'.$aRow['position'].'" data-form_work="'.$aRow['form_work'].'" data-department="'.$aRow['department'].'" data-amount_recruiment="'.$aRow['amount_recruiment'].'" data-workplace="'.$aRow['workplace'].'" data-salary_from="'.app_format_money($aRow['salary_from'],'').'" data-salary_to="'.app_format_money($aRow['salary_to'],'').'" data-from_date="'._d($aRow['from_date']).'" data-to_date="'._d($aRow['to_date']).'" data-ages_to="'.$aRow['ages_to'].'" data-ages_from="'.$aRow['ages_from'].'" data-height="'.$aRow['height'].'" data-weight="'.$aRow['weight'].'" data-reason_recruitment="'.$aRow['reason_recruitment'].'" data-approver="'.$aRow['approver'].'" data-gender="'.$aRow['gender'].'" data-literacy="'.$aRow['literacy'].'" data-experience="'.$aRow['experience'].'"  >' ._l('edit') . '</a>';
+            if($aRow['status'] == 1 ){
+                if (has_permission('recruitment', '', 'edit') || is_admin()) {
+                    $name .= ' | <a href="#" onclick='.'"'.'edit_proposal(this,' . $aRow['id'] . '); return false;'.'"'.' data-proposal_name="'.$aRow['proposal_name'].'" data-position="'.$aRow['position'].'" data-form_work="'.$aRow['form_work'].'" data-department="'.$aRow['department'].'" data-amount_recruiment="'.$aRow['amount_recruiment'].'" data-workplace="'.$aRow['workplace'].'" data-salary_from="'.app_format_money($aRow['salary_from'],'').'" data-salary_to="'.app_format_money($aRow['salary_to'],'').'" data-from_date="'._d($aRow['from_date']).'" data-to_date="'._d($aRow['to_date']).'" data-ages_to="'.$aRow['ages_to'].'" data-ages_from="'.$aRow['ages_from'].'" data-height="'.$aRow['height'].'" data-weight="'.$aRow['weight'].'" data-reason_recruitment="'.$aRow['reason_recruitment'].'" data-approver="'.$aRow['approver'].'" data-gender="'.$aRow['gender'].'" data-literacy="'.$aRow['literacy'].'" data-experience="'.$aRow['experience'].'"  >' ._l('edit') . '</a>';
+                }
             }
 
             if (has_permission('recruitment', '', 'delete') || is_admin()) {

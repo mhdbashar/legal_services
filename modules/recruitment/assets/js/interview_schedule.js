@@ -1,3 +1,4 @@
+  var addMoreCandidateInputKey;
 (function($) {
   "use strict";  
   initDataTable('.table-table_interview', admin_url+'recruitment/table_interview');
@@ -15,7 +16,8 @@
     datepicker: false,
     format: 'H:i'
   });
-  var addMoreCandidateInputKey = $('.list_candidates input[name*="email"]').length;
+
+   addMoreCandidateInputKey = $('.list_candidates input[name*="email"]').length;
     $("body").on('click', '.new_candidates', function() {
          if ($(this).hasClass('disabled')) { return false; }
 
@@ -58,10 +60,20 @@ function new_interview_schedule() {
    $('select[id="candidate"]').val('').change();
    $('select[id="interviewer"]').val('').change();
    $('input[id="is_name"]').val('').change();
+   $('input[id="from_time"]').val('');
+   $('input[id="to_time"]').val('');
    $('select[id="campaign"]').val('').change();
    job_position ='';
    $('input[id="email"]').val('');
    $('input[id="phonenumber"]').val('');
+
+   requestGetJSON('recruitment/get_candidate_sample').done(function (response) {
+    addMoreCandidateInputKey = response.total_candidate;
+
+    $('.list_candidates').html('');
+    $('.list_candidates').append(response.html);
+    $('.selectpicker').selectpicker('refresh');
+  });
 
  }
 
@@ -94,11 +106,21 @@ function new_interview_schedule() {
   $('#interview_schedules_modal input[name="interview_day"]').val($(invoker).data('interview_day'));
   $('#interview_schedules_modal input[name="from_time"]').val($(invoker).data('from_time'));
   $('#interview_schedules_modal input[name="to_time"]').val($(invoker).data('to_time'));
-  var interviewer = $(invoker).data('interviewer') + '';
-  $('#interview_schedules_modal select[id="interviewer"]').val(interviewer.split(',')).change();
+
+    var interviewer = $(invoker).data('interviewer');
+    if(typeof(interviewer) == "string"){
+        $('#interview_schedules_modal select[name="interviewer[]"]').val( ($(invoker).data('interviewer')).split(',')).change();
+    }else{
+       $('#interview_schedules_modal select[name="interviewer[]"]').val($(invoker).data('interviewer')).change();
+
+    }
+     $('.selectpicker').selectpicker('refresh');
+
 
   $.post(admin_url + 'recruitment/get_candidate_edit_interview/'+id).done(function(response) {
     response = JSON.parse(response);
+    addMoreCandidateInputKey = response.total_candidate;
+
     $('.list_candidates').html('');
     $('.list_candidates').append(response.html);
     $('.selectpicker').selectpicker('refresh');

@@ -9,11 +9,26 @@ class Api_model extends App_Model
     }
     public function get_table($name, $id)
     {
-        \modules\api\core\Apiinit::check_url('api');
         switch ($name) {
             case 'projects':
                 $this->load->model('Projects_model');
                 return $this->Projects_model->get($id);
+                break;
+            case 'cases':
+                $this->load->model('legalservices/Cases_model', 'case');  
+                return $this->case->get($id);
+                break;
+            case 'Service2':
+                $this->load->model('legalservices/Other_services_model', 'other');  
+                return $this->other->get(2, $id);
+                break;
+            case 'Service3':
+                $this->load->model('legalservices/Other_services_model', 'other');  
+                return $this->other->get(3, $id);
+                break;
+            case 'Service10':
+                $this->load->model('legalservices/Other_services_model', 'other');  
+                return $this->other->get(10, $id);
                 break;
             case 'tasks':
                 $this->load->model('Tasks_model');
@@ -35,17 +50,17 @@ class Api_model extends App_Model
                 $this->load->model('Clients_model');
                 return $this->Clients_model->get($id);
                 break;
+            case 'opponents':
+                $this->load->model('Opponents_model');
+                return $this->Opponents_model->get($id);
+                break;
             case 'contracts':
                 $this->load->model('Contracts_model');
                 return $this->Contracts_model->get($id);
                 break;
             case 'invoices':
                 $this->load->model('Invoices_model');
-                $data = $this->Invoices_model->get($id);
-                if (!empty($data) && !empty($id)) {
-                    $data->items = $this->get_api_custom_data($data->items,"items", '', true);
-                }
-                return $data;
+                return $this->Invoices_model->get($id);
                 break;
             case 'estimates':
                 $this->load->model('Estimates_model');
@@ -83,24 +98,11 @@ class Api_model extends App_Model
                 $this->load->model('Annex_model');
                 return $this->Annex_model->get($id);
                 break;
-            case 'contacts':
-                $this->load->model('Clients_model');
-                return $this->clients_model->get_contact($id);
-                break;
-            case 'all_contacts':
-                $this->load->model('Clients_model');
-                return $this->clients_model->get_contacts($id);
-                break;
-            case 'invoices':
-                $this->load->model('invoices_model');
-                return $this->invoices_model->get($id);
-                break;
-            case 'invoice_items':
-                $this->load->model('invoice_items_model');
-                return $this->invoice_items_model->get($id);
-                break;
             case 'milestones':
                 return $this->get_milestones_api($id);
+                break;
+            case 'imported_services':
+                return $this->get_imported_servcies_api($id);
                 break;
             default:
                 return '';
@@ -119,13 +121,30 @@ class Api_model extends App_Model
 
     public function search($type, $key)
     {
-        \modules\api\core\Apiinit::check_url('api');
         return $this->get_relation_data_api($type,$key);
     }
-    
+
+    public function login($username, $password)
+    {
+        $this->db->where('email', $username);
+        $user = $this->db->get(db_prefix() . 'staff')->row();
+        var_dump($user->password);
+        var_dump(md5($password));
+        if(count($user) > 0)
+        {
+            $user_pass = $user->password;
+            if(md5($password) === $user_pass)
+            {
+                return $user;
+            }else{
+                return FALSE;
+            }
+        }else{
+            return FALSE;
+        }
+    }
     public function _search_tickets($q, $limit = 0, $api = false)
     {
-        $fields = get_custom_fields('tickets');
         $result = [
             'result'         => [],
             'type'           => 'tickets',
@@ -154,18 +173,13 @@ class Api_model extends App_Model
             }
 
             $this->db->select();
-            $this->db->from('tbltickets');
-            $this->db->join('tbldepartments', 'tbldepartments.departmentid = tbltickets.department');
-            $this->db->join('tblclients', 'tblclients.userid = tbltickets.userid', 'left');
-            $this->db->join('tblcontacts', 'tblcontacts.id = tbltickets.contactid', 'left');
+            $this->db->from(db_prefix() . 'tickets');
+            $this->db->join(db_prefix() . 'departments', db_prefix() . 'departments.departmentid = '.db_prefix().'tickets.department');
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = '.db_prefix() . 'tickets.userid', 'left');
+            $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = '.db_prefix() . 'tickets.contactid', 'left');
 
 
             if (!_startsWith($q, '#')) {
-                $where_string = "";
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'tickets.ticketid = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="tickets" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $where_string .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-                }
                 $this->db->where('(
                     ticketid LIKE "' . $q . '%"
                     OR subject LIKE "%' . $q . '%"
@@ -180,7 +194,6 @@ class Api_model extends App_Model
                     OR state LIKE "%' . $q . '%"
                     OR address LIKE "%' . $q . '%"
                     OR tbldepartments.name LIKE "%' . $q . '%"
-                    '. $where_string .'
                     )');
 
                 if ($where != '') {
@@ -207,7 +220,6 @@ class Api_model extends App_Model
 
      public function _search_leads($q, $limit = 0, $where = [], $api = false)
     {
-        $fields = get_custom_fields('leads');
         $result = [
             'result'         => [],
             'type'           => 'leads',
@@ -217,19 +229,14 @@ class Api_model extends App_Model
         $has_permission_view = has_permission('leads', '', 'view');
         if (is_staff_member() || $api == true) {
             // Leads
-            $this->db->select('tblleads.*');
-            $this->db->from('tblleads');
+            $this->db->select();
+            $this->db->from(db_prefix() . 'leads');
 
             if (!$has_permission_view && $api == false) {
                 $this->db->where('(assigned = ' . get_staff_user_id() . ' OR addedfrom = ' . get_staff_user_id() . ' OR is_public=1)');
             }
 
             if (!_startsWith($q, '#')) {
-                $where_string = "";
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'leads.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="leads" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $where_string .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-                }
                 $this->db->where('(name LIKE "%' . $q . '%"
                     OR title LIKE "%' . $q . '%"
                     OR company LIKE "%' . $q . '%"
@@ -239,7 +246,6 @@ class Api_model extends App_Model
                     OR address LIKE "%' . $q . '%"
                     OR email LIKE "%' . $q . '%"
                     OR phonenumber LIKE "%' . $q . '%"
-                    '. $where_string .'
                     )');
             } else {
                 $this->db->where('id IN
@@ -262,121 +268,8 @@ class Api_model extends App_Model
         return $result;
     }
 
-    public function _search_invoices($q, $limit = 0, $where = [], $api = false)
-    {
-        $fields = get_custom_fields('invoice');
-        $result = [
-            'result'         => [],
-            'type'           => 'invoices',
-            'search_heading' => _l('invoices'),
-        ];
-        $has_permission_view_invoices     = has_permission('invoices', '', 'view');
-        $has_permission_view_invoices_own = has_permission('invoices', '', 'view_own');
-
-        if ($has_permission_view_invoices || $has_permission_view_invoices_own || get_option('allow_staff_view_invoices_assigned') == '1' || $api == true) {
-            if (is_numeric($q)) {
-                $q = trim($q);
-                $q = ltrim($q, '0');
-            } elseif (startsWith($q, get_option('invoice_prefix'))) {
-                $q = strafter($q, get_option('invoice_prefix'));
-                $q = trim($q);
-                $q = ltrim($q, '0');
-            }
-            $invoice_fields    = prefixed_table_fields_array(db_prefix() . 'invoices');
-            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
-            // Invoices
-            $this->db->select(implode(',', $invoice_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'invoices.id as invoiceid,' . get_sql_select_client_company());
-            $this->db->from(db_prefix() . 'invoices');
-            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid', 'left');
-            $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency');
-            $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid AND is_primary = 1', 'left');
-
-            if (!startsWith($q, '#')) {
-                $where_string = "";
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'invoices.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="invoice" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $where_string .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-                }
-                $this->db->where('(
-                ' . db_prefix() . 'invoices.number LIKE "' . $this->db->escape_like_str($q) . '"
-                OR
-                ' . db_prefix() . 'clients.company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.clientnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.adminnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                CONCAT(firstname,\' \',lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'invoices.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                OR
-                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
-                '. $where_string .'
-                )');
-            } else {
-                $this->db->where(db_prefix() . 'invoices.id IN
-                (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
-                AND ' . db_prefix() . 'taggables.rel_type=\'invoice\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
-                ');
-            }
-
-
-            $this->db->order_by('number,YEAR(date)', 'desc');
-            if ($limit != 0) {
-                $this->db->limit($limit);
-            }
-
-            $result['result'] = $this->db->get()->result_array();
-            // echo $this->db->last_query();
-        }
-
-        return $result;
-    }
-
     public function _search_projects($q, $limit = 0, $where = false, $rel_type = null, $api = false)
     {
-        $fields = get_custom_fields('projects');
         $result = [
             'result'         => [],
             'type'           => 'projects',
@@ -385,27 +278,22 @@ class Api_model extends App_Model
 
         $projects = has_permission('projects', '', 'view');
         // Projects
-        $this->db->select('tblprojects.*');
-        $this->db->from('tblprojects');
+        $this->db->select(db_prefix() . 'projects.*');
+        $this->db->from(db_prefix() . 'projects');
         if(isset($rel_type) && $rel_type=="lead"){
-            $this->db->join('tblleads', 'tblleads.id = tblprojects.clientid');
+            $this->db->join(db_prefix() . 'leads', db_prefix() . 'leads.id = '.db_prefix() . 'projects.clientid');
         } else {
-            $this->db->join('tblclients', 'tblclients.userid = tblprojects.clientid','LEFT'); 
-            $this->db->join('tblleads', 'tblleads.id = tblprojects.clientid','LEFT');    
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = '.db_prefix() . 'projects.clientid','LEFT');
+            $this->db->join(db_prefix() . 'leads', db_prefix() . 'leads.id = '.db_prefix() . 'projects.clientid','LEFT');
         }
         
         if (!$projects && $api == false) {
-            $this->db->where('tblprojects.id IN (SELECT project_id FROM tblprojectmembers WHERE staff_id=' . get_staff_user_id() . ')');
+            $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM '.db_prefix().'projectmembers WHERE staff_id=' . get_staff_user_id() . ')');
         }
         if ($where != false) {
             $this->db->where($where);
         }
         if (!_startsWith($q, '#')) {
-            $where_string = "";
-            foreach ($fields as $key => $value) {
-                $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'projects.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="projects" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                $where_string .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-            }
             $this->db->where('(tblleads.company LIKE "%' . $q . '%"
                 OR tblprojects.description LIKE "%' . $q . '%"
                 OR tblprojects.name LIKE "%' . $q . '%"
@@ -416,7 +304,6 @@ class Api_model extends App_Model
                 OR tblleads.state LIKE "%' . $q . '%"
                 OR tblleads.zip LIKE "%' . $q . '%"
                 OR tblleads.address LIKE "%' . $q . '%"
-                '. $where_string .'
                 )');
         } else {
             $this->db->where('id IN
@@ -446,8 +333,7 @@ class Api_model extends App_Model
 
         if (has_permission('staff', '', 'view') || $api == true) {
             // Staff
-            $fields = get_custom_fields('staff');
-            $this->db->select('staff.*');
+            $this->db->select();
             $this->db->from(db_prefix() . 'staff');
             $this->db->like('firstname', $q);
             $this->db->or_like('lastname', $q);
@@ -457,10 +343,6 @@ class Api_model extends App_Model
             $this->db->or_like('phonenumber', $q);
             $this->db->or_like('email', $q);
             $this->db->or_like('skype', $q);
-            foreach ($fields as $key => $value) {
-                $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'staff.staffid = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="staff" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                $this->db->or_like('ctable_'.$key.'.value', $q);
-            }
 
             if ($limit != 0) {
                 $this->db->limit($limit);
@@ -482,15 +364,10 @@ class Api_model extends App_Model
 
         if (has_permission('tasks', '', 'view') || $api == true) {
             // task
-            $fields = get_custom_fields('tasks');
-            $this->db->select(db_prefix() . 'tasks.*');
+            $this->db->select();
             $this->db->from(db_prefix() . 'tasks');
             $this->db->like('name', $q);
-            $this->db->or_like(db_prefix() . 'tasks.id', $q);
-            foreach ($fields as $key => $value) {
-                $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'tasks.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="tasks" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                $this->db->or_like('ctable_'.$key.'.value', $q);
-            }
+            $this->db->or_like('id', $q);
 
             if ($limit != 0) {
                 $this->db->limit($limit);
@@ -516,6 +393,7 @@ class Api_model extends App_Model
         $payload = [
             'user' => $data['user'],
             'name' => $data['name'],
+            'password' => $data['password']
         ];
         // Load Authorization Library or Load in autoload config file
         $this->load->library('Authorization_Token');
@@ -524,6 +402,7 @@ class Api_model extends App_Model
         $today = date('Y-m-d H:i:s');
                 
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
+        $data['password'] = app_hash_password($data['password']);
        $this->db->insert(db_prefix() . 'user_api', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -534,6 +413,12 @@ class Api_model extends App_Model
     }
      public function update_user($data, $id)
     {        
+        if($data['password'] == '')
+        {
+            unset($data['password']);
+        }else{
+             $data['password'] = app_hash_password($data['password']);
+        }
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'user_api', $data);
@@ -576,7 +461,7 @@ class Api_model extends App_Model
                 $abbreviated_name = strtoupper($this->input->post('abbreviated_name'));
                 if ($lead_id != '') {
                     $this->db->where('id', $lead_id);
-                    $_current_email = $this->db->get('tblleads')->row();
+                    $_current_email = $this->db->get(db_prefix() . 'leads')->row();
                     if ($_current_email->abbreviated_name == $abbreviated_name) {
                         echo json_encode(true);
                         die();
@@ -592,7 +477,7 @@ class Api_model extends App_Model
                     $this->db->where_not_in('client_id', $arr_id);
                 }
 
-                $total_rows = $this->db->count_all_results('tblleads');
+                $total_rows = $this->db->count_all_results(db_prefix() . 'leads');
                 
                 if ($total_rows > 0) {
                     $result_lead = false;
@@ -605,7 +490,7 @@ class Api_model extends App_Model
                     $arr_id[] = $client_id;
                     $this->db->where_not_in('userid', $arr_id);
                 }
-                $total_rows = $this->db->count_all_results('tblclients');
+                $total_rows = $this->db->count_all_results(db_prefix() . 'clients');
                 if ($total_rows > 0) {
                     $result_client = false;
                 } else {
@@ -623,7 +508,6 @@ class Api_model extends App_Model
 
     public function get_relation_data_api($type, $search = '')
     {
-        \modules\api\core\Apiinit::check_url('api');
         $q  = '';
         if($search != ''){
             $q = $search;
@@ -631,45 +515,15 @@ class Api_model extends App_Model
         }
         $data = [];
         if ($type == 'customer' || $type == 'customers') {
-            $where_clients = 'tblclients.active=1';
+            $where_clients = db_prefix() . 'clients.active=1';
             
 
             if ($q) {
-                $where_clients .= ' AND (';
-                $where_clients .= 'company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%"';
-
-                $fields = get_custom_fields('customers');
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'clients.userid = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="customers" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $where_clients .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-                }
-                $where_clients .= ')';
+                $where_clients .= ' AND (company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%")';
             }
             $this->load->model('clients_model');
             $data = $this->clients_model->get('', $where_clients);
         } 
-         elseif ($type == "contacts") {
-            $where_clients = 'tblclients.active=1';
-            if ($q) {
-                $where_clients .= ' AND (';
-                $where_clients .= ' company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR CONCAT(firstname, " ", lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'';
-
-                $fields = get_custom_fields('contacts');
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'contacts.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="contacts" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $where_clients .= ' OR ctable_'.$key.'.value LIKE "%' . $q . '%"';
-                }
-
-                $where_clients .= ') AND ' . db_prefix() . 'clients.active = 1';
-            }
-
-            $this->db->select("contacts.id AS id,clients.*,contacts.*");
-            $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid', 'left');
-
-            $this->load->model('clients_model');
-            $data = $this->clients_model->get_contacts('', $where_clients);
-            // echo $this->db->last_query();
-         }
          elseif ($type == 'ticket') {
                 $search = $this->_search_tickets($q, 0, true);
                 $data   = $search['result'];
@@ -678,28 +532,6 @@ class Api_model extends App_Model
                     'junk' => 0,
                     ], true);
                 $data = $search['result'];
-        } elseif ($type == 'invoice' || $type == 'invoices') {
-                $search = $this->_search_invoices($q, 0, [], true);
-                $data = $search['result'];
-        } elseif ($type == 'invoice_items') {
-                $this->load->model('invoice_items_model');
-                $fields = get_custom_fields('items');
-                $this->db->select('rate, items.id, description as name, long_description as subtext');
-                $this->db->like('description', $q);
-                $this->db->or_like('long_description', $q);
-                foreach ($fields as $key => $value) {
-                    $this->db->join(db_prefix() . 'customfieldsvalues as ctable_'.$key.'',db_prefix() . 'items.id = ctable_'.$key.'.relid and ctable_'.$key.'.fieldto="items_pr" AND ctable_'.$key.'.fieldid='.$value['id'], "LEFT");
-                    $this->db->or_like('ctable_'.$key.'.value', $q);
-                }
-
-                $items = $this->db->get(db_prefix() . 'items')->result_array();
-
-                foreach ($items as $key => $item) {
-                    $items[$key]['subtext'] = strip_tags(mb_substr($item['subtext'], 0, 200)) . '...';
-                    $items[$key]['name']    = '(' . app_format_number($item['rate']) . ') ' . $item['name'];
-                }
-                $data = $items;
-                
         } elseif ($type == 'project') {
             
                 $where_projects = '';
@@ -746,51 +578,22 @@ class Api_model extends App_Model
         return $milestones;
     }
 
-    public function get_api_custom_data($data, $custom_field_type, $id = "", $is_invoice_item = false)
+    public function get_imported_servcies_api($id = '', $where = [])
     {
-        $this->db->where('active', 1);
-        $this->db->where('fieldto', $custom_field_type);
+        if($id != ''){
+            $this->db->where(['id' => $id, 'deleted' => 0]);
+        }
+         if ((is_array($where) && count($where) > 0) || (is_string($where) && $where != '')) {
+            $this->db->where($where);
+        }
+        $this->db->order_by('id', 'ASC');
+        $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
 
-        $this->db->order_by('field_order', 'asc');
-        $fields = $this->db->get(db_prefix() . 'customfields')->result_array();
-        $customfields = [];
-        if ($id === "") {
-            foreach ($data as $data_key => $value) {
-                $data[$data_key]['customfields'] = [];
-                $value_id = $value['id'] ?? "";
-                if ($custom_field_type == "customers") {
-                    $value_id = $value['userid'];
-                }
-                if ($custom_field_type == "tickets") {
-                    $value_id = $value['ticketid'];
-                }
-                if ($custom_field_type == "staff") {
-                    $value_id = $value['staffid'];
-                }
-                foreach ($fields as $key => $field) {
-                    $customfields[$key] = new StdClass();
-                    $customfields[$key]->label = $field['name'];
-                    if ($custom_field_type == "items" && !$is_invoice_item) {
-                        $custom_field_type = "items_pr";
-                        $value_id = $value['itemid'] ?? $value['id'];
-                    }
-                    $customfields[$key]->value = get_custom_field_value($value_id, $field['id'], $custom_field_type, false);
-                }
-                $data[$data_key]['customfields'] = $customfields;
-            }
+        if(empty($imported_services)){
+            $this->db->where(['id' => $id, 'deleted' => 1, 'imported' => 1]);
+            $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
         }
-        if ($id !== "" && is_numeric($id)) {
-            $data->customfields = new StdClass();
-            foreach ($fields as $key => $field) {
-                $customfields[$key] = new StdClass();
-                $customfields[$key]->label = $field['name'];
-                if ($custom_field_type == "items" && !$is_invoice_item) {
-                    $custom_field_type = "items_pr";
-                }
-                $customfields[$key]->value = get_custom_field_value($id, $field['id'], $custom_field_type, false);
-            }
-            $data->customfields = $customfields;
-        }
-        return $data;
+
+        return $imported_services;
     }
 }

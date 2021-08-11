@@ -4,10 +4,18 @@
         <div class="panel_s">
            <div class="panel-body">
            	<div class="col-md-12">
+           		<?php
+$get_base_currency = get_base_currency();
+$current_id = '';
+if ($get_base_currency) {
+	$current_id = $get_base_currency->id;
+}
+
+?>
            		<h4 class="bold col-md-5">
-           		<?php echo '#' . $candidate->candidate_code . ' - ' . $candidate->candidate_name; ?>
+           		<?php echo '#' . $candidate->candidate_code . ' - ' . $candidate->candidate_name . ' ' . $candidate->last_name; ?>
            		</h4>
-                 <a href="Javascript:void(0);" id="toggle_popup_approval" class="btn btn-success display-block pull-right"><i class="fa fa-user-md"></i><?php echo ' ' . _l('care') . ' '; ?><i class="fa fa-caret-down"></i></a>
+                 <a href="Javascript:void(0);" id="toggle_popup_approval" class="btn btn-success display-block pull-right"><i class="fa fa-user-md"></i><?php echo ' ' . _l('rec_care') . ' '; ?><i class="fa fa-caret-down"></i></a>
                  <ul id="popup_approval" class="dropdown-menu dropdown-menu-right min-width-440">
                   <li>
                     <br>
@@ -90,7 +98,7 @@
 				            <tbody>
 				               <tr class="project-overview">
 				                  <td class="bold" width="30%"><?php echo _l('full_name'); ?></td>
-				                  <td><?php echo html_entity_decode($candidate->candidate_name); ?></td>
+				                  <td><?php echo html_entity_decode($candidate->candidate_name . ' ' . $candidate->last_name); ?></td>
 				               </tr>
 				               <tr class="project-overview">
 				                  <td class="bold"><?php echo _l('gender'); ?></td>
@@ -184,7 +192,7 @@ echo html_entity_decode($datas);
 				                  <td class="bold"><?php echo _l('alternate_contact_number'); ?></td>
 				                  <td><?php echo html_entity_decode($candidate->alternate_contact_number); ?></td>
 				               </tr>
-				               
+
 				               <tr class="project-overview">
 				                  <td class="bold"><?php echo _l('skype'); ?></td>
 				                  <td><a href="<?php echo html_entity_decode($candidate->skype); ?>"><?php echo html_entity_decode($candidate->skype); ?></a></td>
@@ -211,7 +219,7 @@ echo html_entity_decode($datas);
 				               </tr>
 				               <tr class="project-overview">
 				                  <td class="bold"><?php echo _l('desired_salary'); ?></td>
-				                  <td><?php echo app_format_money($candidate->desired_salary, ''); ?></td>
+				                  <td><?php echo app_format_money($candidate->desired_salary, $current_id); ?></td>
 				               </tr>
 				               <tr class="project-overview">
 				                  <td class="bold"><?php echo _l('days_for_identity'); ?></td>
@@ -238,12 +246,12 @@ echo html_entity_decode($datas);
 				                  <td class="bold"><?php echo _l('linkedin'); ?></td>
 				                  <td><a href="<?php echo html_entity_decode($candidate->linkedin); ?>"><?php echo html_entity_decode($candidate->linkedin); ?></a></td>
 				               </tr>
-				               
+
 				               <tr class="project-overview">
 				                  <td class="bold"><?php echo _l('interests'); ?></td>
 				                  <td><?php echo html_entity_decode($candidate->interests); ?></td>
 				               </tr>
-				               
+
 				               <tr class="project-overview">
 				                  <td>  &nbsp;</td>
 				                  <td></td>
@@ -254,7 +262,7 @@ echo html_entity_decode($datas);
                   	<div class="row col-md-12">
               		<p class="bold other_infor-style"><?php echo _l('work_experience'); ?></p>
               		<hr class="other_infor-hr" />
-              		</div>
+
               		<?php if (count($candidate->work_experience) > 0) {?>
               			<table class="table dt-table margin-top-0">
               				<thead>
@@ -268,6 +276,7 @@ echo html_entity_decode($datas);
               					<th><?php echo _l('job_description'); ?></th>
               				</thead>
 				            <tbody>
+				            	$current_id
 				            <?php foreach ($candidate->work_experience as $we) {?>
 				               <tr class="project-overview">
 				                  <td><?php echo _d($we['from_date']); ?></td>
@@ -275,7 +284,7 @@ echo html_entity_decode($datas);
 				                  <td><?php echo html_entity_decode($we['company']); ?></td>
 				                  <td><?php echo html_entity_decode($we['position']); ?></td>
 				                  <td><?php echo html_entity_decode($we['contact_person']); ?></td>
-				                  <td><?php echo html_entity_decode($we['salary']); ?></td>
+				                  <td><?php echo html_entity_decode(app_format_money($we['salary'], $current_id)); ?></td>
 				                  <td><?php echo html_entity_decode($we['reason_quitwork']); ?></td>
 				                  <td><?php echo html_entity_decode($we['job_description']); ?></td>
 				               </tr>
@@ -348,6 +357,7 @@ echo html_entity_decode($datas);
 				    <?php } else {?>
 				    	<p><?php echo _l('no_result'); ?></p>
 				   	<?php }?>
+				   	</div>
 
                   </div>
 
@@ -376,7 +386,7 @@ $cp = get_rec_campaign_hp($candidate->rec_campaign);
 	?></td>
 				                  <td><?php echo get_status_candidate($candidate->status); ?></td>
 				                  <td><?php echo _d($candidate->date_add); ?></td>
-				                  <td><?php echo app_format_money($candidate->desired_salary, ''); ?></td>
+				                  <td><?php echo app_format_money($candidate->desired_salary, $current_id); ?></td>
 				               </tr>
 				            </tbody>
 				        </table>
@@ -390,7 +400,7 @@ $cp = get_rec_campaign_hp($candidate->rec_campaign);
           				<thead>
           					<th><?php echo _l('add_from'); ?></th>
           					<th><?php echo _l('interview_schedules_name'); ?></th>
-          					<th><?php echo _l('time'); ?></th>
+          					<th><?php echo _l('rec_time'); ?></th>
           					<th><?php echo _l('interview_day'); ?></th>
           					<th><?php echo _l('recruitment_campaign'); ?></th>
           					<th><?php echo _l('interviewer'); ?></th>
@@ -413,20 +423,20 @@ $_data = '<a href="' . admin_url('staff/profile/' . $li['added_from']) . '">' . 
 			            			<td><?php echo html_entity_decode($li['from_time'] . ' - ' . $li['to_time']); ?></td>
 			            			<td><?php echo _d($li['interview_day']); ?></td>
 			            			<td><?php
-										$cp = get_rec_campaign_hp($li['campaign']);
-										if($li['campaign'] != '' && $li['campaign'] != 0){
-											if (isset($cp) ) {
-												$_data = $cp->campaign_code . ' - ' . $cp->campaign_name;
-											} else {
-												$_data = '';
-											}
-										}else{
-												$_data = '';
+$cp = get_rec_campaign_hp($li['campaign']);
+	if ($li['campaign'] != '' && $li['campaign'] != 0) {
+		if (isset($cp)) {
+			$_data = $cp->campaign_code . ' - ' . $cp->campaign_name;
+		} else {
+			$_data = '';
+		}
+	} else {
+		$_data = '';
 
-										}
+	}
 
-											echo html_entity_decode($_data);
-											?>
+	echo html_entity_decode($_data);
+	?>
 
 			            			</td>
 			            			<td>
@@ -458,7 +468,7 @@ $inv = explode(',', $li['interviewer']);
               				<thead>
               					<th><?php echo _l('type'); ?></th>
               					<th><?php echo _l('caregiver'); ?></th>
-              					<th><?php echo _l('time'); ?></th>
+              					<th><?php echo _l('rec_time'); ?></th>
               					<th><?php echo _l('result'); ?></th>
               					<th><?php echo _l('description'); ?></th>
               				</thead>
@@ -541,7 +551,7 @@ $_data = '<a href="' . admin_url('staff/profile/' . $assessor) . '">' . staff_pr
               				<thead>
               					<th><?php echo _l('criteria_name'); ?></th>
               					<th><?php echo _l('proportion'); ?></th>
-              					<th><?php echo _l('score'); ?></th>
+              					<th><?php echo _l('rec_score'); ?></th>
               					<th><?php echo _l('result'); ?></th>
 
               				</thead>
@@ -675,7 +685,7 @@ if (count($candidate->file) > 0) {
                 	<div class="col-md-6">
                 		<?php $attr = [];
 $attr = ['disabled' => "true"];
-echo render_input('candidate', 'candidate', $candidate->candidate_code . ' - ' . $candidate->candidate_name, 'text', $attr);
+echo render_input('candidate', 'candidate', $candidate->candidate_code . ' - ' . $candidate->candidate_name . ' ' . $candidate->last_name, 'text', $attr);
 
 echo form_hidden('candidate', $candidate->id);
 ?>
@@ -718,7 +728,7 @@ echo form_hidden('candidate', $candidate->id);
                 	<div class="col-md-12">
                 		<?php $attr = [];
 $attr = ['disabled' => "true"];
-echo render_input('candidate', 'candidate', $candidate->candidate_code . ' - ' . $candidate->candidate_name, 'text', $attr);
+echo render_input('candidate', 'candidate', $candidate->candidate_code . ' - ' . $candidate->candidate_name . ' ' . $candidate->last_name, 'text', $attr);
 
 echo form_hidden('candidate', $candidate->id);
 ?>

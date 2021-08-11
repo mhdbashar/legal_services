@@ -134,9 +134,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _dha($aRow['start_date']);
+    $row[] = _gregorian_hijri_date($aRow['start_date']);
 
-    $row[] = _dha($aRow['deadline']);
+    $row[] = _gregorian_hijri_date($aRow['deadline']);
 
     $membersOutput = '';
 

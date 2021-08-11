@@ -417,7 +417,7 @@
                        $('#timesheet_task_id').append($option).change();
                        $('#add_task_to_select').modal('hide');
                    }else {
-                       alert_float('danger', '<?php echo _l('faild'); ?>');
+                       alert_float('danger', '<?php echo _l('Faild'); ?>');
                    }
                }
            });

@@ -366,12 +366,12 @@ function my_custom_setup_menu_items()
             'position' => 1, // The menu position
         ]);
 
-        $CI->app_menu->add_setup_children_item('2', [
-            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-            'name' => _l("procuration_state"), // The name if the item
-            'href' => admin_url('procuration/state'), // URL of the item
-            'position' => 2, // The menu position
-        ]);
+//        $CI->app_menu->add_setup_children_item('2', [
+//            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+//            'name' => _l("procuration_state"), // The name if the item
+//            'href' => admin_url('procuration/state'), // URL of the item
+//            'position' => 2, // The menu position
+//        ]);
 
         $CI->app_menu->add_setup_children_item('2', [
             'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu

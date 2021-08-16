@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Finger_Api extends AdminController
+class Finger_api extends AdminController
 {
     public function __construct()
     {

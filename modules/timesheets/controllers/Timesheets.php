@@ -4602,7 +4602,7 @@ function get_custom_type_shiftwork(){
 		public function default_settings(){
 			$data = $this->input->post();
 			$key_app = $data['key_app'];
-			$this->db->update(db_prefix() . 'timesheets_settings', ['key_app' => $key_app]);
+			$success = $this->db->update(db_prefix() . 'timesheets_settings', ['key_app' => $key_app]);
 			if($success){
 				set_alert('success',_l('save_setting_success'));
 			}else{

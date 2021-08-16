@@ -6,6 +6,12 @@ class Login extends API_Controller
         header('Access-Control-Allow-Methods: GET, POST');
         parent::__construct();
     }
+    
+    public function api_return($data = NULL, $http_code = NULL)
+    {
+        header('content-type:application/json; charset=UTF-8');
+        print_r(json_encode($data));
+    }
 
     public function login_post()
     {

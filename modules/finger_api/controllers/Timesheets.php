@@ -53,7 +53,7 @@ class Timesheets extends REST_Controller {
         if(!isset($headers['authtoken'])){
             $this->response(['message' => 'Unauthorized'], 401);
         }
-        $result = $this->Authorization_token->validateToken();
+        $result = $this->authorization_token->validateToken();
         $a = 0;
         $email = $result['data']->$a;
 

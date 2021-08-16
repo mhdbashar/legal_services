@@ -600,10 +600,10 @@ abstract class REST_Controller extends CI_Controller {
             }
         }
         // load authorization token library
-        $this->load->library('authorization_Token');
+        $this->load->library('Authorization_token');
         $this->load->model('Api_model');
-        $is_valid_token = $this->authorization_token->validateToken();
-        $token = $this->authorization_token->get_token();
+        $is_valid_token = $this->Authorization_token->validateToken();
+        $token = $this->Authorization_token->get_token();
         $check_token = $this->Api_model->check_token($token);
         if($is_valid_token['status'] == false || $check_token === false){
             $message = array(

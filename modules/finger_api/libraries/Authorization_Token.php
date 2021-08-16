@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Authorization_Token
+ * Authorization_token
  * ----------------------------------------------------------
  * API Token Generate/Validation
  * 
@@ -11,7 +11,7 @@ if (!class_exists('JWT')) {
 }
 use \Firebase\JWT\JWT;
 
-class Authorization_Token 
+class Authorization_token
 {
     /**
      * Token Key

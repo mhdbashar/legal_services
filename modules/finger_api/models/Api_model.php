@@ -518,9 +518,9 @@ class Api_model extends App_Model
             'name' => $data['name'],
         ];
         // Load Authorization Library or Load in autoload config file
-        $this->load->library('authorization_Token');
+        $this->load->library('Authorization_token');
         // generate a token
-        $data['token'] = $this->authorization_token->generateToken($payload);
+        $data['token'] = $this->Authorization_token->generateToken($payload);
         $today = date('Y-m-d H:i:s');
                 
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);

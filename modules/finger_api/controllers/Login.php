@@ -41,10 +41,10 @@ class Login extends API_Controller
                 ];
 
 
-                $this->load->library('authorization_token');
+                $this->load->library('Authorization_token');
 
                 // generate a token
-                $token = $this->authorization_token->generateToken($payload);$this->api_return(
+                $token = $this->Authorization_token->generateToken($payload);$this->api_return(
                     [
                         'status' => true,
                         "token" => $token,

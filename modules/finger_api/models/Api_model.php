@@ -518,7 +518,7 @@ class Api_model extends App_Model
             'name' => $data['name'],
         ];
         // Load Authorization Library or Load in autoload config file
-        $this->load->library('Authorization_Token');
+        $this->load->library('authorization_Token');
         // generate a token
         $data['token'] = $this->authorization_token->generateToken($payload);
         $today = date('Y-m-d H:i:s');

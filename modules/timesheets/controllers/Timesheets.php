@@ -49,7 +49,7 @@ class timesheets extends AdminController
 		$key_app = $this->db->get('timesheets_settings')->row()->key_app;
 		$data['key_app'] = $key_app;
 
-		$data['qr'] = "{'url': '" . admin_url('api')  . "', 'key':'" . $key_app . "'}";
+		$data['qr'] = "{'url': '" . site_url('finger_api')  . "', 'key':'" . $key_app . "'}";
 
 		$data['group'] = $this->input->get('group');
 
@@ -4089,18 +4089,18 @@ function get_custom_type_shiftwork(){
 			else{
 				if($re == true){
 					if($type == 1){
-						set_alert('success',_l('check_in_successfull'));            
+						set_alert('success',_l('check_in_successfully'));            
 					}
 					else{
-						set_alert('success',_l('check_out_successfull'));            
+						set_alert('success',_l('check_out_successfully'));            
 					}
 				}
 				else{
 					if($type == 1){
-						set_alert('warning',_l('check_in_not_successfull'));            
+						set_alert('warning',_l('check_in_not_successfully'));            
 					}
 					else{
-						set_alert('warning',_l('check_out_not_successfull'));            
+						set_alert('warning',_l('check_out_not_successfully'));            
 					}
 				}                
 			}

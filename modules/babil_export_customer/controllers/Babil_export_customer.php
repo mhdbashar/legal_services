@@ -68,12 +68,28 @@ class Babil_export_customer extends AdminController
 		//get project statuses
 		$this->load->model('projects_model');
 		$data['project_statuses'] =$statuses = $this->projects_model->get_project_statuses();
-		foreach($statuses as $key=>$status)
-		{
-			$where = "clientid = $customer_id and ( start_date between '".to_sql_date($from)."' and '".to_sql_date($to)."') and  status = ".$status['id'];
-			$count = total_rows(db_prefix().'projects',$where);
-			$data['project_statuses'][$key]['total']=$count;
-		}
+        $this->load->model('legalservices/Other_services_model', 'other');
+        $data['other_statuses'] = $other_statuses = $this->other->get_project_statuses();
+        $this->load->model('legalservices/Cases_model', 'case');
+        $data['case_statuses'] = $case_statuses = $this->case->get_project_statuses();
+        foreach($other_statuses as $key=>$status)
+        {
+            $where = "clientid = $customer_id and ( start_date between '".to_sql_date($from)."' and '".to_sql_date($to)."') and  status = ".$status['id'];
+            $count = total_rows(db_prefix().'my_other_services',$where);
+            $data['other_statuses'][$key]['total']=$count;
+        }
+        foreach($case_statuses as $key=>$status)
+        {
+            $where = "clientid = $customer_id and ( start_date between '".to_sql_date($from)."' and '".to_sql_date($to)."') and  status = ".$status['id'];
+            $count = total_rows(db_prefix().'my_cases',$where);
+            $data['case_statuses'][$key]['total']=$count;
+        }
+        foreach($statuses as $key=>$status)
+        {
+            $where = "clientid = $customer_id and ( start_date between '".to_sql_date($from)."' and '".to_sql_date($to)."') and  status = ".$status['id'];
+            $count = total_rows(db_prefix().'projects',$where);
+            $data['project_statuses'][$key]['total']=$count;
+        }
 		//get statements or Account summery	
 		$data['statement'] = $this->clients_model->get_statement($customer_id, to_sql_date($from), to_sql_date($to));
 		

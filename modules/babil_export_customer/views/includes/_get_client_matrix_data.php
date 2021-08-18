@@ -35,13 +35,13 @@
 <div class="clearfix"></div>
 <hr/>
 <p class="text-muted text-center"><?php echo _l('statement_from_to',array($from,$to)); ?></p>
-<?php if(array_key_exists("projects",$customer_tabs)){ $counter++; ?>
+<?php  if(array_key_exists("cases",$customer_tabs)){ $counter++; ?>
 <div class="col-md-4  border-right">
-	<h4 class="no-margin bold"><?php echo _l('projects_summary'); ?></h4>
+	<h4 class="no-margin bold"><?php echo _l('cases_summary'); ?></h4>
 	<table class="table statement-account-summary">
 		<tbody>
 	<?php
-	foreach($project_statuses as $status){
+	foreach($case_statuses as $status){
 	?>
 		<tr>
 			<td class="text-left"><span style="color:<?php echo htmlspecialchars($status['color']); ?>">
@@ -53,6 +53,26 @@
 	</table>
 </div>
 <?php } ?>
+
+
+    <?php  if(array_key_exists("legal_services",$customer_tabs)){ $counter++; ?>
+        <div class="col-md-4  border-right">
+            <h4 class="no-margin bold"><?php echo _l('other_services_summary'); ?></h4>
+            <table class="table statement-account-summary">
+                <tbody>
+                <?php
+                foreach($other_statuses as $status){
+                    ?>
+                    <tr>
+                        <td class="text-left"><span style="color:<?php echo htmlspecialchars($status['color']); ?>">
+	<?php echo htmlspecialchars($status['name']); ?>
+	</span></td><td>:</td><td><?php echo htmlspecialchars($status['total']); ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    <?php } ?>
 
 <?php if (array_key_exists("tasks",$customer_tabs)){ $counter++; ?>
         <div class="col-md-4  border-right">

@@ -72,6 +72,7 @@ $lang['father_linked_services'] = "الخدمة المرتبطة الأساسي�
 $lang['child_linked_services'] = "الخدمات المرتبطة الفرعية";
 $lang['link_service'] = "نقل الخدمة";
 $lang['cases_summary'] = "ملخص القضايا";
+$lang['other_services_summary'] = "ملخص الخدمات القانونية";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";

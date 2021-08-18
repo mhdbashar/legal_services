@@ -354,7 +354,7 @@ class Babil_export_customer_model extends App_Model
 		return $_result;
 	}
 
-    function get_tasks_total($data)
+    function get_sessions_total($data)
     {
         $CI            = &get_instance();
         $sessions_summary = [];
@@ -401,40 +401,40 @@ class Babil_export_customer_model extends App_Model
 	 * @param  string $where additional where to perform
 	 * @return array
 	 */
-//	function get_tasks_total($data)
-//	{
-//		$tasks_summary = [];
-//        $this->load->model('sessions_model');
-//		$statuses      = $this->sessions_model->get_statuses();
-//		foreach ($statuses as $status) {
-//			$tasks_where = 'status = ' . $status['id'];
-//			if (!has_permission('tasks', '', 'view')) {
-//				$tasks_where .= ' ' . get_tasks_where_string();
-//			}
-//
-//			$tasks_where .= ' AND startdate BETWEEN "'. $data['from']. '" and "'. $data['to'].'"';
-//			if ($data['customer_id']) {
-//				$tasks_where .= ' AND  ((rel_id=' . $data['customer_id']. ' AND rel_type="customer")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $data['customer_id'] . ') AND rel_type="invoice")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $data['customer_id'] . ') AND rel_type="estimate")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $data['customer_id'] . ') AND rel_type="contract")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $data['customer_id'] . ') AND rel_type="ticket")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $data['customer_id'] . ') AND rel_type="expense")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $data['customer_id'] . ' AND rel_type="customer") AND rel_type="proposal")';
-//				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $data['customer_id'] . ') AND rel_type="project"))';
-//
-//			}
-//
-//			$summary                   = [];
-//			$summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $tasks_where);
-//			$summary['color']          = $status['color'];
-//			$summary['name']           = $status['name'];
-//			$summary['status_id']      = $status['id'];
-//			$tasks_summary[]           = $summary;
-//		}
-//
-//		return $tasks_summary;
-//	}
+	function get_tasks_total($data)
+	{
+		$tasks_summary = [];
+        $this->load->model('tasks_model');
+		$statuses      = $this->tasks_model->get_statuses();
+		foreach ($statuses as $status) {
+			$tasks_where = 'status = ' . $status['id'];
+			if (!has_permission('tasks', '', 'view')) {
+				$tasks_where .= ' ' . get_tasks_where_string();
+			}
+
+			$tasks_where .= ' AND startdate BETWEEN "'. $data['from']. '" and "'. $data['to'].'"';
+			if ($data['customer_id']) {
+				$tasks_where .= ' AND  ((rel_id=' . $data['customer_id']. ' AND rel_type="customer")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $data['customer_id'] . ') AND rel_type="invoice")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $data['customer_id'] . ') AND rel_type="estimate")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $data['customer_id'] . ') AND rel_type="contract")';
+				$tasks_where .= ' OR (rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $data['customer_id'] . ') AND rel_type="ticket")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $data['customer_id'] . ') AND rel_type="expense")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $data['customer_id'] . ' AND rel_type="customer") AND rel_type="proposal")';
+				$tasks_where .= ' OR (rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $data['customer_id'] . ') AND rel_type="project"))';
+
+			}
+
+			$summary                   = [];
+			$summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $tasks_where);
+			$summary['color']          = $status['color'];
+			$summary['name']           = $status['name'];
+			$summary['status_id']      = $status['id'];
+			$tasks_summary[]           = $summary;
+		}
+
+		return $tasks_summary;
+	}
 	
 	/**
 	 * Return tickets summary formated data of customer

@@ -87,7 +87,8 @@ class Babil_export_customer extends AdminController
 		$data['estimates'] = $this->babil_export_customer_model->get_estimates_total($inputs);
 		unset($data['estimates']['currencyid']);
 		$data['expenses'] = $this->babil_export_customer_model->get_expenses_total($inputs);
-		$data['tasks'] = $this->babil_export_customer_model->get_tasks_total($inputs);
+        $data['sessions'] = $this->babil_export_customer_model->get_sessions_total($inputs);
+        $data['tasks'] = $this->babil_export_customer_model->get_tasks_total($inputs);
 		$data['tickets'] = $this->babil_export_customer_model->get_tickets_total($inputs);
 		$data['from'] = $from;
 		$data['to']   = $to;

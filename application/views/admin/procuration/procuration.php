@@ -56,9 +56,9 @@
 
             <!-- enable language edit -->
               <div class="NO">
-                  <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
-                  <?php echo render_input('principalId', _l('principalId'), $principalId, 'text'); ?>
-                  <?php echo render_input('agentId', _l('agentId'), $agentId, 'text'); ?>
+                  <?php echo render_input('NO', _l('procuration_number'), $NO != 0 ? $NO : '', 'text', ['required' => 'required']); ?>
+                  <?php echo render_input('principalId', _l('principalId'), $principalId != 0 ? $principalId : '', 'text'); ?>
+                  <?php echo render_input('agentId', _l('agentId'), $agentId != 0 ? $agentId : '', 'text'); ?>
 
 
               </div>
@@ -84,7 +84,7 @@
 
             <div class="row">
               <div class="col-md-6" id="name">
-                <?php echo render_input('name', _l('name'), ($name), 'text', [
+                <?php echo render_input('name', _l('come_from'), ($name), 'text', [
                   'required' => 'required',
                   'readonly' => 'true'
                 ]); ?>
@@ -116,7 +116,7 @@
               'required' => 'required',
               'readonly' => 'true'
             ]) ?>
-            <?php echo render_input('come_from', _l('come_from'), $come_from, 'text'); ?>
+            <?php echo render_input('come_from', _l('name'), $come_from, 'text', ['required' => 'required']); ?>
 
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>

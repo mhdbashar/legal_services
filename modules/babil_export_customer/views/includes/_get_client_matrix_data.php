@@ -55,14 +55,14 @@
 <?php } ?>
 <?php if (array_key_exists("tasks",$customer_tabs)){ $counter++; ?>
 <div class="col-md-4  border-right">
-	<h4 class="no-margin bold"><?php echo _l('tasks_summary'); ?></h4>
+	<h4 class="no-margin bold"><?php echo _l('sessions_summary'); ?></h4>
 	<table class="table statement-account-summary">
 		<tbody>
 			<?php foreach($tasks as $summary){?>
 			<tr>
 				<td><span style="color:<?php echo htmlspecialchars($summary['color']); ?>"><?php echo htmlspecialchars($summary['name']); ?></span></td>
 				<td>:</td>
-				<td><?php echo htmlspecialchars($summary['total_tasks']); ?></td>
+				<td><?php echo htmlspecialchars($summary['total_sessions']); ?></td>
 			</tr>
 			<?php } ?>
 		</tbody>

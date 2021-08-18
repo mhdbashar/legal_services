@@ -4,7 +4,7 @@ $main_heading = get_option(BABIL_EXPORT_CUSTOMER_MODULE_NAME.'_matrix_print_head
 $services_heading = get_option(BABIL_EXPORT_CUSTOMER_MODULE_NAME.'_print_services_text');
 $show_services = get_option(BABIL_EXPORT_CUSTOMER_MODULE_NAME.'_matrix_print_services');
 ?>
-<h4 class="customer-profile-group-heading"><?php echo _l('si_customer_matrix');?></h4>
+<h4 class="customer-profile-group-heading"><?php echo _l('babil_customer_matrix');?></h4>
 <div class="row">
 	<div class="col-md-9">
 	<?php $this->load->view(BABIL_EXPORT_CUSTOMER_MODULE_NAME.'/includes/_statement_period_select', ['onChange'=>'render_customer_matrix()']); ?>

@@ -359,7 +359,16 @@ class Babil_export_customer_model extends App_Model
         $CI            = &get_instance();
         $sessions_summary = [];
 
-        $this->db->where( array('deleted' => 0, 'is_session' => 1, 'client_id', 'rel_id' => $data['customer_id'], 'rel_type' => 'customer'));
+        $this->db->where( array(
+            'deleted' => 0,
+            'is_session' => 1,
+            'rel_id' => $data['customer_id'],
+            'rel_type' => 'customer',
+            'startdate >=' => to_sql_date($data['from']),
+            'startdate <=' => to_sql_date($data['to']),
+        ));
+       // $where = "clientid = $customer_id and ( start_date between '".to_sql_date($from)."' and '".to_sql_date($to)."') and  status = ".$status['id'];
+
         $this->db->join(db_prefix() . 'my_session_info', 'my_session_info.task_id = '.db_prefix() . 'tasks.id', 'left');
 
         $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();

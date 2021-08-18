@@ -355,6 +355,10 @@ foreach ($rResult as $aRow) {
             $status_name = _l('waiting');
         }
         $status['color'] = '#a7a1a1';
+        $taskName = '<a href="http://localhost/legalserv/admin/legalservices/sessions/view/17" class="_timer font-medium" onclick="init_session_modal(17);return false;">subject</a>';
+
+        $taskName = '<a href="' . admin_url('legalservices/sessions/view/' . $aRow['task_id']) . '" class="_timer font-medium"  onclick="init_session_modal(' . $aRow['task_id'] . '); return false;">' . $aRow['name'] . '</a>';
+
 
     }else
         $status_name = $status['name'];

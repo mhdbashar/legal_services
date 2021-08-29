@@ -17,7 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'http://localhost/legalserv/');
+define('APP_BASE_URL', 'http://localhost/legal_services/');
 
 /*
 * --------------------------------------------------------------------------
@@ -50,7 +50,7 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'babillaw_portal');
+define('APP_DB_NAME', 'legal_services');
 
 /**
  * @since  2.3.0

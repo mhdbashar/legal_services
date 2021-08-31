@@ -1,5 +1,7 @@
 <?php
 
+$lang['staff_add_edit_second_name'] = "الأسم الثاني";
+$lang['staff_add_edit_third_name'] = "الأسم الثالث";
 $lang['organizations'] = 'المنشاّة';
 $lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
 $lang['designation_group'] = 'مجموعة المسميات الموظفية';

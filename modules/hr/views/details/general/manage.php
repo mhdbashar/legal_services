@@ -381,6 +381,21 @@ $(document).ready(function(){
                        }
                    }
                }
+           },
+           emloyee_id: {
+               required: true,
+               remote: {
+                   url: site_url + "admin/hr/general/validate_staff_code_number",
+                   type: 'post',
+                   data: {
+                       emloyee_id: function() {
+                           return $('input[name="emloyee_id"]').val();
+                       },
+                       memberid: function() {
+                           return $('input[name="memberid"]').val();
+                       }
+                   }
+               }
            }
        });
    });
@@ -388,34 +403,34 @@ $(document).ready(function(){
 $(function () {
 
     //submit staff
-    $('#btnSubmit').on('click', function (e) {
-        var emloyee_id = $("input[name='emloyee_id']").val();
-        e.preventDefault();
-        $.ajax({
-            url: '<?php
-                $id = isset($member->staffid) ? $member->staffid : '';
-                echo admin_url('hr/general/validate_staff_number/').$id; ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {number: emloyee_id},
-            error: function () {
-                console.log('error')
-            },
-            success: function (data) {
-                if (data.status == true) {
-                    //alert(data.status);
-                    $(window).off('beforeunload');
-                    $("#staff-form").unbind('submit').submit();
-
-
-                } else if (data.status == false) {
-
-                    // alert(data.status);
-                    $("input[name='emloyee_id']").css('border', '2px solid red');
-                }
-            }
-        });
-    })
+        //$('#btnSubmit').on('click', function (e) {
+        //    var emloyee_id = $("input[name='emloyee_id']").val();
+        //    e.preventDefault();
+        //    $.ajax({
+        //        url: '<?php
+        //            $id = isset($member->staffid) ? $member->staffid : '';
+        //            echo admin_url('hr/general/validate_staff_number/').$id; ?>//',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: {number: emloyee_id},
+        //        error: function () {
+        //            console.log('error')
+        //        },
+        //        success: function (data) {
+        //            if (data.status == true) {
+        //                //alert(data.status);
+        //                $(window).off('beforeunload');
+        //                $("#staff-form").unbind('submit').submit();
+        //
+        //
+        //            } else if (data.status == false) {
+        //
+        //                // alert(data.status);
+        //                $("input[name='emloyee_id']").css('border', '2px solid red');
+        //            }
+        //        }
+        //    });
+        //})
 
     $("#country").change(function () {
         $.ajax({

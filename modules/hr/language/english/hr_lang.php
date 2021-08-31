@@ -49,7 +49,6 @@ $lang['staff_dt_active'] = 'Active';
 $lang['status_work'] = 'Status';
 $lang['department'] = 'Department';
 $lang['hr_code'] = 'HR code';
-$lang['staff_add_edit_firstname'] = 'First name';
 $lang['staff_add_edit_hr_code'] = 'HR code';
 $lang['male'] = 'Male';
 $lang['female'] = 'Female';

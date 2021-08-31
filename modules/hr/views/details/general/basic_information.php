@@ -76,7 +76,7 @@
 
                             // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
                                         <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
@@ -90,8 +90,22 @@
                                 <div class="col-md-6">
                                     <?php $value = (isset($member) ? $member->firstname : ''); ?>
                                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-                                    <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
-                                    <?php echo form_hidden('lastname', ' ') ?>
+                                    <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <?php $value = (isset($member) ? $member->second_name : ''); ?>
+                                    <?php echo render_input('second_name','staff_add_edit_second_name',$value); ?>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <?php $value = (isset($member) ? $member->third_name : ''); ?>
+                                    <?php echo render_input('third_name','staff_add_edit_third_name',$value); ?>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <?php $value = (isset($member) ? $member->lastname : ''); ?>
+                                    <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                                 </div>
                             </div>
                             <div class="row">

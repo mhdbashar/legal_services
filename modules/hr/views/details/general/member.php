@@ -264,6 +264,21 @@
                        }
                    }
                }
+           },
+           emloyee_id: {
+               required: true,
+               remote: {
+                   url: site_url + "admin/hr/general/validate_staff_code_number",
+                   type: 'post',
+                   data: {
+                       emloyee_id: function() {
+                           return $('input[name="emloyee_id"]').val();
+                       },
+                       memberid: function() {
+                           return $('input[name="memberid"]').val();
+                       }
+                   }
+               }
            }
        });
    });

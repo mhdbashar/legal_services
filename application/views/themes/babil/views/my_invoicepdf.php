@@ -49,6 +49,8 @@ $organization_info = '<div style="color:#424242;">';
 $organization_info .= format_organization_info();
 
 $organization_info .= '</div>';
+$qrCodePath = base_url().'uploads/invoices/QRs/'.$invoice->qr_code;
+$organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
 
 // Bill to
 $invoice_info = '<div align="'.$attr_align.'">';
@@ -87,6 +89,8 @@ foreach ($pdf_custom_fields as $field) {
     $invoice_info .= $field['name'] . ': ' . $value . '<br />';
 }
 $invoice_info .= '</div>';
+
+
 
 //$left_info  = $swap == '1' ? $invoice_info : $organization_info;
 //$right_info = $swap == '1' ? $organization_info : $invoice_info;

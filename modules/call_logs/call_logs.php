@@ -133,20 +133,21 @@ register_language_files(CALL_LOGS_MODULE_NAME, [CALL_LOGS_MODULE_NAME]);
 function call_logs_module_init_menu_items()
 {
     $CI = &get_instance();
-    $CI->app_menu->add_sidebar_menu_item('call_logs_menu', [
-        'name' => _l('call_logs'), // The name if the item
-        'href' => admin_url('call_logs'), // URL of the item
-        'position' => 10, // The menu position, see below for default positions.
-        'icon' => 'fa fa-phone', // Font awesome icon
-    ]);
+    if (has_permission('call_logs', '', 'view')) {
+        $CI->app_menu->add_sidebar_menu_item('call_logs_menu', [
+            'name' => _l('call_logs'), // The name if the item
+            'href' => admin_url('call_logs'), // URL of the item
+            'position' => 10, // The menu position, see below for default positions.
+            'icon' => 'fa fa-phone', // Font awesome icon
+        ]);
 
-    $CI->app_tabs->add_customer_profile_tab('call_logs', [
-        'name'     => _l('call_logs'),
-        'icon'     => 'fa fa-phone',
-        'view'     => '../../modules/call_logs/views/admin/clients/groups/call_logs',
-        'position' => 100,
-    ]);
-
+        $CI->app_tabs->add_customer_profile_tab('call_logs', [
+            'name' => _l('call_logs'),
+            'icon' => 'fa fa-phone',
+            'view' => '../../modules/call_logs/views/admin/clients/groups/call_logs',
+            'position' => 100,
+        ]);
+    }
     if (is_admin()) {
         $CI->app_menu->add_setup_menu_item('call_logs', [
             'collapse' => true,

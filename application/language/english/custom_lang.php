@@ -1,5 +1,7 @@
 <?php
 
+$lang['staff_add_edit_second_name'] = "Second Name";
+$lang['staff_add_edit_third_name'] = "Third Name";
 $lang['add_only_main_salary'] = 'Add only main salary';
 $lang['designation_group'] = 'Designation group';
 $lang['new_designation_group'] = 'New designation_group';
@@ -68,6 +70,7 @@ $lang['link_service'] = 'Link service';
 $lang['Cases'] = "Cases";
 $lang['updated_at'] = "Updated at";
 $lang['cases_summary'] = "Cases Summary";
+$lang['other_services_summary'] = "Other Services Summary";
 $lang['summary'] = "Summary";
 $lang['Case'] = "Case";
 $lang['Cases'] = "Cases";

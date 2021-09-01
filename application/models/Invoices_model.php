@@ -490,6 +490,10 @@ class Invoices_model extends App_Model
 
             update_sales_total_tax_column($insert_id, 'invoice', db_prefix() . 'invoices');
 
+            //Generate QR Code
+//            $qr_data = "{'اسم المورد': 'براء الحلبي', 'رقم الفاتورة':'1231321'}";
+//            handle_qr_file_uploads($insert_id, $qr_data);
+
             if (!DEFINED('CRON') && $expense == false) {
                 $lang_key = 'invoice_activity_created';
             } elseif (!DEFINED('CRON') && $expense == true) {

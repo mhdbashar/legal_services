@@ -11,6 +11,10 @@ class Migration_Version_510 extends CI_Migration
 
     public function up()
     {
+        if (!$this->db->field_exists('notify_contacts', db_prefix() . 'case_movement')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'case_movement` ADD `notify_contacts` TEXT DEFAULT NULL');
+        }
+        
         add_option('_fix_staffs_and_contacts_names', false);
 
         if (!$this->db->field_exists('second_name' ,db_prefix() . 'staff')) {

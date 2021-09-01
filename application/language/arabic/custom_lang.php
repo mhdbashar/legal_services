@@ -1,5 +1,7 @@
 <?php
 
+$lang['staff_add_edit_second_name'] = "اسم الأب";
+$lang['staff_add_edit_third_name'] = "الاسم الأوسط";
 $lang['organizations'] = 'المنشاّة';
 $lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
 $lang['designation_group'] = 'مجموعة المسميات الموظفية';
@@ -72,6 +74,7 @@ $lang['father_linked_services'] = "الخدمة المرتبطة الأساسي�
 $lang['child_linked_services'] = "الخدمات المرتبطة الفرعية";
 $lang['link_service'] = "نقل الخدمة";
 $lang['cases_summary'] = "ملخص القضايا";
+$lang['other_services_summary'] = "ملخص الخدمات القانونية";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";
@@ -1097,7 +1100,7 @@ $lang['bootstrap_container'] = "تغيير عمود حاوية النموذج (B
 $lang['share_direct_link'] = "مشاركة الرابط المباشر";
 $lang['first_ticket_created_alert'] = 'تم إنشاء أول تذكرة! <br /> <span style="font-size:26px;">هل تعلم أنه يمكنك تضمين نموذج التذكرة (الإعداد-> الإعدادات-> الدعم-> نموذج التذكرة) مباشرة في مواقع الويب الخاصة بك؟</span>';
 
-$lang['firstname'] = "الأسم الأول";
+$lang['firstname'] = "الاسم الأول";
 $lang['fathername'] = "اسم الاب";
 $lang['grandfathername'] = "اسم الجد";
 $lang['lastname'] = "اسم العائلة";

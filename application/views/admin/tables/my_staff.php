@@ -43,6 +43,8 @@ $where = hooks()->apply_filters('staff_table_sql_where', []);
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'profile_image',
     'lastname',
+    'second_name',
+    'third_name',
     'staffid',
     ]);
 
@@ -83,7 +85,7 @@ foreach ($rResult as $aRow) {
 
             $ci = &get_instance();
 
-                $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
+                $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['second_name']  . ' ' . $aRow['third_name']  . ' ' . $aRow['lastname'] . '</a>';
 
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . _l('view') . '</a>';

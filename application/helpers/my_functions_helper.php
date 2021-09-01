@@ -174,7 +174,7 @@ function my_module_menu_item_collapsible()
     //     'href'     => admin_url('clients'),
     //     'position' => 5,
     // ]);
-    if (has_permission('opponents', '', 'create')) {
+    if (has_permission('opponents', '', 'view')) {
         $CI->app_menu->add_sidebar_menu_item('opponents', [
             'name' => _l('opponents'), // The name if the item
             'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
@@ -182,56 +182,62 @@ function my_module_menu_item_collapsible()
             'position' => 5, // The menu position
             'icon' => 'fa fa-user-o', // Font awesome icon
         ]);
-}
-
-    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
-    $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
-        'name'     => _l('LegalServices'), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 5, // The menu position
-        'icon'     => 'fa fa-gavel', // Font awesome icon
-    ]);
-    foreach ($services as $service):
-        // The first paremeter is the parent menu ID/Slug
-        $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
-            'slug'     => $service->id.'/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-            'name'     => $service->name, // The name if the item
-            'href'     => admin_url("Service/$service->id"), // URL of the item
-        ]);
-    endforeach;
-    if (has_permission('imported_services', '', 'view')) {
-        $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
-            'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-            'name'     => _l("imported_services"), // The name if the item
-            'href'     => admin_url("imported_services"), // URL of the item
-        ]);
     }
 
-    $CI->app_menu->add_sidebar_menu_item('sessions', [
-        'name'     => _l("sessions"), // The name if the item
-        'href'     => admin_url('legalservices/sessions'), // URL of the item
-        'position' => 5, // The menu position, see below for default positions.
-        'icon'     => 'fa fa-font-awesome', // Font awesome icon
-    ]);
+    if (has_permission('projects', '', 'view_own') || has_permission('projects', '', 'view')){
+        $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1, 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+        $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
+            'name' => _l('LegalServices'), // The name if the item
+            'collapse' => true, // Indicates that this item will have submitems
+            'position' => 5, // The menu position
+            'icon' => 'fa fa-gavel', // Font awesome icon
+        ]);
+        foreach ($services as $service):
+            // The first paremeter is the parent menu ID/Slug
+            $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+                'slug' => $service->id . '/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+                'name' => $service->name, // The name if the item
+                'href' => admin_url("Service/$service->id"), // URL of the item
+            ]);
+        endforeach;
+        if (has_permission('imported_services', '', 'view')) {
+            $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+                'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+                'name' => _l("imported_services"), // The name if the item
+                'href' => admin_url("imported_services"), // URL of the item
+            ]);
+        }
+    }
 
-    $CI->app_menu->add_sidebar_menu_item('transactions', [
-        'name'     => _l("transactions"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 10, // The menu position
-        'icon'     => 'fa fa-briefcase', // Font awesome icon
-    ]);
-    $CI->app_menu->add_sidebar_children_item('transactions', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("incoming"), // The name if the item
-        'href'     => admin_url('transactions/incoming_list'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
-    $CI->app_menu->add_sidebar_children_item('transactions', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("outgoing"), // The name if the item
-        'href'     => admin_url('transactions/outgoing_list'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
+    if(has_permission('sessions', '', 'view_own') || has_permission('sessions', '', 'view')){
+
+        $CI->app_menu->add_sidebar_menu_item('sessions', [
+            'name'     => _l("sessions"), // The name if the item
+            'href'     => admin_url('legalservices/sessions'), // URL of the item
+            'position' => 5, // The menu position, see below for default positions.
+            'icon'     => 'fa fa-font-awesome', // Font awesome icon
+        ]);
+    }
+    if(has_permission('transactions', '', 'view_own') || has_permission('transactions', '', 'view')) {
+        $CI->app_menu->add_sidebar_menu_item('transactions', [
+            'name' => _l("transactions"), // The name if the item
+            'collapse' => true, // Indicates that this item will have submitems
+            'position' => 10, // The menu position
+            'icon' => 'fa fa-briefcase', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('transactions', [
+            'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name'     => _l("incoming"), // The name if the item
+            'href'     => admin_url('transactions/incoming_list'), // URL of the item
+            'position' => 1, // The menu position
+        ]);
+        $CI->app_menu->add_sidebar_children_item('transactions', [
+            'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name'     => _l("outgoing"), // The name if the item
+            'href'     => admin_url('transactions/outgoing_list'), // URL of the item
+            'position' => 1, // The menu position
+        ]);
+    }
 }
 
 function my_module_clients_area_menu_items()

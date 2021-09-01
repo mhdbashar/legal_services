@@ -1225,6 +1225,9 @@ class Cron_model extends App_Model
         $this->load->model('leads_model');
         $mail = $this->leads_model->get_email_integration();
 
+        if(!is_object($mail)){
+            return false;
+        }
         if ($mail->active == 0) {
             return false;
         }
@@ -2308,18 +2311,39 @@ class Cron_model extends App_Model
 
     function fix_and_separate_names()
     {
-        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-        foreach ($contacts as $contact) {
-            $parts = split_name($contact['firstname']);
-            if($parts){
-                $this->db->where('id', $contact['id']);
-                $this->db->update(db_prefix() . 'contacts', [
-                    'firstname' => $parts['firstname'],
-                    'fathername' => $parts['fathername'],
-                    'grandfathername' => $parts['grandfathername'],
-                    'lastname' => $parts['lastname']
-                ]);
+        $_fix_staffs_and_contacts_names = get_option('_fix_staffs_and_contacts_names');
+        if(!$_fix_staffs_and_contacts_names)
+        {
+            // Contacts
+            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            foreach ($contacts as $contact) {
+                $parts = split_name($contact['firstname']);
+                if($parts){
+                    $this->db->where('id', $contact['id']);
+                    $this->db->update(db_prefix() . 'contacts', [
+                        'firstname' => $parts['firstname'],
+                        'fathername' => $parts['fathername'],
+                        'grandfathername' => $parts['grandfathername'],
+                        'lastname' => $parts['lastname']
+                    ]);
+                }
             }
+            // Staffs
+            $staffs = $this->db->get(db_prefix() . 'staff')->result_array();
+            foreach ($staffs as $staff) {
+                $parts = split_name($staff['firstname']);
+                if($parts){
+                    $this->db->where('staffid', $staff['staffid']);
+                    $this->db->update(db_prefix() . 'staff', [
+                        'firstname' => $parts['firstname'],
+                        'second_name' => $parts['second_name'],
+                        'third_name' => $parts['third_name'],
+                        'lastname' => $parts['lastname']
+                    ]);
+                }
+            }
+
+            update_option('_fix_staffs_and_contacts_names', true);
         }
     }
 }

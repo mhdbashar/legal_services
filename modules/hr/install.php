@@ -1,6 +1,6 @@
 <?php
 
-
+$CI = &get_instance();
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_holiday')) {           
     $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_holiday` (
@@ -929,4 +929,382 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_contract_renewals')) {
   `is_on_old_expiry_notified` int(11) DEFAULT 0,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+// 302
+add_option('hr_contract_prefix', '#CONTRACT');
+
+add_option('next_hr_contract_number', '1');
+
+add_option('hr_contract_number', '1');
+
+add_option('hr_staff_prefix', '#STAFF');
+
+add_option('next_hr_staff_number', '1');
+
+add_option('hr_staff_number', '1');
+
+if (!$CI->db->field_exists('number', db_prefix() . 'hr_contracts')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_contracts` ADD `number` varchar(255) DEFAULT '';");
+}
+if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_contracts')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_contracts` ADD `number_format` varchar(255) DEFAULT '1';");
+}
+
+if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_extra_info')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `number_format` varchar(255) DEFAULT '1';");
+}
+//        if (!$CI->db->field_exists('prefix', db_prefix() . 'hr_extra_info')) {
+//            $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `prefix` varchar(255) DEFAULT '';");
+//        }
+if (!$CI->db->field_exists('number', db_prefix() . 'hr_extra_info')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `number` varchar(255) DEFAULT '';");
+}
+
+if (!$CI->db->field_exists('is_notification', db_prefix() . 'staff_insurance')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `is_notification` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('recurring_from', db_prefix() . 'staff_insurance')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `recurring_from` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('deadline_notified', db_prefix() . 'staff_insurance')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `deadline_notified` int(11) DEFAULT 0;");
+}
+// 303
+
+add_option('hr_designation_prefix', 'DES-');
+
+add_option('next_hr_designation_number', '1');
+
+add_option('hr_designation_number', '1');
+
+if (!$CI->db->field_exists('number', db_prefix() . 'hr_designations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_designations` ADD `number` varchar(255) DEFAULT '';");
+}
+if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_designations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_designations` ADD `number_format` varchar(255) DEFAULT '1';");
+}
+
+// 304
+
+if (!$CI->db->field_exists('is_notification', db_prefix() . 'insurance_book_nums')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."insurance_book_nums` ADD `is_notification` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('recurring_from', db_prefix() . 'insurance_book_nums')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."insurance_book_nums` ADD `recurring_from` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('deadline_notified', db_prefix() . 'insurance_book_nums')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."insurance_book_nums` ADD `deadline_notified` int(11) DEFAULT 0;");
+}
+
+// 305
+
+if (!$CI->db->field_exists('follower_staff', db_prefix() . 'hr_extra_info')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `follower_staff` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('description', db_prefix() . 'hr_designations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_designations` ADD `description` text DEFAULT '';");
+}
+
+// 306
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_designations_groups')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_designations_groups` (
+            `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+            `name` varchar(200) NOT NULL,
+            `description` text NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->field_exists('group_id', db_prefix() . 'hr_designations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_designations` ADD `group_id` int(11) DEFAULT 0;");
+}
+
+// 307
+
+if (!$CI->db->field_exists('country', db_prefix() . 'hr_extra_info')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `country` int(11) DEFAULT 0;");
+}
+
+if (!$CI->db->field_exists('nationality', db_prefix() . 'hr_extra_info')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `nationality` int(11) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('manager_id' ,db_prefix() . 'departments')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "departments` ADD COLUMN `manager_id` INT(11) NULL DEFAULT 0;");
+}
+if (!$CI->db->field_exists('parent_id' ,db_prefix() . 'departments')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "departments` ADD COLUMN `parent_id` INT(11) NULL DEFAULT 0;");
+}
+
+// 308
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_dependent_person')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_dependent_person` (
+              `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `staffid` int(11) UNSIGNED  NULL,
+              `dependent_name` varchar(100) NULL ,
+              `relationship` varchar(100) NULL ,
+              `dependent_bir` date NULL ,
+              `start_month` date NULL ,
+              `end_month` date NULL ,
+              `dependent_iden` varchar(20) NOT NULL ,
+              `reason` longtext NULL ,
+              `status` int(11) UNSIGNED  NULL DEFAULT 0 ,
+              `status_comment` longtext NULL,
+        
+              
+              PRIMARY KEY (`id`,`dependent_iden`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+// 309
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_knowledge_base_groups')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_knowledge_base_groups` (
+            `groupid` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(191) NOT NULL,
+            `group_slug` text,
+            `description` mediumtext,
+            `active` tinyint(4) NOT NULL,
+            `color` varchar(10) DEFAULT '#28B8DA',
+            `group_order` int(11) DEFAULT '0',
+        
+            PRIMARY KEY (`groupid`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+
+/*knowledge_base for Q&A*/
+if (!$CI->db->table_exists(db_prefix() . 'hr_knowledge_base')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_knowledge_base` (
+            `articleid` int(11) NOT NULL AUTO_INCREMENT,
+            `articlegroup` int(11) NOT NULL,
+            `subject` mediumtext NOT NULL,
+            `description` text NOT NULL,
+            `slug` mediumtext NOT NULL,
+            `active` tinyint(4) NOT NULL,
+            `datecreated` datetime NOT NULL,
+            `article_order` int(11) NOT NULL DEFAULT '0',
+            `staff_article` int(11) NOT NULL DEFAULT '0',
+            `question_answers` int(11) DEFAULT '0',
+            `file_name` varchar(255) DEFAULT '',
+            `curator` varchar(11) DEFAULT '',
+            `benchmark` int(11) DEFAULT '0',
+            `score` int(11) DEFAULT '0',
+        
+            PRIMARY KEY (`articleid`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_views_tracking')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_views_tracking` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `rel_id` int(11) NOT NULL,
+            `rel_type` varchar(40) NOT NULL,
+            `date` datetime NOT NULL,
+            `view_ip` varchar(40) NOT NULL,
+            PRIMARY KEY (`id`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_knowedge_base_article_feedback')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_knowedge_base_article_feedback` (
+            `articleanswerid` int(11) NOT NULL AUTO_INCREMENT,
+            `articleid` int(11) NOT NULL,
+            `answer` int(11) NOT NULL,
+            `ip` varchar(40) NOT NULL,
+            `date` datetime NOT NULL,
+        
+            PRIMARY KEY (`articleanswerid`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+// 310
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_contracts_types')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_contracts_types` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` mediumtext NOT NULL,
+            PRIMARY KEY (`id`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+// 311
+
+if (!$CI->db->field_exists('status', db_prefix() . 'hr_resignations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_resignations` ADD `status` varchar(200) DEFAULT 0;");
+}
+if (!$CI->db->field_exists('status', db_prefix() . 'hr_terminations')) {
+    $CI->db->query("ALTER TABLE `".db_prefix() ."hr_terminations` ADD `status` varchar(200) DEFAULT 0;");
+}
+
+// 312
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_education')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_education` (
+              `id` INT(11) NOT NULL AUTO_INCREMENT,
+              `staff_id` INT(11) NOT NULL,
+              `admin_id` INT(11) NOT NULL,
+              `programe_id` INT(11) NULL,
+              `training_programs_name` text NOT NULL,
+              `training_places` text NULL,
+              `training_time_from` DATETIME  NULL,
+              `training_time_to` DATETIME  NULL,
+              `date_create` DATETIME NULL,
+              `training_result` VARCHAR(150) NULL,
+              `degree` VARCHAR(150) NULL,
+              `notes` text NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+if (!$CI->db->table_exists(db_prefix() . 'setting_training')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . 'setting_training` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `training_type` INT(11) NOT NULL,
+            `position_training` VARCHAR(100) NULL,
+            PRIMARY KEY (`id`));');
+}
+if (!$CI->db->table_exists(db_prefix() . 'position_training_question_form')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "position_training_question_form` (
+            `questionid` int(11) NOT NULL AUTO_INCREMENT,
+            `rel_id` int(11) NOT NULL,
+            `rel_type` varchar(20) DEFAULT NULL,
+            `question` mediumtext NOT NULL,
+            `required` tinyint(1) NOT NULL DEFAULT '0',
+            `question_order` int(11) NOT NULL,
+            `point`int(11) NOT NULL,
+        
+            PRIMARY KEY (`questionid`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_training_allocation')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_training_allocation` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `training_process_id` VARCHAR(100) NOT NULL,
+            `staffid` INT(11) NULL,
+            `training_type` int(11) NULL,
+            `date_add` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `training_name` varchar(150) NULL,
+        
+             PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+if (!$CI->db->table_exists(db_prefix() . 'hr_jp_interview_training')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_jp_interview_training` (
+              `training_process_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `job_position_id` LONGTEXT NULL,
+              `training_name` VARCHAR(100) NULL,
+              `training_type` int(11) NULL,
+              `description` TEXT NULL,
+              `date_add` datetime NULL,
+              `position_training_id` TEXT NULL,
+              `mint_point` INT(11) NULL,
+        
+              PRIMARY KEY (`training_process_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->field_exists('jp_interview_training_id' ,db_prefix() . 'hr_training_allocation')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . "hr_training_allocation`
+            ADD COLUMN `jp_interview_training_id` INT(11) NULL ;");
+}
+if (!$CI->db->table_exists(db_prefix() . 'hr_p_t_surveyresultsets')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_p_t_surveyresultsets` (
+           `resultsetid` int(11) NOT NULL AUTO_INCREMENT,
+            `trainingid` int(11) NOT NULL,
+            `ip` varchar(40) NOT NULL,
+            `useragent` varchar(150) NOT NULL,
+            `date` datetime NOT NULL,
+            `staff_id` int(11) UNSIGNED NOT NULL,
+        
+             PRIMARY KEY (`resultsetid`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_position_training')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_position_training` (
+            `training_id` int(11) NOT NULL AUTO_INCREMENT,
+            `subject` mediumtext NOT NULL,
+            `training_type` int(11) UNSIGNED NOT NULL,
+            `slug` mediumtext NOT NULL,
+            `description` text  NULL,
+            `viewdescription` text,
+            `datecreated` datetime NOT NULL,
+            `redirect_url` varchar(100) DEFAULT NULL,
+            `send` tinyint(1) NOT NULL DEFAULT '0',
+            `onlyforloggedin` int(11) DEFAULT '0',
+            `fromname` varchar(100) DEFAULT NULL,
+            `iprestrict` tinyint(1) NOT NULL,
+            `active` tinyint(1) NOT NULL DEFAULT '1',
+            `hash` varchar(32) NOT NULL,
+            `mint_point` VARCHAR(20) NULL,
+        
+            PRIMARY KEY (`training_id`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+if (!$CI->db->table_exists(db_prefix() . 'hr_p_t_form_question_box')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_p_t_form_question_box` (
+           `boxid` int(11) NOT NULL AUTO_INCREMENT,
+            `boxtype` varchar(10) NOT NULL,
+            `questionid` int(11) NOT NULL,
+        
+          PRIMARY KEY (`boxid`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_p_t_form_results')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_p_t_form_results` (
+      
+            `resultid` int(11) NOT NULL AUTO_INCREMENT,
+            `boxid` int(11) NOT NULL,
+            `boxdescriptionid` int(11) DEFAULT NULL,
+            `rel_id` int(11) NOT NULL,
+            `rel_type` varchar(20) DEFAULT NULL,
+            `questionid` int(11) NOT NULL,
+            `answer` text,
+            `resultsetid` int(11) NOT NULL,
+        
+            PRIMARY KEY (`resultid`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_p_t_form_question_box_description')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_p_t_form_question_box_description` (
+            `questionboxdescriptionid` int(11) NOT NULL AUTO_INCREMENT,
+            `description` mediumtext NOT NULL,
+            `boxid` mediumtext NOT NULL,
+            `questionid` int(11) NOT NULL,
+            `correct` int(11) NULL DEFAULT '1' COMMENT'0: correct 1: incorrect',
+        
+          PRIMARY KEY (`questionboxdescriptionid`)
+        
+          ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_position_training_question_form')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_position_training_question_form` (
+            `questionid` int(11) NOT NULL AUTO_INCREMENT,
+            `rel_id` int(11) NOT NULL,
+            `rel_type` varchar(20) DEFAULT NULL,
+            `question` mediumtext NOT NULL,
+            `required` tinyint(1) NOT NULL DEFAULT '0',
+            `question_order` int(11) NOT NULL,
+            `point`int(11) NOT NULL,
+        
+            PRIMARY KEY (`questionid`)
+
+  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+if (!$CI->db->field_exists('second_name' ,db_prefix() . 'staff')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+            ADD COLUMN `second_name` varchar(100) NULL AFTER `firstname`');
+}
+if (!$CI->db->field_exists('third_name' ,db_prefix() . 'staff')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+            ADD COLUMN `third_name` varchar(100) NULL AFTER `second_name`');
 }

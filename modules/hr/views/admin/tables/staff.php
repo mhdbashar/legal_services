@@ -81,6 +81,8 @@ if($this->ci->input->post('hrm_deparment')){
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'profile_image',
     'lastname',
+    'second_name',
+    'third_name',
     db_prefix().'staff.staffid',
     ]);
 
@@ -123,7 +125,7 @@ foreach ($rResult as $aRow) {
                 ]) . '</a>';
             
 
-                $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
+                $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['second_name']  . ' ' . $aRow['third_name']  . ' ' . $aRow['lastname'] . '</a>';
 
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . _l('view') . '</a>';

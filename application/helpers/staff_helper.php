@@ -36,12 +36,6 @@ function get_available_staff_permissions($data = [])
                 'view' => $viewGlobalName,
             ],
         ],
-        'tickets' => [
-            'name'         => _l('support'),
-            'capabilities' => [
-                'view' => $viewGlobalName,
-            ],
-        ],
         'contracts' => [
             'name'         => _l('contracts'),
             'capabilities' => $allPermissionsArray,
@@ -151,7 +145,7 @@ function get_available_staff_permissions($data = [])
         'tasks' => [
             'name'         => _l('tasks'),
             'capabilities' => $withNotApplicableViewOwn,
-             'help'        => [
+            'help'        => [
                 'view'     => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
             ],
@@ -318,7 +312,7 @@ function staff_profile_image_url($staff_id, $type = 'small')
     } else {
         $CI = & get_instance();
         $CI->db->select('profile_image')
-        ->where('staffid', $staff_id);
+            ->where('staffid', $staff_id);
 
         $staff = $CI->db->get(db_prefix() . 'staff')->row();
     }
@@ -491,7 +485,7 @@ function is_staff_member($staff_id = '')
     }
 
     $CI->db->where('staffid', $staff_id)
-    ->where('is_not_staff', 0);
+        ->where('is_not_staff', 0);
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
 }

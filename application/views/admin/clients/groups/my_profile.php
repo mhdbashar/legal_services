@@ -25,13 +25,11 @@
                   </a>
                </li>
                <?php } ?>
-
                <li role="presentation">
                   <a href="#billing_and_shipping" aria-controls="billing_and_shipping" role="tab" data-toggle="tab">
                   <?php echo _l( 'billing_shipping'); ?>
                   </a>
                </li>
-
                <?php hooks()->do_action('after_customer_billing_and_shipping_tab', isset($client) ? $client : false); ?>
                <?php if(isset($client)){ ?>
                <li role="presentation">
@@ -54,7 +52,7 @@
          <?php } ?>
          <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
             <div class="row">
-               <div class="col-md-12<?php if(isset($client) && (!is_empty_customer_company($client->userid) && total_rows(db_prefix().'contacts',array('userid'=>$client->userid,'is_primary'=>1)) > 0)) { echo ''; } else {echo ' hide';} ?>" id="client-show-primary-contact-wrapper">
+               <div class="col-md-12 mtop15 <?php if(isset($client) && (!is_empty_customer_company($client->userid) && total_rows(db_prefix().'contacts',array('userid'=>$client->userid,'is_primary'=>1)) > 0)) { echo ''; } else {echo ' hide';} ?>" id="client-show-primary-contact-wrapper">
                   <div class="checkbox checkbox-info mbot20 no-mtop">
                      <input type="checkbox" name="show_primary_contact"<?php if(isset($client) && $client->show_primary_contact == 1){echo ' checked';}?> value="1" id="show_primary_contact">
                      <label for="show_primary_contact"><?php echo _l('show_primary_contact',_l('invoices').', '._l('estimates').', '._l('payments').', '._l('credit_notes')); ?></label>
@@ -76,10 +74,26 @@
                   <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
                   <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
                   <div id="company_exists_info" class="hide"></div>
+                  <?php if(get_option('company_requires_vat_number_field') == 1){
+                     $value=( isset($client) ? $client->vat : '');
+                     echo render_input( 'vat', 'client_vat_number',$value);
+                     } ?>
                   <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
                   <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
-                  
-                  
+                   <?php if((isset($client) && empty($client->website)) || !isset($client)){
+                     $value=( isset($client) ? $client->website : '');
+                     echo render_input( 'website', 'client_website',$value);
+                     } else { ?>
+                  <div class="form-group">
+                     <label for="website"><?php echo _l('client_website'); ?></label>
+                     <div class="input-group">
+                        <input type="text" name="website" id="website" value="<?php echo $client->website; ?>" class="form-control">
+                        <div class="input-group-addon">
+                           <span><a href="<?php echo maybe_add_http($client->website); ?>" target="_blank" tabindex="-1"><i class="fa fa-globe"></i></a></span>
+                        </div>
+                     </div>
+                  </div>
+                  <?php } ?>
                      <div class="individual_select">
                      <?php 
                      $selected = array();
@@ -163,8 +177,12 @@
                </div>
                <div class="col-md-6">
                   <?php $value= (isset($client) ? $client->address : ''); ?>
-                  <?php echo render_textarea( 'address', 'client_address',$value); ?>
-                 
+                  <?php echo render_textarea( 'address', 'client_address',$value);?>
+                   <?php $value=( isset($client) ? $client->state : ''); ?>
+                   <?php echo render_input( 'state', 'client_state',$value); ?>
+                   <?php $value=( isset($client) ? $client->zip : ''); ?>
+                   <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
+
                   <?php $countries= my_get_all_countries();
                      $customer_default_country = get_option('customer_default_country') ? get_option('customer_default_country') : get_option('company_country');
                      $selected = (isset($client) ? $client->country : $customer_default_country);

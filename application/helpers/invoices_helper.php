@@ -719,3 +719,31 @@ function user_can_view_invoice($id, $staff_id = false)
 
     return false;
 }
+
+function handle_qr_file_uploads($id, $data)
+{
+    $response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+    $image_data=file_get_contents($response);
+    $encoded_image=base64_encode($image_data);
+    // Obtain the original content (usually binary data)
+    $bin = base64_decode($encoded_image);
+    // Load GD resource from binary data
+    $im = imageCreateFromString($bin);
+    // Make sure that the GD library was able to load the image
+    // This is important, because you should not miss corrupted or unsupported images
+    if (!$im) {
+        die('Base64 value is not a valid image');
+    }
+    // Specify the location where you want to save the image
+    $path = get_upload_path_by_type('invoice') . 'QRs/'.$id.'.jpg';
+    // Save the GD resource as PNG in the best possible quality (no compression)
+    // This will strip any metadata or invalid contents (including, the PHP backdoor)
+    // To block any possible exploits, consider increasing the compression level
+    imagepng($im, $path, 0);
+
+    $CI = &get_instance();
+    $CI->db->where('id', $id);
+    $CI->db->update(db_prefix() . 'invoices', [
+        'qr_code' => "$id.jpg",
+    ]);
+}

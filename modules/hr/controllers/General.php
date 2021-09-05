@@ -39,6 +39,31 @@ class General extends AdminController{
         echo json_encode($data);
     }
 
+    public function validate_staff_code_number()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                $member_id = $this->input->post('memberid');
+                if ($member_id != '') {
+                    $this->db->where('staff_id', $member_id);
+                    $_current_number = $this->db->get(db_prefix() . 'hr_extra_info')->row();
+                    if ($_current_number->emloyee_id == $this->input->post('emloyee_id')) {
+                        echo json_encode(true);
+                        die();
+                    }
+                }
+                $this->db->where('emloyee_id', $this->input->post('emloyee_id'));
+                $total_rows = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
+                if ($total_rows > 0) {
+                    echo json_encode(false);
+                } else {
+                    echo json_encode(true);
+                }
+                die();
+            }
+        }
+    }
+
     public function staff()
     {
 //        if (!has_permission('staff', '', 'view')) {
@@ -281,7 +306,6 @@ class General extends AdminController{
 //                    }else{
 //                        $this->Branches_model->delete_branch('staff', $id);
 //                    }                handle_staff_profile_image_upload($id);
-                $data['lastname'] = '';
                 $data['role'] = $this->input->post('role');
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
@@ -290,6 +314,7 @@ class General extends AdminController{
                     $success = $this->Extra_info_model->add($hr_data);
                     $response = $this->staff_model->update($data, $id);
                 }
+                handle_staff_profile_image_upload($id);
                 if (is_array($response)) {
                     if (isset($response['cant_remove_main_admin'])) {
                         set_alert('warning', _l('staff_cant_remove_main_admin'));

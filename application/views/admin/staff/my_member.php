@@ -115,8 +115,17 @@
                      <?php } ?>
                      <?php $value = (isset($member) ? $member->firstname : ''); ?>
                      <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
-                     <?php echo form_hidden('lastname', ' ') ?>
+                     <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+
+
+                      <?php $value = (isset($member) ? $member->second_name : ''); ?>
+                      <?php echo render_input('second_name','staff_add_edit_second_name',$value); ?>
+
+                      <?php $value = (isset($member) ? $member->third_name : ''); ?>
+                      <?php echo render_input('third_name','staff_add_edit_third_name',$value); ?>
+
+                      <?php $value = (isset($member) ? $member->lastname : ''); ?>
+                      <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      <?php /*$value = (isset($member) ? $member->lastname : ''); ?>
                      <?php echo render_input('lastname','staff_add_edit_lastname',$value);*/ ?>
                      <?php $value = (isset($member) ? $member->email : ''); ?>

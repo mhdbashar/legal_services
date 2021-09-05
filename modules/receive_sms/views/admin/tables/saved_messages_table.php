@@ -17,7 +17,7 @@ $join = [
 ];
 
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'saved_sms.id', db_prefix() . 'my_basic_services.id as ServID', 'rel_id']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'saved_sms.id', db_prefix() . 'my_basic_services.id as ServID', 'rel_id', 'msg_id']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -46,7 +46,7 @@ foreach ($rResult as $aRow) {
 
     $options = '';
     //if (has_permission('hr', '', 'edit'))
-        $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_message', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+        $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_message', 'data-id' => $aRow['msg_id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     //if (has_permission('hr', '', 'delete'))
         $options .= icon_btn('receive_sms/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $row[]   = $options;

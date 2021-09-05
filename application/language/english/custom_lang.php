@@ -1,5 +1,7 @@
 <?php
 
+$lang['staff_add_edit_second_name'] = "Second Name";
+$lang['staff_add_edit_third_name'] = "Third Name";
 $lang['add_only_main_salary'] = 'Add only main salary';
 $lang['designation_group'] = 'Designation group';
 $lang['new_designation_group'] = 'New designation_group';
@@ -68,6 +70,7 @@ $lang['link_service'] = 'Link service';
 $lang['Cases'] = "Cases";
 $lang['updated_at'] = "Updated at";
 $lang['cases_summary'] = "Cases Summary";
+$lang['other_services_summary'] = "Other Services Summary";
 $lang['summary'] = "Summary";
 $lang['Case'] = "Case";
 $lang['Cases'] = "Cases";
@@ -3055,7 +3058,6 @@ $lang['settings_paymentmethod_default_selected_on_invoice'] = "Selected by defau
 $lang['paymentmethod_braintree_merchant_id'] = "Merchant ID";
 $lang['paymentmethod_braintree_private_key'] = "Private Key";
 $lang['paymentmethod_braintree_public_key'] = "Public Key";
-$lang['company_requires_vat_number_field'] = "Company requires the usage of the VAT Number field";
 $lang['no_company_view_profile'] = "Person - View Profile";
 $lang['company_is_required'] = "Company field is required?";
 $lang['estimate_invoiced'] = "Invoiced";
@@ -3674,7 +3676,6 @@ $lang['enable_google_picker'] = "Enable Google Picker";
 $lang['google_api_client_id'] = "Google API Client ID";
 $lang['subtract_tax_total_from_amount'] = "Subtract TAX total (%s) from amount";
 $lang['expense_subtract_info_text'] = "Use this option to subtract the total tax amount from the expense amount, useful when you entered the expense amount with tax included (tax inclusive).";
-$lang['company_exists_info'] = "It looks that a customer with name %s already exists, if you still want to create the customer you can ignore this message.";
 $lang['import_items'] = "Import Items";
 $lang['total_items_deleted'] = "Total items deleted: %s";
 $lang['billable_amount'] = "Billable Amount";

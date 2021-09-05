@@ -51,7 +51,6 @@ $lang['staff_dt_active'] = 'نشط';
 $lang['status_work'] = 'الحالة';
 $lang['department'] = 'القسم';
 $lang['hr_code'] = 'HR code';
-$lang['staff_add_edit_firstname'] = 'الإسم الأول';
 $lang['staff_add_edit_hr_code'] = 'HR code';
 $lang['male'] = 'ذكر';
 $lang['female'] = 'أنثى';

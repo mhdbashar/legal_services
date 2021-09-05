@@ -197,9 +197,9 @@ class Emails extends AdminController
 
         $lang = get_staff_default_language();
 
-        if (($key = array_search($lang, $data['available_languages'])) !== false) {
-            unset($data['available_languages'][$key]);
-        }
+//        if (($key = array_search($lang, $data['available_languages'])) !== false) {
+//            unset($data['available_languages'][$key]);
+//        }
 
         $data['available_merge_fields'] = $this->app_merge_fields->all();
         //var_dump($data['available_merge_fields'] ); exit;

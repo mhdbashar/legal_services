@@ -26,7 +26,7 @@ if(!empty($client_id)){
 
 $join = [];
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -37,6 +37,7 @@ $ci->load->model('procurations_model');
 $ci->load->model('legalservices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
+    $row[] = $aRow['come_from'];
     $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
     $row[] = _gregorian_hijri_date($aRow['start_date']);

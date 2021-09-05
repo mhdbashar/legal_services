@@ -36,6 +36,12 @@ function get_available_staff_permissions($data = [])
                 'view' => $viewGlobalName,
             ],
         ],
+        'tickets' => [
+            'name'         => _l('support'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+            ],
+        ],
         'contracts' => [
             'name'         => _l('contracts'),
             'capabilities' => $allPermissionsArray,

@@ -112,7 +112,7 @@ function get_available_staff_permissions($data = [])
         ],
         'projects' => [
             'name'         => _l('projects'),
-            'capabilities' => array_merge($withNotApplicableViewOwn, [ 'create_milestones' => _l('permission_create_milestones'),
+            'capabilities' => array_merge($allPermissionsArray, [ 'create_milestones' => _l('permission_create_milestones'),
                 'edit_milestones'=> _l('permission_edit_milestones'),'delete_milestones'=> _l('permission_delete_milestones')]),
             'help'         => [
                 'view'     => _l('help_project_permissions'),
@@ -150,7 +150,7 @@ function get_available_staff_permissions($data = [])
         // ],
         'tasks' => [
             'name'         => _l('tasks'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => $allPermissionsArray,
             'help'        => [
                 'view'     => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),

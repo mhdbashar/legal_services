@@ -49,7 +49,7 @@
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{state}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{zip_code}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{phone}</a>,
-        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>,
+        <?php /*        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>,*/ ?>
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number_with_label}</a>
     </p>
     <?php $custom_company_fields = get_company_custom_fields();

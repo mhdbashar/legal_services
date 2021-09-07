@@ -49,8 +49,11 @@ $organization_info = '<div style="color:#424242;">';
 $organization_info .= format_organization_info();
 
 $organization_info .= '</div>';
-$qrCodePath = base_url().'uploads/invoices/QRs/'.$invoice->qr_code;
-$organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
+
+if($invoice->qr_code != null || $invoice->qr_code != ''){
+    $qrCodePath = base_url().'uploads/invoices/QRs/'.$invoice->qr_code;
+    $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
+}
 
 // Bill to
 $invoice_info = '<div align="'.$attr_align.'">';

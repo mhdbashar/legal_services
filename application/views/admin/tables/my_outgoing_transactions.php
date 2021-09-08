@@ -39,11 +39,18 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['owner'];
 
 
+    if(has_permission('transactions', '', 'edit') || has_permission('transactions', '', 'delete')) {
+        $options = '';
+        if(has_permission('transactions', '', 'edit')) {
+            $options .= icon_btn('transactions/outgoing/' . $aRow['id'], 'pencil-square-o', 'btn-default');
+        }
+        if(has_permission('transactions', '', 'delete')) {
 
-    $options = icon_btn('transactions/outgoing/' . $aRow['id']  , 'pencil-square-o', 'btn-default');
-    // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
-    $row[]   = $options .= icon_btn('#' , 'remove', 'btn-danger _delete',['data-id'=> $aRow['id']]);
-
+            // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
+            $options .= icon_btn('#', 'remove', 'btn-danger _delete', ['data-id' => $aRow['id']]);
+        }
+        $row[] = $options;
+    }
 
     $output['aaData'][] = $row;
 }

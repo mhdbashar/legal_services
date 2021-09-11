@@ -47,13 +47,21 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['owner'];
 
     $row[] = $aRow['date'];
+    $options = '';
 
 
+    if(has_permission('transactions', '', 'edit') || has_permission('transactions', '', 'delete')) {
 
-    $options = icon_btn('transactions/incoming/' . $aRow['id']  , 'pencil-square-o', 'btn-default');
-    // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
-    $row[]   = $options .= icon_btn('#', 'remove', 'btn-danger _delete',['data-id'=> $aRow['id']]);
+        if(has_permission('transactions', '', 'edit')) {
+            $options .= icon_btn('transactions/incoming/' . $aRow['id']  , 'pencil-square-o', 'btn-default');
+        }
+        if(has_permission('transactions', '', 'delete')) {
+            $options .= icon_btn('#', 'remove', 'btn-danger _delete',['data-id'=> $aRow['id']]);
+        }
 
+        $row[] = $options;
+        // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
+    }
 
     $output['aaData'][] = $row;
 }

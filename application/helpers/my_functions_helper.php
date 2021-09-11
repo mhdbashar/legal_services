@@ -215,24 +215,27 @@ function my_module_menu_item_collapsible()
             'icon' => 'fa fa-font-awesome', // Font awesome icon
         ]);
     }
-    $CI->app_menu->add_sidebar_menu_item('transactions', [
-        'name'     => _l("transactions"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 10, // The menu position
-        'icon'     => 'fa fa-briefcase', // Font awesome icon
-    ]);
-    $CI->app_menu->add_sidebar_children_item('transactions', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("incoming"), // The name if the item
-        'href'     => admin_url('transactions/incoming_list'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
-    $CI->app_menu->add_sidebar_children_item('transactions', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("outgoing"), // The name if the item
-        'href'     => admin_url('transactions/outgoing_list'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
+    if(has_permission('transactions', '', 'view_own') || has_permission('transactions', '', 'view')) {
+
+        $CI->app_menu->add_sidebar_menu_item('transactions', [
+            'name' => _l("transactions"), // The name if the item
+            'collapse' => true, // Indicates that this item will have submitems
+            'position' => 10, // The menu position
+            'icon' => 'fa fa-briefcase', // Font awesome icon
+        ]);
+        $CI->app_menu->add_sidebar_children_item('transactions', [
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("incoming"), // The name if the item
+            'href' => admin_url('transactions/incoming_list'), // URL of the item
+            'position' => 1, // The menu position
+        ]);
+        $CI->app_menu->add_sidebar_children_item('transactions', [
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("outgoing"), // The name if the item
+            'href' => admin_url('transactions/outgoing_list'), // URL of the item
+            'position' => 1, // The menu position
+        ]);
+    }
 }
 
 function my_module_clients_area_menu_items()

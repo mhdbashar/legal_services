@@ -36,7 +36,7 @@ var hotElement = document.querySelector('#example');
           data: 'item_code',
           renderer: customDropdownRenderer,
           editor: "chosen",
-          //width: 150,
+          width: 150,
           chosenOptions: {
               data: <?php echo json_encode($items); ?>
           },
@@ -46,7 +46,7 @@ var hotElement = document.querySelector('#example');
           data: 'unit_id',
           renderer: customDropdownRenderer,
           editor: "chosen",
-          //width: 150,
+          width: 150,
           chosenOptions: {
               data: <?php echo json_encode($units); ?>
           },
@@ -81,7 +81,7 @@ var hotElement = document.querySelector('#example');
           renderer: customDropdownRenderer,
           editor: "chosen",
       
-          //width: 100,
+          width: 100,
           chosenOptions: {
              
               data: <?php echo json_encode($taxes); ?>
@@ -93,7 +93,7 @@ var hotElement = document.querySelector('#example');
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {
@@ -102,7 +102,7 @@ var hotElement = document.querySelector('#example');
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {
@@ -189,7 +189,7 @@ $('.save_detail').on('click', function() {
           data: 'prd_id',
           type: 'numeric',
       
-        },g
+        },
         {
           data: 'pur_request',
           type: 'numeric',
@@ -198,14 +198,14 @@ $('.save_detail').on('click', function() {
         {
           data: 'item_text',
           
-          // width: 150,
+          width: 150,
           
         },
         {
           data: 'unit_id',
           renderer: customDropdownRenderer,
           editor: "chosen",
-          // width: 150,
+          width: 150,
           chosenOptions: {
               data: <?php echo json_encode($units); ?>
           },
@@ -237,7 +237,7 @@ $('.save_detail').on('click', function() {
           renderer: customDropdownRenderer,
           editor: "chosen",
       
-          //width: 100,
+          width: 100,
           chosenOptions: {
              
               data: <?php echo json_encode($taxes); ?>
@@ -249,7 +249,7 @@ $('.save_detail').on('click', function() {
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {
@@ -258,7 +258,7 @@ $('.save_detail').on('click', function() {
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {
@@ -286,7 +286,7 @@ $('.save_detail').on('click', function() {
           data: 'item_code',
           renderer: customDropdownRenderer,
           editor: "chosen",
-          //width: 150,
+          width: 150,
           chosenOptions: {
               data: <?php echo json_encode($items); ?>
           }
@@ -295,7 +295,7 @@ $('.save_detail').on('click', function() {
           data: 'unit_id',
           renderer: customDropdownRenderer,
           editor: "chosen",
-          //width: 150,
+          width: 150,
           chosenOptions: {
               data: <?php echo json_encode($units); ?>
           },
@@ -328,7 +328,7 @@ $('.save_detail').on('click', function() {
           renderer: customDropdownRenderer,
           editor: "chosen",
       
-          //width: 100,
+          width: 100,
           chosenOptions: {
              
               data: <?php echo json_encode($taxes); ?>
@@ -340,7 +340,7 @@ $('.save_detail').on('click', function() {
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {
@@ -349,7 +349,7 @@ $('.save_detail').on('click', function() {
           numericFormat: {
             pattern: '0,0'
           },
-           //width: 90,
+           width: 90,
           readOnly: true
         },
         {

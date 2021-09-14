@@ -1,4 +1,4 @@
-var id, amount;
+var id, type, amount;
 
 var fnServerParams;
 (function($) {

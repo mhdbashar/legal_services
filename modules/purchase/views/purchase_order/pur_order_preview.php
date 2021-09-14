@@ -336,7 +336,7 @@
                                     <td class="dragger item_no ui-sortable-handle" align="center"><?php echo html_entity_decode($count); ?></td>
                                     <td class="description" align="left;"><span><strong><?php 
                                     $item = get_item_hp($es['item_code']); 
-                                    if(isset($item)){
+                                    if(isset($item) && isset($item->commodity_code) && isset($item->description)){
                                        echo html_entity_decode($item->commodity_code.' - '.$item->description);
                                     }else{
                                        echo '';

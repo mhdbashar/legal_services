@@ -32,8 +32,40 @@
 	        	$('#divResume').addClass('hide');
 	        	$('#divInfo').removeClass('hide');
 	        }
+
+          if(response.hide_restored == true || response.hide_restored == 'true' ){
+            $('.hide_restored').addClass('hide');
+          } else{
+            if(response.closing_date == false || response.closing_date == 'false'){
+              $('.hide_restored').removeClass('hide');
+            }
+          }
 	    });
  	});
+
+  $('.hide_restored').on('click', function(){
+
+    requestGet('accounting/reconcile_restored/' + $('select[name="account"]').val()).done(function(response) {
+          response = JSON.parse(response);
+          if(response.success == true || response.success == 'true'){
+            
+            if(response.hide_restored == true || response.hide_restored == 'true' ){
+              $('.hide_restored').addClass('hide');
+            } else{
+              if(response.closing_date == false || response.closing_date == 'false'){
+                $('.hide_restored').removeClass('hide');
+              }
+            }
+            $('select[name="account"]').change();
+            
+            alert_float('success', response.message);
+          }else{
+            alert_float('warning', response.message);
+          }
+
+
+      });
+  });
 
 	$("input[data-type='currency']").on({
       keyup: function() {

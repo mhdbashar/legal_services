@@ -7,3 +7,16 @@
 .handsontable{
     direction: ltr;
 }
+
+.chosen-container .chosen-drop {
+    position: absolute;
+    top: 100%;
+    left: 9999px;
+    z-index: 1010;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    border-top: 0;
+    background: #d1d0d0;
+}

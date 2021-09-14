@@ -3,6 +3,7 @@
 "use strict"; 
 <?php if(isset($pur_request)){
  ?>
+var taxes = <?php echo json_encode($taxes_data['taxes']); ?>;
 var dataObject = <?php echo html_entity_decode($pur_request_detail); ?>;
 var hotElement = document.querySelector('#example');
     var hotElementContainer = hotElement.parentNode;
@@ -66,6 +67,35 @@ var hotElement = document.querySelector('#example');
 
         },
         {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+      
+          width: 100,
+          chosenOptions: {
+             
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
           data: 'inventory_quantity',
           type: 'numeric',
           readOnly: true
@@ -83,12 +113,15 @@ var hotElement = document.querySelector('#example');
       rowHeaders: true,
       
       colHeaders: [
-        '<?php echo ''; ?>',
+         '<?php echo ''; ?>',
         '<?php echo ''; ?>',
         '<?php echo _l('items'); ?>',
         '<?php echo _l('pur_unit'); ?>',
         '<?php echo _l('purchase_unit_price'); ?>',
         '<?php echo _l('purchase_quantity'); ?>',
+        '<?php echo _l('subtotal_before_tax'); ?>',
+        '<?php echo _l('tax'); ?>',
+        '<?php echo _l('tax_value'); ?>',
         '<?php echo _l('total'); ?>',
         '<?php echo _l('inventory_quantity'); ?>'
         
@@ -108,7 +141,7 @@ var hotElement = document.querySelector('#example');
         indicator: true
       },
       hiddenColumns: {
-        columns: [0,1,7],
+        columns: [0,1,10],
         indicators: true
       },
       filters: true,

@@ -539,9 +539,6 @@ class purchase extends AdminController
     	$data['departments'] = $this->departments_model->get();
     	$data['units'] = $this->purchase_model->get_units();
     	$data['items'] = $this->purchase_model->get_items();
-        $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Cases_model', 'case');
-        $data['legal_services'] = $this->legal->get_all_services();
     	
         $this->load->view('purchase_request/pur_request', $data);
     }
@@ -1176,9 +1173,6 @@ class purchase extends AdminController
         $data['units'] = $this->purchase_model->get_units();
         $data['items'] = $this->purchase_model->get_items();
         $data['title'] = $title;
-        $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Cases_model', 'case');
-        $data['legal_services'] = $this->legal->get_all_services();
 
         $this->load->view('purchase_order/pur_order', $data);
     }
@@ -1351,10 +1345,6 @@ class purchase extends AdminController
         $data['units'] = $this->purchase_model->get_units();
         $data['items'] = $this->purchase_model->get_items();
         $data['title'] = $title;
-
-        $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Cases_model', 'case');
-        $data['legal_services'] = $this->legal->get_all_services();
 
         $this->load->view('contracts/contract', $data);
     }

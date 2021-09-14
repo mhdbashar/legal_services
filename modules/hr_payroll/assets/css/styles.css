@@ -220,10 +220,3 @@ body.payslip_manage  .label-primary{
 .payslip-template-lable{
 	font-style: italic;
 }
-
-#example{
-	direction: ltr;
-}
-.handsontable{
-	direction: ltr;
-}

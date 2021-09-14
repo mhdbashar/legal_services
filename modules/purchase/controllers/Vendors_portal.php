@@ -278,7 +278,7 @@ class Vendors_portal extends App_Controller
                 $this->form_validation->set_rules('company', _l('clients_company'), 'required');
             }
 
-            if (active_clients_theme() == 'babil') {
+            if (active_clients_theme() == 'perfex') {
                 // Fix for custom fields checkboxes validation
                 $this->form_validation->set_rules('company_form', '', 'required');
             }
@@ -745,13 +745,14 @@ class Vendors_portal extends App_Controller
     }
 
     /**
-     * { view purchase order }
+     * { view purchase request }
      */
     public function pur_request($id,$hash){
 
         check_pur_request_restrictions($id, $hash);
         
         $this->load->model('departments_model');
+        $this->load->model('currencies_model');
 
         $data['pur_request_detail'] = json_encode($this->purchase_model->get_pur_request_detail($id));
         $data['pur_request'] = $this->purchase_model->get_purchase_request($id);
@@ -764,8 +765,9 @@ class Vendors_portal extends App_Controller
         $data['get_staff_sign'] = $this->purchase_model->get_staff_sign($id,'pur_request');
         $data['check_approve_status'] = $this->purchase_model->check_approval_details($id,'pur_request');
         $data['list_approve_status'] = $this->purchase_model->get_list_approval_details($id,'pur_request');
-        $this->load->model('currencies_model');
+
         $data['base_currency'] = $this->currencies_model->get_base_currency();
+        $data['taxes'] = $this->purchase_model->get_taxes();
         $data['taxes_data'] = $this->purchase_model->get_html_tax_pur_request($id);
 
         $this->data($data);

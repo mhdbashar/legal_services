@@ -916,12 +916,7 @@ class Purchase_model extends App_Model
         if(isset($data['from_items'])){
             $data['from_items'] = 1;
         }else{
-            if($data['status'] != 2){
-                $data['from_items'] = 0;
-            }else{
-                $data['from_items'] = 1;
-            }
-            
+            $data['from_items'] = 0;
         }
 
         $data['subtotal'] = reformat_currency_pur($data['subtotal']);
@@ -931,7 +926,7 @@ class Purchase_model extends App_Model
             unset($data['total_mn']);
         }
 
-        $data['total_tax'] = (float)$data['total'] - (float)$data['subtotal'];
+        $data['total_tax'] = $data['total'] - $data['subtotal'];
        
 
 
@@ -950,10 +945,11 @@ class Purchase_model extends App_Model
 
         $data['hash'] = app_generate_hash();
 
+        $rq_detail = [];
         if(isset($data['request_detail'])){
             $request_detail = json_decode($data['request_detail']);
             unset($data['request_detail']);
-            $rq_detail = [];
+            
             $row = [];
             $rq_val = [];
             $header = [];
@@ -990,30 +986,29 @@ class Purchase_model extends App_Model
             $this->db->where('option_name', 'next_pr_number');
             $this->db->update(db_prefix() . 'purchase_option',['option_val' =>  $next_number,]);
 
-
-            foreach($rq_detail as $key => $rqd){
-                if($rq_detail[$key]['quantity'] == null){
-                    $rq_detail[$key]['quantity'] = 0;
-                }
-                $rq_detail[$key]['pur_request'] = $insert_id;
-                $rq_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
-                if($data['status'] == 2 && $data['from_items'] == 1){
-                    $item_data['description'] = $rqd['item_code'];
-                    $item_data['purchase_price'] = $rqd['unit_price'];
-                    $item_data['unit_id'] = $rqd['unit_id'];
-                    $item_data['rate'] = '';
-                    $item_data['sku_code'] = '';
-                    $item_data['commodity_barcode'] = $this->generate_commodity_barcode();
-                    $item_data['commodity_code'] = $this->generate_commodity_barcode();
-                    $item_id = $this->add_commodity_one_item($item_data);
-                    if($item_id){
-                       $rq_detail[$key]['item_code'] = $item_id; 
+            if(count($rq_detail) > 0){
+                foreach($rq_detail as $key => $rqd){
+                    $rq_detail[$key]['pur_request'] = $insert_id;
+                    $rq_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
+                    $rq_detail[$key]['quantity'] = ($rqd['quantity'] != ''&& $rqd['quantity'] != null) ? $rqd['quantity'] : 0;
+                    if($data['status'] == 2 && $data['from_items'] != 1){
+                        $item_data['description'] = $rqd['item_text'];
+                        $item_data['purchase_price'] = $rqd['unit_price'];
+                        $item_data['unit_id'] = $rqd['unit_id'];
+                        $item_data['rate'] = '';
+                        $item_data['sku_code'] = '';
+                        $item_data['commodity_barcode'] = $this->generate_commodity_barcode();
+                        $item_data['commodity_code'] = $this->generate_commodity_barcode();
+                        $item_id = $this->add_commodity_one_item($item_data);
+                        if($item_id){
+                           $rq_detail[$key]['item_code'] = $item_id; 
+                        }
+                        
                     }
-                    
                 }
+                $this->db->insert_batch(db_prefix().'pur_request_detail',$rq_detail);
             }
-            if(!empty($rq_detail))
-            $this->db->insert_batch(db_prefix().'pur_request_detail',$rq_detail);
+
             return $insert_id;
         }
         return false;
@@ -1091,6 +1086,7 @@ class Purchase_model extends App_Model
         $row['delete'] = [];
         foreach ($rq_detail as $key => $value) {
             $value['tax_rate'] = $this->get_tax_rate_by_id($value['tax']);
+            $value['quantity'] = ($value['quantity'] != '' && $value['quantity'] != null) ? $value['quantity'] : 0;
             if($value['prd_id'] != ''){
                 $row['delete'][] = $value['prd_id'];
                 $row['update'][] = $value;
@@ -1114,7 +1110,6 @@ class Purchase_model extends App_Model
             }
         }
         if(count($row['insert']) != 0){
-            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_request_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1318,11 +1313,6 @@ class Purchase_model extends App_Model
 
         $save_and_send = isset($data['save_and_send']);
 
-        if (isset($data['custom_fields'])) {
-            $custom_fields = $data['custom_fields'];
-            unset($data['custom_fields']);
-        }
-
         $data['hash'] = app_generate_hash();
 
         $data = $this->map_shipping_columns($data);
@@ -1342,10 +1332,10 @@ class Purchase_model extends App_Model
             unset($data['dc_percent']);
         }
 
+        $es_detail = [];
         if(isset($data['estimate_detail'])){
             $estimate_detail = json_decode($data['estimate_detail']);
             unset($data['estimate_detail']);
-            $es_detail = [];
             $row = [];
             $rq_val = [];
             $header = [];
@@ -1378,27 +1368,26 @@ class Purchase_model extends App_Model
             $total['total_tax'] = 0;
             $total['subtotal'] = 0;
             
-            foreach($es_detail as $key => $rqd){
-                $es_detail[$key]['pur_estimate'] = $insert_id;
-                $total['total'] += $rqd['total_money'];
-                $total['total_tax'] += ($rqd['total']-$rqd['into_money']);
-                $total['subtotal'] += $rqd['into_money'];
-            }
+            if(count($es_detail) > 0){
+                foreach($es_detail as $key => $rqd){
 
-            if($data['discount_total'] > 0){
-                $total['total'] = $total['total'] - $data['discount_total'];
+                    $es_detail[$key]['pur_estimate'] = $insert_id;
+                    $es_detail[$key]['quantity'] = ($rqd['quantity'] != '' && $rqd['quantity'] != null) ? $rqd['quantity'] : 0;
+
+                    $total['total'] += $rqd['total_money'];
+                    $total['total_tax'] += ($rqd['total']-$rqd['into_money']);
+                    $total['subtotal'] += $rqd['into_money'];
+                }
+
+                if($data['discount_total'] > 0){
+                    $total['total'] = $total['total'] - $data['discount_total'];
+                }
+
+                $this->db->insert_batch(db_prefix().'pur_estimate_detail',$es_detail);
             }
-            if(!empty($es_detail))
-            $this->db->insert_batch(db_prefix().'pur_estimate_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
             $this->db->update(db_prefix().'pur_estimates',$total);
-
-            if (isset($custom_fields)) {
-                handle_custom_fields_post($insert_id, $custom_fields);
-            }
-            
-            hooks()->do_action('after_estimate_added', $insert_id);
 
             return $insert_id;
         }
@@ -1497,6 +1486,7 @@ class Purchase_model extends App_Model
         $total['subtotal'] = 0;
         
         foreach ($es_detail as $key => $value) {
+            $value['quantity'] = ($value['quantity'] != '' && $value['quantity'] != null) ? $value['quantity'] : 0;
             if($value['id'] != ''){
                 $row['delete'][] = $value['id'];
                 $row['update'][] = $value;
@@ -1532,7 +1522,6 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
-            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_estimate_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1761,10 +1750,11 @@ class Purchase_model extends App_Model
             unset($data['tags']);
         }
 
+        $es_detail = [];
         if(isset($data['pur_order_detail'])){
             $pur_order_detail = json_decode($data['pur_order_detail']);
             unset($data['pur_order_detail']);
-            $es_detail = [];
+            
             $row = [];
             $rq_val = [];
             $header = [];
@@ -1787,7 +1777,6 @@ class Purchase_model extends App_Model
                 }
             }
         }
-        
         if(isset($data['dc_total'])){
             $data['discount_total'] = str_replace('-', '', reformat_currency_pur($data['dc_total']));
             unset($data['dc_total']);
@@ -1803,8 +1792,6 @@ class Purchase_model extends App_Model
             unset($data['grand_total']);
         }
 
-        $data['tax_order_amount'] = reformat_currency_pur($data['tax_order_amount']);
-
         $this->db->insert(db_prefix() . 'pur_orders', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -1815,22 +1802,25 @@ class Purchase_model extends App_Model
 
             $total = [];
             $total['total_tax'] = 0;
-           
-            foreach($es_detail as $key => $rqd){
-                $es_detail[$key]['pur_order'] = $insert_id;
-                $es_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
-                //$total['total'] += $rqd['total_money'];
-                $total['total_tax'] += $rqd['tax_value'];
+            
+            if(count($es_detail) > 0){
+                foreach($es_detail as $key => $rqd){
+                    $es_detail[$key]['pur_order'] = $insert_id;
+                    $es_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
+                    $es_detail[$key]['quantity'] = ($rqd['quantity'] != '' && $rqd['quantity'] != null) ? $rqd['quantity'] : 0;
+                    
+                    $total['total_tax'] += $rqd['tax_value'];
+                }
+
+                handle_tags_save($tags, $insert_id, 'pur_order');
+
+                if (isset($custom_fields)) {
+
+                    handle_custom_fields_post($insert_id, $custom_fields);
+                }
+
+                $this->db->insert_batch(db_prefix().'pur_order_detail',$es_detail);
             }
-
-            handle_tags_save($tags, $insert_id, 'pur_order');
-
-            if (isset($custom_fields)) {
-
-                handle_custom_fields_post($insert_id, $custom_fields);
-            }
-            if(!empty($es_detail))
-            $this->db->insert_batch(db_prefix().'pur_order_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
             $this->db->update(db_prefix().'pur_orders',$total);
@@ -1946,6 +1936,7 @@ class Purchase_model extends App_Model
         
         foreach ($es_detail as $key => $value) {
             $value['tax_rate'] = $this->get_tax_rate_by_id($value['tax']);
+            $value['quantity'] = ($value['quantity'] != '' && $value['quantity'] != null) ? $value['quantity'] : 0;
             if($value['id'] != ''){
                 $row['delete'][] = $value['id'];
                 $row['update'][] = $value;
@@ -1975,7 +1966,6 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
-            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_order_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -5812,7 +5802,7 @@ class Purchase_model extends App_Model
         }
 
         foreach($tax_name as $key => $tn){
-            $html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="60%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
+            $html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="65%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
             $tax_val_rs[] = $tax_val[$key];
         }
         

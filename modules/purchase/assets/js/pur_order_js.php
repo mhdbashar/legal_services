@@ -162,6 +162,15 @@ function estimate_by_vendor(invoker){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
@@ -189,7 +198,7 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         }
       
       ],

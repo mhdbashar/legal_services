@@ -783,13 +783,13 @@ class Accounting_model extends App_Model
                 'note'              => _l('acc_other_operating_income_note'),
                 'order'             => 97,
                 ],
-            [
-                'id'                => 98,
-                'account_type_id'   => 12,
-                'name'              => _l('acc_tax_exempt_interest'),
-                'note'              => _l('acc_tax_exempt_interest_note'),
-                'order'             => 98,
-                ],
+//            [
+//                'id'                => 98,
+//                'account_type_id'   => 12,
+//                'name'              => _l('acc_tax_exempt_interest'),
+//                'note'              => _l('acc_tax_exempt_interest_note'),
+//                'order'             => 98,
+//                ],
             [
                 'id'                => 99,
                 'account_type_id'   => 12,

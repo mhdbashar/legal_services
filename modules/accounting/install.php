@@ -349,3 +349,6 @@ if (!$CI->db->table_exists(db_prefix() . 'acc_budget_details')) {
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
+
+
+$CI->db->query("DELETE FROM tblacc_accounts WHERE key_name = 'acc_interest_income'");

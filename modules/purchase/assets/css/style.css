@@ -250,3 +250,9 @@ img.images_w_table {
 .widthul{
     width: 300px;
 }
+#example{
+    direction: ltr;
+}
+.handsontable{
+    direction: ltr;
+}

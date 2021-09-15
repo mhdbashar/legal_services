@@ -24,3 +24,6 @@
 .pright0{
   padding-right: 0px;
 }
+  .handsontable {
+    direction: ltr;
+  }

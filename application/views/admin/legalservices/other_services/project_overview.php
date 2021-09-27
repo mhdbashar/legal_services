@@ -157,11 +157,11 @@
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Categories'); ?></td>
-            <td><?php echo $project->cat ? $project->cat : _l('nothing_was_specified'); ?></td>
+            <td><?php echo isset($project->cat) && $project->cat != 0 ? $project->cat : _l('nothing_was_specified'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('SubCategories'); ?></td>
-            <td><?php echo $project->subcat ? $project->subcat : _l('nothing_was_specified'); ?></td>
+            <td><?php echo isset($project->subcat) && $project->subcat != 0 ? $project->subcat : _l('nothing_was_specified'); ?></td>
         </tr>
         </tbody>
     </table>

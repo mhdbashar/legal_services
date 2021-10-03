@@ -22,12 +22,12 @@ class ProposalInvoice extends REST_Controller
 	}
 
 private $statuses = [
-        UNPAID,
-        PAID,
-        PARTIALLY,
-        OVERDUE,
-        CANCELLED,
-        DRAFT,
+        'UNPAID',
+        'PAID',
+        'PARTIALLY',
+        'OVERDUE',
+        'CANCELLED',
+        'DRAFT',
     ];
 public function data_get()
 {

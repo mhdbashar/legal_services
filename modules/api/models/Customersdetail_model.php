@@ -35,9 +35,9 @@ Class Customersdetail_model extends CI_Model
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
         }
-        public function getcustomerproject($filters)
-        {
-            if($filters['typeof']=='customer'){
+    public function getcustomerproject($filters)
+    {
+        if($filters['typeof']=='customer'){
             $this->db->select('*')->from('tblprojects');
             $this->db->where('clientid',$filters['customer_id']);
             $this->db->order_by('id','desc');
@@ -45,14 +45,32 @@ Class Customersdetail_model extends CI_Model
             return $this->db->get()->result();
         }else{
 
-             $this->db->select('*')->from('tblprojects');
+            $this->db->select('*')->from('tblprojects');
             $this->db->order_by('id','desc');
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
         }
-         # code...
-        
+        # code...
+
+    }
+    public function getcustomercase($filters)
+    {
+        if($filters['typeof']=='customer'){
+            $this->db->select('*')->from('tblmy_cases');
+            $this->db->where('clientid',$filters['customer_id']);
+            $this->db->order_by('id','desc');
+            //$this->db->limit($filters['limit'], ($filters['start']-1));
+            return $this->db->get()->result();
+        }else{
+
+            $this->db->select('*')->from('tblmy_cases');
+            $this->db->order_by('id','desc');
+            //$this->db->limit($filters['limit'], ($filters['start']-1));
+            return $this->db->get()->result();
         }
+        # code...
+
+    }
 
         public function getExtraField($id='')
         {

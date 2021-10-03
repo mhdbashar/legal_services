@@ -22,12 +22,12 @@ class Customersdetail extends REST_Controller {
     }
 
 private $statuses = [
-        UNPAID,
-        PAID,
-        PARTIALLY,
-        OVERDUE,
-        CANCELLED,
-        DRAFT,
+        'UNPAID',
+        'PAID',
+        'PARTIALLY',
+        'OVERDUE',
+        'CANCELLED',
+        'DRAFT',
     ];
 
     public function data_get($id = '')
@@ -198,76 +198,148 @@ if($filters['detailtype']=='discussion'){
         }
                 
         }
-        if($filters['detailtype']=='project'){
-             $data = $this->Customersdetail_model->getcustomerproject($filters);
-             
+            if($filters['detailtype']=='project'){
+                $data = $this->Customersdetail_model->getcustomerproject($filters);
 
- $statuses = $this->projects_model->get_project_statuses();
-        
-        foreach ($statuses as $key => $status) {
-            if($filters['typeof']=='customer'){
-         $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id'] .' AND clientid = '.$filters['customer_id']; 
-                
-            }
-         else{
-         $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; 
-            
-         }         
-         $total = total_rows(db_prefix().'projects',$where);
-            $datacount[]= array('status_name' =>$status['name'] ,
-                                        'status_order'=>$status['order'],
-                                        'total'=>(String)$total  ,
-                                        'statuscolor'=>$status['color']);
-        }
-        
-              
- 
+$_where = '';
+                $statuses = $this->projects_model->get_project_statuses();
+
+                foreach ($statuses as $key => $status) {
+                    if($filters['typeof']=='customer'){
+                        $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id'] .' AND clientid = '.$filters['customer_id'];
+
+                    }
+                    else{
+                        $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id'];
+
+                    }
+                    $total = total_rows(db_prefix().'projects',$where);
+                    $datacount[]= array('status_name' =>$status['name'] ,
+                        'status_order'=>$status['order'],
+                        'total'=>(String)$total  ,
+                        'statuscolor'=>$status['color']);
+                }
+
+
+
                 foreach ($data as $datas) {
 
                     $datas->description=strip_tags($datas->description);
-                    $datas->currency_name = $this->Api_model->get_currency_name($datas->currency);             
-                    $datas->addedfrom_name = $this->Api_model->get_addedfrom_name($datas->addedfrom);  
-                $datas->projectstatusname=$this->getProjectStatusname($datas->status); 
- $datas->status_color = $this->Api_model->get_task_statuscolor($datas->status);
+                    $datas->currency_name = $this->Api_model->get_currency_name($datas->currency);
+                    $datas->addedfrom_name = $this->Api_model->get_addedfrom_name($datas->addedfrom);
+                    $datas->projectstatusname=$this->getProjectStatusname($datas->status);
+                    $datas->status_color = $this->Api_model->get_task_statuscolor($datas->status);
                     $datas->extra_field=$this->Customersdetail_model->getExtraField($datas->id);
                     $datas->tags_field=$this->Customersdetail_model->getTagsField($datas->id);
                     $datas->datamembers = $this->Customersdetail_model->getcustomerprojectmember($datas->id);
 
-                        $S1_member=[];
-                        foreach ( $datas->datamembers as $memberdata) {
-                            $memberdata->member_name = $this->Api_model->getStaffbyId($memberdata->staff_id);
-                           
-                        }
+                    $S1_member=[];
+                    foreach ( $datas->datamembers as $memberdata) {
+                        $memberdata->member_name = $this->Api_model->getStaffbyId($memberdata->staff_id);
+
+                    }
 
                     $S1_data[] = $datas;
-                   
+
                 }
                 $data=$S1_data;
-                 if ($data)
-            {
-             $S_data =  [
-                        'data' => $data,  
+                if ($data)
+                {
+                    $S_data =  [
+                        'data' => $data,
                         'projectCount'=>$datacount,
                         'status' => 1,
                         'message'=>'success',
                         'start' => (int) $filters['start'],
                         'limit'=>(int) $filters['limit'],
-                       
-                    ];   
-                $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
                 }else{
                     $S_data =  [
-                    'data' => $data,
-                    'projectCount'=>$datacount,
-                    'status' => 0,
-                    'message'=>'record not found',
-                    'start' => (int) $filters['start'],
-                    'limit'=>(int) $filters['limit'],
-                   
-                ];
-            $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
-        }
-        }
+                        'data' => $data,
+                        'projectCount'=>$datacount,
+                        'status' => 0,
+                        'message'=>'record not found',
+                        'start' => (int) $filters['start'],
+                        'limit'=>(int) $filters['limit'],
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
+                }
+            }
+            if($filters['detailtype']=='case'){
+                $_where = '';
+                $data = $this->Customersdetail_model->getcustomercase($filters);
+
+                $this->load->model('legalservices/Cases_model', 'case');
+
+                $statuses = $this->case->get_project_statuses();
+
+                foreach ($statuses as $key => $status) {
+                    if($filters['typeof']=='customer'){
+                        $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id'] .' AND clientid = '.$filters['customer_id'];
+
+                    }
+                    else{
+                        $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id'];
+
+                    }
+                    $total = total_rows(db_prefix().'my_cases',$where);
+                    $datacount[]= array('status_name' =>$status['name'] ,
+                        'status_order'=>$status['order'],
+                        'total'=>(String)$total  ,
+                        'statuscolor'=>$status['color']);
+                }
+
+
+
+                foreach ($data as $datas) {
+//echo '<pre>'; print_r($datas); exit;
+                    $datas->description=strip_tags($datas->description);
+                    //$datas->currency_name = $this->Api_model->get_currency_name($datas->currency);
+                    $datas->addedfrom_name = $this->Api_model->get_addedfrom_name($datas->addedfrom);
+                    $datas->projectstatusname=$this->getProjectStatusname($datas->status);
+                  //  $datas->status_color = $this->Api_model->get_task_statuscolor($datas->status);
+                    $datas->extra_field=$this->Customersdetail_model->getExtraField($datas->id);
+                    $datas->tags_field=$this->Customersdetail_model->getTagsField($datas->id);
+                    $datas->datamembers = $this->Customersdetail_model->getcustomerprojectmember($datas->id);
+
+                    $S1_member=[];
+                    foreach ( $datas->datamembers as $memberdata) {
+                        $memberdata->member_name = $this->Api_model->getStaffbyId($memberdata->staff_id);
+
+                    }
+
+                    $S1_data[] = $datas;
+
+                }
+                $data=$S1_data;
+                if ($data)
+                {
+                    $S_data =  [
+                        'data' => $data,
+                        'projectCount'=>$datacount,
+                        'status' => 1,
+                        'message'=>'success',
+                        'start' => (int) $filters['start'],
+                        'limit'=>(int) $filters['limit'],
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                }else{
+                    $S_data =  [
+                        'data' => $data,
+                        'projectCount'=>$datacount,
+                        'status' => 0,
+                        'message'=>'record not found',
+                        'start' => (int) $filters['start'],
+                        'limit'=>(int) $filters['limit'],
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
+                }
+            }
         if($filters['detailtype']=='files'){
             $data = $this->Customersdetail_model->getcustomerfile($filters);
           

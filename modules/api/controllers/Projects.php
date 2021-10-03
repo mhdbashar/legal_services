@@ -54,7 +54,7 @@ class Projects extends REST_Controller {
     {
 
        $this->db->order_by('id','desc');
-        $data = $this->db->get('tblprojects')->result();
+        $data = $this->db->get('tblmy_cases')->result();
 
              foreach ($data as $datas) {
                 $datas->description=strip_tags($datas->description);

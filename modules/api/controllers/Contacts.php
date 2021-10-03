@@ -23,6 +23,7 @@ class Contacts extends REST_Controller {
 	{
 		// Construct the parent class
 		parent::__construct();
+		$this->load->model('authentication_model');
 	}
 
     /**
@@ -104,6 +105,8 @@ class Contacts extends REST_Controller {
 		// Check if the data store contains
 		if ($data)
 		{
+        	$data = $this->Api_model->get_api_custom_data($data,"contacts", $contact_id);
+
 			// Set the response and exit
 			$this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 		}
@@ -135,8 +138,8 @@ class Contacts extends REST_Controller {
 		 *      "id": "8",
 		 *      "userid": "1",
 		 *      "is_primary": "0",
-		 *      "firstname": "john",
-		 *      "lastname": "smith",
+		 *      "firstname": "chirag",
+		 *      "lastname": "jagani",
 		 *      "email": "useremail@gmail.com",
 		 *      "phonenumber": "",
 		 *      "title": null,
@@ -206,6 +209,8 @@ class Contacts extends REST_Controller {
 		// Check if the data store contains
 		if ($data)
 		{
+        	$data = $this->Api_model->get_api_custom_data($data,"contacts");
+
 			// Set the response and exit
 			$this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 		}
@@ -312,6 +317,7 @@ class Contacts extends REST_Controller {
 			$this->response($message, REST_Controller::HTTP_CONFLICT);
 		}
 		else{
+			$customer_id = $data['customer_id'];
 			unset($data['customer_id']);
 			$id      = $this->clients_model->add_contact($data, $customer_id);
 			if($id > 0 && !empty($id)){
@@ -528,7 +534,12 @@ class Contacts extends REST_Controller {
                 );
                 $this->response($message, REST_Controller::HTTP_CONFLICT);
             }
-            $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[255]|is_unique['.db_prefix().'contacts.email]',array('is_unique' => 'This %s is already exists'));
+            $_current_email = $this->db->where('id', $id)->get(db_prefix() . 'contacts')->row();
+            if ($_current_email->email == $this->input->post('email')) {
+            	$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[255]');	
+            } else {
+            	$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[255]|is_unique['.db_prefix().'contacts.email]',array('is_unique' => 'This %s is already exists'));
+            }
             if ($this->form_validation->run() == FALSE)
 			{
 				$message = array(
@@ -579,12 +590,6 @@ class Contacts extends REST_Controller {
             return FALSE;
         }
 		$query = $this->db->get_where(db_prefix().'clients', array('userid' => $customer_id));
-	  	if($query->num_rows() < 1){
-		  return FALSE;
-		}
-		else
-		{
-		  return TRUE;
-		}
+		return $query->num_rows() > 0;
 	}
 }

@@ -295,7 +295,6 @@ $_where = '';
 
 
                 foreach ($data as $datas) {
-//echo '<pre>'; print_r($datas); exit;
                     $datas->description=strip_tags($datas->description);
                     //$datas->currency_name = $this->Api_model->get_currency_name($datas->currency);
                     $datas->addedfrom_name = $this->Api_model->get_addedfrom_name($datas->addedfrom);
@@ -340,7 +339,41 @@ $_where = '';
                     $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
                 }
             }
-        if($filters['detailtype']=='files'){
+        if($filters['detailtype'] == 'files' and $filters['typeof'] == 'case') {
+            $data = $this->Customersdetail_model->getcustomerfile($filters);
+            foreach ($data as $datas) {
+
+                if ($filters['typeof'] == 'case') {
+                    $datas->rel_id = $datas->id;
+                    $datas->rel_type = 'case';
+                }
+                $datas->filepath = $this->Api_model->GetPath($datas->rel_id, $datas->rel_type);
+                $S1_data[] = $datas;
+            }
+            if ($data) {
+                $S_data = [
+                    'data' => $data,
+                    'status' => 1,
+                    'message' => 'success',
+                    'start' => (int)$filters['start'],
+                    'limit' => (int)$filters['limit'],
+
+                ];
+                $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            } else {
+                $S_data = [
+                    'data' => $data,
+                    'status' => 0,
+                    'message' => 'record not found',
+                    'start' => (int)$filters['start'],
+                    'limit' => (int)$filters['limit'],
+
+                ];
+                $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
+
+            }
+        }
+        if($filters['detailtype']=='files' and $filters['typeof'] != 'case'){
             $data = $this->Customersdetail_model->getcustomerfile($filters);
           
              foreach ($data as $datas) {

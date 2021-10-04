@@ -120,26 +120,33 @@ public function getComments($id='')
             return $this->db->get()->result();
 }
 
-         public function getcustomerfile($filters)
-        {
-            if($filters['typeof']=='project'){
+    public function getcustomerfile($filters)
+    {
+        if($filters['typeof']=='project'){
             $this->db->select('*')->from('tblproject_files');
             $this->db->where('project_id',$filters['customer_id']);
             $this->db->order_by('id','desc');
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
-            }
+        }
+        elseif($filters['typeof']=='case'){
+            $this->db->select('*')->from('tblcase_files');
+            $this->db->where('project_id',$filters['customer_id']);
+            $this->db->order_by('id','desc');
+            //$this->db->limit($filters['limit'], ($filters['start']-1));
+            return $this->db->get()->result();
+        }
         else{
             $this->db->select('id,rel_id,rel_type,file_name,filetype,visible_to_customer,dateadded')->from('tblfiles');
             $this->db->where('rel_id',$filters['customer_id']);
             $this->db->where('rel_type','customer');
-                        $this->db->order_by('id','desc');
+            $this->db->order_by('id','desc');
 
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
-}
-
-            
         }
+
+
+    }
        
 }

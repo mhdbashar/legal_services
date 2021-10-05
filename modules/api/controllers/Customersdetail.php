@@ -47,35 +47,64 @@ private $statuses = [
          $S_data=[];
          $S1_data=[];
         if($filters['detailtype']!=null){
-if($filters['detailtype']=='discussion'){
+            if($filters['detailtype']=='discussion'){
 
-     $data = $this->Customersdetail_model->getdiscussionDetail($filters);
+                $data = $this->Customersdetail_model->getdiscussionDetail($filters);
                 foreach ($data as $datas) {
-                    $datas->discussion = $this->Customersdetail_model->getComments($datas->id);             
+                    $datas->discussion = $this->Customersdetail_model->getComments($datas->id);
                     $S1_data[] = $datas;
                 }
                 $data=$S1_data;
-                 if ($data)
-            {
-             $S_data =  [
-                        'data' => $data,  
+                if ($data)
+                {
+                    $S_data =  [
+                        'data' => $data,
                         'status' => 1,
                         'message'=>'success',
-                      
-                       
-                    ];   
-                $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
                 }else{
                     $S_data =  [
-                    'data' => $data,
-                    'status' => 0,
-                    'message'=>'record not found',
-                    
-                   
-                ];
-            $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
-        }
-}
+                        'data' => $data,
+                        'status' => 0,
+                        'message'=>'record not found',
+
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
+                }
+            }
+            if($filters['detailtype']=='case_discussion'){
+
+                $data = $this->Customersdetail_model->getCaseDiscussionDetail($filters);
+                foreach ($data as $datas) {
+                    $datas->discussion = $this->Customersdetail_model->getCaseComments($datas->id);
+                    $S1_data[] = $datas;
+                }
+                $data=$S1_data;
+                if ($data)
+                {
+                    $S_data =  [
+                        'data' => $data,
+                        'status' => 1,
+                        'message'=>'success',
+
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                }else{
+                    $S_data =  [
+                        'data' => $data,
+                        'status' => 0,
+                        'message'=>'record not found',
+
+
+                    ];
+                    $this->response($S_data, REST_Controller::HTTP_NOT_FOUND); // OK (200) being the HTTP response code
+                }
+            }
 
             if($filters['detailtype']=='invoice'){
                 $data = $this->Customersdetail_model->getcustomerinvoice($filters);

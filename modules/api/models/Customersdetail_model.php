@@ -104,21 +104,35 @@ Class Customersdetail_model extends CI_Model
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
         }
-        public function getdiscussionDetail($filters)
-        {
-            $this->db->select('*')->from('tblprojectdiscussions');
-            $this->db->where('project_id',$filters['customer_id']);
-            //$this->db->limit($filters['limit'], ($filters['start']-1));
-            return $this->db->get()->result();
-        }
+    public function getdiscussionDetail($filters)
+    {
+        $this->db->select('*')->from('tblprojectdiscussions');
+        $this->db->where('project_id',$filters['customer_id']);
+        //$this->db->limit($filters['limit'], ($filters['start']-1));
+        return $this->db->get()->result();
+    }
+    public function getCaseDiscussionDetail($filters)
+    {
+        $this->db->select('*')->from('tblcasediscussions');
+        $this->db->where('project_id',$filters['customer_id']);
+        //$this->db->limit($filters['limit'], ($filters['start']-1));
+        return $this->db->get()->result();
+    }
 
-public function getComments($id='')
-{
-      $this->db->select('*')->from('tblprojectdiscussioncomments');
-            $this->db->where('discussion_id',$id);
-            //$this->db->limit($filters['limit'], ($filters['start']-1));
-            return $this->db->get()->result();
-}
+    public function getComments($id='')
+    {
+        $this->db->select('*')->from('tblprojectdiscussioncomments');
+        $this->db->where('discussion_id',$id);
+        //$this->db->limit($filters['limit'], ($filters['start']-1));
+        return $this->db->get()->result();
+    }
+    public function getCaseComments($id='')
+    {
+        $this->db->select('*')->from('tblcasediscussioncomments');
+        $this->db->where('discussion_id',$id);
+        //$this->db->limit($filters['limit'], ($filters['start']-1));
+        return $this->db->get()->result();
+    }
 
     public function getcustomerfile($filters)
     {

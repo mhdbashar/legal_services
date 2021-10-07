@@ -148,7 +148,7 @@ if (has_permission('Zender', '', 'view')) {
     $CI->app_custom_tabs->add_case_tab('Zender', [
         'name' => _l('Receive SMS'),
         'icon' => 'fa fa-th',
-        'view' => 'receive_sms/case',
+        'view' => 'zender/case',
         'position' => 200,
     ]);
 
@@ -156,7 +156,7 @@ if (has_permission('Zender', '', 'view')) {
     $CI->app_custom_tabs->add_oservice_tab('Zender', [
         'name' => _l('Receive SMS'),
         'icon' => 'fa fa-th',
-        'view' => 'receive_sms/oservice',
+        'view' => 'zender/oservice',
         'position' => 200,
     ]);
 }

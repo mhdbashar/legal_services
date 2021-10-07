@@ -35,9 +35,9 @@ foreach ($rResult as $aRow) {
     $service_id = $aRow['ServID'];
 
         if ($service_id == 1) {
-            $row[] = '<a href="' . admin_url('Case/view/' . $service_id . '/' . $aRow['rel_id']) . '">' . get_case_name_by_id($aRow['rel_id']) . '</a>';
+            $row[] = '<a href="' . admin_url('Case/view/' . $service_id . '/' . $aRow['rel_id']) . '?group=receive_sms">' . get_case_name_by_id($aRow['rel_id']) . '</a>';
         } else {
-            $row[] = '<a href="' . admin_url('SOther/view/' . $service_id . '/' . $aRow['rel_id']) . '">' . get_oservice_name_by_id($aRow['rel_id']) . '</a>';
+            $row[] = '<a href="' . admin_url('SOther/view/' . $service_id . '/' . $aRow['rel_id']) . '?group=receive_sms">' . get_oservice_name_by_id($aRow['rel_id']) . '</a>';
         }
 
     $row[] = $aRow['firstname'];

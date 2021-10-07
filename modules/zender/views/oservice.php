@@ -37,7 +37,7 @@ $messages = $this->db->get(db_prefix(). 'saved_sms')->result();
             <td data-order="<?php echo $message->created_at; ?>"><?php echo $message->created_at; ?></td>
 
             <td>
-                <a href="<?php echo admin_url('receive_sms/delete/' . $message->id); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                <a href="<?php echo admin_url('zender/delete/' . $message->id); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
             </td>
 
         </tr>

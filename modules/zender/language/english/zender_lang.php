@@ -6,8 +6,6 @@ $lang['Zender'] = 'Receive SMS';
 
 $lang['receive_sms_token'] = 'Receive SMS Token';
 
-$lang['receive_sms_device'] = 'Receive SMS Device';
-
 $lang['messages'] = 'Messages';
 
 $lang['message'] = 'Message';

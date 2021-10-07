@@ -15,7 +15,7 @@ class Zender extends AdminController
 
     public function index()
     {
-        $messages = get_messages();
+        $messages = zender_get_messages();
         if(is_array($messages)){
             $data['messages'] = [];
 
@@ -63,7 +63,7 @@ class Zender extends AdminController
 
     public function get_sms($id)
     {
-        $sms = get_sms($id);
+        $sms = zender_get_sms($id);
         if (is_object($sms))
         {
             $sms->msg = $sms->message;

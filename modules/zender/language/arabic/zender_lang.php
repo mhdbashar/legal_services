@@ -7,8 +7,6 @@ $lang['Zender'] = 'رسائل SMS الواردة';
 
 $lang['receive_sms_token'] = 'التوكن';
 
-$lang['receive_sms_device'] = 'رقم الجهاز';
-
 $lang['messages'] = 'الرسائل';
 
 $lang['message'] = 'الرسالة';

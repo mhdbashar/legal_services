@@ -1,6 +1,6 @@
 <?php
 
-function get_messages()
+function zender_get_messages()
 {
     $curl = curl_init();
 
@@ -34,7 +34,7 @@ function get_messages()
 }
 
 
-function get_sms($id)
+function zender_get_sms($id)
 {
     $curl = curl_init();
 

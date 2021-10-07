@@ -1,6 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo render_input('settings[receive_sms_device]','receive_sms_device',get_option('receive_sms_device'),'number'); ?>
-<hr />
+
 <?php echo render_input('settings[receive_sms_token]','receive_sms_token',get_option('receive_sms_token'),'text'); ?>
 <hr />
 <!--<div class="row">-->

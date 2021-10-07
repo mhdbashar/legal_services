@@ -134,10 +134,10 @@ register_language_files(ZENDER_MODULE_NAME, [ZENDER_MODULE_NAME]);
 
 
 hooks()->add_action('admin_init', 'init_zender');
-hooks()->add_filter('before_settings_updated', 'set_senders_options');
-hooks()->add_action('admin_init', 'add_device_sms_settings');
-hooks()->add_action('admin_init', 'receive_sms_permissions');
-hooks()->add_action('app_admin_footer', 'receive_sms_load_js');
+hooks()->add_filter('before_settings_updated', 'zender_set_senders_options');
+hooks()->add_action('admin_init', 'zender_add_device_sms_settings');
+hooks()->add_action('admin_init', 'zender_permissions');
+hooks()->add_action('app_admin_footer', 'zender_receive_sms_load_js');
 register_activation_hook(ZENDER_MODULE_NAME, 'zender_module_activation_hook');
 
 $CI = &get_instance();
@@ -165,7 +165,7 @@ function zender_module_activation_hook() {
     require_once __DIR__ . '/install.php';
 }
 
-function receive_sms_permissions()
+function zender_permissions()
 {
     $capabilities = [];
 
@@ -183,7 +183,7 @@ function init_zender()
     $CI->load->library(ZENDER_MODULE_NAME . '/' . 'ZenderReceiveSMS');
 }
 
-function set_senders_options($data)
+function zender_set_senders_options($data)
 {
 
     if(isset($data['settings']['receive_sms_token'])){
@@ -206,7 +206,7 @@ function set_senders_options($data)
     }
 }
 
-function receive_sms_load_js()
+function zender_receive_sms_load_js()
 {
 
     $viewuri = $_SERVER['REQUEST_URI'];
@@ -216,7 +216,7 @@ function receive_sms_load_js()
 
 }
 
-function add_device_sms_settings()
+function zender_add_device_sms_settings()
 {
     $CI = &get_instance();
     if (has_permission('Zender', '', 'view')){

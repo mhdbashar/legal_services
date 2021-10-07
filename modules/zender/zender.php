@@ -211,7 +211,7 @@ function zender_receive_sms_load_js()
 
     $viewuri = $_SERVER['REQUEST_URI'];
     if (strpos($viewuri, 'settings?group=device_sms') !== false) {
-        echo '<script src="'.module_dir_url('Zender', 'assets/js/settings.js').'"></script>';
+        echo '<script src="'.module_dir_url('zender', 'assets/js/settings.js').'"></script>';
     }
 
 }

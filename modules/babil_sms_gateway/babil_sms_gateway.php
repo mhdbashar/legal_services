@@ -6,7 +6,7 @@
 defined("BASEPATH") or exit("No direct script access allowed");
 
 /*
-Module Name: Zender SMS Module
+Module Name: بوابة بابل للرسائل الصادرة والواردة
 Description: ادارة استلام الرسائل النصية القصيرة
 Author: Babil Team
 Author URI: https://www.babiltec.com
@@ -23,22 +23,22 @@ Requires at least: 2.3.5
  */
 require(__DIR__ . "/vendor/autoload.php");
 
-define("ZENDER_MODULE_NAME", "zender");
-define('ZENDER_MODULE_PATH', __DIR__ );
+define("BABIL_SMS_GATEWAY_MODULE_NAME", "babil_sms_gateway");
+define('BABIL_SMS_GATEWAY_MODULE_PATH', __DIR__ );
 define("SMS_TRIGGER_INVOICE_SEND_TO_CUSTOMER", "invoice_send_to_customer");
 
-hooks()->add_filter("sms_gateways", "zender_sms_gateways");
-hooks()->add_filter("sms_triggers", "zender_triggers");
-hooks()->add_filter("sms_gateway_available_triggers", "zender_triggers");
+hooks()->add_filter("sms_gateways", "babil_sms_gateway_sms_gateways");
+hooks()->add_filter("sms_triggers", "babil_sms_gateway_triggers");
+hooks()->add_filter("sms_gateway_available_triggers", "babil_sms_gateway_triggers");
 hooks()->add_action("invoice_sent", "customerInvoice");
 
-function zender_sms_gateways($gateways)
+function babil_sms_gateway_sms_gateways($gateways)
 {
-    $gateways[] = "zender/sms_zender";
+    $gateways[] = "babil_sms_gateway/sms_babil_sms_gateway";
     return $gateways;
 }
 
-function zender_triggers($triggers)
+function babil_sms_gateway_triggers($triggers)
 {
     
     $invoice_fields = [
@@ -83,37 +83,37 @@ function customerInvoice($id)
         endif;
     endforeach;
 }
-hooks()->add_action('admin_init', 'zender_module_init_menu_items');
+hooks()->add_action('admin_init', 'babil_sms_gateway_module_init_menu_items');
 
 
 /**
  * Init goals module menu items in setup in admin_init hook
  * @return null
  */
-function zender_module_init_menu_items() {
+function babil_sms_gateway_module_init_menu_items() {
 
     $CI = &get_instance();
-    if (has_permission('zender', '', 'view')) {
-        $CI->app_menu->add_sidebar_menu_item('zender', [
-            'name' => _l('Zender'),
+    if (has_permission('receive_sms', '', 'view')) {
+        $CI->app_menu->add_sidebar_menu_item('babil_sms_gateway', [
+            'name' => _l('babil_sms_gateway'),
             'icon' => 'fa fa-envelope',
             'position' => 10,
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('zender', [
+        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
             'slug' => 'receive-sms-messages',
             'name' => _l('messages'),
             'icon' => 'fa fa-envelope',
-            'href' => admin_url('zender'),
+            'href' => admin_url('babil_sms_gateway'),
             'position' => 3,
         ]);
 
 
-        $CI->app_menu->add_sidebar_children_item('zender', [
+        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
             'slug' => 'saved-sms-messages',
             'name' => _l('saved_messages'),
             'icon' => 'fa fa-file-text-o',
-            'href' => admin_url('zender/saved_messages'),
+            'href' => admin_url('babil_sms_gateway/saved_messages'),
             'position' => 3,
         ]);
 //
@@ -130,42 +130,42 @@ function zender_module_init_menu_items() {
 /**
  * Register language files, must be registered if the module is using languages
  */
-register_language_files(ZENDER_MODULE_NAME, [ZENDER_MODULE_NAME]);
+register_language_files(BABIL_SMS_GATEWAY_MODULE_NAME, [BABIL_SMS_GATEWAY_MODULE_NAME]);
 
 
-hooks()->add_action('admin_init', 'init_zender');
-hooks()->add_filter('before_settings_updated', 'zender_set_senders_options');
-hooks()->add_action('admin_init', 'zender_add_device_sms_settings');
-hooks()->add_action('admin_init', 'zender_permissions');
-hooks()->add_action('app_admin_footer', 'zender_receive_sms_load_js');
-register_activation_hook(ZENDER_MODULE_NAME, 'zender_module_activation_hook');
+hooks()->add_action('admin_init', 'init_babil_sms_gateway');
+hooks()->add_filter('before_settings_updated', 'babil_sms_gateway_set_senders_options');
+hooks()->add_action('admin_init', 'babil_sms_gateway_add_device_sms_settings');
+hooks()->add_action('admin_init', 'babil_sms_gateway_permissions');
+hooks()->add_action('app_admin_footer', 'babil_sms_gateway_receive_sms_load_js');
+register_activation_hook(BABIL_SMS_GATEWAY_MODULE_NAME, 'babil_sms_gateway_module_activation_hook');
 
 $CI = &get_instance();
-$CI->load->helper(ZENDER_MODULE_NAME . '/zender');
+$CI->load->helper(BABIL_SMS_GATEWAY_MODULE_NAME . '/babil_sms_gateway');
 
 $CI->load->library('app_custom_tabs');
-if (has_permission('Zender', '', 'view')) {
-    $CI->app_custom_tabs->add_case_tab('Zender', [
+if (has_permission('receive_sms', '', 'view')) {
+    $CI->app_custom_tabs->add_case_tab('babil_sms_gateway', [
         'name' => _l('Receive SMS'),
         'icon' => 'fa fa-th',
-        'view' => 'zender/case',
+        'view' => 'babil_sms_gateway/case',
         'position' => 200,
     ]);
 
 
-    $CI->app_custom_tabs->add_oservice_tab('Zender', [
+    $CI->app_custom_tabs->add_oservice_tab('babil_sms_gateway', [
         'name' => _l('Receive SMS'),
         'icon' => 'fa fa-th',
-        'view' => 'zender/oservice',
+        'view' => 'babil_sms_gateway/oservice',
         'position' => 200,
     ]);
 }
-function zender_module_activation_hook() {
+function babil_sms_gateway_module_activation_hook() {
     $CI = &get_instance();
     require_once __DIR__ . '/install.php';
 }
 
-function zender_permissions()
+function babil_sms_gateway_permissions()
 {
     $capabilities = [];
 
@@ -177,13 +177,13 @@ function zender_permissions()
 }
 
 
-function init_zender()
+function init_babil_sms_gateway()
 {
     $CI = &get_instance();
-    $CI->load->library(ZENDER_MODULE_NAME . '/' . 'ZenderReceiveSMS');
+    $CI->load->library(BABIL_SMS_GATEWAY_MODULE_NAME . '/' . 'BabilSMSGateway');
 }
 
-function zender_set_senders_options($data)
+function babil_sms_gateway_set_senders_options($data)
 {
 
     if(isset($data['settings']['receive_sms_token'])){
@@ -206,23 +206,23 @@ function zender_set_senders_options($data)
     }
 }
 
-function zender_receive_sms_load_js()
+function babil_sms_gateway_receive_sms_load_js()
 {
 
     $viewuri = $_SERVER['REQUEST_URI'];
     if (strpos($viewuri, 'settings?group=device_sms') !== false) {
-        echo '<script src="'.module_dir_url('zender', 'assets/js/settings.js').'"></script>';
+        echo '<script src="'.module_dir_url('babil_sms_gateway', 'assets/js/settings.js').'"></script>';
     }
 
 }
 
-function zender_add_device_sms_settings()
+function babil_sms_gateway_add_device_sms_settings()
 {
     $CI = &get_instance();
-    if (has_permission('Zender', '', 'view')){
+    if (has_permission('receive_sms', '', 'view')){
         $CI->app_tabs->add_settings_tab('device_sms', [
             'name'     => _l('device_sms'),
-            'view'     => 'zender/settings',
+            'view'     => 'babil_sms_gateway/settings',
             'position' => 22,
         ]);
     }

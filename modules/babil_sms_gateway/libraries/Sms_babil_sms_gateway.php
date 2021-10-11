@@ -1,28 +1,28 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed");
 
-class Sms_zender extends App_sms
+class Sms_babil_sms_gateway extends App_sms
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->zender_key = $this->get_option("zender", "zender_key");
-        $this->zender_sim = $this->get_option("zender", "zender_sim");
-        $this->zender_priority = $this->get_option("zender", "zender_priority");
+        $this->babil_sms_gateway_key = $this->get_option("babil_sms_gateway", "babil_sms_gateway_key");
+        $this->babil_sms_gateway_sim = $this->get_option("babil_sms_gateway", "babil_sms_gateway_sim");
+        $this->babil_sms_gateway_priority = $this->get_option("babil_sms_gateway", "babil_sms_gateway_priority");
 
-        $this->add_gateway("zender", [
+        $this->add_gateway("babil_sms_gateway", [
             "name" => "BabilSMS",
             "options" => [
                 [
-                    "name" => "zender_key",
+                    "name" => "babil_sms_gateway_key",
                     "label" => "API Key (<a href=\"https://sms.babiltec.com/dashboard/tools\" target=\"_blank\">Create API Key</a>)",
                     "info" => "
                     <p>Your API key, please make sure that everything is correct and required permissions are granted.</p>
                     <hr class=\"hr-10\" />"
                 ],               
                 [
-                    "name" => "zender_sim",
+                    "name" => "babil_sms_gateway_sim",
                     "field_type" => "radio",
                     "default_value" => 1,
                     "label" => "SIM Slot",
@@ -35,7 +35,7 @@ class Sms_zender extends App_sms
                     <hr class=\"hr-10\" />"
                 ],
                 [
-                    "name" => "zender_priority",
+                    "name" => "babil_sms_gateway_priority",
                     "field_type" => "radio",
                     "default_value" => 1,
                     "label" => "Priority Send",
@@ -53,13 +53,13 @@ class Sms_zender extends App_sms
 
     public function send($number, $message)
     {
-        $sim_path = empty($this->zender_sim) || $this->zender_sim < 2 ? "&sim=1" : "&sim=2";
-        $priority_path = empty($this->zender_priority) || $this->zender_priority < 2 ? "&priority=1" : false;
+        $sim_path = empty($this->babil_sms_gateway_sim) || $this->babil_sms_gateway_sim < 2 ? "&sim=1" : "&sim=2";
+        $priority_path = empty($this->babil_sms_gateway_priority) || $this->babil_sms_gateway_priority < 2 ? "&priority=1" : false;
 
         try {
             $client = new GuzzleHttp\Client();
 
-            $send = json_decode($client->get("https://sms.babiltec.com/api/send?key={$this->zender_key}&phone={$number}&message={$message}{$sim_path}{$priority_path}", [
+            $send = json_decode($client->get("https://sms.babiltec.com/api/send?key={$this->babil_sms_gateway_key}&phone={$number}&message={$message}{$sim_path}{$priority_path}", [
                 "allow_redirects" => true,
                 "http_errors" => false
             ])->getBody()->getContents(), true);

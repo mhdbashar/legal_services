@@ -4,7 +4,7 @@ if(window.location.href.replace(admin_url, '') == 'settings?group=device_sms'){
 
     $.ajax({
         type: 'Get',
-        url: admin_url + 'zender/get_senders',
+        url: admin_url + 'babil_sms_gateway/get_senders',
         async: false,
         success: function(data) {
 

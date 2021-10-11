@@ -3,7 +3,7 @@
 
 $lang['device_sms'] = 'ادارة رسائل SMS الواردة';
 
-$lang['Zender'] = 'رسائل SMS الواردة';
+$lang['babil_sms_gateway'] = 'رسائل SMS الواردة';
 
 $lang['receive_sms_token'] = 'التوكن';
 

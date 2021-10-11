@@ -1,28 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Zender extends AdminController
+class Babil_sms_gateway extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('Zender_model');
-        if(!has_permission('Zender', '', 'view')){
-            access_denied('Zender');
+        $this->load->model('Babil_sms_gateway_model');
+        if(!has_permission('receive_sms', '', 'view')) {
+            access_denied('receive_sms');
         }
     }
 
     public function index()
     {
-        $messages = zender_get_messages();
+        $messages = _get_messages();
         if(is_array($messages)){
             $data['messages'] = [];
 
             foreach ($messages as $message){
                 $message->msg = $message->message;
                 $message->date = date('Y-m-d H:i:s', $message->timestamp);
-                if(!$this->Zender_model->is_set([
+                if(!$this->Babil_sms_gateway_model->is_set([
                     'msg' => ($message->message),
                     'created_at' => ($message->date),
                     'sender' => ($message->phone)
@@ -56,14 +56,14 @@ class Zender extends AdminController
 
     public function get($id)
     {
-        $data = $this->Zender_model->get($id);
+        $data = $this->Babil_sms_gateway_model->get($id);
         echo json_encode(['status' => true, 'data' => $data]);
         die();
     }
 
     public function get_sms($id)
     {
-        $sms = zender_get_sms($id);
+        $sms = _get_sms($id);
         if (is_object($sms))
         {
             $sms->msg = $sms->message;
@@ -77,7 +77,7 @@ class Zender extends AdminController
                 'staff_id' => get_staff_user_id()
             ];
 
-            $success = $this->Zender_model->add($data);
+            $success = $this->Babil_sms_gateway_model->add($data);
             if($success){
                 echo json_encode(['status' => true, 'data' => $sms]);
                 die();
@@ -92,7 +92,7 @@ class Zender extends AdminController
 
         $msg_id = $data['id'];
 
-        $success = $this->Zender_model->update($msg_id, $data);
+        $success = $this->Babil_sms_gateway_model->update($msg_id, $data);
         if($success){
             set_alert('success', _l('added_successfully'));
         }
@@ -108,7 +108,7 @@ class Zender extends AdminController
 
         if($this->input->is_ajax_request())
         {
-            $this->zenderreceivesms->get_table_data('saved_messages_table');
+            $this->babilsmsgateway->get_table_data('saved_messages_table');
         }
         $data['legal_services'] = $this->legal->get_all_services();
         $data['rel_type']    = $this->input->get('rel_type');
@@ -120,7 +120,7 @@ class Zender extends AdminController
 
     public function delete($id)
     {
-        $response = $this->Zender_model->delete($id);
+        $response = $this->Babil_sms_gateway_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {

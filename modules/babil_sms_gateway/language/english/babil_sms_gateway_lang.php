@@ -2,7 +2,7 @@
 
 $lang['device_sms'] = 'Device SMS';
 
-$lang['Zender'] = 'Receive SMS';
+$lang['babil_sms_gateway'] = 'Receive SMS';
 
 $lang['receive_sms_token'] = 'Receive SMS Token';
 

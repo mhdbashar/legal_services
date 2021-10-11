@@ -1,6 +1,6 @@
 <?php
 
-class Zender_model extends App_Model
+class Babil_sms_gateway_model extends App_Model
 {
     public function __construct()
     {

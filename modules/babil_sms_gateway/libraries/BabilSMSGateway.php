@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class ZenderReceiveSMS
+class BabilSMSGateway
 {
     /**
      * Options autoload=1
@@ -200,7 +200,7 @@ class ZenderReceiveSMS
 
         $customFieldsColumns = [];
 		 
-        $path = ZENDER_MODULE_PATH  . '/views/admin/tables/' . $table . EXT;
+        $path = BABIL_SMS_GATEWAY_MODULE_PATH  . '/views/admin/tables/' . $table . EXT;
 
         if (!file_exists($path)) {
             $path = $table;
@@ -208,7 +208,7 @@ class ZenderReceiveSMS
                 $path .= EXT;
             }
         } else {
-            $myPrefixedPath = ZENDER_MODULE_PATH . '/views/admin/tables/my_' . $table . EXT;
+            $myPrefixedPath = BABIL_SMS_GATEWAY_MODULE_PATH . '/views/admin/tables/my_' . $table . EXT;
             if (file_exists($myPrefixedPath)) {
                 $path = $myPrefixedPath;
             }

@@ -9,20 +9,27 @@ class Webhook extends ClientsController
 
     public function index()
     {
-        $staffs = $this->db->get(db_prefix() . 'staff')->result_array();
-        $notifiedUsers  = [];
-        foreach ($staffs as $member) {
-            $notified = add_notification([
-                'fromcompany'     => true,
-                'touserid'        => $member['staffid'],
-                'description'     => $this->input->get('phone') . '<br />' .$this->input->get('message'),
-                'link'            => 'babil_sms_gateway/',
-            ]);
-            if ($notified) {
-                array_push($notifiedUsers, $member['staffid']);
-            }
-        }
+        if(in_array($this->input->get('phone'), json_decode($this->app->get_option('sms_senders')))) {
+            $staffs = $this->db->get(db_prefix() . 'staff')->result_array();
+            $notifiedUsers = [];
+            foreach ($staffs as $member) {
 
-        pusher_trigger_notification($notifiedUsers);
+                if(!has_permission('receive_sms', $member['staffid'], 'view'))
+                    continue;
+
+                $notified = add_notification([
+                    'fromcompany' => true,
+                    'touserid' => $member['staffid'],
+                    'description' => $this->input->get('phone') . '  <br />' . $this->input->get('message'),
+                    'link' => 'babil_sms_gateway/',
+                ]);
+                if ($notified) {
+                    array_push($notifiedUsers, $member['staffid']);
+                }
+
+            }
+
+            pusher_trigger_notification($notifiedUsers);
+        }
     }
 }

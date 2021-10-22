@@ -769,7 +769,6 @@ $lang['invoice_status_paid'] = "Paid";
 $lang['invoice_status_unpaid'] = "Unpaid";
 $lang['invoice_status_overdue'] = "Overdue";
 $lang['invoice_status_not_paid_completely'] = "Partially Paid";
-$lang['invoice_pdf_heading'] = "INVOICE";
 $lang['invoice_table_item_heading'] = "Item";
 $lang['invoice_table_quantity_heading'] = "Qty";
 $lang['invoice_table_rate_heading'] = "Rate";
@@ -4053,3 +4052,5 @@ $lang['migration_lang_12'] = "Please wait...";
 $lang['migration_lang_13'] = "Hi! Thanks for updating Babil - You are using version %s";
 $lang['migration_lang_14'] = "This window will reload automaticaly in 10 seconds and will try to clear your browser/cloudflare cache, however its recomended to clear your browser cache manually.";
 $lang['migration_lang_15'] = "Your database is up to date";
+
+$lang['tax_invoice_pdf_heading'] = "Tax Invoice";

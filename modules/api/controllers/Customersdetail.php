@@ -299,9 +299,115 @@ $_where = '';
             }
             if($filters['detailtype']=='case'){
                 $_where = '';
-                $data = $this->Customersdetail_model->getcustomercase($filters);
-
+                $case_id = $this->input->get('case_id');
                 $this->load->model('legalservices/Cases_model', 'case');
+                $this->load->helper('date_helper');
+                if(is_numeric($case_id))
+                {
+
+                    $data = [];
+                    $id = $case_id;
+                    $project = $this->case->get($case_id);
+                    $slug = $this->legal->get_service_by_id(1)->row()->slug;
+                    $data['slug'] = $slug;
+                    $data['statuses'] = $this->case->get_project_statuses();
+                    $data['tabs'] = get_case_tabs_admin();
+                    $this->load->model('payment_modes_model');
+                    $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+                    $data['project']  = $project;
+                    $data['currency'] = $this->case->get_currency($id);
+
+                    $data['staff']     = $this->staff_model->get('', ['active' => 1]);
+                    $data['members'] = $this->case->get_project_members($id);
+                    foreach ($data['members'] as $key => $member) {
+                        $data['members'][$key]['total_logged_time'] = 0;
+                        $member_timesheets = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $this->db->escape_str($id) . '")');
+
+                        foreach ($member_timesheets as $member_task) {
+                            $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
+                        }
+                    }
+
+                    $data['project_total_days']        = round((human_to_unix($data['project']->deadline . ' 00:00') - human_to_unix($data['project']->start_date . ' 00:00')) / 3600 / 24);
+                    $data['project_days_left']         = $data['project_total_days'];
+                    $data['project_time_left_percent'] = 100;
+                    if ($data['project']->deadline) {
+                        if (human_to_unix($data['project']->start_date . ' 00:00') < time() && human_to_unix($data['project']->deadline . ' 00:00') > time()) {
+                            $data['project_days_left']         = round((human_to_unix($data['project']->deadline . ' 00:00') - time()) / 3600 / 24);
+                            $data['project_time_left_percent'] = $data['project_days_left'] / $data['project_total_days'] * 100;
+                            $data['project_time_left_percent'] = round($data['project_time_left_percent'], 2);
+                        }
+                        if (human_to_unix($data['project']->deadline . ' 00:00') < time()) {
+                            $data['project_days_left']         = 0;
+                            $data['project_time_left_percent'] = 0;
+                        }
+                    }
+
+                    $__total_where_tasks = 'rel_type = "'.$slug.'" AND rel_id=' . $this->db->escape_str($id);
+                    $staff_id = $this->input->get('staff_id');
+                    if (!staff_can('view', 'tasks', $staff_id)) {
+                        $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id($staff_id) . ')';
+
+                        if (get_option('show_all_tasks_for_project_member') == 1) {
+                            $__total_where_tasks .= ' AND (rel_type="'.$slug.'" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id($staff_id) . '))';
+                        }
+                    }
+
+                    $__total_where_tasks = hooks()->apply_filters('admin_total_project_tasks_where', $__total_where_tasks, $id);
+
+                    $where = ($__total_where_tasks == '' ? '' : $__total_where_tasks . ' AND ') . 'status != ' . Tasks_model::STATUS_COMPLETE;
+
+                    $data['tasks_not_completed'] = total_rows(db_prefix() . 'tasks', $where);
+                    $total_tasks                 = total_rows(db_prefix() . 'tasks', $__total_where_tasks);
+                    $data['total_tasks']         = $total_tasks;
+
+                    $where = ($__total_where_tasks == '' ? '' : $__total_where_tasks . ' AND ') . 'status = ' . Tasks_model::STATUS_COMPLETE . ' AND rel_type="'.$slug.'" AND rel_id="' . $this->db->escape_str($id) . '"';
+
+                    $data['tasks_completed'] = total_rows(db_prefix() . 'tasks', $where);
+
+                    $data['tasks_not_completed_progress'] = ($total_tasks > 0 ? number_format(($data['tasks_completed'] * 100) / $total_tasks, 2) : 0);
+                    $data['tasks_not_completed_progress'] = round($data['tasks_not_completed_progress'], 2);
+
+                    $percent           = $this->case->calc_progress($id, $slug);
+                    $percent_circle        = $percent / 100;
+                    $data['percent_circle'] = $percent_circle;
+
+                    $other_projects       = [];
+                    $other_projects_where = 'id != ' . $id;
+
+                    $statuses = $this->case->get_project_statuses();
+
+                    $other_projects_where .= ' AND (';
+                    foreach ($statuses as $status) {
+                        if (isset($status['filter_default']) && $status['filter_default']) {
+                            $other_projects_where .= 'status = ' . $status['id'] . ' OR ';
+                        }
+                    }
+
+                    $other_projects_where = rtrim($other_projects_where, ' OR ');
+
+                    $other_projects_where .= ')';
+
+                    if (!staff_can('view', 'projects', $staff_id)) {
+                        $other_projects_where .= ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id($staff_id) . ')';
+                    }
+
+                    $data['project_overview_chart'] = $this->case->get_project_overview_weekly_chart_data($slug,$id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart'):'this_week'));
+                    $data['other_projects'] = $this->case->get($other_projects_where);
+                    $data['judges_case']    = $this->case->GetJudgesCases($id);
+                    $data['title']          = $data['project']->name;
+                    $data['project_status'] = get_case_status_by_id($project->status);
+                    $data['service']        = $this->legal->get_service_by_id(1)->row();
+                    $data['case_model']     = $this->case;
+                    $data['ServID']         = 1;
+                    $data['id'] = $id;
+                    $this->db->where('country_id', $project->country);
+                    $data['project']->country = $this->db->get('tblcountries')->row();
+                    $this->response($data, REST_Controller::HTTP_OK);
+                }
+
+                $data = $this->Customersdetail_model->getcustomercase($filters, $case_id);
 
                 $statuses = $this->case->get_project_statuses();
 

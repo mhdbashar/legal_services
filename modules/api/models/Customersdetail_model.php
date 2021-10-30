@@ -53,7 +53,7 @@ Class Customersdetail_model extends CI_Model
         # code...
 
     }
-    public function getcustomercase($filters)
+    public function getcustomercase($filters, $case_id)
     {
         if($filters['typeof']=='customer'){
             $this->db->select('*')->from('tblmy_cases');
@@ -61,13 +61,19 @@ Class Customersdetail_model extends CI_Model
             $this->db->order_by('id','desc');
             //$this->db->limit($filters['limit'], ($filters['start']-1));
             return $this->db->get()->result();
-        }else{
+        }elseif(is_numeric($case_id)){
 
             $this->db->select('*')->from('tblmy_cases');
-            $this->db->order_by('id','desc');
+            $this->db->where('id', $case_id);
             //$this->db->limit($filters['limit'], ($filters['start']-1));
-            return $this->db->get()->result();
-        }
+            return $this->db->get()->row();
+        }else{
+
+        $this->db->select('*')->from('tblmy_cases');
+        $this->db->order_by('id','desc');
+        //$this->db->limit($filters['limit'], ($filters['start']-1));
+        return $this->db->get()->result();
+    }
         # code...
 
     }

@@ -88,7 +88,7 @@ class Cron_model extends App_Model
 
             $this->send_lawyer_daily_agenda();
 
-            $this->fix_and_separate_names();
+            //$this->fix_and_separate_names();
 
             /**
              * Finally send any emails in the email queue - if enabled and any

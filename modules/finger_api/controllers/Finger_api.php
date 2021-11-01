@@ -8,7 +8,9 @@ class Finger_api extends AdminController
     {
         parent::__construct();
         $this->load->model('api_model');
-
+        if (!has_permission('finger_api', '', 'timekeeper')) {
+            access_denied('timekeeper');
+        }
 //        $this->load->library('app_modules');
 //        if(!$this->app_modules->is_active('figner_api')){
 //            access_denied("Api");
@@ -21,6 +23,15 @@ class Finger_api extends AdminController
         $data['user_api'] = $this->api_model->get_user();
         $data['title'] = _l('api_management');
         $this->load->view('api_management', $data);
+    }
+
+    public function qr_management()
+    {
+        $this->load->model('staff_model');
+        $data['staffs'] = $this->staff_model->get();
+        $data['user_api'] = $this->api_model->get_user();
+        $data['title'] = _l('api_management');
+        $this->load->view('qr_management', $data);
     }
 
     public function api_guide()

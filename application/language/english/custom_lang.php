@@ -1,5 +1,10 @@
 <?php
 
+
+$lang['finger_timekeeper'] = 'Timekeeper';
+
+$lang['finger_api'] = 'Finger API';
+
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
 $lang['add_only_main_salary'] = 'Add only main salary';

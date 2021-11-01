@@ -12,4 +12,4 @@ $lang['password_api']		= 'Password';
 $lang['repeat_passwork_api']	= 'Repeat Passwork';
 $lang['token_api']		= 'Token';
 $lang['expiration_date']		= 'Expiration Date';
-$lang['qr_code'] = 'QR Code';
+$lang['qr_code'] = 'رمز الاستجابة السريع';

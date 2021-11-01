@@ -11,8 +11,18 @@ Author URI: https://codecanyon.net/user/themesic/portfolio
 
 define('FINGER_API_MODULE_NAME', 'finger_api');
 hooks()->add_action('admin_init', 'finger_api_init_menu_items');
+hooks()->add_action('admin_init', 'finger_api_permissions');
 
+function finger_api_permissions()
+{
+    $capabilities = [];
 
+    $capabilities['capabilities'] = [
+        'timekeeper'   => _l('finger_timekeeper'),
+    ];
+
+    register_staff_capabilities('finger_api', $capabilities, _l('finger_api'));
+}
 
 /**
 * Load the module helper
@@ -44,7 +54,7 @@ function finger_api_init_menu_items()
     /**
     * If the logged in user is administrator, add custom menu in Setup
     */
-    if (is_admin()) {
+    if (has_permission('finger_api', '', 'timekeeper')) {
         $CI = &get_instance();
         $CI->app_menu->add_sidebar_menu_item('finger_api-options', [
             'collapse' => true,
@@ -54,8 +64,8 @@ function finger_api_init_menu_items()
         ]);
         $CI->app_menu->add_sidebar_children_item('finger_api-options', [
             'slug'     => 'finger_api-register-options',
-            'name'     => _l('api_management'),
-            'href'     => admin_url('finger_api/api_management'),
+            'name'     => _l('qr_code'),
+            'href'     => admin_url('finger_api/qr_management'),
             'position' => 5,
         ]);
         

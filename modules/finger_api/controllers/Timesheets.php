@@ -50,7 +50,7 @@ class Timesheets extends REST_Controller {
     public function verify_token()
     {
         $headers = $this->input->request_headers();
-        if(!isset($headers['Authtoken'])){
+        if(!isset($headers['authtoken'])){
             $this->response(['message' => 'Unauthorized'], 401);
         }
         $result = $this->authorization_token->validateToken();
@@ -92,9 +92,9 @@ class Timesheets extends REST_Controller {
             $settings = $this->db->get(db_prefix() . 'timesheets_settings')->row();
             if($data['key'] != $settings->key_app)
                 $this->response([
-                        'status' => false,
-                        'message' => 'The KEY is Wrong!'
-                    ], 401
+                    'status' => false,
+                    'message' => 'The KEY is Wrong!'
+                ], 401
                 );
 
 
@@ -104,6 +104,95 @@ class Timesheets extends REST_Controller {
 
             $attend_data = [
                 'staff_id' =>  $staff->staff_id,
+                'type_check' => $data['q'] == 'in' ? 1 : 2,
+                'edit_date' => '',
+                'point_id' => '',
+                'location_user' => $data['lat'] . ',' . $data['longt']
+            ];
+
+            $type = $attend_data['type_check'];
+            $re = $this->timesheets_model->check_in($attend_data);
+            $message = '';
+            $status = true;
+            if(is_numeric($re)){
+                if($re == 2){
+                    $message = _l('your_current_location_is_not_allowed_to_take_attendance');
+                    $status = false;
+                }
+                if($re == 3){
+                    $message = _l('location_information_is_unknown');
+                    $status = false;
+                }
+                if($re == 4){
+                    $message = _l('route_point_is_unknown');
+                    $status = false;
+                }
+            }
+            else{
+                if($re == true){
+                    if($type == 1){
+                        $message = _l('check_in_successfull');
+                        $status = true;
+                    }
+                    else{
+                        $message = _l('check_out_successfull');
+                        $status = true;
+                    }
+                }
+                else{
+                    if($type == 1){
+                        $message = _l('check_in_not_successfull');
+                        $status = false;
+                    }
+                    else{
+                        $message = _l('check_out_not_successfull');
+                        $status = false;
+                    }
+                }
+            }
+
+            $this->response([
+                    'status' => $status,
+                    'message' => $message
+                ]
+            );
+        }
+    }
+
+    public function timekeeper_post()
+    {
+
+        if(!has_permission('finger_api', '', 'timekeeper'))
+            $this->response([
+                'status' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        $this->form_validation->set_rules('key', 'Key', 'required');
+        $this->form_validation->set_rules('q', 'q', 'required');
+        $this->form_validation->set_rules('lat', 'Lat', 'required');
+        $this->form_validation->set_rules('longt', 'Longt', 'required');
+        $this->form_validation->set_rules('staff_id', 'Staff ID', 'required');
+        if ($this->form_validation->run() == FALSE)
+        {
+            // form validation error
+            $message = array(
+                'status' => FALSE,
+                'error' => $this->form_validation->error_array(),
+                'message' => validation_errors()
+            );
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+        else
+        {
+            $data = $this->input->post();
+
+
+            $this->load->model('timesheets/Timesheets_model', 'timesheets_model');
+            $this->load->model('departments_model');
+            $this->load->helper('timesheets/timesheets');
+
+            $attend_data = [
+                'staff_id' =>  $data['staff_id'],
                 'type_check' => $data['q'] == 'in' ? 1 : 2,
                 'edit_date' => '',
                 'point_id' => '',

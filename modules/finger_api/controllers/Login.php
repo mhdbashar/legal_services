@@ -45,7 +45,9 @@ class Login extends API_Controller
                 $payload = [
                     $email
                 ];
-
+                $this->load->model('Staff_model');
+                $staff = $this->Staff_model->get('', ['email' => $email]);
+                $staff_id = $staff[0]['staffid'];
 
                 $this->load->library('authorization_token');
 
@@ -54,13 +56,12 @@ class Login extends API_Controller
                     [
                         'status' => true,
                         "token" => $token,
+                        'timekeeper' => has_permission('finger_api', '', 'timekeeper')
 
                     ],
                     200);
                 $data = [];
                 $data['user'] = $email;
-                $this->load->model('Staff_model');
-                $staff = $this->Staff_model->get('', ['email' => $email]);
 
                 $data['name'] = $staff[0]['firstname'];
                 $data['token'] = $token;

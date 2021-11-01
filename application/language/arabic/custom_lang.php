@@ -1,5 +1,10 @@
 <?php
 
+
+$lang['finger_timekeeper'] = 'مراقب الدوام';
+
+$lang['finger_api'] = 'تطبيق الحضور والانصراف';
+
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
 $lang['organizations'] = 'المنشاّة';

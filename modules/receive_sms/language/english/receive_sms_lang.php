@@ -21,3 +21,7 @@ $lang['sms_senders'] = 'SMS Senders';
 $lang['saved_messages'] = 'Saved Messages';
 
 $lang['created_at'] = 'Created at';
+
+$lang['finger_timekeeper'] = 'Timekeeper';
+
+$lang['finger_api'] = 'تطبيق الحضور والانصراف';

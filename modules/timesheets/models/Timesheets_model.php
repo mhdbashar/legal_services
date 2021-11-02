@@ -5629,6 +5629,7 @@ public function default_settings($data){
 				if($next_key == $key){
 					if($check_out_date != '' && $check_in_date != ''){
 						$data_hour = $this->calculate_attendance_timesheets($staff_id, $check_in_date, $check_out_date);
+						if (isset($data_hour->working_hour))
 						$total_work_hours += $data_hour->working_hour; 
 					}
 				}

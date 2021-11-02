@@ -23,9 +23,6 @@ class Transactions extends AdminController
 
     public function incoming($id = ''){
 //        $this->load->model('Transactions_model');
-        if (!is_admin()) {
-            access_denied('incoming');
-        }
         $redirect = admin_url('transactions/incoming_list');
         $last_id = $this->index();
         if ($this->input->post()) {
@@ -50,6 +47,10 @@ class Transactions extends AdminController
             $dataRow['isDeleted']= 0;
 
             if ($id == '') {
+                if(!has_permission('transactions', '', 'create')) {
+                    echo _l('access_denied');
+                    die;
+                }
                 $data['id'] = $last_id;
                 $id = $this->transactions_model->add($dataRow);
                 if ($id) {
@@ -57,6 +58,10 @@ class Transactions extends AdminController
                     redirect($redirect);
                 }
             } else {
+                if(!has_permission('transactions', '', 'edit')) {
+                    echo _l('access_denied');
+                    die;
+                }
                 $success = $this->transactions_model->update($dataRow, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'incoming'));
@@ -98,6 +103,10 @@ class Transactions extends AdminController
             $dataRow['owner_phone']= $data['owner_phone'];
             $dataRow['isDeleted']= 0;
             if ($id == '') {
+                if(!has_permission('transactions', '', 'create')) {
+                    echo _l('access_denied');
+                    die;
+                }
                 $data['id'] = $last_id;
                 $id = $this->transactions_model->add($dataRow);
                 if ($id) {
@@ -105,6 +114,10 @@ class Transactions extends AdminController
                     redirect($redirect);
                 }
             } else {
+                if(!has_permission('transactions', '', 'edit')) {
+                    echo _l('access_denied');
+                    die;
+                }
                 $success = $this->transactions_model->update($dataRow, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'outgoing'));
@@ -123,12 +136,15 @@ class Transactions extends AdminController
         }
         $data['id'] = $id;
         $data['title'] = $title;
-        
+
         $this->load->view('admin/transactions/outgoing',$data);
     }
     public function incoming_list(){
 //
 
+        if(!has_permission('transactions', '', 'view')) {
+            access_denied('transactions');
+        }
         if ($this->input->is_ajax_request()) {
 
             $this->app->get_table_data('my_incoming_transactions');
@@ -141,7 +157,9 @@ class Transactions extends AdminController
     }
     public function outgoing_list(){
 //
-
+        if(!has_permission('transactions', '', 'view')) {
+            access_denied('transactions');
+        }
         if ($this->input->is_ajax_request()) {
 
             $this->app->get_table_data('my_outgoing_transactions');
@@ -199,6 +217,9 @@ class Transactions extends AdminController
 
     public function delete_transaction()
     {
+        if(!has_permission('transactions', '', 'delete')) {
+            access_denied('transactions');
+        }
         $id = $_GET["del_id"];
         $success = $this->transactions_model->changeStatus($id);
         if ($success) {

@@ -22,3 +22,7 @@ $lang['sms_senders'] = 'مرسلين SMS';
 $lang['saved_messages'] = 'الرسائل المحفوظة';
 
 $lang['created_at'] = 'أنشئ بتاريخ';
+
+$lang['finger_timekeeper'] = 'مراقب الدوام';
+
+$lang['finger_api'] = 'تطبيق الحضور والانصراف';

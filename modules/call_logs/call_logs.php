@@ -24,15 +24,15 @@ hooks()->apply_filters('get_goal_types', 'call_logs_set_goal_types');
 
 function call_logs_set_goal_types($types)
 {
-        $types = [
-            [
+    $types = [
+        [
             'key'      => 8,
             'lang_key' => 'goal_type_call_logs',
             'subtext'  => 'goal_type_call_logs_subtext',
-            ]
-        ];
+        ]
+    ];
 
-        return $types;
+    return $types;
 }
 /* This function is used to grab the call logs records from the database. */
 function call_logs_global_search_result_output($output, $data)
@@ -54,10 +54,10 @@ function call_logs_global_search_result_query($result, $q, $limit)
         $CI->db->order_by('call_purpose', 'ASC');
 
         $result[] = [
-                'result'         => $CI->db->get()->result_array(),
-                'type'           => 'call_logs',
-                'search_heading' => _l('call_logs'),
-            ];
+            'result'         => $CI->db->get()->result_array(),
+            'type'           => 'call_logs',
+            'search_heading' => _l('call_logs'),
+        ];
     }
 
     return $result;
@@ -66,8 +66,8 @@ function call_logs_global_search_result_query($result, $q, $limit)
 function call_logs_migration_tables_to_replace_old_links($tables)
 {
     $tables[] = [
-                'table' => db_prefix() . 'call_logs'
-            ];
+        'table' => db_prefix() . 'call_logs'
+    ];
 
     return $tables;
 }
@@ -77,10 +77,10 @@ function call_logs_permissions()
     $capabilities = [];
 
     $capabilities['capabilities'] = [
-            'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
-            'create' => _l('permission_create'),
-            'edit'   => _l('permission_edit'),
-            'delete' => _l('permission_delete'),
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
     ];
 
     register_staff_capabilities('call_logs', $capabilities, _l('call_logs'));
@@ -99,8 +99,8 @@ function call_logs_notification()
 }
 
 /**
-* Register activation module hook
-*/
+ * Register activation module hook
+ */
 register_activation_hook(CALL_LOGS_MODULE_NAME, 'call_logs_module_activation_hook');
 
 function call_logs_module_activation_hook()
@@ -122,8 +122,8 @@ function call_logs_module_uninstall_hook()
 
 
 /**
-* Register language files, must be registered if the module is using languages
-*/
+ * Register language files, must be registered if the module is using languages
+ */
 register_language_files(CALL_LOGS_MODULE_NAME, [CALL_LOGS_MODULE_NAME]);
 
 /**
@@ -133,20 +133,21 @@ register_language_files(CALL_LOGS_MODULE_NAME, [CALL_LOGS_MODULE_NAME]);
 function call_logs_module_init_menu_items()
 {
     $CI = &get_instance();
-    $CI->app_menu->add_sidebar_menu_item('call_logs_menu', [
-        'name' => _l('call_logs'), // The name if the item
-        'href' => admin_url('call_logs'), // URL of the item
-        'position' => 10, // The menu position, see below for default positions.
-        'icon' => 'fa fa-phone', // Font awesome icon
-    ]);
+    if (has_permission('call_logs', '', 'view_own') || has_permission('call_logs', '', 'view')) {
+        $CI->app_menu->add_sidebar_menu_item('call_logs_menu', [
+            'name' => _l('call_logs'), // The name if the item
+            'href' => admin_url('call_logs'), // URL of the item
+            'position' => 10, // The menu position, see below for default positions.
+            'icon' => 'fa fa-phone', // Font awesome icon
+        ]);
 
-    $CI->app_tabs->add_customer_profile_tab('call_logs', [
-        'name'     => _l('call_logs'),
-        'icon'     => 'fa fa-phone',
-        'view'     => '../../modules/call_logs/views/admin/clients/groups/call_logs',
-        'position' => 100,
-    ]);
-
+        $CI->app_tabs->add_customer_profile_tab('call_logs', [
+            'name' => _l('call_logs'),
+            'icon' => 'fa fa-phone',
+            'view' => '../../modules/call_logs/views/admin/clients/groups/call_logs',
+            'position' => 100,
+        ]);
+    }
     if (is_admin()) {
         $CI->app_menu->add_setup_menu_item('call_logs', [
             'collapse' => true,

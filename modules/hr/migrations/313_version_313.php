@@ -10,11 +10,11 @@ class Migration_Version_313 extends App_module_migration
 
         if (!$CI->db->field_exists('second_name' ,db_prefix() . 'staff')) {
             $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
-            ADD COLUMN `second_name` varchar(100) NULL AFTER `firstname`');
+            ADD COLUMN `second_name` varchar(191) NULL AFTER `firstname`');
         }
         if (!$CI->db->field_exists('third_name' ,db_prefix() . 'staff')) {
             $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
-            ADD COLUMN `third_name` varchar(100) NULL AFTER `second_name`');
+            ADD COLUMN `third_name` varchar(191) NULL AFTER `second_name`');
         }
     }
 

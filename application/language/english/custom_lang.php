@@ -1,5 +1,10 @@
 <?php
 
+
+$lang['finger_timekeeper'] = 'Timekeeper';
+
+$lang['finger_api'] = 'Finger API';
+
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
 $lang['add_only_main_salary'] = 'Add only main salary';
@@ -769,7 +774,6 @@ $lang['invoice_status_paid'] = "Paid";
 $lang['invoice_status_unpaid'] = "Unpaid";
 $lang['invoice_status_overdue'] = "Overdue";
 $lang['invoice_status_not_paid_completely'] = "Partially Paid";
-$lang['invoice_pdf_heading'] = "INVOICE";
 $lang['invoice_table_item_heading'] = "Item";
 $lang['invoice_table_quantity_heading'] = "Qty";
 $lang['invoice_table_rate_heading'] = "Rate";
@@ -3058,7 +3062,6 @@ $lang['settings_paymentmethod_default_selected_on_invoice'] = "Selected by defau
 $lang['paymentmethod_braintree_merchant_id'] = "Merchant ID";
 $lang['paymentmethod_braintree_private_key'] = "Private Key";
 $lang['paymentmethod_braintree_public_key'] = "Public Key";
-$lang['company_requires_vat_number_field'] = "Company requires the usage of the VAT Number field";
 $lang['no_company_view_profile'] = "Person - View Profile";
 $lang['company_is_required'] = "Company field is required?";
 $lang['estimate_invoiced'] = "Invoiced";
@@ -3677,7 +3680,6 @@ $lang['enable_google_picker'] = "Enable Google Picker";
 $lang['google_api_client_id'] = "Google API Client ID";
 $lang['subtract_tax_total_from_amount'] = "Subtract TAX total (%s) from amount";
 $lang['expense_subtract_info_text'] = "Use this option to subtract the total tax amount from the expense amount, useful when you entered the expense amount with tax included (tax inclusive).";
-$lang['company_exists_info'] = "It looks that a customer with name %s already exists, if you still want to create the customer you can ignore this message.";
 $lang['import_items'] = "Import Items";
 $lang['total_items_deleted'] = "Total items deleted: %s";
 $lang['billable_amount'] = "Billable Amount";
@@ -4055,3 +4057,5 @@ $lang['migration_lang_12'] = "Please wait...";
 $lang['migration_lang_13'] = "Hi! Thanks for updating Babil - You are using version %s";
 $lang['migration_lang_14'] = "This window will reload automaticaly in 10 seconds and will try to clear your browser/cloudflare cache, however its recomended to clear your browser cache manually.";
 $lang['migration_lang_15'] = "Your database is up to date";
+
+$lang['tax_invoice_pdf_heading'] = "Tax Invoice";

@@ -44,7 +44,12 @@ class timesheets extends AdminController
 	{
 		$this->load->model('staff_model');
 		$this->load->model('roles_model');        
-		$this->load->model('contracts_model');        
+		$this->load->model('contracts_model');
+
+		$key_app = $this->db->get('timesheets_settings')->row()->key_app;
+		$data['key_app'] = $key_app;
+
+		$data['qr'] = "{'url': '" . site_url('finger_api')  . "', 'key':'" . $key_app . "'}";
 
 		$data['group'] = $this->input->get('group');
 
@@ -53,7 +58,7 @@ class timesheets extends AdminController
 		$data['tab'][] = 'manage_dayoff';
 		$data['tab'][] = 'approval_process';
 		$data['tab'][] = 'timekeeping_settings';
-		$data['tab'][] = 'default_settings';
+        $data['tab'][] = 'default_settings';
 		if($data['group'] == ''){
 			$data['group'] = 'contract_type';
 		}elseif ($data['group'] == 'manage_dayoff') {
@@ -4084,18 +4089,18 @@ function get_custom_type_shiftwork(){
 			else{
 				if($re == true){
 					if($type == 1){
-						set_alert('success',_l('check_in_successfull'));            
+						set_alert('success',_l('check_in_successfully'));            
 					}
 					else{
-						set_alert('success',_l('check_out_successfull'));            
+						set_alert('success',_l('check_out_successfully'));            
 					}
 				}
 				else{
 					if($type == 1){
-						set_alert('warning',_l('check_in_not_successfull'));            
+						set_alert('warning',_l('check_in_not_successfully'));            
 					}
 					else{
-						set_alert('warning',_l('check_out_not_successfull'));            
+						set_alert('warning',_l('check_out_not_successfully'));            
 					}
 				}                
 			}
@@ -4596,7 +4601,8 @@ function get_custom_type_shiftwork(){
 	 */
 		public function default_settings(){
 			$data = $this->input->post();
-			$success = $this->timesheets_model->default_settings($data);
+			$key_app = $data['key_app'];
+			$success = $this->db->update(db_prefix() . 'timesheets_settings', ['key_app' => $key_app]);
 			if($success){
 				set_alert('success',_l('save_setting_success'));
 			}else{

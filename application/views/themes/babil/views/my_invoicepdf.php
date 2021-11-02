@@ -18,7 +18,7 @@ $info_right_column = '';
 $info_left_column  = '';
 
 $info_right_column .= '<div align="'.$attr_align.'">';
-$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('invoice_pdf_heading') . '</span><br />';
+$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('tax_invoice_pdf_heading') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $invoice_number . '</b>';
 
 if (get_option('show_status_on_pdf_ei') == 1) {
@@ -49,6 +49,11 @@ $organization_info = '<div style="color:#424242;">';
 $organization_info .= format_organization_info();
 
 $organization_info .= '</div>';
+
+if($invoice->qr_code != null || $invoice->qr_code != ''){
+    $qrCodePath = base_url().'uploads/invoices/QRs/'.$invoice->qr_code;
+    $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
+}
 
 // Bill to
 $invoice_info = '<div align="'.$attr_align.'">';
@@ -87,6 +92,8 @@ foreach ($pdf_custom_fields as $field) {
     $invoice_info .= $field['name'] . ': ' . $value . '<br />';
 }
 $invoice_info .= '</div>';
+
+
 
 //$left_info  = $swap == '1' ? $invoice_info : $organization_info;
 //$right_info = $swap == '1' ? $organization_info : $invoice_info;

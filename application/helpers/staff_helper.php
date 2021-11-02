@@ -36,6 +36,16 @@ function get_available_staff_permissions($data = [])
                 'view' => $viewGlobalName,
             ],
         ],
+        'tickets' => [
+            'name'         => _l('support'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+            ],
+        ],
+        'transactions' => [
+            'name'         => _l('transactions'),
+            'capabilities' => $withNotApplicableViewOwn,
+        ],
         'contracts' => [
             'name'         => _l('contracts'),
             'capabilities' => $allPermissionsArray,
@@ -106,7 +116,7 @@ function get_available_staff_permissions($data = [])
         ],
         'projects' => [
             'name'         => _l('projects'),
-            'capabilities' => array_merge($withNotApplicableViewOwn, [ 'create_milestones' => _l('permission_create_milestones'),
+            'capabilities' => array_merge($allPermissionsArray, [ 'create_milestones' => _l('permission_create_milestones'),
                 'edit_milestones'=> _l('permission_edit_milestones'),'delete_milestones'=> _l('permission_delete_milestones')]),
             'help'         => [
                 'view'     => _l('help_project_permissions'),
@@ -144,8 +154,8 @@ function get_available_staff_permissions($data = [])
         // ],
         'tasks' => [
             'name'         => _l('tasks'),
-            'capabilities' => $withNotApplicableViewOwn,
-             'help'        => [
+            'capabilities' => $allPermissionsArray,
+            'help'        => [
                 'view'     => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
             ],
@@ -312,7 +322,7 @@ function staff_profile_image_url($staff_id, $type = 'small')
     } else {
         $CI = & get_instance();
         $CI->db->select('profile_image')
-        ->where('staffid', $staff_id);
+            ->where('staffid', $staff_id);
 
         $staff = $CI->db->get(db_prefix() . 'staff')->row();
     }
@@ -485,7 +495,7 @@ function is_staff_member($staff_id = '')
     }
 
     $CI->db->where('staffid', $staff_id)
-    ->where('is_not_staff', 0);
+        ->where('is_not_staff', 0);
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
 }

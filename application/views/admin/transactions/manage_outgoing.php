@@ -7,14 +7,15 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <?php if(is_admin()) { ?>
+                            <?php if(has_permission('transactions', '', 'create')) { ?>
                                 <a href="<?php echo admin_url('transactions/outgoing'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_outgoing'); ?></a>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
                             <?php } else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?>
                         </div>
                         <div class="clearfix"></div>
-                        <?php render_datatable(array(
+                        <?php
+                        $table = [
                             _l('id'),
                             _l('type'),
                             _l('origin'),
@@ -22,9 +23,11 @@
                             _l('importance'),
                             _l('classification'),
                             _l('owner_name'),
-                            _l('options'),
+                        ];
+                        if(has_permission('transactions', '', 'edit') || has_permission('transactions', '', 'delete'))
+                            $table[] = _l('options');
 
-                        ),'trans_outgoing'); ?>
+                        render_datatable($table,'trans_outgoing'); ?>
                     </div>
                 </div>
             </div>

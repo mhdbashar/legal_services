@@ -314,6 +314,7 @@ class General extends AdminController{
                     $success = $this->Extra_info_model->add($hr_data);
                     $response = $this->staff_model->update($data, $id);
                 }
+                handle_staff_profile_image_upload($id);
                 if (is_array($response)) {
                     if (isset($response['cant_remove_main_admin'])) {
                         set_alert('warning', _l('staff_cant_remove_main_admin'));

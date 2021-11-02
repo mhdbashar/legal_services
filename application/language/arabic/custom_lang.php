@@ -1,5 +1,10 @@
 <?php
 
+
+$lang['finger_timekeeper'] = 'مراقب الدوام';
+
+$lang['finger_api'] = 'تطبيق الحضور والانصراف';
+
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
 $lang['organizations'] = 'المنشاّة';
@@ -1122,3 +1127,5 @@ $lang['migration_lang_12'] = "الرجاء الإنتظار...";
 $lang['migration_lang_13'] = "أهلا! شكرًا لتحديث Babil - أنت تستخدم الإصدار %s";
 $lang['migration_lang_14'] = "ستتم إعادة تحميل هذه النافذة تلقائيًا في غضون 10 ثوانٍ وستحاول مسح ذاكرة التخزين المؤقت للمتصفح / cloudflare ، ولكن يوصى بمسح ذاكرة التخزين المؤقت للمتصفح يدويًا.";
 $lang['migration_lang_15'] = "تم تحديث قاعدة البيانات الخاصة بك";
+
+$lang['tax_invoice_pdf_heading'] = "فاتورة ضريبية";

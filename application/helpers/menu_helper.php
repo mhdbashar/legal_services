@@ -152,14 +152,16 @@ function app_init_admin_sidebar_menu_items()
 
     if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1) || is_staff_member()) {
         $enable_badge = get_option('enable_support_menu_badges');
-        $CI->app_menu->add_sidebar_menu_item('support', [
-            'collapse' => $enable_badge,
-            'name'     => _l('support'),
-            'href'     => admin_url('tickets'),
-            'icon'     => 'fa fa-ticket',
-            'position' => 40,
-            'badge'    => []
-        ]);
+        if (has_permission('tickets', '', 'view') || has_permission('tickets', '', 'view_own')) {
+            $CI->app_menu->add_sidebar_menu_item('support', [
+                'collapse' => $enable_badge,
+                'name' => _l('support'),
+                'href' => admin_url('tickets'),
+                'icon' => 'fa fa-ticket',
+                'position' => 40,
+                'badge' => []
+            ]);
+        }
 
         $CI->load->model('tickets_model');
         $statuses = $CI->tickets_model->get_ticket_status();
@@ -180,7 +182,7 @@ function app_init_admin_sidebar_menu_items()
         }
     }
 
-    if (is_staff_member()) {
+    if ((has_permission('leads', '', 'view') || has_permission('leads', '', 'view_own')) and is_staff_member()) {
         $CI->app_menu->add_sidebar_menu_item('leads', [
             'name'     => _l('als_leads'),
             'href'     => admin_url('leads'),

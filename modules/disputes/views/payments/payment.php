@@ -67,11 +67,11 @@
 									</li>
 								</ul>
 							</div>
-							<?php if(has_permission('payments','','delete')){ ?>
-								<a href="<?php echo admin_url('disputes/payments/delete/'.$payment->paymentid); ?>" class="btn btn-danger _delete">
-									<i class="fa fa-remove"></i>
-								</a>
-							<?php } ?>
+<!--							--><?php //if(has_permission('payments','','delete')){ ?>
+<!--								<a href="--><?php //echo admin_url('disputes/payments/delete/'.$payment->paymentid); ?><!--" class="btn btn-danger _delete">-->
+<!--									<i class="fa fa-remove"></i>-->
+<!--								</a>-->
+<!--							--><?php //} ?>
 						</div>
 						<div class="clearfix"></div>
 						<hr class="hr-panel-heading" />

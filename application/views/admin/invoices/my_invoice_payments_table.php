@@ -14,7 +14,7 @@
             <?php foreach($invoice->payments as $payment){ ?>
             <tr class="payment">
                 <td><?php echo $payment['paymentid']; ?>
-                    <?php echo icon_btn('disputes/payments/pdf/' . $payment['paymentid'], 'file-pdf-o','btn-default pull-right'); ?>
+                    <?php echo icon_btn('payments/pdf/' . $payment['paymentid'], 'file-pdf-o','btn-default pull-right'); ?>
                 </td>
                 <td><?php echo $payment['name']; ?>
                     <?php if(!empty($payment['paymentmethod'])){
@@ -28,9 +28,9 @@
                 <td><?php echo _d($payment['date']); ?></td>
                 <td><?php echo app_format_money($payment['amount'], $invoice->currency_name); ?></td>
 <!--                <td>-->
-<!--                    <a href="--><?php //echo admin_url('disputes/payments/payment/'.$payment['paymentid']); ?><!--" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>-->
+<!--                    <a href="--><?php //echo admin_url('payments/payment/'.$payment['paymentid']); ?><!--" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>-->
 <!--                    --><?php //if(has_permission('payments','','delete')){ ?>
-<!--                    <a href="--><?php //echo admin_url('disputes/invoices/delete_payment/'.$payment['paymentid'] . '/' . $payment['invoiceid']); ?><!--" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>-->
+<!--                    <a href="--><?php //echo admin_url('invoices/delete_payment/'.$payment['paymentid'] . '/' . $payment['invoiceid']); ?><!--" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>-->
 <!--                    --><?php //} ?>
 <!--                </td>-->
             </tr>

@@ -225,14 +225,14 @@
                            <?php } ?>
                         </li>
                         <?php } ?>
-                        <?php
-                           if((get_option('delete_only_on_last_invoice') == 1 && is_last_invoice($invoice->id)) || (get_option('delete_only_on_last_invoice') == 0)){ ?>
-                        <?php if(has_permission('invoices','','delete')){ ?>
-                        <li data-toggle="tooltip" data-title="<?php echo _l('delete_invoice_tooltip'); ?>">
-                           <a href="<?php echo admin_url('invoices/delete/'.$invoice->id); ?>" class="text-danger delete-text _delete"><?php echo _l('delete_invoice'); ?></a>
-                        </li>
-                        <?php } ?>
-                        <?php } ?>
+<!--                        --><?php
+//                           if((get_option('delete_only_on_last_invoice') == 1 && is_last_invoice($invoice->id)) || (get_option('delete_only_on_last_invoice') == 0)){ ?>
+<!--                        --><?php //if(has_permission('invoices','','delete')){ ?>
+<!--                        <li data-toggle="tooltip" data-title="--><?php //echo _l('delete_invoice_tooltip'); ?><!--">-->
+<!--                           <a href="--><?php //echo admin_url('invoices/delete/'.$invoice->id); ?><!--" class="text-danger delete-text _delete">--><?php //echo _l('delete_invoice'); ?><!--</a>-->
+<!--                        </li>-->
+<!--                        --><?php //} ?>
+<!--                        --><?php //} ?>
                      </ul>
                   </div>
                   <?php if(has_permission('payments','','create') && abs($invoice->total) > 0){ ?>
@@ -276,9 +276,9 @@
                            </td>
                            <td><?php echo _d($credit['date']); ?></td>
                            <td><?php echo app_format_money($credit['amount'], $invoice->currency_name) ?>
-                              <?php if(has_permission('credit_notes','','delete')){ ?>
-                              <a href="<?php echo admin_url('credit_notes/delete_invoice_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$invoice->id); ?>" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>
-                              <?php } ?>
+<!--                              --><?php //if(has_permission('credit_notes','','delete')){ ?>
+<!--                              <a href="--><?php //echo admin_url('credit_notes/delete_invoice_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$invoice->id); ?><!--" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>-->
+<!--                              --><?php //} ?>
                            </td>
                         </tr>
                         <?php } ?>

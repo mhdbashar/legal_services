@@ -70,7 +70,7 @@ foreach ($rResult as $aRow) {
     $numberOutput .= '<div class="row-options">';
     $numberOutput .= '<a href="' . $link . '">' . _l('view') . '</a>';
     if ($hasPermissionDelete) {
-        $numberOutput .= ' | <a href="' . admin_url('payments/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+//        $numberOutput .= ' | <a href="' . admin_url('payments/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $numberOutput .= '</div>';
 

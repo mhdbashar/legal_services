@@ -377,6 +377,7 @@ class Credit_notes extends AdminController
 
     public function delete_credit_note_applied_credit($id, $credit_id, $invoice_id)
     {
+        redirect(admin_url('credit_notes/list_credit_notes/' . $credit_id));
         if (has_permission('credit_notes', '', 'delete')) {
             $this->credit_notes_model->delete_applied_credit($id, $credit_id, $invoice_id);
         }

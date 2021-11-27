@@ -219,6 +219,7 @@ class Payments extends AdminController
     /* Delete payment */
     public function delete($id)
     {
+        redirect(admin_url('payments'));
         if (!has_permission('payments', '', 'delete')) {
             access_denied('Delete Payment');
         }

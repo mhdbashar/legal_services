@@ -75,11 +75,11 @@
                         <div class="mtop10"></div>
                     </div>
                     <div class="pull-right _buttons">
-                        <?php if(has_permission('credit_notes','','edit') && $credit_note->status != 3){ ?>
-                            <a href="<?php echo admin_url('credit_notes/credit_note/'.$credit_note->id); ?>" class="btn btn-default btn-with-tooltip" data-toggle="tooltip" title="<?php echo _l('edit',_l('credit_note_lowercase')); ?>" data-placement="bottom">
-                                <i class="fa fa-pencil-square-o"></i>
-                            </a>
-                        <?php } ?>
+<!--                        --><?php //if(has_permission('credit_notes','','edit') && $credit_note->status != 3){ ?>
+<!--                            <a href="--><?php //echo admin_url('credit_notes/credit_note/'.$credit_note->id); ?><!--" class="btn btn-default btn-with-tooltip" data-toggle="tooltip" title="--><?php //echo _l('edit',_l('credit_note_lowercase')); ?><!--" data-placement="bottom">-->
+<!--                                <i class="fa fa-pencil-square-o"></i>-->
+<!--                            </a>-->
+<!--                        --><?php //} ?>
                         <div class="btn-group">
                             <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-right">
@@ -119,11 +119,11 @@
                                 <?php }
                                 // You can only mark as void, if it's not closed, not void, no credits applied, no refunds applied
                                 if($credit_note->status != 2 && $credit_note->status != 3 && !$credit_note->credits_used && !$credit_note->total_refunds && has_permission('credit_notes','','edit')) { ?>
-                                    <li>
-                                        <a href="<?php echo admin_url('credit_notes/mark_void/'.$credit_note->id); ?>">
-                                            <?php echo _l('credit_note_status_void'); ?>
-                                        </a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a href="--><?php //echo admin_url('credit_notes/mark_void/'.$credit_note->id); ?><!--">-->
+<!--                                            --><?php //echo _l('credit_note_status_void'); ?>
+<!--                                        </a>-->
+<!--                                    </li>-->
                                 <?php } else if($credit_note->status == 3 && has_permission('credit_notes','','edit')) { ?>
                                     <li>
                                         <a href="<?php echo admin_url('credit_notes/mark_open/'.$credit_note->id); ?>">
@@ -388,7 +388,7 @@
                                     <td>
                                         <?php echo _d($credit['date']); ?>
                                         <?php if(has_permission('credit_notes','','delete')) { ?>
-                                            <a href="<?php echo admin_url('credit_notes/delete_credit_note_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$credit['invoice_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>
+<!--                                            <a href="--><?php //echo admin_url('credit_notes/delete_credit_note_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$credit['invoice_id']); ?><!--" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>-->
                                         <?php } ?>
                                     </td>
                                 </tr>

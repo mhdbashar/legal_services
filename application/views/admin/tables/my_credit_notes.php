@@ -125,9 +125,9 @@ foreach ($rResult as $aRow) {
 
     $numberOutput .= '<div class="row-options">';
 
-    if (has_permission('credit_notes', '', 'edit')) {
-        $numberOutput .= '<a href="' . admin_url('credit_notes/credit_note/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    }
+//    if (has_permission('credit_notes', '', 'edit')) {
+//        $numberOutput .= '<a href="' . admin_url('credit_notes/credit_note/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+//    }
     $numberOutput .= '</div>';
 
     $row[] = $numberOutput;

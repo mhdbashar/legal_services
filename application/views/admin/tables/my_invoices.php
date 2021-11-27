@@ -154,7 +154,7 @@ foreach ($rResult as $aRow) {
     $numberOutput .= '<div class="row-options">';
 
     $numberOutput .= '<a href="' . site_url('invoice/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
-    if (has_permission('invoices', '', 'edit')) {
+    if (has_permission('invoices', '', 'edit') && $this->ci->invoices_model->is_draft($aRow['id'])) {
         $numberOutput .= ' | <a href="' . admin_url('invoices/invoice/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
     $numberOutput .= '</div>';

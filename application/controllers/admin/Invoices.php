@@ -356,8 +356,8 @@ class Invoices extends AdminController
                     redirect($redUrl);
                 }
             } else {
-
-                redirect(($_SERVER['HTTP_REFERER']));
+                if(!$this->invoices_model->is_draft($id))
+                    redirect(($_SERVER['HTTP_REFERER']));
                 if (!has_permission('invoices', '', 'edit')) {
                     access_denied('invoices');
                 }
@@ -372,7 +372,8 @@ class Invoices extends AdminController
             $title                  = _l('create_new_invoice');
             $data['billable_tasks'] = [];
         } else {
-            redirect(($_SERVER['HTTP_REFERER']));
+            if(!$this->invoices_model->is_draft($id))
+                redirect(($_SERVER['HTTP_REFERER']));
             $invoice = $this->invoices_model->get($id);
 
             if (!$invoice || !user_can_view_invoice($id)) {

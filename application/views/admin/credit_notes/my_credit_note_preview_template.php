@@ -417,7 +417,7 @@
                                 <th><span class="bold"><?php echo _l('credit_date'); ?></span></th>
                                 <th><span class="bold"><?php echo _l('refund_amount'); ?></span></th>
                                 <th><span class="bold"><?php echo _l('payment_mode'); ?></span></th>
-                                <th><span class="bold"><?php echo _l('note'); ?></span></th>
+<!--                                <th><span class="bold">--><?php //echo _l('note'); ?><!--</span></th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -432,21 +432,7 @@
                                     <td>
                                         <?php echo $refund['payment_mode_name']; ?>
                                     </td>
-                                    <td>
-                                        <?php if(has_permission('credit_notes','','delete')) { ?>
-                                            <a href="<?php echo admin_url('credit_notes/delete_refund/'.$refund['id'].'/'.$refund['credit_note_id']); ?>"
-                                               class="pull-right text-danger _delete">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        <?php } ?>
-                                        <?php if(has_permission('credit_notes','','edit')) { ?>
-                                            <a href="#" onclick="edit_refund(<?php echo $refund['id']; ?>); return false;"
-                                               class="pull-right mright5">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                            </a>
-                                        <?php } ?>
-                                        <?php echo $refund['note']; ?>
-                                    </td>
+
                                 </tr>
                             <?php } ?>
                             </tbody>

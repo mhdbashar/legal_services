@@ -158,7 +158,7 @@ class Credit_notes extends AdminController
         if ($id == '') {
             $title = _l('add_new', _l('credit_note_lowercase'));
         } else {
-            redirect(($_SERVER['HTTP_REFERER']));
+            // redirect(($_SERVER['HTTP_REFERER']));
             $credit_note = $this->credit_notes_model->get($id);
 
             if (!$credit_note || (!has_permission('credit_notes', '', 'view') && $credit_note->addedfrom != get_staff_user_id())) {

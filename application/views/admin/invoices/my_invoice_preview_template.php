@@ -203,15 +203,17 @@
                         </li>
                         <?php } ?>
                         <?php if(has_permission('invoices','','edit') || has_permission('invoices','','create')){ ?>
-<!--                        <li>-->
-<!--                           --><?php //if($invoice->status != Invoices_model::STATUS_CANCELLED
-//                              && $invoice->status != Invoices_model::STATUS_PAID
-//                              && $invoice->status != Invoices_model::STATUS_PARTIALLY){ ?>
-<!--                           <a href="--><?php //echo admin_url('invoices/mark_as_cancelled/'.$invoice->id); ?><!--">--><?php //echo _l('invoice_mark_as',_l('invoice_status_cancelled')); ?><!--</a>-->
-<!--                           --><?php //} else if($invoice->status == Invoices_model::STATUS_CANCELLED) { ?>
-<!--                           <a href="--><?php //echo admin_url('invoices/unmark_as_cancelled/'.$invoice->id); ?><!--">--><?php //echo _l('invoice_unmark_as',_l('invoice_status_cancelled')); ?><!--</a>-->
-<!--                           --><?php //} ?>
-<!--                        </li>-->
+                        <li>
+                           <?php if($invoice->status != Invoices_model::STATUS_CANCELLED
+                              && $invoice->status != Invoices_model::STATUS_PAID
+                              && $invoice->status != Invoices_model::STATUS_PARTIALLY
+                               &&  $this->invoices_model->is_draft($invoice->id)
+                           ){ ?>
+                           <a href="<?php echo admin_url('invoices/mark_as_cancelled/'.$invoice->id); ?>"><?php echo _l('invoice_mark_as',_l('invoice_status_cancelled')); ?></a>
+                           <?php } else if($invoice->status == Invoices_model::STATUS_CANCELLED) { ?>
+                           <a href="<?php echo admin_url('invoices/unmark_as_cancelled/'.$invoice->id); ?>"><?php echo _l('invoice_unmark_as',_l('invoice_status_cancelled')); ?></a>
+                           <?php } ?>
+                        </li>
                         <?php } ?>
                         <?php if(!in_array($invoice->status, array(Invoices_model::STATUS_PAID, Invoices_model::STATUS_CANCELLED, Invoices_model::STATUS_DRAFT))
                            && has_permission('invoices','','edit')

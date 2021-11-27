@@ -29,23 +29,24 @@ class Settings extends AdminController
             $signatureUploaded = (handle_company_signature_upload() ? true : false);
 
             $post_data = $this->input->post();
-            if (!get_option('invoice_prefix_changed') && get_option('invoice_prefix') != $post_data['settings']['invoice_prefix'])
-            {
-                update_option('invoice_prefix_changed', true);
+            if(isset($post_data['settings']['invoice_prefix'], $post_data['settings']['next_credit_note_number'])){
+                if (!get_option('invoice_prefix_changed') && get_option('invoice_prefix') != $post_data['settings']['invoice_prefix'])
+                {
+                    update_option('invoice_prefix_changed', true);
+                }
+                else
+                {
+                    unset($post_data['settings']['invoice_prefix'], $post_data['settings']['next_invoice_number']);
+                }
+                if (!get_option('credit_note_prefix_changed') && get_option('credit_note_prefix') != $post_data['settings']['credit_note_prefix'])
+                {
+                    update_option('credit_note_prefix_changed', true);
+                }
+                else
+                {
+                    unset($post_data['settings']['credit_note_prefix'], $post_data['settings']['next_credit_note_number']);
+                }
             }
-            else
-            {
-                unset($post_data['settings']['invoice_prefix'], $post_data['settings']['next_invoice_number']);
-            }
-            if (!get_option('credit_note_prefix_changed') && get_option('credit_note_prefix') != $post_data['settings']['credit_note_prefix'])
-            {
-                update_option('credit_note_prefix_changed', true);
-            }
-            else
-            {
-                unset($post_data['settings']['credit_note_prefix'], $post_data['settings']['next_credit_note_number']);
-            }
-
 
 
             $tmpData   = $this->input->post(null, false);

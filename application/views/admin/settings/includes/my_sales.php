@@ -57,9 +57,11 @@
             </div>
         </div>
         <hr class="no-mtop" />
-        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('invoices').', '. _l('estimates').', '._l('proposals') ?>"></i>
-        <?php echo render_input('settings[number_padding_prefixes]','settings_number_padding_prefix',get_option('number_padding_prefixes'),'number', ['required'=>true]); ?>
-        <hr />
+        <?php if(!get_option('number_padding_prefixes_changed')){ ?>
+            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('invoices').', '. _l('estimates').', '._l('proposals') ?>"></i>
+            <?php echo render_input('settings[number_padding_prefixes]','settings_number_padding_prefix',get_option('number_padding_prefixes'),'number', ['required'=>true]); ?>
+            <hr />
+        <?php } ?>
         <?php render_yes_no_option('show_tax_per_item','settings_show_tax_per_item'); ?>
         <hr />
         <?php render_yes_no_option('remove_tax_name_from_item_table','remove_tax_name_from_item_table','remove_tax_name_from_item_table_help'); ?>

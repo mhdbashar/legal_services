@@ -46,6 +46,16 @@ class Settings extends AdminController
                 {
                     unset($post_data['settings']['credit_note_prefix'], $post_data['settings']['next_credit_note_number']);
                 }
+
+
+                if (!get_option('number_padding_prefixes_changed') && get_option('number_padding_prefixes') != $post_data['settings']['number_padding_prefixes'])
+                {
+                    update_option('number_padding_prefixes_changed', true);
+                }
+                else
+                {
+                    unset($post_data['settings']['number_padding_prefixes']);
+                }
             }
 
 

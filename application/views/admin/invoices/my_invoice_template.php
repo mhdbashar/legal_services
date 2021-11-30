@@ -242,6 +242,7 @@
                <div class="col-md-6">
                   <?php $value = (isset($invoice) ? _d($invoice->date) : _d(date('Y-m-d')));
                   $date_attrs = array();
+                  $date_attrs['disabled'] = true;
                   if(isset($invoice) && $invoice->recurring > 0 && $invoice->last_recurring_date != null) {
                     $date_attrs['disabled'] = true;
                   }

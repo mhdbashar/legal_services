@@ -143,7 +143,7 @@
                  <div class="row">
                    <div class="col-md-6">
                     <?php $value = (isset($credit_note) ? _d($credit_note->date) : _d(date('Y-m-d'))); ?>
-                    <?php echo render_date_input('date','credit_note_date',$value); ?>
+                    <?php echo render_date_input('date','credit_note_date',$value, ['disabled' => true]); ?>
                   </div>
                    <div class="col-md-6">
                     <?php

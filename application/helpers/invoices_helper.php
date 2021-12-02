@@ -726,7 +726,7 @@ function handle_qr_file_uploads($id)
     $CI->db->where('id', $id);
     $invoice = $CI->db->get(db_prefix() . 'invoices')->row();
 
-    $qr_code_name = format_invoice_number($id).".jpg";
+    $qr_code_name = ($id).".jpg";
 
     $company_name = get_option('invoice_company_name');
     $company_vat = get_option('company_vat');

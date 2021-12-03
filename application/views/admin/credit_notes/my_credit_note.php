@@ -203,7 +203,7 @@
                 <a href="#" onclick="return false;" data-toggle="popover" data-container='._transaction_form' data-html="true" data-content="<label class='control-label'><?php echo _l('credit_note_prefix'); ?></label><div class='input-group'><input name='s_prefix' type='text' class='form-control' value='<?php echo $credit_note->prefix; ?>'></div><button type='button' onclick='save_sales_number_settings(this); return false;' data-url='<?php echo admin_url('credit_notes/update_number_settings/'.$credit_note->id); ?>' class='btn btn-info btn-block mtop15'><?php echo _l('submit'); ?></button>"><i class="fa fa-cog"></i></a>
                 <?php } ?>
                 <?php echo $prefix; ?></span>
-                <input type="text" name="number" class="form-control" value="<?php echo $_credit_note_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>">
+                <input readonly type="text" name="number" class="form-control" value="<?php echo $_credit_note_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>">
                 <?php if($format == 3) { ?>
                 <span class="input-group-addon">
                   <span id="prefix_year" class="format-n-yy"><?php echo $yy; ?></span>

@@ -29,35 +29,6 @@ class Settings extends AdminController
             $signatureUploaded = (handle_company_signature_upload() ? true : false);
 
             $post_data = $this->input->post();
-            if(isset($post_data['settings']['invoice_prefix'], $post_data['settings']['next_credit_note_number'])){
-                if (!get_option('invoice_prefix_changed') && get_option('invoice_prefix') != $post_data['settings']['invoice_prefix'])
-                {
-                    update_option('invoice_prefix_changed', true);
-                }
-                else
-                {
-                    unset($post_data['settings']['invoice_prefix'], $post_data['settings']['next_invoice_number']);
-                }
-                if (!get_option('credit_note_prefix_changed') && get_option('credit_note_prefix') != $post_data['settings']['credit_note_prefix'])
-                {
-                    update_option('credit_note_prefix_changed', true);
-                }
-                else
-                {
-                    unset($post_data['settings']['credit_note_prefix'], $post_data['settings']['next_credit_note_number']);
-                }
-
-
-                if (!get_option('number_padding_prefixes_changed') && get_option('number_padding_prefixes') != $post_data['settings']['number_padding_prefixes'])
-                {
-                    update_option('number_padding_prefixes_changed', true);
-                }
-                else
-                {
-                    unset($post_data['settings']['number_padding_prefixes']);
-                }
-            }
-
 
             $tmpData   = $this->input->post(null, false);
 

@@ -389,7 +389,7 @@
                                  }
                                  echo $_formatted_activity;
                                  if(is_admin()){
-                                 echo '<a href="#" class="pull-right text-danger" onclick="delete_sale_activity('.$activity['id'].'); return false;"><i class="fa fa-remove"></i></a>';
+                                 //echo '<a href="#" class="pull-right text-danger" onclick="delete_sale_activity('.$activity['id'].'); return false;"><i class="fa fa-remove"></i></a>';
                                  }
                                  ?>
                            </div>

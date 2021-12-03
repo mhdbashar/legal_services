@@ -11,9 +11,8 @@ class Migration_Version_512 extends CI_Migration
 
     public function up()
     {
-        add_option('invoice_prefix_changed', false);
-        add_option('credit_note_prefix_changed', false);
-        add_option('number_padding_prefixes_changed', false);
+        update_option('view_invoice_only_logged_in', 1);
+        update_option('estimate_auto_convert_to_invoice_on_client_accept', 0);
         if ($this->db->field_exists('file_number_court', db_prefix() . 'my_cases')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` MODIFY `file_number_court` bigint DEFAULT NULL');
         }

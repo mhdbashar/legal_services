@@ -57,11 +57,9 @@
             </div>
         </div>
         <hr class="no-mtop" />
-        <?php if(!get_option('number_padding_prefixes_changed')){ ?>
-            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('invoices').', '. _l('estimates').', '._l('proposals') ?>"></i>
-            <?php echo render_input('settings[number_padding_prefixes]','settings_number_padding_prefix',get_option('number_padding_prefixes'),'number', ['required'=>true]); ?>
-            <hr />
-        <?php } ?>
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('invoices').', '. _l('estimates').', '._l('proposals') ?>"></i>
+        <?php echo render_input('settings[number_padding_prefixes]','settings_number_padding_prefix',get_option('number_padding_prefixes'),'number', ['required'=>true]); ?>
+        <hr />
         <?php render_yes_no_option('show_tax_per_item','settings_show_tax_per_item'); ?>
         <hr />
         <?php render_yes_no_option('remove_tax_name_from_item_table','remove_tax_name_from_item_table','remove_tax_name_from_item_table_help'); ?>
@@ -91,16 +89,14 @@
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="invoice">
-        <?php if(!get_option('invoice_prefix_changed')){ ?>
-            <div class="form-group">
-                <label class="control-label" for="invoice_prefix"><?php echo _l('settings_sales_invoice_prefix'); ?></label>
-                <input type="text" name="settings[invoice_prefix]" class="form-control" value="<?php echo get_option('invoice_prefix'); ?>">
-            </div>
-            <hr />
-            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('settings_sales_next_invoice_number_tooltip'); ?>"></i>
-            <?php echo render_input('settings[next_invoice_number]','settings_sales_next_invoice_number',get_option('next_invoice_number'), 'number', ['min'=>1]); ?>
-            <hr />
-        <?php } ?>
+        <div class="form-group">
+            <label class="control-label" for="invoice_prefix"><?php echo _l('settings_sales_invoice_prefix'); ?></label>
+            <input type="text" readonly name="settings[invoice_prefix]" class="form-control" value="<?php echo get_option('invoice_prefix'); ?>">
+        </div>
+        <hr />
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('settings_sales_next_invoice_number_tooltip'); ?>"></i>
+        <?php echo render_input('settings[next_invoice_number]','settings_sales_next_invoice_number',get_option('next_invoice_number'), 'number', ['min'=>1, 'readonly' => true]); ?>
+        <hr />
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('invoice_due_after_help'); ?>"></i>
         <?php echo render_input('settings[invoice_due_after]','settings_sales_invoice_due_after',get_option('invoice_due_after')); ?>
         <hr />
@@ -151,16 +147,14 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="credit_notes">
 
-            <?php if(!get_option('credit_note_prefix_changed')){ ?>
-            <div class="form-group">
-                <label class="control-label" for="credit_note_prefix"><?php echo _l('credit_note_number_prefix'); ?></label>
-                <input type="text" name="settings[credit_note_prefix]" id="credit_note_prefix" class="form-control" value="<?php echo get_option('credit_note_prefix'); ?>">
-            </div>
-            <hr />
-            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('settings_sales_next_invoice_number_tooltip'); ?>"></i>
-            <?php echo render_input('settings[next_credit_note_number]','settings_sales_next_credit_note_number',get_option('next_credit_note_number'), 'number', ['min'=>1]); ?>
-            <hr />
-        <?php } ?>
+        <div class="form-group">
+            <label class="control-label" for="credit_note_prefix"><?php echo _l('credit_note_number_prefix'); ?></label>
+            <input type="text" readonly name="settings[credit_note_prefix]" id="credit_note_prefix" class="form-control" value="<?php echo get_option('credit_note_prefix'); ?>">
+        </div>
+        <hr />
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('settings_sales_next_invoice_number_tooltip'); ?>"></i>
+        <?php echo render_input('settings[next_credit_note_number]','settings_sales_next_credit_note_number',get_option('next_credit_note_number'), 'number', ['min'=>1, 'readonly' => true]); ?>
+        <hr />
         <div class="form-group">
             <label for="credit_note_number_format" class="control-label clearfix"><?php echo _l('settings_sales_credit_note_number_format'); ?></label>
             <div class="radio radio-primary radio-inline">

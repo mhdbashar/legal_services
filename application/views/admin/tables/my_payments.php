@@ -61,16 +61,16 @@ foreach ($rResult as $aRow) {
     $options = '';
 //    $options = icon_btn('payments/payment/' . $aRow['id'], 'pencil-square-o');
 //
-//    if ($hasPermissionDelete) {
-//        $options .= icon_btn('payments/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
-//    }
+    if ($hasPermissionDelete) {
+        $options .= icon_btn('payments/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    }
 
     $numberOutput = '<a href="' . $link . '">' . $aRow['id'] . '</a>';
 
     $numberOutput .= '<div class="row-options">';
     $numberOutput .= '<a href="' . $link . '">' . _l('view') . '</a>';
     if ($hasPermissionDelete) {
-//        $numberOutput .= ' | <a href="' . admin_url('payments/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $numberOutput .= ' | <a href="' . admin_url('payments/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $numberOutput .= '</div>';
 

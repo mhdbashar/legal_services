@@ -296,7 +296,7 @@ class Utilities_model extends App_Model
         if (get_option('show_tasks_on_calendar') == 1 && !$ff || $ff && array_key_exists('tasks', $filters)) {
             if ($client_data && !$has_contact_permission_projects) {
             } else {
-                $this->db->select(db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,milestone,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
+                $this->db->select('is_session, '.db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,milestone,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
                 $this->db->from(db_prefix() . 'tasks');
                 $this->db->where('status !=', 5);
                 $this->db->where('is_session', 0);
@@ -326,7 +326,7 @@ class Utilities_model extends App_Model
                     $task['date'] = $task['date'];
 
                     $name             = mb_substr($task['title'], 0, 60) . '...';
-                    $task['_tooltip'] = _l('calendar_task') . ' - ' . $name . $rel_showcase;
+                    $task['_tooltip'] = ($task['is_session'] ? _l('session') : _l('calendar_task')) . ' - ' . $name . $rel_showcase;
                     $task['title']    = $name;
                     $status           = get_task_status_by_id($task['status']);
                     $task['color']    = $status['color'];

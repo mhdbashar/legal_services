@@ -5,7 +5,7 @@ $lang['swap_pdf_info'] = "مبادلة معلومات الشركة / العمي�
 $lang['ticket_form'] = "نموذج التذاكر";
 $lang['remove_tax_name_from_item_table_help'] = "مثال ذلك: سيتم عرض الضريبة للعنصر 5٪ على أنها 5٪ بدون ذكر اسم الضريبة (لا يتم تطبيقها إذا تم العثور على ضرائب متعددة بنفس الاسم ونسبة الضرائب للعنصر)";
 $lang['settings_number_padding_prefix'] = "تنسيق البدايات الصفرية للأرقام <br> <small> مثال ذلك: إذا كانت هذه القيمة 3 ، فسيتم تنسيق الرقم: 007 أو 043 </small>";
-$lang['new_credit_note'] = "رصيد دائن جديد";
+$lang['new_credit_note'] = "اشعار دائن جديد";
 $lang['leads_source_add_edit_name'] = "إسم المصدر";
 $lang['lead_created'] = "أُنشيء";
 $lang['Share_direct_link'] = "مشاركة الرابط المباشر";
@@ -2779,19 +2779,19 @@ $lang['expense_field_billable_help'] = "إذا كانت قابلة للفوتر�
 $lang['task_biillable_checked_on_creation'] = "يتم تحديد الخيار قابل للفوترة بشكل افتراضي عند إنشاء مهمة جديدة؟ (فقط من المنطقة الإدارية)";
 $lang['pause_overdue_reminders'] = "إيقاف التذكيرات المتأخرة";
 $lang['resume_overdue_reminders'] = "استئناف التذكيرات المتأخرة";
-$lang['credit_notes'] = "الأرصدة";
-$lang['credit_note'] = "الأرصدة";
-$lang['credit_note_lowercase'] = "مذكرة رصيد";
-$lang['credit_note_not_found'] = "لم يتم العثور على مذكرة رصيد";
-$lang['credit_note_date'] = "تاريخ مذكرة الرصيد";
+$lang['credit_notes'] = "اشعارات الدائن";
+$lang['credit_note'] = "اشعار الدائن";
+$lang['credit_note_lowercase'] = "اشعار الدائن";
+$lang['credit_note_not_found'] = "لم يتم العثور على اشعار الدائن";
+$lang['credit_note_date'] = "تاريخ اشعار الدائن";
 $lang['credit_date'] = "التاريخ";
 $lang['settings_sales_next_credit_note_number'] = "رقم مذكرة التالي";
-$lang['credit_note_number_prefix'] = "بادئة رقم مذكرة الرصيد";
-$lang['credit_note_number'] = "مذكرة الرصيد #";
-$lang['credit_note_number_exists'] = "رقم مذكرة الرصيد موجود بالفعل";
-$lang['show_shipping_on_credit_note'] = "عرض تفاصيل الشحن على مذكرة الرصيد";
-$lang['credit_note_number_decrement_on_delete'] = "إنقاص رقم مذكرة الرصيد عند الحذف.";
-$lang['credit_note_number_decrement_on_delete_help'] = "سيتم إنقاص الرقم فقط إذا لم يتم إنشاء أخر مذكرة رصيد.";
+$lang['credit_note_number_prefix'] = "بادئة رقم اشعار الدائن";
+$lang['credit_note_number'] = "اشعار الدائن #";
+$lang['credit_note_number_exists'] = "رقم اشعار الدائن موجود بالفعل";
+$lang['show_shipping_on_credit_note'] = "عرض تفاصيل الشحن على اشعار الدائن";
+$lang['credit_note_number_decrement_on_delete'] = "إنقاص رقم اشعار الدائن عند الحذف.";
+$lang['credit_note_number_decrement_on_delete_help'] = "سيتم إنقاص الرقم فقط إذا لم يتم إنشاء أخر اشعار الدائن.";
 $lang['credit_note_status'] = "الحالة";
 $lang['credit_note_status_open'] = "مفتوح";
 $lang['credit_note_status_closed'] = "مغلق";
@@ -2801,49 +2801,49 @@ $lang['credit_note_amount'] = "المبلغ";
 $lang['credit_note_remaining_credits'] = "المبلغ المتبقي";
 $lang['credit_note_client_note'] = "ملاحظة";
 $lang['invoices_credited'] = "رصيد الفاتورة";
-$lang['apply_credits'] = "السماح بالأرصدة";
+$lang['apply_credits'] = "السماح باشعارات الدائن";
 $lang['x_credits_available'] = "%s أرصدة متاحة.";
 $lang['credit_amount'] = "مبلغ الرصيد";
-$lang['credits_available'] = "الأرصدة المتاحة";
+$lang['credits_available'] = "اشعارات الدائن المتاحة";
 $lang['amount_to_credit'] = "مبلغ الرصيد";
-$lang['invoice_credits_applied'] = "تم تطبيق الأرصدة بنجاح على الفاتورة";
-$lang['applied_credits'] = "الأرصدة المطبقة";
+$lang['invoice_credits_applied'] = "تم تطبيق اشعارات الدائن بنجاح على الفاتورة";
+$lang['applied_credits'] = "اشعارات الدائن المطبقة";
 $lang['credit_amount_bigger_then_invoice_balance'] = "إجمالي مبلغ الرصيد أكبر من رصيد الفاتورة المستحقة";
-$lang['credit_amount_bigger_then_credit_note_remaining_credits'] = "إجمالي مبلغ الرصيد أكبر من الأرصدة المتبقية";
-$lang['credited_invoices_not_found'] = "لم يتم العثور على فواتير الأرصدة";
+$lang['credit_amount_bigger_then_credit_note_remaining_credits'] = "إجمالي مبلغ الرصيد أكبر من اشعارات الدائن المتبقية";
+$lang['credited_invoices_not_found'] = "لم يتم العثور على فواتير اشعارات الدائن";
 $lang['credit_invoice_number'] = "رقم الفاتورة";
-$lang['credits_used'] = "الأرصدة المستخدمة";
-$lang['credits_remaining'] = "الأرصدة المتبقية";
+$lang['credits_used'] = "اشعارات الدائن المستخدمة";
+$lang['credits_remaining'] = "اشعارات الدائن المتبقية";
 $lang['amount_credited'] = "المبلغ المضاف";
-$lang['credits_applied_cant_delete_status_closed'] = "مذكرة الرصيد هذه بحالة (مغلق)، تحتاج أولاً إلى حذف الأرصدة من أجل حذف حذف مذكرة الرصيد.";
-$lang['credits_applied_cant_delete_credit_note'] = "تم تطبيق الأرصدة على مذكرة الرصيد ، تحتاج أولاً إلى حذف الأرصدة من أجل حذف مذكرة الرصيد.";
-$lang['credit_note_pdf_heading'] = "مذكرة الرصيد";
+$lang['credits_applied_cant_delete_status_closed'] = "اشعار الدائن هذه بحالة (مغلق)، تحتاج أولاً إلى حذف اشعارات الدائن من أجل حذف حذف اشعار الدائن.";
+$lang['credits_applied_cant_delete_credit_note'] = "تم تطبيق اشعارات الدائن على اشعار الدائن ، تحتاج أولاً إلى حذف اشعارات الدائن من أجل حذف اشعار الدائن.";
+$lang['credit_note_pdf_heading'] = "اشعار الدائن";
 $lang['show_status_on_pdf'] = "إظهار حالة %s على مستندات PDF";
-$lang['show_pdf_signature_credit_note'] = "إظهار توقيع PDF على مذكرة الرصيد";
-$lang['calendar_credit_note_reminder'] = "تذكير مذكرة الرصيد";
-$lang['show_credit_note_reminders_on_calendar'] = "تذكيرات مذكرة الرصيد";
+$lang['show_pdf_signature_credit_note'] = "إظهار توقيع PDF على اشعار الدائن";
+$lang['calendar_credit_note_reminder'] = "تذكير اشعار الدائن";
+$lang['show_credit_note_reminders_on_calendar'] = "تذكيرات اشعار الدائن";
 $lang['reminders'] = "التذكيرات";
 $lang['invoice_activity_applied_credits'] = "تم تطبيق مذكرات الرصيد لـ %s من %s";
-$lang['create_credit_note'] = "إنشاء مذكرة رصيد";
-$lang['confirm_invoice_credits_from_credit_note'] = "عند إنشاء مذكرة رصيد من فاتورة غير مدفوعة ، سيتم تطبيق مبلغ الرصيد على هذه الفاتورة. هل أنت متأكد أنك تريد إنشاء مذكرة الرصيد؟";
+$lang['create_credit_note'] = "إنشاء اشعار الدائن";
+$lang['confirm_invoice_credits_from_credit_note'] = "عند إنشاء اشعار الدائن من فاتورة غير مدفوعة ، سيتم تطبيق مبلغ الرصيد على هذه الفاتورة. هل أنت متأكد أنك تريد إنشاء اشعار الدائن؟";
 $lang['credit_invoice_date'] = "تاريخ الفاتورة";
 $lang['apply_to_invoice'] = "تنطبق على الفاتورة";
-$lang['apply_credits_from'] = "تطبيق الأرصدة من %s";
+$lang['apply_credits_from'] = "تطبيق اشعارات الدائن من %s";
 $lang['credits_successfully_applied_to_invoices'] = "تم تطبيق أرصدة الفواتير بنجاح";
-$lang['credit_note_send_to_client_modal_heading'] = "إرسال مذكرة الرصيد للعميل";
-$lang['credit_note_sent_to_client_success'] = "تم إرسال مذكرة الرصيد للعميل بنجاح";
-$lang['credit_note_sent_to_client_fail'] = "مشكلة عند تم إرسال مذكرة الرصيد للعميل";
+$lang['credit_note_send_to_client_modal_heading'] = "إرسال اشعار الدائن للعميل";
+$lang['credit_note_sent_to_client_success'] = "تم إرسال اشعار الدائن للعميل بنجاح";
+$lang['credit_note_sent_to_client_fail'] = "مشكلة عند تم إرسال اشعار الدائن للعميل";
 $lang['credit_note_no_invoices_available'] = "لا توجد فواتير متاحة لهذا العميل.";
 $lang['show_total_paid_on_invoice'] = "إظهار إجمالي المبلغ المدفوع في الفاتورة";
-$lang['show_credits_applied_on_invoice'] = "إظهار الأرصدة المطبقة على الفاتورة";
+$lang['show_credits_applied_on_invoice'] = "إظهار اشعارات الدائن المطبقة على الفاتورة";
 $lang['show_amount_due_on_invoice'] = "إظهار المبلغ المستحق على الفاتورة";
-$lang['customer_profile_update_credit_notes'] = "تحديث معلومات الشحن / الدفع لجميع الأرصدة السابقة (لن تتأثر الأرصدة المغلقة)";
+$lang['customer_profile_update_credit_notes'] = "تحديث معلومات الشحن / الدفع لجميع اشعارات الدائن السابقة (لن تتأثر اشعارات الدائن المغلقة)";
 $lang['zip_credit_notes'] = "Zip Credit Notes";
-$lang['statement_credit_note_details'] = "مذكرة الرصيد %s";
-$lang['statement_credits_applied_details'] = "تم تطبيق الأرصدة من مذكرة الرصيد s -%s % للدفعة %s";
-$lang['credit_note_files'] = "ملفات مذكرة الرصيد";
-$lang['credit_notes_report'] = "تقرير الأرصدة";
-$lang['credit_note_set_reminder_title'] = "عين تذكير مذكرة الرصيد";
+$lang['statement_credit_note_details'] = "اشعار الدائن %s";
+$lang['statement_credits_applied_details'] = "تم تطبيق اشعارات الدائن من اشعار الدائن s -%s % للدفعة %s";
+$lang['credit_note_files'] = "ملفات اشعار الدائن";
+$lang['credit_notes_report'] = "تقرير اشعارات الدائن";
+$lang['credit_note_set_reminder_title'] = "عين تذكير اشعار الدائن";
 $lang['credit_note_add_edit_client_note'] = "ملاحظة العميل";
 $lang['credit_note_bill_to'] = "فاتورة إلى";
 $lang['credit_note_prefix'] = "بادئة رقم الفاتورة";
@@ -2870,7 +2870,7 @@ $lang['user_widget'] = "User Widget";
 $lang['widgets_visibility_help_text'] = "Widgets that are shown only if they have enough data do not have options to be hidden or shown.";
 $lang['show_project_on_estimate'] = "إظهار اسم الخدمة في عرض السعر";
 $lang['show_project_on_invoice'] = "إظهار اسم الخدمة في الفاتورة";
-$lang['show_project_on_credit_note'] = "إظهار إسم الخدمة في مذكرة الرصيد";
+$lang['show_project_on_credit_note'] = "إظهار إسم الخدمة في اشعار الدائن";
 $lang['visible_tabs'] = "علامات التبويب المرئية";
 $lang['all'] = "الكل";
 $lang['view_widgetable_area'] = "إظهار منطقة جدول الادوات الذكية";
@@ -2898,7 +2898,7 @@ $lang['sms_trigger_disable_tip'] = "اترك المحتويات فارغة لت�
 $lang['tables'] = "الجداول";
 $lang['only_project_tasks'] = "المهام المتعلقة بالخدمة فقط";
 $lang['download_all'] = "تحميل الكل";
-$lang['settings_sales_credit_note_number_format'] = "تنسيق رقم مذكرة الرصيد";
+$lang['settings_sales_credit_note_number_format'] = "تنسيق رقم اشعار الدائن";
 $lang['sms_reminder_sent_to'] = "تم إرسال تذكير SMS إلى %s";
 $lang['ideal_customer_statement_descriptor'] = "وصف كشف الحساب (كما هو موضح في كشف حساب العميل)";
 $lang['payment_received_awaiting_confirmation'] = "تم استلام دفعتك وهي في انتظار التأكيد.";
@@ -3127,8 +3127,8 @@ $lang['copy'] = "نسخ";
 $lang['read_more'] = "إقرأ المزيد";
 $lang['project_progress_text'] = "تقدم الخدمة";
 $lang['timer_not_stopped_yet'] = "هذا الموقت لم يتوقف بعد";
-$lang['refunds'] = "Refunds";
-$lang['refund'] = "Refund";
+$lang['refunds'] = "الاسترجاعات";
+$lang['refund'] = "استرجاع";
 $lang['refund_amount'] = "المبلغ المسترد";
 $lang['not_refunds_found'] = "لم يتم العثور على مبالغ مستردة";
 $lang['refunds_applied_cant_delete_credit_note'] = "تحتوي مذكرة الائتمان هذه على المبالغ المستردة ، يجب أولاً حذف المبالغ المستردة لحذف ملاحظة الائتمان.";

@@ -29,6 +29,7 @@ class Settings extends AdminController
             $signatureUploaded = (handle_company_signature_upload() ? true : false);
 
             $post_data = $this->input->post();
+
             $tmpData   = $this->input->post(null, false);
 
             if (isset($post_data['settings']['email_header'])) {

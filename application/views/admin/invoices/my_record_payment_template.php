@@ -79,7 +79,7 @@
             if($payments){ ?>
                 <div class="mtop25 inline-block full-width">
                     <h5 class="bold"><?php echo _l('invoice_payments_received'); ?></h5>
-                    <?php include_once(APPPATH . 'views/admin/invoices/invoice_payments_table.php'); ?>
+                    <?php include_once(APPPATH . 'views/admin/invoices/my_invoice_payments_table.php'); ?>
                 </div>
             <?php } ?>
         </div>

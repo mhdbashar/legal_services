@@ -144,7 +144,7 @@ class Credit_notes extends AdminController
                     redirect(admin_url('credit_notes/list_credit_notes/' . $id));
                 }
             } else {
-                redirect(($_SERVER['HTTP_REFERER']));
+                // redirect(($_SERVER['HTTP_REFERER']));
                 if (!has_permission('credit_notes', '', 'edit')) {
                     access_denied('credit_notes');
                 }

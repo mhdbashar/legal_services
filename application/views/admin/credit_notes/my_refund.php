@@ -10,6 +10,7 @@
                     <?php
                     echo render_input('amount', 'refund_amount', isset($refund) ? $refund->amount : $credit_note->remaining_credits, 'number', array('max'=>(!isset($refund) ? $credit_note->remaining_credits : $credit_note->remaining_credits + $refund->amount),'min'=>0)); ?>
                     <?php echo render_date_input('refunded_on', 'credit_date', isset($refund) ? _d($refund->refunded_on ) : _d(date('Y-m-d')) , ['disabled' => true]); ?>
+                    <?php echo form_hidden('refunded_on', isset($refund) ? _d($refund->refunded_on ) : _d(date('Y-m-d'))) ?>
                     <div class="form-group">
                         <label for="payment_mode" class="control-label"><?php echo _l('payment_mode'); ?></label>
                         <select class="selectpicker" name="payment_mode" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">

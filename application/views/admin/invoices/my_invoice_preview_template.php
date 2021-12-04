@@ -227,14 +227,14 @@
                            <?php } ?>
                         </li>
                         <?php } ?>
-<!--                        --><?php
-//                           if((get_option('delete_only_on_last_invoice') == 1 && is_last_invoice($invoice->id)) || (get_option('delete_only_on_last_invoice') == 0)){ ?>
-<!--                        --><?php //if(has_permission('invoices','','delete')){ ?>
-<!--                        <li data-toggle="tooltip" data-title="--><?php //echo _l('delete_invoice_tooltip'); ?><!--">-->
-<!--                           <a href="--><?php //echo admin_url('invoices/delete/'.$invoice->id); ?><!--" class="text-danger delete-text _delete">--><?php //echo _l('delete_invoice'); ?><!--</a>-->
-<!--                        </li>-->
-<!--                        --><?php //} ?>
-<!--                        --><?php //} ?>
+                        <?php
+                           if($this->invoices_model->is_draft($invoice->id)){ ?>
+                        <?php if(has_permission('invoices','','delete')){ ?>
+                        <li data-toggle="tooltip" data-title="<?php echo _l('delete_invoice_tooltip'); ?>">
+                           <a href="<?php echo admin_url('invoices/delete/'.$invoice->id); ?>" class="text-danger delete-text _delete"><?php echo _l('delete_invoice'); ?></a>
+                        </li>
+                        <?php } ?>
+                        <?php } ?>
                      </ul>
                   </div>
                   <?php if(has_permission('payments','','create') && abs($invoice->total) > 0){ ?>

@@ -144,6 +144,7 @@ class Credit_notes extends AdminController
                     redirect(admin_url('credit_notes/list_credit_notes/' . $id));
                 }
             } else {
+                // redirect(($_SERVER['HTTP_REFERER']));
                 if (!has_permission('credit_notes', '', 'edit')) {
                     access_denied('credit_notes');
                 }
@@ -157,6 +158,7 @@ class Credit_notes extends AdminController
         if ($id == '') {
             $title = _l('add_new', _l('credit_note_lowercase'));
         } else {
+            // redirect(($_SERVER['HTTP_REFERER']));
             $credit_note = $this->credit_notes_model->get($id);
 
             if (!$credit_note || (!has_permission('credit_notes', '', 'view') && $credit_note->addedfrom != get_staff_user_id())) {
@@ -375,6 +377,7 @@ class Credit_notes extends AdminController
 
     public function delete_credit_note_applied_credit($id, $credit_id, $invoice_id)
     {
+        redirect(admin_url('credit_notes/list_credit_notes/' . $credit_id));
         if (has_permission('credit_notes', '', 'delete')) {
             $this->credit_notes_model->delete_applied_credit($id, $credit_id, $invoice_id);
         }

@@ -13,7 +13,7 @@
 </div>
      <?php hooks()->apply_filters('report_filter_credit_notes', ''); ?>
 </div>
-<table class="table table-credit-notes-report scroll-responsive">
+    <table class="table table-credit-notes-report">
   <thead>
    <tr>
     <th><?php echo _l('credit_note_number'); ?></th>
@@ -29,6 +29,7 @@
     <th><?php echo _l('invoice_discount'); ?></th>
     <th><?php echo _l('invoice_adjustment'); ?></th>
     <th><?php echo _l('credit_note_remaining_credits'); ?></th>
+       <th><?php echo _l('refund_amount'); ?></th>
     <th><?php echo _l('credit_note_status'); ?></th>
        <?php hooks()->apply_filters('report_table_columns', ''); ?>
   </tr>
@@ -49,6 +50,7 @@
   <td class="discount_total"></td>
   <td class="adjustment"></td>
   <td class="remaining_amount"></td>
+     <td class="refund_amount"></td>
   <td></td>
 </tr>
 </tfoot>

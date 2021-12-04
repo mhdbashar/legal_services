@@ -672,10 +672,10 @@ class Other_services_model extends App_Model
                 'deleted' => 1,
             ]);
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'invoices', [
-                'deleted' => 1,
-            ]);
+//            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+//            $this->db->update(db_prefix() . 'invoices', [
+//                'deleted' => 1,
+//            ]);
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'creditnotes', [
@@ -725,10 +725,10 @@ class Other_services_model extends App_Model
                 'deleted' => 1,
             ]);
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'invoices', [
-                'deleted' => 1,
-            ]);
+//            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+//            $this->db->update(db_prefix() . 'invoices', [
+//                'deleted' => 1,
+//            ]);
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'creditnotes', [
@@ -840,9 +840,9 @@ class Other_services_model extends App_Model
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'expenses');
-
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
-            $this->db->delete(db_prefix() . 'invoices');
+//
+//            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+//            $this->db->delete(db_prefix() . 'invoices');
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'creditnotes');
@@ -940,8 +940,8 @@ class Other_services_model extends App_Model
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'expenses');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
-            $this->db->delete(db_prefix() . 'invoices');
+//            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+//            $this->db->delete(db_prefix() . 'invoices');
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'creditnotes');

@@ -339,6 +339,16 @@ class Utilities_model extends App_Model
                     }
 
                     $task['className'] = $task['milestone'] ? ['milestone-' . $task['milestone']] : '';
+                    if($task['is_session']){
+
+                        $this->db->where('task_id', $task['id']);
+                        $session = $this->db->get(db_prefix() . 'my_session_info')->row_array();
+                        if(!empty($session))
+                        {
+                            $task['start'] = $task['date'] . ' '.$session['time'];
+                        }
+
+                    }
 
                     array_push($data, $task);
                 }

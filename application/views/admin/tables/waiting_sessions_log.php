@@ -55,7 +55,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
 }
 
 //array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
-array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+array_push($where, 'AND STR_TO_DATE(current_timestamp(), "%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ",'.db_prefix().'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [

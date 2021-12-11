@@ -1605,7 +1605,8 @@ class Accounting extends AdminController
                 $categoryOutput .= '</div>';
                 $row[] = $categoryOutput;
                 if(strlen($aRow['number'].' - '.html_entity_decode($aRow['description'])) > 150){
-                    $row[] = '<div data-toggle="tooltip" data-title="'. $aRow['number'].' - '.html_entity_decode(strip_tags($aRow['description'])).'">'.substr($aRow['number'].' - '.html_entity_decode($aRow['description']), 0, 150).'...</div>';
+//                    $row[] = '<div data-toggle="tooltip" data-title="'. $aRow['number'].' - '.html_entity_decode(strip_tags($aRow['description'])).'">'.substr($aRow['number'].' - '.html_entity_decode($aRow['description']), 0, 150).'...</div>';
+                    $row[] = $aRow['number'].' - '.html_entity_decode($aRow['description']);
                 }else{
                     $row[] = $aRow['number'].' - '.html_entity_decode($aRow['description']);
                 }

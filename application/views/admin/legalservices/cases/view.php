@@ -25,7 +25,7 @@
                                 <div class="visible-xs">
                                     <div class="clearfix"></div>
                                 </div>
-                                <?php if(has_permission('invoices','','create') && !empty($linked_services)){ ?>
+                                <?php if(!empty($linked_services)){ ?>
                                     <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
                                             <?php echo _l('linked_services'); ?>
                                     </div>

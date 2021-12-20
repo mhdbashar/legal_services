@@ -8,6 +8,55 @@ class Procurations_model extends App_Model
         parent::__construct();
     }
 
+    public $table_name = 'tblprocurations';
+
+    public function uploadImage($field, $id)
+    {
+        $this->deleteDirectory("uploads/procurations/$id");
+        mkdir('uploads/procurations/'.$id, 0777, true);
+        $config['upload_path'] = 'uploads/procurations/'.$id.'/';
+        //png, jpg, jpeg, gif, txt, pdf, xls, xlsx, doc, docx
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs';
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload($field)) {
+            $error = $this->upload->display_errors();
+            $type = "error";
+            $message = $error;
+            echo $message;
+            exit;
+            // uploading failed. $error will holds the errors.
+        } else {
+            $fdata = $this->upload->data();
+            $file['path'] = $config['upload_path'] . $fdata['file_name'];
+            return $file;
+            // uploading successfull, now do your further actions
+        }
+    }
+
+    public function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($dir);
+    }
+
     // tblprocurations, `id`, `procurations`
     public function get($id = '')
     {
@@ -92,8 +141,8 @@ class Procurations_model extends App_Model
         }
         //end Baraa alahalabi
 
-        $data['start_date'] = force_to_AD_date(($data['start_date']));
-        $data['end_date'] = force_to_AD_date($data['end_date']);
+//        $data['start_date'] = force_to_AD_date(($data['start_date']));
+//        $data['end_date'] = force_to_AD_date($data['end_date']);
             
         $data['addedfrom'] = get_staff_user_id();
         $this->db->insert('tblprocurations', $data);
@@ -104,6 +153,19 @@ class Procurations_model extends App_Model
 
             if (isset($custom_fields)) {
                 handle_custom_fields_post($insert_id, $custom_fields);
+            }
+
+            if (!empty($_FILES['file']['name'])) {
+                $data['id'] = $insert_id;
+                $val = $this->uploadImage('file', $insert_id);
+                $val == TRUE || redirect($_SERVER['HTTP_REFERER']);
+                if(!empty($val['path'])){
+                    $data['file'] = $val['path'];
+                }else{
+                    $data['file'] = null;
+                }
+                $this->db->where('id', $insert_id);
+                $this->db->update($this->table_name, $data);
             }
             if (isset($pcases)) {
                 foreach ($pcases as $pid) {
@@ -128,6 +190,24 @@ class Procurations_model extends App_Model
     public function update($data, $id)
     {
         $affectedRows = 0;
+
+        if (!empty($_FILES['file']['name'])) {
+            $val = $this->uploadImage('file', $id);
+            $val == TRUE || redirect($_SERVER['HTTP_REFERER']);
+            if(!empty($val['path'])){
+                $data['file'] = $val['path'];
+            }else{
+                $data['file'] = null;
+            }
+        }
+        //start Baraa alahalabi
+        if(isset($data['status_name']))
+        {
+            $data['status'] = $data['status_name'];
+            unset($data['status_name']);
+        }
+        //end Baraa alahalabi
+
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             if (handle_custom_fields_post($id, $custom_fields)) {
@@ -225,6 +305,7 @@ class Procurations_model extends App_Model
             $this->db->where('procuration', $id);
             $this->db->delete(db_prefix() . 'procuration_cases');
             log_activity(' procuration Deleted [ID: ' . $id . ']');
+            $this->deleteDirectory("uploads/procurations/$id");
             return true;
         }
         return false;

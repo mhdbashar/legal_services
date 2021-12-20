@@ -1,5 +1,10 @@
 <?php
 
+
+$attr = ['required' => 'required'];
+if ( get_option('wathq_api_key') )
+    $attr['readonly'] = 'readonly';
+
   if(!is_numeric($id)){
     $id = null;
     $procuration = null;
@@ -69,25 +74,17 @@
             </div>
             <div class="row">
               <div class="col-md-6" id="start-date">
-                <?php echo render_input('start_date', _l('start_date'), _d($start_date), 'text', [
-                  'required' => 'required',
-                  'readonly' => 'true'
-                ]); ?>
+                <?php echo render_date_input('start_date', _l('start_date'), _d($start_date), $attr); ?>
               </div>
               <div class="col-md-6" id="end-date">
-                <?php echo render_input('end_date', _l('end_date'), _d($end_date), 'text', [
-                  'required' => 'required',
-                  'readonly' => 'true'
-                ]); ?>
+                <?php
+                echo render_date_input('end_date', _l('end_date'), _d($end_date), $attr); ?>
               </div>
             </div>
 
             <div class="row">
               <div class="col-md-6" id="name">
-                <?php echo render_input('name', _l('come_from'), ($name), 'text', [
-                  'required' => 'required',
-                  'readonly' => 'true'
-                ]); ?>
+                <?php echo render_input('name', _l('come_from'), ($name), 'text', $attr); ?>
               </div>
               <div class="col-md-6">
 
@@ -105,17 +102,11 @@
                   }
                 ?>
 
-                <?php echo render_input('status_name', _l('status'), ($status_name), 'text', [
-                  'required' => 'required',
-                  'disabled' => 'true'
-                ]); ?>
+                <?php echo render_input('status_name', _l('status'), ($status_name), 'text', $attr); ?>
               </div>
               <?php echo form_hidden('status', $status); ?>
             </div>
-            <?php echo render_textarea('description', 'gdpr_description', $description, [
-              'required' => 'required',
-              'readonly' => 'true'
-            ]) ?>
+            <?php echo render_textarea('description', 'gdpr_description', $description, $attr) ?>
             <?php echo render_input('come_from', _l('name'), $come_from, 'text', ['required' => 'required']); ?>
 
             <div class="form-group select-placeholder">
@@ -192,9 +183,14 @@
                                 <label class="control-label" for="cases[]"><?php echo _l('cases'); ?></label>
                                 <?php $data = get_relation_data('client_cases',$client); ?>
                                 <select data-live-search="true" multiple="true" id="city" name="cases[]" class="form-control custom_select_arrow">
-                                  
+
                                 </select>
                             </div>
+
+              <div class="form-group">
+                  <label class="control-label" for="file"><?php echo _l('file'); ?></label>
+                  <input class="form-control" type="file" id="file" name="file" />
+              </div>
 <!--                  <div>-->
 <!--                    <div class="clearfix"></div>-->
 <!--                    <label class="col-form-label">-->
@@ -315,6 +311,7 @@ $(document).on('change','#clientid',function () {
     //         }
     //     });
     // });
+<?php if(get_option('wathq_api_key')){ ?>
     $('body').on('change','.NO', async function(){
       var procuration_number = $('input[name=NO]').val();
       var principalId = $('input[name=principalId]').val();
@@ -383,5 +380,7 @@ $(document).on('change','#clientid',function () {
       }
 
     });
+      <?php } ?>
   })
+
 </script>

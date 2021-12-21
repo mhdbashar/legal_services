@@ -152,14 +152,14 @@ foreach ($rResult as $aRow) {
     endif;
     $row[] = $send;
     // startdate
-    $row[] = _gregorian_hijri_date($aRow['startdate']);
+    $row[] = ($aRow['startdate']);
 
     // ~startdate
     $row[] = $aRow['time'];
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
-        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _gregorian_hijri_date($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? ($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
 
     $output['aaData'][] = $row;

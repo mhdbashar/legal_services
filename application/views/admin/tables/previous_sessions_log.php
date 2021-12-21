@@ -159,7 +159,7 @@ foreach ($rResult as $aRow) {
 
 
     // startdate
-    $row[] = _gregorian_hijri_date($aRow['startdate']);
+    $row[] = ($aRow['startdate']);
     // ~startdate
     $row[] = $aRow['time'];
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):

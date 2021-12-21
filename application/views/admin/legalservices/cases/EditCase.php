@@ -424,11 +424,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <?php $value = (isset($case) ? _gregorian_hijri_date($case->start_date, true) : _gregorian_hijri_date(date('Y-m-d'), true)); ?>
+                                            <?php $value = (isset($case) ? ($case->start_date, true) : (date('Y-m-d'), true)); ?>
                                             <?php echo render_date_input('start_date','project_start_date',$value); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php $value = isset($case) ? _gregorian_hijri_date($case->deadline, true) : ''; ?>
+                                            <?php $value = isset($case) ? ($case->deadline, true) : ''; ?>
                                             <?php echo render_date_input('deadline','project_deadline',$value); ?>
                                         </div>
                                     </div>

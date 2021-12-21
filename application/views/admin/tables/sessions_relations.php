@@ -166,7 +166,7 @@ foreach ($rResult as $aRow) {
 
     $row[]           = $outputName;
 
-    $row[] = _gregorian_hijri_date($aRow['startdate']);
+    $row[] = ($aRow['startdate']);
 
     $row[] = $aRow['time'];
 

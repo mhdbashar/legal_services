@@ -89,8 +89,8 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsServices($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = _gregorian_hijri_date($aRow['start_date']);
-    $row[] = _gregorian_hijri_date($aRow['deadline']);
+    $row[] = ($aRow['start_date']);
+    $row[] = ($aRow['deadline']);
     $members = $model->GetMembersServices($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

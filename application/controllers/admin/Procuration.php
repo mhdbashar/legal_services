@@ -95,6 +95,12 @@ class Procuration extends AdminController
         $this->load->view('admin/procuration/managetype', $data);
     }
 
+    public function file($id){
+        $procuration = $this->procurations_model->get($id);
+        echo json_encode(site_url($procuration->file));
+        die();
+    }
+
     public function pdf($id)
     {
         if (!$id) {

@@ -191,7 +191,7 @@ if ( get_option('wathq_api_key') )
                   <label class="control-label" for="file"><?php echo _l('file'); ?></label>
                   <input class="form-control" type="file" id="file" name="file" />
               </div>
-              <? } ?>
+              <?php } ?>
 <!--                  <div>-->
 <!--                    <div class="clearfix"></div>-->
 <!--                    <label class="col-form-label">-->

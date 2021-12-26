@@ -17,3 +17,5 @@
      _l('status'),
      _l('control'),
 ),'case-procuration'); ?>
+
+<?php $this->load->view('admin/procuration/modal'); ?>

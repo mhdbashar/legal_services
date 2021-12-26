@@ -46,6 +46,9 @@
                 else if (ext === 'pdf'){
                     $('#show_file').html(`<iframe src="${data}" height="100%" width="100%" frameborder="0"></iframe>`)
                 }
+                else {
+                    $('#show_file').html(`cannot view file`)
+                }
 
                 $('#file').modal('show'); // show bootstrap modal when complete loaded
 

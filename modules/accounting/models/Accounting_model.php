@@ -2863,8 +2863,20 @@ class Accounting_model extends App_Model
                     $child_account = $this->get_data_balance_sheet_recursive([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method);
 
                     if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 8 || $value['account_type_id'] == 9 || $value['account_type_id'] == 10 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
-                        $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
-                        $total += $credits - $debits;
+                        if($val['id'] == 29){
+                            $_data_report = $this->get_data_tax_liability_report($data_filter);
+                            $row_index = 0;
+                            $_total = 0;
+                            foreach ($_data_report['data'] as $_val) {
+                                $_total = $row_index == 0 ? $_total - $_val['amount'] : $_total = $_total + $_val['amount'];
+                                $row_index += 1;
+                            }
+                            $data_report[$data_key][] = ['name' => $name, 'amount' => $_total, 'child_account' => $child_account];
+                            $total += $credits - $debits;
+                        }else{
+                            $data_report[$data_key][] = ['name' => $name, 'amount' => $credits - $debits, 'child_account' => $child_account];
+                            $total += $credits - $debits;
+                        }
                     }else{
                         $data_report[$data_key][] = ['name' => $name, 'amount' => $debits - $credits, 'child_account' => $child_account];
                         $total += $debits - $credits;

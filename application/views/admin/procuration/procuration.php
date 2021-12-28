@@ -1,7 +1,7 @@
 <?php
 
 
-$attr = ['required' => 'required'];
+$attr = [];
 if ( get_option('wathq_api_key') )
     $attr['readonly'] = 'readonly';
 
@@ -61,7 +61,7 @@ if ( get_option('wathq_api_key') )
 
             <!-- enable language edit -->
               <div class="NO">
-                  <?php echo render_input('NO', _l('procuration_number'), $NO != 0 ? $NO : '', 'text', ['required' => 'required']); ?>
+                  <?php echo render_input('NO', _l('procuration_number'), $NO != 0 ? $NO : '', 'text'); ?>
                   <?php echo render_input('principalId', _l('principalId'), $principalId != 0 ? $principalId : '', 'text'); ?>
                   <?php echo render_input('agentId', _l('agentId'), $agentId != 0 ? $agentId : '', 'text'); ?>
 
@@ -86,6 +86,7 @@ if ( get_option('wathq_api_key') )
               <div class="col-md-6" id="name">
                 <?php echo render_input('name', _l('come_from'), ($name), 'text', $attr); ?>
               </div>
+                <?php if(get_option('wathq_api_key')){ ?>
               <div class="col-md-6">
 
 
@@ -105,9 +106,10 @@ if ( get_option('wathq_api_key') )
                 <?php echo render_input('status_name', _l('status'), ($status_name), 'text', $attr); ?>
               </div>
               <?php echo form_hidden('status', $status); ?>
+                <?php } ?>
             </div>
             <?php echo render_textarea('description', 'gdpr_description', $description, $attr) ?>
-            <?php echo render_input('come_from', _l('name'), $come_from, 'text', ['required' => 'required']); ?>
+            <?php echo render_input('come_from', _l('name'), $come_from, 'text', []); ?>
 
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
@@ -121,7 +123,7 @@ if ( get_option('wathq_api_key') )
                               $disabled = '';
                             }
                             ?>
-                            <select <?php echo $disabled ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select <?php echo $disabled ?> id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                <?php $selected = ((!empty($client)) ? $client : $request);
                                if($selected == ''){
                                    $selected = (isset($customer_id) ? $customer_id: '');
@@ -135,23 +137,26 @@ if ( get_option('wathq_api_key') )
                       </div>
 
                          <div class="row">
-                          <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="status" class="col-form-label"><?php //echo _l('status') ?>:</label>
-                                <div class="row-fluid">
-                                <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
-                                  <?php //foreach ($states as $key => $value){ ?>
+                             <?php if(!get_option('wathq_api_key')){ ?>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="status" class="col-form-label"><?php echo _l('status') ?>:</label>
+                                        <div class="row-fluid">
+                                        <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                            <option value=""><?php echo _l('not_selected') ?></option>
+                                            <?php foreach ($states as $key => $value){ ?>
 
-                                    <option <?php //if($status == $value['id']) echo "selected" ?> value="<?php //echo $value['id'] ?>"><?php //echo $value['procurationstate'] ?></option>
+                                            <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
 
-                                  <?php //} ?>
-                                </select>
+                                          <?php } ?>
+                                        </select>
 
-                                </div>
-                              </div>
-                          </div> -->
+                                        </div>
+                                      </div>
+                                  </div>
+                             <?php } ?>
 
-                          <div class="col-md-12">
+                          <div class="col-md-6">
                             <div class="form-group">
                                 <label for="type" class="col-form-label"><?php echo _l('procurationtype') ?>:</label>
                                 <div class="row-fluid">
@@ -168,6 +173,7 @@ if ( get_option('wathq_api_key') )
                             </div>
                           </div>
                         </div>
+
                             <?php
                                 $selected = array();
                                 if($selected_cases != ''){
@@ -186,12 +192,12 @@ if ( get_option('wathq_api_key') )
 
                                 </select>
                             </div>
-              <?php if(get_option('wathq_api_key')){ ?>
+              <?php if(!get_option('wathq_api_key')){ ?>
               <div class="form-group">
                   <label class="control-label" for="file"><?php echo _l('file'); ?></label>
                   <input class="form-control" type="file" id="file" name="file" />
               </div>
-              <? } ?>
+              <?php } ?>
 <!--                  <div>-->
 <!--                    <div class="clearfix"></div>-->
 <!--                    <label class="col-form-label">-->
@@ -345,7 +351,7 @@ $(document).on('change','#clientid',function () {
 
                       let status = '';
                       let status_name = '';
-                      if(data.status == 'active'){
+                      if(data.status === 'active'){
                         status = 1;
                         status_name = active;
                       }else{

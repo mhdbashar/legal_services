@@ -16,7 +16,7 @@ class Procurations_model extends App_Model
         mkdir('uploads/procurations/'.$id, 0777, true);
         $config['upload_path'] = 'uploads/procurations/'.$id.'/';
         //png, jpg, jpeg, gif, txt, pdf, xls, xlsx, doc, docx
-        $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs|docx';
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
         if (!$this->upload->do_upload($field)) {

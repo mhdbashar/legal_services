@@ -26,7 +26,7 @@ if(!empty($client_id)){
 
 $join = [];
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from', 'file']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -105,7 +105,9 @@ foreach ($rResult as $aRow) {
     if (has_permission('procurations', '', 'delete') || is_admin())
     $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $options .= icon_btn('procuration/pdf/' . $aRow['id'] . '?output_type=I', 'download', 'btn-default');
-    
+    $p_file = $aRow['file'];
+    if($p_file != '') $options .= icon_btn('#', 'eye', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#file', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+
     $row[]   = $options;
 
     $output['aaData'][] = $row;

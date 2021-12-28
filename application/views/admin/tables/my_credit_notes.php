@@ -132,7 +132,15 @@ foreach ($rResult as $aRow) {
 
     $row[] = $numberOutput;
 
-    $row[] = ($aRow['date']);
+    //insert hijri date
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+    //insert hijri date
+
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';

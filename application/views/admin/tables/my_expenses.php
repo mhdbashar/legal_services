@@ -145,8 +145,16 @@ foreach ($rResult as $aRow) {
     }
 
     $row[] = $outputReceipt;
+    //insert hijri date
+    $CI = &get_instance();
 
-    $row[] = ($aRow['date']);
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+    //insert hijri date
+
+
 
     if ($aRow['project_id'] == 0){
         $this->ci->load->model('legalservices/LegalServicesModel', 'legal');

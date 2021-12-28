@@ -175,10 +175,17 @@ foreach ($rResult as $aRow) {
     }
 
     $row[] = render_tags($aRow['tags']);
+    //insert hijri date
 
-    $row[] = ($aRow['date']);
 
-    $row[] = ($aRow['expirydate']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['expirydate']) . '<br>' . to_hijri_date(_d($aRow['expirydate'])) : _d($aRow['expirydate']);
+    //insert hijri date
 
     $row[] = $aRow['reference_no'];
 

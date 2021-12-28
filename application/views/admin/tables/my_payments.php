@@ -100,7 +100,15 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['amount'], $aRow['currency_name']);
 
-    $row[] = ($aRow['date']);
+    //insert hijri date
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+    //insert hijri date
+
 
     $row['DT_RowClass'] = 'has-row-options';
 

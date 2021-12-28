@@ -159,10 +159,18 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['type_name'];
 
     $row[] = app_format_money($aRow['contract_value'], $base_currency);
+        //insert hijri date
+    $CI = &get_instance();
 
-    $row[] = ($aRow['datestart']);
 
-    $row[] = $aRow['dateend'] == null ? '' : ($aRow['dateend']);
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['datestart']) . '<br>' . to_hijri_date(_d($aRow['datestart'])) : _d($aRow['datestart']);
+       //insert hijri date
+
+
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['dateend']) . '<br>' . to_hijri_date(_d($aRow['dateend'])) : _d($aRow['dateend']);
 
     if (($aRow['project_id'] == 0 || $aRow['project_id'] == '') && $aRow['rel_stype'] != ''){
         $this->ci->load->model('legalservices/LegalServicesModel', 'legal');

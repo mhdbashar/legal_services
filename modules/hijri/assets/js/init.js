@@ -27,11 +27,11 @@ function initHijrDatePicker() {
             useCurrent: true,
             isRTL: false,
             keepOpen: false,
-            hijri: true,
-            debug: true,
-            showClear: true,
-            showTodayButton: true,
-            showClose: true
+            hijri: false,
+            // debug: true,
+            // showClear: true,
+            // showTodayButton: true,
+            // showClose: true
         });
         if (stored !== null){
             $(this).val(stored);
@@ -47,11 +47,11 @@ function initHijrDatePicker() {
             allowInputToggle: true,
             useCurrent: true,
             isRTL: false,
-            keepOpen: true,
-            hijri: true,
-            debug: false,
-            showClear: true,
-            showTodayButton: true,
+            keepOpen: false,
+            hijri: false,
+            // debug: true,
+            // showClear: true,
+            // showTodayButton: true,
 
         });
         if (stored !== null){

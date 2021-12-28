@@ -1,7 +1,6 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-
 /*
 Author: Babil Team
 Module Name: التاريخ الهجري
@@ -11,7 +10,6 @@ Requires at least: 2.3.*
 Author URI: #
 
 */
-
 
 define('HIJRI_MODULE_NAME', 'hijri');
 

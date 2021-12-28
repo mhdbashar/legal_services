@@ -1,11 +1,11 @@
 ﻿/*! version : 4.17.37
  =========================================================
  bootstrap-datetimejs
- 
+
  https://github.com/Eonasdan/bootstrap-datetimepicker
 
  Modified by: @balbarak
- 
+
  Copyright (c) 2015 Jonathan Peterson
  =========================================================
  */
@@ -132,7 +132,7 @@
                         returnMoment = moment().startOf('day');
                     }
                 } else {
-                    if (tzEnabled) {
+                    if (false) {
                         currentZoneOffset = moment().tz(options.timeZone).utcOffset();
                         incomingZoneOffset = moment(d, parseFormats, options.useStrict).utcOffset();
                         if (incomingZoneOffset !== currentZoneOffset) {
@@ -149,7 +149,6 @@
                 return returnMoment;
             },
             isEnabled = function (granularity) {
-
                 if (typeof granularity !== 'string' || granularity.length > 1) {
                     throw new TypeError('isEnabled expects a single character string parameter');
                 }
@@ -302,33 +301,20 @@
             getToolbar = function () {
                 var row = [];
                 if (options.showTodayButton) {
-                    //abd aljawad
-                    if (!options.hijri) {
-                        let _day = moment(viewDate).format('DD')
-                        let oldDate = moment(viewDate).format('YYYY-MM')
-                        let myDate = new Date(`${oldDate}-${parseInt(_day) + 1}`)
-                        input.val(moment(myDate).format('YYYY-MM-DD'));
-                    }
-                    //abd aljawad
                     row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append($('<span>').html(options.icons.today))));
-
                 }
                 if (!options.sideBySide && hasDate() && hasTime()) {
-
                     row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append($('<span>').addClass(options.icons.time))));
-
                 }
                 if (options.showClear) {
                     row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append($('<span>').html(options.icons.clear))));
                 }
                 if (options.showClose) {
                     row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append($('<span>').html(options.icons.close))));
-
-                  }
+                }
 
                 if (options.showSwitcher) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'switchDate', 'title': options.tooltips.close }).append($('<span >').html('هجري/ميلادي'))));
-
+                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'switchDate', 'title': options.tooltips.close }).append($('<span>').html('هجري/ميلادي'))));
                 }
                 return $('<table>').addClass('table-condensed').append($('<tbody>').append($('<tr>').append(row)));
             },
@@ -479,7 +465,7 @@
             },
 
             notifyEvent = function (e) {
-                
+
                 if (e.type === 'dp.change' && ((e.date && e.date.isSame(e.oldDate)) || (!e.date && !e.oldDate))) {
                     return;
                 }
@@ -491,7 +477,7 @@
                 if (e === 'y') {
                     e = 'YYYY';
                 }
-                
+
                 if (e === 'M') {
                     e = 'YYYY MMMM';
                 }
@@ -546,7 +532,7 @@
 
             isValid = function (targetMoment, granularity) {
 
-                
+
                 if (!targetMoment.isValid()) {
                     return false;
                 }
@@ -694,7 +680,7 @@
                 yearsView.find('.disabled').removeClass('disabled');
 
                 if (options.minDate && options.minDate.isAfter(startYear, 'hy')) {
-                    
+
                     yearsViewHeader.eq(0).addClass('disabled');
                 }
 
@@ -801,7 +787,7 @@
                     return;
                 }
 
-                
+
                 var daysView = widget.find('.datepicker-days'),
                     daysViewHeader = daysView.find('th'),
                     currentDate,
@@ -1055,7 +1041,7 @@
                 }
 
                 if (isValid(targetMoment)) {
-                    
+
                     date = targetMoment;
                     viewDate = date.clone();
                     input.val(date.format(actualFormat));
@@ -1155,7 +1141,6 @@
 
                 pickerSwitch: function () {
                     showMode(1);
-
                 },
 
                 selectMonth: function (e) {
@@ -1259,21 +1244,24 @@
                         }
                         setValue(day.date(parseInt($(e.target).text(), 10)));
                     }
-
                     // Abd aljawad start
                     let input_name = input.attr('name')
                     let input_id = input.attr('id')
 
                     let valueDate = moment(viewDate).format('YYYY-MM-DD');
                     if(input_id !== undefined) {
-                        $('form').append(`<input  name="${input_name}" value="${valueDate}">`);
+                        $('form').append(`<input type="hidden" name="${input_name}" value="${valueDate}">`);
                     }
+
+
+
+
+                    
 
                     if (!hasTime() && !options.keepOpen && !options.inline) {
                         hide();
                     }
                 },
-                    // Abd aljawad end
 
                 incrementHours: function () {
                     var newDate = date.clone().add(1, 'h');
@@ -1404,7 +1392,7 @@
                 clear: clear,
 
                 today: function () {
-                    
+
                     var todaysDate = getMoment();
                     if (isValid(todaysDate, 'd')) {
                         setValue(todaysDate);
@@ -1420,7 +1408,7 @@
                         options.hijri = false;
                         fillDate();
                         fillMonths();
-                        
+
                         initFormatting();
                     }
                     else {
@@ -1429,31 +1417,25 @@
                         fillHijriMonths();
                         initFormatting();
                     }
-                    
+
                 }
             },
 
             doAction = function (e) {
 
 
+
                 if ($(e.currentTarget).is('.disabled')) {
-
-
                     return false;
                 }
                 actions[$(e.currentTarget).data('action')].apply(picker, arguments);
-
                 return false;
-
             },
-
-
 
             show = function () {
                 ///<summary>Shows the widget. Possibly will emit dp.show and dp.change</summary>
                 var currentMoment,
-                    useCurrentGranularity =
-                        {
+                    useCurrentGranularity = {
                         'year': function (m) {
                             return m.month(0).date(1).hours(0).seconds(0).minutes(0);
                         },
@@ -1665,7 +1647,7 @@
             },
 
             initFormatting = function () {
-                
+
                 var format = options.format || 'L LT';
 
                 if (options.hijri) {
@@ -2111,7 +2093,6 @@
             }
 
             options.hijri = hijri;
-            options.hijri = false
 
             if (options.hijri) {
                 options.viewModes = ['days', 'months', 'years'];
@@ -2491,7 +2472,6 @@
 
         picker.showSwitcher = function (showSwitcher) {
 
-
             if (arguments.length === 0) {
                 return options.showSwitcher;
             }
@@ -2501,7 +2481,6 @@
             }
 
             options.showSwitcher = showSwitcher;
-
 
             return picker;
         };
@@ -2528,7 +2507,6 @@
             }
 
             options.datepickerInput = datepickerInput;
-
             return picker;
         };
 
@@ -2742,9 +2720,7 @@
                 // create a private copy of the defaults object
                 options = $.extend(true, {}, $.fn.hijriDatePicker.defaults, options);
                 $this.data('HijriDatePicker', hijriDatePicker($this, options));
-
             }
-
         });
     };
 

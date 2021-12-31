@@ -159,7 +159,14 @@ foreach ($rResult as $aRow) {
 
 
     // startdate
-    $row[] = ($aRow['startdate']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+
+
     // ~startdate
     $row[] = $aRow['time'];
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):

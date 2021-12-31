@@ -146,12 +146,12 @@ foreach ($rResult as $aRow) {
 
     $row[] = $outputReceipt;
     //insert hijri date
-    $CI = &get_instance();
+//    $CI = &get_instance();
+//
+//
+//    $CI->load->library('app_modules');
 
-
-    $CI->load->library('app_modules');
-
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+    $row[] = $aRow['date'];//$CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
     //insert hijri date
 
 

@@ -43,4 +43,5 @@ foreach ($rResult as $aRow) {
         $row[] = $_data;
     }
     $output['aaData'][] = $row;
+
 }

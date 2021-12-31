@@ -166,13 +166,13 @@ foreach ($rResult as $aRow) {
 
 
     //insert hijri date
-    $CI = &get_instance();
+//    $CI = &get_instance();
+//
+//
+//    $CI->load->library('app_modules');
 
-
-    $CI->load->library('app_modules');
-
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['duedate']) . '<br>' . to_hijri_date(_d($aRow['duedate'])) : _d($aRow['duedate']);
+    $row[] = $aRow['startdate'];//$CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+    $row[] = $aRow['duedate'];//$CI->app_modules->is_active('hijri') ? _d($aRow['duedate']) . '<br>' . to_hijri_date(_d($aRow['duedate'])) : _d($aRow['duedate']);
 
 
     //insert hijri date

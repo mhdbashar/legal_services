@@ -160,12 +160,12 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['contract_value'], $base_currency);
         //insert hijri date
-    $CI = &get_instance();
+//    $CI = &get_instance();
+//
+//
+//    $CI->load->library('app_modules');
 
-
-    $CI->load->library('app_modules');
-
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['datestart']) . '<br>' . to_hijri_date(_d($aRow['datestart'])) : _d($aRow['datestart']);
+    $row[] = $aRow['datestart'];//$CI->app_modules->is_active('hijri') ? _d($aRow['datestart']) . '<br>' . to_hijri_date(_d($aRow['datestart'])) : _d($aRow['datestart']);
        //insert hijri date
 
 

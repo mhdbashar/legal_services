@@ -87,7 +87,14 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsCases($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = ($aRow['start_date']);
+
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
+//    $row[] = ($aRow['']);
     $row[] = $aRow['deadline'] != '' ? ($aRow['deadline']) : '';
     $members = $model->GetMembersCases($aRow['id']);
     $membersOutput='';

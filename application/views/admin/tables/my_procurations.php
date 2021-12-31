@@ -40,8 +40,17 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['come_from'];
     $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
-    $row[] = ($aRow['start_date']);
-    $row[] = ($aRow['end_date']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['end_date']) . '<br>' . to_hijri_date(_d($aRow['end_date'])) : _d($aRow['end_date']);
+
+//
+//    $row[] = ($aRow['start_date']);
+//    $row[] = ($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';

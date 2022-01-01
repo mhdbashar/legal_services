@@ -49,12 +49,12 @@
           </tr>
           <?php 
 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['cash_and_cash_equivalents'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['cash_and_cash_equivalents'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_current_assets += $data['total_amount'];
 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_current_assets += $data['total_amount'];
@@ -75,12 +75,12 @@
             <td></td>
           </tr>
           <?php 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['fixed_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['fixed_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_long_term_assets += $data['total_amount'];
 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['non_current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['non_current_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_long_term_assets += $data['total_amount'];
@@ -121,7 +121,7 @@
             </tr>
             <?php 
               $_index = $row_index;
-              $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['accounts_payable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $_index, $currency);
+              $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['accounts_payable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $_index, $currency);
               $row_index = $data['row_index'];
               echo html_entity_decode($data['html']);
               $total_current_liabilities += $data['total_amount'];
@@ -132,12 +132,12 @@
               <td class="total_amount"><?php echo app_format_money($data['total_amount'], $currency->name); ?> </td>
             </tr>
             <?php 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['credit_card'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['credit_card'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_current_liabilities += $data['total_amount'];
 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_current_liabilities += $data['total_amount'];
@@ -158,7 +158,7 @@
               <td></td>
             </tr>
             <?php 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['non_current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['non_current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_non_current_liabilities += $data['total_amount'];
@@ -190,7 +190,7 @@
             </tr>
             <?php $row_index += 1; ?>
             <?php 
-            $data = $this->accounting_model->get_html_balance_sheet_summary($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
+            $data = $this->accounting_model->get_html_balance_sheet($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
             $row_index = $data['row_index'];
             echo html_entity_decode($data['html']);
             $total_shareholders_equity += $data['total_amount'];

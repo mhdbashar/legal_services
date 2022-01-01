@@ -16,6 +16,12 @@
                     echo '<i class="fa fa-line-chart" aria-hidden="true"></i>';
                 }elseif ($gr == 'expenses') {
                     echo '<i class="fa fa-file-text-o" aria-hidden="true"></i>';
+                }elseif ($gr == 'payslips') {
+                    echo '<i class="fa fa-money" aria-hidden="true"></i>';
+                }elseif ($gr == 'purchase') {
+                    echo '<i class="fa fa-cart-plus" aria-hidden="true"></i>';
+                }elseif ($gr == 'warehouse') {
+                    echo '<i class="fa fa-snowflake-o" aria-hidden="true"></i>';
                 } ?>
                 <?php echo _l($gr); ?>
               </a>

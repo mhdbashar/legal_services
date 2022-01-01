@@ -121,13 +121,13 @@
       var total_debit = 0, total_credit = 0;
 	    $.each(journal_entry, function(index, value) {
         if(value[1] != '' && value[1] != null){
-          total_debit += parseFloat(value[1]);
+          total_debit += parseFloat(value[1].toFixed(2));
         }
         if(value[2] != '' && value[2] != null){
-          total_credit += parseFloat(value[2]);
+          total_credit += parseFloat(value[2].toFixed(2));
         }
       });
-          
+      
 	    if(total_debit == total_credit){
 	    	if(total_debit > 0){
 	    		$('input[name="amount"]').val(total_debit);

@@ -51,6 +51,7 @@ table{
 }
 
 .total_amount{
+    padding-left: 10px;
 	text-align: right;
 }
 
@@ -79,4 +80,14 @@ th{
 
 .text-center{
 	text-align: center !important;
+}
+
+.th_total_width_auto{
+    text-align: right;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.btn-group.pull-right.mtop25>.btn{
+    margin-right: 15px;
 }

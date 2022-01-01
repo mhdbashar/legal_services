@@ -31,17 +31,17 @@
           $other_expenses = isset($data_report['total']['other_expenses'][$value]) ? $data_report['total']['other_expenses'][$value] : 0;
 
           $_income = $income + $other_income;
-          $_expenses = -($expenses + $other_expenses + $cost_of_sales);
+          $_expenses = $expenses + $other_expenses + $cost_of_sales;
           $row_index += 1;
           $total_income += $_income;
           $total_expenses += $_expenses;
-          $total_net_income += $_income + $_expenses;
+          $total_net_income += $_income - $_expenses;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded">
             <td class="parent"><?php echo get_company_name($value); ?></td>
             <td class="total_amount"><?php echo app_format_money($_income, $currency->name); ?> </td>
             <td class="total_amount"><?php echo app_format_money($_expenses, $currency->name); ?> </td>
-            <td class="total_amount"><?php echo app_format_money(($_income + $_expenses), $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money(($_income - $_expenses), $currency->name); ?> </td>
           </tr>
         <?php } ?>
           <?php

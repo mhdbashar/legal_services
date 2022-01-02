@@ -157,19 +157,19 @@
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('Categories'); ?></td>
-                  <td><?php echo isset($project->cat) && $project->cat != 0 ? $project->cat : _l('nothing_was_specified'); ?></td>
+                  <td><?php echo isset($project->cat) && $project->cat != '' ? $project->cat : _l('nothing_was_specified'); ?></td>
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('SubCategories'); ?></td>
-                  <td><?php echo isset($project->subcat) && $project->subcat != 0 ? $project->subcat : _l('nothing_was_specified'); ?></td>
+                  <td><?php echo isset($project->subcat) && $project->subcat != '' ? $project->subcat : _l('nothing_was_specified'); ?></td>
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('Court'); ?></td>
-                  <td><?php echo isset($project->court_name) && $project->court_name != 0 ? maybe_translate(_l('nothing_was_specified'), $project->court_name) : _l('nothing_was_specified'); ?></td>
+                   <td><?php echo isset($project->court_name) && $project->court_name != '' ? maybe_translate(_l('nothing_was_specified'), $project->court_name) : _l('nothing_was_specified'); ?></td>
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('NumJudicialDept'); ?></td>
-                  <td><?php echo isset($project->Jud_number) && $project->Jud_number != 0 ? maybe_translate(_l('nothing_was_specified'), $project->Jud_number) : _l('nothing_was_specified'); ?></td>
+                   <td><?php echo isset($project->Jud_number) && $project->Jud_number != '' ? maybe_translate(_l('nothing_was_specified'), $project->Jud_number) : _l('nothing_was_specified'); ?></td>
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('judge'); ?></td>
@@ -185,7 +185,7 @@
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('case_status'); ?></td>
-                  <td><?php echo isset($project->StatusCase) && $project->StatusCase != 0 ? maybe_translate(_l('nothing_was_specified'), $project->StatusCase) : _l('nothing_was_specified'); ?></td>
+                   <td><?php echo isset($project->StatusCase) && $project->StatusCase != '' ? maybe_translate(_l('nothing_was_specified'), $project->StatusCase) : _l('nothing_was_specified'); ?></td>
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('ResultCase'); ?></td>
@@ -193,7 +193,7 @@
                </tr>
                <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('customer_description'); ?></td>
-                  <td><?php echo isset($project->representative) && $project->representative != 0 ? maybe_translate(_l('nothing_was_specified'), $project->representative) : _l('nothing_was_specified'); ?></td>
+                   <td><?php echo isset($project->Representative) && $project->Representative != '' ? maybe_translate(_l('nothing_was_specified'), $project->Representative) : _l('nothing_was_specified'); ?></td>
                </tr>
             </tbody>
          </table>

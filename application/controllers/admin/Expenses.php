@@ -241,6 +241,10 @@ class Expenses extends AdminController
             redirect(admin_url('expenses/list_expenses'));
         }
         $response = $this->expenses_model->delete($id);
+        if($this->app_modules->is_active('accounting')){
+            $this->load->model('accounting/accounting_model');
+            $this->accounting_model->delete_convert($id,'expense');
+        }
         if ($response === true) {
             set_alert('success', _l('deleted', _l('expense')));
         } else {

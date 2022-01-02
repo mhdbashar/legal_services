@@ -9,7 +9,7 @@
           <a href="<?php echo admin_url('accounting/report'); ?>"><?php echo _l('back_to_report_list'); ?></a>
           <hr />
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-10">
               <div class="row">
               <?php echo form_open(admin_url('accounting/view_report'),array('id'=>'filter-form')); ?>
                 <div class="col-md-3">
@@ -37,7 +37,7 @@
               <?php echo form_close(); ?>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
               <div class="btn-group pull-right mtop25">
                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                  <ul class="dropdown-menu dropdown-menu-right">

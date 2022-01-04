@@ -3210,7 +3210,7 @@ $lang['invoice_number_not_applied_on_draft']                  = 'إذا تم ح�
 $lang['two_factor_authentication_disabed']                    = 'معطل';
 $lang['enable_google_two_factor_authentication']              = 'تمكين مصادقة Google';
 $lang['set_google_two_factor_authentication_failed']          = 'فشل حفظ المصادقة ، يرجى المحاولة مرة أخرى';
-$lang['enter_two_factor_auth_code_from_mobile']               = 'أدخل رمز المصادقة من تطبيق أداة المصادقة';
+$lang['enter_two_factor_auth_code_from_mobile']               = 'أدخل رمز التحقق';
 $lang['staff_two_factor_authentication'] = 'المصادقة الثنائية';
 $lang['google_authentication_code'] = 'أدخل الرمز من تطبيق أداة المصادقة';
 $lang['set_two_factor_authentication_successful'] = 'تم تحديث إعدادات المصادقة الثنائية بنجاح';

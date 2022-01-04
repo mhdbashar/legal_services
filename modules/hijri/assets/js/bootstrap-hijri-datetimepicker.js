@@ -1429,6 +1429,17 @@
                     return false;
                 }
                 actions[$(e.currentTarget).data('action')].apply(picker, arguments);
+
+                // Abd aljawad start
+                if(options.hijri){
+                    let input_name = input.attr('name')
+                    let input_id = input.attr('id')
+
+                    let valueDate = moment(viewDate).format('YYYY-MM-DD');
+                    if(input_id !== undefined) {
+                        $('form').append(`<input type="hidden" name="${input_name}" value="${valueDate}">`);
+                    }
+                }
                 return false;
             },
 

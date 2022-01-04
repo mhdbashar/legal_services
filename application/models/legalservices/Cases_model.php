@@ -280,7 +280,9 @@ class Cases_model extends App_Model
             save_edit_services_tags($services_tags, $insert_id, $slug);
 
             //Add Case Movement
-            $this->movement->add($ServID, $insert_id, $data);
+            $movement_data = $data;
+            unset($movement_data['contact_notification']);
+            $this->movement->add($ServID, $insert_id, $movement_data);
 
             handle_tags_save($tags, $insert_id, $slug);
 

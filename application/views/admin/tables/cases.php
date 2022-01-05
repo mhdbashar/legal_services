@@ -69,6 +69,7 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
 foreach ($rResult as $aRow) {
+
     $row = [];
     $row[] = $i;
     $_data =  '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';

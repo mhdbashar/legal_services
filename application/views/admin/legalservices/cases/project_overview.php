@@ -1,4 +1,10 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+$CI = &get_instance();
+
+
+$CI->load->library('app_modules');?>
+
 <style>
    .bold{
    font-weight: 600;
@@ -100,11 +106,22 @@
                </tr>
                <tr class="project-overview-date-created">
                   <td class="bold"><?php echo _l('project_datecreated'); ?></td>
-                  <td><?php echo _d($project->project_created); ?></td>
+                  <td>
+                      <?php echo _d($project->project_created) ?>
+                      <br>
+                      <?php echo _d(to_hijri_date($project->project_created)) ; ?></td>
                </tr>
                <tr class="project-overview-start-date">
                   <td class="bold"><?php echo _l('project_start_date'); ?></td>
-                  <td><?php echo _d($project->start_date); ?></td>
+
+
+                   </td>
+
+                  <td>
+                      <?php echo  _d($project->start_date); ?>
+                      <br>
+                      <?php echo  _d(to_hijri_date($project->start_date)); ?>
+
                </tr>
                <?php if($project->deadline){ ?>
                <tr class="project-overview-deadline">

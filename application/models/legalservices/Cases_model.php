@@ -280,7 +280,9 @@ class Cases_model extends App_Model
             save_edit_services_tags($services_tags, $insert_id, $slug);
 
             //Add Case Movement
-            $this->movement->add($ServID, $insert_id, $data);
+            $movement_data = $data;
+            unset($movement_data['contact_notification']);
+            $this->movement->add($ServID, $insert_id, $movement_data);
 
             handle_tags_save($tags, $insert_id, $slug);
 
@@ -1395,8 +1397,8 @@ class Cases_model extends App_Model
 
         $this->db->where($where);
         $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');
-        $this->db->join(db_prefix() . 'my_courts', db_prefix() . 'my_courts.c_id = ' . db_prefix() . 'my_session_info.court_id', 'inner');
-        $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id = ' . db_prefix() . 'my_session_info.judge_id', 'inner');
+        $this->db->join(db_prefix() . 'my_courts', db_prefix() . 'my_courts.c_id = ' . db_prefix() . 'my_session_info.court_id', 'left');
+        $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id = ' . db_prefix() . 'my_session_info.judge_id', 'left');
 
         if ($count == false) {
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();

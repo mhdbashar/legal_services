@@ -100,7 +100,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['amount'], $aRow['currency_name']);
 
-    $row[] = _gregorian_hijri_date($aRow['date']);
+    $row[] = ($aRow['date']);
 
     $row['DT_RowClass'] = 'has-row-options';
 

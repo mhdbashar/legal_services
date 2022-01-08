@@ -46,14 +46,6 @@ var fnServerParams, id, inventory_asset_account, income_account, expense_account
 	    }
 	});
 
-  $('input[name="acc_payment_automatic_conversion"]').on('change', function() {
-      if($('input[name="acc_payment_automatic_conversion"]').is(':checked') == true){
-        $('#div_payment_automatic_conversion').removeClass('hide');
-      }else{
-        $('#div_payment_automatic_conversion').addClass('hide');
-      }
-  });
-
   $('input[name="acc_expense_automatic_conversion"]').on('change', function() {
       if($('input[name="acc_expense_automatic_conversion"]').is(':checked') == true){
         $('#div_expense_automatic_conversion').removeClass('hide');
@@ -67,6 +59,78 @@ var fnServerParams, id, inventory_asset_account, income_account, expense_account
         $('#div_tax_automatic_conversion').removeClass('hide');
       }else{
         $('#div_tax_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_pl_total_insurance_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_pl_total_insurance_automatic_conversion"]').is(':checked') == true){
+        $('#div_pl_total_insurance_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_pl_total_insurance_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_pl_tax_paye_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_pl_tax_paye_automatic_conversion"]').is(':checked') == true){
+        $('#div_pl_tax_paye_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_pl_tax_paye_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_pl_net_pay_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_pl_net_pay_automatic_conversion"]').is(':checked') == true){
+        $('#div_pl_net_pay_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_pl_net_pay_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_wh_stock_import_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_wh_stock_import_automatic_conversion"]').is(':checked') == true){
+        $('#div_wh_stock_import_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_wh_stock_import_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_wh_stock_export_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_wh_stock_export_automatic_conversion"]').is(':checked') == true){
+        $('#div_wh_stock_export_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_wh_stock_export_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_wh_loss_adjustment_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_wh_loss_adjustment_automatic_conversion"]').is(':checked') == true){
+        $('#div_wh_loss_adjustment_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_wh_loss_adjustment_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_wh_opening_stock_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_wh_opening_stock_automatic_conversion"]').is(':checked') == true){
+        $('#div_wh_opening_stock_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_wh_opening_stock_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_pur_order_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_pur_order_automatic_conversion"]').is(':checked') == true){
+        $('#div_pur_order_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_pur_order_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_pur_payment_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_pur_payment_automatic_conversion"]').is(':checked') == true){
+        $('#div_pur_payment_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_pur_payment_automatic_conversion').addClass('hide');
       }
   });
 
@@ -344,12 +408,16 @@ function edit_payment_mode_mapping(invoker) {
     payment_mode_id = $(invoker).data('payment-mode-id');
     payment_account = $(invoker).data('payment-account');
     deposit_to = $(invoker).data('deposit-to');
+    expense_payment_account = $(invoker).data('expense-payment-account');
+    expense_deposit_to = $(invoker).data('expense-deposit-to');
 
     $('#edit-payment-mode-mapping-modal').find('button[type="submit"]').prop('disabled', false);
     $('#edit-payment-mode-mapping-modal input[name="id"]').val(id);
     $('#edit-payment-mode-mapping-modal select[name="payment_mode_id"]').val(payment_mode_id).change();
     $('#edit-payment-mode-mapping-modal select[name="payment_account"]').val(payment_account).change();
     $('#edit-payment-mode-mapping-modal select[name="deposit_to"]').val(deposit_to).change();
+    $('#edit-payment-mode-mapping-modal select[name="expense_payment_account"]').val(expense_payment_account).change();
+    $('#edit-payment-mode-mapping-modal select[name="expense_deposit_to"]').val(expense_deposit_to).change();
 
     $('#edit-payment-mode-mapping-modal').modal('show');
 }

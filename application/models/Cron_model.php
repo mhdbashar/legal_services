@@ -2268,7 +2268,7 @@ class Cron_model extends App_Model
         // Simulate fake template to be parsed
         $template           = new StdClass();
         if($member_lang == 'arabic'){
-            $date = to_hijri_date(date('Y-m-d'));
+            $date = (date('Y-m-d'));
             $template->message  = get_option('email_header') . '<div style="padding: 20px;text-align: right; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);  -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>اجندتك اليومية لتاريخ '.$date.'</h2><h4>مهام اليوم <i style="color: #0078d4;"><br />'.$tasks_count.'</i> <br /> جلسات اليوم <i style="color: #0078d4;"><br />'.$sessions_count.'</i> <br /></h4></div>' . get_option('email_footer');
             $template->subject  = 'اجندتك اليومية';
         }else{

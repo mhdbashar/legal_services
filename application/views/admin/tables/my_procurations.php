@@ -26,7 +26,7 @@ if(!empty($client_id)){
 
 $join = [];
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from', 'file']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -40,8 +40,17 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['come_from'];
     $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
-    $row[] = _gregorian_hijri_date($aRow['start_date']);
-    $row[] = _gregorian_hijri_date($aRow['end_date']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['end_date']) . '<br>' . to_hijri_date(_d($aRow['end_date'])) : _d($aRow['end_date']);
+
+//
+//    $row[] = ($aRow['start_date']);
+//    $row[] = ($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';
@@ -105,7 +114,9 @@ foreach ($rResult as $aRow) {
     if (has_permission('procurations', '', 'delete') || is_admin())
     $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $options .= icon_btn('procuration/pdf/' . $aRow['id'] . '?output_type=I', 'download', 'btn-default');
-    
+    $p_file = $aRow['file'];
+    if($p_file != '') $options .= icon_btn('#', 'eye', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#file', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+
     $row[]   = $options;
 
     $output['aaData'][] = $row;

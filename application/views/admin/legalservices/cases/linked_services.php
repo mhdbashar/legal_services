@@ -18,7 +18,13 @@
                             <p class="bold"><?php echo _l('father_linked_services'); ?></p>
                                 <div>
                                     <?php if( is_object($father_linked_services)): ?>
-                                        <a href="<?php echo admin_url('SOther/view/'.$father_linked_services->l_service_id.'/'.$father_linked_services->rel_id) ?>">
+                                        <?php
+                                        if($father_linked_services->to_service_id == 1)
+                                            $to = 'Case';
+                                        else
+                                            $to = 'SOther';
+                                        ?>
+                                        <a href="<?php echo admin_url($to.'/view/'.$father_linked_services->l_service_id.'/'.$father_linked_services->rel_id) ?>">
                                             <?php echo $father_linked_services->name ?>
                                         </a>
                                     <?php endif;?>

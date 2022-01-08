@@ -167,7 +167,16 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['year'];
 
-    $row[] = _gregorian_hijri_date($aRow['date']);
+
+    //insert hijri date
+//    $CI = &get_instance();
+//
+//
+//    $CI->load->library('app_modules');
+
+    $row[] = $aRow['date'];//$CI->app_modules->is_active('hijri') ? _d($aRow['date']) . '<br>' . to_hijri_date(_d($aRow['date'])) : _d($aRow['date']);
+
+    //insert hijri date
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
@@ -194,8 +203,7 @@ foreach ($rResult as $aRow) {
     }
 
     $row[] = render_tags($aRow['tags']);
-
-    $row[] = _gregorian_hijri_date($aRow['duedate']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['duedate']) . '<br>' . to_hijri_date(_d($aRow['duedate'])) : _d($aRow['duedate']);
 
     $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 

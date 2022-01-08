@@ -89,8 +89,14 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsServices($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = _gregorian_hijri_date($aRow['start_date']);
-    $row[] = _gregorian_hijri_date($aRow['deadline']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['deadline']) . '<br>' . to_hijri_date(_d($aRow['deadline'])) : _d($aRow['deadline']);
+
     $members = $model->GetMembersServices($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

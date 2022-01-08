@@ -17,9 +17,9 @@
          $total = 0; 
          ?>
 
-         <?php foreach ($data_report['data'] as $val) { 
-              $row_index += 1;
-              $total += $val['amount'];
+         <?php foreach ($data_report['data'] as $val) {
+             $total = $row_index == 0 ? $total - $val['amount'] : $total = $total + $val['amount'];
+             $row_index += 1;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
               <td>

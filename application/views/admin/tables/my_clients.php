@@ -231,6 +231,7 @@ foreach ($rResult as $aRow) {
 
     $company = '<a href="' . $url . '">' . $company . '</a>';
 
+
     $company .= '<div class="row-options">';
     $company .= '<a href="' . admin_url('clients/client/' . $aRow['userid'] . ($isPerson && $aRow['contact_id'] ? '?group=contacts' : '')) . '">' . _l('view') . '</a>';
 
@@ -290,7 +291,16 @@ foreach ($rResult as $aRow) {
 
     // $row[] = $groupsRow;
 
-    $row[] = _gregorian_hijri_date($aRow['datecreated']);
+
+    //insert hijri date
+//    $CI = &get_instance();
+//
+//
+//    $CI->load->library('app_modules');
+
+    $row[] = $aRow['datecreated'];//$CI->app_modules->is_active('hijri') ? _d($aRow['datecreated']) . '<br>' . to_hijri_date(_d($aRow['datecreated'])) : _d($aRow['datecreated']);
+
+    //insert hijri date
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));

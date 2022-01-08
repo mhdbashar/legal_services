@@ -95,6 +95,12 @@ class Procuration extends AdminController
         $this->load->view('admin/procuration/managetype', $data);
     }
 
+    public function file($id){
+        $procuration = $this->procurations_model->get($id);
+        echo json_encode(site_url($procuration->file));
+        die();
+    }
+
     public function pdf($id)
     {
         if (!$id) {
@@ -105,7 +111,17 @@ class Procuration extends AdminController
             access_denied('Procurations');
         }
 
-        $procuration = $this->procurations_model->get($id);
+
+
+            $procuration = $this->procurations_model->get($id);
+        if ( !get_option('wathq_api_key'))
+            if ($procuration->file != null)
+                redirect(site_url($procuration->file));
+            else{
+                set_alert('warning', 'No file!');
+                redirect(admin_url('procuration/all'));
+            }
+
         $procuration        = hooks()->apply_filters('before_admin_view_procuration_pdf', $procuration);
 
         // $invoice_number = format_invoice_number($invoice->id);

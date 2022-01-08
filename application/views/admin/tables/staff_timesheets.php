@@ -233,7 +233,7 @@ if ($filter == 'today') {
     }
     $chart_type = 'month';
 } else {
-    $_start_time = new DateTime(date('Y-m-d', strtotime($start_date)));
+//    $_start_time = new DateTime(date('Y-m-d', strtotime($start_date)));
     $_end_time   = new DateTime(date('Y-m-d', strtotime($end_date)));
 
     $chart_type  = 'weeks_split';

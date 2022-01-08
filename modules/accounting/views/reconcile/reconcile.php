@@ -59,7 +59,8 @@
               <div class="row">
                 <div class="col-md-12">
                     <hr>
-                    <button type="submit" class="btn btn-info pull-right"><?php echo _l('start_reconciling'); ?></button>
+                    <button type="submit" class="btn btn-info pull-right <?php if(!has_permission('accounting_reconcile', '', 'create')){echo 'hide';} ?>"><?php echo _l('start_reconciling'); ?></button>
+                    <button type="button" class="btn btn-warning pull-right mright5 hide_restored <?php echo html_entity_decode($hide_restored); ?> <?php if(!has_permission('accounting_reconcile', '', 'edit')){echo 'hide';} ?>"><?php echo _l('acc_restored_last'); ?></button>
                 </div>
               </div>
             </div>
@@ -67,7 +68,9 @@
               <div class="row">
                 <div class="col-md-12">
                     <hr>
-                    <button type="submit" class="btn btn-info pull-right"><?php echo _l('resume_reconciling'); ?></button>
+                    <button type="submit" class="btn btn-info pull-right <?php if(!has_permission('accounting_reconcile', '', 'edit')){echo 'hide';} ?>"><?php echo _l('resume_reconciling'); ?></button>
+                    <button type="button" class="btn btn-warning pull-right mright5 hide_restored <?php echo html_entity_decode($hide_restored); ?> <?php if(!has_permission('accounting_reconcile', '', 'edit')){echo 'hide';} ?>"><?php echo _l('acc_restored_last'); ?></button>
+                   
                 </div>
               </div>
             </div>

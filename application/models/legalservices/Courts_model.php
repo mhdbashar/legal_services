@@ -79,6 +79,10 @@ class Courts_model extends App_Model
 	
 	public function delete_court($id)
     {
+        $this->db->where('is_default', 1);
+        $default = $this->db->get(db_prefix() . 'my_courts')->row();
+        $this->db->where('court_id', $id);
+        $this->db->update(db_prefix() . 'my_cases', ['court_id' => $default->c_id]);
         $this->db->where('c_id', $id);
         $this->db->delete(db_prefix() . 'my_courts');
         if ($this->db->affected_rows() > 0) {

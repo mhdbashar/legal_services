@@ -69,6 +69,7 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
 foreach ($rResult as $aRow) {
+
     $row = [];
     $row[] = $i;
     $_data =  '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
@@ -87,8 +88,15 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsCases($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = _gregorian_hijri_date($aRow['start_date']);
-    $row[] = $aRow['deadline'] != '' ? _gregorian_hijri_date($aRow['deadline']) : '';
+
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
+//    $row[] = ($aRow['']);
+    $row[] = $aRow['deadline'] != '' ? ($aRow['deadline']) : '';
     $members = $model->GetMembersCases($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

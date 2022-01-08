@@ -11,15 +11,16 @@
                   </div>
             <div class="clearfix"></div>
                     <?php render_datatable(array(
-                     _l('name'),
-                     _l('no'),
-                     _l('start_date'),
-                     _l('end_date'),
-                     _l('case_id'),
-                     _l('added_from'),
-                     _l('type'),
-                     _l('state'),
-                     _l('control'),
+                        _l('name'),
+                        _l('come_from'),
+                        _l('procuration_number'),
+                        _l('start_date'),
+                        _l('end_date'),
+                        _l('case_id'),
+                        _l('added_from'),
+                        _l('type'),
+                        _l('status'),
+                        _l('control'),
                   ),'procurations-single-client'); ?>
     
    <?php echo form_close(); ?>
@@ -54,4 +55,5 @@
 <!-- /.modal -->
 <?php } ?>
 <?php } ?>
+<?php $this->load->view('admin/procuration/modal'); ?>
 <?php $this->load->view('admin/clients/client_group'); ?>

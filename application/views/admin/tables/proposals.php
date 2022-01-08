@@ -137,13 +137,13 @@ foreach ($rResult as $aRow) {
     $row[] = $amount;
 
 
-    $row[] = _gregorian_hijri_date($aRow['date']);
+    $row[] = ($aRow['date']);
 
-    $row[] = _gregorian_hijri_date($aRow['open_till']);
+    $row[] = ($aRow['open_till']);
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _gregorian_hijri_date($aRow['datecreated']);
+    $row[] = ($aRow['datecreated']);
 
     $row[] = format_proposal_status($aRow['status']);
 

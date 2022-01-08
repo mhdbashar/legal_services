@@ -152,14 +152,20 @@ foreach ($rResult as $aRow) {
     endif;
     $row[] = $send;
     // startdate
-    $row[] = _gregorian_hijri_date($aRow['startdate']);
+    $CI = &get_instance();
+
+
+    $CI->load->library('app_modules');
+
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+
 
     // ~startdate
     $row[] = $aRow['time'];
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
-        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _gregorian_hijri_date($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? ($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
 
     $output['aaData'][] = $row;

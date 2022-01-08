@@ -58,6 +58,27 @@ class App_sms
         self::$gateways[$id] = $data;
     }
 
+    public function g_send($phone, $message)
+    {
+        if ($phone == '') {
+            return false;
+        }
+
+        $gateway = $this->get_active_gateway();
+
+        if ($gateway !== false) {
+            $className = 'sms_' . $gateway['id'];
+
+            $message = clear_textarea_breaks($message);
+
+            $retval = $this->ci->{$className}->send($phone, $message);
+
+            return $retval;
+        }
+
+        return false;
+    }
+
     public function get_option($id, $option)
     {
         return get_option($this->option_name($id, $option));

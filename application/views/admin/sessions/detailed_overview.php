@@ -35,11 +35,7 @@
                                 </div>
                             <?php } ?>
                             <?php
-                            /*$hijriStatus= get_option('isHijri');
-                            $hijriMonths = array(
-                              "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأول", "جمادى الثاني",
-                              "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
-                            );*/
+
                             ?>
                             <div class="col-md-2 border-right">
                                 <?php
@@ -48,7 +44,7 @@
                                 for ($m = 1; $m <= 12; $m++) {
                                     $data = array();
                                     $data['month'] = $m;
-                                    //$data['name'] = $hijriStatus == 'on' ? $hijriMonths[$m - 1] : _l(date('F', mktime(0, 0, 0, $m, 1)));
+
                                     $data['name'] = _l(date('F', mktime(0, 0, 0, $m, 1)));
                                     $months[] = $data;
                                 }
@@ -162,9 +158,7 @@
                                             }
                                             ?>
                                         </td>
-                                        <?php /*<!--                           <td data-order="--><?php //if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo $task['startdate']; ?><!--">--><?php //if($hijriStatus == 'on') echo _gregorian_hijri_date($task['startdate']); else echo _d($task['startdate']); ?><!--</td>-->
-<!--                           <td data-order="--><?php //echo $task['time']; ?><!--">--><?php //echo ($task['time']); ?><!--</td>--> */
-                                        ?>
+
                                         <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
                                         <td data-order="<?php echo $task['duedate']; ?>"><?php echo _d($task['duedate']); ?></td>
                                         <td><?php echo format_session_status_by_date($task['startdate']); ?></td>

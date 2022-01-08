@@ -64,6 +64,12 @@ class Customer_representative_model extends App_Model
 
     public function delete($id, $simpleDelete = false)
     {
+
+        $this->db->where('is_default', 1);
+        $default = $this->db->get(db_prefix() . 'my_customer_representative')->row();
+        $this->db->where('representative', $id);
+        $this->db->update(db_prefix() . 'my_cases', ['representative' => $default->id]);
+
         $this->db->where('relid', $id);
         //table name in custom field table is cust_repres
         $this->db->where('fieldto', 'cust_repres');

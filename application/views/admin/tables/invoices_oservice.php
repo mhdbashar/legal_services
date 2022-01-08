@@ -169,7 +169,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['year'];
 
-    $row[] = _gregorian_hijri_date($aRow['date']);
+    $row[] = ($aRow['date']);
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';

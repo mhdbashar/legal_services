@@ -31,7 +31,7 @@ foreach ($rResult as $aRow) {
         $_data = $aRow[ $aColumns[$i] ];
 
         if ($aColumns[$i] == 'start_date' || $aColumns[$i] == 'deadline') {
-            $_data = _gregorian_hijri_date($_data);
+            $_data = ($_data);
         } elseif ($aColumns[$i] == 'name') {
             $_data = '<a href="' . admin_url('SOther/view/' . $aRow['service_id']. '/' . $aRow['id']) . '">' . $_data . '</a>';
         } elseif ($aColumns[$i] == 'status') {
@@ -43,4 +43,5 @@ foreach ($rResult as $aRow) {
         $row[] = $_data;
     }
     $output['aaData'][] = $row;
+
 }

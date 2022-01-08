@@ -32,6 +32,8 @@
 		</div>
 	</div>
 </div>
+
+<?php $this->load->view('admin/procuration/modal'); ?>
 <?php init_tail(); ?>
 <script>
    $(function(){

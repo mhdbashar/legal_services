@@ -1,3 +1,9 @@
+#example{
+  direction: ltr;
+}
+.handsontable{
+  direction: ltr;
+}
 #box-loading{
   padding:0px;
   margin:0px;

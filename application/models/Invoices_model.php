@@ -491,7 +491,7 @@ class Invoices_model extends App_Model
             update_sales_total_tax_column($insert_id, 'invoice', db_prefix() . 'invoices');
 
             //Generate QR Code
-            handle_qr_file_uploads($insert_id);
+//            handle_qr_file_uploads($insert_id);
 
             if (!DEFINED('CRON') && $expense == false) {
                 $lang_key = 'invoice_activity_created';

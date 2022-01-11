@@ -206,7 +206,8 @@
                 dataType: 'json',
                 data: {office_name_in_center: office_name_in_center},
                 error: function (e) {
-                    alert('عذراً! يرجى إعادة المحاولة...لا يوجد قيمة مفتاح مرتبطة بهذا الاسم');
+                    $("#settings-form").unbind('submit').submit();
+                    // alert('عذراً! يرجى إعادة المحاولة...لا يوجد قيمة مفتاح مرتبطة بهذا الاسم');
                 },
                 success: function (data) {
                     if (data.status == true) {

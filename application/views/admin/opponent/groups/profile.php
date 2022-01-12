@@ -145,6 +145,10 @@
                                     </select>
                                 </div>
                             <?php } ?>
+                            <?php $value=( isset($client) ? $client->unit_number : ''); ?>
+                            <?php echo render_input( 'unit_number', 'unit_number',$value); ?>
+                            <?php $value=( isset($client) ? $client->id_number : ''); ?>
+                            <?php echo render_input( 'id_number', 'id_number',$value); ?>
                         </div>
                         <div class="col-md-6">
                             <?php $value=( isset($client) ? $client->address : ''); ?>
@@ -164,6 +168,15 @@
                               $selected=( isset($client) ? $client->city : '');
                               echo form_dropdown('city', $options, $selected, ' id="city" class="form-control" ');
                             ?>
+
+                            <?php $value=( isset($client) ? $client->district_name : ''); ?>
+                            <?php echo render_input( 'district_name', 'district_name',$value); ?>
+                            <?php $value=( isset($client) ? $client->building_number : ''); ?>
+                            <?php echo render_input( 'building_number', 'building_number',$value); ?>
+                            <?php $value=( isset($client) ? $client->street_name : ''); ?>
+                            <?php echo render_input( 'street_name', 'street_name',$value); ?>
+                            <?php $value=( isset($client) ? $client->additional_number : ''); ?>
+                            <?php echo render_input( 'additional_number', 'additional_number',$value); ?>
                         </div>
                     </div>
                 </div>

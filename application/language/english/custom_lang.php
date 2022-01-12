@@ -1,5 +1,13 @@
 <?php
 
+
+$lang['district_name'] = 'District name';
+$lang['building_number'] = 'Building NO';
+$lang['street_name'] = 'Street name';
+$lang['additional_number'] = 'Additional NO';
+$lang['unit_number'] = 'Unit NO';
+$lang['id_number'] = 'ID NO';
+
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
 $lang['add_only_main_salary'] = 'Add only main salary';

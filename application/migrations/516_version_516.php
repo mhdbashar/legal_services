@@ -48,5 +48,11 @@ class Migration_Version_516 extends CI_Migration
         if (!$this->db->field_exists('billing_unit_number', db_prefix() . 'clients')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'clients` ADD `billing_unit_number` varchar(255) DEFAULT NULL');
         }
+
+        // contacts
+
+        if (!$this->db->field_exists('id_number', db_prefix() . 'contacts')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'contacts` ADD `id_number` varchar(255) DEFAULT NULL');
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 $lang['district_name'] = 'اسم الحي';
-$lang['building_number'] = 'رقم الحي';
+$lang['building_number'] = 'رقم المبنى';
 $lang['street_name'] = 'اسم الشارع';
 $lang['additional_number'] = 'الرقم الاضافي';
 $lang['unit_number'] = 'رقم الوحدة';

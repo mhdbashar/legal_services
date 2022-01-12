@@ -47,6 +47,8 @@
                         <?php echo render_input( 'title', 'contact_position',$value); ?>
                         <?php $value=( isset($contact) ? $contact->email : ''); ?>
                         <?php echo render_input( 'email', 'client_email',$value, 'email'); ?>
+                        <?php $value=( isset($contact) ? $contact->id_number : ''); ?>
+                        <?php echo render_input( 'id_number', 'id_number',$value, 'id_number'); ?>
                         <?php $value=( isset($contact) ? $contact->phonenumber : ''); ?>
                         <?php echo render_input( 'phonenumber', 'client_phonenumber',$value,'text',array('autocomplete'=>'off')); ?>
                         <div class="form-group contact-direction-option">

@@ -1,6 +1,6 @@
 <?php
 
-
+$lang['commercial_register'] = 'Commercial Register';
 $lang['district_name'] = 'District name';
 $lang['building_number'] = 'Building NO';
 $lang['street_name'] = 'Street name';

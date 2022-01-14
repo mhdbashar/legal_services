@@ -1,5 +1,6 @@
 <?php
 
+$lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';
 $lang['street_name'] = 'اسم الشارع';

@@ -507,6 +507,7 @@ if (!function_exists('format_organization_info')) {
         $format = _info_format_replace('bo_box', get_option('invoice_company_country_code'), $format);
         $format = _info_format_replace('city', get_option('invoice_company_city'), $format);
         $format = _info_format_replace('state', get_option('company_state'), $format);
+        $format = _info_format_replace('commercial_register', _l('commercial_register') . ': ' . get_option('invoice_company_commercial_register'), $format);
         $format = _info_format_replace('zip_code', _l('zip_code') . ': ' .get_option('invoice_company_postal_code'), $format);
         $format = _info_format_replace('country_code', get_option('invoice_company_country_code'), $format);
         $format = _info_format_replace('phone', get_option('invoice_company_phonenumber'), $format);

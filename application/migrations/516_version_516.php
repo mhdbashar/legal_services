@@ -54,5 +54,8 @@ class Migration_Version_516 extends CI_Migration
         if (!$this->db->field_exists('id_number', db_prefix() . 'contacts')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'contacts` ADD `id_number` varchar(255) DEFAULT NULL');
         }
+
+        // company info
+        add_option('invoice_company_commercial_register', '');
     }
 }

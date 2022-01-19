@@ -4624,6 +4624,11 @@ function get_custom_type_shiftwork(){
 				$data_check_in_out = $this->timesheets_model->get_list_check_in_out($split_date[0], $data['staff_id']);
 				$html_list = '';
 				$type_check_in_out = '';
+                $compare_with_now_date = '';
+                $block_check_in = 0;
+                if(!empty($data_check_in_out))
+                    if($data_check_in_out[count($data_check_in_out) - 1]['type_check'] == 1)
+                        $block_check_in = 1;
 				foreach ($data_check_in_out as $key => $value) {
 					$type_check_in_out = $value['type_check'];
 					$alert_type = 'alert-success';
@@ -4633,11 +4638,14 @@ function get_custom_type_shiftwork(){
 						$alert_type = 'alert-warning';
 					}
 					$html_list .= '<div class="row"><div class="col-md-12"><div class="alert '.$alert_type.'">'.$type_check.': '._dt($value['date']).'</div></div></div>';
+                    $compare_with_now_date = date('i', strtotime(date('Y-m-d H:i:s')) - strtotime(($value['date'])));
 				} 
 				echo json_encode([
 					'html_list' => $html_list,
 					'allows_updating_check_in_time' => $allows_updating_check_in_time,
-					'type_check_in_out' => $type_check_in_out
+					'type_check_in_out' => $type_check_in_out,
+                    'compare_with_now_date' => $compare_with_now_date,
+                    'block_check_in' => $block_check_in
 				]);
 				die;
 			}

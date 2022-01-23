@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
@@ -2742,7 +2743,30 @@ public function count_type_leave($department, $type,$custom_date_select){
 			$data['route_point_id'] = $point_id;
 			$data['workplace_id'] = $workplace_id;
 			unset($data['location_user']);  
-			unset($data['point_id']);  
+			unset($data['point_id']);
+
+            $staff_shift = $this->get_shift_work_staff_by_date($data['staff_id']);
+
+            if(empty($staff_shift))
+            {
+                // Error 8: Shift work doesn't exist
+                return 8;
+            }
+            $data_check_in_out = $this->get_list_check_in_out($date, $data['staff_id']);
+            if(!empty($data_check_in_out)){
+                $old_date = new DateTime($data_check_in_out[count($data_check_in_out) - 1]['date']);
+                $new_date = new DateTime($data['date']);
+                $diff = (strtotime($new_date->format('Y-m-d H:i:s')) - strtotime($old_date->format('Y-m-d H:i:s'))) / 60;
+                if($data_check_in_out[count($data_check_in_out) - 1]['type_check'] == 1 && $data['type_check'] == 1)
+                    // Error 5: Check out before check in
+                    return 5;
+                if($data_check_in_out[count($data_check_in_out) - 1]['type_check'] == 2 && $data['type_check'] == 2)
+                    // Error 6: Check in before check out
+                    return 6;
+                if($diff < 10)
+                    // Error 7: You have to wait 10 min before you can check in again
+                    return 7;
+            }
 			$this->db->insert(db_prefix().'check_in_out', $data);
 			$insert_id = $this->db->insert_id();
 			if ($insert_id) {
@@ -5629,6 +5653,7 @@ public function default_settings($data){
 				if($next_key == $key){
 					if($check_out_date != '' && $check_in_date != ''){
 						$data_hour = $this->calculate_attendance_timesheets($staff_id, $check_in_date, $check_out_date);
+						if (isset($data_hour->working_hour))
 						$total_work_hours += $data_hour->working_hour; 
 					}
 				}

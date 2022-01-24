@@ -752,6 +752,14 @@ function split_name($name)
     $name['lastname'] = (isset($parts[3])) ? $parts[3] : (isset($parts[2]) ? $parts[2] : (isset($parts[1]) ? $parts[1] : ''));
     return $name;
 }
+function build_dropdown_category($data)
+{
+    $CI = & get_instance();
+    $CI->db->where('parent_id', 0);
+    $CI->db->where('country', $data['country']);
+    $category = $CI->db->get(db_prefix() . 'my_categories')->result_array();
+    return $category;
+}
 
 /*public function my_create_new_email_template()
 {

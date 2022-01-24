@@ -57,12 +57,18 @@ class Courts extends AdminController
             access_denied('courts');
         }
         if ($this->input->post()) {        	
-            $data = $this->input->post();                              
+            $data = $this->input->post();
+            $cat = $data['cat_id'];
+            unset($data['cat_id']);
             $added = $this->court->add_court_new($data);
             if ($added) {
+                foreach ($cat as $id){
+                    $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$added" , 'cat_id' => $id] );
+                }
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url('courts'));
-            }         
+            }
+
         }    			
         $data['title']  = _l('NewCourt');	
         $this->load->view('admin/legalservices/courts/add_courts',$data);
@@ -109,9 +115,16 @@ class Courts extends AdminController
             redirect(admin_url('courts'));
         }			        
 		if ($this->input->post()) {        	
-            $data = $this->input->post();                              
+            $data = $this->input->post();
+            $cat = $data['cat_id'];
+            unset($data['cat_id']);
             $success = $this->court->update_court_data($id,$data);
             if ($success) {
+                $this->db->where('c_id', $id);
+                $this->db->delete(db_prefix() . 'my_courts_categories');
+                foreach ($cat as $cat_id){
+                    $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$id" , 'cat_id' => $cat_id] );
+                }
                 set_alert('success', _l('updated_successfully', _l('Court')));
 				redirect(admin_url('courts'));                
             }else {
@@ -181,5 +194,87 @@ class Courts extends AdminController
         }
         redirect(admin_url("judicial_control/$c_id"));
     }
-	
+    public function build_dropdown_category() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $category = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        if($data['country'] != '')
+            $country['country'] = $data['country'];
+        else
+            $country['country'] = '';
+        echo render_select('cat_id[]', build_dropdown_category($country), array('id', 'name'), 'Categories', '', array('multiple'=>true), [], '', '', false);
+
+//        $output = '<div class="form-group" app-field-wrapper="cat_id[]">
+//            <label for="cat_id[]" class="control-label">تصنيفات</label>
+//            <div class="dropdown bootstrap-select show-tick bs3" style="width: 100%;">
+//            <select id="cat_id[]" name="cat_id[]" class="selectpicker" multiple="1" data-width="100%" data-none-selected-text="لم يتم تحديد شيء" data-live-search="true" tabindex="-98">';
+//        $selected="";
+//        foreach ($category as $row)
+//        {
+//                $output .= '<option value="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+//        }
+//        $output .= '</select>
+//            <button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" data-id="cat_id[]" title="لم يتم تحديد شيء">
+//            <div class="filter-option">
+//            <div class="filter-option-inner">
+//            <div class="filter-option-inner-inner">لم يتم تحديد شيء</div>
+//            </div>
+//            </div>
+//            <span class="bs-caret">
+//            <span class="caret">
+//            </span></span>
+//            </button>
+//            <div class="dropdown-menu open">
+//            <div class="bs-searchbox">
+//            <input type="search" class="form-control" autocomplete="off" role="combobox" aria-label="Search" aria-controls="bs-select-2" aria-autocomplete="list">
+//            </div>
+//            <div class="inner open" role="listbox" id="bs-select-2" tabindex="-1" aria-multiselectable="true">
+//            <ul class="dropdown-menu inner " role="presentation"></ul>
+//            </div>
+//            </div>
+//            </div>
+//            </div>';
+//        echo $output;
+//        echo json_encode($category);
+//        die();
+    }
+    public function build_dropdown_edit_category() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $category = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        $output = [];
+        foreach ($category as $cat){
+            $this->db->where('c_id', $data['c_id']);
+            $this->db->where('cat_id', $cat['id']);
+            $success = $this->db->get(db_prefix() . 'my_courts_categories')->row();
+            if($success) {
+
+            }else {
+
+            }
+        }
+        echo json_encode($category);
+        die();
+    }
+    public function build_dropdown_court_category() {
+        $data = $this->input->post();
+        $this->db->where('c_id', $data['c_id']);
+        $c_cat = $this->db->get(db_prefix() . 'my_courts_categories')->result_array();
+        $category = [];
+        foreach ($c_cat as $cat) {
+            $this->db->where('id', $cat['cat_id']);
+            $category[] = $this->db->get(db_prefix() . 'my_categories')->row();
+        }
+        echo json_encode($category);
+        die();
+    }
+    public function build_dropdown_courts() {
+        $data = $this->input->post();
+        $corts = $this->court->get_courts_by_country_city($data)->result_array();
+        echo json_encode($corts);
+        die();
+    }
+
 }

@@ -6446,4 +6446,16 @@ public function export_attendance_excel()
 		die;
 	}
 
+	public function check_in_out_report()
+    {
+        $from = date('Y-m-d h:i:s', strtotime('-20 days'));
+        $to = date('Y-m-d h:i:s');
+        $this->db->where('date>', $from);
+        $this->db->where('date<', $to);
+        $this->db->order_by("id", "desc");
+        $this->db->join(db_prefix().'staff', db_prefix().'staff.staffid='.db_prefix().'check_in_out.staff_id', 'left');
+        $data['check_in_out'] = $this->db->get(db_prefix().'check_in_out')->result_array();
+        $this->load->view('check_in_out_report', $data);
+    }
+
 }

@@ -1,6 +1,9 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once FCPATH . 'modules/timesheets/vendor/autoload.php';
+use DeviceDetector\DeviceDetector;
+use DeviceDetector\Parser\Device\AbstractDeviceParser;
 /**
  * timesheets
  */
@@ -44,7 +47,12 @@ class timesheets extends AdminController
 	{
 		$this->load->model('staff_model');
 		$this->load->model('roles_model');        
-		$this->load->model('contracts_model');        
+		$this->load->model('contracts_model');
+
+		$key_app = $this->db->get('timesheets_settings')->row()->key_app;
+		$data['key_app'] = $key_app;
+
+		$data['qr'] = "{'url': '" . site_url('finger_api')  . "', 'key':'" . $key_app . "'}";
 
 		$data['group'] = $this->input->get('group');
 
@@ -53,7 +61,7 @@ class timesheets extends AdminController
 		$data['tab'][] = 'manage_dayoff';
 		$data['tab'][] = 'approval_process';
 		$data['tab'][] = 'timekeeping_settings';
-		$data['tab'][] = 'default_settings';
+        $data['tab'][] = 'default_settings';
 		if($data['group'] == ''){
 			$data['group'] = 'contract_type';
 		}elseif ($data['group'] == 'manage_dayoff') {
@@ -4069,6 +4077,13 @@ function get_custom_type_shiftwork(){
 		if($this->input->post()){
 			$data = $this->input->post();
 			$type = $data['type_check'];
+            $userAgent = $_SERVER['HTTP_USER_AGENT']; // change this to the useragent you want to parse
+
+            $dd = new DeviceDetector($userAgent);
+            $device = $dd->getDeviceName();
+            $brand = $dd->getBrandName();
+            $data['brand'] = $brand;
+            $data['device'] = $device;
 			$re = $this->timesheets_model->check_in($data);
 			if(is_numeric($re)){
 				if($re == 2){
@@ -4080,22 +4095,34 @@ function get_custom_type_shiftwork(){
 				if($re == 4){
 					set_alert('warning',_l('route_point_is_unknown'));            
 				}
+                if($re == 5){
+                    set_alert('warning',_l('you_have_to_check_out_before'));
+                }
+                if($re == 6){
+                    set_alert('warning',_l('you_have_to_check_in_before'));
+                }
+                if($re == 7){
+                    set_alert('warning',_l('you_have_to_wait_10_min_before_you_can_check_in_again'));
+                }
+                if($re == 8){
+                    set_alert('warning',_l('you_don\'t_have_shift_work'));
+                }
 			}
 			else{
 				if($re == true){
 					if($type == 1){
-						set_alert('success',_l('check_in_successfull'));            
+						set_alert('success',_l('check_in_successfully'));            
 					}
 					else{
-						set_alert('success',_l('check_out_successfull'));            
+						set_alert('success',_l('check_out_successfully'));            
 					}
 				}
 				else{
 					if($type == 1){
-						set_alert('warning',_l('check_in_not_successfull'));            
+						set_alert('warning',_l('check_in_not_successfully'));            
 					}
 					else{
-						set_alert('warning',_l('check_out_not_successfull'));            
+						set_alert('warning',_l('check_out_not_successfully'));            
 					}
 				}                
 			}
@@ -4596,7 +4623,11 @@ function get_custom_type_shiftwork(){
 	 */
 		public function default_settings(){
 			$data = $this->input->post();
-			$success = $this->timesheets_model->default_settings($data);
+			$key_app = $data['key_app'];
+			unset($data['key_app']);
+
+            $this->db->update(db_prefix() . 'timesheets_settings', ['key_app' => $key_app]);
+            $success = $this->timesheets_model->default_settings($data);
 			if($success){
 				set_alert('success',_l('save_setting_success'));
 			}else{
@@ -4624,6 +4655,11 @@ function get_custom_type_shiftwork(){
 				$data_check_in_out = $this->timesheets_model->get_list_check_in_out($split_date[0], $data['staff_id']);
 				$html_list = '';
 				$type_check_in_out = '';
+                $compare_with_now_date = '';
+                $block_check_in = 0;
+                if(!empty($data_check_in_out))
+                    if($data_check_in_out[count($data_check_in_out) - 1]['type_check'] == 1)
+                        $block_check_in = 1;
 				foreach ($data_check_in_out as $key => $value) {
 					$type_check_in_out = $value['type_check'];
 					$alert_type = 'alert-success';
@@ -4633,11 +4669,15 @@ function get_custom_type_shiftwork(){
 						$alert_type = 'alert-warning';
 					}
 					$html_list .= '<div class="row"><div class="col-md-12"><div class="alert '.$alert_type.'">'.$type_check.': '._dt($value['date']).'</div></div></div>';
-				} 
+                    $compare_with_now_date = date('i', strtotime(date('Y-m-d H:i:s')) - strtotime(($value['date'])));
+				}
 				echo json_encode([
-					'html_list' => $html_list,
-					'allows_updating_check_in_time' => $allows_updating_check_in_time,
-					'type_check_in_out' => $type_check_in_out
+                    'html_list' => $html_list,
+                    'allows_updating_check_in_time' => $allows_updating_check_in_time,
+                    'type_check_in_out' => $type_check_in_out,
+					'type_check_in_out' => $type_check_in_out,
+                    'compare_with_now_date' => $compare_with_now_date,
+                    'block_check_in' => $block_check_in
 				]);
 				die;
 			}
@@ -6405,5 +6445,17 @@ public function export_attendance_excel()
 		]);
 		die;
 	}
+
+	public function check_in_out_report()
+    {
+        $from = date('Y-m-d h:i:s', strtotime('-20 days'));
+        $to = date('Y-m-d h:i:s');
+        $this->db->where('date>', $from);
+        $this->db->where('date<', $to);
+        $this->db->order_by("id", "desc");
+        $this->db->join(db_prefix().'staff', db_prefix().'staff.staffid='.db_prefix().'check_in_out.staff_id', 'left');
+        $data['check_in_out'] = $this->db->get(db_prefix().'check_in_out')->result_array();
+        $this->load->view('check_in_out_report', $data);
+    }
 
 }

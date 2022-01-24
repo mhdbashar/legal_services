@@ -203,7 +203,7 @@ foreach ($rResult as $aRow) {
     }
 
     $row[] = render_tags($aRow['tags']);
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['duedate']) . '<br>' . to_hijri_date(_d($aRow['duedate'])) : _d($aRow['duedate']);
+    $row[] = _d($aRow['duedate']); // $CI->app_modules->is_active('hijri') ? _d($aRow['duedate']) . '<br>' . to_hijri_date(_d($aRow['duedate'])) : _d($aRow['duedate']);
 
     $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 

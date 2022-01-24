@@ -1,4 +1,8 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+$CI = &get_instance();
+?>
+
 <style>
     .bold{
         font-weight: 600;
@@ -100,16 +104,31 @@
          </tr>
          <tr class="project-overview-date-created">
             <td class="bold"><?php echo _l('project_datecreated'); ?></td>
-            <td><?php echo _d($project->project_created); ?></td>
+            <td><?php echo _d($project->project_created) ?>
+                <?php if($CI->app_modules->is_active('hijri')){ ?>
+                <br>
+                <?php echo _d(to_hijri_date($project->project_created)) ; ?></td>
+             <?php } ?>
          </tr>
          <tr class="project-overview-start-date">
             <td class="bold"><?php echo _l('project_start_date'); ?></td>
-            <td><?php echo _d($project->start_date); ?></td>
+            <td>
+             <?php echo _d($project->start_date) ?>
+             <?php if($CI->app_modules->is_active('hijri')){ ?>
+                 <br>
+                 <?php echo _d(to_hijri_date($project->start_date)) ; ?></td>
+             <?php } ?>
          </tr>
          <?php if($project->deadline){ ?>
          <tr class="project-overview-deadline">
             <td class="bold"><?php echo _l('project_deadline'); ?></td>
-            <td><?php echo _d($project->deadline); ?></td>
+            <td><?php echo _d($project->deadline); ?>
+             <?php echo _d($project->deadline) ?>
+             <?php if($CI->app_modules->is_active('hijri')){ ?>
+                 <br>
+                 <?php echo _d(to_hijri_date($project->deadline)) ; ?></td>
+             <?php } ?>
+             </td>
          </tr>
          <?php } ?>
          <?php if($project->date_finished){ ?>

@@ -50,10 +50,28 @@ $organization_info .= format_organization_info();
 
 $organization_info .= '</div>';
 
-if($invoice->qr_code != null || $invoice->qr_code != ''){
-    $qrCodePath = base_url().'uploads/invoices/QRs/'.$invoice->qr_code;
+$company_name = get_option('invoice_company_name');
+$company_vat = get_option('company_vat');
+$created_date = date('Y-m-d H:i:s');
+$total_tax = $invoice->total_tax;
+$total = $invoice->total;
+
+$data = [
+    [1, $company_name],
+    [2, $company_vat],
+    [3, $created_date],
+    [4, $total],
+    [5, $total_tax]
+];
+$_tlv = __getTLV($data);
+$data = base64_encode($_tlv);
+
+$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+
+//if($invoice->qr_code != null || $invoice->qr_code != ''){
+    $qrCodePath = $response;
     $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
-}
+//}
 
 // Bill to
 $invoice_info = '<div align="'.$attr_align.'">';

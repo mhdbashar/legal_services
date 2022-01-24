@@ -1,5 +1,13 @@
 <?php
 
+$lang['commercial_register'] = 'السجل التجاري';
+$lang['district_name'] = 'اسم الحي';
+$lang['building_number'] = 'رقم المبنى';
+$lang['street_name'] = 'اسم الشارع';
+$lang['additional_number'] = 'الرقم الاضافي';
+$lang['unit_number'] = 'رقم الوحدة';
+$lang['id_number'] = 'رقم الهوية';
+
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
 $lang['organizations'] = 'المنشاّة';

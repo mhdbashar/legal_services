@@ -69,6 +69,7 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
 foreach ($rResult as $aRow) {
+
     $row = [];
     $row[] = $i;
     $_data =  '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
@@ -95,7 +96,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
 //    $row[] = ($aRow['']);
-    $row[] = $aRow['deadline'] != '' ? ($aRow['deadline']) : '';
+    $row[] = $aRow['deadline'] != '' ? ($CI->app_modules->is_active('hijri') ? _d($aRow['deadline']) . '<br>' . to_hijri_date(_d($aRow['deadline'])) : _d($aRow['deadline'])) : '';
     $members = $model->GetMembersCases($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

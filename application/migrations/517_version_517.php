@@ -15,8 +15,8 @@ class Migration_Version_517 extends CI_Migration
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblmy_courts_categories` (
               `c_cat_id` int(11) NOT NULL AUTO_INCREMENT,
                 `c_id` int(11) NOT NULL,
-                `cat_id` int(11) NOT NULL
-              PRIMARY KEY (`id`)
+                `cat_id` int(11) NOT NULL,
+              PRIMARY KEY (`c_cat_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 
         // Add new fields to courts table

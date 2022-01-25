@@ -34,11 +34,7 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                        <div class="form-group">
-                            <label class="control-label" for="cat_id[]"><?php echo _l('Categories'); ?></label>
-                            <select data-live-search="true" multiple="true" id="cat_id" name="cat_id[]" class="form-control custom_select_arrow">
-                            </select>
-                        </div>
+                        <div id="cat"></div>
                         <?php $value = (isset($court) ? $court->court_name : ''); ?>
                         <?php echo render_input('court_name','name',$value); ?>
                         <?php $value = (isset($court) ? $court->court_description : ''); ?>
@@ -60,26 +56,13 @@
     $(function(){
         $.ajax({
             url: "<?php echo admin_url('legalservices/Courts/build_dropdown_edit_category'); ?>",
-            data: {
-                country: $("#country").val(),
-                c_id: <?php echo $court->c_id;?>
-            },
+            data: {country: $("#country").val(),c_id:<?php echo $court->c_id ?>},
             type: "POST",
             success: function (data) {
-                $('#cat_id').empty();
-                response = JSON.parse(data);
-                $.each(response, function (key, value) {
-                    $('#cat_id').append($('<option>', {
-                        value: value['id'],
-                        text: value['name'],
-                        selected : false
-                    }));
-                    $('#cat_id').selectpicker('refresh');
-                });
+                $("#cat").html(data);
             }
         });
-        _validate_form($('#court-form'),{court_name:'required'});
-        _validate_form($('#court-form'),{country:'required'});
+        _validate_form($('#court-form'),{court_name:'required',country:'required',city:'required'});
     });
 
     $("#country").change(function () {
@@ -92,20 +75,12 @@
             }
         });
         $.ajax({
-            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category'); ?>",
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_by_country'); ?>",
             data: {country: $(this).val()},
             type: "POST",
             success: function (data) {
-                $('#cat_id').empty();
-                response = JSON.parse(data);
-                $.each(response, function (key, value) {
-                    $('#cat_id').append($('<option>', {
-                        value: value['id'],
-                        text: value['name'],
-                        selected : false
-                    }));
-                    $('#cat_id').selectpicker('refresh');
-                });
+                $("#cat").html('');
+                $("#cat").html(data);
             }
         });
     });

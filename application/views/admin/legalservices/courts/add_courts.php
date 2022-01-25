@@ -37,13 +37,23 @@
                             </select>
                         </div>
                         <div id="cat">
-                        <?php
-                        if(get_option('company_city') != '')
-                            $country['country'] = get_option('company_country');
-                        else
-                            $country['country'] = '';
-                        echo render_select('cat_id[]', build_dropdown_category($country), array('id', 'name'), 'Categories', '', array('multiple'=>true), [], '', '', false);
-                        ?>
+                            <div class="form-group">
+                                <?php
+                                if(get_option('company_city') != '')
+                                    $country['country'] = get_option('company_country');
+                                else
+                                    $country['country'] = '';?>
+                                    <label for="cat_id"><?php echo _l('Categories'); ?></label>
+                                <?php
+                                $categories = build_dropdown_category($country);
+                                $checked = '';
+                                foreach($categories as $category){ ?>
+                                    <div class="checkbox checkbox-primary">
+                                        <input type="checkbox" id="cat_<?php echo $category['id']; ?>" name="cat_id[]" value="<?php echo $category['id']; ?>"<?php echo $checked; ?>>
+                                        <label for="cat_<?php echo $category['id']; ?>"><?php echo $category['name']; ?></label>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                         <?php echo render_input('court_name','name'); ?>
                         <p class="bold"><?php echo _l('court_description'); ?></p>
@@ -62,10 +72,8 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
-        _validate_form($('#court-form'),{court_name:'required'});
-        _validate_form($('#court-form'),{country:'required'});
+        _validate_form($('#court-form'),{court_name:'required',country:'required',city:'required'});
     });
-
 
     $("#country").change(function () {
         $.ajax({
@@ -76,24 +84,13 @@
                 $("#city").html(data);
             }
         });
-        $("#cat").remove();
         $.ajax({
-            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category'); ?>",
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_by_country'); ?>",
             data: {country: $(this).val()},
             type: "POST",
             success: function (data) {
+                $("#cat").html('');
                 $("#cat").html(data);
-
-                // response = JSON.parse(data);
-                // $.each(response, function (key, value) {
-                //     $('#cat_id').append($('<option>', {
-                //         value: value['id'],
-                //         text: value['name'],
-                //         selected: false
-                //     }));
-                // $('#cat_id').selectpicker('refresh');
-                //
-                // });
             }
         });
     });

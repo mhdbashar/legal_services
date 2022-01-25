@@ -77,7 +77,7 @@
                                 <button id="BtnAddChild_2" data-toggle="modal" data-target="#add-child-cat_2" class="btn btn-info pull-left" disabled><?php echo _l('AddSubCategory_2'); ?></button>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
-                                <h4 class="text-center">  <?php echo _l('SubCategories_2'); ?></h4>
+                                <h4 class="text-center">  <?php echo _l('ChildSubCategories'); ?></h4>
                             </div>
                             <table id="SubCatChild_2" class="table dt-table scroll-responsive">
                                 <thead>

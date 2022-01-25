@@ -14,10 +14,12 @@
                         <div class="clearfix"></div>
                         <?php $value = (isset($judicial) ? $judicial->Jud_number : ''); ?>
                         <?php echo render_input('Jud_number','NumJudicialDept',$value); ?>
-                        <?php $value = (isset($judicial) ? $judicial->Jud_description : ''); ?>
-                        <?php echo render_input('Jud_description','NumJudicialDetails',$value); ?>
                         <?php $value = (isset($judicial) ? $judicial->Jud_email : ''); ?>
                         <?php echo render_input('Jud_email','NumJudicialEmail',$value); ?>
+                        <?php $value = (isset($judicial) ? $judicial->Jud_description : ''); ?>
+                        <p class="bold"><?php echo _l('NumJudicial_description'); ?></p>
+                        <?php echo render_textarea('Jud_description', '', $value, array(), array(), '', 'tinymce'); ?>
+
                     </div>
                 </div>
             </div>
@@ -31,7 +33,7 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
-        _validate_form($('#Judicial-form'),{Jud_number:'required'});
+        _validate_form($('#Judicial-form'),{Jud_number:'required',Jud_email:'required'});
     });
 </script>
 </body>

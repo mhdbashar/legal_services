@@ -71,35 +71,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php $cats = get_relation_data('mycategory', $ServID);
-                                        if($cats){ ?>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><?php echo _l('Categories'); ?></label>
-                                                        <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                            <option selected disabled></option>
-                                                            <?php foreach ($cats as $row): ?>
-                                                                <option value="<?php echo $row->id; ?>" <?php echo $case->cat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                                        <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                            <option selected disabled></option>
-                                                            <?php $data = get_relation_data('childmycategory',$case->cat_id);
-                                                            foreach ($data as $row) {
-                                                                if($case->subcat_id == $row->id) { ?>
-                                                                    <option value="<?php echo $row->id ?>" selected><?php echo $row->name ?></option>
-                                                                <?php } } ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case); ?>
@@ -238,9 +209,37 @@
                                             </div>
                                         </div>
                                         <?php if (has_permission('judicial_departments', '', 'create')) { ?>
-                                        <div class="col-md-1">
-                                            <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        <?php } ?>
+                                        <?php $cats = get_relation_data('mycategory', $ServID);
+                                        if($cats){ ?>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label"><?php echo _l('Categories'); ?></label>
+                                                <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected disabled></option>
+                                                    <?php foreach ($cats as $row): ?>
+                                                        <option value="<?php echo $row->id; ?>" <?php echo $case->cat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                                <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected disabled></option>
+                                                    <?php $data = get_relation_data('childmycategory',$case->cat_id);
+                                                    foreach ($data as $row) {
+                                                        if($case->subcat_id == $row->id) { ?>
+                                                            <option value="<?php echo $row->id ?>" selected><?php echo $row->name ?></option>
+                                                        <?php } } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="childsubcat"></div>
                                         <?php } ?>
                                     </div>
                                     <div class="row">
@@ -944,12 +943,14 @@
     <?php } ?>
 
     function GetSubCat() {
-        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
+                $('#subcat_id').html('');
+                $('#childsubcat').html('');
+                $('#subcat_id').append('<option value=""></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
@@ -959,6 +960,9 @@
 
     function GetCourtJad() {
         $('#jud_num').html('');
+        $('#cat_id').empty();
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#court_id').val();
         $.ajax({
             url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
@@ -969,9 +973,35 @@
                 });
             }
         });
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_court_category'); ?>",
+            data: {c_id: $("#court_id").val()},
+            type: "POST",
+            success: function (data) {
+                $('#cat_id').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#cat_id').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                });
+            }
+        });
     }
-
     $("#country").change(function () {
+        // $('#court_id').empty();
+        var groupFilter = $('#court_id');
+        groupFilter.selectpicker('val', '');
+        groupFilter.find('option').remove();
+        groupFilter.selectpicker("refresh");
+        $('#jud_num').html('');
+        $('#cat_id').empty();
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         $.ajax({
             url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
             data: {country: $(this).val()},
@@ -981,7 +1011,101 @@
             }
         });
     });
-
+    $("#city").change(function () {
+        var groupFilter = $('#court_id');
+        groupFilter.selectpicker('val', '');
+        groupFilter.find('option').remove();
+        groupFilter.selectpicker("refresh");
+        $('#jud_num').html('');
+        $('#cat_id').empty();
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
+        $.ajax({
+            url: '<?php echo admin_url("legalservices/courts/build_dropdown_courts"); ?>',
+            data: {
+                country : $('#country').val(),
+                city : $('#city').val()
+            },
+            type: "POST",
+            success: function (data) {
+                $('#court_id').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
+                }));
+                $('#court_id').selectpicker('refresh');
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#court_id').append($('<option>', {
+                        value: value['c_id'],
+                        text: value['court_name'],
+                    }));
+                    $('#court_id').selectpicker('refresh');
+                });
+            }
+        });
+    });
+    $("#subcat_id").change(function () {
+        id = $('#subcat_id').val();
+        $.ajax({
+            url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
+            success: function (data) {
+                // if(data != null){
+                $('#childsubcat').html('');
+                response = JSON.parse(data);
+                $('#childsubcat').html(`
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
+                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            </select>
+                        </div>
+                    </div>
+                    `);
+                $('#childsubcat_id').append('<option value=""></option>');
+                $.each(response, function (key, value) {
+                    $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                });
+                // }else {
+                //     $('#childcat_id').html('');
+                // }
+            }
+        });
+    });
+    $("#subcat_id").ready(function () {
+        id = $('#subcat_id').val();
+        var select = '';
+        <?php $value = (isset($case) ? $case->childsubcat_id : ''); ?>
+        var childsubcat_id = "<?php echo $value; ?>";
+        $.ajax({
+            url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
+            success: function (data) {
+                // if(data != null){
+                // $('#childsubcat').html('');
+                response = JSON.parse(data);
+                $('#childsubcat').html(`
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
+                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            </select>
+                        </div>
+                    </div>
+                    `);
+                $('#childsubcat_id').append('<option value=""></option>');
+                $.each(response, function (key, value) {
+                    if(value['id'] == childsubcat_id){
+                        var select = 'selected';
+                    }
+                    $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select +'>' + value['name'] + '</option>');
+                });
+                // }else {
+                //     $('#childcat_id').html('');
+                // }
+            }
+        });
+    });
     $("#clientid").change(function () {
         var groupFilter = $('#previous_case_id');
         groupFilter.selectpicker('val', '');

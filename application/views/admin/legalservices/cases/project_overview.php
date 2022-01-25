@@ -191,6 +191,10 @@ $CI->load->library('app_modules');?>
                             <td><?php echo isset($project->subcat) && $project->subcat != '' ? $project->subcat : _l('nothing_was_specified'); ?></td>
                         </tr>
                         <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('ChildSubCategories'); ?></td>
+                            <td><?php echo isset($project->childsubcat_id) && $project->childsubcat_id != '' ? $project->childsubcat_id : _l('nothing_was_specified'); ?></td>
+                        </tr>
+                        <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('Court'); ?></td>
                             <td><?php echo isset($project->court_name) && $project->court_name != '' ? maybe_translate(_l('nothing_was_specified'), $project->court_name) : _l('nothing_was_specified'); ?></td>
                         </tr>

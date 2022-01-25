@@ -118,8 +118,5 @@ class Courts_model extends App_Model
         return false;
     }
 
-//    public function get_courts_by_category_country_city($data){
-//        return $this->db->get_where(db_prefix() . 'my_courts', array('cat_id' => $data['cat_id'] , 'country' => $data['country'] , 'city' => $data['city'] , 'is_default' => 0));
-//    }
 
 }

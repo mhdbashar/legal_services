@@ -227,7 +227,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div id="childcat_id"></div>
+                                                <div id="childsubcat"></div>
                                             </div>
                                         <?php } ?>
                                         <div class="row">
@@ -838,7 +838,7 @@
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
                         $('#jud_num').html('');
-                        // $("#court_id").append(new Option(court_name, data, true, true));
+                        $("#court_id").append(new Option(court_name, data, true, true));
                         $("#court_id_modal").append(new Option(court_name, data, true, true));
                         $('#add-court').modal('hide');
                     }else {
@@ -914,35 +914,20 @@
             success: function (data) {
                 response = JSON.parse(data);
                 $('#subcat_id').html('');
+                $('#childsubcat').html('');
                 $('#subcat_id').append('<option value=""></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });
-        //$.ajax({
-        //    url: '<?php //echo admin_url("legalservices/courts/get_courts_by_category_country_city"); ?>//',
-        //    data: {cat_id : $('#cat_id').val(),
-        //        country : $('#country').val(),
-        //        city : $('#city').val()
-        //    },
-        //    type: "POST",
-        //    success: function (data) {
-        //        response = JSON.parse(data);
-        //        consol.log(response);
-        //        $.each(response, function (key, value) {
-        //            $('#court_id_modal').append('<option value="' + value['c_id'] + '">' + value['court_name'] + '</option>');
-        //            $('#court_idl').append('<option value="' + value['c_id'] + '">' + value['court_name'] + '</option>');
-        //
-        //        });
-        //    }
-        //});
     }
 
     function GetCourtJad() {
         $('#jud_num').html('');
         $('#cat_id').empty();
         $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#court_id').val();
         $.ajax({
             url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
@@ -960,7 +945,7 @@
             success: function (data) {
                 $('#cat_id').append($('<option>', {
                     value: '',
-                    text: ''
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
                 }));
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
@@ -982,7 +967,7 @@
         $('#jud_num').html('');
         $('#cat_id').empty();
         $('#subcat_id').html('');
-        $('#childcat_id').html('');
+        $('#childsubcat').html('');
         $.ajax({
             url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
             data: {country: $(this).val()},
@@ -991,32 +976,16 @@
                 $("#city").html(data);
             }
         });
-        //$.ajax({
-        //    url: '<?php //echo admin_url("legalservices/courts/build_dropdown_courts"); ?>//',
-        //    data: {
-        //        country : $('#country').val(),
-        //        city : $('#city').val()
-        //    },
-        //    type: "POST",
-        //    success: function (data) {
-        //        response = JSON.parse(data);
-        //        $('#court_id').append('<option value=""></option>');
-        //        $.each(response, function (key, value) {
-        //            $('#court_id').append('<option value="' + value['c_id'] + '">' + value['court_name'] + '</option>');
-        //        });
-        //    }
-        //});
     });
     $("#city").change(function () {
-    //    // $('#court_id').empty();
-    //    var groupFilter = $('#court_id');
-    //    groupFilter.selectpicker('val', '');
-    //    groupFilter.find('option').remove();
-    //    groupFilter.selectpicker("refresh");
-    //    $('#jud_num').html('');
-    //    $('#cat_id').empty();
-    //    $('#subcat_id').html('');
-    //    $('#childcat_id').html('');
+       var groupFilter = $('#court_id');
+       groupFilter.selectpicker('val', '');
+       groupFilter.find('option').remove();
+       groupFilter.selectpicker("refresh");
+       $('#jud_num').html('');
+       $('#cat_id').empty();
+       $('#subcat_id').html('');
+       $('#childsubcat').html('');
         $.ajax({
             url: '<?php echo admin_url("legalservices/courts/build_dropdown_courts"); ?>',
             data: {
@@ -1025,6 +994,11 @@
             },
             type: "POST",
             success: function (data) {
+                $('#court_id').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
+                }));
+                $('#court_id').selectpicker('refresh');
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
                     $('#court_id').append($('<option>', {
@@ -1038,26 +1012,29 @@
     });
     $("#subcat_id").change(function () {
         id = $('#subcat_id').val();
-        $('#childcat_id').html('');
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
-                response = JSON.parse(data);
-                $('#childcat_id').html(`
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="childcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                        <select class="form-control custom_select_arrow" id="subcat2_id" name="childcat_id"
-                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                            <option selected disabled></option>
-                        </select>
+                // if(data != null){
+                    $('#childsubcat').html('');
+                    response = JSON.parse(data);
+                    $('#childsubcat').html(`
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
+                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            </select>
+                        </div>
                     </div>
-                </div>
-                `);
-                $('#subcat2_id').append('<option value=""></option>');
-                $.each(response, function (key, value) {
-                    $('#subcat2_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
-                });
+                    `);
+                    $('#childsubcat_id').append('<option value=""></option>');
+                    $.each(response, function (key, value) {
+                        $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    });
+                // }else {
+                //     $('#childcat_id').html('');
+                // }
             }
         });
     });

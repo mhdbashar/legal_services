@@ -297,6 +297,8 @@
                          <?php echo render_input( 'billing_additional_number', 'additional_number',$value); ?>
                          <?php $value=( isset($client) ? $client->billing_unit_number : ''); ?>
                          <?php echo render_input( 'billing_unit_number', 'unit_number',$value); ?>
+                         <?php $value=( isset($client) ? $client->billing_other_number : ''); ?>
+                         <?php echo render_input( 'billing_other_number', 'other_number',$value); ?>
                      </div>
                      <!-- <div class="col-md-6">
                         <h4 class="no-mtop">

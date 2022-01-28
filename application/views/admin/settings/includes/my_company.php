@@ -39,6 +39,17 @@
     <?php echo render_input('settings[invoice_company_commercial_register]','commercial_register',get_option('invoice_company_commercial_register')); ?>
     <?php echo render_input('settings[invoice_company_phonenumber]','settings_sales_phonenumber',get_option('invoice_company_phonenumber')); ?>
     <?php echo render_input('settings[company_vat]','company_vat_number',get_option('company_vat')); ?>
+
+    <?php echo render_input('settings[district_name]','district_name',get_option('district_name')); ?>
+    <?php echo render_input('settings[building_number]','building_number',get_option('building_number')); ?>
+    <?php echo render_input('settings[street_name]','street_name',get_option('street_name')); ?>
+    <?php echo render_input('settings[additional_number]','additional_number',get_option('additional_number')); ?>
+    <?php echo render_input('settings[unit_number]','unit_number',get_option('unit_number')); ?>
+    <?php echo render_input('settings[other_number]','other_number',get_option('other_number')); ?>
+
+
+
+
     <?php echo render_custom_fields('company',0); ?>
     <hr />
     <?php echo render_textarea('settings[company_info_format]','company_info_format',clear_textarea_breaks(get_option('company_info_format')),array('rows'=>8,'style'=>'line-height:20px;')); ?>
@@ -47,12 +58,21 @@
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{address}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{bo_box}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{city}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{country}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{state}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{zip_code}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{commercial_register}</a>,
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{phone}</a>,
+
+
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{district_name}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{building_number}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{street_name}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{additional_number}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{unit_number}</a>,
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{other_number}</a>,
         <?php /*        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>,*/ ?>
-        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number_with_label}</a>
+        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>
     </p>
     <?php $custom_company_fields = get_company_custom_fields();
     if(count($custom_company_fields) > 0){

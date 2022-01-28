@@ -3,6 +3,7 @@
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';
+$lang['other_number'] = 'معرف اّخر';
 $lang['street_name'] = 'اسم الشارع';
 $lang['additional_number'] = 'الرقم الاضافي';
 $lang['unit_number'] = 'رقم الوحدة';

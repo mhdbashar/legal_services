@@ -48,6 +48,10 @@ class Migration_Version_516 extends CI_Migration
         if (!$this->db->field_exists('billing_unit_number', db_prefix() . 'clients')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'clients` ADD `billing_unit_number` varchar(255) DEFAULT NULL');
         }
+        if (!$this->db->field_exists('billing_other_number', db_prefix() . 'clients')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'clients` ADD `billing_other_number` varchar(255) DEFAULT NULL');
+        }
+
 
         // contacts
 
@@ -55,7 +59,38 @@ class Migration_Version_516 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'contacts` ADD `id_number` varchar(255) DEFAULT NULL');
         }
 
+        // client info
+        update_option('customer_info_format', '{company_name} اسم الشركة : <br />
+{building_number} رقم المبنى : <br />
+{street_name} اسم اشارع:<br />
+{district_name}  الحي: <br />
+{city}  المدينة: <br />
+{country_name} البلد: <br />
+{zip_code} الرمز البريدي:<br />
+{additional_number} الرقم الاضافي للعنوان: <br />
+{vat_number} رقم تسجيل ضريبة القيمة المضافة:<br />
+{other_number} معرف اّخر:');
+
+        update_option('company_info_format', '{company_name} اسم الشركة : <br />
+{building_number} رقم المبنى : <br />
+{street_name} اسم اشارع:<br />
+{district_name}  الحي: <br />
+{city}  المدينة: <br />
+{country} البلد: <br />
+{zip_code} الرمز البريدي:<br />
+{additional_number} الرقم الاضافي للعنوان: <br />
+{vat_number} رقم تسجيل ضريبة القيمة المضافة:<br />
+{other_number} معرف اّخر:');
+
         // company info
         add_option('invoice_company_commercial_register', '');
+        add_option('district_name', '');
+        add_option('building_number', '');
+        add_option('street_name', '');
+        add_option('additional_number', '');
+        add_option('unit_number', '');
+        add_option('other_number', '');
+
+
     }
 }

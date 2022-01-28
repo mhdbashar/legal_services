@@ -3,6 +3,7 @@
 $lang['commercial_register'] = 'Commercial Register';
 $lang['district_name'] = 'District name';
 $lang['building_number'] = 'Building NO';
+$lang['other_number'] = 'Other NO';
 $lang['street_name'] = 'Street name';
 $lang['additional_number'] = 'Additional NO';
 $lang['unit_number'] = 'Unit NO';

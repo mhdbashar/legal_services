@@ -48,7 +48,15 @@ class Courts extends AdminController
             access_denied('courts');
         }
         $data = $this->input->post();
-        echo $this->court->add_court_new($data);
+        $cat = json_decode($data['cat_id']);
+        unset($data['cat_id']);
+        $added = $this->court->add_court_new($data);
+        if ($added) {
+            foreach ($cat as $id){
+                $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$added" , 'cat_id' => $id] );
+            }
+            echo $added;
+        }
     }
 	
 	public function add_new_court()
@@ -263,6 +271,28 @@ class Courts extends AdminController
         }
         echo json_encode($category);
         die();
+    }
+    public function build_dropdown_category_for_modal_case() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        if($categories != 0) {
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            foreach ($categories as $category) {
+                $output .= '<div class="checkbox checkbox-primary">' .
+                    '<input type="checkbox" id="cat_' . $category['id'] . '" name="modal_cat_id" value="' . $category['id'] . '">' .
+                    '<label for="cat_' . $category['id'] . '">' . $category['name'] . '</label>' .
+                    '</div>';
+            }
+            $output .= '</div>';
+        }else{
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            $output .= '</div>';
+        }
+        echo $output;
     }
     public function build_dropdown_courts() {
         $data = $this->input->post();

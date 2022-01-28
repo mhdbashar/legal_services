@@ -3372,3 +3372,15 @@ $lang['permission_create_milestones'] = "إضافة مراحل خطة العمل
 $lang['permission_edit_milestones'] = "تعديل مراحل خطة العمل";
 $lang['permission_delete_milestones'] = "حذف مراحل خطة العمل";
 $lang['custom_field_add_edit_default_value'] = "القيمة الإفتراضية";
+
+
+# Version
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['add_child_sub_categories'] = "إضافة نوع الدعوى";
+$lang['category_description'] = "وصف التصنيف";
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['_description'] = "الوصف";
+$lang['_email'] = "البريد الإلكتروني";
+
+
+

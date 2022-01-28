@@ -74,10 +74,10 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <div class="_buttons">
-                                <button id="BtnAddChild_2" data-toggle="modal" data-target="#add-child-cat_2" class="btn btn-info pull-left" disabled><?php echo _l('AddSubCategory_2'); ?></button>
+                                <button id="BtnAddChild_2" data-toggle="modal" data-target="#add-child-cat_2" class="btn btn-info pull-left" disabled><?php echo _l('add_child_sub_categories'); ?></button>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
-                                <h4 class="text-center">  <?php echo _l('ChildSubCategories'); ?></h4>
+                                <h4 class="text-center">  <?php echo _l('child_sub_categories'); ?></h4>
                             </div>
                             <table id="SubCatChild_2" class="table dt-table scroll-responsive">
                                 <thead>
@@ -122,7 +122,6 @@
                         <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('company_country')); ?>
                         <p class="bold"><?php echo _l('category_description'); ?></p>
                         <?php echo render_textarea('cat_description', '', '', array(), array(), '', 'tinymce'); ?>
-
                     </div>
                 </div>
             </div>
@@ -202,9 +201,9 @@
     });
     function MakePrimary(ServID,CatID) {
         var table = $('#SubCatChild').dataTable();
-        table.fnDestroy();
         $('#BodyTable').empty();
         $('#BodyTable_2').empty();
+        $("#BtnAddChild_2").prop("disabled", true);
         UrlChild ='';
         $.ajax({
            url: '<?php echo admin_url('ChildCategory'); ?>/' + ServID +'/'+ CatID,
@@ -213,7 +212,7 @@
                 UrlChild = '<?php echo admin_url('AddChildCat/').$ServID; ?>/'+ CatID;
                 $("#ChildCatForm").attr("action", UrlChild);
                 $("#BtnAddChild").removeAttr('disabled');
-                    count = 1;
+                count = 1;
                     $.each(response, function (key,val) {
                         if(val.is_basic == 0) {
                             $("#SubCatChild").append(
@@ -251,7 +250,6 @@
     }
     function MakePrimary_2(ServID,CatID2) {
         var table = $('#SubCatChild_2').dataTable();
-        table.fnDestroy();
         $('#BodyTable_2').empty();
         UrlChild_2 ='';
         $.ajax({

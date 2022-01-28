@@ -15,9 +15,9 @@
                         <?php $value = (isset($judicial) ? $judicial->Jud_number : ''); ?>
                         <?php echo render_input('Jud_number','NumJudicialDept',$value); ?>
                         <?php $value = (isset($judicial) ? $judicial->Jud_email : ''); ?>
-                        <?php echo render_input('Jud_email','NumJudicialEmail',$value); ?>
+                        <?php echo render_input('Jud_email','_email',$value); ?>
                         <?php $value = (isset($judicial) ? $judicial->Jud_description : ''); ?>
-                        <p class="bold"><?php echo _l('NumJudicial_description'); ?></p>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('Jud_description', '', $value, array(), array(), '', 'tinymce'); ?>
 
                     </div>

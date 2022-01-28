@@ -13,8 +13,8 @@
                         <hr class="hr-panel-heading" />
                         <div class="clearfix"></div>
                         <?php echo render_input('Jud_number','NumJudicialDept',''); ?>
-                        <?php echo render_input('Jud_email','NumJudicialEmail',''); ?>
-                        <p class="bold"><?php echo _l('NumJudicial_description'); ?></p>
+                        <?php echo render_input('Jud_email','_email',''); ?>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('Jud_description', '', '', array(), array(), '', 'tinymce'); ?>
                     </div>
                 </div>

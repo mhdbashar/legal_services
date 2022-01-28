@@ -20,7 +20,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('NumJudicialDept'); ?></th>
-                                <th><?php echo _l('NumJudicialDetails'); ?></th>
+                                <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -34,10 +34,10 @@
                                             <?php echo $judicial->Jud_description; ?>
                                         </td>
                                         <td>
-                                            <?php if (has_permission('judicial_departments', '', 'edit')) { ?>
+                                            <?php if (has_permission('judicial_departments', '', 'edit') && $judicial->j_is_basic != 1) { ?>
                                                 <a href="<?php echo admin_url("edit_judicial/$judicial->c_id/$judicial->j_id") ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                             <?php } ?>
-                                            <?php if (has_permission('judicial_departments', '', 'delete')) { ?>
+                                            <?php if (has_permission('judicial_departments', '', 'delete') && $judicial->j_is_basic != 1) { ?>
                                                 <a href="<?php echo admin_url("delete_jud/$judicial->c_id/$judicial->j_id") ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                             <?php } ?>
                                         </td>

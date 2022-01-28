@@ -713,29 +713,33 @@
 </div>
 <?php } ?>
 <?php if (has_permission('courts', '', 'create')) { ?>
-<div class="modal fade" id="add-court" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo _l('Court'); ?></span>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo render_input('court_name_modal','name'); ?>
+    <div class="modal fade" id="add-court" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <span class="add-title"><?php echo _l('Court'); ?></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo render_input('court_name_modal','name'); ?>
+                            <div id="cat"></div>
+
+                            <p class="bold"><?php echo _l('_description'); ?></p>
+                            <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button group="button" id="AddCourt" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <div class="modal-footer">
+                    <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                    <button group="button" id="AddCourt" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php } ?>
 <?php if (has_permission('judges_manage', '', 'create')) { ?>
 <div class="modal fade" id="add-judge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -763,46 +767,49 @@
 </div>
 <?php } ?>
 <?php if (has_permission('judicial_departments', '', 'create')) { ?>
-<div class="modal fade" id="AddJudicialDeptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo _l('Judicial'); ?></span>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label"><?php echo _l('Court'); ?></label>
-                            <select class="form-control" id="court_id_modal" onchange="GetCourtJad()" name="court_id_modal" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                <option selected disabled></option>
-                                <?php $data = get_relation_data('mycourts','');
-                                foreach ($data as $row): ?>
-                                    <option value="<?php echo $row->c_id; ?>" <?php echo $case->court_id == $row->c_id ? 'selected': '' ?>><?php echo $row->court_name; ?></option>
-                                <?php endforeach; ?>
-                            </select>
+    <div class="modal fade" id="AddJudicialDeptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <span class="add-title"><?php echo _l('Judicial'); ?></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
+                                <select class="form-control" id="court_id_modal" onchange="GetCourtJad()" name="court_id_modal"
+                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected disabled></option>
+                                    <?php $data = get_relation_data('mycourts', '');
+                                    foreach ($data as $row): ?>
+                                        <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <?php echo render_input('Jud_number_modal','NumJudicialDept'); ?>
+                            <?php echo render_input('Jud_email','_email',''); ?>
+                            <p class="bold"><?php echo _l('_description'); ?></p>
+                            <?php echo render_textarea('Jud_description', '', '', array(), array(), '', 'tinymce'); ?>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <?php echo render_input('Jud_number_modal','NumJudicialDept'); ?>
-                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button group="button" id="AddJudicialDept" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <div class="modal-footer">
+                    <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                    <button group="button" id="AddJudicialDept" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php } ?>
 <?php init_tail(); ?>
 <script>
     init_ajax_search('opponents', '#opponent_id.ajax-search');
-
     <?php if (has_permission('customers', '', 'create')) { ?>
     $("#AddClient").click(function () {
         company = $('#company_modal').val();
@@ -859,12 +866,22 @@
     <?php if (has_permission('courts', '', 'create')) { ?>
     $("#AddCourt").click(function () {
         court_name = $('#court_name_modal').val();
+        var cat_id = [];
+        $("input[name='modal_cat_id']:checked").each(function(){
+            cat_id.push(this.value);
+        });
         if(court_name == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_court_from_modal'); ?>',
-                data: {court_name : court_name},
+                data: {
+                    court_name : court_name,
+                    court_description: tinymce.get("court_description").getContent(),
+                    country : $('#country').val(),
+                    city : $('#city').val(),
+                    cat_id : JSON.stringify(cat_id)
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
@@ -918,7 +935,10 @@
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_judicial_department_modal/'); ?>' + court_id_modal,
-                data: {Jud_number : Jud_number_modal},
+                data: {
+                    Jud_number : Jud_number_modal,
+                    Jud_description : tinymce.get("Jud_description").getContent(),
+                    Jud_email : $('#Jud_email').val()                },
                 type: "POST",
                 success: function (data) {
                     if(data){
@@ -1049,26 +1069,27 @@
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
-                // if(data != null){
                 $('#childsubcat').html('');
                 response = JSON.parse(data);
-                $('#childsubcat').html(`
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
-                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
-                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                            </select>
-                        </div>
+                if(response.length != 0) {
+                    $('#childsubcat').html(`
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                        <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                        </select>
                     </div>
-                    `);
-                $('#childsubcat_id').append('<option value=""></option>');
-                $.each(response, function (key, value) {
-                    $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
-                });
-                // }else {
-                //     $('#childcat_id').html('');
-                // }
+                </div>
+                `);
+                    $('#childsubcat_id').append('<option value=""></option>');
+                    $.each(response, function (key, value) {
+                        $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    });
+                }
+                else {
+                    $('#childsubcat').html('');
+                }
             }
         });
     });
@@ -1081,28 +1102,30 @@
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 // if(data != null){
-                // $('#childsubcat').html('');
+                $('#childsubcat').html('');
                 response = JSON.parse(data);
-                $('#childsubcat').html(`
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
-                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
-                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                            </select>
+                if(response.length != 0) {
+                    $('#childsubcat').html('');
+                    $('#childsubcat').html(`
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                                <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    `);
-                $('#childsubcat_id').append('<option value=""></option>');
-                $.each(response, function (key, value) {
-                    if(value['id'] == childsubcat_id){
-                        var select = 'selected';
-                    }
-                    $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select +'>' + value['name'] + '</option>');
-                });
-                // }else {
-                //     $('#childcat_id').html('');
-                // }
+                        `);
+                    $('#childsubcat_id').append('<option value=""></option>');
+                    $.each(response, function (key, value) {
+                        if(value['id'] == childsubcat_id){
+                            var select = 'selected';
+                        }
+                        $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select +'>' + value['name'] + '</option>');
+                    });
+                }else {
+                    $('#childsubcat').html('');
+                }
             }
         });
     });

@@ -693,6 +693,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('court_name_modal','name'); ?>
+                        <div id="cat"></div>
+
+                        <p class="bold"><?php echo _l('_description'); ?></p>
+                        <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
                     </div>
                 </div>
             </div>
@@ -756,6 +760,9 @@
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('Jud_number_modal','NumJudicialDept'); ?>
+                        <?php echo render_input('Jud_email','_email',''); ?>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
+                        <?php echo render_textarea('Jud_description', '', '', array(), array(), '', 'tinymce'); ?>
                     </div>
                 </div>
             </div>
@@ -827,20 +834,30 @@
     <?php if (has_permission('courts', '', 'create')) { ?>
     $("#AddCourt").click(function () {
         court_name = $('#court_name_modal').val();
+        var cat_id = [];
+        $("input[name='modal_cat_id']:checked").each(function(){
+            cat_id.push(this.value);
+        });
         if(court_name == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_court_from_modal'); ?>',
-                data: {court_name : court_name},
+                data: {
+                    court_name : court_name,
+                    court_description: tinymce.get("court_description").getContent(),
+                    country : $('#country').val(),
+                    city : $('#city').val(),
+                    cat_id : JSON.stringify(cat_id)
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#jud_num').html('');
-                        $("#court_id").append(new Option(court_name, data, true, true));
-                        $("#court_id_modal").append(new Option(court_name, data, true, true));
+                        $('#court_id').append($('<option>', {value: data, text: court_name,selected : true}));
+                        $('#court_id').selectpicker('refresh');
                         $('#add-court').modal('hide');
+                        GetCourtJad();
                     }else {
                         alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
@@ -887,7 +904,11 @@
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_judicial_department_modal/'); ?>' + court_id_modal,
-                data: {Jud_number : Jud_number_modal},
+                data: {
+                    Jud_number : Jud_number_modal,
+                    Jud_description : tinymce.get("Jud_description").getContent(),
+                    Jud_email : $('#Jud_email').val()
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
@@ -977,6 +998,7 @@
             }
         });
     });
+
     $("#city").change(function () {
        var groupFilter = $('#court_id');
        groupFilter.selectpicker('val', '');
@@ -1009,32 +1031,42 @@
                 });
             }
         });
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_for_modal_case'); ?>",
+            data: {country: $("#country").val()},
+            type: "POST",
+            success: function (data) {
+                $("#cat").html('');
+                $("#cat").html(data);
+            }
+        });
     });
     $("#subcat_id").change(function () {
         id = $('#subcat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
-                // if(data != null){
-                    $('#childsubcat').html('');
-                    response = JSON.parse(data);
+                $('#childsubcat').html('');
+                response = JSON.parse(data);
+                if(response.length != 0) {
                     $('#childsubcat').html(`
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="childsubcat_id" class="control-label"><?php echo _l('ChildSubCategories'); ?></label>
-                            <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
-                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                            </select>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                        <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                        </select>
                     </div>
-                    `);
+                </div>
+                `);
                     $('#childsubcat_id').append('<option value=""></option>');
                     $.each(response, function (key, value) {
                         $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                     });
-                // }else {
-                //     $('#childcat_id').html('');
-                // }
+                }
+                else {
+                    $('#childsubcat').html('');
+                }
             }
         });
     });
@@ -1256,6 +1288,15 @@
             });
         });
         $("#view_tasks").trigger('change');
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_for_modal_case'); ?>",
+            data: {country: $("#country").val()},
+            type: "POST",
+            success: function (data) {
+                $("#cat").html('');
+                $("#cat").html(data);
+            }
+        });
     });
 </script>
 </body>

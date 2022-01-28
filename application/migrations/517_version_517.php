@@ -41,8 +41,12 @@ class Migration_Version_517 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `Jud_description` TEXT DEFAULT NULL');
         }
 
-        if (!$this->db->field_exists('Jud_email', db_prefix() . 'my_courts')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `Jud_email` varchar(255) NULL DEFAULT NULL');
+        if (!$this->db->field_exists('Jud_email', db_prefix() . 'my_judicialdept')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `Jud_email` varchar(255) NULL DEFAULT NULL');
+        }
+
+        if (!$this->db->field_exists('is_basic', db_prefix() . 'my_judicialdept')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `is_basic` int(1) NOT NULL');
         }
 
         // Add fields to categories table

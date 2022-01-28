@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <?php echo render_input('court_name','name'); ?>
-                        <p class="bold"><?php echo _l('court_description'); ?></p>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
                     </div>
                 </div>

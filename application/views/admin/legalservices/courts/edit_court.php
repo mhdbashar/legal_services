@@ -38,7 +38,7 @@
                         <?php $value = (isset($court) ? $court->court_name : ''); ?>
                         <?php echo render_input('court_name','name',$value); ?>
                         <?php $value = (isset($court) ? $court->court_description : ''); ?>
-                        <p class="bold"><?php echo _l('court_description'); ?></p>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('court_description', '', $value, array(), array(), '', 'tinymce'); ?>
 
                     </div>

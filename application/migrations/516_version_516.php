@@ -62,7 +62,7 @@ class Migration_Version_516 extends CI_Migration
         // client info
         update_option('customer_info_format', '{company_name} اسم الشركة : <br />
 {building_number} رقم المبنى : <br />
-{street_name} اسم اشارع:<br />
+{street_name} اسم الشارع:<br />
 {district_name}  الحي: <br />
 {city}  المدينة: <br />
 {country_name} البلد: <br />
@@ -73,7 +73,7 @@ class Migration_Version_516 extends CI_Migration
 
         update_option('company_info_format', '{company_name} اسم الشركة : <br />
 {building_number} رقم المبنى : <br />
-{street_name} اسم اشارع:<br />
+{street_name} اسم الشارع:<br />
 {district_name}  الحي: <br />
 {city}  المدينة: <br />
 {country} البلد: <br />

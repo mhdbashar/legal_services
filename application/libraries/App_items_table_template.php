@@ -80,6 +80,8 @@ abstract class App_items_table_template
         'rate'   => '',
         'tax'    => '',
         'amount' => '',
+        'tax_amount' => '',
+        'amount_without_tax' => ''
     ];
 
     /**
@@ -197,10 +199,37 @@ abstract class App_items_table_template
                     $item_tax = '';
                     if ((count($item['taxes']) > 1 && get_option('remove_tax_name_from_item_table') == false) || get_option('remove_tax_name_from_item_table') == false || multiple_taxes_found_for_item($item['taxes'])) {
                         $tmp      = explode('|', $tax['taxname']);
-                        $item_tax = $tmp[0] . ' ' . app_format_number($tmp[1]) . '%<br />';
+                        $item_tax = app_format_number($tmp[1]) . '%<br />';
                     } else {
                         $item_tax .= app_format_number($tax['taxrate']) . '%';
                     }
+
+                    $itemHTML .= hooks()->apply_filters('item_tax_table_row', $item_tax, $item);
+                }
+            } else {
+                $itemHTML .= hooks()->apply_filters('item_tax_table_row', '0%', $item);
+            }
+            $itemHTML .= '</td>';
+        }
+
+        return $itemHTML;
+    }
+
+    /**
+     * Helper method for taxes HTML, because is commonly used for all preview types
+     * @param  array $item
+     * @return string
+     */
+    protected function taxes_amount_html($item, $width)
+    {
+        $itemHTML = '';
+
+        if ($this->show_tax_per_item()) {
+            $itemHTML .= '<td align="right" width="' . $width . '%">';
+            if (count($item['taxes']) > 0) {
+                foreach ($item['taxes'] as $tax) {
+                    $item_tax = '';
+                        $item_tax .= $item['rate'] * $item['qty'] * (app_format_number($tax['taxrate']) / 100);
 
                     $itemHTML .= hooks()->apply_filters('item_tax_table_row', $item_tax, $item);
                 }
@@ -439,12 +468,30 @@ abstract class App_items_table_template
     }
 
     /**
+     * Get tax_amount heading
+     * @return string
+     */
+    public function tax_amount_heading()
+    {
+        return $this->headings['tax_amount'];
+    }
+
+    /**
      * Get amount heading
      * @return string
      */
     public function amount_heading()
     {
         return $this->headings['amount'];
+    }
+
+    /**
+     * Get amount_without_tax_heading heading
+     * @return string
+     */
+    public function amount_without_tax_heading()
+    {
+        return $this->headings['amount_without_tax'];
     }
 
     /**
@@ -472,7 +519,9 @@ abstract class App_items_table_template
         $this->headings['qty']    = $qty_heading;
         $this->headings['rate']   = _l($langFrom . '_table_rate_heading', '', false);
         $this->headings['tax']    = _l($langFrom . '_table_tax_heading', '', false);
+        $this->headings['tax_amount']    = _l('invoice_tax_amount_heading');
         $this->headings['amount'] = _l($langFrom . '_table_amount_heading', '', false);
+        $this->headings['amount_without_tax'] = _l($langFrom . '_table_amount_without_tax_heading', '', false);
 
         return $this;
     }

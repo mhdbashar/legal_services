@@ -47,19 +47,21 @@ class General extends AdminController{
                 if ($member_id != '') {
                     $this->db->where('staff_id', $member_id);
                     $_current_number = $this->db->get(db_prefix() . 'hr_extra_info')->row();
-                    if ($_current_number->emloyee_id == $this->input->post('emloyee_id')) {
-                        echo json_encode(true);
-                        die();
-                    }
+                    if(($_current_number != null))
+                        if ($_current_number->emloyee_id == $this->input->post('emloyee_id')) {
+                            echo json_encode(true);
+                            die();
+                        }
                 }
                 $this->db->where('emloyee_id', $this->input->post('emloyee_id'));
                 $total_rows = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
                 if ($total_rows > 0) {
                     echo json_encode(false);
+                    die();
                 } else {
                     echo json_encode(true);
+                    die();
                 }
-                die();
             }
         }
     }

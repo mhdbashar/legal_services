@@ -266,17 +266,18 @@ class Clients_model extends App_Model
 
         if (isset($update_all_other_transactions) || isset($update_credit_notes)) {
             $transactions_update = [
-                    'billing_street'   => $data['billing_street'],
-                    'billing_city'     => $data['billing_city'],
-                    'billing_state'    => $data['billing_state'],
-                    'billing_zip'      => $data['billing_zip'],
-                    'billing_country'  => $data['billing_country'],
-                    'shipping_street'  => $data['shipping_street'],
-                    'shipping_city'    => $data['shipping_city'],
-                    'shipping_state'   => $data['shipping_state'],
-                    'shipping_zip'     => $data['shipping_zip'],
-                    'shipping_country' => $data['shipping_country'],
-                ];
+                'billing_street'   => $data['billing_street'],
+                'billing_city'     => $data['billing_city'],
+                'billing_state'    => $data['billing_state'],
+                'billing_zip'      => $data['billing_zip'],
+                'billing_country'  => $data['billing_country'],
+                // hide shipping
+//                    'shipping_street'  => $data['shipping_street'],
+//                    'shipping_city'    => $data['shipping_city'],
+//                    'shipping_state'   => $data['shipping_state'],
+//                    'shipping_zip'     => $data['shipping_zip'],
+//                    'shipping_country' => $data['shipping_country'],
+            ];
             if (isset($update_all_other_transactions)) {
 
                 // Update all invoices except paid ones.
@@ -344,9 +345,9 @@ class Clients_model extends App_Model
         $contact      = $this->get_contact($id);
 
         if (isset($data['full_name'])) {
-        $data['firstname'] = strtok($data['full_name'], ' ');
-        $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
-        $data['lastname'] = $lastname != '' ? $lastname : NULL;
+            $data['firstname'] = strtok($data['full_name'], ' ');
+            $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+            $data['lastname'] = $lastname != '' ? $lastname : NULL;
             unset($data['full_name']);
         }
 
@@ -838,9 +839,9 @@ class Clients_model extends App_Model
             }
             foreach ($data['customer_admins'] as $n_admin_id) {
                 if (total_rows(db_prefix() . 'customer_admins', [
-                    'customer_id' => $id,
-                    'staff_id' => $n_admin_id,
-                ]) == 0) {
+                        'customer_id' => $id,
+                        'staff_id' => $n_admin_id,
+                    ]) == 0) {
                     $this->db->insert(db_prefix() . 'customer_admins', [
                         'customer_id'   => $id,
                         'staff_id'      => $n_admin_id,
@@ -1537,11 +1538,11 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Create new vault entry
-    * @param  array $data        $_POST data
-    * @param  mixed $customer_id customer id
-    * @return boolean
-    */
+     * Create new vault entry
+     * @param  array $data        $_POST data
+     * @param  mixed $customer_id customer id
+     * @return boolean
+     */
     public function vault_entry_create($data, $customer_id)
     {
         return $this->client_vault_entries_model->create($data, $customer_id);
@@ -1590,26 +1591,26 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Get customer statement formatted
-    * @param  mixed $customer_id customer id
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @return array
-    */
+     * Get customer statement formatted
+     * @param  mixed $customer_id customer id
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @return array
+     */
     public function get_statement($customer_id, $from, $to)
     {
         return $this->statement_model->get_statement($customer_id, $from, $to);
     }
 
     /**
-    * Send customer statement to email
-    * @param  mixed $customer_id customer id
-    * @param  array $send_to     array of contact emails to send
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @param  string $cc          email CC
-    * @return boolean
-    */
+     * Send customer statement to email
+     * @param  mixed $customer_id customer id
+     * @param  array $send_to     array of contact emails to send
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @param  string $cc          email CC
+     * @return boolean
+     */
     public function send_statement_to_email($customer_id, $send_to, $from, $to, $cc = '')
     {
         return $this->statement_model->send_statement_to_email($customer_id, $send_to, $from, $to, $cc);
@@ -1707,14 +1708,14 @@ class Clients_model extends App_Model
 
         foreach ($staff as $member) {
             mail_template('customer_profile_uploaded_file_to_staff', $member['email'], $member['staffid'])
-            ->set_merge_fields($merge_fields)
-            ->send();
+                ->set_merge_fields($merge_fields)
+                ->send();
 
             if (add_notification([
-                    'touserid' => $member['staffid'],
-                    'description' => 'not_customer_uploaded_file',
-                    'link' => 'clients/client/' . $customer_id . '?group=attachments',
-                ])) {
+                'touserid' => $member['staffid'],
+                'description' => 'not_customer_uploaded_file',
+                'link' => 'clients/client/' . $customer_id . '?group=attachments',
+            ])) {
                 array_push($notifiedUsers, $member['staffid']);
             }
         }

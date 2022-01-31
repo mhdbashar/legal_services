@@ -35,7 +35,7 @@ class App_items_table extends App_items_table_template
         $html = '';
 
 
-        $descriptionItemWidth = 10;
+        $descriptionItemWidth = 25;
 
         $regularItemWidth  = $this->get_regular_items_width(6);
         $customFieldsItems = $this->get_custom_fields_for_table();
@@ -62,8 +62,8 @@ class App_items_table extends App_items_table_template
              */
             if (!empty($item['description'])) {
                 $itemHTML .= '<span style="font-size:' . $this->get_pdf_font_size() . 'px;"><strong>'
-                . $this->period_merge_field($item['description'])
-                . '</strong></span>';
+                    . $this->period_merge_field($item['description'])
+                    . '</strong></span>';
 
                 if (!empty($item['long_description'])) {
                     $itemHTML .= '<br />';
@@ -143,7 +143,7 @@ class App_items_table extends App_items_table_template
                 $this->exclude_currency()
             );
 
-            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity . '</td>';
+//            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity . '</td>';
             $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity_without_tax . '</td>';
 
             // Close table row
@@ -179,7 +179,7 @@ class App_items_table extends App_items_table_template
             $html .= '<th align="right">' . $this->tax_amount_heading() . '</th>';
 
         }
-        $html .= '<th align="right">' . $this->amount_heading() . '</th>';
+//        $html .= '<th align="right">' . $this->amount_heading() . '</th>';
         $html .= '<th align="right">' . $this->amount_without_tax_heading() . '</th>';
         $html .= '</tr>';
 
@@ -198,7 +198,7 @@ class App_items_table extends App_items_table_template
             $align = 'left'; //Left align
         }
 
-        $descriptionItemWidth = 10;
+        $descriptionItemWidth = 25;
         $regularItemWidth     = $this->get_regular_items_width(6);
         $customFieldsItems    = $this->get_custom_fields_for_table();
 
@@ -219,7 +219,7 @@ class App_items_table extends App_items_table_template
             $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->tax_amount_heading() . '</th>';
         }
 
-        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_heading() . '</th>';
+//        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_heading() . '</th>';
         $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_without_tax_heading() . '</th>';
         $tblhtml .= '</tr>';
 

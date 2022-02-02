@@ -354,7 +354,7 @@ if (!function_exists('format_customer_info')) {
 
         if ($country = in_array($type, ['billing', 'shipping']) ? get_country($data->client->{$type . '_country'}) : '') {
             $countryCode = $country->iso2;
-            $countryName = $country->short_name;
+            $countryName = $country->short_name_ar;
         }
 
         $phone = '';
@@ -449,7 +449,7 @@ if (!function_exists('format_proposal_info')) {
 
         if ($country = get_country($proposal->country)) {
             $countryCode = $country->iso2;
-            $countryName = $country->short_name;
+            $countryName = $country->short_name_ar;
         }
 
         $proposalTo = '<b>' . $proposal->proposal_to . '</b>';
@@ -528,7 +528,7 @@ if (!function_exists('format_organization_info')) {
         if (get_country(get_option('company_country'))) {
             $country = get_country(get_option('company_country'));
             $countryCode = $country->iso2;
-            $countryName = $country->short_name;
+            $countryName = $country->short_name_ar;
         }
         $country = '<b style="color:black" class="company-name-formatted">' . $countryName . '</b>';
         $zip_code    = '<b style="color:black" class="company-name-formatted">' .get_option('invoice_company_postal_code') . '</b>';

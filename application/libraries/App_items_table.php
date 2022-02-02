@@ -35,7 +35,7 @@ class App_items_table extends App_items_table_template
         $html = '';
 
 
-        $descriptionItemWidth = $this->get_description_item_width();
+        $descriptionItemWidth = 25;
 
         $regularItemWidth  = $this->get_regular_items_width(6);
         $customFieldsItems = $this->get_custom_fields_for_table();
@@ -62,8 +62,8 @@ class App_items_table extends App_items_table_template
              */
             if (!empty($item['description'])) {
                 $itemHTML .= '<span style="font-size:' . $this->get_pdf_font_size() . 'px;"><strong>'
-                . $this->period_merge_field($item['description'])
-                . '</strong></span>';
+                    . $this->period_merge_field($item['description'])
+                    . '</strong></span>';
 
                 if (!empty($item['long_description'])) {
                     $itemHTML .= '<br />';
@@ -117,6 +117,7 @@ class App_items_table extends App_items_table_template
              * @var string
              */
             $itemHTML .= $this->taxes_html($item, $regularItemWidth);
+            $itemHTML .= $this->taxes_amount_html($item, $regularItemWidth);
 
             /**
              * Possible action hook user to include tax in item total amount calculated with the quantiy
@@ -130,7 +131,20 @@ class App_items_table extends App_items_table_template
                 $this->exclude_currency()
             );
 
-            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity . '</td>';
+            $total_tax = 0;
+            foreach ($item['taxes'] as $tax) {
+                $total_tax += $item['rate'] * $item['qty'] * (app_format_number($tax['taxrate']) / 100);
+            }
+            $item_amount_with_quantity_without_tax = hooks()->apply_filters(
+                'item_preview_amount_with_currency',
+                app_format_money(($item['qty'] * $item['rate'] + $total_tax), $this->transaction->currency_name, $this->exclude_currency()),
+                $item,
+                $this->transaction,
+                $this->exclude_currency()
+            );
+
+//            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity . '</td>';
+            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity_without_tax . '</td>';
 
             // Close table row
             $itemHTML .= '</tr>';
@@ -162,8 +176,11 @@ class App_items_table extends App_items_table_template
         $html .= '<th align="right">' . $this->rate_heading() . '</th>';
         if ($this->show_tax_per_item()) {
             $html .= '<th align="right">' . $this->tax_heading() . '</th>';
+            $html .= '<th align="right">' . $this->tax_amount_heading() . '</th>';
+
         }
-        $html .= '<th align="right">' . $this->amount_heading() . '</th>';
+//        $html .= '<th align="right">' . $this->amount_heading() . '</th>';
+        $html .= '<th align="right">' . $this->amount_without_tax_heading() . '</th>';
         $html .= '</tr>';
 
         return $html;
@@ -181,7 +198,7 @@ class App_items_table extends App_items_table_template
             $align = 'left'; //Left align
         }
 
-        $descriptionItemWidth = $this->get_description_item_width();
+        $descriptionItemWidth = 25;
         $regularItemWidth     = $this->get_regular_items_width(6);
         $customFieldsItems    = $this->get_custom_fields_for_table();
 
@@ -199,9 +216,11 @@ class App_items_table extends App_items_table_template
 
         if ($this->show_tax_per_item()) {
             $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->tax_heading() . '</th>';
+            $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->tax_amount_heading() . '</th>';
         }
 
-        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_heading() . '</th>';
+//        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_heading() . '</th>';
+        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_without_tax_heading() . '</th>';
         $tblhtml .= '</tr>';
 
         return $tblhtml;

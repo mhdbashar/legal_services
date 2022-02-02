@@ -102,8 +102,11 @@ $lang['invoice_pdf_heading'] = "فاتورة";
 $lang['invoice_table_item_heading'] = "عنصر";
 $lang['invoice_table_quantity_heading'] = "كمية";
 $lang['invoice_table_rate_heading'] = "السعر";
-$lang['invoice_table_tax_heading'] = "الضريبة";
-$lang['invoice_table_amount_heading'] = "القيمة";
+$lang['invoice_table_tax_heading'] = "نسبة الضريبة";
+$lang['invoice_table_amount_heading'] = "الاجمالي قبل الضريبة";
+$lang['invoice_table_amount_without_tax_heading'] = "الاجمالي شامل الضريبة";
+
+$lang['invoice_tax_amount_heading'] = 'مبلغ الضريبة';
 $lang['invoice_subtotal'] = "المبلغ الإجمالي";
 $lang['invoice_adjustment'] = "تسوية";
 $lang['invoice_total'] = "المجموع";

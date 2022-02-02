@@ -3,7 +3,7 @@
 <div id="wrapper">
     <div class="content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
@@ -19,6 +19,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
+                                <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -29,13 +30,17 @@
                                             <?php echo $cat->name; ?>
                                         </td>
                                         <td>
+                                            <?php $value = (isset($cat) ? $cat->cat_description : ''); ?>
+                                            <?php echo $value; ?>
+                                        </td>
+                                        <td>
                                             <?php if($cat->is_basic != 1){ ?>
                                             <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                             <a href="<?php echo admin_url("delete_category/$ServID/$cat->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                             <?php } ?>
                                             <div class="radio radio-primary radio-inline">
                                                 <input type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
-                                                <label for="<?php echo $cat->id; ?>"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></label>
+                                                <label for="<?php echo $cat->id; ?>"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                             </div>
                                         </td>
                                     </tr>
@@ -46,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
@@ -60,6 +65,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
+                                <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody id="BodyTable">
@@ -69,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
@@ -83,6 +89,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
+                                <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody id="BodyTable_2">
@@ -219,12 +226,13 @@
                                 `<tr>
                                 <td>${count}</td>
                                 <td>${val.name}</td>
+                                <th>${val.cat_description}</th>
                                 <td>
                                     <a href="<?php echo admin_url('edit_category/') . $ServID; ?>/${val.id}" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                     <a href="<?php echo admin_url('delete_category/') . $ServID; ?>/${val.id}" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                 <div class="radio radio-primary radio-inline">
                                     <input type="radio" name="CatDetails"  id="${val.id}" onchange="MakePrimary_2(<?php echo $ServID?>,${val.id})">
-                                    <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></label>
+                                    <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                     </div>
                                 </td>
                             </tr>`
@@ -234,10 +242,11 @@
                                 `<tr>
                                 <td>${count}</td>
                                 <td>${val.name}</td>
+                                <th>${val.cat_description}</th>
                                 <td>
                                 <div class="radio radio-primary radio-inline">
                                     <input type="radio" name="CatDetails"  id="${val.id}" onchange="MakePrimary_2(<?php echo $ServID?>,${val.id})">
-                                    <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></label>
+                                    <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                     </div>
                                 </td>
                             </tr>`
@@ -266,6 +275,7 @@
                             `<tr>
                             <td>${count}</td>
                             <td>${val.name}</td>
+                            <th>${val.cat_description}</th>
                             <td>
                                 <a href="<?php echo admin_url('edit_category/') . $ServID; ?>/${val.id}" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                 <a href="<?php echo admin_url('delete_category/') . $ServID; ?>/${val.id}" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>

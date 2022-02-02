@@ -21,6 +21,7 @@ class case_movement extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
+            if (!isset($data['childsubcat_id'])) $data['childsubcat_id'] = 0;
             $success = $this->movement->update($ServID, $id, $data);
             if ($success) {
                 $id = $this->movement->add($ServID,$id, $data);

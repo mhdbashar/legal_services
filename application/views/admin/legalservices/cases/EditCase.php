@@ -176,7 +176,7 @@
                                                         onchange="GetCourtJad()" name="court_id" data-width="100%"
                                                         data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected></option>
-                                                    <?php $data = get_relation_data('mycourts', '');
+                                                    <?php $data = get_courts_by_country_city($case->country,$case->city);
                                                     foreach ($data as $row): ?>
                                                         <option value="<?php echo $row->c_id; ?>" <?php echo $case->court_id == $row->c_id ? 'selected' : '' ?>><?php echo $row->court_name; ?></option>
                                                     <?php endforeach; ?>
@@ -213,7 +213,7 @@
                                                 <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                             </div>
                                         <?php } ?>
-                                        <?php $cats = get_relation_data('mycategory', $ServID);
+                                        <?php $cats = get_category_by_court_id($case->court_id);
                                         if($cats){ ?>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -231,11 +231,10 @@
                                                 <label class="control-label"><?php echo _l('SubCategories'); ?></label>
                                                 <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
-                                                    <?php $data = get_relation_data('childmycategory',$case->cat_id);
-                                                    foreach ($data as $row) {
-                                                        if($case->subcat_id == $row->id) { ?>
-                                                            <option value="<?php echo $row->id ?>" selected><?php echo $row->name ?></option>
-                                                        <?php } } ?>
+                                                    <?php $data = get_subcategory_by_category_id($case->cat_id);
+                                                    foreach ($data as $row) { ?>
+                                                            <option value="<?php echo $row->id; ?>" <?php echo $case->subcat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
+                                                        <?php  } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -726,10 +725,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <?php echo render_input('court_name_modal','name'); ?>
-                            <div id="cat"></div>
-
                             <p class="bold"><?php echo _l('_description'); ?></p>
                             <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
+                            <div id="cat"></div>
                         </div>
                     </div>
                 </div>
@@ -963,13 +961,13 @@
     <?php } ?>
 
     function GetSubCat() {
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
-                $('#subcat_id').html('');
-                $('#childsubcat').html('');
                 $('#subcat_id').append('<option value=""></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
@@ -1065,11 +1063,11 @@
         });
     });
     $("#subcat_id").change(function () {
+        $('#childsubcat').html('');
         id = $('#subcat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
-                $('#childsubcat').html('');
                 response = JSON.parse(data);
                 if(response.length != 0) {
                     $('#childsubcat').html(`
@@ -1094,6 +1092,7 @@
         });
     });
     $("#subcat_id").ready(function () {
+        $('#childsubcat').html('');
         id = $('#subcat_id').val();
         var select = '';
         <?php $value = (isset($case) ? $case->childsubcat_id : ''); ?>
@@ -1102,10 +1101,8 @@
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 // if(data != null){
-                $('#childsubcat').html('');
                 response = JSON.parse(data);
                 if(response.length != 0) {
-                    $('#childsubcat').html('');
                     $('#childsubcat').html(`
                         <div class="col-md-6">
                             <div class="form-group">

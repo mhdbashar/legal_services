@@ -261,16 +261,19 @@ class Courts extends AdminController
         echo $output;
     }
     public function build_dropdown_court_category() {
-        $data = $this->input->post();
-        $this->db->where('c_id', $data['c_id']);
-        $c_cat = $this->db->get(db_prefix() . 'my_courts_categories')->result_array();
-        $category = [];
-        foreach ($c_cat as $cat) {
-            $this->db->where('id', $cat['cat_id']);
-            $category[] = $this->db->get(db_prefix() . 'my_categories')->row();
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->db->where('c_id', $data['c_id']);
+            $c_cat = $this->db->get(db_prefix() . 'my_courts_categories')->result_array();
+            $category = [];
+            foreach ($c_cat as $cat) {
+                $this->db->where('id', $cat['cat_id']);
+                $category[] = $this->db->get(db_prefix() . 'my_categories')->row();
+            }
+            echo json_encode($category);
+            die();
         }
-        echo json_encode($category);
-        die();
+
     }
     public function build_dropdown_category_for_modal_case() {
         $data = $this->input->post();

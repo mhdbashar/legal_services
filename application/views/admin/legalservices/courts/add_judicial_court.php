@@ -29,7 +29,7 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
-        _validate_form($('#Judicial-form'),{Jud_number:'required',Jud_email:'required'});
+        _validate_form($('#Judicial-form'),{Jud_number:'required'});
     });
 </script>
 </body>

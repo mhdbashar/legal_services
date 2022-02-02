@@ -190,10 +190,12 @@ $CI->load->library('app_modules');?>
                             <td class="bold"><?php echo _l('SubCategories'); ?></td>
                             <td><?php echo isset($project->subcat) && $project->subcat != '' ? $project->subcat : _l('nothing_was_specified'); ?></td>
                         </tr>
+                        <?php if(isset($project->childsubcat_id) && $project->childsubcat_id != 0){ ?>
                         <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('child_sub_categories'); ?></td>
-                            <td><?php echo isset($project->childsubcat_id) && $project->childsubcat_id != '' ? $project->childsubcat_id : _l('nothing_was_specified'); ?></td>
+                            <td><?php $childcat = get_category_by_id($project->childsubcat_id); echo $childcat->name?></td>
                         </tr>
+                        <?php } ?>
                         <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('Court'); ?></td>
                             <td><?php echo isset($project->court_name) && $project->court_name != '' ? maybe_translate(_l('nothing_was_specified'), $project->court_name) : _l('nothing_was_specified'); ?></td>

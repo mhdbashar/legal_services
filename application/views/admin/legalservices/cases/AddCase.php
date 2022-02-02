@@ -176,7 +176,7 @@
                                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
                                                     <select class="selectpicker custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                         <option selected></option>
-                                                        <?php $data = get_relation_data('mycourts', '');
+                                                        <?php $data = get_courts_by_country_city(get_option('company_country'),get_option('company_city'));
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
                                                         <?php endforeach; ?>
@@ -693,10 +693,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('court_name_modal','name'); ?>
-                        <div id="cat"></div>
-
                         <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
+                        <div id="cat"></div>
                     </div>
                 </div>
             </div>
@@ -929,13 +928,13 @@
     <?php } ?>
 
     function GetSubCat() {
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
-                $('#subcat_id').html('');
-                $('#childsubcat').html('');
                 $('#subcat_id').append('<option value=""></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
@@ -1042,11 +1041,11 @@
         });
     });
     $("#subcat_id").change(function () {
+        $('#childsubcat').html('');
         id = $('#subcat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
-                $('#childsubcat').html('');
                 response = JSON.parse(data);
                 if(response.length != 0) {
                     $('#childsubcat').html(`

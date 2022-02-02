@@ -396,6 +396,8 @@ class Cases_model extends App_Model
             $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
 
+        if (!isset($data['childsubcat_id'])) $data['childsubcat_id'] = 0;
+
         if (isset($data['representative']) && $data['representative'] == '') {
             $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
         }

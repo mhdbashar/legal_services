@@ -36,6 +36,9 @@
                                 } ?>
                             </select>
                         </div>
+                        <?php echo render_input('court_name','name'); ?>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
+                        <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div id="cat">
                             <div class="form-group">
                                 <?php
@@ -43,7 +46,7 @@
                                     $country['country'] = get_option('company_country');
                                 else
                                     $country['country'] = '';?>
-                                    <label for="cat_id"><?php echo _l('Categories'); ?></label>
+                                <label for="cat_id"><?php echo _l('Categories'); ?></label>
                                 <?php
                                 $categories = build_dropdown_category($country);
                                 $checked = '';
@@ -55,9 +58,7 @@
                                 <?php } ?>
                             </div>
                         </div>
-                        <?php echo render_input('court_name','name'); ?>
-                        <p class="bold"><?php echo _l('_description'); ?></p>
-                        <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
+
                     </div>
                 </div>
             </div>
@@ -84,6 +85,17 @@
                 $("#city").html(data);
             }
         });
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_by_country'); ?>",
+            data: {country: $(this).val()},
+            type: "POST",
+            success: function (data) {
+                $("#cat").html('');
+                $("#cat").html(data);
+            }
+        });
+    });
+    $("#cat_id").change(function () {
         $.ajax({
             url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_by_country'); ?>",
             data: {country: $(this).val()},

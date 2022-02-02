@@ -18,6 +18,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
+                                <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -30,6 +31,10 @@
                                         <td><?php echo $i; ?></td>
                                         <td>
                                             <?php echo $court->court_name; ?>
+                                        </td>
+                                        <td>
+                                            <?php $value = (isset($court) ? $court->court_description : ''); ?>
+                                            <?php echo $value; ?>
                                         </td>
                                         <td>
                                             <?php if($court->is_basic != 1){ ?>

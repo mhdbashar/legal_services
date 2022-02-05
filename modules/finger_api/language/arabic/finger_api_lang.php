@@ -13,3 +13,4 @@ $lang['repeat_passwork_api']	= 'Repeat Passwork';
 $lang['token_api']		= 'Token';
 $lang['expiration_date']		= 'Expiration Date';
 $lang['qr_code'] = 'رمز الاستجابة السريع';
+$lang['finger_api'] = 'تسجيل الدخول من الموبايل';

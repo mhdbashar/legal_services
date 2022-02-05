@@ -50,7 +50,7 @@ class Timesheets extends REST_Controller {
     public function verify_token()
     {
         $headers = $this->input->request_headers();
-        if(!isset($headers['authtoken'])){
+        if(!isset($headers['ِAuthtoken'])){
             $this->response(['message' => 'Unauthorized'], 401);
         }
         $result = $this->authorization_token->validateToken();

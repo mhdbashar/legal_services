@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); ?>
+<input type="hidden" name="ServID" value="<?php echo $_REQUEST['ServID'] ?>">
+<input type="hidden" name="rel_sid" value="<?php echo $_REQUEST['project_id'] ?>">
 <div class="row">
    <div class="col-md-12">
 

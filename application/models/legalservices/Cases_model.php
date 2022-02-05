@@ -12,17 +12,7 @@ class Cases_model extends App_Model
 
         $project_settings = [
             'available_features',
-            'view_tasks',
-            'view_session_logs',
             'view_procurations',
-            'create_tasks',
-            'edit_tasks',
-            'comment_on_tasks',
-            'view_task_comments',
-            'view_task_attachments',
-            'view_task_checklist_items',
-            'upload_on_tasks',
-            'view_task_total_logged_time',
             'view_finance_overview',
             'upload_files',
             'open_discussions',
@@ -32,6 +22,24 @@ class Cases_model extends App_Model
             'view_activity_log',
             'view_team_members',
             'hide_tasks_on_main_tasks_table',
+            'view_tasks',
+            'create_tasks',
+            'edit_tasks',
+            'comment_on_tasks',
+            'view_task_comments',
+            'view_task_attachments',
+            'view_task_checklist_items',
+            'upload_on_tasks',
+            'view_task_total_logged_time',
+            'view_session_logs',
+            'create_sessions',
+            'edit_sessions',
+            'comment_on_sessions',
+            'view_session_comments',
+            'view_session_attachments',
+            'view_session_checklist_items',
+            'upload_on_sessions',
+            'view_session_total_logged_time',
         ];
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
@@ -1379,11 +1387,13 @@ class Cases_model extends App_Model
     public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-
-
+        
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'tasks.id as id,
         '.db_prefix() . 'tasks.name as task_name,
-        '.db_prefix() . 'my_judges.name as judge,
+        CONCAT(' . db_prefix() . 'staff.firstname, " ",'  . db_prefix() . 'staff.lastname) as fullname ,'  
+        // CONCAT(tblstaff.firstname ," ",  tblstaff.lastname) AS fullname
+        .db_prefix() . 'task_assigned.staffid as emp_assignee_id, '
+        .db_prefix() . 'my_judges.name as judge,
         court_name,
         customer_report,
         send_to_customer,
@@ -1397,6 +1407,8 @@ class Cases_model extends App_Model
 
         $this->db->where($where);
         $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tasks.addedfrom', 'inner');
+        $this->db->join(db_prefix() . 'task_assigned', db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id', 'left');
         $this->db->join(db_prefix() . 'my_courts', db_prefix() . 'my_courts.c_id = ' . db_prefix() . 'my_session_info.court_id', 'left');
         $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id = ' . db_prefix() . 'my_session_info.judge_id', 'left');
 
@@ -1405,7 +1417,7 @@ class Cases_model extends App_Model
         } else {
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
         }
-
+        
         return $tasks;
     }
 

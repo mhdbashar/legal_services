@@ -1470,6 +1470,7 @@ $lang['settings_calendar'] = 'Calendar';
 $lang['settings_sales_invoice_due_after'] = 'Invoice due after (days)';
 $lang['settings_google_api'] = 'Google API Key';
 $lang['settings_gcal_main_calendar_id'] = 'Google Calendar ID';
+$lang['hide_sessions_on_main_sessions_table'] = 'Hide law service sessions on main sessions table (admin area)';
 $lang['settings_gcal_main_calendar_id_help'] = 'This is the main company calendar. All events from this calendar will be shown. If you want to specify a calendar based on departments you can add in the department Google Calendar ID.';
 $lang['show_on_calendar'] = 'Show on Calendar';
 $lang['show_invoices_on_calendar'] = 'Invoices';

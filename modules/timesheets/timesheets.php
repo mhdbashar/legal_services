@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: نظام الحضور والإنصراف والإجازات
 Description: يعمل تطبيق نظام إدارة الحضور الكامل مع الجدول الزمني في الغالب مع الحضور والإجازات والعطلات والمناوبة
-Version: 1.1.3
+Version: 1.1.4
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa/
@@ -222,15 +222,26 @@ function timesheets_module_init_menu_items()
 			'position' =>4,
 		]);
 	}
-	if (has_permission('table_shiftwork_management', '', 'view_own') || has_permission('table_shiftwork_management', '', 'view') || is_admin()) {
-		$CI->app_menu->add_sidebar_children_item('timesheets', [
-			'slug'     => 'timesheets_shift_type',
-			'name'     => _l('shift_type'),
-			'href'     => admin_url('timesheets/manage_shift_type'),
-			'icon'     => 'fa fa-magic',
-			'position' => 5,
-		]);
-	}
+        if (has_permission('table_shiftwork_management', '', 'view_own') || has_permission('table_shiftwork_management', '', 'view') || is_admin()) {
+            $CI->app_menu->add_sidebar_children_item('timesheets', [
+                'slug'     => 'timesheets_shift_type',
+                'name'     => _l('shift_type'),
+                'href'     => admin_url('timesheets/manage_shift_type'),
+                'icon'     => 'fa fa-magic',
+                'position' => 5,
+            ]);
+        }
+        if (has_permission('finger_api', '', 'timekeeper') || is_admin()) {
+            $CI->app_menu->add_sidebar_children_item('timesheets', [
+                'slug'     => 'check_in_out_report',
+                'name'     => _l('check_in_out_report'),
+                'href'     => admin_url('timesheets/check_in_out_report'),
+                'icon'     => 'fa fa-magic',
+                'position' => 5,
+            ]);
+        }
+
+
 	$data_attendance_by_coordinates = get_timesheets_option('allow_attendance_by_coordinates');
 	if($data_attendance_by_coordinates){
 		if($data_attendance_by_coordinates == 1){

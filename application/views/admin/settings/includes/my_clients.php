@@ -98,6 +98,11 @@
 	<!-- <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{country_code}</a>, -->
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{country_name}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{phone}</a>,
+    <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{district_name}</a>,
+    <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{building_number}</a>,
+    <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{street_name}</a>,
+    <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{additional_number}</a>,
+    <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{unit_number}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{vat_number}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{vat_number_with_label}</a>
 

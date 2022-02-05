@@ -2,6 +2,13 @@
 
 # Version 2.3.0
 
+$lang['check_in_out_report'] = 'تقرير تسجيل الدخول والخروج';
+$lang['device'] = 'معرف الجهاز';
+$lang['brand'] = 'نوع الجهاز';
+$lang['you_don\'t_have_shift_work']                                      = 'ليس لديك فترة عمل';
+$lang['you_have_to_check_out_before']                                     = 'يحب أن تسجل خروج أولا';
+$lang['you_have_to_check_in_before']                                      = 'يحب أن تسجل دخول أولا';
+$lang['you_have_to_wait_10_min_before_you_can_check_in_again']            = 'أعد المحاولة بعد 10 دقائق';
 $lang['birthplace']                                                       = 'مكان الميلاد';
 $lang['sex']                                                              = 'الجنس';
 $lang['marital_status']                                                   = 'الحالة الإجتماعية';

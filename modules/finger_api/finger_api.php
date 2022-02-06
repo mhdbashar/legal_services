@@ -2,11 +2,13 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Finger API
-Description: Rest Finger API module for Perfex CRM
-Version: 1.0.2
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
+Author: Babil Team
+Module Name: تسجيل الحضور والانصراف
+Description: الإضافة الافتراضية لتسجيل الحضور والانصراف من خلال الجوال
+Version: 1.0.0
+Requires at least: 2.3.*
+Author URI: #
+
 */
 
 define('FINGER_API_MODULE_NAME', 'finger_api');

@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 Author: Babil Team
 Module Name: تسجيل الحضور والانصراف
 Description: الإضافة الافتراضية لتسجيل الحضور والانصراف من خلال الجوال
-Version: 1.0.0
+Version: 1.0.2
 Requires at least: 2.3.*
 Author URI: #
 

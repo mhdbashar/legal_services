@@ -50,7 +50,7 @@ class Timesheets extends REST_Controller {
     public function verify_token()
     {
         $headers = $this->input->request_headers();
-        if(!isset($headers['ِAuthtoken'])){
+        if(!isset($headers['authtoken'])){
             $this->response(['message' => 'Unauthorized'], 401);
         }
         $result = $this->authorization_token->validateToken();
@@ -117,7 +117,15 @@ class Timesheets extends REST_Controller {
             $message = '';
             $status = true;
             $error = '';
-            if(is_numeric($re)){
+            $timer = 0;
+//            echo 'here'; print_r(($re)); exit;
+            if(is_array($re)){
+                $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
+                $status = false;
+                $error = 7;
+                $timer = $re['timer'];
+            }
+            elseif(is_numeric($re)){
                 if($re == 2){
                     $message = _l('your_current_location_is_not_allowed_to_take_attendance');
                     $status = false;
@@ -144,7 +152,7 @@ class Timesheets extends REST_Controller {
                     $error = 6;
                 }
                 if($re == 7){
-                    $message = _l('you_have_to_wait_10_min_before_you_can_check_in_again');
+                    $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
                     $status = false;
                     $error = 7;
                 }
@@ -180,7 +188,8 @@ class Timesheets extends REST_Controller {
             $this->response([
                     'status' => $status,
                     'message' => $message,
-                    'error' => $error
+                    'error' => $error,
+                    'timer' => $timer
                 ]
             );
         }
@@ -232,7 +241,12 @@ class Timesheets extends REST_Controller {
             $message = '';
             $status = true;
             $error = '';
-            if(is_numeric($re)){
+            if(is_array($re)){
+                $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
+                $status = false;
+                $error = 7;
+            }
+            elseif(is_numeric($re)){
                 if($re == 2){
                     $message = _l('your_current_location_is_not_allowed_to_take_attendance');
                     $status = false;
@@ -259,7 +273,7 @@ class Timesheets extends REST_Controller {
                     $error = 6;
                 }
                 if($re == 7){
-                    $message = _l('you_have_to_wait_10_min_before_you_can_check_in_again');
+                    $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
                     $status = false;
                     $error = 7;
                 }

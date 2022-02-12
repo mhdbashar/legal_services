@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); ?>
+<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-ticket')); ?>
 <input type="hidden" name="ServID" value="<?php echo $_REQUEST['ServID'] ?>">
 <input type="hidden" name="rel_sid" value="<?php echo $_REQUEST['project_id'] ?>">
 <div class="row">
@@ -112,3 +112,12 @@
    </div>
 </div>
 <?php echo form_close(); ?>
+<script>
+   $(document).ready(function() {
+         appValidateForm($("#open-ticket"), {
+            subject: 'required',
+            department: 'required',
+            priority: 'required',
+         });
+      })
+</script>

@@ -198,7 +198,7 @@ class Timesheets extends REST_Controller {
     public function timekeeper_post()
     {
 
-        if(!has_permission('finger_api', '', 'timekeeper'))
+        if(!has_permission('finger_api', '', 'timekeeper') && !is_admin())
             $this->response([
                 'status' => false,
                 'message' => 'Unauthorized'

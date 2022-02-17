@@ -4085,7 +4085,9 @@ function get_custom_type_shiftwork(){
             $data['brand'] = $brand;
             $data['device'] = $device;
 			$re = $this->timesheets_model->check_in($data);
-			if(is_numeric($re)){
+			if(is_array($re))
+                set_alert('warning',_l('you_have_to_wait_3_min_before_you_can_check_in_again'));
+			elseif(is_numeric($re)){
 				if($re == 2){
 					set_alert('warning',_l('your_current_location_is_not_allowed_to_take_attendance'));            
 				}
@@ -4102,7 +4104,7 @@ function get_custom_type_shiftwork(){
                     set_alert('warning',_l('you_have_to_check_in_before'));
                 }
                 if($re == 7){
-                    set_alert('warning',_l('you_have_to_wait_10_min_before_you_can_check_in_again'));
+                    set_alert('warning',_l('you_have_to_wait_3_min_before_you_can_check_in_again'));
                 }
                 if($re == 8){
                     set_alert('warning',_l('you_don\'t_have_shift_work'));

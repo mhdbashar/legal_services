@@ -58,10 +58,11 @@
                                                 ?>
                                                 <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$case->country); ?>
                                             </div>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
-                                                    <?php $data = get_relation_data('build_dropdown_cities',''); ?>
+                                                    <?php $data = get_relation_data('build_dropdown_cities',$case->country); ?>
                                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                                         <option selected disabled></option>
                                                         <?php foreach ($data as $row): ?>

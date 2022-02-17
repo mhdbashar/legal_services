@@ -48,8 +48,11 @@ class Courts extends AdminController
             access_denied('courts');
         }
         $data = $this->input->post();
-        $cat = json_decode($data['cat_id']);
-        unset($data['cat_id']);
+        if(isset($data['cat_id'])) {
+            $cat = json_decode($data['cat_id']);
+            unset($data['cat_id']);
+        }else
+            $cat = [];
         $added = $this->court->add_court_new($data);
         if ($added) {
             foreach ($cat as $id){
@@ -66,12 +69,15 @@ class Courts extends AdminController
         }
         if ($this->input->post()) {        	
             $data = $this->input->post();
-            $cat = $data['cat_id'];
-            unset($data['cat_id']);
+            if(isset($data['cat_id'])) {
+                $cat = $data['cat_id'];
+                unset($data['cat_id']);
+            }else
+                $cat = [];
             $added = $this->court->add_court_new($data);
             if ($added) {
-                foreach ($cat as $id){
-                    $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$added" , 'cat_id' => $id] );
+                foreach ($cat as $id) {
+                    $this->db->insert(db_prefix() . 'my_courts_categories', ['c_id' => "$added", 'cat_id' => $id]);
                 }
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url('courts'));
@@ -124,22 +130,20 @@ class Courts extends AdminController
         }			        
 		if ($this->input->post()) {        	
             $data = $this->input->post();
-            $cat = $data['cat_id'];
-            unset($data['cat_id']);
+            if(isset($data['cat_id'])) {
+                $cat = $data['cat_id'];
+                unset($data['cat_id']);
+            }else
+                $cat = [];
             $success = $this->court->update_court_data($id,$data);
+            $this->db->where('c_id', $id);
+            $this->db->delete(db_prefix() . 'my_courts_categories');
+            foreach ($cat as $cat_id) {
+                $this->db->insert(db_prefix() . 'my_courts_categories', ['c_id' => "$id", 'cat_id' => $cat_id]);
+            }
             if ($success) {
-                $this->db->where('c_id', $id);
-                $success = $this->db->delete(db_prefix() . 'my_courts_categories');
-                if ($success) {
-                foreach ($cat as $cat_id){
-                    $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$id" , 'cat_id' => $cat_id] );
-                }
                 set_alert('success', _l('updated_successfully', _l('Court')));
 				redirect(admin_url('courts'));
-                }else {
-                    set_alert('warning', _l('problem_updating', _l('Court')));
-                    redirect(admin_url('courts'));
-                }
             }else {
             	set_alert('warning', _l('problem_updating', _l('Court')));
 				redirect(admin_url('courts'));
@@ -185,12 +189,7 @@ class Courts extends AdminController
         $response = $this->court->delete_court($id);
         if ($response == true) {
             $this->db->where('c_id', $id);
-            $success = $this->db->delete(db_prefix() . 'my_courts_categories');
-            if ($success) {
-            set_alert('success', _l('deleted', _l('Court')));
-            } else {
-                set_alert('warning', _l('problem_deleting', _l('Court')));
-            }
+            $this->db->delete(db_prefix() . 'my_courts_categories');
         } else {
             set_alert('warning', _l('problem_deleting', _l('Court')));
         }

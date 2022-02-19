@@ -78,7 +78,7 @@
 		<hr>
 		<div class="panel-body">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
                             <?php echo render_select('attendance_notice_recipient[]', $staff, array('staffid', array('firstname', 'lastname')),'attendance_notice_recipient', $data_attendance_notice_recipient, array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
@@ -172,7 +172,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
                             <img class="img-responsive img-thumbnail" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $qr ?>&choe=UTF-8" style="margin: 0 auto;display: block;">

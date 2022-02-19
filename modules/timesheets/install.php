@@ -353,7 +353,7 @@ if (!$CI->db->table_exists(db_prefix() . 'check_in_out')) {
     `date` datetime NULL,
     `type_check` int(11) NULL,
     `brand` varchar(255) NULL,
-    `device` varchar(255) NULL
+    `device` varchar(255) NULL,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

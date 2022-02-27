@@ -18,7 +18,7 @@
             </div>
             <div class="modal-footer">
                 <!--<button class="btn btn-default invoice-form-submit save-as-draft transaction-submit">
-                    <?php echo _l('save_as_draft'); ?>
+                    <?php //echo _l('save_as_draft'); ?>
                 </button>-->
                 <button disabled="true" class="submit_total btn btn-info invoice-form-submit save-and-send transaction-submit">
                       <?php echo _l('save_and_send'); ?>

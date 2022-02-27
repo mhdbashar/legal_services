@@ -12,6 +12,7 @@ class Disputes extends AdminController
         $this->load->model('projects_model');
         $this->load->model('Disputes_model');
         $this->load->model('currencies_model');
+        $this->load->model('legalservices/Cases_model', 'case');
         $this->load->helper('date');
         $this->ci = & get_instance();
     }
@@ -163,6 +164,11 @@ class Disputes extends AdminController
             $meta['opponent_id'] = implode(',',$data['opponent_id']);
             $meta['opponent_lawyer_id'] = $data['opponent_lawyer_id'];
 
+            $meta['court_id'] = isset($data['court_id'])?$data['court_id']:"";
+            $meta['jud_num'] = isset($data['jud_num'])?$data['jud_num']:"";
+            $meta['childsubcat_id'] = isset($data['childsubcat_id'])?$data['childsubcat_id']:"";
+
+
             foreach ($data['opponent_id'] as $value) {
                 if(array_count_values($data['opponent_id'])[$value] > 1 and $value != 0){
                     set_alert('danger', 'You can\'t add same opponents');
@@ -170,7 +176,7 @@ class Disputes extends AdminController
                 }
             }
 
-            unset($data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total'],$data['opponent_id'],$data['opponent_lawyer_id']);
+            unset($data['court_id'],$data['jud_num'],$data['childsubcat_id'],$data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total'],$data['opponent_id'],$data['opponent_lawyer_id']);
 
             if ($id == '') {
                 if (!has_permission('projects', '', 'create')) {
@@ -229,7 +235,6 @@ class Disputes extends AdminController
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
         }
-
         $data['settings'] = $this->projects_model->get_settings();
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
@@ -354,11 +359,6 @@ class Disputes extends AdminController
                 $data['meta'][$array['meta_key']] = $array['meta_value'];
             }
 
-
-
-
-            
-
             if ($group == 'project_overview') {
 
                 $data['tab']['view'] = 'disputes/project_overview';
@@ -446,6 +446,8 @@ class Disputes extends AdminController
                 $data['invoices_years']       = $this->invoices_model->get_invoices_years();
                 $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
                 $data['invoices_statuses']    = $this->invoices_model->get_statuses();
+//                $data['bodyclass']            = 'invoices-total-manual';
+
             } elseif ($group == 'project_gantt') {
                 $gantt_type         = (!$this->input->get('gantt_type') ? 'milestones' : $this->input->get('gantt_type'));
                 $taskStatus         = (!$this->input->get('gantt_task_status') ? null : $this->input->get('gantt_task_status'));

@@ -22,3 +22,6 @@ $lang['opponent_lawyer'] = 'المحامي الخصم';
 $lang['disputes_reminder'] = 'تذكير المنازعات';
 $lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';
 $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعادة إرسال المنازعات تلقائيا فاتورة تذكير المتأخرة قبل / بعد أيام';
+//representative
+//disputes_info
+//disputes_child_sub_categories

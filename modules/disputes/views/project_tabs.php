@@ -54,7 +54,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdown_<?php echo $key; ?>">
                             <?php
                             foreach($tab['children'] as $d){
-                                echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('projects/view/'.$project->id.'?group='.$d['slug']).'" data-group="'.$d['slug'].'">'.$d['name'];
+                                echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('disputes/view/'.$project->id.'?group='.$d['slug']).'" data-group="'.$d['slug'].'">'.$d['name'];
 
                                 if (isset($d['badge'], $d['badge']['value']) && !empty($d['badge'])) {?>
                                     <span class="badge pull-right

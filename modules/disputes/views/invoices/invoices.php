@@ -154,7 +154,7 @@ foreach ($rResult as $aRow) {
 
     $numberOutput .= '<div class="row-options">';
 
-    $numberOutput .= '<a href="' . site_url('disputes/invoice/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
+    $numberOutput .= '<a href="' . site_url('disputes/invoice/index/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
     if (has_permission('invoices', '', 'edit')) {
         $numberOutput .= ' | <a href="' . admin_url('disputes/invoices/invoice/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }

@@ -607,3 +607,16 @@ function disputes_user_can_view_invoice($id, $staff_id = false)
 
     return false;
 }
+function get_court_by_id($id){
+    $CI = &get_instance();
+    $CI->db->where('c_id', $id);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_courts')->row();
+}
+function get_judicialdept_by_id($id){
+    $CI = &get_instance();
+    $CI->db->where('j_id', $id);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_judicialdept')->row();
+}
+

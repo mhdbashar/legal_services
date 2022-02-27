@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <div id="wrapper">
-   <?php echo form_hidden('project_id',$project->id) ?>
+   <?php echo form_hidden('project_id',$project->id); ?>
    <div class="content">
       <div class="row">
          <div class="col-md-12">

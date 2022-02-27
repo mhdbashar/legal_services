@@ -242,6 +242,27 @@
               <td><?php echo $this->disputesapp->get_meta_title('my_categories','name','id',$meta['subcat_id']); ?></td>
           </tr>
           <?php } ?>
+          <?php if(isset($meta['childsubcat_id']) && $meta['childsubcat_id'] != 0){ ?>
+              <tr class="project-overview-customer">
+                  <td class="bold"><?php echo _l('child_sub_categories'); ?></td>
+                  <td><?php $childcat = get_category_by_id($meta['childsubcat_id']); echo $childcat->name?></td>
+              </tr>
+          <?php } ?>
+          <?php if(isset($meta['court_id']) && $meta['court_id']){
+              $cort_name = get_court_by_id($meta['court_id']);?>
+          <tr class="project-overview-customer">
+              <td class="bold"><?php echo _l('Court'); ?></td>
+              <td><?php echo isset($meta['court_id']) && $meta['court_id'] != '' ? maybe_translate(_l('nothing_was_specified'), $cort_name->court_name) : _l('nothing_was_specified'); ?></td>
+          </tr>
+          <?php } ?>
+          <?php if(isset($meta['jud_num']) && $meta['jud_num']){
+              $jud_name = get_judicialdept_by_id($meta['jud_num']);?>
+              <tr class="project-overview-customer">
+              <td class="bold"><?php echo _l('NumJudicialDept'); ?></td>
+              <td><?php echo isset($meta['jud_num']) && $meta['jud_num'] != '' ? maybe_translate(_l('nothing_was_specified'), $jud_name->Jud_number) : _l('nothing_was_specified'); ?></td>
+          </tr>
+          <?php } ?>
+
           </tbody>
       </table>
 </div>

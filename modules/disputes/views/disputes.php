@@ -274,7 +274,7 @@
             </div>
            <?php foreach($settings as $setting){
 
-            $checked = ' checked';
+            $checked = 'checked';
             if(isset($project)){
                 if($project->settings->{$setting} == 0){
                     $checked = '';

@@ -34,8 +34,9 @@ class Cities_model extends APP_Model{
 
     public function add_city($data){
         $this->db->insert($this->table_name, $data);
+        $insert_id = $this->db->insert_id();
         if($this->db->affected_rows() > 0){
-            log_activity($this->table_name . ' Added [City ID: '. $id . ']');
+            log_activity($this->table_name . ' Added [City ID: '. $insert_id . ']');
             return true;
         }
         return false;
@@ -65,11 +66,11 @@ class Cities_model extends APP_Model{
         $this->db->where('Id', $id);
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
-            log_activity($this->table_name . ' Deleted [' . $id . ']'); 
- 
+            log_activity($this->table_name . ' Deleted [' . $id . ']');
+
             return true;
-        } 
- 
-        return false; 
+        }
+
+        return false;
     }
 }

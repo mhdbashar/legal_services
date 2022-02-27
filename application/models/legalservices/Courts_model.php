@@ -91,6 +91,22 @@ class Courts_model extends App_Model
         $default = $this->db->get(db_prefix() . 'my_courts')->row();
         $this->db->where('court_id', $id);
         $this->db->update(db_prefix() . 'my_cases', ['court_id' => $default->c_id]);
+
+        // get my_judicialdept
+        $this->db->where('c_id', $id);
+        $judicials = $this->db->get(db_prefix() . 'my_judicialdept')->result();
+
+        // get default my_judicialdept
+        $this->db->where('is_default', 1);
+        $default = $this->db->get(db_prefix() . 'my_judicialdept')->row();
+
+        // unlink cases
+        foreach ($judicials as $judicial){
+            $this->db->where('jud_num', $judicial->j_id);
+            $this->db->update(db_prefix() . 'my_cases', ['jud_num' => $default->j_id]);
+
+        }
+        return true;
         $this->db->where('c_id', $id);
         $this->db->delete(db_prefix() . 'my_courts');
         if ($this->db->affected_rows() > 0) {

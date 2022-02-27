@@ -45,8 +45,9 @@ class Countries_model extends App_Model{
 
     public function add_country($data){
         $this->db->insert($this->table_name, $data);
+        $insert_id = $this->db->insert_id();
         if($this->db->affected_rows() > 0){
-            log_activity($this->table_name . ' Added [Country ID: '. $id . ']');
+            log_activity($this->table_name . ' Added [Country ID: '. $insert_id . ']');
             return true;
         }
         return false;
@@ -56,11 +57,11 @@ class Countries_model extends App_Model{
         $this->db->where('country_id', $id);
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
-            log_activity($this->table_name . ' Deleted [' . $id . ']'); 
- 
+            log_activity($this->table_name . ' Deleted [' . $id . ']');
+
             return true;
-        } 
- 
-        return false; 
+        }
+
+        return false;
     }
 }

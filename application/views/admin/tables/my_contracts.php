@@ -169,7 +169,7 @@ foreach ($rResult as $aRow) {
        //insert hijri date
 
 
-
+    $CI = &get_instance();
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['dateend']) . '<br>' . to_hijri_date(_d($aRow['dateend'])) : _d($aRow['dateend']);
 
     if (($aRow['project_id'] == 0 || $aRow['project_id'] == '') && $aRow['rel_stype'] != ''){

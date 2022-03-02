@@ -111,6 +111,8 @@ $lang['invoice_table_rate_heading'] = "السعر";
 $lang['invoice_table_tax_heading'] = "نسبة الضريبة";
 $lang['invoice_table_amount_heading'] = "الاجمالي قبل الضريبة";
 $lang['invoice_table_amount_without_tax_heading'] = "الاجمالي شامل الضريبة";
+$lang['estimate_table_amount_without_tax_heading'] = "الاجمالي شامل الضريبة";
+$lang['payments_table_amount_without_tax_heading'] = "الاجمالي شامل الضريبة";
 
 $lang['invoice_tax_amount_heading'] = 'مبلغ الضريبة';
 $lang['invoice_subtotal'] = "المبلغ الإجمالي";

@@ -523,6 +523,7 @@ class Sessions extends AdminController
             }
 
             $this->db->where('is_session', 1);
+            $this->db->where('deleted', 0);
             $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id='.db_prefix() . 'tasks.id', 'left');
             $this->db->order_by($fetch_month_from, 'ASC');
             array_push($overview, $m);

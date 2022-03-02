@@ -66,6 +66,11 @@ class CaseStatus_model extends App_Model
     
     public function delete($id, $simpleDelete = false)
     {
+        $this->db->where('is_default', 1);
+        $default = $this->db->get(db_prefix() . 'my_casestatus')->row();
+        $this->db->where('case_status', $id);
+        $this->db->update(db_prefix() . 'my_cases', ['case_status' => $default->id]);
+
         $this->db->where('relid', $id);
         $this->db->where('fieldto', 'cstauts'); //cstauts is the name of belong to in custom fields table
         $this->db->delete(db_prefix() . 'customfieldsvalues');

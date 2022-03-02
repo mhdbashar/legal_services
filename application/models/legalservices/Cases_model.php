@@ -10,7 +10,7 @@ class Cases_model extends App_Model
     {
         parent::__construct();
 
-        $project_settings = [
+       $project_settings = [
             'available_features',
             'view_procurations',
             'view_finance_overview',
@@ -32,13 +32,8 @@ class Cases_model extends App_Model
             'upload_on_tasks',
             'view_task_total_logged_time',
             'view_session_logs',
-            'create_sessions',
-            'edit_sessions',
-            'comment_on_sessions',
-            'view_session_comments',
             'view_session_attachments',
             'view_session_checklist_items',
-            'upload_on_sessions',
             'view_session_total_logged_time',
         ];
 
@@ -1389,26 +1384,25 @@ class Cases_model extends App_Model
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'tasks.id as id,
-        '.db_prefix() . 'tasks.name as task_name,
-        CONCAT(' . db_prefix() . 'staff.firstname, " ",'  . db_prefix() . 'staff.lastname) as fullname ,'  
-        // CONCAT(tblstaff.firstname ," ",  tblstaff.lastname) AS fullname
-        .db_prefix() . 'task_assigned.staffid as emp_assignee_id, '
+        '.db_prefix() . 'tasks.name as task_name,'
         .db_prefix() . 'my_judges.name as judge,
         court_name,
         customer_report,
         send_to_customer,
         startdate,
-        time
+        time,
         ';
+        
         $this->db->select($select);
 
-        $this->db->where(db_prefix() .'tasks.rel_id', $id);
-        $this->db->where(db_prefix() .'tasks.rel_type', $slug);
-
+        $this->db->where(array(
+            db_prefix() .'tasks.rel_id'             => $id,
+            db_prefix() .'tasks.rel_type'           => $slug,
+            db_prefix() .'tasks.is_session'         => 1
+        ));
         $this->db->where($where);
+
         $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');
-        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tasks.addedfrom', 'inner');
-        $this->db->join(db_prefix() . 'task_assigned', db_prefix() . 'task_assigned.taskid = ' . db_prefix() . 'tasks.id', 'left');
         $this->db->join(db_prefix() . 'my_courts', db_prefix() . 'my_courts.c_id = ' . db_prefix() . 'my_session_info.court_id', 'left');
         $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id = ' . db_prefix() . 'my_session_info.judge_id', 'left');
 
@@ -1416,6 +1410,27 @@ class Cases_model extends App_Model
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
         } else {
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
+        }
+
+        for($i=0; $i < count($tasks); $i++) {
+            $tasks[$i]['assignees']     = $this->tasks_model->get_task_assignees($tasks[$i]['id']);
+            $tasks[$i]['assignees_ids'] = [];
+
+            foreach ($tasks[$i]['assignees'] as $follower) {
+                array_push($tasks[$i]['assignees_ids'], $follower['assigneeid']);
+            }
+
+            if (is_staff_logged_in()) {
+                
+                if (total_rows(db_prefix() . 'task_assigned', [
+                    'staffid' => get_staff_user_id(),
+                    'taskid' => $id,
+                ]) == 0) {
+                    $tasks[$i]['current_user_is_assigned']  = false;
+                } else {
+                $tasks[$i]['current_user_is_assigned']  = true;
+                }
+            }
         }
         
         return $tasks;

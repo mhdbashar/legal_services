@@ -179,7 +179,11 @@ function get_relation_data($type, $rel_id = '', $extra = [])
         $data = $CI->representative->get();
     }elseif ($type == 'build_dropdown_cities') {
         $CI->load->model('countries_model', 'countries');
-        $data = $CI->countries->get_all_cities();
+        if($rel_id != ''){
+
+            $data = $CI->countries->get_cities_by_countryId($rel_id);
+        }else
+            $data = $CI->countries->get_all_cities();
     }elseif ($type == 'procurations') {
         $CI->load->model('procurations_model', 'procurations');
         $data = $CI->procurations->get();

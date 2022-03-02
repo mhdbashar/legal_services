@@ -2611,7 +2611,7 @@ public function count_type_leave($department, $type,$custom_date_select){
 	/**
 	 * check in
 	 * @param  array $data 
-	 * @return integer       
+	 * @return mixed
 	 */
 	public function check_in($data){
 		$id_admin = 0;
@@ -2763,9 +2763,9 @@ public function count_type_leave($department, $type,$custom_date_select){
                 if($data_check_in_out[count($data_check_in_out) - 1]['type_check'] == 2 && $data['type_check'] == 2)
                     // Error 6: Check in before check out
                     return 6;
-                if($diff < 10)
+                if($diff < 3)
                     // Error 7: You have to wait 10 min before you can check in again
-                    return 7;
+                    return ['timer' => $diff];
             }
 			$this->db->insert(db_prefix().'check_in_out', $data);
 			$insert_id = $this->db->insert_id();

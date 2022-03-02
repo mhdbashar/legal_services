@@ -24,6 +24,10 @@ if(!empty($client_id)){
     $client_id = 'no_request';
 }
 
+
+if(!empty($case_id)){
+    $where[] = 'AND id IN (SELECT procuration from ' . db_prefix() . 'procuration_cases WHERE _case="'.$case_id.'")';
+}
 $join = [];
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client', 'come_from', 'file']);
@@ -54,17 +58,6 @@ foreach ($rResult as $aRow) {
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';
-    if(isset($case_id)){
-        $ca = array();
-        foreach($cases as $case){
-            $ca[] = $case['id'];
-        }
-        if(!in_array($case_id, $ca)){
-            continue;
-        }else{
-            $addition = $case_id;
-        }
-    }
     $show_case = '';
     foreach($cases as $case){
         if(is_object($ci->case->get($case['id'])))

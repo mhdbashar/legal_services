@@ -50,7 +50,7 @@ class Timesheets extends REST_Controller {
     public function verify_token()
     {
         $headers = $this->input->request_headers();
-        if(!isset($headers['authtoken'])){
+        if(!isset($headers['authtoken']) && !isset($headers['Authtoken'])){
             $this->response(['message' => 'Unauthorized'], 401);
         }
         $result = $this->authorization_token->validateToken();
@@ -117,7 +117,15 @@ class Timesheets extends REST_Controller {
             $message = '';
             $status = true;
             $error = '';
-            if(is_numeric($re)){
+            $timer = 0;
+//            echo 'here'; print_r(($re)); exit;
+            if(is_array($re)){
+                $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
+                $status = false;
+                $error = 7;
+                $timer = $re['timer'];
+            }
+            elseif(is_numeric($re)){
                 if($re == 2){
                     $message = _l('your_current_location_is_not_allowed_to_take_attendance');
                     $status = false;
@@ -144,7 +152,7 @@ class Timesheets extends REST_Controller {
                     $error = 6;
                 }
                 if($re == 7){
-                    $message = _l('you_have_to_wait_10_min_before_you_can_check_in_again');
+                    $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
                     $status = false;
                     $error = 7;
                 }
@@ -180,7 +188,8 @@ class Timesheets extends REST_Controller {
             $this->response([
                     'status' => $status,
                     'message' => $message,
-                    'error' => $error
+                    'error' => $error,
+                    'timer' => $timer
                 ]
             );
         }
@@ -189,7 +198,7 @@ class Timesheets extends REST_Controller {
     public function timekeeper_post()
     {
 
-        if(!has_permission('finger_api', '', 'timekeeper'))
+        if(!has_permission('finger_api', '', 'timekeeper') && !is_admin())
             $this->response([
                 'status' => false,
                 'message' => 'Unauthorized'
@@ -228,19 +237,49 @@ class Timesheets extends REST_Controller {
 
             $type = $attend_data['type_check'];
             $re = $this->timesheets_model->check_in($attend_data);
+
             $message = '';
             $status = true;
-            if(is_numeric($re)){
+            $error = '';
+            if(is_array($re)){
+                $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
+                $status = false;
+                $error = 7;
+            }
+            elseif(is_numeric($re)){
                 if($re == 2){
                     $message = _l('your_current_location_is_not_allowed_to_take_attendance');
                     $status = false;
+                    $error = 2;
                 }
                 if($re == 3){
                     $message = _l('location_information_is_unknown');
                     $status = false;
+                    $error = 3;
                 }
                 if($re == 4){
                     $message = _l('route_point_is_unknown');
+                    $status = false;
+                    $error = 4;
+                }
+                if($re == 5){
+                    $message = _l('you_have_to_check_out_before');
+                    $status = false;
+                    $error = 5;
+                }
+                if($re == 6){
+                    $message = _l('you_have_to_check_in_before');
+                    $status = false;
+                    $error = 6;
+                }
+                if($re == 7){
+                    $message = _l('you_have_to_wait_3_min_before_you_can_check_in_again');
+                    $status = false;
+                    $error = 7;
+                }
+                if($re == 8){
+                    $message = _l('you_don\'t_have_shift_work');
+                    $error = 8;
                     $status = false;
                 }
             }
@@ -269,7 +308,8 @@ class Timesheets extends REST_Controller {
 
             $this->response([
                     'status' => $status,
-                    'message' => $message
+                    'message' => $message,
+                    'error' => $error
                 ]
             );
         }

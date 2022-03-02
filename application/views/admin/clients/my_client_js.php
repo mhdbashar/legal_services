@@ -251,7 +251,6 @@ $(function() {
     $('.billing-same-as-customer').on('click', function(e) {
         e.preventDefault();
         $('textarea[name="billing_street"]').val($('textarea[name="address"]').val());
-        $('input[name="billing_city"]').val($('input[name="city"]').val());
         $('input[name="billing_state"]').val($('input[name="state"]').val());
         $('input[name="billing_zip"]').val($('input[name="zip"]').val());
 
@@ -267,6 +266,7 @@ $(function() {
 
 
         $('select[name="billing_country"]').selectpicker('val', $('select[name="country"]').selectpicker('val'));
+        $('select[name="billing_city"]').selectpicker('val', $('select[name="city"]').selectpicker('val'));
     });
 
     $('.customer-copy-billing-address').on('click', function(e) {

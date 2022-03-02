@@ -11,6 +11,12 @@ class Migration_Version_517 extends CI_Migration
 
     public function up()
     {
+        // jawad
+
+        if (!$this->db->field_exists('time', db_prefix() . 'reminder')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'reminder` ADD `time` varchar(255) DEFAULT NULL');
+        }
+
         $this->db->where('is_default', 1);
         $default = $this->db->get(db_prefix() . 'my_judicialdept')->row_array();
         if((empty($default))){

@@ -9,9 +9,6 @@
         <?php if ($project->settings->view_tasks == 1 && $project->settings->create_tasks == 1) { ?>
             <a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=new_task'); ?>" class="btn btn-info pull-right mtop5"><?php echo _l('new_task'); ?></a>
         <?php } ?>
-        <?php if ($project->settings->view_session_logs == 1 && $project->settings->create_sessions == 1) { ?>
-            <a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=new_session'); ?>" class="btn btn-info pull-right mtop5 mright5"><?php echo _l('new_session'); ?></a>
-        <?php } ?>
     </div>
 </div>
 <div class="panel_s">

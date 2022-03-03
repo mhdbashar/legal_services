@@ -711,17 +711,17 @@ class Tasks extends AdminController
                 $message    = _l('reminder_added_successfully');
             }
             //Telegram Chat
-
-            $this->load->helper('telegram_helper');
-            $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
-            $link = APP_BASE_URL.'admin/tasks/view/'.$task_id;
-            $hours=$data['time'];
-            $link1 = "<a href= '$link' >click here</a>";
-            $contant = str_replace(array('<br>','↵'), "\n", $data['description']);
-            $txt = " &#128276\n"."تم انشاء تذكير في المهمات من قبل:".$userName."\n اضغط على هذا الرابط : ".$link1. " \n تم تعيين تاريخ التذكير : ". $data['date']. "\n تم تعيين التوقيت :".$hours." \n الوصف : ".$contant."\n Done!";
-            send_message_telegram( urlencode( $txt  ) );
-            //Telegram Chat
-
+            if($this->app_modules->is_active('telegram_chat')) {
+                $this->load->helper('telegram_helper');
+                $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
+                $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+                $hours = $data['time'];
+                $link1 = "<a href= '$link' >click here</a>";
+                $contant = str_replace(array('<br>', '↵'), "\n", $data['description']);
+                $txt = " &#128276\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n اضغط على هذا الرابط : " . $link1 . " \n تم تعيين تاريخ التذكير : " . $data['date'] . "\n تم تعيين التوقيت :" . $hours . " \n الوصف : " . $contant . "\n Done!";
+                send_message_telegram(urlencode($txt));
+                //Telegram Chat
+            }
         }
         echo json_encode([
             'taskHtml'   => $this->get_task_data($task_id, true),
@@ -1088,22 +1088,23 @@ class Tasks extends AdminController
     public function add_task_assignees()
     {
 
-        $task = $this->tasks_model->get($this->input->post('taskid'));
 
-        //Telegram Chat
+                $task = $this->tasks_model->get($this->input->post('taskid'));
 
-        $str='   &#128276 تم توجيه المهمة الى :'."\n";
-        foreach ($task->assignees as $assignee){
-            $str.= "اسم الموظف :".$assignee['full_name']."\n";
-        }
+                //Telegram Chat
+               if($this->app_modules->is_active('telegram_chat')) {
+                   $str = '   &#128276 تم توجيه المهمة الى :' . "\n";
+                   foreach ($task->assignees as $assignee) {
+                       $str .= "اسم الموظف :" . $assignee['full_name'] . "\n";
+                   }
 
 
-        $this->load->helper('telegram_helper');
-        $link1=APP_BASE_URL.'admin/tasks/view/'.$task->id;
-        $link = "<a href= '$link1' >click here</a>";
-        $str1 =$str." \n اضغط على الرابط التالي للمعاينة : ".$link."\nDone!";
-        send_message_telegram(urlencode($str1));
-
+                   $this->load->helper('telegram_helper');
+                   $link1 = APP_BASE_URL . 'admin/tasks/view/' . $task->id;
+                   $link = "<a href= '$link1' >click here</a>";
+                   $str1 = $str . " \n اضغط على الرابط التالي للمعاينة : " . $link . "\nDone!";
+                   send_message_telegram(urlencode($str1));
+               }
         //Telegram Chat
 
 
@@ -1114,10 +1115,10 @@ class Tasks extends AdminController
             ]);
 
 
-        }
 
 
-    }
+
+    }}
 
     public function add_session_assignees()
     {

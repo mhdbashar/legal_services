@@ -13,8 +13,8 @@ class Migration_Version_517 extends CI_Migration
     {
         // jawad
 
-        if (!$this->db->field_exists('time', db_prefix() . 'reminder')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'reminder` ADD `time` varchar(255) DEFAULT NULL');
+        if (!$this->db->field_exists('time', db_prefix() . 'reminders')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'reminders` ADD `time` varchar(255) DEFAULT NULL');
         }
 
         $this->db->where('is_default', 1);

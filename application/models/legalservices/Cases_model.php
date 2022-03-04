@@ -1379,7 +1379,7 @@ class Cases_model extends App_Model
         ];
     }
 
-    public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
+   public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         
@@ -1420,17 +1420,17 @@ class Cases_model extends App_Model
                 array_push($tasks[$i]['assignees_ids'], $follower['assigneeid']);
             }
 
-            if (is_staff_logged_in()) {
+            // if (is_client_logged_in()) {
                 
-                if (total_rows(db_prefix() . 'task_assigned', [
-                    'staffid' => get_staff_user_id(),
-                    'taskid' => $id,
-                ]) == 0) {
-                    $tasks[$i]['current_user_is_assigned']  = false;
-                } else {
-                $tasks[$i]['current_user_is_assigned']  = true;
-                }
-            }
+            //     if (total_rows(db_prefix() . 'task_assigned', [
+            //         'staffid' => get_staff_user_id(),
+            //         'taskid' => $id,
+            //     ]) == 0) {
+            //         $tasks[$i]['current_user_is_assigned']  = false;
+            //     } else {
+            //         $tasks[$i]['current_user_is_assigned']  = true;
+            //     }
+            // }
         }
         
         return $tasks;

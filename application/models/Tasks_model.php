@@ -112,6 +112,10 @@ class Tasks_model extends App_Model
             if (is_staff_logged_in()) {
                 $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
                 $task->current_user_is_creator  = $this->is_task_creator(get_staff_user_id(), $id);
+            } elseif (is_client_logged_in()) 
+            {
+                $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
+                $task->current_user_is_creator  = $this->is_task_creator(get_staff_user_id(), $id);
             }
 
             $task->milestone_name = '';

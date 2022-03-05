@@ -109,11 +109,7 @@ class Tasks_model extends App_Model
             $task->timesheets      = $this->get_timesheeets($id);
             $task->checklist_items = $this->get_checklist_items($id);
 
-            if (is_staff_logged_in()) {
-                $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
-                $task->current_user_is_creator  = $this->is_task_creator(get_staff_user_id(), $id);
-            } elseif (is_client_logged_in()) 
-            {
+            if (is_staff_logged_in() || is_client_logged_in()) {
                 $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
                 $task->current_user_is_creator  = $this->is_task_creator(get_staff_user_id(), $id);
             }

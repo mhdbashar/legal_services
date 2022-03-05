@@ -309,7 +309,7 @@
                } ?>
             <?php } ?>
          </div>
-         <div class="col-md-4 task-single-col-right" id="session-right">
+         <div class="col-md-4 col-sm-12 task-single-col-right" id="session-right">
             <?php // Proceedings of Session ?>
             <h5 class="task-info-heading"><?php echo _l('session_information'); ?>
                <?php
@@ -555,15 +555,33 @@
       }
 
       $(document).ready(function() {
-         $('#session-right').css({
-            'background-color': '#F0F5F7',
-            'padding': '13px 20px',
-            'border-bottom-right-radius': '6px',
-            'position': 'absolute',
-            'margin-top': '8px',
-            'right': '0px',
-            'padding-top': '20px'
-         });
+         
+         function responsive(maxWidth) {
+            if (maxWidth.matches) { 
+               $('#session-right').css({
+                  'background-color': '#F0F5F7',
+                  'padding': '13px 20px',
+                  'border-bottom-right-radius': '6px',
+                  'position': 'unset',
+               });
+               
+            } else {
+               $('#session-right').css({
+                  'background-color': '#F0F5F7',
+                  'padding': '13px 20px',
+                  'border-bottom-right-radius': '6px',
+                  'position': 'absolute',
+                  'margin-top': '8px',
+                  'right': '0px',
+                  'padding-top': '20px'
+               });
+            }
+         }
+         var maxWidth = window.matchMedia("(max-width: 768px)");
+         
+         responsive(maxWidth);
+         maxWidth.addListener(responsive);
+         
 
          // Height of the Side bar
          var height = $("#session-right").height();

@@ -2223,42 +2223,40 @@ class Cron_model extends App_Model
             return;
         }
 
-        /*if ($daily_agenda_hour == '') {
+        if ($daily_agenda_hour == '') {
             $daily_agenda_hour = 7;
         }
         $hour_now = date('G');
         if ($hour_now != $daily_agenda_hour && $this->manually === false) {
             return;
-        }*/
-
+        }
+        $last_check = get_option('daily_agenda_last_check');
+        if($last_check == date('Y-m-d'))
+            return;
         //if($daily_agenda_hour == date('G')){
-        $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 0));
-        $this->db->where('duedate IS NOT NULL');
-        $this->db->where('status !=', 5);
-        $tasks = $this->db->get(db_prefix() . 'tasks');
-        $tasks_data = $tasks->result_array();
-        $tasks_count = $tasks->num_rows();
+        $staffs = $this->staff_model->get();
+        foreach ($staffs as $staff){
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 0));
+            $this->db->where('duedate IS NOT NULL');
 
-        $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 1));
-        $this->db->where('duedate IS NOT NULL');
-        $this->db->where('status !=', 5);
-        $sessions = $this->db->get(db_prefix() . 'tasks');
-        $sessions_data = $sessions->result_array();
-        $sessions_count = $sessions->num_rows();
+            $this->db->where('status !=', 5);
+            $tasks = $this->db->get(db_prefix() . 'tasks');
+            $tasks_data = $tasks->result_array();
+            $tasks_count = $tasks->num_rows();
 
-        foreach ($tasks_data as $task) {
-            $member = $this->staff_model->get($task['addedfrom']);
-            $member_email = $member->email;
-            $member_lang = $member->default_language;
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 1));
+            $this->db->where('duedate IS NOT NULL');
+            $this->db->where('status !=', 5);
+            $sessions = $this->db->get(db_prefix() . 'tasks');
+            $sessions_data = $sessions->result_array();
+            $sessions_count = $sessions->num_rows();
+
+            $member_email = $staff['email'];
+            $member_lang = $staff['default_language'];
             $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
-        }
 
-        foreach ($sessions_data as $session) {
-            $member = $this->staff_model->get($session['addedfrom']);
-            $member_email = $member->email;
-            $member_lang = $member->default_language;
-            $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
         }
+        update_option('daily_agenda_last_check', date('Y-m-d'));
         //}
     }
 

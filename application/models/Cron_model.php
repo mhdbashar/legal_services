@@ -2226,8 +2226,11 @@ class Cron_model extends App_Model
         if ($daily_agenda_hour == '') {
             $daily_agenda_hour = 7;
         }
-        $hour_now = date('G');
-        if ($hour_now != $daily_agenda_hour && $this->manually === false) {
+        $hour_now = date('H:i');
+        $hour_now = strtotime($hour_now);
+        $daily_agenda_hour = strtotime($daily_agenda_hour);
+
+        if ($hour_now > $daily_agenda_hour && $this->manually === false) {
             return;
         }
         $last_check = get_option('daily_agenda_last_check');

@@ -182,9 +182,8 @@
         <?php echo render_input('settings[automatically_empty_recycle_bin_after_days]', 'EmptyRecycleBin', get_option('automatically_empty_recycle_bin_after_days'), 'number'); ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="daily_agenda">
-        <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
-           data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
-        <?php echo render_input('settings[automatically_send_lawyer_daily_agenda]', 'daily_agenda_hour', get_option('automatically_send_lawyer_daily_agenda'), 'number', array('max' => 23, 'min' => 0)); ?>
+        <label for="automatically_send_lawyer_daily_agenda" class="col-form-label"><?php echo _l('daily_agenda_hour   '); ?></label>
+        <input type="<?php echo (get_option('time_format') == 24) ? 'text' : 'time' ?>" class="form-control" value="<?php echo get_option('automatically_send_lawyer_daily_agenda'); ?>" id="automatically_send_lawyer_daily_agenda" name="settings[automatically_send_lawyer_daily_agenda]" autocomplete="off">
     </div>
     <?php hooks()->do_action('after_cron_settings_last_tab_content'); ?>
 </div>

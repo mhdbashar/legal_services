@@ -146,9 +146,9 @@
                       $_tooltip_already_send = _l('invoice_already_send_to_client_tooltip',time_ago($invoice->datesend));
                      }
                      ?>
-<!--                  --><?php //if(has_permission('invoices','','edit')){ ?>
-<!--                  <a href="--><?php //echo admin_url('invoices/invoice/'.$invoice->id); ?><!--" data-toggle="tooltip" title="--><?php //echo _l('edit_invoice_tooltip'); ?><!--" class="btn btn-default btn-with-tooltip" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>-->
-<!--                  --><?php //} ?>
+                  <?php if(has_permission('invoices','','edit')){ ?>
+                  <a href="<?php echo admin_url('invoices/invoice/'.$invoice->id); ?>" data-toggle="tooltip" title="<?php echo _l('edit_invoice_tooltip'); ?>" class="btn btn-default btn-with-tooltip" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>
+                  <?php } ?>
                   <div class="btn-group">
                      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                      <ul class="dropdown-menu dropdown-menu-right">

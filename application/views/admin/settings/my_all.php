@@ -97,6 +97,13 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
+
+        <?php if(get_option('time_format') == 24) {?>
+        $('#automatically_send_lawyer_daily_agenda').datetimepicker({
+            datepicker:false,
+            format:'H:i',
+        });
+        <?php } ?>
         var slug = "<?php echo $tab['slug']; ?>";
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var settingsForm = $('#settings-form');

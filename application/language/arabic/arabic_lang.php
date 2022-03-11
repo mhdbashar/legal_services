@@ -2737,6 +2737,7 @@ $lang['item_report_paid_invoices_notice'] = "يتم إنشاء تقرير الع
 $lang['overview'] = "نظرة عامة";
 $lang['timer_started_change_status_in_progress'] = "تغيير حالة المهمة إلى قيد التقدم عند بدء تشغيل الموقت (صالح فقط إذا لم تكن حالة المهمة قد بدأت)";
 $lang['company_info_format'] = "تنسيق معلومات الشركة (PDF و HTML)";
+$lang['invoice_info_format'] = "تنسيق معلومات الفواتير (PDF و HTML)";
 $lang['customer_info_format'] = "تنسيق معلومات العميل (PDF و HTML)";
 $lang['custom_field_info_format_embed_info'] = "يمكن تضمين الحقول المخصصة لـ %s بسهولة في مستندات PDF و HTML عن طريق إضافة حقول الدمج في تنسيق الصفحة في الصفحة التالية: %s ";
 $lang['transfer_lead_notes_to_customer'] = "نقل ملاحظات العميل المتوقع إلى ملف تعريف العميل";

@@ -157,10 +157,12 @@ $autoload['helper'] = [
         'pre_query_data_formatters',
         'widgets',
         'sms',
+        'telegram',
         'deprecated',
         'cases',
         'oservices',
         'iservices',
+        'telegram',
     ];
 
 if (file_exists(APPPATH . 'helpers/my_functions_helper.php')) {
@@ -213,6 +215,7 @@ $autoload['model'] = [
     'roles_model',
     'clients_model',
     'tasks_model',
+    'telegram_model',
 ];
 
 if (file_exists(APPPATH . 'config/my_autoload.php')) {

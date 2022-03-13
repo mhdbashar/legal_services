@@ -392,7 +392,9 @@ function timesheets_add_head_components(){
 	if($data_timekeeping_form == 'timekeeping_manually'){
 		echo '<link href="' . module_dir_url(TIMESHEETS_MODULE_NAME,'assets/css/style.css') .'?v=' . TIMESHEETS_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
-	if (!(strpos($viewuri, '/admin/timesheets/requisition_detail') === false)) {
+    echo '<link href="' . module_dir_url(TIMESHEETS_MODULE_NAME,'assets/css/custom.css') .'?v=' . TIMESHEETS_REVISION. '"  rel="stylesheet" type="text/css" />';
+
+    if (!(strpos($viewuri, '/admin/timesheets/requisition_detail') === false)) {
 		echo '<link href="' . module_dir_url(TIMESHEETS_MODULE_NAME,'assets/css/requisition_detail.css') .'?v=' . TIMESHEETS_REVISION. '"  rel="stylesheet" type="text/css" />';
 	}
 	if (!(strpos($viewuri, '/admin/timesheets/route_management?tab=route') === false)) {

@@ -11,6 +11,8 @@ $route['admin/delete_court/(:num)'] = 'admin/legalservices/courts/del_court/$1';
 $route['admin/edit_court/(:num)'] = 'admin/legalservices/courts/edit_court_data/$1';
 $route['admin/edit_judicial/(:num)/(:num)'] = 'admin/legalservices/courts/edit_judicial_data/$1/$2';
 $route['admin/judicialByCourt/(:num)'] = 'admin/legalservices/courts/GetJudicialByCourtID/$1';
+$route['judicialByCourt/(:num)'] = 'clients/GetJudicialByCourtID/$1';
+
 
 //Legal Services Managment
 $route['admin/ServicesControl'] = 'admin/legalservices/legal_services/ShowLegalServices';

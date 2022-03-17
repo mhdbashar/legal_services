@@ -38,6 +38,7 @@ class Clients extends ClientsController
         parent::__construct();
 
         $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Courts_model', 'court');
         $this->load->model('legalservices/Other_services_model', 'other');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
@@ -1729,7 +1730,7 @@ class Clients extends ClientsController
         $this->layout();
     }
 
-    public function GetJudicialByCourtID($id)
+     public function GetJudicialByCourtID($id)
     {
         $arr = $this->court->get_judicial_of_courts($id)->result();
         $response = '<div class="form-group">

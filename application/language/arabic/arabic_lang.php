@@ -3394,3 +3394,8 @@ $lang['sent_to_customer'] = "مرسل";
 $lang['customer_report_none'] = "لايوجد";
 $lang['customer_report'] = "يوجد";
 $lang['no_tags'] = "لايوجد كلمات دلالية";
+
+$lang['project_setting_create_sessions'] = "إنشاء جلسة";
+$lang['project_setting_edit_sessions'] = "تحرير جلسة (فقط الجلسات التي تم إنشاؤها من جهة الاتصال)";
+$lang['project_setting_upload_on_sessions'] = "تحميل المرفقات على الجلسات";
+$lang['project_setting_comment_on_sessions'] = "التعليق على جلسات الخدمة";

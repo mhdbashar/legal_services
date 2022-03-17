@@ -32,8 +32,13 @@ class Cases_model extends App_Model
             'upload_on_tasks',
             'view_task_total_logged_time',
             'view_session_logs',
+            'create_sessions',
+            'edit_sessions',
+            'comment_on_sessions',
+            'view_session_comments',
             'view_session_attachments',
             'view_session_checklist_items',
+            'upload_on_sessions',
             'view_session_total_logged_time',
         ];
 

@@ -1082,7 +1082,7 @@ class Clients extends ClientsController
         $this->layout();
     }
 
-     public function legal_services($id, $ServID)
+    public function legal_services($id, $ServID)
     {
 
         if (!has_contact_permission('projects')) {
@@ -1113,6 +1113,100 @@ class Clients extends ClientsController
         if ($this->input->post('action')) {
             $action = $this->input->post('action');
             switch ($action) {
+                case 'new_session':
+                case 'edit_session':
+                    $data    = $this->input->post();
+                    $session_id = false;
+                    if (isset($data['session_id'])) {
+                        $session_id = $data['session_id'];
+                        unset($data['session_id']);
+                    }
+
+                    $data['duedate']        = null;
+                    $data['rel_type']       = $slug;
+                    $data['rel_id']         = $project->id;
+                    $data['description']    = nl2br($data['description']);
+                    // $data['courts']         = $this->sessions_model->get_court();
+                    
+
+                    $assignees = isset($data['assignees']) ? $data['assignees'] : [];
+                    if (isset($data['assignees'])) {
+                        unset($data['assignees']);
+                    }
+
+                    unset($data['action']);
+                    
+                    if (!$session_id) {
+                        $this->load->model('sessions_model');
+                        $session_id = $this->sessions_model->add($data, true);
+                        
+                        if ($session_id) {
+                            foreach ($assignees as $assignee) {
+                                // $this->sessions_model->remove_assignee(, $session_id);
+                                $this->sessions_model->add_task_assignees(['taskid' => $session_id, 'assignee' => $assignee]);
+                            }
+
+                            $uploadedFiles = handle_task_attachments_array($session_id);
+                            if ($uploadedFiles && is_array($uploadedFiles)) {
+                                foreach ($uploadedFiles as $file) {
+                                    $file['contact_id'] = get_contact_user_id();
+                                    $this->misc_model->add_attachment_to_database($session_id, 'task', [$file]);
+                                }
+                            }
+
+                            set_alert('success', _l('added_successfully', _l('session')));
+                            redirect(site_url('clients/legal_services/' . $project->id . '/' . $ServID. '?group=CaseSession&session_id='. $session_id));
+
+                        }
+                    } else {
+                        if ($project->settings->edit_sessions == 1
+                            && total_rows(db_prefix() . 'tasks', ['is_session' => 1, 'is_added_from_contact' => 1, 'addedfrom' => get_contact_user_id()]) > 0) {
+                            $affectedRows = 0;
+                            $updated      = $this->sessions_model->update($data, $session_id, true);
+                            if ($updated) {
+                                $affectedRows++;
+                            }
+
+                            $currentAssignees    = $this->sessions_model->get_task_assignees($session_id);
+                            $currentAssigneesIds = [];
+                            foreach ($currentAssignees as $assigned) {
+                                array_push($currentAssigneesIds, $assigned['assigneeid']);
+                            }
+
+                            $totalAssignees = count($assignees);
+
+                            /**
+                             * In case when contact created the task and then was able to view team members
+                             * Now in this case he still can view team members and can edit them
+                             */
+                            if ($totalAssignees == 0 && $project->settings->view_team_members == 1) {
+                                $this->db->where('taskid', $session_id);
+                                $this->db->delete(db_prefix() . 'task_assigned');
+                            } elseif ($totalAssignees > 0 && $project->settings->view_team_members == 1) {
+                                foreach ($currentAssignees as $assigned) {
+                                    if (!in_array($assigned['assigneeid'], $assignees)) {
+                                        if ($this->sessions_model->remove_assignee($assigned['id'], $session_id)) {
+                                            $affectedRows++;
+                                        }
+                                    }
+                                }
+                                foreach ($assignees as $assignee) {
+                                    if (!$this->sessions_model->is_task_assignee($assignee, $session_id)) {
+                                        if ($this->sessions_model->add_task_assignees(['taskid' => $session_id, 'assignee' => $assignee], false, true)) {
+                                            $affectedRows++;
+                                        }
+                                    }
+                                }
+                            }
+                            if ($affectedRows > 0) {
+                                set_alert('success', _l('updated_successfully', _l('session')));
+                            }
+                            redirect(site_url('clients/legal_services/' . $project->id . '/' . $ServID. '?group=CaseSession'));
+                        }
+                    }
+
+                    redirect(site_url('clients/legal_services/' . $project->id . '/' . $ServID. '?group=CaseSession'));
+                    break;
                 case 'new_task':
                 case 'edit_task':
                     $data    = $this->input->post();
@@ -1201,7 +1295,7 @@ class Clients extends ClientsController
 
                     break;
                 case 'discussion_comments':
-
+                
                     if ($ServID == 1) {
                         echo json_encode($this->case->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
                     } else {
@@ -1342,6 +1436,20 @@ class Clients extends ClientsController
                     redirect($url);
 
                     break;
+                case 'new_session_comment':
+                    $comment_data            = $this->input->post();
+                    $comment_data['content'] = nl2br($comment_data['content']);
+                    $comment_id              = $this->sessions_model->add_task_comment($comment_data);
+                    $url                     = site_url('clients/legal_services/' . $id .'/'. $ServID . '?group=CaseSession&session_id=' . $comment_data['taskid']);
+
+                    if ($comment_id) {
+                        set_alert('success', _l('task_comment_added'));
+                        $url .= '#comment_' . $comment_id;
+                    }
+
+                    redirect($url);
+
+                    break;
                 default:
                     redirect(site_url('clients/legal_services/' . $id));
 
@@ -1358,7 +1466,7 @@ class Clients extends ClientsController
         } else {
             $data['project_status'] = get_oservice_status_by_id($data['project']->status);
         }
-        if ($group != 'edit_task') {
+        if ($group != 'edit_task' && $group != 'edit_session') {
             if ($group == 'project_overview') {
                 if ($ServID == 1) {
                     $percent = $this->case->calc_progress($id, $slug);
@@ -1422,6 +1530,18 @@ class Clients extends ClientsController
                     $data['milestones'] = $this->other->get_milestones($slug, $id);
                 }
             
+            } elseif ($group == 'new_session') {
+                if ($project->settings->create_sessions == 0) {
+                    redirect(site_url('clients/legal_services/' . $project->id. '/' .$ServID));
+                }
+                if($ServID == 1){
+                    $data['default_courts'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+                    $data['courts']         = $this->sessions_model->get_court();
+                    $data['milestones'] = $this->case->get_milestones($slug, $id);
+                    $data['judges']      = $this->sessions_model->get_judges();
+                }else{
+                    $data['milestones'] = $this->other->get_milestones($slug, $id);
+                }
             } elseif ($group == 'project_gantt') {
                 if ($ServID == 1) {
                     $data['gantt_data'] = $this->case->get_gantt_data($slug, $id);
@@ -1547,16 +1667,16 @@ class Clients extends ClientsController
                 $data['title'] = $data['view_task']->name;
             }
             if ($this->input->get('session_id')) {
-                $data['view_task'] = $this->tasks_model->get($this->input->get('session_id'), [
+                $data['view_task']              = $this->tasks_model->get($this->input->get('session_id'), [
                     'rel_id'   => $project->id,
                     'rel_type' => $slug,
                 ], 1);
-                $data['session_data'] = $this->sessions_model->get_session_data($this->input->get('session_id'));
-                $data['court_decision'] = $data['session_data']->tbl8;
-                $data['session_information'] = $data['session_data']->tbl7;
-
-
-                $data['title'] = $data['view_task']->name;
+                $data['staff']                  = $this->staff_model->get('', ['active' => 1]);
+                $data['session_data']           = $this->sessions_model->get_session_data($this->input->get('session_id'));
+                $data['court_decision']         = $data['session_data']->tbl8;
+                $data['session_information']    = $data['session_data']->tbl7;
+                $data['title']                  = $data['view_task']->name;
+                
             }
         } elseif ($group == 'edit_task') {
             if ($ServID == 1) {
@@ -1570,7 +1690,27 @@ class Clients extends ClientsController
                 'addedfrom'             => get_contact_user_id(),
                 'is_added_from_contact' => 1,
             ]);
-        } 
+        } elseif($group == 'edit_session') {
+            if ($project->settings->edit_sessions == 0) {
+                redirect(site_url('clients/legal_services/' . $project->id. '/' .$ServID));
+            }
+            if($ServID == 1){
+                $data['courts']         = $this->sessions_model->get_court();
+                $data['default_courts'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+                $data['milestones'] = $this->case->get_milestones($slug, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+            }else{
+                $data['milestones'] = $this->other->get_milestones($slug, $id);
+            }
+            
+            $data['courts']         = $this->sessions_model->get_court();
+            $data['session']       = $this->sessions_model->get($this->input->get('session_id'), [
+                'rel_id'                => $project->id,
+                'rel_type'              => $slug,
+                'addedfrom'             => get_contact_user_id(),
+                'is_added_from_contact' => 1,
+            ], 1);
+        }
 
         $data['group']    = $group;
 
@@ -1587,6 +1727,19 @@ class Clients extends ClientsController
         $this->data($data);
         $this->view('legal_services');
         $this->layout();
+    }
+
+    public function GetJudicialByCourtID($id)
+    {
+        $arr = $this->court->get_judicial_of_courts($id)->result();
+        $response = '<div class="form-group">
+        <label class="control-label">'._l('NumJudicialDept'). '</label>
+        <select class="form-control custom_select_arrow" aria-invalid="false" id="dept" name="dept" placeholder="dropdown_non_selected_tex">';
+        foreach($arr as $item){
+            $response.= '<option value="'.$item->j_id.'">'.$item->Jud_number . '</option>';
+        }
+        $response .= '</select></div>';
+        echo ($response);
     }
 
     public function download_all_project_files($id)
@@ -1611,6 +1764,36 @@ class Clients extends ClientsController
         }
 
         $this->zip->download(slug_it(get_project_name_by_id($id)) . '-files.zip');
+        $this->zip->clear_data();
+    }
+
+     public function download_all_session_files($id, $comment_id = null)
+    {
+        $taskWhere = 'external IS NULL';
+
+        if ($comment_id) {
+            $taskWhere .= ' AND task_comment_id=' . $this->db->escape_str($comment_id);
+        }
+
+        if (!has_permission('sessions', '', 'view')) {
+            $taskWhere .= ' AND ' . get_sessions_where_string(false);
+        }
+
+        $files = $this->sessions_model->get_task_attachments($id, $taskWhere);
+
+        if (count($files) == 0) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $path = get_upload_path_by_type('task') . $id;
+
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download('files.zip');
         $this->zip->clear_data();
     }
 
@@ -1705,7 +1888,7 @@ class Clients extends ClientsController
         }
     }
 
-    public function delete_file($id, $type = '', $ServID = '')
+     public function delete_file($id, $type = '', $ServID = '')
     {
         if (get_option('allow_contact_to_delete_files') == 1) {
             if ($type == 'general') {
@@ -1723,22 +1906,29 @@ class Clients extends ClientsController
                     set_alert('success', _l('deleted', _l('file')));
                 }
                 redirect(site_url('clients/project/' . $file->project_id . '?group=project_files'));
-            } elseif ($type == 'task') {
+            } elseif ($type == 'task' || $type == 'session') {
                 $file = $this->misc_model->get_file($id);
                 if ($file->contact_id == get_contact_user_id()) {
                     $this->tasks_model->remove_task_attachment($id);
                     set_alert('success', _l('deleted', _l('file')));
                 }
-                redirect(site_url('clients/project/' . $this->input->get('project_id') . '?group=project_tasks&taskid=' . $file->rel_id));
+
+                if ($type == 'task')
+                {
+                    redirect(site_url('clients/legal_services/' . $this->input->get('project_id') . '/'. $ServID . '?group=project_tasks&taskid=' . $file->rel_id));
+                } else 
+                {
+                    redirect(site_url('clients/legal_services/' . $this->input->get('project_id') . '/'. $ServID .'?group=CaseSession&session_id=' . $file->rel_id));
+                }
             } elseif ($type == 'legal_services') {
-                if ($ServID == 1){
+                if ($ServID == 1) {
                     $this->load->model('legalservices/Cases_model', 'case');
                     $file = $this->case->get_file($id);
                     if ($file->contact_id == get_contact_user_id()) {
                         $this->case->remove_file($id);
                         set_alert('success', _l('deleted', _l('file')));
                     }
-                }else{
+                } else {
                     $this->load->model('legalservices/Other_services_model', 'other');
                     $file = $this->other->get_file($id);
                     if ($file->contact_id == get_contact_user_id()) {
@@ -1746,7 +1936,7 @@ class Clients extends ClientsController
                         set_alert('success', _l('deleted', _l('file')));
                     }
                 }
-                redirect(site_url('clients/legal_services/' . $file->project_id .'/'.$ServID.'?group=project_files'));
+                redirect(site_url('clients/legal_services/' . $file->project_id . '/' . $ServID . '?group=project_files'));
             }
         }
         redirect(site_url());

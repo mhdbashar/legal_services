@@ -73,7 +73,7 @@
             } ?>
             <?php // Description ?>
                <hr />
-               <h4 class="bold"><?php echo _l('session_view_description'); ?></h4>
+               <h4 class="bold"><?php echo _l('task_view_description'); ?></h4>
                <div class="tc-content">
                   <?php if ($view_task->description != null) : ?>
                      <?php echo $view_task->description; ?>
@@ -122,6 +122,264 @@
                   <?php } ?>
                <?php } ?>
             <?php } ?>
+            <?php // Upload Files ?>
+            <?php if ($project->settings->upload_on_sessions == 1) { ?>
+               <hr />
+               <?php echo form_open_multipart(site_url('clients/legal_services/' . $project->id . '/' . $ServID), array('class' => 'dropzone mtop15', 'id' => 'task-file-upload')); ?>
+               <input type="file" name="file" multiple class="hide" />
+               <input type="hidden" name="task_id" value="<?php echo $view_task->id; ?>" class="hide" />
+               <?php echo form_close(); ?>
+               <div class="text-right mtop15">
+                  <button class="gpicker" data-on-pick="taskFileGoogleDriveSave">
+                     <i class="fa fa-google" aria-hidden="true"></i>
+                     <?php echo _l('choose_from_google_drive'); ?>
+                  </button>
+                  <div id="dropbox-chooser-task"></div>
+               </div>
+            <?php } ?>
+         </div>
+         <div class="col-md-4 col-sm-12 task-single-col-right" id="session-right">
+            <?php // Proceedings of Session ?>
+            <h5 class="task-info-heading"><?php echo _l('session_information'); ?>
+               <?php
+               if ($view_task->recurring == 1) {
+                  echo '<span class="label label-info inline-block mleft5">' . _l('recurring_session') . '</span>';
+               }
+               ?>
+            </h5>
+            <div class="clearfix"></div>
+            <h5 class="no-mtop task-info-created">
+               <?php if (($view_task->addedfrom != 0 && $view_task->addedfrom != get_staff_user_id()) || $view_task->is_added_from_contact == 1) { ?>
+                  <h6 class="text-dark"><?php echo _l('task_created_by', '<span class="text-dark">' . ($view_task->is_added_from_contact == 0 ? get_staff_full_name($view_task->addedfrom) : get_contact_full_name($view_task->addedfrom)) . '</span>'); ?> <i class="fa fa-clock-o" data-toggle="tooltip" data-title="<?php echo _l('task_created_at', _dt($view_task->dateadded)); ?>"></i></h6>
+               <?php } else { ?>
+                  <h6 class="text-dark"><?php echo _l('task_created_at', '<span class="text-dark">' . _dt($view_task->dateadded) . '</span>'); ?></h6>
+               <?php } ?>
+            </h5>
+            <hr />
+            <?php // Finished ?>
+            <?php if ($view_task->status == Sessions_model::STATUS_COMPLETE) { ?>
+               <div class="task-info task-info-finished">
+                  <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-check"></i>
+                     <?php echo _l('task_single_finished'); ?>: <span data-toggle="tooltip" data-title="<?php echo _dt($view_task->datefinished); ?>" data-placement="bottom" class="text-has-action"><?php echo time_ago($view_task->datefinished); ?></span>
+                  </h5>
+               </div>
+            <?php } ?>
+            <?php // Start Date ?>
+            <div class="task-info task-single-inline-wrap task-info-start-date">
+               <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
+                  <?php echo _l('task_single_start_date'); ?>:
+                  <?php echo _d($view_task->startdate); ?>
+               </h5>
+            </div>
+            <?php // Due Date ?>
+            <div class="task-info task-info-due-date task-single-inline-wrap" <?php if (!$view_task->duedate) {
+                                                                                 echo ' style="opacity:0.5;"';
+                                                                              } ?>>
+               <h5>
+                  <i class="fa fa-calendar-check-o task-info-icon fa-fw fa-lg pull-left"></i>
+                  <?php echo _l('task_single_due_date'); ?>:
+                  <?php echo _d($view_task->duedate); ?>
+               </h5>
+            </div>
+            <?php // Hourly Rate ?>
+            <div class="task-info task-info-hourly-rate">
+               <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-dollar"></i>
+                  <?php echo _l('task_hourly_rate'); ?>: <?php if ($view_task->rel_type == 'project' && $view_task->project_data->billing_type == 2) {
+                                                            echo app_format_number($view_task->project_data->project_rate_per_hour);
+                                                         } else {
+                                                            echo app_format_number($view_task->hourly_rate);
+                                                         }
+                                                         ?>
+               </h5>
+            </div>
+            <?php // Billable ?>
+            <div class="task-info task-info-billable">
+               <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-credit-card"></i>
+                  <?php echo _l('task_billable'); ?>: <?php echo ($view_task->billable == 1 ? _l('task_billable_yes') : _l('task_billable_no')) ?>
+                  <?php if ($view_task->billable == 1) { ?>
+                     <b>(<?php echo ($view_task->billed == 1 ? _l('task_billed_yes') : _l('task_billed_no')) ?>)</b>
+                  <?php } ?>
+                  <?php if ($view_task->rel_type == 'project' && $view_task->project_data->billing_type == 1) {
+                     echo '<small>(' . _l('project') . ' ' . _l('project_billing_type_fixed_cost') . ')</small>';
+                  } ?>
+               </h5>
+            </div>
+            <?php if (
+               $view_task->billable == 1
+               && $view_task->billed == 0
+               && ($view_task->rel_type != 'project' || ($view_task->rel_type == 'project' && $taview_tasksk->project_data->billing_type != 1))
+               && staff_can('create', 'invoices')
+            ) { ?>
+               <div class="task-info task-billable-amount">
+                  <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
+                     <?php echo _l('billable_amount'); ?>:
+                     <span class="bold">
+                        <?php echo $this->sessions_model->get_billable_amount($view_task->id); ?>
+                     </span>
+                  </h5>
+               </div>
+            <?php } ?>
+            <?php // Your Logged Time ?>
+            <?php if ($view_task->current_user_is_assigned || total_rows(db_prefix() . 'taskstimers', array('task_id' => $view_task->id, 'staff_id' => get_staff_user_id())) > 0) { ?>
+               <div class="task-info task-info-user-logged-time">
+                  <h5>
+                     <i class="fa fa-asterisk task-info-icon fa-fw fa-lg" aria-hidden="true"></i><?php echo _l('task_user_logged_time'); ?>
+                     <?php echo seconds_to_time_format($this->sessions_model->calc_task_total_time($view_task->id, ' AND staff_id=' . get_staff_user_id())); ?>
+                  </h5>
+               </div>
+            <?php } ?>
+            <?php // Total Logged Time ?>
+            <?php if ($project->settings->view_session_total_logged_time == 1) { ?>
+               <div class="task-info task-info-total-logged-time">
+                  <h5>
+                     <i class="fa task-info-icon fa-fw fa-lg fa-clock-o"></i><?php echo _l('task_total_logged_time'); ?>
+                     <span class="text-success">
+                        <?php echo seconds_to_time_format($this->sessions_model->calc_task_total_time($view_task->id)); ?>
+                     </span>
+                  </h5>
+               </div>
+            <?php } ?>
+            <?php // Appointment the session ?>
+            <div class="task-info task-info-hourly-rate">
+               <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-calendar"></i><?php echo _l('session_time'); ?>:
+                  <?php echo  $session_data->time  ?>
+               </h5>
+            </div>
+            <div class="mbot30"></div>
+            <?php  ?>
+            <?php // !?? ?>
+            <?php $custom_fields = get_custom_fields('sessions');
+            foreach ($custom_fields as $field) { ?>
+               <?php $value = get_custom_field_value($view_task->id, $field['id'], 'sessions');
+               if ($value == '') {
+                  continue;
+               } ?>
+               <div class="task-info">
+                  <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">
+                     <i class="fa task-info-icon fa-fw fa-lg fa-square-o"></i>
+                     <?php echo $field['name']; ?>: <?php echo $value; ?>
+                  </h5>
+               </div>
+            <?php } ?>
+            <?php // Tags ?>
+            <div class="mtop5 clearfix"></div>
+            <h5>
+               <i class="fa task-info-icon fa-fw fa-lg fa-tag"></i><?php echo _l('tags') ?>:
+               <?php if (prep_tags_input(get_tags_in($view_task->id, 'task'))) : ?>
+                  <br />
+                  <span class="bold h5 col-md-9">
+                     <?php $tags = ' ' . prep_tags_input(get_tags_in($view_task->id, 'task')) . ' ';
+                     echo str_replace(',', ' |' . PHP_EOL, $tags); ?>
+                  </span>
+               <?php else : ?>
+                  <span class="h5" style="opacity:0.5">
+                     <br /><br />
+                     <div class="text-danger display-block "><?php echo _l('no_tags') ?></div>
+                  </span>
+               <?php endif; ?>
+
+            </h5>
+            <div class="clearfix"></div>
+            <hr class="task-info-separator" />
+            <div class="clearfix"></div>
+            <?php // Reminders ?>
+            <h5 class="task-info-heading font-normal font-medium-xs">
+               <i class="fa fa-bell-o" aria-hidden="true"></i>
+               <?php echo _l('reminders'); ?>
+            </h5>
+            <?php
+            $reminders = $this->sessions_model->get_reminders($view_task->id); ?>
+            <?php if (count($reminders) == 0) { ?>
+               <div class="text-danger display-block text-muted mtop10">
+                  <?php echo _l('no_reminders_for_this_session'); ?>
+               </div>
+            <?php } else { ?>
+               <ul class="mtop10">
+                  <?php foreach ($reminders as $rKey => $reminder) {
+                  ?>
+                     <li class="<?php if ($reminder['isnotified'] == '1') {
+                                    echo 'text-throught';
+                                 } ?>" data-id="<?php echo $reminder['id']; ?>">
+                        <div class="mbot15">
+                           <div>
+                              <p class="bold">
+                                 <?php echo _l('reminder_for', [
+                                    get_staff_full_name($reminder['staff']),
+                                    _dt($reminder['date'])
+                                 ]); ?>
+                              </p>
+                              <?php
+                              if (!empty($reminder['description'])) {
+                                 echo $reminder['description'];
+                              } else {
+                                 echo '<p class="text-muted no-mbot">' . _l('no_description_provided') . '</p>';
+                              }
+                              ?>
+                           </div>
+                           <?php if (count($reminders) - 1 != $rKey) { ?>
+                              <hr class="hr-10" />
+                           <?php } ?>
+                        </div>
+                     </li>
+                  <?php } ?>
+               </ul>
+            <?php } ?>
+            <div class="clearfix"></div>
+            <hr class="task-info-separator" />
+            <?php // Team Members ?>
+            <?php if ($project->settings->view_team_members == 1) { ?>
+               <div class="clearfix"></div>
+               <div class="mbot20">
+                  <div class="row col-md-12 mbot20">
+                     <i class="fa fa-user-o"></i> <span class="bold"><?php echo _l('task_single_assignees'); ?></span>
+                  </div>
+                  <div class="row col-md-12 mbot20" id="assignees">
+                     <?php
+                     $_assignees = '';
+                     foreach ($view_task->assignees as $assignee) {
+                        $_assignees .= '
+                     <div data-toggle="tooltip" class="pull-left mleft5 session-user" data-title="' . get_staff_full_name($assignee['assigneeid']) . '">'
+                           . staff_profile_image($assignee['assigneeid'], array(
+                              'staff-profile-image-small'
+                           )) . '</div>';
+                     }
+                     if ($_assignees == '') {
+                        $_assignees = '<div class="session-connectors-no-indicator text-danger display-block">' . _l('session_no_assignees') . '</div>';
+                     }
+                     echo $_assignees;
+                     ?>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+               <hr class="task-info-separator" />
+               <div class="mbot20">
+                  <div class="row col-md-12 mbot20">
+                     <i class="fa fa-user-o" aria-hidden="true"></i>
+                     <span class="bold"><?php echo _l('task_single_followers'); ?></span>
+                  </div>
+                  <div class="row col-md-12 mbot20">
+                     <div class="task_users_wrapper">
+                        <?php
+                        $_followers        = '';
+                        foreach ($view_task->followers as $follower) {
+                           $_followers .= '
+                           <span class="task-user" data-toggle="tooltip" data-title="' . html_escape($follower['full_name']) . '">
+                              <div >' . staff_profile_image($follower['followerid'], array(
+                              'staff-profile-image-small'
+                           )) . '</div> ' .
+                              '</span>';
+                        }
+                        if ($_followers == '') {
+                           $_followers = '<div class="text-danger display-block text-muted mbot15">' . _l('session_no_followers') . '</div>';
+                        }
+                        echo $_followers;
+                        ?>
+                     </div>
+                  </div>
+               </div>
+            <?php } ?>
+         </div>
+         <div class="col-md-12" id="attachment">
             <?php // View Attachments ?>
             <?php if ($project->settings->view_session_attachments == 1) { ?>
                <?php
@@ -152,7 +410,7 @@
                                           );
                                           ?>
                                           <?php if (get_option('allow_contact_to_delete_files') == 1 && $attachment['contact_id'] == get_contact_user_id()) { ?>
-                                             <a href="<?php echo site_url('clients/delete_file/' . $attachment['id'] . '/task?project_id=' . $project->id); ?>" class="text-danger _delete pull-right"><i class="fa fa-remove"></i></a>
+                                             <a href="<?php echo site_url('clients/delete_file/' . $attachment['id'] . '/session/'. $ServID . '?project_id=' . $project->id); ?>" class="text-danger _delete pull-right"><i class="fa fa-remove"></i></a>
                                           <?php } ?>
                                        </div>
                                        <?php
@@ -227,13 +485,23 @@
                      </div>
                      <div class="col-md-12 text-center">
                         <hr />
-                        <a href="<?php echo admin_url('legalservices/sessions/download_files/'.$view_task->id); ?>" class="bold">
+                        <a href="<?php echo site_url('clients/download_all_session_files/'.$view_task->id); ?>" class="bold">
                         <?php echo _l('download_all'); ?> (.zip)
                         </a>
                      </div>
                   </div>
                <?php } ?>
             <?php } ?>
+            <?php // Comment on the site  ?>
+            <?php if ($project->settings->comment_on_sessions == 1) {
+               echo form_open($this->uri->uri_string());
+               echo form_hidden('action', 'new_session_comment');
+               echo form_hidden('taskid', $view_task->id);?>
+                  <textarea name="content" rows="10" class="form-control mtop30"></textarea>
+                  <button type="submit" class="btn btn-info mtop10 pull-right" data-loading-text="<?php echo _l('wait_text'); ?>" autocomplete="off"><?php echo _l('task_single_add_new_comment'); ?></button>
+                  <div class="clearfix"></div>
+               <?php echo form_close();
+            } ?>
             <?php // View Comments ?>
             <?php if ($project->settings->view_session_comments == 1) { ?>
                <hr />
@@ -282,7 +550,7 @@
                                  </div>
                               <?php } ?>
                            <?php } ?>
-                           <!-- Show the Attachment Files -->
+                           <?php // Show The Attachment Files ?>
                            <div class="comment-content" data-comment-content="<?php echo $comment['id']; ?>">
                               <?php
                               if ($comment['file_id'] != 0 && $project->settings->view_session_attachments == 1) {
@@ -307,239 +575,6 @@
                <?php }
                   echo '</div>';
                } ?>
-            <?php } ?>
-         </div>
-         <div class="col-md-4 col-sm-12 task-single-col-right" id="session-right">
-            <?php // Proceedings of Session ?>
-            <h5 class="task-info-heading"><?php echo _l('session_information'); ?>
-               <?php
-               if ($view_task->recurring == 1) {
-                  echo '<span class="label label-info inline-block mleft5">' . _l('recurring_session') . '</span>';
-               }
-               ?>
-            </h5>
-            <div class="clearfix"></div>
-            <h5 class="no-mtop task-info-created">
-               <?php if (($view_task->addedfrom != 0 && $view_task->addedfrom != get_staff_user_id()) || $view_task->is_added_from_contact == 1) { ?>
-                  <h6 class="text-dark"><?php echo _l('task_created_by', '<span class="text-dark">' . ($view_task->is_added_from_contact == 0 ? get_staff_full_name($view_task->addedfrom) : get_contact_full_name($view_task->addedfrom)) . '</span>'); ?> <i class="fa fa-clock-o" data-toggle="tooltip" data-title="<?php echo _l('task_created_at', _dt($view_task->dateadded)); ?>"></i></h6>
-               <?php } else { ?>
-                  <h6 class="text-dark"><?php echo _l('task_created_at', '<span class="text-dark">' . _dt($view_task->dateadded) . '</span>'); ?></h6>
-               <?php } ?>
-            </h5>
-            <hr />
-            <?php // Finished ?>
-            <?php if ($view_task->status == Sessions_model::STATUS_COMPLETE) { ?>
-               <div class="task-info task-info-finished">
-                  <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-check"></i>
-                     <?php echo _l('task_single_finished'); ?>: <span data-toggle="tooltip" data-title="<?php echo _dt($view_task->datefinished); ?>" data-placement="bottom" class="text-has-action"><?php echo time_ago($view_task->datefinished); ?></span>
-                  </h5>
-               </div>
-            <?php } ?>
-            <?php // Start Date ?>
-            <div class="task-info task-single-inline-wrap task-info-start-date">
-               <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
-                  <?php echo _l('task_single_start_date'); ?>:
-                  <?php echo _d($view_task->startdate); ?>
-               </h5>
-            </div>
-            <?php // Due Date ?>
-            <div class="task-info task-info-due-date task-single-inline-wrap" <?php if (!$view_task->duedate) {
-                                                                                 echo ' style="opacity:0.5;"';
-                                                                              } ?>>
-               <h5>
-                  <i class="fa fa-calendar-check-o task-info-icon fa-fw fa-lg pull-left"></i>
-                  <?php echo _l('task_single_due_date'); ?>:
-                  <?php echo _d($view_task->duedate); ?>
-               </h5>
-            </div>
-            <?php // Hourly Rate ?>
-            <div class="task-info task-info-hourly-rate">
-               <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-clock-o"></i>
-                  <?php echo _l('task_hourly_rate'); ?>: <?php if ($view_task->rel_type == 'project' && $view_task->project_data->billing_type == 2) {
-                                                            echo app_format_number($view_task->project_data->project_rate_per_hour);
-                                                         } else {
-                                                            echo app_format_number($view_task->hourly_rate);
-                                                         }
-                                                         ?>
-               </h5>
-            </div>
-            <?php // Billable ?>
-            <div class="task-info task-info-billable">
-               <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-credit-card"></i>
-                  <?php echo _l('task_billable'); ?>: <?php echo ($view_task->billable == 1 ? _l('task_billable_yes') : _l('task_billable_no')) ?>
-                  <?php if ($view_task->billable == 1) { ?>
-                     <b>(<?php echo ($view_task->billed == 1 ? _l('task_billed_yes') : _l('task_billed_no')) ?>)</b>
-                  <?php } ?>
-                  <?php if ($view_task->rel_type == 'project' && $view_task->project_data->billing_type == 1) {
-                     echo '<small>(' . _l('project') . ' ' . _l('project_billing_type_fixed_cost') . ')</small>';
-                  } ?>
-               </h5>
-            </div>
-            <?php if (
-               $view_task->billable == 1
-               && $view_task->billed == 0
-               && ($view_task->rel_type != 'project' || ($view_task->rel_type == 'project' && $taview_tasksk->project_data->billing_type != 1))
-               && staff_can('create', 'invoices')
-            ) { ?>
-               <div class="task-info task-billable-amount">
-                  <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
-                     <?php echo _l('billable_amount'); ?>:
-                     <span class="bold">
-                        <?php echo $this->sessions_model->get_billable_amount($view_task->id); ?>
-                     </span>
-                  </h5>
-               </div>
-            <?php } ?>
-            <?php // Your Logged Time ?>
-            <?php if ($view_task->current_user_is_assigned || total_rows(db_prefix() . 'taskstimers', array('task_id' => $view_task->id, 'staff_id' => get_staff_user_id())) > 0) { ?>
-               <div class="task-info task-info-user-logged-time">
-                  <h5>
-                     <i class="fa fa-asterisk task-info-icon fa-fw fa-lg" aria-hidden="true"></i><?php echo _l('task_user_logged_time'); ?>
-                     <?php echo seconds_to_time_format($this->sessions_model->calc_task_total_time($view_task->id, ' AND staff_id=' . get_staff_user_id())); ?>
-                  </h5>
-               </div>
-            <?php } ?>
-            <?php // Total Logged Time ?>
-            <?php if ($project->settings->view_session_total_logged_time == 1) { ?>
-               <div class="task-info task-info-total-logged-time">
-                  <h5>
-                     <i class="fa task-info-icon fa-fw fa-lg fa-clock-o"></i><?php echo _l('task_total_logged_time'); ?>
-                     <span class="text-success">
-                        <?php echo seconds_to_time_format($this->sessions_model->calc_task_total_time($view_task->id)); ?>
-                     </span>
-                  </h5>
-               </div>
-            <?php } ?>
-            <?php // !?? ?>
-            <?php $custom_fields = get_custom_fields('sessions');
-            foreach ($custom_fields as $field) { ?>
-               <?php $value = get_custom_field_value($view_task->id, $field['id'], 'sessions');
-               if ($value == '') {
-                  continue;
-               } ?>
-               <div class="task-info">
-                  <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">
-                     <i class="fa task-info-icon fa-fw fa-lg fa-square-o"></i>
-                     <?php echo $field['name']; ?>: <?php echo $value; ?>
-                  </h5>
-               </div>
-            <?php } ?>
-            <?php // Tags ?>
-            <div class="mtop5 clearfix"></div>
-            <h5>
-               <i class="fa task-info-icon fa-fw fa-lg fa-tag"></i><?php echo _l('tags') ?>:
-               <?php if (prep_tags_input(get_tags_in($view_task->id, 'task'))) : ?>
-                  <br />
-                  <span class="bold h5 col-md-9">
-                     <?php $tags = ' ' . prep_tags_input(get_tags_in($view_task->id, 'task')) . ' ';
-                     echo str_replace(',', ' |' . PHP_EOL, $tags); ?>
-                  </span>
-               <?php else : ?>
-                  <span class="h5" style="opacity:0.5">
-                     <br /><br />
-                     <?php echo _l('no_tags') ?>
-                  </span>
-               <?php endif; ?>
-
-            </h5>
-            <div class="clearfix"></div>
-            <hr class="task-info-separator" />
-            <div class="clearfix"></div>
-            <?php // Reminders ?>
-            <h5 class="task-info-heading font-normal font-medium-xs">
-               <i class="fa fa-bell-o" aria-hidden="true"></i>
-               <?php echo _l('reminders'); ?>
-            </h5>
-            <?php
-            $reminders = $this->sessions_model->get_reminders($view_task->id); ?>
-            <?php if (count($reminders) == 0) { ?>
-               <div class="display-block text-muted mtop10">
-                  <?php echo _l('no_reminders_for_this_session'); ?>
-               </div>
-            <?php } else { ?>
-               <ul class="mtop10">
-                  <?php foreach ($reminders as $rKey => $reminder) {
-                  ?>
-                     <li class="<?php if ($reminder['isnotified'] == '1') {
-                                    echo 'text-throught';
-                                 } ?>" data-id="<?php echo $reminder['id']; ?>">
-                        <div class="mbot15">
-                           <div>
-                              <p class="bold">
-                                 <?php echo _l('reminder_for', [
-                                    get_staff_full_name($reminder['staff']),
-                                    _dt($reminder['date'])
-                                 ]); ?>
-                              </p>
-                              <?php
-                              if (!empty($reminder['description'])) {
-                                 echo $reminder['description'];
-                              } else {
-                                 echo '<p class="text-muted no-mbot">' . _l('no_description_provided') . '</p>';
-                              }
-                              ?>
-                           </div>
-                           <?php if (count($reminders) - 1 != $rKey) { ?>
-                              <hr class="hr-10" />
-                           <?php } ?>
-                        </div>
-                     </li>
-                  <?php } ?>
-               </ul>
-            <?php } ?>
-            <div class="clearfix"></div>
-            <hr class="task-info-separator" />
-            <?php // Team Members ?>
-            <?php if ($project->settings->view_team_members == 1) { ?>
-               <div class="clearfix"></div>
-               <div class="mbot20">
-                  <div class="row col-md-12 mbot20">
-                     <i class="fa fa-user-o"></i> <span class="bold"><?php echo _l('task_single_assignees'); ?></span>
-                  </div>
-                  <div class="row col-md-12 mbot20" id="assignees">
-                     <?php
-                     $_assignees = '';
-                     foreach ($view_task->assignees as $assignee) {
-                        $_assignees .= '
-                     <div data-toggle="tooltip" class="pull-left mleft5 session-user" data-title="' . get_staff_full_name($assignee['assigneeid']) . '">'
-                           . staff_profile_image($assignee['assigneeid'], array(
-                              'staff-profile-image-small'
-                           )) . '</div>';
-                     }
-                     if ($_assignees == '') {
-                        $_assignees = '<div class="session-connectors-no-indicator display-block">' . _l('session_no_assignees') . '</div>';
-                     }
-                     echo $_assignees;
-                     ?>
-                  </div>
-               </div>
-               <div class="clearfix"></div>
-               <hr class="task-info-separator" />
-               <div class="mbot20">
-                  <div class="row col-md-12 mbot20">
-                     <i class="fa fa-user-o" aria-hidden="true"></i>
-                     <span class="bold"><?php echo _l('task_single_followers'); ?></span>
-                  </div>
-                  <div class="row col-md-12 mbot20">
-                     <div class="task_users_wrapper">
-                        <?php
-                        $_followers        = '';
-                        foreach ($view_task->followers as $follower) {
-                           $_followers .= '
-                           <span class="task-user" data-toggle="tooltip" data-title="' . html_escape($follower['full_name']) . '">
-                              <div >' . staff_profile_image($follower['followerid'], array(
-                              'staff-profile-image-small'
-                           )) . '</div> ' .
-                              '</span>';
-                        }
-                        if ($_followers == '') {
-                           $_followers = '<div class="display-block text-muted mbot15">' . _l('session_no_followers') . '</div>';
-                        }
-                        echo $_followers;
-                        ?>
-                     </div>
-                  </div>
-               </div>
             <?php } ?>
          </div>
       </div>
@@ -615,6 +650,10 @@
             'position': 'relative',
             'top': '23px'
 
+         })
+
+         $('#attachment').css({
+            'margin-top': '20px'
          })
 
          $('#more').click(function() {

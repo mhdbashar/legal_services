@@ -3847,3 +3847,8 @@ $lang['sent_to_customer'] = "Sent";
 $lang['customer_report_none'] = "Not exist";
 $lang['customer_report'] = "Exist";
 $lang['no_tags'] = "No tags used";
+
+$lang['project_setting_create_sessions'] = "create session";
+$lang['project_setting_edit_sessions'] = "edit sessions (only sessions created from contact)";
+$lang['project_setting_upload_on_sessions'] = "upload attachments on sessions";
+$lang['project_setting_comment_on_sessions'] = "comment on law service sessions";

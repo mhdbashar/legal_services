@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php if ($project->settings->view_session_logs == 1 &&  !isset($view_task)) : ?>
+
    <div id="wrapper">
       <div class="content">
          <div class="row">
@@ -36,6 +37,9 @@
                                        <?php echo _l('Previous_Sessions') ?>
                                     </a>
                                  </li>
+                                 <?php if ($project->settings->view_session_logs == 1 && $project->settings->create_sessions == 1) { ?>
+                                       <a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=new_session'); ?>" class="btn btn-info pull-right mtop5 mright10 "><?php echo _l('new_session'); ?></a>
+                                 <?php } ?>
                               </ul>
                            </div>
                         </div>
@@ -68,7 +72,7 @@
                                     $i = 1;
                                     foreach ($project_tasks as $task) { ?>
                                        <?php
-                                       if ($task['startdate'] < date('Y-m-d H:i'))
+                                       if ($task['startdate']. ' '.  $task['time'] < date('Y-m-d H:i'))
                                           continue;
 
                                        //  NAME SECTION OPERATION
@@ -88,6 +92,13 @@
                                           <td><?php echo $i++; ?></td>
                                           <?php // NAME SECTION ?>
                                           <td>
+                                             <?php if (
+                                                $project->settings->edit_sessions == 1 &&
+                                                $task['is_added_from_contact'] == 1 &&
+                                                $task['addedfrom'] == get_contact_user_id() &&
+                                                $task['billed'] == 0) { ?>
+                                                <a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=edit_session&session_id=' . $task['id']); ?>"><i class="fa fa-pencil-square-o"></i></a>
+                                             <?php } ?>
                                              <?php echo $outputName ?>
                                           </td>
                                           <?php 
@@ -170,7 +181,7 @@
                                     $i = 1;
                                     foreach ($project_tasks as $task) { ?>
                                        <?php
-                                       if ($task['startdate'] < date('Y-m-d H:i')) {
+                                       if ($task['startdate']. ' '.  $task['time'] < date('Y-m-d H:i')) {
 
                                           //  NAME SECTION OPERATION
                                           $outputName = '';
@@ -190,6 +201,13 @@
                                              <td><?php echo $i++; ?></td>
                                              <?php // NAME SECTION ?>
                                              <td>
+                                                <?php if (
+                                                   $project->settings->edit_sessions == 1 &&
+                                                   $task['is_added_from_contact'] == 1 &&
+                                                   $task['addedfrom'] == get_contact_user_id() &&
+                                                   $task['billed'] == 0) { ?>
+                                                   <a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=edit_session&session_id=' . $task['id']); ?>"><i class="fa fa-pencil-square-o"></i></a>
+                                                <?php } ?>
                                                 <?php echo $outputName ?>
                                              </td>
                                              <?php
@@ -255,7 +273,7 @@
          </div>
       </div>
    </div>
-   <script>reload_tasks_tables();</script>
+   <!-- <script>reload_tasks_tables();</script> -->
 <?php elseif(isset($view_task)) :
    // VIEW SESSION DETAIL PAGE
    get_template_part('legal_services/project_session');

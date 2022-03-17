@@ -2621,7 +2621,7 @@ class Sessions_model extends App_Model
     public function get_session_data($task_id)
     {
         $this->db->where('task_id' , $task_id);
-        $this->db->select('rel_id as tbl1, startdate as tbl5, court_name as tbl4, session_information as tbl7, next_session_date as tbl6, court_decision as tbl8');
+        $this->db->select('rel_id as tbl1, startdate as tbl5, court_name as tbl4, session_information as tbl7, next_session_date as tbl6, court_decision as tbl8, time');
         $this->db->join(db_prefix() . 'tasks',  'tasks.id=' . db_prefix() . 'my_session_info.task_id');
         $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_session_info.court_id', 'left');
         return $this->db->get(db_prefix() . 'my_session_info')->row();

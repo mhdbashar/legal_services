@@ -16,7 +16,7 @@
           <a href="#"  id="togle" class="pull-right" onclick="slideToggle('#new-task-attachments'); return false;">
             <?php echo _l('attach_files'); ?>
           </a>
-          <div id="new-task-attachments" class="hide">
+          <div id="new-task-attachments" style="display: none;">
             <hr />
             <div class="row attachments">
               <div class="attachment">
@@ -181,8 +181,8 @@
       span.innerHTML = label;
 
       const closeBtn = document.createElement('i');
-      closeBtn.setAttribute('class', 'material-icons fa fa-close');
-      closeBtn.style.cssText = 'font-size: 10px;margin-left: 5px';
+      closeBtn.setAttribute('class', 'close-icon fa fa-close');
+      closeBtn.style.cssText = 'font-size: 10px;margin-left: 5px; <?php  if (is_rtl(true)) {echo 'position: relative; right: 5px';} ?> ';
       closeBtn.setAttribute('data-item', label);
 
       div.appendChild(span);
@@ -292,6 +292,13 @@
 
       });
 
+      <?php if (is_rtl(true)) 
+      { ?>
+        $('#modal-header').css({
+            'background': 'linear-gradient(to left, #226faa 0%, #2989d8 37%, #72c0d3 100%)',
+        });
+      <?php  } ?>
+
       $('.tag-container').css({
         'padding': '10px',
         'padding-top': '0',
@@ -307,19 +314,26 @@
         'padding': '5px',
         'outline': 'none',
         'border': '0',
+        'border-left': '1.5px dashed #999',
       });
+
+      <?php if (is_rtl(true)) 
+      { ?>
+        $('input#tags').css({
+          'border-left': 'unset',
+          'border-right': '1.5px dashed #999',
+        });
+      <?php  } ?>
 
 
       appValidateForm($('#session-form'), {
         name: 'required',
         time: 'required',
         description: 'required',
-
       });
 
     })
-
-
+    
   </script>
 <?php else :
   redirect(site_url() . 'clients/legal_services/' . $rel_id . '/' . $ServID);

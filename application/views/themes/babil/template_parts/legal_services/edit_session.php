@@ -162,8 +162,8 @@
       span.innerHTML = label;
 
       const closeBtn = document.createElement('i');
-      closeBtn.setAttribute('class', 'material-icons fa fa-close');
-      closeBtn.style.cssText = 'font-size: 10px;margin-left: 5px';
+      closeBtn.setAttribute('class', 'close-icon fa fa-close');
+      closeBtn.style.cssText = 'font-size: 10px;margin-left: 5px; <?php  if (is_rtl(true)) {echo 'position: relative; right: 5px';} ?> ';
       closeBtn.setAttribute('data-item', label);
 
       div.appendChild(span);
@@ -280,6 +280,13 @@
 
       });
 
+      <?php if (is_rtl(true)) 
+      { ?>
+        $('#session-edit-heading').css({
+            'background': 'linear-gradient(to left, #226faa 0%, #2989d8 37%, #72c0d3 100%)',
+        })
+      <?php  } ?>
+
       $('.tag-container').css({
         'padding': '10px',
         'padding-top': '0',
@@ -295,13 +302,17 @@
         'padding': '5px',
         'outline': 'none',
         'border': '0',
+        'border-left': '1.5px dashed #999',
       });
+
+      <?php if (is_rtl(true)) 
+      { ?>
+        $('input#tags').css({
+          'border-left': 'unset',
+          'border-right': '1.5px dashed #999',
+        })
+      <?php  } ?>
       
-      // $('#tag-input').css({
-      //   cursor: default;padding: 5px;border: 1px solid #ccc;margin: 5px;display: flex;align-items: center;border-radius: 3px;background: #f2f2f2;
-      // });
-
-
       appValidateForm($('#session-form'), {
         name: 'required',
         time: 'required',

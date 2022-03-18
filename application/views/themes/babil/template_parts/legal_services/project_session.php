@@ -48,9 +48,9 @@
                   } ?>
                </div>
                <?php // Status Session ?>
-               <div class="col-md-3">
+               <!-- <div class="col-md-3">
                   <span class="task-single-status pull-right mright5 mtop15"><?php echo format_task_status($view_task->status); ?></span>
-               </div>
+               </div> -->
             </div>
             <hr>
             <?php // Court Decision ?>
@@ -72,15 +72,15 @@
                echo '<div class="no-margin tc-content task-no-description" id="session_information"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
             } ?>
             <?php // Description ?>
-               <hr />
-               <h4 class="bold"><?php echo _l('task_view_description'); ?></h4>
-               <div class="tc-content">
-                  <?php if ($view_task->description != null) : ?>
-                     <?php echo $view_task->description; ?>
-                  <?php else : ?>
-                     <?php echo '<p class="text-muted no-mbot">'._l('no_description_provided').'</p>'; ?>
-                  <?php endif; ?>
-               </div>
+            <hr />
+            <h4 class="bold"><?php echo _l('task_view_description'); ?></h4>
+            <div class="tc-content">
+               <?php if ($view_task->description != null) : ?>
+                  <?php echo $view_task->description; ?>
+               <?php else : ?>
+                  <?php echo '<p class="text-muted no-mbot">'._l('no_description_provided').'</p>'; ?>
+               <?php endif; ?>
+            </div>
             <?php // Checklist Items ?>
             <?php if ($project->settings->view_session_checklist_items == 1) { ?>
                <?php if (count($view_task->checklist_items) > 0) { ?>
@@ -590,7 +590,6 @@
       }
 
       $(document).ready(function() {
-         
          function responsive(maxWidth) {
             if (maxWidth.matches) { 
                $('#session-right').css({
@@ -620,6 +619,15 @@
 
          // Height of the Side bar
          var height = $("#session-right").height();
+
+
+         <?php if (is_rtl(true)) 
+         { ?>
+            $('#session-right').css({
+               'right': 'unset',
+               'left': '0',
+            })
+         <?php  } ?>
 
          $('#session-left').css({
             'background': '#fff',
@@ -651,6 +659,13 @@
             'top': '23px'
 
          })
+
+         <?php if (is_rtl(true)) 
+         { ?>
+            $('#modal-header').css({
+               'background': 'linear-gradient(to left, #226faa 0%, #2989d8 37%, #72c0d3 100%)',
+            })
+         <?php  } ?>
 
          $('#attachment').css({
             'margin-top': '20px'

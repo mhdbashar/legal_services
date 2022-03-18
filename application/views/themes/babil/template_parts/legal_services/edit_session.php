@@ -193,6 +193,7 @@
 
     if (typeof sendTags !== 'undefined') {
         tags = [...sendTags.split(",")];
+        document.getElementById('send-tags').value = tags + ',' ;
         tags.slice().reverse().forEach( function (tag) {
         const input = createTag(tag);
         tagContainer.prepend(input);

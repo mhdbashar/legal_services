@@ -148,6 +148,51 @@ function customer_init(){
 
 $(function() {
 
+    $("body").on('click' + ('ontouchstart' in window ? ' touchstart' : ''),
+        '.notifications a.notification-top, .notification_link',
+        function (e) {
+            e.preventDefault();
+            var $notLink = $(this);
+            var not_href_id;
+
+            var not_href = $notLink.hasClass('notification_link') ? $notLink.data('link') : e.currentTarget.href;
+
+            var not_href_array = not_href.split('#');
+            var notRedirect = true;
+            if (not_href_array[1] && not_href_array[1].indexOf('=') > -1) {
+                notRedirect = false;
+                not_href_id = not_href_array[1].split('=')[1];
+                if (not_href_array[1].indexOf('postid') > -1) {
+                    postid = not_href_id;
+                    if ($(window).width() > 769) {
+                        $('.open_newsfeed.desktop').click();
+                    } else {
+                        $('.open_newsfeed.mobile').click();
+                    }
+                } else if (not_href_array[1].indexOf('sessionid') > -1) {
+
+                    var comment_id = undefined;
+                    if (not_href.indexOf('#comment_') > -1) {
+                        var task_comment_id = not_href.split('#comment_');
+                        comment_id = task_comment_id[task_comment_id.length - 1];
+                    }
+                    init_session_modal(not_href_id, comment_id);
+                } else if (not_href_array[1].indexOf('leadid') > -1) {
+                    init_lead(not_href_id);
+                } else if (not_href_array[1].indexOf('eventid') > -1) {
+                    view_event(not_href_id);
+                }
+            }
+            if (!$notLink.hasClass('desktopClick')) {
+                $notLink.parent('li').find('.not-mark-as-read-inline').click();
+            }
+            if (notRedirect) {
+                setTimeout(function () {
+                    window.location.href = not_href_array;
+                }, 50);
+            }
+        });
+
      /** Create New Case **/
      add_hotkey('Shift+P', function() {
         window.location.href = admin_url + 'Case/add/1';

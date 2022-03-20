@@ -1894,6 +1894,7 @@ $lang['invoice_marked_as_cancelled_successfully'] = "تم وضع علامة مل
 $lang['invoice_unmarked_as_cancelled'] = "تم ازالة علامة ملغاة الفاتورة بنجاح";
 $lang['tasks_reminder_notification_before'] = "تذكير الموعد النهائي للمهمة قبل (الأيام)";
 $lang['not_task_deadline_reminder'] = "تذكير الموعد النهائي للمهمة";
+$lang['not_session_deadline_reminder'] = "تذكير الموعد النهائي للجلسة";
 $lang['dt_length_menu_all'] = "الكل";
 $lang['task_not_finished'] = "غير مكتملة";
 $lang['task_billed_cant_start_timer'] = "فوترة المهمة. لا يمكن بدء المؤقت";
@@ -2121,6 +2122,7 @@ $lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير ال�
 $lang['toggle_full_view'] = "تبديل الى عرض كامل";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
+$lang['not_session_new_comment'] = "علق على الجلسة %s";
 $lang['invoice_number_exists'] = "رقم الفاتورة هذا موجود للسنة الجارية.";
 $lang['estimate_number_exists'] = "رقم عرض السعر هذا موجود للسنة الجارية.";
 $lang['email_exists'] = "البريد الإلكتروني موجود بالفعل";

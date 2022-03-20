@@ -1181,7 +1181,7 @@ class Sessions_model extends App_Model
             $this->db->where('id', $data['taskid']);
             $task = $this->db->get(db_prefix() . 'tasks')->row();
 
-            $description     = 'not_task_new_comment';
+            $description     = 'not_session_new_comment';
             $additional_data = serialize([
                 $task->name,
             ]);
@@ -1945,7 +1945,7 @@ class Sessions_model extends App_Model
             }
 
             if ($this->should_staff_receive_notification($member['staffid'], $taskid)) {
-                $link = '#taskid=' . $taskid;
+                $link = '#sessionid=' . $taskid;
 
                 if ($comment_id) {
                     $link .= '#comment_' . $comment_id;

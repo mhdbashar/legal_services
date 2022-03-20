@@ -16,13 +16,13 @@
                             <form action="telegram_chat/addTelegramInfo" method="post"> 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Telegram Bot Token</label>
-                                    <input type="text" class="form-control" name="bot_token" id="bot_token" value="<?php echo $userTeleInfo->bot_token;?>"  placeholder="Enter telegram bot token">
+                                    <input type="text" class="form-control" name="bot_token" id="bot_token" value="<?php echo  is_string($userTeleInfo->bot_token)==1?  $userTeleInfo->bot_token :$userTeleInfo->bot_token='' ;?>"  placeholder="Enter telegram bot token">
 
                                     <small id="emailHelp" class="form-text text-muted">Please enter telegram Bot token without bot.</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Telegram Chat/Group Id</label>
-                                    <input type="text" class="form-control" name="chat_id" id="chatID" value="<?php echo $userTeleInfo->chat_id?>"  placeholder="Enter telegram chat id">
+                                    <input type="text" class="form-control" name="chat_id" id="chatID" value="<?php echo is_string($userTeleInfo->chat_id)==1? $userTeleInfo->chat_id :$userTeleInfo->chat_id=''; ?>"  placeholder="Enter telegram chat id">
 
                                     <small id="emailHelp" class="form-text text-muted">Please enter telegram chat id.</small>
                                 </div>

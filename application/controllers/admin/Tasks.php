@@ -704,7 +704,12 @@ class Tasks extends AdminController
         if ($this->input->post()) {
             $data = $this->input->post();
 
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+
+            if(isset($data['time'])){
+                $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
+            }
+
+            $success = $this->misc_model->add_reminder($data, $task_id);
 
             $staff= get_staff_full_name($data['staff']);
             //date('H:i');
@@ -741,14 +746,13 @@ class Tasks extends AdminController
         $message    = '';
         $alert_type = 'warning';
         $data = $this->input->post();
-        $data['date'] = $data['date'] . ' ' . $data['time'];
+//        echo '<pre>'; print_r($data); exit;
         $data1=$data;
         $staff= get_staff_full_name($data['staff']);
         if ($data) {
             //Merge date with time
             if(isset($data['time'])){
-                $data['date'] = $data['date'].' '.$data['time'];
-                unset($data['time']);
+                $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
             }
 
             $success = $this->misc_model->add_reminder($data, $task_id);

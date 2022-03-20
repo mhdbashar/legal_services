@@ -36,12 +36,12 @@ class Telegram_model extends App_Model
     public function get($id = '')
     {
         if (is_numeric($id)) {
-            $this->db->where('user_id', $id);
+            $this->db->where('id', $id);
             $telegram = $this->db->get(db_prefix() . 'telegram')->row();
             return $telegram;
         }
 
         return $this->db->get(db_prefix() . 'telegram')->result_array();
     }
-   
+
 }

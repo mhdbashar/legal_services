@@ -603,73 +603,73 @@ class Cron_model extends App_Model
 
     public function send_message_telegram()
     {
-        $this->load->model('Misc_model');
-        $this->load->model('Tasks_model');
-        $this->load->helper('telegram_helper');
-        // creator = added_from
-        // staff = added_to
-        // date = date(Y-m-d)
-        // time = time
-        // where ( rel_type ) == task
-        $reminders = $this->misc_model->get_reminders();
+//         $this->load->model('Misc_model');
+//         $this->load->model('Tasks_model');
+//         $this->load->helper('telegram_helper');
+//         // creator = added_from
+//         // staff = added_to
+//         // date = date(Y-m-d)
+//         // time = time
+//         // where ( rel_type ) == task
+//         $reminders = $this->misc_model->get_reminders();
 
-        $test=$this->db->get(db_prefix() . 'tasks')->result_array();
-
-        echo strtotime(date('Y-m-d'));'<br>';
-
-        foreach ($reminders as $reminder)
-        {
+//         $test=$this->db->get(db_prefix() . 'tasks')->result_array();
 
 
 
-
-            $date = $reminder['date'];
-            $createDate = new DateTime($date);
-            $time_after_edit=$createDate->format('Y-m-d');
-            if ($reminder['rel_type'] != 'task')
-                continue;
-            $task_id = ($reminder['rel_id']);
-
-            $result=$this->db->query("SELECT is_session FROM tbltasks where id= ".$reminder['rel_id'])->row();
-//            echo '<pre>';print_r($result->is_session);'<br>';
+//         foreach ($reminders as $reminder)
+//         {
 
 
 
 
+//             $date = $reminder['date'];
+//             $createDate = new DateTime($date);
+//             $time_after_edit=$createDate->format('Y-m-d');
+//             if ($reminder['rel_type'] != 'task')
+//                 continue;
+//             $task_id = ($reminder['rel_id']);
 
-            if( strtotime($reminder['time'])-strtotime(date("H:i")) > 0 && strtotime($reminder['time']) - strtotime(date("H:i")) < strtotime($reminder['time'])-strtotime(date("H:i"))+mktime(0,5,0) && strtotime(date('Y-m-d'))==strtotime($reminder['date'])) {
-                if ($result->is_session == 0 ) {
-                    $staff = $reminder['staff'];
-                    $staff = get_staff_full_name($staff);
-                    $creator = get_staff_full_name($reminder['creator']);
-                    $hours = $reminder['time'];
-                    $date = $time_after_edit;
-                    $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
-                    $link1 = "<a href= '$link' >click here</a>";
-                    $userName = $creator;
+//             $result=$this->db->query("SELECT is_session FROM tbltasks where id= ".$reminder['rel_id'])->row();
+// //            echo '<pre>';print_r($result->is_session);'<br>';
 
-                    $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
 
-                    send_message_telegram(urlencode($txt));
-                }
 
-                if($result->is_session==1) {
 
-                    $this->load->helper('telegram_helper');
-                    $userName = get_staff_full_name($reminder['creator']);
-                    $staff = $reminder['staff'];
-                    $staff=get_staff_full_name($staff);
-                    $date = $time_after_edit;
-                    $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
-                    $hours = $reminder['time'];
-                    $link1 = "<a href= '$link' >click here</a>";
-                    $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName ."\n"."تم تعيين التذكير الى: ".$staff."\n"." تم تعيين تاريخ التذكير : " . $date."\n". " تم تعيين التوقيت : " . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
-                    send_message_telegram(urlencode($txt));
 
-                }
-            }
+//             if( strtotime(date("H:i"))-strtotime($reminder['time']) > 0 && strtotime(date("H:i")) - strtotime($reminder['time']) < 300 && strtotime(date('Y-m-d'))==strtotime($reminder['date'])) {
+//                 if ($result->is_session == 0 ) {
+//                     $staff = $reminder['staff'];
+//                     $staff = get_staff_full_name($staff);
+//                     $creator = get_staff_full_name($reminder['creator']);
+//                     $hours = $reminder['time'];
+//                     $date = $time_after_edit;
+//                     $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+//                     $link1 = "<a href= '$link' >click here</a>";
+//                     $userName = $creator;
 
-        }
+//                     $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
+
+//                     send_message_telegram(urlencode($txt));
+//                 }
+
+//                 if($result->is_session==1) {
+
+//                     $this->load->helper('telegram_helper');
+//                     $userName = get_staff_full_name($reminder['creator']);
+//                     $staff = $reminder['staff'];
+//                     $staff=get_staff_full_name($staff);
+//                     $date = $time_after_edit;
+//                     $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+//                     $hours = $reminder['time'];
+//                     $link1 = "<a href= '$link' >click here</a>";
+//                     $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName ."\n"."تم تعيين التذكير الى: ".$staff."\n"." تم تعيين تاريخ التذكير : " . $date."\n". " تم تعيين التوقيت : " . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+//                     send_message_telegram(urlencode($txt));
+
+//                 }
+//             }
+
+//         }
 
 
 
@@ -1059,14 +1059,18 @@ class Cron_model extends App_Model
 
     private function staff_reminders()
     {
+
+
         $this->db->select('' . db_prefix() . 'reminders.*, email, phonenumber');
         $this->db->join(db_prefix() . 'staff', '' . db_prefix() . 'staff.staffid=' . db_prefix() . 'reminders.staff');
         $this->db->where('isnotified', 0);
         $reminders     = $this->db->get(db_prefix() . 'reminders')->result_array();
         $notifiedUsers = [];
+        $this->load->helper('telegram_helper');
 
         foreach ($reminders as $reminder) {
-            if (date('Y-m-d H:i:s') >= $reminder['date']) {
+            if (date('Y-m-d H:i:s') >=$reminder['date']) {
+
                 $this->db->where('id', $reminder['id']);
                 $this->db->update(db_prefix() . 'reminders', [
                     'isnotified' => 1,
@@ -1088,8 +1092,53 @@ class Cron_model extends App_Model
                     ]),
                 ]);
 
+
+                $date = $reminder['date'];
+                $createDate = new DateTime($date);
+                $time_after_edit = $createDate->format('Y-m-d');
+                if ($reminder['rel_type'] != 'task')
+                    continue;
+                $task_id = ($reminder['rel_id']);
+
+                $result = $this->db->query("SELECT is_session FROM tbltasks where id= " . $reminder['rel_id'])->row();
+                if($this->app_modules->is_active('telegram_chat'))
+                {
+                    if ($result->is_session == 0) {
+                        $staff = $reminder['staff'];
+                        $staff = get_staff_full_name($staff);
+                        $creator = get_staff_full_name($reminder['creator']);
+                        $hours = $reminder['time'];
+                        $date = $time_after_edit;
+                        $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+                        $link1 = "<a href= '$link' >click here</a>";
+                        $userName = $creator;
+
+                        $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
+
+                        send_message_telegram(urlencode($txt));
+                    }
+
+                    if ($result->is_session == 1) {
+
+                        $this->load->helper('telegram_helper');
+                        $userName = get_staff_full_name($reminder['creator']);
+                        $staff = $reminder['staff'];
+                        $staff = get_staff_full_name($staff);
+                        $date = $time_after_edit;
+                        $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+                        $hours = $reminder['time'];
+                        $link1 = "<a href= '$link' >click here</a>";
+                        $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName . "\n" . "تم تعيين التذكير الى: " . $staff . "\n" . " تم تعيين تاريخ التذكير : " . $date . "\n" . " تم تعيين التوقيت : " . $hours . "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+                        send_message_telegram(urlencode($txt));
+
+                    }}
+
+
                 if ($notified) {
                     array_push($notifiedUsers, $reminder['staff']);
+
+
+
                 }
 
                 $template = mail_template('staff_reminder', $reminder['email'], $reminder['staff'], $reminder);
@@ -1102,7 +1151,10 @@ class Cron_model extends App_Model
             }
         }
 
+
         pusher_trigger_notification($notifiedUsers);
+
+
     }
 
     private function invoice_overdue()

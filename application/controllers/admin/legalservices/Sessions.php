@@ -1006,25 +1006,21 @@ class Sessions extends AdminController
         $message    = '';
         $alert_type = 'warning';
         $data = $this->input->post();
+        $data1=$data;
         $staff= get_staff_full_name($data['staff']);
-
-
-
-
+        if ($data) {
             //Merge date with time
-//            if(isset($data['time'])){
-//                $data['date'] = $data['date'].' '.$data['time'];
-//                unset($data['time']);
-//            }
+            if(isset($data['time'])){
+                $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
+            }
+
             $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
             }
 
-
-
-
+        }
         echo json_encode([
             'taskHtml'   => $this->get_task_data_with_session($task_id, true),
             'alert_type' => $alert_type,

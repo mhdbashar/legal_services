@@ -745,7 +745,6 @@ class Tasks extends AdminController
         $message    = '';
         $alert_type = 'warning';
         $data = $this->input->post();
-//        echo '<pre>'; print_r($data); exit;
         $data1=$data;
         $staff= get_staff_full_name($data['staff']);
         if ($data) {

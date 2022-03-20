@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="modal fade _project_file" tabindex="-1" role="dialog" data-toggle="modal">
-   <div class="modal-dialog full-screen-modal" role="document">
+   <div class="modal-dialog" role="document" style="width: 90%">
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" onclick="close_modal_manually('._project_file'); return false;"><span aria-hidden="true">&times;</span></button>
@@ -8,7 +8,7 @@
          </div>
          <div class="modal-body">
             <div class="row">
-               <div class="col-md-6 border-right project_file_area">
+               <div class="col-md-12 border-right project_file_area">
                   <?php if($file->staffid == get_staff_user_id() || has_permission('projects','','create')){ ?>
                   <?php echo render_input('file_subject','project_discussion_subject',$file->subject,'text',array('onblur'=>'update_file_data('.$file->id.')')); ?>
                   <?php echo render_textarea('file_description','project_discussion_description',$file->description,array('onblur'=>'update_file_data('.$file->id.')')); ?>
@@ -58,7 +58,9 @@
                      echo '<p class="text-muted">'._l('no_preview_available_for_file').'</p>';
                      } ?>
                </div>
-               <div class="col-md-6 project_file_discusssions_area">
+            </div>
+             <div class="row">
+                 <div class="col-md-12 project_file_discusssions_area">
                <div id="case-file-discussion" class="tc-content"></div>
                </div>
             </div>

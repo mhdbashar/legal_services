@@ -107,6 +107,9 @@ class Cases_model extends App_Model
                 $project->client_data = new StdClass();
                 $project->client_data = $this->clients_model->get($project->clientid);
 
+                $project->opponent_data = new StdClass();
+                $project->opponent_data = $this->clients_model->get($project->opponent_id);
+
                 $project = hooks()->apply_filters('case_get', $project);
                 $GLOBALS['case'] = $project;
 

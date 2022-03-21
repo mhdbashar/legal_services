@@ -2,7 +2,16 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$aColumns = [db_prefix().'saved_sms.id', 'sender', 'msg', 'created_at', 'firstname', 'name'];
+$aColumns = [
+    db_prefix().'saved_sms.id',
+    'sender',
+    'msg',
+    '1',
+    '1',
+    'firstname',
+    'created_at',
+    'name'
+];
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'saved_sms';

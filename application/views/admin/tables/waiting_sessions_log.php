@@ -3,6 +3,17 @@ $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
+$time_format = get_option('time_format');
+$format = '';
+$time = '24';
+
+if ($time_format === '24') {
+    $format = '"%H:%i"';
+} else {
+    $time = '12';
+    $format = '"%h:%i %p"';
+}
+
 $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
@@ -13,7 +24,7 @@ $aColumns = [
     'customer_report',
     'send_to_customer',
     'startdate',
-    'time',
+    'TIME_FORMAT(time, ' . $format . ') as time',
 ];
 
 $sIndexColumn = 'id';

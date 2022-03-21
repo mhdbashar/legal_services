@@ -42,7 +42,7 @@ $.ajax({
         sess_expiration = JSON.parse(data).sess_expiration * 1000;
 
 
-        timer = setTimeout(function(){ 
+        timer = setTimeout(function(){
 
             seconds = 60;
             $('#' + aId).modal('show');
@@ -60,7 +60,7 @@ $.ajax({
             clearTimeout(timer2);
             $('#' + aId).modal('hide');
 
-            timer = setTimeout(function(){ 
+            timer = setTimeout(function(){
                 seconds = 60;
                 $('#' + aId).modal('show');
                 timer2 = setTimeout(function() {
@@ -70,13 +70,13 @@ $.ajax({
             }, sess_expiration - 60000);
         }
 
-       
+
         window.onkeydown= function(gfg){
             clearTimeout(timer);
             clearTimeout(timer2);
             $('#' + aId).modal('hide');
 
-            timer = setTimeout(function(){ 
+            timer = setTimeout(function(){
                 seconds = 60;
                 $('#' + aId).modal('show');
                 timer2 = setTimeout(function() {
@@ -86,7 +86,7 @@ $.ajax({
             }, sess_expiration - 60000);
         }
 
-        
+
     },
 
 });
@@ -147,6 +147,12 @@ function customer_init(){
 }
 
 $(function() {
+
+
+    // abdo
+    if (typeof (sessionid) !== 'undefined' && sessionid !== '') {
+        init_session_modal(sessionid);
+    }
 
      /** Create New Case **/
      add_hotkey('Shift+P', function() {
@@ -312,7 +318,7 @@ $(function() {
             servicesWrapper.removeClass('hide');
         }
     });
-    
+
     $("body").on('change', '#clientid', function() {
         customer_init();
         $('#rel_sid').html('');

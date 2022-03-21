@@ -589,6 +589,7 @@ class Sessions extends AdminController
         if ($this->input->get('milestone_id')) {
             $this->db->where('id', $this->input->get('milestone_id'));
             $milestone = $this->db->get(db_prefix() . 'milestones')->row();
+
             if ($milestone) {
                 $data['_milestone_selected_data'] = [
                     'id'       => $milestone->id,
@@ -602,6 +603,7 @@ class Sessions extends AdminController
         if ($this->input->post()) {
             $data                = $this->input->post();
             $data['description'] = html_purify($this->input->post('description', false));
+
             if ($id == '') {
                 if (!has_permission('sessions', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
@@ -612,6 +614,7 @@ class Sessions extends AdminController
                     die;
                 }
                 $id      = $this->sessions_model->add($data);
+
                 $_id     = false;
                 $success = false;
                 $message = '';
@@ -650,7 +653,10 @@ class Sessions extends AdminController
                     'message' => $message,
                     'id'      => $id,
                 ]);
+
+
             }
+
             die;
         }
 
@@ -718,6 +724,7 @@ class Sessions extends AdminController
             $data                = $this->input->post();
             if (strpos($data['rel_type'], 'session') !== false) {
                 $data['rel_type'] = substr($data['rel_type'],8);
+
             }
             $data['description'] = $this->input->post('description', false);
             if ($id == '') {
@@ -729,7 +736,9 @@ class Sessions extends AdminController
                     ]);
                     die;
                 }
+
                 $id      = $this->sessions_model->add($data);
+
                 $_id     = false;
                 $success = false;
                 $message = '';
@@ -769,7 +778,43 @@ class Sessions extends AdminController
                     'message' => $message,
                     'id'      => $id,
                 ]);
+
+
+
+//                $this->load->helper('telegram_helper');
+//                $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
+//                $link = APP_BASE_URL.'admin/legalservices/sessions/index/'.$id;
+//                $date=$data['startdate'];
+//                $time=$data['time'];
+//                $contant = str_replace(array('<br>','↵'), "\n", $data['session_information']);
+//                $subject = str_replace(array('<br>','↵'), "\n", $data['name']);
+//                $link1 = "<a href= '$link' >click here</a>";
+//
+//                $txt = "&#128227 تم تعديل الجلسة من قبل :".$userName."\n".  " الموضوع: " .$subject."\n تاريخ الجلسة:".$date."\n وقت الجلسة:".$time."\n"."اضغط على الرابط التالي للمعاينة:".$link1."\n Done !";
+//                send_message_telegram( urlencode( $txt  ) );
+                die;
+
+
+
             }
+
+//            $this->load->helper('telegram_helper');
+//            $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
+//            $link = APP_BASE_URL.'admin/legalservices/sessions/index/'.$id;
+//            $link1 = "<a href= '$link' >click here</a>";
+//            $contant = str_replace(array('<br>','↵'), "\n", $data['session_information']);
+//            $subject = str_replace(array('<br>','↵'), "\n", $data['name']);
+//            $date=$data['startdate'];
+//            $time=$data['time'];
+//
+//            $txt = "&#128227 تم انشاء الجلسة من قبل :".$userName."\n".  " الموضوع: " .$subject."\n تاريخ الجلسة:".$date."\n وقت الجلسة:".$time."\n"."اضغط على الرابط التالي للمعاينة:".$link1."\n Done !";
+//            send_message_telegram( urlencode( $txt  ) );
+
+
+
+
+
+
             die;
         }
 
@@ -935,11 +980,13 @@ class Sessions extends AdminController
         $message    = '';
         $alert_type = 'warning';
         if ($this->input->post()) {
+
             $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
             }
+
         }
         echo json_encode([
             'taskHtml'   => $this->get_task_data($task_id, true),
@@ -953,18 +1000,35 @@ class Sessions extends AdminController
         $message    = '';
         $alert_type = 'warning';
         $data = $this->input->post();
-        if ($data) {
+        $staff= get_staff_full_name($data['staff']);
+
+
+
+
             //Merge date with time
-            if(isset($data['time'])){
-                $data['date'] = $data['date'].' '.$data['time'];
-                unset($data['time']);
-            }
+//            if(isset($data['time'])){
+//                $data['date'] = $data['date'].' '.$data['time'];
+//                unset($data['time']);
+//            }
             $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
             }
-        }
+//            if($this->app_modules->is_active('telegram_chat')) {
+//                $this->load->helper('telegram_helper');
+//                $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
+//                $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+//                $hours = $data['time'];
+//                $link1 = "<a href= '$link' >click here</a>";
+//                $contant = str_replace(array('<br>', '↵'), "\n", $data['description']);
+//                $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل:" . $userName ."\n"."تم تعيين التذكير الى: ".$staff." \n تم تعيين تاريخ التذكير : " . $data['date'] . "\n تم تعيين التوقيت :" . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+//                send_message_telegram(urlencode($txt));
+//            }
+
+
+
+
         echo json_encode([
             'taskHtml'   => $this->get_task_data_with_session($task_id, true),
             'alert_type' => $alert_type,
@@ -1306,12 +1370,31 @@ class Sessions extends AdminController
     {
         $task = $this->sessions_model->get($this->input->post('taskid'));
 
+        $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
+
         if (staff_can('edit', 'sessions') ||
             ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
             echo json_encode([
                 'success'  => $this->sessions_model->add_task_assignees($this->input->post()),
                 'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
             ]);
+            $task = $this->sessions_model->get($this->input->post('taskid'));
+            if($this->app_modules->is_active('telegram_chat')) {
+                //Telegram Chat
+                $str = '&#9878  تم اضافة جلسة من قبل ' .$userName. "\n"."اسم المكلف بالجلسة :"."\n";
+                foreach ($task->assignees as $assignee) {
+                    $str .= $assignee['full_name'] . "\n";
+                }
+
+                $this->load->helper('telegram_helper');
+                $link1 = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task->id;
+                $link = "<a href= '$link1' >click here</a>";
+                $str1 = $str ."الموضوع: ".$task->name."\n"."تاريخ الجلسة: ".$task->startdate."\n"."وقت الجلسة:".$task->time. " \n رابط الجلسة: " . $link . "\nDone!";
+                send_message_telegram(urlencode($str1));
+                //Telegram Chat
+            }
+
+
         }
     }
 

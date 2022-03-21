@@ -138,7 +138,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
 </div>
 <?php init_tail(); ?>
 <script>
-    taskid = '<?php echo $taskid; ?>';
+    sessionid = '<?php echo $taskid; ?>';
     rel_type =  '<?php echo isset($rel_type) ? $rel_type : ''; ?>';
     $(function(){
         sessions_kanban();

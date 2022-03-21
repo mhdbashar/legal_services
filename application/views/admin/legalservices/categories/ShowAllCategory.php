@@ -20,6 +20,7 @@
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
                                 <th><?php echo _l('_description'); ?></th>
+                                <th><?php echo _l('clients_country'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -32,6 +33,11 @@
                                         <td>
                                             <?php $value = (isset($cat) ? $cat->cat_description : ''); ?>
                                             <?php echo $value; ?>
+                                        </td>
+                                        <td>
+                                            <?php $staff_language = get_staff_default_language(get_staff_user_id());?>
+                                            <?php $value = (isset($cat) ? $cat->country : ''); ?>
+                                            <?php echo get_country_name_by_staff_default_language($value,$staff_language);?>
                                         </td>
                                         <td>
                                             <?php if($cat->is_basic != 1){ ?>

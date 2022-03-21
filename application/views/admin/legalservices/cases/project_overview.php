@@ -72,6 +72,11 @@ $CI->load->library('app_modules');?>
                             <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo isset($project->clientid) ? $project->clientid : ''; ?>"><?php echo isset($project->client_data->company) ? $project->client_data->company : ''; ?></a>
                             </td>
                         </tr>
+                        <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('opponent'); ?></td>
+                            <td><a href="<?php echo admin_url(); ?>opponents/client/<?php echo isset($project->opponent_id) ? $project->opponent_id : ''; ?>"><?php echo isset($project->opponent_data->company) ? $project->opponent_data->company : ''; ?></a>
+                            </td>
+                        </tr>
                         <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                         <tr class="project-overview-billing">
                             <td class="bold"><?php echo _l('project_billing_type'); ?></td>

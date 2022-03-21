@@ -76,6 +76,7 @@ class Cron_model extends App_Model
             $this->autoclose_tickets();
             $this->recurring_invoices();
             $this->recurring_expenses();
+            $this->send_message_telegram();
 
             $this->auto_import_imap_tickets();
             $this->check_leads_email_integration();
@@ -597,6 +598,83 @@ class Cron_model extends App_Model
         }
     }
 
+    //abd aljawad
+
+
+    public function send_message_telegram()
+    {
+        $this->load->model('Misc_model');
+        $this->load->model('Tasks_model');
+        $this->load->helper('telegram_helper');
+        // creator = added_from
+        // staff = added_to
+        // date = date(Y-m-d)
+        // time = time
+        // where ( rel_type ) == task
+        $reminders = $this->misc_model->get_reminders();
+
+        $test=$this->db->get(db_prefix() . 'tasks')->result_array();
+
+        echo strtotime(date('Y-m-d'));'<br>';
+
+        foreach ($reminders as $reminder)
+        {
+
+
+
+
+            $date = $reminder['date'];
+            $createDate = new DateTime($date);
+            $time_after_edit=$createDate->format('Y-m-d');
+            if ($reminder['rel_type'] != 'task')
+                continue;
+            $task_id = ($reminder['rel_id']);
+
+            $result=$this->db->query("SELECT is_session FROM tbltasks where id= ".$reminder['rel_id'])->row();
+//            echo '<pre>';print_r($result->is_session);'<br>';
+
+
+
+
+
+            if( strtotime($reminder['time'])-strtotime(date("H:i")) > 0 && strtotime($reminder['time']) - strtotime(date("H:i")) < strtotime($reminder['time'])-strtotime(date("H:i"))+mktime(0,5,0) && strtotime(date('Y-m-d'))==strtotime($reminder['date'])) {
+                if ($result->is_session == 0 ) {
+                    $staff = $reminder['staff'];
+                    $staff = get_staff_full_name($staff);
+                    $creator = get_staff_full_name($reminder['creator']);
+                    $hours = $reminder['time'];
+                    $date = $time_after_edit;
+                    $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+                    $link1 = "<a href= '$link' >click here</a>";
+                    $userName = $creator;
+
+                    $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
+
+                    send_message_telegram(urlencode($txt));
+                }
+
+                if($result->is_session==1) {
+
+                    $this->load->helper('telegram_helper');
+                    $userName = get_staff_full_name($reminder['creator']);
+                    $staff = $reminder['staff'];
+                    $staff=get_staff_full_name($staff);
+                    $date = $time_after_edit;
+                    $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+                    $hours = $reminder['time'];
+                    $link1 = "<a href= '$link' >click here</a>";
+                    $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName ."\n"."تم تعيين التذكير الى: ".$staff."\n"." تم تعيين تاريخ التذكير : " . $date."\n". " تم تعيين التوقيت : " . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+                    send_message_telegram(urlencode($txt));
+
+                }
+            }
+
+        }
+
+
+
+    }
+
     private function recurring_invoices()
     {
         $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
@@ -832,7 +910,7 @@ class Cron_model extends App_Model
                     );
 
                     break;
-                    case 'estimate':
+                case 'estimate':
                     $this->estimates_model->send_estimate_to_client(
                         $email['rel_id'],
                         $email['template'],
@@ -956,7 +1034,7 @@ class Cron_model extends App_Model
                                 'fromcompany'     => 1,
                                 'fromuserid'      => null,
                                 'link'            => 'procuration/procurationcu/null/' . $procuration['id'],
-                                
+
                             ]);
 
                             if ($notified) {
@@ -1104,8 +1182,8 @@ class Cron_model extends App_Model
         // We dont need invoices with no duedate and where the duedate is less the current date
         // e.q. is already overdue and partially paid invoice
         $this->db->where('(duedate IS NOT NULL and duedate != "" and duedate > "' . date('Y-m-d') . '")')
-                ->where_in('status', [Invoices_model::STATUS_UNPAID, Invoices_model::STATUS_PARTIALLY])
-                ->where('cancel_overdue_reminders', 0);
+            ->where_in('status', [Invoices_model::STATUS_UNPAID, Invoices_model::STATUS_PARTIALLY])
+            ->where('cancel_overdue_reminders', 0);
 
         $invoices = $this->db->get()->result_array();
 
@@ -1249,10 +1327,10 @@ class Cron_model extends App_Model
             }
 
             $imap = new Imap(
-               $mail->email,
-               $password,
-               $mail->imap_server,
-               $mail->encryption
+                $mail->email,
+                $password,
+                $mail->imap_server,
+                $mail->encryption
             );
 
             try {
@@ -1263,8 +1341,8 @@ class Cron_model extends App_Model
 
             if (empty($mail->folder)) {
                 $mail->folder = stripos($mail->imap_server, 'outlook') !== false
-                    || stripos($mail->imap_server, 'microsoft')
-                    || stripos($mail->imap_server, 'office365') !== false ? 'Inbox' : 'INBOX';
+                || stripos($mail->imap_server, 'microsoft')
+                || stripos($mail->imap_server, 'office365') !== false ? 'Inbox' : 'INBOX';
             }
 
             $mailbox = $connection->getMailbox($mail->folder);
@@ -1568,10 +1646,10 @@ class Cron_model extends App_Model
             }
 
             $imap = new Imap(
-               !empty($dept['imap_username']) ? $dept['imap_username'] : $dept['email'],
-               $password,
-               $dept['host'],
-               $dept['encryption']
+                !empty($dept['imap_username']) ? $dept['imap_username'] : $dept['email'],
+                $password,
+                $dept['host'],
+                $dept['encryption']
             );
 
             try {
@@ -1607,13 +1685,13 @@ class Cron_model extends App_Model
                     }
 
                     if (
-                    class_exists('EmailReplyParser\EmailReplyParser')
-                    && get_option('ticket_import_reply_only') === '1'
-                    && (mb_substr_count($message->getSubject(), 'FWD:') == 0 && mb_substr_count($message->getSubject(), 'FW:') == 0)
-                ) {
+                        class_exists('EmailReplyParser\EmailReplyParser')
+                        && get_option('ticket_import_reply_only') === '1'
+                        && (mb_substr_count($message->getSubject(), 'FWD:') == 0 && mb_substr_count($message->getSubject(), 'FW:') == 0)
+                    ) {
                         $parsedBody = \EmailReplyParser\EmailReplyParser::parseReply(
-                        $this->prepare_imap_email_body_html($body)
-                    );
+                            $this->prepare_imap_email_body_html($body)
+                        );
 
                         $parsedBody = trim($parsedBody);
 
@@ -1629,9 +1707,9 @@ class Cron_model extends App_Model
 
                     foreach ($message->getAttachments() as $attachment) {
                         $data['attachments'][] = [
-                        'filename' => $attachment->getFilename(),
-                        'data'     => $attachment->getDecodedContent(),
-                    ];
+                            'filename' => $attachment->getFilename(),
+                            'data'     => $attachment->getDecodedContent(),
+                        ];
                     }
 
                     $data['subject'] = $message->getSubject();
@@ -1798,9 +1876,9 @@ class Cron_model extends App_Model
             $path      = $path . $file_name;
 
             if (file_put_contents(
-                    $path,
-                    $attachment->getDecodedContent()
-                )) {
+                $path,
+                $attachment->getDecodedContent()
+            )) {
                 $attachment_id = $this->misc_model->add_attachment_to_database(
                     ($task_id ? $task_id : $leadid),
                     ($task_id ? 'task' : 'lead'),
@@ -2223,42 +2301,43 @@ class Cron_model extends App_Model
             return;
         }
 
-        /*if ($daily_agenda_hour == '') {
+        if ($daily_agenda_hour == '') {
             $daily_agenda_hour = 7;
         }
-        $hour_now = date('G');
-        if ($hour_now != $daily_agenda_hour && $this->manually === false) {
+        $hour_now = date('H:i');
+        $hour_now = strtotime($hour_now);
+        $daily_agenda_hour = strtotime($daily_agenda_hour);
+
+        if ($hour_now > $daily_agenda_hour && $this->manually === false) {
             return;
-        }*/
-
+        }
+        $last_check = get_option('daily_agenda_last_check');
+        if($last_check == date('Y-m-d'))
+            return;
         //if($daily_agenda_hour == date('G')){
-        $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 0));
-        $this->db->where('duedate IS NOT NULL');
-        $this->db->where('status !=', 5);
-        $tasks = $this->db->get(db_prefix() . 'tasks');
-        $tasks_data = $tasks->result_array();
-        $tasks_count = $tasks->num_rows();
+        $staffs = $this->staff_model->get();
+        foreach ($staffs as $staff){
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 0));
+            $this->db->where('duedate IS NOT NULL');
 
-        $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 1));
-        $this->db->where('duedate IS NOT NULL');
-        $this->db->where('status !=', 5);
-        $sessions = $this->db->get(db_prefix() . 'tasks');
-        $sessions_data = $sessions->result_array();
-        $sessions_count = $sessions->num_rows();
+            $this->db->where('status !=', 5);
+            $tasks = $this->db->get(db_prefix() . 'tasks');
+            $tasks_data = $tasks->result_array();
+            $tasks_count = $tasks->num_rows();
 
-        foreach ($tasks_data as $task) {
-            $member = $this->staff_model->get($task['addedfrom']);
-            $member_email = $member->email;
-            $member_lang = $member->default_language;
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 1));
+            $this->db->where('duedate IS NOT NULL');
+            $this->db->where('status !=', 5);
+            $sessions = $this->db->get(db_prefix() . 'tasks');
+            $sessions_data = $sessions->result_array();
+            $sessions_count = $sessions->num_rows();
+
+            $member_email = $staff['email'];
+            $member_lang = $staff['default_language'];
             $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
-        }
 
-        foreach ($sessions_data as $session) {
-            $member = $this->staff_model->get($session['addedfrom']);
-            $member_email = $member->email;
-            $member_lang = $member->default_language;
-            $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
         }
+        update_option('daily_agenda_last_check', date('Y-m-d'));
         //}
     }
 

@@ -9,13 +9,17 @@ function send_message_telegram($msg = '')
     $CI = get_instance();
 
     $CI->load->model('telegram_model');
-    $currentUserID = $GLOBALS['current_user']->staffid;
+    $currentUserID = 1;
+
     $userTelegramInfo = $CI->telegram_model->get($currentUserID);
+
+
     if (isset($userTelegramInfo) && $userTelegramInfo->id && $userTelegramInfo->chat_id && $userTelegramInfo->bot_token) {
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.telegram.org/bot5169316420:AAHTXd-3qk0ILie881RSNC_0Mvso866q978/sendmessage?chat_id=139674910&text=".$msg."&parse_mode=html",
+            CURLOPT_URL => "https://api.telegram.org/bot".$userTelegramInfo->bot_token."/sendmessage?chat_id=".$userTelegramInfo->chat_id."&text=".$msg."&parse_mode=html",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

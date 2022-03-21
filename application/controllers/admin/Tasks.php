@@ -354,6 +354,7 @@ class Tasks extends AdminController
             $data  = $this->input->post();
             $data['description'] = html_purify($this->input->post('description', false));
             if ($id == '') {
+
                 if (!has_permission('tasks', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
                     echo json_encode([
@@ -363,6 +364,8 @@ class Tasks extends AdminController
                     die;
                 }
                 $id      = $this->tasks_model->add($data);
+                $task = $this->tasks_model->get($id);
+
 
                 $_id     = false;
                 $success = false;
@@ -378,11 +381,36 @@ class Tasks extends AdminController
                         }
                     }
                 }
+                if(sizeof($task->assignees)==1 && $task->current_user_is_assigned==1){
+                    $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
+
+
+
+                    //Telegram Chat
+                    if($this->app_modules->is_active('telegram_chat')) {
+                        $str = '&#128276 تم اضافة مهمة من قبل ' .$userName."\n". "اسم المكلف بالمهمة : " . "\n";
+                        foreach ($task->assignees as $assignee) {
+                            $str .= $assignee['full_name'] . "\n";
+                        }
+
+
+
+                        $this->load->helper('telegram_helper');
+                        $link1 = APP_BASE_URL . 'admin/tasks/view/' . $task->id;
+                        $link = "<a href= '$link1' >click here</a>";
+                        $str1 = $str . "الموضوع: " .$task->name."\n"."تاريخ استحقاق المهمة: ".$task->duedate."\n"."رابط المهمة: ".$link."\nDone!";
+                        send_message_telegram(urlencode($str1));
+                    }
+
+                }
                 echo json_encode([
                     'success' => $success,
                     'id'      => $_id,
                     'message' => $message,
                 ]);
+
+
+
             } else {
                 if (!has_permission('tasks', '', 'edit')) {
                     header('HTTP/1.0 400 Bad error');
@@ -402,31 +430,10 @@ class Tasks extends AdminController
                     'message' => $message,
                     'id'      => $id,
                 ]);
-//                $test=APP_BASE_URL.'admin/tasks/view'.$id;
-//                $this->load->helper('telegram_helper');
-//                $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
-//                $link = "<a href= '$test' >click here</a>";
-//                $contant = str_replace(array('<br>','↵'), "\n", $data['description']);
-//                $subject = str_replace(array('<br>','↵'), "\n", $data['name']);
-//                $txt = _l('edit_telegram_task').$userName."\n" ._l('click_on') .$link. "\n الموضوع: " .$subject." \n وقائع الجلسة : ".$contant."\n Done !";
-//                send_message_telegram( urlencode( $txt  ) );
-//                exit();
 
 
             }
 
-    /*            "<a href=<?php APP_BASE_URL.'admin/tasks/view/'.$id ?>click here</a>"*/
-//            $task = $this->tasks_model->get($this->input->post('taskid'));
-//            $firstname=$task->assignees[0]['firstname'];
-//            $test=APP_BASE_URL.'admin/tasks/view'.$id;
-//            $this->load->helper('telegram_helper');
-//            $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
-//            $link = "<a href= '$test' >click here</a>";
-//            $contant = str_replace(array('<br>','↵'), "\n", $data['description']);
-//            $subject = str_replace(array('<br>','↵'), "\n", $data['name']);
-//            $txt = _l('edit_telegram_task').$userName."\n" ._l('click_on') .$link. "\n الموضوع: " .$subject." \n وقائع الجلسة : ".$contant."\n Done !";
-//            send_message_telegram( urlencode( $txt  ) );
-//            $this->add_task_assignees($id);
 
 
 
@@ -623,6 +630,7 @@ class Tasks extends AdminController
      */
     public function get_task_data($taskid, $return = false)
     {
+
         $tasks_where = [];
 
         if (!has_permission('tasks', '', 'view')) {
@@ -631,11 +639,15 @@ class Tasks extends AdminController
 
         $task = $this->tasks_model->get($taskid, $tasks_where);
 
+
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
             echo 'Task not found';
             die();
         }
+
+
+
 
         $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
         $data['task']               = $task;
@@ -704,30 +716,22 @@ class Tasks extends AdminController
         if ($this->input->post()) {
             $data = $this->input->post();
 
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
+
+            if(isset($data['time'])){
+                $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
+            }
+
+            $success = $this->misc_model->add_reminder($data, $task_id);
 
             $staff= get_staff_full_name($data['staff']);
-            //date('H:i');
+
             $test=$data['time'];
-//            echo $test;exit();
-//            echo date('H:i');exit();
-//                echo strtotime($test)-strtotime(date('H:i'));exit();
+
             if ($success) {
                 $alert_type = 'success';
                 $message    = _l('reminder_added_successfully');
             }
-            //Telegram Chat
-//            if($this->app_modules->is_active('telegram_chat')) {
-//                $this->load->helper('telegram_helper');
-//                $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
-//                $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
-//                $hours = $data['time'];
-//                $link1 = "<a href= '$link' >click here</a>";
-//                $contant = str_replace(array('<br>', '↵'), "\n", $data['description']);
-//                $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n"."تم تعيين التذكير الى: "."$staff". " \n تم تعيين تاريخ التذكير : " . $data['date'] . "\n تم تعيين التوقيت :" . $hours ."\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
-//                send_message_telegram(urlencode($txt));
-//                //Telegram Chat
-//            }
+
         }
         echo json_encode([
             'taskHtml'   => $this->get_task_data($task_id, true),
@@ -746,8 +750,7 @@ class Tasks extends AdminController
         if ($data) {
             //Merge date with time
             if(isset($data['time'])){
-                $data['date'] = $data['date'].' '.$data['time'];
-                unset($data['time']);
+                $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
             }
 
             $success = $this->misc_model->add_reminder($data, $task_id);
@@ -762,16 +765,6 @@ class Tasks extends AdminController
             'alert_type' => $alert_type,
             'message'    => $message,
         ]);
-//        if($this->app_modules->is_active('telegram_chat')) {
-//            $this->load->helper('telegram_helper');
-//            $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
-//            $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
-//            $hours = $data1['time'];
-//            $link1 = "<a href= '$link' >click here</a>";
-////                $contant = str_replace(array('<br>', '↵'), "\n", $data['description']);
-//            $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName ."\n"."تم تعيين التذكير الى: ".$staff."\n"." تم تعيين تاريخ التذكير : " . $data['date'] ."\n". " تم تعيين التوقيت : " . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
-//            send_message_telegram(urlencode($txt));
-//        }
     }
 
     public function edit_reminder($id)
@@ -1120,7 +1113,7 @@ class Tasks extends AdminController
 
             $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
 
-            $i=0;
+
             //Telegram Chat
             if($this->app_modules->is_active('telegram_chat')) {
                 $str = '&#128276 تم اضافة مهمة من قبل ' .$userName."\n". "اسم المكلف بالمهمة : " . "\n";
@@ -1136,6 +1129,7 @@ class Tasks extends AdminController
                 send_message_telegram(urlencode($str1));
             }
             //Telegram Chat
+
 
 
 
@@ -1376,12 +1370,6 @@ class Tasks extends AdminController
                 $message = _l('task_marked_as_success', format_task_status($status, true, true));
             }
 
-//            $this->load->helper('telegram_helper');
-//            $subject = get_task_subject_by_id($id);
-//            $subject = str_replace(array('<br>','↵'), "\n", $subject);
-//            $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
-//            $msg =  "Status of Task has been change by ". $userName." \n Subject: ".$subject. " \n Status Message: " .$message." \n Click on this link: ".APP_BASE_URL.'admin/tasks/view/'.$id;
-//            send_message_telegram(urlencode($msg));
 
 
 
@@ -1628,15 +1616,6 @@ class Tasks extends AdminController
             'taskHtml' => $this->input->get('single_task') === 'true' ? $this->get_task_data($task_id, true) : '',
             'timers'   => $this->get_staff_started_timers(true),
         ]);
-//        $this->load->helper('telegram_helper');
-//        $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
-//        $link = APP_BASE_URL.'admin/tasks/view/'.$id;
-//        $contant = $data['description'];
-//        $subject = str_replace(array('<br>','↵'), "\n", $data['name']);
-//
-//        $txt = _l('start_timer').$userName."عند الساعة: ".@date('Y-m-d H:i:s')."\n" ._l('click_on') .$link. "\n الموضوع: " .$subject." \n وصف المهمة: " .$contant."\n Done !";
-//        send_message_telegram( urlencode( $txt  ) );
-
 
 
     }

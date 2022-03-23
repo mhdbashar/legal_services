@@ -3841,3 +3841,7 @@ $lang['permission_create_milestones'] = "Create Milestones";
 $lang['permission_edit_milestones'] = "Edit Milestones";
 $lang['permission_delete_milestones'] = "Delete Milestones";
 $lang['custom_field_add_edit_default_value'] = "Default Value";
+
+
+$lang['new_field'] = "New Field";
+$lang['delete_field'] = "Delete Field";

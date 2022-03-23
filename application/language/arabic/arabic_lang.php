@@ -3394,5 +3394,8 @@ $lang['child_sub_categories'] = "نوع الدعوى";
 $lang['_description'] = "الوصف";
 $lang['_email'] = "البريد الإلكتروني";
 
+$lang['new_field'] = "إضافة حقل جديد";
+$lang['delete_field'] = "حذف الحقل";
+
 
 

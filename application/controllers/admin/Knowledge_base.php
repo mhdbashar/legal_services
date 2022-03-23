@@ -33,7 +33,8 @@ class Knowledge_base extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
-            $data['description'] = html_purify($this->input->post('description', false));
+
+//            $data['description'] = html_purify($this->input->post('description', false));
 
             if ($id == '') {
                 if (!has_permission('knowledge_base', '', 'create')) {
@@ -60,6 +61,7 @@ class Knowledge_base extends AdminController
         } else {
             $article         = $this->knowledge_base_model->get($id);
             $data['article'] = $article;
+            $data['fields'] = $this->knowledge_base_model->get_content($id);
             $title           = _l('edit', _l('kb_article')) . ' ' . $article->subject;
         }
 

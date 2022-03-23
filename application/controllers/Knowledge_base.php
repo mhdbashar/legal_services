@@ -42,13 +42,13 @@ class Knowledge_base extends ClientsController
         $this->layout();
     }
 
-    public function article($slug)
+    public function article($id)
     {
         $this->checkKnowledgeBaseAccess();
 
-        $data['article'] = $this->knowledge_base_model->get(false, $slug);
+        $data['article'] = $this->knowledge_base_model->get($id);
 
-        if (!$slug) {
+        if (!$id) {
             redirect(site_url('knowledge-base'));
         }
 
@@ -60,6 +60,7 @@ class Knowledge_base extends ClientsController
         $data['related_articles']      = $this->knowledge_base_model->get_related_articles($data['article']->articleid);
         add_views_tracking('kb_article', $data['article']->articleid);
         $data['title'] = $data['article']->subject;
+        $data['fields'] = $this->knowledge_base_model->get_content($id);
         $this->view('knowledge_base_article');
         $this->data($data);
         $this->layout();

@@ -36,7 +36,6 @@ class Knowledge_base_model extends App_Model
 
         return $this->db->get()->result_array();
     }
-
     /**
      * Get related artices based on article id
      * @param  mixed $current_id current article id
@@ -87,12 +86,28 @@ class Knowledge_base_model extends App_Model
         if ($slug_total > 0) {
             $data['slug'] .= '-' . ($slug_total + 1);
         }
+        if (isset($data['title'])) {
+            $title = $data['title'];
+            unset($data['title']);
+        }
+        if (isset($data['description'])) {
+            $description = $data['description'];
+            unset($data['description']);
+        }
 
         $data = hooks()->apply_filters('before_add_kb_article', $data);
 
         $this->db->insert(db_prefix() . 'knowledge_base', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $i=0;
+            foreach ($description as $d){
+                $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$insert_id,'title'=>$title[$i],'description'=>$d]);
+                $insert = $this->db->insert_id();
+                if ($insert) {
+                    $i++;
+                }
+            }
             log_activity('New Article Added [ArticleID: ' . $insert_id . ' GroupID: ' . $data['articlegroup'] . ']');
         }
 
@@ -119,9 +134,27 @@ class Knowledge_base_model extends App_Model
         } else {
             $data['staff_article'] = 0;
         }
+        if (isset($data['title'])) {
+            $title = $data['title'];
+            unset($data['title']);
+        }
+        if (isset($data['description'])) {
+            $description = $data['description'];
+            unset($data['description']);
+        }
+        $i=0;
+        $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
+        foreach ($description as $d){
+            $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
+            $insert = $this->db->insert_id();
+            if ($insert) {
+                $i++;
+            }
+        }
 
         $this->db->where('articleid', $id);
         $this->db->update(db_prefix() . 'knowledge_base', $data);
+
         if ($this->db->affected_rows() > 0) {
             log_activity('Article Updated [ArticleID: ' . $id . ']');
 
@@ -192,7 +225,7 @@ class Knowledge_base_model extends App_Model
             $this->db->where('rel_type', 'kb_article');
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'views_tracking');
-
+            $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
             log_activity('Article Deleted [ArticleID: ' . $id . ']');
 
             return true;
@@ -381,4 +414,14 @@ class Knowledge_base_model extends App_Model
             'success' => false,
         ];
     }
+
+    public function get_content($id = '')
+    {
+        $this->db->select('');
+        $this->db->from(db_prefix() . 'knowledge_custom_fields');
+        $this->db->order_by('id', 'asc');
+        $this->db->where('knowledge_id', $id);
+        return $this->db->get()->result_array();
+    }
+
 }

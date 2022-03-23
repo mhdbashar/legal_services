@@ -6,7 +6,7 @@ $aColumns = [
     'subject',
     'articlegroup',
     'datecreated',
-    ];
+];
 $sIndexColumn     = 'articleid';
 $sTable           = db_prefix() . 'knowledge_base';
 $additionalSelect = [
@@ -15,11 +15,11 @@ $additionalSelect = [
     'articleid',
     'slug',
     'staff_article',
-     db_prefix() . 'knowledge_base.description',
-    ];
+    db_prefix() . 'knowledge_base.description',
+];
 $join = [
     'LEFT JOIN ' . db_prefix() . 'knowledge_base_groups ON ' . db_prefix() . 'knowledge_base_groups.groupid = ' . db_prefix() . 'knowledge_base.articlegroup',
-    ];
+];
 
 $where   = [];
 $filter  = [];
@@ -52,9 +52,9 @@ foreach ($rResult as $aRow) {
         if ($aColumns[$i] == 'articlegroup') {
             $_data = $aRow['name'];
         } elseif ($aColumns[$i] == 'subject') {
-            $link = admin_url('knowledge_base/view/' . $aRow['slug']);
+            $link = admin_url('knowledge_base/view/' . $aRow['articleid']);
             if ($aRow['staff_article'] == 0) {
-                $link = site_url('knowledge-base/article/' . $aRow['slug']);
+                $link = site_url('knowledge-base/article/' . $aRow['articleid']);
             }
 
             $_data = '<b>' . $_data . '</b>';

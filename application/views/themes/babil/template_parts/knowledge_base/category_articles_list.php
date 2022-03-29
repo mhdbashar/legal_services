@@ -1,5 +1,13 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');?>
 <div class="col-md-12">
+    <?php foreach($childe_groups as $category){?>
+            <div class="article_group_wrapper">
+                <h4 class="bold"><i class="fa fa-folder-o"></i> <a href="<?php echo site_url('knowledge-base/category/'.$category->groupid); ?>"><?php echo $category->name; ?></a>
+                    <small><?php echo $category->description; ?></small>
+                </h4>
+            </div>
+    <?php } ?>
+
     <?php foreach($articles as $category){?>
         <h4 class="bold mbot25 mtop25"><i class="fa fa-folder-o"></i> <?php echo $category['name']; ?></h4>
         <ul class="list-unstyled articles_list">

@@ -6,13 +6,13 @@
         <?php } ?>
         <?php if(isset($category)){
             // Category articles list
-            get_template_part('knowledge_base/category_articles_list', array('articles'=>$articles));
+            get_template_part('knowledge_base/category_articles_list', array('articles'=>$articles,'childe_groups'=>$childe_groups));
         }  else if(isset($search_results)) {
             // Search results
             get_template_part('knowledge_base/search_results', array('articles'=>$articles));
         } else {
             // Default page
-            get_template_part('knowledge_base/categories', array('articles'=>$articles));
+            get_template_part('knowledge_base/categories', array('articles'=>$articles,'main_groups'=>$main_groups));
         }
         hooks()->do_action('after_kb_groups_customers_area');
         ?>

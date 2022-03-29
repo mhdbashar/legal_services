@@ -13,13 +13,15 @@ class Knowledge_base extends ClientsController
         }
 
         hooks()->do_action('customers_area_knowledge_base_construct');
+        $this->load->model('knowledge_base_model');
+        $this->load->helper('my_knowledge_base_helper');
     }
 
     public function index($slug = '')
     {
         $this->checkKnowledgeBaseAccess();
-
         $data['articles']              = get_all_knowledge_base_articles_grouped(true);
+        $data['main_groups']           = kb_main_groups();
         $data['knowledge_base_search'] = true;
         $data['title']                 = _l('clients_knowledge_base');
         $this->view('knowledge_base');
@@ -60,20 +62,19 @@ class Knowledge_base extends ClientsController
         $data['related_articles']      = $this->knowledge_base_model->get_related_articles($data['article']->articleid);
         add_views_tracking('kb_article', $data['article']->articleid);
         $data['title'] = $data['article']->subject;
-        $data['fields'] = $this->knowledge_base_model->get_content($id);
         $this->view('knowledge_base_article');
         $this->data($data);
         $this->layout();
     }
 
-    public function category($slug)
+    public function category($id)
     {
         $this->checkKnowledgeBaseAccess();
 
-        $where_kb         = 'articlegroup IN (SELECT groupid FROM ' . db_prefix() . 'knowledge_base_groups WHERE group_slug="' . $slug . '")';
-        $data['category'] = $slug;
+        $where_kb         = 'articlegroup IN (SELECT groupid FROM ' . db_prefix() . 'knowledge_base_groups WHERE groupid="' . $id . '")';
+        $data['category'] = kb_group_name($id);
         $data['articles'] = get_all_knowledge_base_articles_grouped(true, $where_kb);
-
+        $data['childe_groups']           = kb_all_childe_group($id);
         $data['title']                 = count($data['articles']) == 1 ? $data['articles'][0]['name'] : _l('clients_knowledge_base');
         $data['knowledge_base_search'] = true;
         $this->data($data);

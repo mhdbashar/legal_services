@@ -15,8 +15,9 @@
                     <div class="col-md-12">
                         <div id="additional"></div>
                         <?php echo render_input('name','kb_group_add_edit_name'); ?>
-                        <?php echo render_select('parent_id',get_kb_groups(),array('groupid','name', 'required'=>'required'),'kb_article_basic_group'); ?>
-
+                        <div id="kb_group_parent_id">
+                        <?php echo render_select('parent_id',get_kb_groups(),array('groupid','name'),'kb_article_basic_group'); ?>
+                        </div>
                         <div id="kb_group_slug" class="hide">
                             <?php echo render_input('group_slug', 'kb_article_slug'); ?>
                         </div>
@@ -57,6 +58,7 @@
             $('#kb_group_slug input').rules('remove', 'required');
             $('#additional').html('');
             $('#kb_group_modal input').not('[type="hidden"]').val('');
+            $('#kb_group_modal select[name="parent_id"]').removeClass('hide');
             $('#kb_group_modal textarea').val('');
             $('.add-title').removeClass('hide');
             $('.edit-title').removeClass('hide');
@@ -104,6 +106,8 @@
         $('#kb_group_slug input').val($(invoker).data('slug'));
         $('#kb_group_modal input[name="name"]').val($(invoker).data('name'));
         $('#kb_group_modal select[name="parent_id"]').selectpicker('val', $(invoker).data('parent_id'));
+        $('#kb_group_parent_id').addClass('hide');
+
         $('#kb_group_modal textarea[name="description"]').val($(invoker).data('description'));
         $('#kb_group_modal .colorpicker-input').colorpicker('setValue', $(invoker).data('color'));
         $('#kb_group_modal input[name="group_order"]').val($(invoker).data('order'));

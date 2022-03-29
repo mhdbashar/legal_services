@@ -83,6 +83,12 @@
                                         } ?>><?php echo $phase->name; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
+                                <optgroup label="<?php echo _l('kb_base_group'); ?>">
+                                    <?php foreach ($kb_base_group as $group): ?>
+                                        <option value="<?php echo 'kb_'.$group->groupid; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == 'kb_'.$group->groupid){echo 'selected';} ?>><?php echo $group->name; ?></option>
+                                    <?php endforeach; ?>
+                                </optgroup>
+
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>
                           </div>

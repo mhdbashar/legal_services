@@ -16,6 +16,8 @@ class Custom_fields extends AdminController
         $this->load->model('custom_fields_model');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Phase_model','phase');
+        $this->load->helper('my_knowledge_base_helper');
+
         if (!is_admin()) {
             access_denied('Access Custom Fields');
         }
@@ -60,12 +62,12 @@ class Custom_fields extends AdminController
             $data['custom_field'] = $this->custom_fields_model->get($id);
             $title                = _l('edit', _l('custom_field_lowercase'));
         }
-
         $data['pdf_fields']             = $this->pdf_fields;
         $data['client_portal_fields']   = $this->client_portal_fields;
         $data['client_editable_fields'] = $this->client_editable_fields;
         $data['legal_services']         = $this->legal->get_all_services();
         $data['legal_services_phases']  = $this->phase->get_all();
+        $data['kb_base_group']          = kb_main_groups();
         $data['title']                  = $title;
         $this->load->view('admin/custom_fields/customfield', $data);
     }

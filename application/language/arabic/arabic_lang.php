@@ -3396,6 +3396,12 @@ $lang['_email'] = "البريد الإلكتروني";
 
 $lang['new_field'] = "إضافة حقل جديد";
 $lang['delete_field'] = "حذف الحقل";
+$lang['kb_article_basic_group'] = "المجموعة الرئيسة";
+$lang['article_main_group'] = "المجموعة الرئيسية للمقال";
+$lang['nothing'] = "لم يتم تحديد شيء";
+$lang['kb_main_group_name'] = "";
+
+
 
 
 

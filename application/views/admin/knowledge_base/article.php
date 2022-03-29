@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel_s">
-                    <div id="field" class="panel-body">
+                    <div class="panel-body">
                         <h4 class="no-margin">
                             <?php echo $title; ?>
                             <?php if(isset($article)){ ?>
@@ -37,6 +37,19 @@
                         <hr class="hr-panel-heading" />
                         <div class="clearfix"></div>
 
+                        <?php if(!isset($article) && isset($kb_base_gruop)){ ?>
+                        <div class="form-group">
+                            <label  class="control-label"><?php echo _l('article_main_group'); ?></label>
+                            <select class="form-control custom_select_arrow" id="cat" name="type" >
+                                <option value=""><?php echo _l('nothing'); ?></option>
+                                <?php foreach ($kb_base_gruop as $group){ ?>
+                                <option value="<?php echo $group->groupid?>"><?php echo $group->name;?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                        <?php } ?>
+
                         <?php $value = (isset($article) ? $article->subject : ''); ?>
                         <?php $attrs = (isset($article) ? array() : array('autofocus'=>true)); ?>
                         <?php echo render_input('subject','kb_article_add_edit_subject',$value,'text',array_merge($attrs, ['required'=>'required'])); ?>
@@ -58,28 +71,10 @@
                             <input type="checkbox" id="disabled" name="disabled" <?php if(isset($article) && $article->active_article == 0){echo 'checked';} ?>>
                             <label for="disabled"><?php echo _l('kb_article_disabled'); ?></label>
                         </div>
-                        <?php if(isset($fields) && count($fields)>0){?>
-                            <?php  $i=0;
-                            foreach ($fields as $f){?>
-                                <div id="field-<?=$i?>" class="row">
-                                <?php echo render_input('title[]','title',$f['title'],'text',array_merge($attrs, ['required'=>'required']));?>
-                                <?php echo render_textarea('description[]','subject',$f['description'],array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual');?>
-                                <a onclick="$('#field-<?=$i?>').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
-                                <div class="clearfix"></div>
-                                <hr class="hr-panel-heading" />
-                                </div>
-                            <?php $i++;}?>
-                        <?php }else{?>
-                            <div id="fld-0" class="row">
-                            <?php echo render_input('title[]','title','','text',array_merge($attrs, ['required'=>'required'])); ?>
-                            <?php echo render_textarea('description[]','subject','',array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual'); ?>
-                            <a onclick="$('#fld-0').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
-                            <div class="clearfix"></div>
-                            <hr class="hr-panel-heading" />
-                            </div>
-
-                        <?php } ?>
-
+                        <hr />
+                        <div id="field">
+                        <?php echo render_custom_fields('kb_'.$article->type,$article->articleid); ?>
+                    </div>
                     </div>
 
                 </div>
@@ -87,7 +82,7 @@
             <?php if((has_permission('knowledge_base','','create') && !isset($article)) || has_permission('knowledge_base','','edit') && isset($article)){ ?>
                 <div class="btn-bottom-toolbar btn-toolbar-container-out text-right">
                     <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
-                    <a onclick="new_field()" class="btn btn-info pull-left"><i class="fa fa-plus"></i><?php echo _l('new_field'); ?></a>
+<!--                    <a onclick="new_field()" class="btn btn-info pull-left"><i class="fa fa-plus"></i>--><?php //echo _l('new_field'); ?><!--</a>-->
 
                 </div>
             <?php } ?>
@@ -101,24 +96,35 @@
     var i=0;
     $(function(){
         // init_editor('#description[0]', {append_plugins: 'stickytoolbar'});
-        // appValidateForm($('#article-form'),{subject:'required',articlegroup:'required'});
+        appValidateForm($('#article-form'),{subject:'required',articlegroup:'required',type:'required'});
     });
     function new_field() {
         i++;
         var x =`
-       <div id="fld-${i}" class="row">
+       <div id="field-${i}" class="row">
        <?php echo render_input('title[]','title','','text',['required'=>'required']); ?>
        <?php echo render_textarea('description[]','subject','',['required'=>'required'],array(),'','tinymce tinymce-manual'); ?>
-       <a onclick="$('#fld-${i}').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
+       <a onclick="$('#field-${i}').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
        <div class="clearfix"></div>
        <hr class="hr-panel-heading" />
         </div>
         `;
         $('#field').append(x);
     }
-    function delete_field() {
 
-    }
+    $("#cat").change(function () {
+        $('#field').html('');
+        var id = $(this).val();
+        $.ajax({
+            url: "<?php echo admin_url('Knowledge_base/groups_fields'); ?>",
+            data: {id: id},
+            type: "POST",
+            success: function (data) {
+                $("#field").html(data);
+            }
+        });
+    });
+
 </script>
 </body>
 </html>

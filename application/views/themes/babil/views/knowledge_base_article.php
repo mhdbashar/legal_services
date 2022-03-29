@@ -9,12 +9,15 @@
                     </small>
                     <hr class="no-mtop" />
                     <div class="mtop10 tc-content kb-article-content">
-
-                        <?php foreach ( $fields as $d){
-                            echo '<h4 class="text text-xl pb-4 pt-2 " style="color: rgb(48, 176, 232)">'.$d['title'].'</h4>';
-                            echo '<p>'.$d['description'].'</p>';
-                            echo '<br>';
-                        }?>
+                        <?php
+                        $custom_fields = get_custom_fields('kb_'.$article->type);
+                        foreach ($custom_fields as $custom){
+                            $fields = get_custom_field_value($article->articleid,$custom['id'],$custom['fieldto']);
+                            ?>
+                            <h4 class="<?php echo $custom['type'];?>" style="color: rgb(48, 176, 232)"> <?php echo $custom['name'];?> </h4>
+                            <p> <?php echo $fields;?> </p>
+                            <br>
+                        <?php } ?>
                     </div>
                     <hr />
                     <h4 class="mtop20"><?php echo _l('clients_knowledge_base_find_useful'); ?></h4>

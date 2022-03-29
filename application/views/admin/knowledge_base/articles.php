@@ -16,9 +16,9 @@ $has_permission_create = has_permission('knowledge_base','','create');
                             <?php if($has_permission_edit || $has_permission_create){ ?>
                                 <a href="<?php echo admin_url('knowledge_base/manage_groups'); ?>" class="btn btn-info mright5"><?php echo _l('als_kb_groups'); ?></a>
                             <?php } ?>
-                            <a href="#" class="btn btn-default hidden-xs toggle-articles-list" onclick="initKnowledgeBaseTableArticles(); return false;">
-                                <i class="fa fa-th-list"></i>
-                            </a>
+<!--                            <a href="#" class="btn btn-default hidden-xs toggle-articles-list" onclick="initKnowledgeBaseTableArticles(); return false;">-->
+<!--                                <i class="fa fa-th-list"></i>-->
+<!--                            </a>-->
                             <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data hide" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-filter" aria-hidden="true"></i>

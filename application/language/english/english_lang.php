@@ -1470,6 +1470,7 @@ $lang['settings_calendar'] = 'Calendar';
 $lang['settings_sales_invoice_due_after'] = 'Invoice due after (days)';
 $lang['settings_google_api'] = 'Google API Key';
 $lang['settings_gcal_main_calendar_id'] = 'Google Calendar ID';
+$lang['hide_sessions_on_main_sessions_table'] = 'Hide law service sessions on main sessions table (admin area)';
 $lang['settings_gcal_main_calendar_id_help'] = 'This is the main company calendar. All events from this calendar will be shown. If you want to specify a calendar based on departments you can add in the department Google Calendar ID.';
 $lang['show_on_calendar'] = 'Show on Calendar';
 $lang['show_invoices_on_calendar'] = 'Invoices';
@@ -3841,7 +3842,14 @@ $lang['permission_create_milestones'] = "Create Milestones";
 $lang['permission_edit_milestones'] = "Edit Milestones";
 $lang['permission_delete_milestones'] = "Delete Milestones";
 $lang['custom_field_add_edit_default_value'] = "Default Value";
-
-
 $lang['new_field'] = "New Field";
 $lang['delete_field'] = "Delete Field";
+$lang['send_to_customer'] = "Not sent";
+$lang['sent_to_customer'] = "Sent";
+$lang['customer_report_none'] = "Not exist";
+$lang['customer_report'] = "Exist";
+$lang['no_tags'] = "No tags used";
+$lang['project_setting_create_sessions'] = "create session";
+$lang['project_setting_edit_sessions'] = "edit sessions (only sessions created from contact)";
+$lang['project_setting_upload_on_sessions'] = "upload attachments on sessions";
+$lang['project_setting_comment_on_sessions'] = "comment on law service sessions";

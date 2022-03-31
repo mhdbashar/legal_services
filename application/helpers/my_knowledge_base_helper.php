@@ -38,7 +38,7 @@ function kb_all_main_group_name($parent_id){
             }
         }
     }
-        $data = implode($data,'-');
+        $data = implode($data,'>>');
         return $data;
 }
 
@@ -97,7 +97,7 @@ function kb_all_childe_group($id){
 
 function kb_main_groups(){
     $CI = & get_instance();
-    $CI->db->where(['parent_id'=> 0,'active'=>'1']);
+    $CI->db->where(['is_main'=> '1','active'=>'1']);
     $groups = $CI->db->get(db_prefix() . 'knowledge_base_groups')->result();
     if($groups)
         return $groups;
@@ -106,6 +106,25 @@ function kb_main_groups(){
 
 }
 
+function get_kb_main_groups(){
+    $CI = & get_instance();
+    $CI->db->where(['parent_id'=> '0','active'=>'1']);
+    $main_group = $CI->db->get(db_prefix() . 'knowledge_base_groups')->result();
+    if($main_group)
+        return $main_group;
+    else
+        return false;
+}
+
+function kb_childe_group($id){
+    $CI = & get_instance();
+        $CI->db->where(['parent_id'=> $id,'active'=>'1']);
+        $val = $CI->db->get(db_prefix() . 'knowledge_base_groups')->result();
+        if ($val)
+            return $val;
+
+    return false;
+}
 
 //function get_kb_main_groups(){
 //    $CI = &get_instance();

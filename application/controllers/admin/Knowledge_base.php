@@ -63,13 +63,14 @@ class Knowledge_base extends AdminController
         } else {
             $article         = $this->knowledge_base_model->get($id);
             $data['article'] = $article;
+            $data['fields'] = $this->knowledge_base_model->get_content($id);
             $title           = _l('edit', _l('kb_article')) . ' ' . $article->subject;
         }
 
         $this->app_scripts->add('tinymce-stickytoolbar',site_url('assets/plugins/tinymce-stickytoolbar/stickytoolbar.js'));
 
         $data['bodyclass'] = 'kb-article';
-        $data['kb_base_gruop'] = $this->knowledge_base_model->kb_main_groups();
+        $data['kb_base_gruop'] = kb_main_groups();
         $data['title']     = $title;
         $this->load->view('admin/knowledge_base/article', $data);
     }
@@ -206,10 +207,19 @@ class Knowledge_base extends AdminController
 
                 $id = $post_data['id'];
                 unset($post_data['id']);
-                $success = $this->knowledge_base_model->update_group($post_data, $id);
-                if ($success) {
+                $response = $this->knowledge_base_model->update_group($post_data, $id);
+//                $response = $this->knowledge_base_model->delete_group($id);
+                if (is_array($response) && isset($response['referenced'])) {
+                    set_alert('danger', _l('is_referenced', _l('kb_dt_group_name')));
+                } elseif ($response == true) {
                     set_alert('success', _l('updated_successfully', _l('kb_dt_group_name')));
+                } else {
+                    set_alert('warning', _l('problem_deleting', mb_strtolower(_l('kb_dt_group_name'))));
                 }
+
+//                if ($success) {
+//                    set_alert('success', _l('updated_successfully', _l('kb_dt_group_name')));
+//                }
             }
             die;
         }
@@ -265,7 +275,8 @@ class Knowledge_base extends AdminController
     {
         $id = $this->input->post();
         if($id['id'] == 'nezam'){
-            $out = '<div id="fld-0" class="row">';
+            $out = render_custom_fields('kb_'.$id['id']);
+            $out .= '<div id="fld-0" class="row">';
             $out .= render_input('title[]','','التاريخ','text',[],[],'','hide');
             $out .= render_input('description[]','التاريخ','','text',['required'=>'required']);
 //            $out .= '<a onclick="'."$('#fld-0').html('')".'" class="btn btn-danger pull-left">'._l('delete_field').'</a>';
@@ -308,7 +319,8 @@ class Knowledge_base extends AdminController
             $out .= '<div class="clearfix"></div><hr class="hr-panel-heading" /></div>';
         }
         elseif ($id['id'] == 'sawabk'){
-            $out = '<div id="fld-0" class="row">';
+            $out = render_custom_fields('kb_'.$id['id']);
+            $out .= '<div id="fld-0" class="row">';
             $out .= render_input('title[]','','رقم القضية و تاريخها (هـ)','text',[],[],'','hide');
             $out .= render_input('description[]','رقم القضية و تاريخها (هـ)','','text',['required'=>'required']);
 //            $out .= '<a onclick="'."$('#fld-0').html('')".'" class="btn btn-danger pull-left">'._l('delete_field').'</a>';

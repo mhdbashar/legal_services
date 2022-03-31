@@ -104,7 +104,15 @@ class Knowledge_base_model extends App_Model
         $this->db->insert(db_prefix() . 'knowledge_base', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            if (isset($custom_fields)) {
+            $i=0;
+            foreach ($description as $d) {
+                $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id' => $insert_id, 'title' => $title[$i], 'description' => $d]);
+                $insert = $this->db->insert_id();
+                if ($insert) {
+                    $i++;
+                }
+            }
+                if (isset($custom_fields)) {
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
             log_activity('New Article Added [ArticleID: ' . $insert_id . ' GroupID: ' . $data['articlegroup'] . ']');
@@ -140,6 +148,15 @@ class Knowledge_base_model extends App_Model
         if (isset($data['description'])) {
             $description = $data['description'];
             unset($data['description']);
+        }
+        $i=0;
+        $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
+        foreach ($description as $d){
+            $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
+            $insert = $this->db->insert_id();
+            if ($insert) {
+                $i++;
+            }
         }
         $affectedRows      = 0;
         if (isset($data['custom_fields'])) {
@@ -265,6 +282,12 @@ class Knowledge_base_model extends App_Model
         } else {
             $data['active'] = 1;
         }
+        if (isset($data['main'])) {
+            $data['is_main'] = 1;
+            unset($data['main']);
+        } else {
+            $data['is_main'] = 0;
+        }
 
         $data['group_slug'] = slug_it($data['name']);
         $this->db->like('group_slug', $data['group_slug']);
@@ -309,6 +332,21 @@ class Knowledge_base_model extends App_Model
             unset($data['disabled']);
         } else {
             $data['active'] = 1;
+        }
+        if (isset($data['main'])) {
+            $data['is_main'] = 1;
+            unset($data['main']);
+        } else {
+            $data['is_main'] = 0;
+        }
+        $current = $this->get_kbg_by_id($id);
+        // Check if group already is using
+        if($current->parent_id != $data['parent_id']){
+            if (is_reference_in_table('parent_id', db_prefix() . 'knowledge_base_groups', $id)) {
+                return [
+                    'referenced' => true,
+                ];
+            }
         }
         $this->db->where('groupid', $id);
         $this->db->update(db_prefix() . 'knowledge_base_groups', $data);

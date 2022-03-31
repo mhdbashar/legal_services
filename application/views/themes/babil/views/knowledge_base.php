@@ -12,7 +12,7 @@
             get_template_part('knowledge_base/search_results', array('articles'=>$articles));
         } else {
             // Default page
-            get_template_part('knowledge_base/categories', array('articles'=>$articles,'main_groups'=>$main_groups));
+            get_template_part('knowledge_base/categories', array('main_groups'=>$main_groups));
         }
         hooks()->do_action('after_kb_groups_customers_area');
         ?>

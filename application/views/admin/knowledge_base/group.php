@@ -16,7 +16,11 @@
                         <div id="additional"></div>
                         <?php echo render_input('name','kb_group_add_edit_name'); ?>
                         <div id="kb_group_parent_id">
-                        <?php echo render_select('parent_id',get_kb_groups(),array('groupid','name'),'kb_article_basic_group'); ?>
+                            <?php $groups = get_kb_groups();
+                            foreach ($groups as $key =>$group){
+                                $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
+                            }?>
+                            <?php echo render_select('parent_id',$groups,array('groupid','full_name'),'kb_article_basic_group'); ?>
                         </div>
                         <div id="kb_group_slug" class="hide">
                             <?php echo render_input('group_slug', 'kb_article_slug'); ?>
@@ -25,6 +29,10 @@
                         <?php echo render_textarea('description','kb_group_add_edit_description'); ?>
                         <?php echo render_input('group_order','kb_group_order',total_rows(db_prefix().'knowledge_base_groups') + 1,'number'); ?>
                         <div class="kb-group-disable-option">
+                            <div class="checkbox checkbox-primary">
+                                <input type="checkbox" name="main" id="main">
+                                <label for="main"><?php echo _l('kb_group_add_edit_is_main'); ?></label>
+                            </div>
                             <div class="checkbox checkbox-primary">
                                 <input type="checkbox" name="disabled" id="disabled">
                                 <label for="disabled"><?php echo _l('kb_group_add_edit_disabled'); ?></label>
@@ -106,14 +114,15 @@
         $('#kb_group_slug input').val($(invoker).data('slug'));
         $('#kb_group_modal input[name="name"]').val($(invoker).data('name'));
         $('#kb_group_modal select[name="parent_id"]').selectpicker('val', $(invoker).data('parent_id'));
-        $('#kb_group_parent_id').addClass('hide');
-
+        // $('#kb_group_parent_id').addClass('hide');
         $('#kb_group_modal textarea[name="description"]').val($(invoker).data('description'));
         $('#kb_group_modal .colorpicker-input').colorpicker('setValue', $(invoker).data('color'));
         $('#kb_group_modal input[name="group_order"]').val($(invoker).data('order'));
+        $('input[name="main"]').prop('checked', ($(invoker).data('is_main') == 1 ? true : false));
         $('input[name="disabled"]').prop('checked', ($(invoker).data('active') == 0 ? true : false));
         $('#kb_group_modal').modal('show');
         $('.add-title').addClass('hide');
+
     }
 
 </script>

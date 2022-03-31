@@ -74,7 +74,20 @@
                         <hr />
                         <div id="field">
                         <?php echo render_custom_fields('kb_'.$article->type,$article->articleid); ?>
-                    </div>
+                            <?php if(isset($fields) ){?>
+                                <?php  $i=0;
+                                foreach ($fields as $f){?>
+                                    <div id="field-<?=$i?>" class="row">
+                                        <?php echo render_input('title[]','title',$f['title'],'text',array_merge($attrs, ['required'=>'required']));?>
+                                        <?php echo render_textarea('description[]','subject',$f['description'],array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual');?>
+                                        <a onclick="$('#field-<?=$i?>').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
+                                        <div class="clearfix"></div>
+                                        <hr class="hr-panel-heading" />
+                                    </div>
+                                <?php $i++;} ?>
+                            <?php } ?>
+
+                        </div>
                     </div>
 
                 </div>
@@ -82,7 +95,7 @@
             <?php if((has_permission('knowledge_base','','create') && !isset($article)) || has_permission('knowledge_base','','edit') && isset($article)){ ?>
                 <div class="btn-bottom-toolbar btn-toolbar-container-out text-right">
                     <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
-<!--                    <a onclick="new_field()" class="btn btn-info pull-left"><i class="fa fa-plus"></i>--><?php //echo _l('new_field'); ?><!--</a>-->
+                    <a onclick="new_field()" class="btn btn-info pull-left"><i class="fa fa-plus"></i><?php echo _l('new_field'); ?></a>
 
                 </div>
             <?php } ?>

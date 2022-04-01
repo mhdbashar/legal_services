@@ -2,7 +2,8 @@
 
 require('modules/appointly/vendor/autoload.php');
 
-class Googleplus {
+class Googleplus
+{
 
     /**
      * Googleplus constructor.

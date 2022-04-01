@@ -7,7 +7,7 @@ body {
     position: absolute;
     background: #fff;
     z-index: 9999999;
-    top: calc(100% - 97.5%);
+    top: calc(100% - 98.5%);
     width: 540px;
     right: 0;
     box-sizing: border-box;
@@ -15,7 +15,6 @@ body {
     min-height: 218px;
     border-bottom-left-radius: 2px;
     -webkit-transform: translateX(100%);
-    transition: transform 0.4s;
     transform: translateX(100%);
     transition: all 0.4s ease;
 }
@@ -41,7 +40,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     background-color: rgb(51, 170, 255)
 } */
 
-#babil-callbacks-form .vertical {
+#perfex-callbacks-form .vertical {
     cursor: pointer;
     position: absolute;
     transform-origin: 0 0;
@@ -74,6 +73,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     height: 54px;
     background-color: rgb(255, 255, 255);
     border: 1px solid #e3e3e3;
+    border-radius: 2px;
 }
 
 .callback-icon span {
@@ -88,7 +88,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     transform: translate(-50%, -50%);
 }
 
-#babil-callbacks-form .alert_active_success {
+#perfex-callbacks-form .alert_active_success {
     background: #c55c3b;
     color: #f1f1f1;
     font-style: italic;
@@ -123,7 +123,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     border: 1px solid #e3e3e3;
 }
 
-#babil-callbacks-form .alert_status {
+#perfex-callbacks-form .alert_status {
     background: #c55c3b !important;
     color: #f1f1f1 !important;
     font-style: italic !important;
@@ -152,10 +152,11 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     margin-left: 4px;
 }
 
-@media only screen and (max-width:667px) {
+@media only screen and (max-width: 667px) {
     .pfx-cb-show {
-        right: 319px !important;
+        right: 303px !important;
     }
+
     .cb-form-wrapper {
         position: absolute;
         width: 319px !important;
@@ -171,20 +172,19 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     filter: blur(4px);
 }
 
-@media screen and (max-width:600px) {
-    .pfx-cb-show {
-        right: 450px !important;
+@media screen and (max-width: 600px) {
+    body .cb-form-wrapper.pfxcbcontent .pfx-cb-show {
+        right: calc(100% - 15.5%);
     }
+
     .cb-form-wrapper .dropdown-menu.open .inner.open {
         overflow-x: hidden;
     }
+
     .cb-form-wrapper .dropdown-menu.open {
         max-width: 240px;
     }
-    .cb-form-wrapper {
-        width: 450px !important;
-        top: 0;
-    }
+
     .xdsoft_datetimepicker {
         left: 5px !important;
     }

@@ -3401,7 +3401,10 @@ $lang['delete_field'] = "حذف الحقل";
 $lang['kb_article_basic_group'] = "المجموعة الرئيسة";
 $lang['article_main_group'] = "المجموعة الرئيسية للمقال";
 $lang['nothing'] = "لم يتم تحديد شيء";
-$lang['kb_main_group_name'] = "";
+$lang['kb_group_add_edit_is_main'] = "مجموعة رئيسية (من اجل الحقول المخصصة)";
+$lang['main_group'] = "مجموعة رئيسية";
+$lang['kb_base_group'] = "مجموعات قاعدة المعرفة";
+
 
 
 

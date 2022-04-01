@@ -25,7 +25,7 @@ function kb_all_main_group_name($parent_id){
     $CI = & get_instance();
     $data = [];
     if($parent_id == 0){
-        $data[]= 'main';
+        $data[]= _l('main_group');;
     }else {
         for ($i = 0; $i < 11; $i++) {
             $CI->db->where('groupid', $parent_id);

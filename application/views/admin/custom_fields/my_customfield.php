@@ -70,6 +70,12 @@
                                 <option value="procurations" <?php if(isset($custom_field) && $custom_field->fieldto == 'procurations'){echo 'selected';} ?>><?php echo _l('procurations'); ?></option>
                                 <option value="sessions" <?php if(isset($custom_field) && $custom_field->fieldto == 'sessions'){echo 'selected';} ?>><?php echo _l('sessions'); ?></option>
                                 <option value="legal_procedures" <?php if(isset($custom_field) && $custom_field->fieldto == 'legal_procedures'){echo 'selected';} ?>><?php echo _l('legal_procedures'); ?></option>
+                                <optgroup label="<?php echo _l('kb_base_group'); ?>">
+                                    <?php foreach ($kb_base_group as $group): ?>
+                                        <option value="<?php echo 'kb_'.$group->groupid; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == 'kb_'.$group->groupid){echo 'selected';} ?>><?php echo $group->name; ?></option>
+                                    <?php endforeach; ?>
+                                </optgroup>
+
                                 <optgroup label="<?php echo _l('LegalServices'); ?>">
                                 <?php foreach ($legal_services as $service): ?>
                                     <option value="<?php echo $service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $service->slug){echo 'selected';} ?>><?php echo $service->name; ?></option>
@@ -81,11 +87,6 @@
                                                 value="<?php echo $phase->slug . '_' . get_legal_service_slug_by_id($phase->service_id); ?>" <?php if (isset($custom_field) && $custom_field->fieldto == $phase->slug . '_' . get_legal_service_slug_by_id($phase->service_id)) {
                                             echo 'selected';
                                         } ?>><?php echo $phase->name; ?></option>
-                                    <?php endforeach; ?>
-                                </optgroup>
-                                <optgroup label="<?php echo _l('kb_base_group'); ?>">
-                                    <?php foreach ($kb_base_group as $group): ?>
-                                        <option value="<?php echo 'kb_'.$group->groupid; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == 'kb_'.$group->groupid){echo 'selected';} ?>><?php echo $group->name; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
 

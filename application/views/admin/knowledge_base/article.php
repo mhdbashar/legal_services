@@ -71,18 +71,31 @@
                             <input type="checkbox" id="disabled" name="disabled" <?php if(isset($article) && $article->active_article == 0){echo 'checked';} ?>>
                             <label for="disabled"><?php echo _l('kb_article_disabled'); ?></label>
                         </div>
-                        <hr />
-                        <div id="field">
+
+<!--                        <div class="form-group" append_plugins="stickytoolbar" app-field-wrapper="description">-->
+<!--                            <label for="description" class="control-label">الموضوع</label>-->
+<!--                            <textarea id="description" name="description[]" class="form-control tinymce-manual" append_plugins="stickytoolbar" required="required" rows="4">-->
+<!--                            </textarea></div>-->
+
+<!--                        <hr />-->
+                        <div id="field" class="form-group">
                         <?php echo render_custom_fields('kb_'.$article->type,$article->articleid); ?>
                             <?php if(isset($fields) ){?>
                                 <?php  $i=0;
                                 foreach ($fields as $f){?>
-                                    <div id="field-<?=$i?>" class="row">
+                                    <hr class="hr-panel-heading" />
+                                    <div id="field-<?=$i?>" class="form-group">
                                         <?php echo render_input('title[]','title',$f['title'],'text',array_merge($attrs, ['required'=>'required']));?>
-                                        <?php echo render_textarea('description[]','subject',$f['description'],array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual');?>
-                                        <a onclick="$('#field-<?=$i?>').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
+<!--                                        --><?php //echo render_textarea('description[]','subject',$f['description'],array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual');?>
+
+                                        <div class="form-group" append_plugins="stickytoolbar" app-field-wrapper="descriptions-<?=$i?>">
+                                            <label for="descriptions-<?=$i?>" class="control-label"><?php echo _l('subject'); ?></label>
+                                            <textarea id="descriptions-<?=$i?>"  name="description[]" class="form-control tinymce-manual" append_plugins="stickytoolbar" required="required" rows="4">
+                                                <?php echo $f['description'];?>
+                                            </textarea>
+                                        </div>
+                                            <a onclick="$('#field-<?=$i?>').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
                                         <div class="clearfix"></div>
-                                        <hr class="hr-panel-heading" />
                                     </div>
                                 <?php $i++;} ?>
                             <?php } ?>
@@ -108,21 +121,34 @@
 <script>
     var i=0;
     $(function(){
-        // init_editor('#description[0]', {append_plugins: 'stickytoolbar'});
+
+        <?php if(isset($fields) ){?>
+        <?php  $i=0;
+        foreach ($fields as $f){?>
+        init_editor('#descriptions-<?php echo $i; ?>', {append_plugins: 'stickytoolbar'});
+        <?php $i++;} ?>
+        <?php } ?>
+
+        init_editor('#description', {append_plugins: 'stickytoolbar'});
         appValidateForm($('#article-form'),{subject:'required',articlegroup:'required',type:'required'});
     });
     function new_field() {
         i++;
         var x =`
-       <div id="field-${i}" class="row">
+        <hr class="hr-panel-heading" />
+       <div id="field-${i}" class="form-group">
        <?php echo render_input('title[]','title','','text',['required'=>'required']); ?>
-       <?php echo render_textarea('description[]','subject','',['required'=>'required'],array(),'','tinymce tinymce-manual'); ?>
+       <?php //echo render_textarea('description[]','subject','',['required'=>'required'],array(),'','tinymce tinymce-manual'); ?>
+        <div class="form-group" append_plugins="stickytoolbar" app-field-wrapper="description-${i}">
+        <label for="description-${i}" class="control-label"><?php echo _l('subject'); ?></label>
+        <textarea id="description-${i}" name="description[]" class="form-control tinymce-manual" append_plugins="stickytoolbar" required="required" >
+        </textarea></div>
        <a onclick="$('#field-${i}').html('')" class="btn btn-danger pull-left"><?php echo _l('delete_field'); ?></a>
        <div class="clearfix"></div>
-       <hr class="hr-panel-heading" />
         </div>
         `;
         $('#field').append(x);
+        init_editor('#description-'+i, {append_plugins: 'stickytoolbar'});
     }
 
     $("#cat").change(function () {

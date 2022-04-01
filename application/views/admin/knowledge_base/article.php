@@ -57,10 +57,14 @@
                             echo render_input('slug','kb_article_slug',$article->slug,'text');
                         } ?>
                         <?php $value = (isset($article) ? $article->articlegroup : ''); ?>
+                        <?php $groups = get_kb_groups();
+                        foreach ($groups as $key =>$group){
+                            $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
+                        }?>
                         <?php if(has_permission('knowledge_base','','create')){
-                            echo render_select_with_input_group('articlegroup',get_kb_groups(),array('groupid','name',  'required'=>'required'),'kb_article_add_edit_group',$value,'<a href="#" onclick="new_kb_group();return false;"><i class="fa fa-plus"></i></a>');
+                            echo render_select_with_input_group('articlegroup',$groups,array('groupid','full_name',  'required'=>'required'),'kb_article_add_edit_group',$value,'<a href="#" onclick="new_kb_group();return false;"><i class="fa fa-plus"></i></a>');
                         } else {
-                            echo render_select('articlegroup',get_kb_groups(),array('groupid','name', 'required'=>'required'),'kb_article_add_edit_group',$value);
+                            echo render_select('articlegroup',$groups,array('groupid','full_name', 'required'=>'required'),'kb_article_add_edit_group',$value);
                         }
                         ?>
                         <div class="checkbox checkbox-primary">

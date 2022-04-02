@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Dynamic Customized Theme
-Description: Advanced Theme that will provide predefined templates and easy customization as per your choice. 
+Module Name: ثيم قابل للتخصيص
+Description: ثيم احترافي يمكن من خلاله تعديل القالب حسب الرغبة
 Author: Babil Team
 Author URI: https://babil.net.sa/
 Version: 1.0.5

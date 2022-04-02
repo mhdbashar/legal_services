@@ -3,8 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Telegram Chat
-Description: Default module for sending telegram chat
+Module Name: تليجرام
+Description: الاضافة الأساسية لارسال رسائل التليجرام
 Version: 1.0.0
 Requires at least: 2.3.*
 Author: Babil Team

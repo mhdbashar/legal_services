@@ -7,6 +7,8 @@ Module Name: Telegram Chat
 Description: Default module for sending telegram chat
 Version: 1.0.0
 Requires at least: 2.3.*
+Author: Babil Team
+Author URI: https://babil.net.sa/
 */
 
 define('TELEGRAM_MODULE_NAME', 'telegram_chat');

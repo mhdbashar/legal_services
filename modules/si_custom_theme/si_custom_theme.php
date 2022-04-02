@@ -3,8 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: Dynamic Customized Theme
 Description: Advanced Theme that will provide predefined templates and easy customization as per your choice. 
-Author: Sejal Infotech
-Author URI: http://www.sejalinfotech.com
+Author: Babil Team
+Author URI: https://babil.net.sa/
 Version: 1.0.5
 Requires at least: 2.3.*
 */

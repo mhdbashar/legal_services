@@ -150,7 +150,7 @@
                                 <div class="form-group">
                                     <label for="time" class="col-form-label"><?php echo _l('session_time'); ?></label>
                                     <?php $value = (isset($task) ? $task->time : ''); ?>
-                                    <input type="text" class="form-control" value="<?php echo $value; ?>" id="time" name="time" autocomplete="off">
+                                    <input type="<?php echo (get_option('time_format') == 24) ? 'text' : 'time' ?>" class="form-control" value="<?php echo $value; ?>" id="time" name="time" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -496,11 +496,12 @@
             <?php if(!isset($task) && $rel_id != ''){ ?>
             _rel_id.change();
             <?php } ?>
-
+            <?php if(get_option('time_format') == 24) {?>
             $('#time').datetimepicker({
                 datepicker:false,
                 format:'H:i'
             });
+            <?php } ?>
         });
 
         <?php if(isset($_milestone_selected_data)){ ?>

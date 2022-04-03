@@ -419,6 +419,8 @@ echo form_hidden('project_percent',$percent);
 
         // Init single task data
         if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }
+
+        if (typeof(taskid) !== 'undefined' && taskid !== '') { init_task_modal(taskid); }
     });
 
     slug_previous_sessions = $(".table-previous_sessions_log").attr('data-new-rel-slug');

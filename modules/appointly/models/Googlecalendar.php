@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Googlecalendar extends App_Model
 {
+
     public $table;
 
     protected $googleReminders;
@@ -47,7 +48,7 @@ class Googlecalendar extends App_Model
     /**
      * Google OAuth Login validation
      *
-     * @return boolean
+     * @return bool
      */
     public function login($code)
     {
@@ -124,7 +125,8 @@ class Googlecalendar extends App_Model
     /**
      * Google Calendar delete event
      *
-     * @return boolean
+     * @param $eventid
+     * @return bool
      */
     public function deleteEvent($eventid)
     {
@@ -144,12 +146,16 @@ class Googlecalendar extends App_Model
     /**
      * Google Calendar get events
      *
+     * @param string $calendarId
+     * @param bool   $timeMin
+     * @param bool   $timeMax
+     * @param int    $maxResults
      * @return array
      */
     public function getEvents($calendarId = 'primary', $timeMin = false, $timeMax = false, $maxResults = 200)
     {
 
-        if (!$timeMin) {
+        if ( ! $timeMin) {
 
             $timeMin = date("c", strtotime("-6 months", strtotime(date('Y-m-d') . ' 00:00:00')));
         } else {
@@ -158,7 +164,7 @@ class Googlecalendar extends App_Model
         }
 
 
-        if (!$timeMax) {
+        if ( ! $timeMax) {
 
             $timeMax = date("c", strtotime("+6 months", strtotime(date('Y-m-d') . ' 23:59:59')));
         } else {
@@ -212,9 +218,11 @@ class Googlecalendar extends App_Model
     /**
      * Google Calendar add new event
      *
-     * @return boolean
+     * @param string $calendarId
+     * @param        $data
+     * @return Google_Service_Calendar_Event
      */
-    public function addEvent($calendarId = 'primary', $data)
+    public function addEvent($data, $calendarId = 'primary')
     {
         $event = $this->fillGoogleCalendarEvent($data);
 
@@ -225,9 +233,11 @@ class Googlecalendar extends App_Model
     /**
      * Google Calendar update existing event
      *
-     * @return boolean
+     * @param $eventid
+     * @param $data
+     * @return Google_Service_Calendar_Event
      */
-    function updateEvent($eventid, $data)
+    public function updateEvent($eventid, $data)
     {
         $event = $this->fillGoogleCalendarEvent($data);
 
@@ -237,12 +247,12 @@ class Googlecalendar extends App_Model
     /**
      * Manage data and fill google calendar event array
      *
-     * @return instance of Google_Service_Calendar_Event
-     * @return array
+     * @param $data
+     * @return Google_Service_Calendar_Event of Google_Service_Calendar_Event
      */
-    function fillGoogleCalendarEvent($data)
+    public function fillGoogleCalendarEvent($data)
     {
-        $event = new Google_Service_Calendar_Event(
+        return new Google_Service_Calendar_Event(
             [
                 'summary'        => $data['summary'],
                 'description'    => $data['description'],
@@ -256,7 +266,7 @@ class Googlecalendar extends App_Model
                     'dateTime' => $data['start'],
                     'timeZone' => get_option('default_timezone'),
                 ],
-                'attendees'      => (array)$data['attendees'],
+                'attendees'      => (array) $data['attendees'],
                 'reminders'      => $this->googleReminders,
                 'conferenceData' => [
                     "createRequest" => [
@@ -266,8 +276,6 @@ class Googlecalendar extends App_Model
                 ]
             ]
         );
-
-        return $event;
     }
 
     /**
@@ -291,6 +299,7 @@ class Googlecalendar extends App_Model
     /**
      * Google save / update new token values in database
      *
+     * @param $data
      * @return void
      */
     public function saveNewTokenValues($data)

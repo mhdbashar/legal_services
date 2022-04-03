@@ -83,7 +83,7 @@
                      <?php if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 1)) {echo ' checked'; }?>>
                   <label for="task_is_billable"><?php echo _l('task_billable'); ?></label>
                </div>
-               <div class="task-visible-to-customer checkbox checkbox-inline checkbox-primary<?php if((isset($task) && $task->rel_type != 'project') || !isset($task) || (isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'project_settings',array('project_id'=>$task->rel_id,'name'=>'view_tasks','value'=>0)) > 0)){echo ' hide';} ?>">
+               <div class="task-visible-to-customer checkbox checkbox-inline checkbox-primary<?php if((isset($task) && $task->rel_type != 'project') || !isset($task) || (isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'project_settings',array('project_id'=>$task->rel_id,'name'=>'view_tasks','value'=>0)) > 0)){echo ' nohide';} ?>">
                   <input type="checkbox" id="task_visible_to_client" name="visible_to_client" <?php if(isset($task)){if($task->visible_to_client == 1){echo 'checked';}} ?>>
                   <label for="task_visible_to_client"><?php echo _l('task_visible_to_client'); ?></label>
                </div>
@@ -386,7 +386,7 @@
     } else {
       _rel_id_wrapper.addClass('hide');
     }
-    init_project_details(_rel_type.val());
+    init_project_details(_rel_type.val(), 1);
    });
 
     init_datepicker();

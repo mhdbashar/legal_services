@@ -1,0 +1,35 @@
+<?php
+
+$lang['mindmaps']                                             = 'الخرائط الذهنية';
+$lang['from']                                                 = 'من';
+$lang['mindmap']                                              = 'الخريطة الذهنية';
+$lang['mindmap_create_new']                                   = 'إنشاء جديد';
+$lang['mindmap_edit']                                         = 'تحرير';
+$lang['mindmap_delete']                                       = 'حذف';
+$lang['mindmap_deleted']                                       = 'تم الحذف بنجاح';
+$lang['mindmap_title']                                        = 'العنوان';
+$lang['mindmap_desc']                                         = 'الوصف';
+$lang['mindmap_staff']										  = 'إنشئت بواسطة';
+$lang['mindmap_search']										  = 'البحث في الخريطة الذهنية';
+$lang['mindmap_group']								          = 'المجموعة';
+$lang['mindmap_groups']								          = 'المجموعات';
+$lang['edit_mindmap_group']								      = 'تحرير المجموعة';
+$lang['new_mindmap_group']								      = 'مجموعة جديدة';
+$lang['mindmap_group_add_edit_name']						  = 'الإسم';
+$lang['mindmap_group_add_edit_description']					  = 'الوصف';
+$lang['mindmap_switch_to_grid_view']						  = 'التحويل إلى عرض كشبكة';
+$lang['mindmap_switch_to_list_view']						  = 'التحول إلى عرض كقائمة';
+$lang['mindmap_assigned_to_me']								  = 'خرائطي الذهنية';
+$lang['mindmap_filter_staff']								  = 'الموظف';
+$lang['mindmap_filter_group']								  = 'المجموعة';
+$lang['mindmap_info']								          = 'معلومات الخريطة الذهنية';
+$lang['mindmap_staff']								          = 'الموظف';
+$lang['mindmap_view']								          = 'عرض';
+$lang['mindmap_not_found']								      = 'لم يتم العثور على خريطة ذهنية';
+$lang['preview_mindmap']								      = 'عرض الخريطة الذهنية';
+$lang['mindmap_settings_name']								  = 'الخريطة الذهنية';
+$lang['new_mindmap_group']								      = 'مجموعة جديدة';
+$lang['mindmap_created_at']									  = 'انشئت في';
+$lang['project_group']									 	  = 'المشروع';
+$lang['mindmap_email_send']									 	  = 'تم الإرسال pdf بنجاح.';
+$lang['mindmap_enable_group_option']                          = 'هل تسمح للموظفين غير المشرفين بإنشاء <b>مجموعة</b> في <b>الخرائط الذهنية</b> في منطقة الإنشاء أو التحرير';

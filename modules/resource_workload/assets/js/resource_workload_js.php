@@ -336,6 +336,30 @@ gantt;
   <?php } ?>
 })(jQuery);
 
+
+
+
+function get_legal_services() {
+    $('#div_rel_sid').removeClass('hide');
+    $('#rel_sid').html('');
+    slug = $('#rel_stype').val();
+    $.ajax({
+        type: 'POST',
+        url: admin_url + 'resource_workload/all_legal_services_without_client',
+        data: {
+            slug : slug
+        },
+        success: function(data) {
+            response = JSON.parse(data);
+            $('#rel_sid').append('<option value="" disabled selected>-- --</option>');
+            $.each(response, function (key, value) {
+                $('#rel_sid').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+            });
+        }
+    });
+
+}
+
 function get_data_workload(project_id,id) {
   "use strict";
   var data = {};
@@ -344,7 +368,9 @@ function get_data_workload(project_id,id) {
   data.project = $('select[name="project"]').val();
   data.staff = $('select[name="staff"]').val();
   data.from_date = $('input[name="from_date"]').val();
-  data.to_date = $('input[name="to_date"]').val();
+    data.to_date = $('input[name="to_date"]').val();
+    data.rel_stype = $('select[name="rel_stype"]').val();
+    data.rel_sid = $('select[name="rel_sid"]').val();
   <?php if($type == 'workload'){ ?>
     $.post(admin_url + 'resource_workload/get_data_workload', data).done(function(response) {
       response = JSON.parse(response);
@@ -579,6 +605,8 @@ function init_chart(data) {
   data_filter.staff = $('select[name="staff"]').val();
   data_filter.from_date = $('input[name="from_date"]').val();
   data_filter.to_date = $('input[name="to_date"]').val();
+    data_filter.rel_stype = $('select[name="rel_stype"]').val();
+    data_filter.rel_sid = $('select[name="rel_sid"]').val();
   $.post(admin_url + 'resource_workload/workload_chart', data_filter).done(function(res) {
      res = JSON.parse(res);
       Highcharts.chart('container_task', {

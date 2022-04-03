@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-md-8 task-single-col-left">
             <?php if(total_rows(db_prefix().'taskstimers',array('end_time'=>NULL,'staff_id !='=>get_staff_user_id(),'task_id'=>$task->id)) > 0){
-                $startedTimers = $this->tasks_model->get_timers($task->id,array('staff_id !='=>get_staff_user_id(),'end_time'=>NULL));
+                $startedTimers = $this->tasks_wdmodel->get_timers($task->id,array('staff_id !='=>get_staff_user_id(),'end_time'=>NULL));
 
                 $usersWorking = '';
 

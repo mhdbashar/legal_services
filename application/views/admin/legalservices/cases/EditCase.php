@@ -1182,6 +1182,26 @@
                 $('#upload_on_tasks').prop('disabled',false);
                 $('#view_task_total_logged_time').prop('disabled',false);
             }
+
+             if ($(this).attr('id') == 'view_session_logs' && $(this).prop('checked') == false) {
+                $('#create_sessions').prop('checked', false).prop('disabled', true);
+                $('#edit_sessions').prop('checked', false).prop('disabled', true);
+                $('#view_session_comments').prop('checked', false).prop('disabled', true);
+                $('#comment_on_sessions').prop('checked', false).prop('disabled', true);
+                $('#view_session_attachments').prop('checked', false).prop('disabled', true);
+                $('#view_session_checklist_items').prop('checked', false).prop('disabled', true);
+                $('#upload_on_sessions').prop('checked', false).prop('disabled', true);
+                $('#view_session_total_logged_time').prop('checked', false).prop('disabled', true);
+            } else if ($(this).attr('id') == 'view_session_logs' && $(this).prop('checked') == true) {
+                $('#create_sessions').prop('disabled', false);
+                $('#edit_sessions').prop('disabled', false);
+                $('#view_session_comments').prop('disabled', false);
+                $('#comment_on_sessions').prop('disabled', false);
+                $('#view_session_attachments').prop('disabled', false);
+                $('#view_session_checklist_items').prop('disabled', false);
+                $('#upload_on_sessions').prop('disabled', false);
+                $('#view_session_total_logged_time').prop('disabled', false);
+            }
         });
 
         // Auto adjust customer permissions based on selected project visible tabs
@@ -1201,7 +1221,8 @@
                 }
             });
         });
-        $("#view_tasks").trigger('change');
+        $("#view_tasks").trigger('change')
+        $("#view_session_logs").trigger('change');
         <?php if(!isset($case)) { ?>
         $('#available_features').trigger('change');
         <?php } ?>

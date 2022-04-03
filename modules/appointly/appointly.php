@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المواعيد والإجتماعات
 Description: وحدة مخصصة لإدارة المواعيد والإجتماعات الداخلية والخارجية
-Version: 1.2.0
+Version: 1.2.2
 Author: Babil Team
 Author URI: https://babiltec.com
 Requires at least: 2.4.1
@@ -44,6 +44,7 @@ function appointly_register_appointments_on_calendar($data, $config)
     $CI->load->model('appointly/appointly_model', 'apm');
 
     $data = $CI->apm->getCalendarData($config['start'], $config['end'], $data);
+
     return $data;
 }
 
@@ -226,9 +227,7 @@ function appointly_send_email_templates()
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('notification_date IS NULL');
-    $CI->db->where('reminder_before IS NOT NULL');
-    $CI->db->where('approved = 1');
+    $CI->db->where('(notification_date IS NULL AND reminder_before IS NOT NULL AND approved = 1 AND finished = 0 AND cancelled = 0)');
 
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];
@@ -302,7 +301,7 @@ function appointly_recurring_events()
         // Current date
         $date = new DateTime(date('Y-m-d'));
         // Check if is first recurring
-        if (!$last_recurring_date) {
+        if ( ! $last_recurring_date) {
             $last_recurring_date = date('Y-m-d', strtotime($appointment_date));
         } else {
             $last_recurring_date = date('Y-m-d', strtotime($last_recurring_date));
@@ -411,7 +410,7 @@ function appointly_recurring_events()
 
                     $googleInsertData = $CI->appointly_model->recurringAddGoogleNewEvent($lastInsertedAppointment, $googleAttendees);
 
-                    if (!empty($googleInsertData)) {
+                    if ( ! empty($googleInsertData)) {
                         // update appointment wih new google event data
                         $CI->db->where('id', $insert_id);
                         $CI->db->update($table, $googleInsertData);
@@ -420,7 +419,7 @@ function appointly_recurring_events()
 
                 newRecurringAppointmentNotifications($insert_id);
 
-                if (!empty($responsiblePerson)) {
+                if ( ! empty($responsiblePerson)) {
 
                     add_notification([
                         'description' => 'appointment_recurring_re_created',
@@ -453,8 +452,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('sms_appointment_approved_Sent_to_contact'),
-        'info'         => _l('sms_trigger_when_appointment_is_approved'),
+        'label'        => 'Appointment approved (Sent to Contact)',
+        'info'         => 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_CANCELLED_TO_CLIENT] = [
@@ -463,8 +462,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('appointment_cancelled_sent_to_contact'),
-        'info'         => _l('sms_trigger_when_appointment_is_cancelled'),
+        'label'        => 'Appointment cancelled (Sent to Contact)',
+        'info'         => 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT] = [
@@ -473,8 +472,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('sms_appointment_reminder_Sent_to_contact'),
-        'info'         => _l('sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'),
+        'label'        => 'Appointment reminder (Sent to Contact)',
+        'info'         => 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.',
     ];
 
     return $triggers;

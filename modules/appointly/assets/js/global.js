@@ -69,14 +69,15 @@ function initAppointmentScheduledDatesStaff() {
         defaultTime: "09:00",
         closeOnDateSelect: 0,
         closeOnTimeSelect: 1,
+        disabledWeekDays: [5],
         validateOnBlur: false
     };
 
     if (app.options.time_format == 24) {
         dateFormat = dateFormat + ' H:i';
     } else {
-        dateFormat = dateFormat + ' g:i A';
-        appointmentDatePickerOptions.formatTime = 'g:i A';
+        dateFormat = dateFormat + ' g:i';
+        appointmentDatePickerOptions.formatTime = 'g:i';
     }
 
     appointmentDatePickerOptions.format = dateFormat;

@@ -7,7 +7,7 @@ $lang['appointment_you_have_new_appointment'] = 'لديك موعد جديد';
 $lang['appointment_subject'] = 'الموضوع';
 $lang['appointment_date'] = 'التاريخ';
 $lang['appointment_meeting_date'] = 'تاريخ الموعد';
-$lang['appointment_initiated_by'] = 'يبدأ في';
+$lang['appointment_initiated_by'] = 'تم الانشاء بواسطة';
 $lang['appointment_description'] = 'الوصف';
 $lang['appointment_optional'] = '<small> (optional) </small>';
 $lang['appointment_create_new_appointment'] = 'طلب موعد جديد';
@@ -103,7 +103,7 @@ $lang['appointment_request_cancellation'] = 'طلب العميل إلغاء ال
 $lang['appointly_schedule_new_appointment'] = 'تحديد موعد';
 $lang['appointly_allow_non_logged_clients_appointment'] = 'السماح للعملاء غير المسجلين بطلب موعد جديد عبر بوابة العملاء';
 $lang['appointly_show_appointments_menu_item_in_clients_area'] = 'إظهار عناصر قائمة المواعيد في منطقة العملاء (في حالة تسجيل الدخول)';
-$lang['appointly_default_table_filter_label'] = 'عامل تصفية جدول المواعيد الافتراضية <small> (إذا تم ترك هذا الخيار فارغًا ، فسيتم تعيين عامل تصفية الجدول الافتراضي كمؤكد) </ small>';
+$lang['appointly_default_table_filter_label'] = 'عامل تصفية جدول المواعيد الافتراضية (إذا تم ترك هذا الخيار فارغًا ، فسيتم تعيين عامل تصفية الجدول الافتراضي كمؤكد)';
 $lang['appointment_client_notes'] = 'ملاحظات الموعد';
 $lang['appointly_show_summary_in_appointments_dashboard'] = 'عرض ملخص المواعيد في لوحة معلومات المواعيد';
 $lang['appointments_summary'] = 'نظة عامة على المواعيد';
@@ -143,14 +143,13 @@ $lang['appointments_sign_in_google'] = 'تسجيل الدخول';
 $lang['appointments_sign_out_google'] = 'تسجيل الخروج';
 $lang['appointments_google_revoke'] = 'إبطال جلسة تقويم Google الحالية وإزالة جميع الأذونات الممنوحة لحسابك على google.';
 $lang['appointments_default_hours_label'] = 'إدارة ساعات موعدك الافتراضي';
-$lang['appointments_google_calendar_client_id'] = 'Google Calendar API Client Id <strong>(fetched from Settings->Google->API CLIENT ID)</strong>';
+$lang['appointments_google_calendar_client_id'] = 'Google Calendar API Client Id (fetched from Settings->Google->API CLIENT ID)';
 $lang['appointments_google_calendar_client_secret'] = 'Google Calendar API Secret';
 $lang['appointments_redirect_url'] = 'تخويل إعادة توجيه URI';
-$lang['appointments_delete_from_google_label'] = 'قبل حذف الموعد ، احذف أيضًا الموعد الذي تم إنشاؤه في تقويم <Google <small>(ينطبق إذا تم تمكين تقويم Google ومزامنته) </small>';
+$lang['appointments_delete_from_google_label'] = 'قبل حذف الموعد ، احذف أيضًا الموعد الذي تم إنشاؤه في تقويم Google (ينطبق إذا تم تمكين تقويم Google ومزامنته)';
 $lang['appointments_disable_weekends_label'] = 'تعطيل الموا عيد في نهاية الأسبوع';
 $lang['appointments_approve_automatically_label'] = 'الموافقة تلقائيًا على المواعيد المرسلة من نماذج الويب الخارجية';
-$lang['appointments_buffer_hours_label'] = 'تمكين فاصل ساعات المواعيد <small>(تعطيل الساعات الماضية)</small>';
-
+$lang['appointments_buffer_hours_label'] = 'تمكين فاصل ساعات المواعيد  (تعطيل الساعات الماضية) ';
 $lang['appointments_reminder_time_value'] = 'أضف قيمة لتلقي إشعار عبر البريد الإلكتروني قبل موعدك (الافتراضي قبل 30 دقيقة)';
 $lang['appointment_add_to_google_calendar_external'] = 'قم بتضمين هذا الموعد الخارجي في تقويم Google الخاص بك (ضع علامة على أنه محدد وانقر فوق حفظ)';
 $lang['appointment_open_google_calendar'] = 'افتح في تقويم Google';
@@ -162,11 +161,11 @@ $lang['appointments_your_settings'] = 'إعدادات خاصة';
 
 # Version 1.1.2
 $lang['appointments_resp_person_not_set'] = 'لم يتم تعيين الشخص المسؤول عن المواعيد ، يرجى تعيين هذا الخيار في %s';
-$lang['appointly_settings_label_pointer'] = '<strong> الإعداد -> الإعدادات -> المواعيد </ strong>';
+$lang['appointly_settings_label_pointer'] = ' الإعداد -> الإعدادات -> المواعيد';
 
 # Version 1.1.3
 $lang['appointly_callbacks'] = 'إعادة الاتصال';
-$lang['appointly_recaptcha_label'] = 'تمكين <strong> reCAPTCHA </strong> للنموذج الخارجي للمواعيد';
+$lang['appointly_recaptcha_label'] = 'تمكين reCAPTCHA  للنموذج الخارجي للمواعيد';
 $lang['appointly_back_to_appointments'] = 'العودة إلى المواعيد';
 $lang['callback_status_upcoming'] = 'القادمة';
 $lang['callback_status_postponed'] = 'مؤجل';
@@ -314,3 +313,8 @@ $lang['appointment_recurring'] = 'يتكرر';
 
 # Version 1.2.0
 $lang['appointly_view_all_in_calendar'] = 'السماح للشخص المسؤول بعرض جميع المواعيد في التقويم';
+
+# Version 1.2.1
+$lang['appointly_google_maps_not_shown'] = 'لن يتم إظهار خرائط Google.';
+$lang['appointly_google_api_key_notset'] = 'لم يتم ضبط إعدادات Google Api الرجاء ضبط الإعدادات';
+$lang['appointly_message_will_hide'] = 'سيتم إخفاء هذه الرسالة خلال 5 ثواني';

@@ -182,7 +182,7 @@ class Tickets extends AdminController
             // request from oservice area to create new ticket
             $data['project_id'] = $this->input->get('oserviceid');
             $data['ServID'] = $this->input->get('ServID');
-            $data['userid'] = get_client_id_by_case_id($data['project_id']);
+            $data['userid'] = get_client_id_by_oservice_id($data['project_id']);
             if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
                 $contact = $this->clients_model->get_contacts($data['userid']);
                 if (isset($contact[0])) {

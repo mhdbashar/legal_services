@@ -571,6 +571,72 @@ if (!function_exists('format_organization_info')) {
     }
 }
 
+
+if (!function_exists('format_invoice_info')) {
+    /**
+     * Format invoice info/address format
+     * @return string
+     */
+    function format_invoice_info()
+    {
+        $format = get_option('invoice_info_format');
+        $vat    = '<b style="color:black" class="company-name-formatted">' . get_option('company_vat') . '</b>';
+
+
+        $district_name    = '<b style="color:black" class="company-name-formatted">' .get_option('district_name') . '</b>';
+        $building_number    = '<b style="color:black" class="company-name-formatted">' .get_option('building_number') . '</b>';
+        $street_name    = '<b style="color:black" class="company-name-formatted">' .get_option('street_name') . '</b>';
+        $additional_number    = '<b style="color:black" class="company-name-formatted">' .get_option('additional_number') . '</b>';
+        $unit_number    = '<b style="color:black" class="company-name-formatted">' .get_option('unit_number') . '</b>';
+        $other_number    = '<b style="color:black" class="company-name-formatted">' .get_option('other_number') . '</b>';
+        $city    = '<b style="color:black" class="company-name-formatted">' .get_option('company_city') . '</b>';
+        $countryName = '';
+        if (get_country(get_option('company_country'))) {
+            $country = get_country(get_option('company_country'));
+            $countryCode = $country->iso2;
+            $countryName = $country->short_name_ar;
+        }
+        $country = '<b style="color:black" class="company-name-formatted">' . $countryName . '</b>';
+        $zip_code    = '<b style="color:black" class="company-name-formatted">' .get_option('invoice_company_postal_code') . '</b>';
+
+
+        $format = _info_format_replace('company_name', '<b style="color:black" class="company-name-formatted">' . get_option('invoice_company_name') . '</b>', $format);
+        $format = _info_format_replace('address', get_option('invoice_company_address'), $format);
+        $format = _info_format_replace('bo_box', get_option('invoice_company_country_code'), $format);
+        $format = _info_format_replace('city', $city, $format);
+        $format = _info_format_replace('country', $country, $format);
+        $format = _info_format_replace('other_number', $other_number, $format);
+        $format = _info_format_replace('state', get_option('company_state'), $format);
+        $format = _info_format_replace('commercial_register', get_option('invoice_company_commercial_register'), $format);
+        $format = _info_format_replace('zip_code', $zip_code, $format);
+        $format = _info_format_replace('country_code', get_option('invoice_company_country_code'), $format);
+        $format = _info_format_replace('phone', get_option('invoice_company_phonenumber'), $format);
+        $format = _info_format_replace('vat_number', $vat, $format);
+        $format = _info_format_replace('vat_number_with_label', $vat == '' ? '':_l('company_vat_number') . ': ' . $vat, $format);
+
+        $format = _info_format_replace('district_name', $district_name, $format);
+        $format = _info_format_replace('building_number', $building_number, $format);
+        $format = _info_format_replace('street_name', $street_name, $format);
+        $format = _info_format_replace('additional_number', $additional_number, $format);
+        $format = _info_format_replace('unit_number', $unit_number, $format);
+
+        $custom_company_fields = get_company_custom_fields();
+
+        foreach ($custom_company_fields as $field) {
+            $format = _info_format_custom_field($field['id'], $field['label'], $field['value'], $format);
+        }
+
+        $format = _info_format_custom_fields_check($custom_company_fields, $format);
+        $format = _maybe_remove_first_and_last_br_tag($format);
+
+        // Remove multiple white spaces
+        $format = preg_replace('/\s+/', ' ', $format);
+        $format = trim($format);
+
+        return hooks()->apply_filters('organization_info_text', $format);
+    }
+}
+
 /**
  * Return decimal places
  * The srcipt do not support more then 2 decimal places but developers can use action hook to change the decimal places

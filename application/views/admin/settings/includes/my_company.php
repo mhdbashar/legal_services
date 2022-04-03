@@ -74,6 +74,8 @@
         <?php /*        <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>,*/ ?>
         <a href="#" class="settings-textarea-merge-field" data-to="company_info_format">{vat_number}</a>
     </p>
+    <hr />
+    <?php echo render_textarea('settings[invoice_info_format]','invoice_info_format',clear_textarea_breaks(get_option('invoice_info_format')),array('rows'=>8,'style'=>'line-height:20px;')); ?>
     <?php $custom_company_fields = get_company_custom_fields();
     if(count($custom_company_fields) > 0){
         echo '<hr />';

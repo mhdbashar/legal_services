@@ -46,7 +46,7 @@ $pdf->ln(10);
 
 $organization_info = '<div style="color:#424242;">';
 
-$organization_info .= format_organization_info();
+$organization_info .= format_invoice_info();
 
 $organization_info .= '</div>';
 

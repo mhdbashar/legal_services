@@ -8,7 +8,7 @@ hooks()->add_action('after_email_templates', 'add_appointly_email_templates');
 hooks()->add_action('clients_init', 'appointly_clients_area_schedule_appointment');
 
 /**
- * DOMDocument must be loaded and Babil version 2.8.0 and UP
+ * DOMDocument must be loaded and Perfex CRM version 2.8.0 and UP
  */
 if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current_db_version() >= 280) {
 
@@ -23,7 +23,7 @@ if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current
      *
      * @return mixed
      */
-    if (!function_exists('all_contacts_table_row_func')) {
+    if ( ! function_exists('all_contacts_table_row_func')) {
 
         function all_contacts_table_row_func($row, $db)
         {
@@ -44,7 +44,7 @@ if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current
      *
      * @return mixed
      */
-    if (!function_exists('staff_table_row_func')) {
+    if ( ! function_exists('staff_table_row_func')) {
 
         function staff_table_row_func($row, $db)
         {
@@ -64,7 +64,7 @@ if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current
      *
      * @return mixed
      */
-    if (!function_exists('leads_table_row_data_func')) {
+    if ( ! function_exists('leads_table_row_data_func')) {
 
         function leads_table_row_data_func($row, $db)
         {
@@ -89,18 +89,18 @@ if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current
      *
      * @return string
      */
-    if (!function_exists('domCreateNewElement')) {
+    if ( ! function_exists('domCreateNewElement')) {
 
         function domCreateNewElement($row, $data, $title = '', $text = '')
         {
             $title = _l("appointment_label");
             $text = _l("appointment_create_href");
 
-            if (!isset($data['title'])) {
+            if ( ! isset($data['title'])) {
                 $data['title'] = $title;
             }
 
-            if (!isset($data['text'])) {
+            if ( ! isset($data['text'])) {
                 $data['text'] = $text;
             }
 
@@ -126,12 +126,12 @@ if (in_array('dom', get_loaded_extensions()) && get_instance()->app->get_current
 /**
  * Schedule appointment menu items in client area
  */
-if (!function_exists('appointly_clients_area_schedule_appointment')) {
+if ( ! function_exists('appointly_clients_area_schedule_appointment')) {
 
     function appointly_clients_area_schedule_appointment()
     {
         // Item is available for all clients if enabled in Setup->Settings->Appointment
-        if (get_option('appointly_show_clients_schedule_button') == 1 && !is_client_logged_in()) {
+        if (get_option('appointly_show_clients_schedule_button') == 1 && ! is_client_logged_in()) {
             add_theme_menu_item('schedule-appointment-id', [
                 'name'     => _l('appointly_schedule_new_appointment'),
                 'href'     => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
@@ -155,13 +155,13 @@ if (!function_exists('appointly_clients_area_schedule_appointment')) {
 /**
  * Init appointly email templates and assign languages.
  */
-if (!function_exists('add_appointly_email_templates')) {
+if ( ! function_exists('add_appointly_email_templates')) {
 
     function add_appointly_email_templates()
     {
         $CI = &get_instance();
-        $lang = get_staff_default_language();
-        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => $lang]);
+
+        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
 
         $CI->load->view('appointly/email_templates', $data);
     }
@@ -176,11 +176,11 @@ hooks()->add_filter('available_tracking_templates', 'add_appointment_approved_em
  *
  * @return mixed
  */
-if (!function_exists('add_appointment_approved_email_tracking')) {
+if ( ! function_exists('add_appointment_approved_email_tracking')) {
 
     function add_appointment_approved_email_tracking($slugs)
     {
-        if (!in_array('appointment-approved-to-contact', $slugs)) {
+        if ( ! in_array('appointment-approved-to-contact', $slugs)) {
             array_push($slugs, 'appointment-approved-to-contact');
         }
 
@@ -191,7 +191,7 @@ if (!function_exists('add_appointment_approved_email_tracking')) {
 /**
  * Injects theme CSS.
  */
-if (!function_exists('appointly_head_components')) {
+if ( ! function_exists('appointly_head_components')) {
 
     function appointly_head_components()
     {
@@ -202,7 +202,7 @@ if (!function_exists('appointly_head_components')) {
 /**
  * Injects theme JS for global modal.
  */
-if (!function_exists('appointly_footer_components')) {
+if ( ! function_exists('appointly_footer_components')) {
 
     function appointly_footer_components()
     {
@@ -216,7 +216,7 @@ if (!function_exists('appointly_footer_components')) {
  *
  * @return array
  */
-if (!function_exists('appointly_get_staff_customers')) {
+if ( ! function_exists('appointly_get_staff_customers')) {
 
     function appointly_get_staff_customers()
     {
@@ -229,7 +229,7 @@ if (!function_exists('appointly_get_staff_customers')) {
         $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'contacts.userid', 'left');
         $CI->db->select(db_prefix() . 'clients.userid as client_id');
 
-        if (!$staffCanViewAllClients) {
+        if ( ! $staffCanViewAllClients) {
             $CI->db->where('(' . db_prefix() . 'clients.userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . '))');
         }
 
@@ -259,7 +259,7 @@ if (!function_exists('appointly_get_staff_customers')) {
  *
  * @return array
  */
-if (!function_exists('fetch_appointment_data')) {
+if ( ! function_exists('fetch_appointment_data')) {
 
     function fetch_appointment_data($appointment_id)
     {
@@ -267,17 +267,18 @@ if (!function_exists('fetch_appointment_data')) {
 
         $appointment = $CI->apm->get_appointment_data($appointment_id);
 
-        if (!empty($appointment)) {
+        if ( ! empty($appointment)) {
             $CI->load->model('staff_model');
 
-            $appointment['selected_staff'] = array_map(function ($staff) {
+            $appointment['selected_staff'] = array_map(function ($staff)
+            {
                 return $staff['staffid'];
             }, $appointment['attendees']);
 
             if ($appointment['source'] !== 'lead_related') {
                 $appointment['selected_contact'] = $appointment['contact_id'];
 
-                if (!empty($appointment['selected_contact'])) {
+                if ( ! empty($appointment['selected_contact'])) {
                     $appointment['details'] = get_appointment_contact_details($appointment['selected_contact']);
                 }
             } else {
@@ -301,7 +302,7 @@ if (!function_exists('fetch_appointment_data')) {
  *
  * @return array
  */
-if (!function_exists('convertDateForDatabase')) {
+if ( ! function_exists('convertDateForDatabase')) {
 
     function convertDateForDatabase($date)
     {
@@ -324,7 +325,7 @@ if (!function_exists('convertDateForDatabase')) {
  *
  * @return array
  */
-if (!function_exists('convertDateForValidation')) {
+if ( ! function_exists('convertDateForValidation')) {
 
     function convertDateForValidation($date, $time)
     {
@@ -352,7 +353,7 @@ if (!function_exists('convertDateForValidation')) {
  *
  * @return array
  */
-if (!function_exists('validateRecurringData')) {
+if ( ! function_exists('validateRecurringData')) {
 
     function validateRecurringData(array $original, array $data)
     {
@@ -379,7 +380,7 @@ if (!function_exists('validateRecurringData')) {
             $data['recurring'] = 0;
         }
 
-        $data['cycles'] = !isset($data['cycles']) || $data['recurring'] == 0 ? 0 : $data['cycles'];
+        $data['cycles'] = ! isset($data['cycles']) || $data['recurring'] == 0 ? 0 : $data['cycles'];
 
         unset($data['repeat_type_custom']);
         unset($data['repeat_every_custom']);
@@ -394,11 +395,11 @@ if (!function_exists('validateRecurringData')) {
  *
  * @return array
  */
-if (!function_exists('validateInsertRecurring')) {
+if ( ! function_exists('validateInsertRecurring')) {
 
     function validateInsertRecurring(array $data)
     {
-        if (isset($data['repeat_every']) && !empty($data['repeat_every'])) {
+        if (isset($data['repeat_every']) && ! empty($data['repeat_every'])) {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {
                 $data['repeat_every'] = $data['repeat_every_custom'];
@@ -427,7 +428,7 @@ if (!function_exists('validateInsertRecurring')) {
  *
  * @return void
  */
-if (!function_exists('newRecurringAppointmentNotifications')) {
+if ( ! function_exists('newRecurringAppointmentNotifications')) {
 
     function newRecurringAppointmentNotifications($appointment_id)
     {
@@ -486,7 +487,7 @@ if (!function_exists('newRecurringAppointmentNotifications')) {
  *
  * @return array
  */
-if (!function_exists('handleDataReminderFields')) {
+if ( ! function_exists('handleDataReminderFields')) {
 
     function handleDataReminderFields($data)
     {
@@ -519,7 +520,7 @@ if (!function_exists('handleDataReminderFields')) {
  * @param [string] $type    'success' | 'danger'
  * @param [string] $message
  */
-if (!function_exists('redirect_after_event')) {
+if ( ! function_exists('redirect_after_event')) {
 
     function appointly_redirect_after_event($type, $message, $path = null)
     {
@@ -542,7 +543,7 @@ if (!function_exists('redirect_after_event')) {
  *
  * @return array
  */
-if (!function_exists('get_appointment_contact_details')) {
+if ( ! function_exists('get_appointment_contact_details')) {
 
     function get_appointment_contact_details($contact_id)
     {
@@ -563,7 +564,7 @@ if (!function_exists('get_appointment_contact_details')) {
  *
  * @return array
  */
-if (!function_exists('appointly_get_staff')) {
+if ( ! function_exists('appointly_get_staff')) {
 
     function appointly_get_staff($staffid)
     {
@@ -582,7 +583,7 @@ if (!function_exists('appointly_get_staff')) {
  *
  * @return mixed
  */
-if (!function_exists('include_appointment_view')) {
+if ( ! function_exists('include_appointment_view')) {
 
     function include_appointment_view($path, $name)
     {
@@ -596,13 +597,13 @@ if (!function_exists('include_appointment_view')) {
  *
  * @return array
  */
-if (!function_exists('get_appointments_summary')) {
+if ( ! function_exists('get_appointments_summary')) {
 
     function get_appointments_summary()
     {
         $CI = &get_instance();
 
-        if (!is_admin() && !staff_appointments_responsible()) {
+        if ( ! is_admin() && ! staff_appointments_responsible()) {
             $CI->db->where('(' . db_prefix() . 'appointly_appointments.created_by=' . get_staff_user_id() . ')
         OR ' . db_prefix() . 'appointly_appointments.id
         IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
@@ -646,17 +647,17 @@ if (!function_exists('get_appointments_summary')) {
                 if ($appointment['cancelled']) {
                     $data['cancelled']['total'] = $data['cancelled']['total'] + 1;
                 } else if (
-                    !$appointment['approved']
-                    && !$appointment['cancelled']
+                    ! $appointment['approved']
+                    && ! $appointment['cancelled']
                     && date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) > date('Y-m-d H:i')
                 ) {
                     $data['not_approved']['total'] = $data['not_approved']['total'] + 1;
                 } else if (
-                    !$appointment['finished'] && !$appointment['cancelled']
+                    ! $appointment['finished'] && ! $appointment['cancelled']
                     && date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')
                 ) {
                     $data['missed']['total'] = $data['missed']['total'] + 1;
-                } else if (!$appointment['finished'] && !$appointment['cancelled']) {
+                } else if ( ! $appointment['finished'] && ! $appointment['cancelled']) {
                     $data['upcoming']['total'] = $data['upcoming']['total'] + 1;
                 } else {
                     $data['finished']['total'] = $data['finished']['total'] + 1;
@@ -676,7 +677,7 @@ if (!function_exists('get_appointments_summary')) {
  *
  * @return mixed
  */
-if (!function_exists('get_appointly_staff_userrole')) {
+if ( ! function_exists('get_appointly_staff_userrole')) {
 
     function get_appointly_staff_userrole($role_id)
     {
@@ -702,7 +703,7 @@ if (!function_exists('get_appointly_staff_userrole')) {
  *
  * @return mixed
  */
-if (!function_exists('appointly_get_contact_customer_id')) {
+if ( ! function_exists('appointly_get_contact_customer_id')) {
 
     function appointly_get_contact_customer_id($contact_id)
     {
@@ -721,7 +722,7 @@ if (!function_exists('appointly_get_contact_customer_id')) {
  *
  * @return array
  */
-if (!function_exists('get_appointment_types')) {
+if ( ! function_exists('get_appointment_types')) {
 
     function get_appointment_types()
     {
@@ -738,7 +739,7 @@ if (!function_exists('get_appointment_types')) {
  *
  * @return mixed
  */
-if (!function_exists('get_appointment_type')) {
+if ( ! function_exists('get_appointment_type')) {
 
     function get_appointment_type($type_id)
     {
@@ -759,7 +760,7 @@ if (!function_exists('get_appointment_type')) {
  *
  * @return mixed
  */
-if (!function_exists('get_appointment_color_type')) {
+if ( ! function_exists('get_appointment_color_type')) {
 
     function get_appointment_color_type($type_id)
     {
@@ -778,7 +779,7 @@ if (!function_exists('get_appointment_color_type')) {
  *
  * @return array
  */
-if (!function_exists('get_appointments_table_filters')) {
+if ( ! function_exists('get_appointments_table_filters')) {
 
     function get_appointments_table_filters()
     {
@@ -846,7 +847,7 @@ if (!function_exists('get_appointments_table_filters')) {
  *
  * @return mixed
  */
-if (!function_exists('appointly_get_user_email')) {
+if ( ! function_exists('appointly_get_user_email')) {
 
     function appointly_get_user_email($id, $type = 'staff')
     {
@@ -878,7 +879,7 @@ if (!function_exists('appointly_get_user_email')) {
  *
  * @throws Exception
  */
-if (!function_exists('insertAppointmentToGoogleCalendar')) {
+if ( ! function_exists('insertAppointmentToGoogleCalendar')) {
 
     function insertAppointmentToGoogleCalendar($data, $attendees)
     {
@@ -895,7 +896,7 @@ if (!function_exists('insertAppointmentToGoogleCalendar')) {
                 $gmail_guests[] = ['email' => appointly_get_user_email($attendee)];
             }
 
-            if (!empty($data['contact_id']) && $data['source'] != 'lead_related') {
+            if ( ! empty($data['contact_id']) && $data['source'] != 'lead_related') {
                 $gmail_guests[] = ['email' => appointly_get_user_email($data['contact_id'], 'contact')];
             } else {
                 if (isset($data['email'])) {
@@ -903,14 +904,15 @@ if (!function_exists('insertAppointmentToGoogleCalendar')) {
                 }
             }
 
-            $response = get_instance()->googlecalendar->addEvent('primary', [
+
+            $response = get_instance()->googlecalendar->addEvent([
                 'summary'     => $data['subject'],
                 'location'    => $data['address'],
                 'description' => $data['description'],
                 'start'       => $insertDate,
                 'end'         => $insertDate,
                 'attendees'   => $gmail_guests
-            ]);
+            ], 'primary');
 
             $return_data = [];
             if ($response) {
@@ -933,7 +935,7 @@ if (!function_exists('insertAppointmentToGoogleCalendar')) {
  * @return array
  * @throws \Exception
  */
-if (!function_exists('updateAppointmentToGoogleCalendar')) {
+if ( ! function_exists('updateAppointmentToGoogleCalendar')) {
 
     function updateAppointmentToGoogleCalendar($data)
     {
@@ -951,7 +953,7 @@ if (!function_exists('updateAppointmentToGoogleCalendar')) {
                 $gmail_guests[] = ['email' => appointly_get_user_email($attendee)];
             }
 
-            if (!empty($data['contact_id']) && $data['source'] != 'lead_related') {
+            if ( ! empty($data['contact_id']) && $data['source'] != 'lead_related') {
                 $gmail_guests[] = ['email' => appointly_get_user_email($data['contact_id'], 'contact')];
             } else if (isset($data['selected_contact']) && $data['source'] != 'lead_related') {
                 $gmail_guests[] = ['email' => appointly_get_user_email($data['selected_contact'], 'contact')];
@@ -991,7 +993,7 @@ if (!function_exists('updateAppointmentToGoogleCalendar')) {
  *
  * @return bool
  */
-if (!function_exists('appointlyGoogleAuth')) {
+if ( ! function_exists('appointlyGoogleAuth')) {
 
     function appointlyGoogleAuth()
     {
@@ -1000,7 +1002,7 @@ if (!function_exists('appointlyGoogleAuth')) {
 
         $account = $CI->googlecalendar->getAccountDetails();
 
-        if (!$account) return false;
+        if ( ! $account) return false;
 
         $newToken = '';
 
@@ -1073,7 +1075,7 @@ if (!function_exists('appointlyGoogleAuth')) {
 /**
  * @return array
  */
-if (!function_exists('getAppointlyUserMeta')) {
+if ( ! function_exists('getAppointlyUserMeta')) {
 
     function getAppointlyUserMeta($data = [])
     {
@@ -1092,7 +1094,7 @@ if (!function_exists('getAppointlyUserMeta')) {
  *
  * @return void
  */
-if (!function_exists('handleAppointlyUserMeta')) {
+if ( ! function_exists('handleAppointlyUserMeta')) {
 
     function handleAppointlyUserMeta($meta)
     {
@@ -1108,7 +1110,7 @@ if (!function_exists('handleAppointlyUserMeta')) {
  *
  * @return \string[][]
  */
-if (!function_exists('getAppointmentHours')) {
+if ( ! function_exists('getAppointmentHours')) {
 
     function getAppointmentHours()
     {
@@ -1170,7 +1172,7 @@ if (!function_exists('getAppointmentHours')) {
  *
  * @return array
  */
-if (!function_exists('getAppointmentsFeedbacks')) {
+if ( ! function_exists('getAppointmentsFeedbacks')) {
 
     function getAppointmentsFeedbacks()
     {
@@ -1194,7 +1196,7 @@ if (!function_exists('getAppointmentsFeedbacks')) {
  *
  * @return string
  */
-if (!function_exists('renderAppointmentFeedbacks')) {
+if ( ! function_exists('renderAppointmentFeedbacks')) {
 
     function renderAppointmentFeedbacks($appointment, $fallback = false)
     {
@@ -1207,7 +1209,7 @@ if (!function_exists('renderAppointmentFeedbacks')) {
         $html = '<div class="col-lg-12 col-xs-12 mtop20 text-center" id="feedback_wrapper">';
         $html .= '<span class="label label-default" style="line-height: 30px;">' . _l('appointment_feedback_label') . '</span><br>';
 
-        if ($appointment['feedback'] !== null && !is_staff_logged_in()) {
+        if ($appointment['feedback'] !== null && ! is_staff_logged_in()) {
             $html = '<span class="label label-primary" style="line-height: 30px;">' . _l('appointment_feedback_label_current') . '</span><br>';
         }
 
@@ -1221,7 +1223,7 @@ if (!function_exists('renderAppointmentFeedbacks')) {
         foreach ($appointmentFeedbacks as $feedback) {
 
             if ($savedFeedbacks !== null) {
-                if (!in_array($feedback['value'], $savedFeedbacks)) {
+                if ( ! in_array($feedback['value'], $savedFeedbacks)) {
                     continue;
                 }
             }
@@ -1233,14 +1235,14 @@ if (!function_exists('renderAppointmentFeedbacks')) {
             }
 
             $onClick = '';
-            if (!is_staff_logged_in()) {
+            if ( ! is_staff_logged_in()) {
                 $onClick = 'onclick="handle_appointment_feedback(this)"';
             }
 
             $html .= '<span ' . $onClick . ' data-count="' . $count++ . '" data-rating="' . $feedback['value'] . '" data-toggle="tooltip" title="' . $feedback['name'] . '" class="feedback_star text-center ' . $rating_class . '"><i class="fa fa-star" aria-hidden="true"></i></span>';
         }
 
-        if (!is_bool($appointment['feedback_comment'])) {
+        if ( ! is_bool($appointment['feedback_comment'])) {
             if ($appointment['feedback_comment'] !== null) {
                 $html .= '<div class="col-md-12 text-center mtop5" id="feedback_comment_area">';
                 $html .= '<h6>' . $appointment['feedback_comment'] . '</h6>';
@@ -1249,7 +1251,7 @@ if (!function_exists('renderAppointmentFeedbacks')) {
             }
         }
 
-        if (!is_staff_logged_in() && $appointment['feedback'] !== null) {
+        if ( ! is_staff_logged_in() && $appointment['feedback'] !== null) {
             echo '<div>';
         }
 
@@ -1267,7 +1269,7 @@ if (!function_exists('renderAppointmentFeedbacks')) {
  * @return string
  * @throws \Exception
  */
-if (!function_exists('render_callbacks_timezone')) {
+if ( ! function_exists('render_callbacks_timezone')) {
 
     function render_callbacks_timezone($datetime)
     {
@@ -1285,7 +1287,7 @@ if (!function_exists('render_callbacks_timezone')) {
  *
  * @return string
  */
-if (!function_exists('callbacks_handle_call_type')) {
+if ( ! function_exists('callbacks_handle_call_type')) {
 
     function callbacks_handle_call_type(array $types)
     {
@@ -1296,7 +1298,7 @@ if (!function_exists('callbacks_handle_call_type')) {
         $sources = array_diff(@scandir(APP_MODULES_PATH . 'appointly/assets/images/callbacks'), ['.', '..']);
 
         // In case file cannot be read
-        if (is_array($sources) && !empty($sources)) {
+        if (is_array($sources) && ! empty($sources)) {
             foreach ($sources as &$source) {
                 $source = str_replace('.png', '', $source);
                 $source = str_replace('.', '', $source);
@@ -1322,7 +1324,7 @@ if (!function_exists('callbacks_handle_call_type')) {
  *
  * @return string
  */
-if (!function_exists('render_callbacks_handle_call_type')) {
+if ( ! function_exists('render_callbacks_handle_call_type')) {
 
     function render_callbacks_handle_call_type()
     {
@@ -1333,7 +1335,7 @@ if (!function_exists('render_callbacks_handle_call_type')) {
         $sources = array_diff(@scandir(APP_MODULES_PATH . 'appointly/assets/images/callbacks'), ['.', '..']);
 
         // In case file cannot be read
-        if (is_array($sources) && !empty($sources)) {
+        if (is_array($sources) && ! empty($sources)) {
             foreach ($sources as &$source) {
                 $source = str_replace('.png', '', $source);
                 $source = str_replace('.', '', $source);
@@ -1358,7 +1360,7 @@ if (!function_exists('render_callbacks_handle_call_type')) {
  *
  * @return bool
  */
-if (!function_exists('is_staff_callbacks_responsible')) {
+if ( ! function_exists('is_staff_callbacks_responsible')) {
 
     function is_staff_callbacks_responsible()
     {
@@ -1371,7 +1373,7 @@ if (!function_exists('is_staff_callbacks_responsible')) {
  *
  * @return bool
  */
-if (!function_exists('staff_appointments_responsible')) {
+if ( ! function_exists('staff_appointments_responsible')) {
 
     function staff_appointments_responsible()
     {
@@ -1386,7 +1388,7 @@ if (!function_exists('staff_appointments_responsible')) {
  *
  * @return array
  */
-if (!function_exists('getCallbacksTableStatuses')) {
+if ( ! function_exists('getCallbacksTableStatuses')) {
 
     function getCallbacksTableStatuses()
     {
@@ -1404,7 +1406,7 @@ if (!function_exists('getCallbacksTableStatuses')) {
  *
  * @return array
  */
-if (!function_exists('getAppointlyTableStatuses')) {
+if ( ! function_exists('getAppointlyTableStatuses')) {
 
     function getAppointlyTableStatuses()
     {
@@ -1424,7 +1426,7 @@ if (!function_exists('getAppointlyTableStatuses')) {
  *
  * @return string
  */
-if (!function_exists('checkAppointlyStatus')) {
+if ( ! function_exists('checkAppointlyStatus')) {
 
     function checkAppointlyStatus($aRow)
     {
@@ -1437,11 +1439,11 @@ if (!function_exists('checkAppointlyStatus')) {
 
         if ($aRow['cancelled'] && $aRow['finished'] == 0) {
             $outputStatus .= '<span class="label label-danger">' . strtoupper(_l('appointment_cancelled')) . ' ' . $icon . ' </span>';
-        } else if (!$aRow['finished'] && !$aRow['cancelled'] && date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i') && $aRow['approved'] == 1) {
+        } else if ( ! $aRow['finished'] && ! $aRow['cancelled'] && date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i') && $aRow['approved'] == 1) {
             $outputStatus .= '<span class="label label-danger">' . strtoupper(_l('appointment_missed_label')) . ' ' . $icon . ' </span>';
-        } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 1) {
+        } else if ( ! $aRow['finished'] && ! $aRow['cancelled'] && $aRow['approved'] == 1) {
             $outputStatus .= '<span class="label label-info">' . strtoupper(_l('appointment_upcoming')) . ' ' . $icon . ' </span>';
-        } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 0) {
+        } else if ( ! $aRow['finished'] && ! $aRow['cancelled'] && $aRow['approved'] == 0) {
             $outputStatus .= '<span class="label label-warning">' . strtoupper(_l('appointment_pending_approval')) . ' ' . $icon . ' </span>';
         } else {
             $outputStatus .= '<span class="label label-success">' . strtoupper(_l('appointment_finished')) . ' ' . $icon . ' </span>';
@@ -1458,7 +1460,7 @@ if (!function_exists('checkAppointlyStatus')) {
  *
  * @return string
  */
-if (!function_exists('fetchCallbackStatusName')) {
+if ( ! function_exists('fetchCallbackStatusName')) {
 
     function fetchCallbackStatusName($status)
     {
@@ -1486,7 +1488,7 @@ if (!function_exists('fetchCallbackStatusName')) {
  *
  * @return string
  */
-if (!function_exists('get_sql_select_callback_assignees_ids')) {
+if ( ! function_exists('get_sql_select_callback_assignees_ids')) {
 
     function get_sql_select_callback_assignees_ids()
     {
@@ -1499,7 +1501,7 @@ if (!function_exists('get_sql_select_callback_assignees_ids')) {
  *
  * @return string
  */
-if (!function_exists('get_sql_select_callback_asignees_full_names')) {
+if ( ! function_exists('get_sql_select_callback_asignees_full_names')) {
 
     function get_sql_select_callback_asignees_full_names()
     {
@@ -1515,13 +1517,13 @@ if (!function_exists('get_sql_select_callback_asignees_full_names')) {
  *
  * @return mixed
  */
-if (!function_exists('get_contact_detail')) {
+if ( ! function_exists('get_contact_detail')) {
 
     function get_contact_detail($contact_id, $detail)
     {
         $allowedFields = ['firstname', 'lastname', 'email', 'phonenumber'];
 
-        if (!in_array($detail, $allowedFields)) {
+        if ( ! in_array($detail, $allowedFields)) {
             return '';
         }
 
@@ -1534,7 +1536,7 @@ if (!function_exists('get_contact_detail')) {
  *
  * @return string
  */
-if (!function_exists('get_appointly_version')) {
+if ( ! function_exists('get_appointly_version')) {
 
     function get_appointly_version()
     {
@@ -1553,7 +1555,7 @@ if (!function_exists('get_appointly_version')) {
  *
  * @param string $client
  */
-if (!function_exists('applyAdditionalCssStyles')) {
+if ( ! function_exists('applyAdditionalCssStyles')) {
 
     function applyAdditionalCssStyles($client)
     {

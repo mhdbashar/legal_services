@@ -20,6 +20,7 @@
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
                                 <th><?php echo _l('_description'); ?></th>
+                                <th><?php echo _l('clients_country'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
                                 </thead>
                                 <tbody>
@@ -34,9 +35,14 @@
                                             <?php echo $value; ?>
                                         </td>
                                         <td>
+                                            <?php $staff_language = get_staff_default_language(get_staff_user_id());?>
+                                            <?php $value = (isset($cat) ? $cat->country : ''); ?>
+                                            <?php echo get_country_name_by_staff_default_language($value,$staff_language);?>
+                                        </td>
+                                        <td>
                                             <?php if($cat->is_basic != 1){ ?>
-                                            <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a href="<?php echo admin_url("delete_category/$ServID/$cat->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                                <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                                <a href="<?php echo admin_url("delete_category/$ServID/$cat->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                             <?php } ?>
                                             <div class="radio radio-primary radio-inline">
                                                 <input type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
@@ -150,23 +156,23 @@
                 </h4>
             </div>
             <form id="ChildCatForm" method="post">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="hidden" name="csrf_token_name" value="<?php echo $this->security->get_csrf_hash();?>">
-                        <?php echo render_input('name','name'); ?>
-                        <p class="bold"><?php echo _l('category_description'); ?></p>
-                        <?php echo render_textarea('cat_description', '', '', array(), array(), '', 'tinymce'); ?>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" name="csrf_token_name" value="<?php echo $this->security->get_csrf_hash();?>">
+                            <?php echo render_input('name','name'); ?>
+                            <p class="bold"><?php echo _l('category_description'); ?></p>
+                            <?php echo render_textarea('cat_description', '', '', array(), array(), '', 'tinymce'); ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button group="submit" type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <div class="modal-footer">
+                    <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                    <button group="submit" type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
             </form>
-            </div>
         </div>
     </div>
+</div>
 </div>
 <div class="modal fade" id="add-child-cat_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -213,17 +219,17 @@
         $("#BtnAddChild_2").prop("disabled", true);
         UrlChild ='';
         $.ajax({
-           url: '<?php echo admin_url('ChildCategory'); ?>/' + ServID +'/'+ CatID,
+            url: '<?php echo admin_url('ChildCategory'); ?>/' + ServID +'/'+ CatID,
             success: function (data) {
                 response = JSON.parse(data);
                 UrlChild = '<?php echo admin_url('AddChildCat/').$ServID; ?>/'+ CatID;
                 $("#ChildCatForm").attr("action", UrlChild);
                 $("#BtnAddChild").removeAttr('disabled');
                 count = 1;
-                    $.each(response, function (key,val) {
-                        if(val.is_basic == 0) {
-                            $("#SubCatChild").append(
-                                `<tr>
+                $.each(response, function (key,val) {
+                    if(val.is_basic == 0) {
+                        $("#SubCatChild").append(
+                            `<tr>
                                 <td>${count}</td>
                                 <td>${val.name}</td>
                                 <th>${val.cat_description}</th>
@@ -236,10 +242,10 @@
                                     </div>
                                 </td>
                             </tr>`
-                            );
-                        }else{
-                            $("#SubCatChild").append(
-                                `<tr>
+                        );
+                    }else{
+                        $("#SubCatChild").append(
+                            `<tr>
                                 <td>${count}</td>
                                 <td>${val.name}</td>
                                 <th>${val.cat_description}</th>
@@ -250,10 +256,10 @@
                                     </div>
                                 </td>
                             </tr>`
-                            );
-                        }
-                        count++;
-                    });
+                        );
+                    }
+                    count++;
+                });
             }
         });
     }

@@ -19,7 +19,10 @@
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
                                 <th><?php echo _l('_description'); ?></th>
+                                <th><?php echo _l('clients_country'); ?></th>
+                                <th><?php echo _l('clients_city'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
+
                                 </thead>
                                 <tbody>
                                 <?php $i=1; foreach($courts as $court){
@@ -37,14 +40,24 @@
                                             <?php echo $value; ?>
                                         </td>
                                         <td>
+                                            <?php $staff_language = get_staff_default_language(get_staff_user_id());?>
+                                            <?php $value = (isset($court) ? $court->country : ''); ?>
+                                            <?php echo get_country_name_by_staff_default_language($value,$staff_language);?>
+                                        </td>
+                                        <td>
+                                            <?php $value = (isset($court) ? $court->city : ''); ?>
+                                            <?php echo $value; ?>
+                                        </td>
+                                        <td>
                                             <?php if($court->is_basic != 1){ ?>
-                                            <a href="<?php echo admin_url("edit_court/$court->c_id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a href="<?php echo admin_url("delete_court/$court->c_id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                                                <?php } ?>
+                                                <a href="<?php echo admin_url("edit_court/$court->c_id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                                <a href="<?php echo admin_url("delete_court/$court->c_id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                            <?php } ?>
                                             <a href="<?php echo admin_url("judicial_control/$court->c_id"); ?>" class="btn btn-info btn-icon">
                                                 <?php echo _l('Judicial'); ?>
                                             </a>
                                         </td>
+
                                     </tr>
                                     <?php $i++; } ?>
                                 </tbody>

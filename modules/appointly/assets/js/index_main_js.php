@@ -9,6 +9,7 @@
     var appointly_are_you_early_reminders = "<?= _l("appointly_are_you_early_reminders") ?>";
     var appointly_reminders_sent = "<?= _l("appointly_reminders_sent") ?>";
     var appointly_lang_approved = "<?= _l("appointment_marked_as_approved"); ?>";
+    var edit_from_view = "<?= $edit_appointment_id; ?>";
 
     var filters = <?php echo json_encode($filters); ?>;
 
@@ -20,7 +21,18 @@
             apointmentsServerParams[filters[filter]] = "[name=\"" + filters[filter] + "\"]";
         }
 
-        initDataTable(".table-appointments", '<?php echo admin_url('appointly/appointments/table'); ?>', [7], [7], apointmentsServerParams, [1, "desc"]);
+
+        let appointmentsTable = initDataTable(".table-appointments", '<?php echo admin_url('appointly/appointments/table'); ?>', [7], [7], apointmentsServerParams, [1, "desc"]);
+
+
+        appointmentsTable.on("draw", function () {
+                if (edit_from_view > 0) {
+                    console.log(edit_from_view);
+                    $("body").find(".row-options a[data-id=\"" + edit_from_view + "\"]").trigger("click");
+                    "<?php $this->session->unset_userdata('from_view_id')?> ";
+                }
+            }
+        );
 
         $("body").on("click", ".approve_appointment", function () {
             $(this).attr("disabled", true);
@@ -70,6 +82,7 @@
     });
 
     var allowedHours = <?= json_encode(json_decode(get_option('appointly_available_hours'))); ?>;
+
     var appMinTime = <?= get_option('appointments_show_past_times'); ?>;
     var appWeekends = <?= (get_option('appointments_disable_weekends')) ? "[0, 6]" : "[]"; ?>;
 
@@ -79,8 +92,9 @@
 
     function initAppointmentScheduledDates()
     {
-        const didDates = ["08/04/2021", "04/08/2021"];
-        $.post("appointments_public/busyDates").done(function (r) {
+        let busyDatesUrl = site_url + "/appointly/appointments_public/busyDates";
+
+        $.post(busyDatesUrl).done(function (r) {
             r = JSON.parse(r);
             var dateFormat = app.options.date_format;
             var appointmentDatePickerOptions = {
@@ -93,15 +107,17 @@
                 closeOnTimeSelect: 1,
                 validateOnBlur: false,
                 minTime: appMinTime,
-                disabledWeekDays: appWeekends,
+                disabledWeekDays: [5],
                 disabledDates: ["2021/04/08"],
                 onGenerate: function (ct) {
                     if (is_busy_times_enabled == 1) {
+
                         var selectedGeneratedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
 
                         $(r).each(function (i, el) {
 
                             if (el.date == selectedGeneratedDate) {
+
                                 var currentTime = $("body")
                                     .find(".xdsoft_time:contains(\"" + el.start_hour + "\")");
                                 if (el.source == undefined) {
@@ -126,19 +142,23 @@
                     }, 200);
                 },
                 onChangeDateTime: function () {
+
                     var currentTime = $("body").find(".xdsoft_time");
                     currentTime.removeClass("busy_time");
+
                 }
             };
 
             if (app.options.time_format == 24) {
                 dateFormat = dateFormat + " H:i";
             } else {
-                dateFormat = dateFormat + " g:i A";
-                appointmentDatePickerOptions.formatTime = "g:i A";
+                dateFormat = dateFormat + " g:i";
+                appointmentDatePickerOptions.formatTime = "g:i";
+
             }
 
             appointmentDatePickerOptions.format = dateFormat;
+
 
             $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
         });

@@ -19,7 +19,7 @@ hooks()->add_action('app_admin_footer', 'commission_add_footer_components');
 hooks()->add_filter('get_dashboard_widgets', 'commission_add_dashboard_widget');
 hooks()->add_filter('after_payment_added', 'add_commission');
 hooks()->add_filter('before_invoice_deleted', 'delete_commission');
-hooks()->add_action('customers_navigation_end', 'commission_module_init_client_menu_items');
+//hooks()->add_action('customers_navigation_end', 'commission_module_init_client_menu_items');
 hooks()->add_action('app_customers_footer', 'commission_client_add_footer_components');
 hooks()->add_action('after_customer_admins_tab', 'add_tab_commission_in_client');
 hooks()->add_action('after_custom_profile_tab_content', 'add_content_commission_in_client');
@@ -164,15 +164,15 @@ function commission_module_init_menu_items() {
 			]);
 		}
 
-		if (has_permission('commission_applicable_staff', '', 'view') || has_permission('commission', '', 'view_applicable_client')) {
-			$CI->app_menu->add_sidebar_children_item('commission', [
-				'slug' => 'commission-applicable-client',
-				'name' => _l('applicable_client'),
-				'icon' => 'fa fa-users',
-				'href' => admin_url('commission/applicable_client'),
-				'position' => 4,
-			]);
-		}
+//		if (has_permission('commission_applicable_staff', '', 'view') || has_permission('commission', '', 'view_applicable_client')) {
+//			$CI->app_menu->add_sidebar_children_item('commission', [
+//				'slug' => 'commission-applicable-client',
+//				'name' => _l('applicable_client'),
+//				'icon' => 'fa fa-users',
+//				'href' => admin_url('commission/applicable_client'),
+//				'position' => 4,
+//			]);
+//		}
 
 		if (has_permission('commission_policy', '', 'view') || has_permission('commission', '', 'view_program')) {
 			$CI->app_menu->add_sidebar_children_item('commission', [

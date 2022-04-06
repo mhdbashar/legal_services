@@ -41,7 +41,7 @@ class File_sharing_client extends ClientsController
             $data['connector'] = site_url() . 'file_sharing/file_sharing_client/file_sharing_media_connector';
             $client_language = get_client_default_language(get_client_user_id());
             $data['client_default_language'] = $this->file_sharing_model->getByLanguage($client_language);
-            
+
             $this->data($data);
 
             $this->view('client/elfinder');
@@ -86,7 +86,7 @@ class File_sharing_client extends ClientsController
 
     /**
    * new root main
-   * @return $opts 
+   * @return $opts
    */
   public function new_root_main(){
     $cmd = $this->input->get('cmd');
@@ -165,7 +165,7 @@ class File_sharing_client extends ClientsController
       $is_upload = get_option('fs_permisstion_client_upload') == 1 ? true : false;
       $is_download = get_option('fs_permisstion_client_download') == 1 ? true : false;
     }
-      
+
       $public_root         = $root_options;
       $publicRootPath      = FILE_SHARING_MEDIA_PATH;
       $public_root['path'] = file_sharing_set_realpath($publicRootPath);
@@ -200,7 +200,7 @@ class File_sharing_client extends ClientsController
 
       $clientPath = FILE_SHARING_MEDIA_PATH . '/Client Files/' . str_pad(get_client_user_id(), 5, '0', STR_PAD_LEFT);
       $path      = file_sharing_set_realpath($clientPath);
-     
+
       if (!is_dir($path)) {
           mkdir($path, 0755);
           fs_new_file_database($path, '', '', 'directory', 1);
@@ -241,7 +241,7 @@ class File_sharing_client extends ClientsController
                 fclose($fp);
             }
         }
-        
+
       //folder share of staff
       $trashPath          = FILE_SHARING_MEDIA_PATH . '/.trash/' . str_pad(get_client_user_id(), 5, '0', STR_PAD_LEFT);
 
@@ -267,21 +267,21 @@ class File_sharing_client extends ClientsController
                   'hidden'  => true,
                 ];
       }
-      
+
       if(!$is_delete || ($h == '\\' || $h == '/') || ($h == 'Shared' || $h == '\\Shared' || $h == '/Shared') || ($h == 'Client Files' || $h == '\\Client Files' || $h == '/Client Files')){
-        array_push($public_root['disabled'], 'rm'); 
+        array_push($public_root['disabled'], 'rm');
       }
 
       if(!$is_upload || ($h == '\\' || $h == '/') || ($h == 'Shared' || $h == '\\Shared' || $h == '/Shared') || ($h == 'Client Files' || $h == '\\Client Files' || $h == '/Client Files')){
-        array_push($public_root['disabled'], 'mkdir'); 
-        array_push($public_root['disabled'], 'mkfile'); 
-        array_push($public_root['disabled'], 'upload'); 
+        array_push($public_root['disabled'], 'mkdir');
+        array_push($public_root['disabled'], 'mkfile');
+        array_push($public_root['disabled'], 'upload');
       }
 
       if(!$is_download){
-        array_push($public_root['disabled'], 'download'); 
-        array_push($public_root['disabled'], 'zipdl'); 
-        array_push($public_root['disabled'], 'file'); 
+        array_push($public_root['disabled'], 'download');
+        array_push($public_root['disabled'], 'zipdl');
+        array_push($public_root['disabled'], 'file');
       }
 
       if($cmd == 'rename'){

@@ -82,7 +82,7 @@
             <button type="button" class="btn btn-default" onclick="close_send_mail(); return false;"><?php echo _l('close'); ?></button>
             <button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
          </div>
-         <?php echo form_close(); ?>  
+         <?php echo form_close(); ?>
       </div>
    </div>
 </div>
@@ -96,7 +96,7 @@
          </div>
          <?php echo form_open_multipart(admin_url('file_sharing/edit_sharing'),array('id'=>'fs-share-form'));?>
          <?php echo form_hidden('id'); ?>
-         
+
          <div class="modal-body">
             <div class="row mtop15 mbot15 fs-gr-radio">
                <div class="col-md-12">
@@ -115,18 +115,18 @@
                </div>
             </div>
             <div id="div_staff">
-               <?php 
+               <?php
                $selected_role = array();
                echo render_select('role[]',$roles,array('roleid',array('name')),'role',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-               <?php 
+               <?php
                $selected = array();
                echo render_select('staff[]',$staffs,array('staffid',array('firstname','lastname')),'staff',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
             </div>
             <div id="div_client" class="hide">
-               <?php 
+               <?php
                $selected_role = array();
                echo render_select('customer_group[]',$client_groups,array('id','name'),'customer_group',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-               <?php 
+               <?php
                $selected = array();
                echo render_select('customer[]',$clients,array('userid','company'),'customer',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
             </div>
@@ -145,7 +145,7 @@
                         </div>
                      </div>
                </div>
-               
+
             </div>
             <div class="form-group">
                <div class="checkbox checkbox-primary">
@@ -200,7 +200,7 @@
                   <span class="input-group-addon">
                   <a href="#password" class="show_password" onclick="showPassword('password'); return false;"><i class="fa fa-eye"></i></a>
                   </span>
-                  
+
                </div>
                </div>
             </div>
@@ -256,13 +256,13 @@
                    </div>
                </div>
             </div>
-            
+
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
             <button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
          </div>
-         <?php echo form_close(); ?>  
+         <?php echo form_close(); ?>
       </div>
    </div>
 </div>

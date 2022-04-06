@@ -13,15 +13,15 @@ class File_sharing_public extends App_Controller
     }
 
     /**
-     * index 
-     * @param  string $hash  
-     * @return view       
+     * index
+     * @param  string $hash
+     * @return view
      */
     public function index($hash){
         $data['file'] = $this->file_sharing_model->get_file_share_by_hash($hash);
         $this->db->where('hash_share', $hash);
         $total_rows = $this->db->count_all_results(db_prefix() . 'fs_downloads');
-     
+
         if($data['file']){
             if($data['file']->download_limits <= $total_rows && $data['file']->download_limits != 0){
                 $data['hidden'] = true;
@@ -35,11 +35,11 @@ class File_sharing_public extends App_Controller
                         $this->db->update(db_prefix().'fs_sharings', ['has_been_deleted' => 1]);
                     }
                 }
-                
+
                 $data['hidden'] = true;
             }
         }
-        
+
         $this->load->view('public/file_sharing_public', $data);
     }
 
@@ -82,7 +82,7 @@ class File_sharing_public extends App_Controller
      * @return json
      */
     public function check_download(){
-                
+
         $data = $this->input->post();
         $file = $this->file_sharing_model->get_file_share_by_hash($data['hash_share']);
         if($file){
@@ -101,7 +101,7 @@ class File_sharing_public extends App_Controller
 
     /**
      * download directory
-     * @param  string $hash_share 
+     * @param  string $hash_share
      */
     public function download_directory($hash_share){
         $file = $this->file_sharing_model->get_file_share_by_hash($hash_share);
@@ -118,7 +118,7 @@ class File_sharing_public extends App_Controller
 
     /**
      * share downloaded
-     * @return boolean 
+     * @return boolean
      */
     public function share_downloaded(){
         $data = $this->input->post();
@@ -188,7 +188,7 @@ class File_sharing_public extends App_Controller
 
     /**
      * get url by hash
-     * @return json 
+     * @return json
      */
     public function get_url_by_hash()
     {
@@ -204,7 +204,7 @@ class File_sharing_public extends App_Controller
 
     /**
      * download file
-     * @param  string $hash_share 
+     * @param  string $hash_share
      */
     public function download_file($hash_share){
         $this->load->helper('download');
@@ -218,5 +218,5 @@ class File_sharing_public extends App_Controller
         }
     }
 
-    
+
 }

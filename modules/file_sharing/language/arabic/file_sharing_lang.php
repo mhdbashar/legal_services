@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $lang['file_sharing']                                                         			= 'مشاركة الملفات';
 $lang['setting_file_sharing']                                                         	= 'الإعدادات';

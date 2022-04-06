@@ -99,7 +99,7 @@ function si_custom_theme_hook_app_customers_head()
 			$script .= '$("body.customers nav").addClass("hide");';
 		if(!$show_footer)
 			$script .= '$("body footer").addClass("hide");';
-	}elseif(is_client_logged_in() && (int)get_option(SI_CUSTOM_THEME_MODULE_NAME.'_enable_client_theme')){
+	}elseif(is_client_logged_in() && !is_staff_logged_in() && (int)get_option(SI_CUSTOM_THEME_MODULE_NAME.'_enable_client_theme')){
 		//add theme link client profile
 		$script .= '$(".customers-nav-item-logout").before(\'<li class="customers-nav-item-custom-theme"><a href="'.site_url('si_custom_theme/client_theme').'">'._l('si_custom_staff_theme_menu').'</a></li>\')';
 	}		
@@ -181,7 +181,7 @@ function si_custom_theme_hook_admin_init()
 function si_custom_theme_hook_app_admin_footer()
 {
 	$script = '';
-	if(is_staff_logged_in() && (int)get_option(SI_CUSTOM_THEME_MODULE_NAME.'_enable_staff_theme')){
+	if( is_staff_logged_in() && (int)get_option(SI_CUSTOM_THEME_MODULE_NAME.'_enable_staff_theme')){
 		$script .= '$(".header-logout").before(\'<li class="header-custom-theme"><a href="'.admin_url('si_custom_theme/staff_theme').'">'._l('si_custom_staff_theme_menu').'</a></li>\')';
 		echo '<script>$(document).ready(function(){'.$script.'});</script>' . PHP_EOL;
 	}

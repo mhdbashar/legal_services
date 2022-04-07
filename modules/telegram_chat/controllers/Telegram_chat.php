@@ -25,6 +25,7 @@ class Telegram_chat extends AdminController
     function addTelegramInfo() {
         $currentUserID = 1;
         $obj = array(
+            'id' => 1,
             'chat_id' =>    $this->input->post('chat_id'),
             'bot_token'=>   $this->input->post('bot_token'),
             'user_id' =>    $GLOBALS['current_user']->staffid,

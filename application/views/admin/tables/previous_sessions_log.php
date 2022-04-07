@@ -9,9 +9,9 @@ $aColumns = [
     db_prefix() . 'tasks.status as status',
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
-    'startdate',
     'time',
     'court_name',
+    'startdate',
     'customer_report',
     'send_to_customer',
 ];

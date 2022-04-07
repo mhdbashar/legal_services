@@ -36,21 +36,49 @@ class Resource_workload_model extends App_Model
             }
         }
 
+//        $staffsTasksWhere = '';
+//
+//        $where_project = '';
+//        if (isset($data_fill['project'])) {
+//            foreach ($data_fill['project'] as $key => $value) {
+//                if ($where_project == '') {
+//                    $where_project = '(rel_type = "project" and rel_id = ' . $value . ')';
+//                } else {
+//                    $where_project .= ' or (rel_type = "project" and rel_id = ' . $value . ')';
+//                }
+//            }
+//            if ($where_project != '') {
+//                $staffsTasksWhere .= ' and (' . $where_project . ') ';
+//            }
+//        }
         $staffsTasksWhere = '';
+        $where_legalservices = '';
+        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+        {
+            $where_legalservices = '(rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
 
-        $where_project = '';
-        if (isset($data_fill['project'])) {
-            foreach ($data_fill['project'] as $key => $value) {
-                if ($where_project == '') {
-                    $where_project = '(rel_type = "project" and rel_id = ' . $value . ')';
-                } else {
-                    $where_project .= ' or (rel_type = "project" and rel_id = ' . $value . ')';
-                }
-            }
-            if ($where_project != '') {
-                $staffsTasksWhere .= ' and (' . $where_project . ') ';
-            }
+
         }
+        if ($where_legalservices != '') {
+            $staffsTasksWhere .= ' and (' . $where_legalservices . ') ';
+        }
+
+        //        $where_project = '';
+//        if (!empty($data_fill['project'])) {
+//            foreach ($data_fill['project'] as $key => $value) {
+//                if ($where_project == '') {
+//                    $where_project .= ' and (rel_id = '.$value;
+//                } else {
+//                    $where_project .= ' or rel_id = '.$value;
+//                }
+//            }
+//            $where_project .= ')';
+//        }
+
+
+
+
+
         $list_staffids           = $this->get_staff_workload($data_fill, true);
         $staffsTasks      = $this->get_staff_task_workload($data_fill, $staffsTasksWhere);
         $staffsTasks_recurring      = $this->get_staff_workload_recurring($data_fill, $staffsTasksWhere);
@@ -161,7 +189,7 @@ class Resource_workload_model extends App_Model
                 }
             }
         }
-        
+
         $standard_workload_by_list_staff = $this->get_standard_workload_by_list_staff($list_staffids, $task_from_date, $task_to_date);
         $standard_workload = $standard_workload_by_list_staff['standard_workload'];
         $data_timesheets = $standard_workload_by_list_staff['data_timesheets'];
@@ -175,7 +203,7 @@ class Resource_workload_model extends App_Model
                 $data[$staffid]['capacity']   = $this->get_total_standard_workload($standard_workload, $date_working[$staffid], $value['staffid'], $from_date, $to_date);
                 $total_capacity += $data[$staffid]['capacity'];
                 $data[$staffid]['staff_department'] = $value['department_name'];
-                
+
                 $data[$staffid] = $this->create_array_data_workload($from_date, $to_date, $data[$staffid]);
                 if ($only_data == false) {
                     $data_tooltip_2[$staffid] = $this->create_array_data_tooltip_workload($data_timesheets, $value['staffid'], $from_date, $to_date, []);
@@ -206,11 +234,11 @@ class Resource_workload_model extends App_Model
                         }
                     } else {
                         $n_day  = $this->get_number_day($date_working[$staffid], $t['start_time'], $t['end_time']);
-                        
+
                         if($n_day == 0){
                             continue;
                         }
-                        
+
                         $s_date = $t['start_time'];
                         $e_date = $t['end_time'];
 
@@ -378,18 +406,29 @@ class Resource_workload_model extends App_Model
             $staffsTasksWhere = '(startdate <= "' . $to_date . '" or IF(duedate IS NOT NULL,duedate <= "' . $to_date . '",IF(datefinished IS NOT NULL, date_format(datefinished, "%Y-%m-%d") <= "' . $to_date . '", 1=1)))';
         }
 
-        if (isset($data_fill['project'])) {
-            $where_project = '';
-            foreach ($data_fill['project'] as $key => $value) {
-                if ($where_project == '') {
-                    $where_project = '(rel_type = "project" and rel_id = ' . $value . ')';
-                } else {
-                    $where_project .= ' or (rel_type = "project" and rel_id = ' . $value . ')';
-                }
-            }
-            if ($where_project != '') {
-                $staffsTasksWhere .= ' and (' . $where_project . ') ';
-            }
+//        if (isset($data_fill['project'])) {
+//            $where_project = '';
+//            foreach ($data_fill['project'] as $key => $value) {
+//                if ($where_project == '') {
+//                    $where_project = '(rel_type = "project" and rel_id = ' . $value . ')';
+//                } else {
+//                    $where_project .= ' or (rel_type = "project" and rel_id = ' . $value . ')';
+//                }
+//            }
+//            if ($where_project != '') {
+//                $staffsTasksWhere .= ' and (' . $where_project . ') ';
+//            }
+//        }
+
+        $where_project = '';
+        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+        {
+            $where_project = '(rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
+
+
+        }
+        if ($where_project != '') {
+            $staffsTasksWhere .= ' and (' . $where_project . ') ';
         }
 
         $data         = [];
@@ -674,8 +713,8 @@ class Resource_workload_model extends App_Model
         $visible[5] = get_option('staff_workload_friday_visible');
         $visible[6] = get_option('staff_workload_saturday_visible');
         $visible[7] = get_option('staff_workload_sunday_visible');
-        
-        
+
+
         if (!$this->check_format_date($from_date)) {
             $from_date = to_sql_date($from_date);
         }
@@ -784,6 +823,17 @@ class Resource_workload_model extends App_Model
             }
             $where_role .= ')';
         }
+
+//
+//        $staffsTasksWhere='';
+//        $where_legalservices = '';
+//        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+//        {
+//            $where_legalservices = '(rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
+//        }
+//        if ($where_legalservices != '') {
+//            $staffsTasksWhere .= ' and (' . $where_legalservices . ') ';
+//        }
         $where_staff = '';
         if (!empty($data['staff'])) {
             foreach ($data['staff'] as $key => $value) {
@@ -809,6 +859,7 @@ class Resource_workload_model extends App_Model
                 }
             }
         }
+
 
         $this->db->select('*, CONCAT(firstname, \' \', lastname) as full_name,' . db_prefix() . 'staff.staffid as staffid, ' . db_prefix() . 'roles.name as role_name, (SELECT GROUP_CONCAT('.db_prefix().'departments.name SEPARATOR " ,") FROM '.db_prefix().'staff_departments JOIN '.db_prefix().'departments ON '.db_prefix().'departments.departmentid = '.db_prefix().'staff_departments.departmentid WHERE '.db_prefix().'staff_departments.staffid='.db_prefix().'staff.staffid ORDER BY '.db_prefix().'staff.staffid) as department_name');
         $this->db->join(db_prefix() . 'roles', db_prefix() . 'staff.role=' . db_prefix() . 'roles.roleid', 'left');
@@ -850,7 +901,7 @@ class Resource_workload_model extends App_Model
     public function get_staff_task_workload($data, $where = [])
     {
 
-        
+
 
         $from_date = $data['from_date'];
         $to_date   = $data['to_date'];
@@ -876,17 +927,41 @@ class Resource_workload_model extends App_Model
         if (isset($data['staff']) && !is_array($data['staff']) && $data['staff'] != '') {
             $data['staff'] = explode(',', $data['staff']);
         }
+//        $where_project = '';
+//        if (!empty($data['project'])) {
+//            foreach ($data['project'] as $key => $value) {
+//                if ($where_project == '') {
+//                    $where_project .= ' and (('.$value . ' in (select project_id from '.db_prefix() . 'project_members where '.db_prefix() . 'project_members.staff_id = '.db_prefix().'staff.staffid))';
+//                } else {
+//                    $where_project .= ' or ('.$value . ' in (select project_id from '.db_prefix() . 'project_members where '.db_prefix() . 'project_members.staff_id = '.db_prefix().'staff.staffid))';
+//                }
+//            }
+//            $where_project .= ')';
+//        }
+        // $data['rel_sid'] , $data['rel_stype']
         $where_project = '';
-        if (!empty($data['project'])) {
-            foreach ($data['project'] as $key => $value) {
-                if ($where_project == '') {
-                    $where_project .= ' and (('.$value . ' in (select project_id from '.db_prefix() . 'project_members where '.db_prefix() . 'project_members.staff_id = '.db_prefix().'staff.staffid))';
-                } else {
-                    $where_project .= ' or ('.$value . ' in (select project_id from '.db_prefix() . 'project_members where '.db_prefix() . 'project_members.staff_id = '.db_prefix().'staff.staffid))';
-                }
-            }
+        if (!empty($data['rel_sid']) && !empty($data['rel_stype'])) {
+            if($data['rel_stype'] == 'kd-y')
+                $where_project .= ' and (('.$data['rel_sid'] . ' in (select project_id from '.db_prefix() . 'my_members_cases where '.db_prefix() . 'my_members_cases.staff_id = '.db_prefix().'staff.staffid))';
+            else
+                $where_project .= ' and (('.$data['rel_sid'] . ' in (select oservice_id from '.db_prefix() . 'my_members_services where '.db_prefix() . 'my_members_services.staff_id = '.db_prefix().'staff.staffid))';
+
             $where_project .= ')';
         }
+
+//        $staffsTasksWhere = '';
+//        $where_legalservices = '';
+//        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+//        {
+//            $where_legalservices = 'and (rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
+//
+//
+//        }
+//        if ($where_legalservices != '') {
+//            $staffsTasksWhere .= ' and (' . $where_legalservices . ') ';
+//        }
+
+
         $where_department = '';
         if (!empty($data['department'])) {
             foreach ($data['department'] as $key => $value) {
@@ -952,7 +1027,7 @@ class Resource_workload_model extends App_Model
                 $where_staff_exception .= ' and '.db_prefix().'staff.staffid != '.$value;
             }
         }
-       
+
         $list_staffs = $this->db->query('SELECT CASE
                 WHEN end_time is NULL THEN (' . time() . '-start_time) / 60 / 60
                 ELSE (end_time-start_time) / 60 / 60
@@ -964,6 +1039,7 @@ class Resource_workload_model extends App_Model
             LEFT JOIN `' . db_prefix() . 'customfieldsvalues` ON `' . db_prefix() . 'customfieldsvalues`.`relid`=`' . db_prefix() . 'tasks`.`id` and `' . db_prefix() . 'customfieldsvalues`.`fieldid` = `' . db_prefix() . 'customfields`.`id`
             LEFT JOIN `' . db_prefix() . 'taskstimers` ON `' . db_prefix() . 'staff`.`staffid`=`' . db_prefix() . 'taskstimers`.`staff_id` and `' . db_prefix() . 'taskstimers`.`task_id` = `' . db_prefix() . 'tasks`.`id`
             WHERE `' . db_prefix() . 'staff`.`active` = 1 ' .$where_role.$where_department.$where_project.$where_staff.$where_staff_exception)->result_array();
+
         return $list_staffs;
     }
 
@@ -1003,6 +1079,23 @@ class Resource_workload_model extends App_Model
             }
             $where_project .= ')';
         }
+
+
+
+
+//        $staffsTasksWhere = '';
+//        $where_legalservices = '';
+//        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+//        {
+//            $where_legalservices = ' ((rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
+//
+//
+//        }
+//        if ($where_legalservices != '') {
+//            $staffsTasksWhere .= ' and (' . $where_legalservices . ') ';
+//        }
+
+
         $where_department = '';
         if (!empty($data['department'])) {
             foreach ($data['department'] as $key => $value) {
@@ -1014,6 +1107,9 @@ class Resource_workload_model extends App_Model
             }
             $where_department .= ')';
         }
+
+
+
         $where_role = '';
         if (!empty($data['role'])) {
             foreach ($data['role'] as $key => $value) {
@@ -1531,7 +1627,7 @@ class Resource_workload_model extends App_Model
                 }
             }
         }
-        
+
         while (strtotime($from_date) <= strtotime($to_date)) {
             foreach ($list_staffids as $staffid) {
                 if(!isset($date_working[$staffid][$from_date])){
@@ -1668,7 +1764,7 @@ class Resource_workload_model extends App_Model
      *
      * @return     array   The tasks.
      */
-    public function get_tasks($staff_id = '', $where = [], $apply_restrictions = false, $count = false)
+    public function get_tasks($staff_id = '', $where = [], $apply_restrictions = false, $count = false, $rel_stype = '', $rel_sid = '')
     {
 
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',
@@ -1679,9 +1775,13 @@ class Resource_workload_model extends App_Model
            ' . get_sql_select_task_assignees_ids() . ' as assignees_ids
         ';
 
-        $select .= ',(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, billable, (SELECT '.db_prefix().'projects.name FROM '.db_prefix().'projects  WHERE '.db_prefix().'projects.id='.db_prefix().'tasks.rel_id and '.db_prefix().'tasks.rel_type = "project") as project_name';
+        if($rel_stype=='kd-y')
+            $select .= ',(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, billable, (SELECT '.db_prefix().'my_cases.name FROM '.db_prefix().'my_cases WHERE '.db_prefix().'my_cases.id= "'.$rel_sid.'") as project_name';
+        else
+            $select .= ',(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, billable, (SELECT '.db_prefix().'my_other_services.name FROM '.db_prefix().'my_other_services WHERE '.db_prefix().'my_other_services.id= "'.$rel_sid.'") as project_name';
 
         $this->db->select($select);
+
 
         if ($staff_id != '') {
             $this->db->where('(' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . $staff_id . '))');
@@ -1696,6 +1796,7 @@ class Resource_workload_model extends App_Model
         } else {
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
         }
+
 
         return $tasks;
     }
@@ -2032,9 +2133,9 @@ class Resource_workload_model extends App_Model
         if (!$this->check_format_date($date)) {
             $date = to_sql_date($date);
         }
-        
+
         if(get_option('integrated_timesheet_leave') == 1 && $this->get_status_modules_all('timesheets')){
-            
+
         }else{
             $this->db->where('staffid', $staffid);
             $standard_workload = $this->db->get(db_prefix() . 'standard_workload')->row();
@@ -2061,8 +2162,8 @@ class Resource_workload_model extends App_Model
      * Gets the standard workload by list staff.
      *
      * @param      int  $list_staff  The list staff id
-     * @param      string  $from_date 
-     * @param      string  $to_date 
+     * @param      string  $from_date
+     * @param      string  $to_date
      *
      * @return     array  The standard workload by list staff.
      */
@@ -2117,7 +2218,7 @@ class Resource_workload_model extends App_Model
                     case 7:
                         $working_days[$value['staffid']][$from_date] = $value['sunday'] ? $value['sunday'] : 0;
                         break;
-                    
+
                     default:
                         break;
                 }
@@ -2330,6 +2431,7 @@ class Resource_workload_model extends App_Model
      * @return     array   The data workload.
      */
     public function get_data_capacity($data_fill){
+
         if($data_fill['to_date'] == ''){
             $from_date = date('Y-m-d');
         }else{
@@ -2347,19 +2449,32 @@ class Resource_workload_model extends App_Model
             }
         }
 
-        $where_project = '';
-        if (!empty($data_fill['project'])) {
-            foreach ($data_fill['project'] as $key => $value) {
-                if ($where_project == '') {
-                    $where_project .= ' and (rel_id = '.$value;
-                } else {
-                    $where_project .= ' or rel_id = '.$value;
-                }
-            }
-            $where_project .= ')';
+        $staffsTasksWhere = '';
+        $where_legalservices = '';
+        if (isset($data_fill['rel_stype'],$data_fill['rel_sid']))
+        {
+            $where_legalservices = 'and (rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "' . $data_fill['rel_sid'] . '")';
+
+
+        }
+        if ($where_legalservices != '') {
+            $staffsTasksWhere .= ' and (' . $where_legalservices . ') ';
         }
 
-        $tasksWhere = ' rel_type = "project"'. $where_project;
+//        $where_project = '';
+//        if (!empty($data_fill['project'])) {
+//            foreach ($data_fill['project'] as $key => $value) {
+//                if ($where_project == '') {
+//                    $where_project .= ' and (rel_id = '.$value;
+//                } else {
+//                    $where_project .= ' or rel_id = '.$value;
+//                }
+//            }
+//            $where_project .= ')';
+//        }
+
+        $tasksWhere = ' rel_type = "'.$data_fill['rel_stype'].'" and rel_id = "'.$data_fill['rel_sid'].'"'. $where_legalservices;
+
 
         if ($from_date != '' && $to_date != '') {
             $tasksWhere .= ' and IF(duedate IS NOT NULL,((startdate <= "' . $from_date . '" and duedate >= "' . $from_date . '") or (startdate <= "' . $to_date . '" and duedate >= "' . $to_date . '") or (startdate > "' . $from_date . '" and duedate < "' . $to_date . '")), IF(datefinished IS NOT NULL,((startdate <= "' . $from_date . '" and date_format(datefinished, "%Y-%m-%d") >= "' . $from_date . '") or (startdate <= "' . $to_date . '" and date_format(datefinished, "%Y-%m-%d") >= "' . $to_date . '") or (startdate > "' . $from_date . '" and date_format(datefinished, "%Y-%m-%d") < "' . $to_date . '")),(startdate <= "' . $from_date . '" or (startdate > "' . $from_date . '" and startdate <= "' . $to_date . '"))))';
@@ -2369,7 +2484,8 @@ class Resource_workload_model extends App_Model
             $tasksWhere .= ' and (startdate <= "' . $to_date . '" or IF(duedate IS NOT NULL,duedate <= "' . $to_date . '",IF(datefinished IS NOT NULL, date_format(datefinished, "%Y-%m-%d") <= "' . $to_date . '", 1=1)))';
         }
 
-        $tasks      = $this->get_tasks('', $tasksWhere);
+
+        $tasks      = $this->get_tasks('', $tasksWhere,false,false,$data_fill['rel_stype'], $data_fill['rel_sid']);
 
         $total_capacity = 0;
         $list_staffids           = $this->get_staff_workload($data_fill, true);
@@ -2401,9 +2517,11 @@ class Resource_workload_model extends App_Model
                 }else{
                     $data['unbillable'][$value['rel_id']]['project'] = $value['project_name'];
                     $data['unbillable'][$value['rel_id']]['total'] = $value['total_logged_time'];
+
                 }
                 $total_unbillable += $value['total_logged_time'];
             }
+
         }
 
         $billable = [];
@@ -2417,7 +2535,7 @@ class Resource_workload_model extends App_Model
 
         foreach ($data['unbillable'] as $key => $value) {
             $node = [];
-            $node['project'] = $value['project'];
+            $node['project'] = $value['project'] ;
             $node['total'] = round($value['total'] / 60 / 60, 2).' '._l('hours');
             $unbillable[] = $node;
         }
@@ -2436,6 +2554,7 @@ class Resource_workload_model extends App_Model
         $data_return['total']['unbillable'] = round($total_unbillable / 60 / 60, 2).' '._l('hours').' ('.$unbillable_percent.'%)';
         $data_return['total']['total_capacity'] = round($total_capacity, 2).' '._l('hours');
         return $data_return;
+
     }
 
 

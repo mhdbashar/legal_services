@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');?>
 
+
 <?php init_head();?>
 <div id="wrapper">
    <div class="content">
@@ -20,7 +21,25 @@
                       <?php echo render_select('role', $roles, array('roleid', 'name'), 'role', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
                     </div>
                     <div class="col-md-2">
-                      <?php echo render_select('project', $projects, array('id', 'name'), 'project', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
+                        <?php
+
+
+
+
+                        if(!empty($legal_services)){
+                            $selected = (isset($invoice) ? $invoice->rel_stype : '');
+                            echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services()'],[], 'services-wrapper','',true);
+                            ?>
+                            <div class="form-group" id="div_rel_sid">
+                                <label for="rel_sid" class="control-label"><?php echo _l('ServiceTitle'); ?></label>
+                                <select class="form-control custom_select_arrow" id="rel_sid" name="rel_sid" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected disabled>
+
+                                    </option>
+
+                                </select>
+                            </div>
+                        <?php } ?>
                     </div>
                     <div class="col-md-2 <?php if($type == 'capacity'){echo 'hide';} ?>">
                       <?php echo render_select('staff', $staffs, array('staffid', 'firstname', 'lastname'), 'staff', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>

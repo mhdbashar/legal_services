@@ -26,6 +26,8 @@ class Resource_workload extends AdminController {
 		$data_fill['project'] = [];
 		$data_fill['from_date'] = date('Y-m-d', strtotime('-7 day', strtotime(date('Y-m-d'))));
 		$data_fill['to_date'] = date('Y-m-d');
+		$data_fill['rel_stype']='';
+		$data_fill['rel_sid']='';
 
         $data['type'] = $this->input->get('type');
         $data['tab'][] = 'workload';
@@ -64,6 +66,7 @@ class Resource_workload extends AdminController {
 		$data['roles'] = $this->roles_model->get();
 		$data['title'] = _l('resource_workload');
         $data['tabs']['view'] = 'includes/' . $data['type'];
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
 
 		$this->load->view('resource_workload', $data);
 	}
@@ -89,13 +92,33 @@ class Resource_workload extends AdminController {
 		die();
 	}
 
+
+
+
+
+    public function all_legal_services_without_client()
+    {
+        $slug = $this->input->post('slug') ? $this->input->post('slug') : '';
+        $ServID = $this->legal->get_service_id_by_slug($slug);
+        if ($slug != '') {
+            if($ServID == 1){
+                $res = $this->case->get('');
+            }else{
+                $res = $this->other->get($ServID ,'');
+            }
+            echo json_encode($res);
+        }
+    }
+
 	/**
 	 * Gets the data capacity.
 	 * @return json data capacity
 	 */
 	public function get_data_capacity() {
 		$data = $this->input->post();
+
 		$data_capacity = $this->resource_workload_model->get_data_capacity($data);
+
 		echo json_encode([
 			'billable' => $data_capacity['billable'],
 			'unbillable' => $data_capacity['unbillable'],
@@ -190,6 +213,8 @@ class Resource_workload extends AdminController {
 			$data['staffs'][$key]['tasks'] = $this->resource_workload_model->do_workload_kanban_query($staff['staffid'], 1, $staffsTasksWhere);
  			$data['staffs'][$key]['total_pages'] = ceil($this->resource_workload_model->do_workload_kanban_query($staff['staffid'], 1, $staffsTasksWhere, true)/10);
 		}
+
+
         echo html_entity_decode($this->load->view('workload_kanban', $data, true));
     }
 
@@ -315,6 +340,7 @@ class Resource_workload extends AdminController {
      */
     public function update_setting(){
     	$data = $this->input->post();
+
     	$success = $this->resource_workload_model->update_setting($data);
         if($success == true){
             $message = _l('updated_successfully', _l('general_settings'));
@@ -328,6 +354,7 @@ class Resource_workload extends AdminController {
      */
     public function workload_chart(){
     	$data_fill = $this->input->post();
+
     	$data_workload = $this->resource_workload_model->get_data_workload($data_fill);
 
     	if($data_fill['to_date'] == ''){

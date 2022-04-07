@@ -4,12 +4,12 @@
 	var // jQuery and jQueryUI version
 		jqver = '3.4.1',
 		uiver = '1.12.1',
-		
+
 		// Detect language (optional)
 		lang = (function() {
 			return $('input[name="client_default_language"]').val();
 		})(),
-		
+
 		// Start elFinder (REQUIRED)
 		start = function(elFinder, editors, config) {
 			// load jQueryUI CSS
@@ -33,7 +33,7 @@
                         height: $(document).outerHeight(true) - 126,
                         customData: elfEditorCustomData,
 					};
-				
+
 				// Interpretation of "elFinderConfig"
 				if (config && config.managers) {
 					$.each(config.managers, function(id, mOpts) {
@@ -74,7 +74,7 @@
 				}
 			});
 		},
-		
+
 		// JavaScript loader (REQUIRED)
 		load = function() {
 			require(
@@ -90,7 +90,7 @@
 				}
 			);
 		},
-		
+
 		// is IE8 or :? for determine the jQuery version to use (optional)
 		old = (typeof window.addEventListener === 'undefined' && typeof document.getElementsByClassName === 'undefined')
 		       ||

@@ -2723,7 +2723,8 @@ class Other_services_model extends App_Model
                 }
             }
 
-            $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
+
+            $this->log_activity($discussion->oservice_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
 
             pusher_trigger_notification($notifiedUsers);
 

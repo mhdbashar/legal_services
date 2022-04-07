@@ -30,35 +30,35 @@
             </div>
          </div>
          <?php } ?>
-         <?php if(is_staff_member()){ ?>
-         <div class="quick-stats-leads col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
-            <div class="top_stats_wrapper">
-               <?php
-                  $where = '';
-                  if(!is_admin()){
-                    $where .= '(addedfrom = '.get_staff_user_id().' OR assigned = '.get_staff_user_id().')';
-                  }
-                  // Junk leads are excluded from total
-                  $total_leads = total_rows(db_prefix().'leads',($where == '' ? 'junk=0' : $where .= ' AND junk =0'));
-                  if($where == ''){
-                   $where .= 'status=1';
-                  } else {
-                   $where .= ' AND status =1';
-                  }
-                  $total_leads_converted = total_rows(db_prefix().'leads',$where);
-                  $percent_total_leads_converted = ($total_leads > 0 ? number_format(($total_leads_converted * 100) / $total_leads,2) : 0);
-                  ?>
-               <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-tty"></i> <?php echo _l('leads_converted_to_client'); ?>
-                  <span class="pull-right"><?php echo $total_leads_converted; ?> / <?php echo $total_leads; ?></span>
-               </p>
-               <div class="clearfix"></div>
-               <div class="progress no-margin progress-bar-mini">
-                  <div class="progress-bar progress-bar-success no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $percent_total_leads_converted; ?>" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="<?php echo $percent_total_leads_converted; ?>">
-                  </div>
-               </div>
-            </div>
-         </div>
-         <?php } ?>
+<!--         --><?php //if(is_staff_member()){ ?>
+<!--         <div class="quick-stats-leads col-xs-12 col-md-6 col-sm-6 --><?php //echo $initial_column; ?><!--">-->
+<!--            <div class="top_stats_wrapper">-->
+<!--               --><?php
+//                  $where = '';
+//                  if(!is_admin()){
+//                    $where .= '(addedfrom = '.get_staff_user_id().' OR assigned = '.get_staff_user_id().')';
+//                  }
+//                  // Junk leads are excluded from total
+//                  $total_leads = total_rows(db_prefix().'leads',($where == '' ? 'junk=0' : $where .= ' AND junk =0'));
+//                  if($where == ''){
+//                   $where .= 'status=1';
+//                  } else {
+//                   $where .= ' AND status =1';
+//                  }
+//                  $total_leads_converted = total_rows(db_prefix().'leads',$where);
+//                  $percent_total_leads_converted = ($total_leads > 0 ? number_format(($total_leads_converted * 100) / $total_leads,2) : 0);
+//                  ?>
+<!--               <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-tty"></i> --><?php //echo _l('leads_converted_to_client'); ?>
+<!--                  <span class="pull-right">--><?php //echo $total_leads_converted; ?><!-- / --><?php //echo $total_leads; ?><!--</span>-->
+<!--               </p>-->
+<!--               <div class="clearfix"></div>-->
+<!--               <div class="progress no-margin progress-bar-mini">-->
+<!--                  <div class="progress-bar progress-bar-success no-percent-text not-dynamic" role="progressbar" aria-valuenow="--><?php //echo $percent_total_leads_converted; ?><!--" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="--><?php //echo $percent_total_leads_converted; ?><!--">-->
+<!--                  </div>-->
+<!--               </div>-->
+<!--            </div>-->
+<!--         </div>-->
+<!--         --><?php //} ?>
          <div class="quick-stats-projects col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
               <div class="top_stats_wrapper">
                   <?php

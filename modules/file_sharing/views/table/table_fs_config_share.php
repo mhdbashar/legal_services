@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$aColumns = [ 
+$aColumns = [
     'id',
     '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ", ") FROM '.db_prefix().'fs_setting_configuration_relationship JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'fs_setting_configuration_relationship.rel_id WHERE configuration_id='.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "staff" ORDER BY '.db_prefix().'fs_setting_configuration_relationship.rel_id) as staff',
     '(SELECT GROUP_CONCAT('.db_prefix().'roles.name SEPARATOR ", ") FROM '.db_prefix().'fs_setting_configuration_relationship JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'fs_setting_configuration_relationship.rel_id WHERE configuration_id='.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "role" ORDER BY '.db_prefix().'fs_setting_configuration_relationship.rel_id) as role',
@@ -21,7 +21,7 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix().'fs_setting_configuration';
 $join         = [];
 $where = [];
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['(SELECT GROUP_CONCAT('.db_prefix().'clients.company SEPARATOR ", ") FROM '.db_prefix().'fs_setting_configuration_relationship JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid = '.db_prefix().'fs_setting_configuration_relationship.rel_id WHERE configuration_id='.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "customer" ORDER BY '.db_prefix().'fs_setting_configuration_relationship.rel_id) as customer', 
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['(SELECT GROUP_CONCAT('.db_prefix().'clients.company SEPARATOR ", ") FROM '.db_prefix().'fs_setting_configuration_relationship JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid = '.db_prefix().'fs_setting_configuration_relationship.rel_id WHERE configuration_id='.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "customer" ORDER BY '.db_prefix().'fs_setting_configuration_relationship.rel_id) as customer',
     '(SELECT GROUP_CONCAT('.db_prefix().'customers_groups.name SEPARATOR ", ") FROM '.db_prefix().'fs_setting_configuration_relationship JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customers_groups.id = '.db_prefix().'fs_setting_configuration_relationship.rel_id WHERE configuration_id='.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "customer_group" ORDER BY '.db_prefix().'fs_setting_configuration_relationship.rel_id) as customer_group',
     '(SELECT GROUP_CONCAT(rel_id SEPARATOR ",") FROM '.db_prefix().'fs_setting_configuration_relationship WHERE configuration_id= '.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "customer") as customer_id',
     '(SELECT GROUP_CONCAT(rel_id SEPARATOR ",") FROM '.db_prefix().'fs_setting_configuration_relationship WHERE configuration_id= '.db_prefix().'fs_setting_configuration.id and '.db_prefix().'fs_setting_configuration_relationship.rel_type = "customer_group") as customers_group_id',
@@ -79,8 +79,8 @@ foreach ($rResult as $aRow) {
     $option .= '<a href="' . admin_url('file_sharing/delete_config/'.$aRow['id']) . '" class="btn btn-danger btn-icon _delete">';
     $option .= '<i class="fa fa-remove"></i>';
     $option .= '</a>';
-    $row[] = $option; 
-    
+    $row[] = $option;
+
     $output['aaData'][] = $row;
 
 }

@@ -65,7 +65,7 @@
                                             }
 
                                             if($module['activated'] === 0 && !in_array($system_name, uninstallable_modules())) {
-                                                $action_links[] = '<a href="' . admin_url('modules/uninstall/' . $system_name) . '" class="_delete text-danger">' . _l('module_uninstall') . '</a>';
+//                                                $action_links[] = '<a href="' . admin_url('modules/uninstall/' . $system_name) . '" class="_delete text-danger">' . _l('module_uninstall') . '</a>';
                                             }
 
                                             echo implode('&nbsp;|&nbsp;', $action_links);

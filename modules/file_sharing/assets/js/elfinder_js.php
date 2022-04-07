@@ -1,4 +1,4 @@
-<script src = "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"> </script> 
+<script src = "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"> </script>
 <script type="text/javascript">
  var fnServerParams;
 (function($){
@@ -13,7 +13,7 @@
   	appValidateForm($('#fs-send-mail-form'), {
     	email: 'required'
     },fs_send_mail_form_handler);
-	
+
 	fnServerParams = {
 	    "share_hash": '[name="share_hash"]',
 	  };
@@ -23,8 +23,12 @@
 	    if(type == 'fs_public'){
 	      $('#share-modal #div_public').removeClass('hide');
 	      $('#share-modal #div_client').addClass('hide');
+            $('#share-modal #div_public_permisstion').removeClass('hide');
+            $('#share-modal #div_permisstion').addClass('hide');
 	      $('#share-modal #div_staff').addClass('hide');
 	    }else if(type == 'fs_client'){
+            $('#share-modal #div_public_permisstion').addClass('hide');
+            $('#share-modal #div_permisstion').removeClass('hide');
 	      $('#share-modal #div_public').addClass('hide');
 	      $('#share-modal #div_client').removeClass('hide');
 	      $('#share-modal #div_staff').addClass('hide');
@@ -54,12 +58,12 @@
 	var // jQuery and jQueryUI version
 		jqver = '3.4.1',
 		uiver = '1.12.1',
-		
+
 		// Detect language (optional)
 		lang = (function() {
 			return '<?php echo get_media_locale($locale); ?>';
 		})(),
-		
+
 		// Start elFinder (REQUIRED)
 		start = function(elFinder, editors, config) {
 			// load jQueryUI CSS
@@ -83,7 +87,7 @@
                         height: $(document).outerHeight(true) - 126,
                         customData: elfEditorCustomData,
 					};
-				
+
 				// Interpretation of "elFinderConfig"
 				if (config && config.managers) {
 					$.each(config.managers, function(id, mOpts) {
@@ -124,7 +128,7 @@
 				}
 			});
 		},
-		
+
 		// JavaScript loader (REQUIRED)
 		load = function() {
 			require(
@@ -140,7 +144,7 @@
 				}
 			);
 		},
-		
+
 		// is IE8 or :? for determine the jQuery version to use (optional)
 		old = (typeof window.addEventListener === 'undefined' && typeof document.getElementsByClassName === 'undefined')
 		       ||
@@ -253,7 +257,7 @@
 
 				              		}else{
 								    	$('#share-modal input:radio[name=type]').filter('[value=fs_client]').prop('disabled', false);
-				              			
+
 								    	$('#share-modal input:radio[name=type]').filter('[value=fs_staff]').prop('checked', true);
 								    	$('#share-modal input:radio[name=type]').filter('[value=fs_staff]').prop('disabled', false);
 
@@ -276,7 +280,7 @@
 		              		$('#share-modal input[name="ts"]').val(file[0]['ts']);
 		              		$('#share-modal input[name="write"]').val(file[0]['write']);
 
-		              		
+
 
 		              		init_sharing_table();
 	                    	$('#sharing-list-modal').modal('show');
@@ -285,7 +289,7 @@
 		                this.getstate = function(sel) {
 		                    var sel = this.files(sel);
 		                    var cnt = sel? sel.length : 0;
-		                    return cnt === 1 ? 0 : -1; 
+		                    return cnt === 1 ? 0 : -1;
 		                };
 
 	                }).prototype = {
@@ -479,7 +483,7 @@ function edit_sharing(invoker){
     });
     $('#edit-sharing-modal select[name="customer_group[]"]').selectpicker('val', selected);
   }
-  
+
   if(expiration_date_apply == 1){
     $('#edit-sharing-modal #expiration_date_apply').prop('checked', true);
     $('#edit-sharing-modal #expiration_date').val(expiration_date);
@@ -531,11 +535,11 @@ function fs_edit_share_form_handler(form) {
         url: formURL
     }).done(function(response) {
         response = JSON.parse(response);
-        if (response.success === true || response.success == 'true') { 
-          alert_float('success', response.message); 
+        if (response.success === true || response.success == 'true') {
+          alert_float('success', response.message);
           init_sharing_table();
         }else{
-          alert_float('danger', response.message); 
+          alert_float('danger', response.message);
         }
         $('#edit-sharing-modal').modal('hide');
 		$('#sharing-list-modal').modal('show');
@@ -553,11 +557,11 @@ function delete_sharing(id) {
 
       requestGet(url).done(function(response){
           response = JSON.parse(response);
-          if (response.success === true || response.success == 'true') { 
-            alert_float('success', response.message); 
+          if (response.success === true || response.success == 'true') {
+            alert_float('success', response.message);
             init_sharing_table();
           }else{
-            alert_float('danger', response.message); 
+            alert_float('danger', response.message);
           }
       });
     }
@@ -602,10 +606,10 @@ function fs_send_mail_form_handler(form) {
         url: formURL
     }).done(function(response) {
         response = JSON.parse(response);
-        if (response.success === true || response.success == 'true') { 
-          alert_float('success', response.message); 
+        if (response.success === true || response.success == 'true') {
+          alert_float('success', response.message);
         }else{
-          alert_float('danger', response.message); 
+          alert_float('danger', response.message);
         }
         $('#send-mail-modal').modal('hide');
         $('#edit-sharing-modal').modal('show');

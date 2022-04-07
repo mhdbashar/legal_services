@@ -1,4 +1,4 @@
-<script src = "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"> </script> 
+<script src = "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"> </script>
 <script>
 
 appValidateForm($('#fs-share-form'), {
@@ -79,7 +79,7 @@ $('input[name="type"]').change(function(){
       }
       return lang;
     })(),
-        
+
         // elFinder options (REQUIRED)
         // Documentation for client options:
         // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
@@ -129,7 +129,7 @@ $('input[name="type"]').change(function(){
             parrotHeaders: ['X-elFinder-Token'],
             lang: lang
         },
-        
+
         // Start elFinder (REQUIRED)
         start = function(elFinder, editors, i18nfmsg, extOpts) {
             // donate button
@@ -147,10 +147,10 @@ $('input[name="type"]').change(function(){
                     selbox.hide();
                 }
             });
-            
+
             // load jQueryUI CSS
             elFinder.prototype.loadCss('//cdnjs.cloudflare.com/ajax/libs/jqueryui/'+uiver+'/themes/smoothness/jquery-ui.css');
-            
+
             $(function() {
                 // Optional for Japanese decoder "extras/encoding-japanese.min"
                 if (window.Encoding && Encoding.convert) {
@@ -158,14 +158,14 @@ $('input[name="type"]').change(function(){
                         return Encoding.convert(s,{to:'UNICODE',type:'string'});
                     };
                 }
-                
+
                 // editors marges to opts.commandOptions.edit
                 opts.commandsOptions.edit.editors = (opts.commandsOptions.edit.editors || []).concat(editors);
-                
+
                 Object.assign(opts, extOpts);
-                
+
                 i18nFolderMsgs = i18nfmsg;
-                
+
                 // Make elFinder (REQUIRED)
                 $('#elfinder').elfinder(opts, function(fm, extraObj) {
                     // `init` event callback function
@@ -202,7 +202,7 @@ $('input[name="type"]').change(function(){
                 });
             });
         },
-        
+
         // JavaScript loader (REQUIRED)
         load = function() {
             require(
@@ -222,7 +222,7 @@ $('input[name="type"]').change(function(){
                 }
             );
         },
-        
+
         // is IE8 or Safari < 6? for determine the jQuery version to use (optional)
         old = (typeof window.addEventListener === 'undefined' && typeof document.getElementsByClassName === 'undefined')
                 ||

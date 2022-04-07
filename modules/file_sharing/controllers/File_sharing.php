@@ -199,7 +199,7 @@ class File_sharing extends AdminController
 
         $this->load->helper('path');
 
-        
+
         $fs_global_extension = $this->file_sharing_model->get_global_extension();
         $root_options        = [
             'driver'        => 'LocalFileSystem',
@@ -374,7 +374,7 @@ class File_sharing extends AdminController
         $publicRootPath      = FILE_SHARING_MEDIA_PATH;
         $public_root['path'] = file_sharing_set_realpath($publicRootPath);
         $public_root['URL'] = site_url('modules/file_sharing/uploads/'.FILE_SHARING_FOLDER_NAME);
-        
+
         if (!is_dir($publicRootPath)) {
             mkdir($publicRootPath, 0755);
             fs_new_file_database($publicRootPath, '', '', 'directory', 1);
@@ -471,26 +471,26 @@ class File_sharing extends AdminController
 
 
         if(!$is_delete || ($h == '\\' || $h == '/') || ($h == $user->media_path_slug || $h == '\\'.$user->media_path_slug || $h == '/'.$user->media_path_slug)){
-           array_push($public_root['disabled'], 'rm'); 
+           array_push($public_root['disabled'], 'rm');
         }
 
         if(!$is_upload || ($h == $user->media_path_slug.'\Shared' || $h == $user->media_path_slug.'/Shared' || $h == '\\'.$user->media_path_slug.'\Shared' || $h == '/'.$user->media_path_slug.'/Shared') || ($h == '\\' || $h == '/') || ($h == $user->media_path_slug || $h == '\\'.$user->media_path_slug || $h == '/'.$user->media_path_slug) || ($h == 'Client Files' || $h == '\Client Files' || $h == '/Client Files')){
-           array_push($public_root['disabled'], 'mkdir'); 
-           array_push($public_root['disabled'], 'mkfile'); 
-           array_push($public_root['disabled'], 'upload'); 
+           array_push($public_root['disabled'], 'mkdir');
+           array_push($public_root['disabled'], 'mkfile');
+           array_push($public_root['disabled'], 'upload');
         }
 
         if(!$is_download){
-           array_push($public_root['disabled'], 'download'); 
-           array_push($public_root['disabled'], 'zipdl'); 
-           array_push($public_root['disabled'], 'file'); 
+           array_push($public_root['disabled'], 'download');
+           array_push($public_root['disabled'], 'zipdl');
+           array_push($public_root['disabled'], 'file');
         }
 
         if(!$is_share || ($h == '\\' || $h == '/') || ($h == $user->media_path_slug || $h == '\\'.$user->media_path_slug || $h == '/'.$user->media_path_slug) || ($h == $user->media_path_slug.'\Shared' || $h == $user->media_path_slug.'/Shared' || $h == '\\'.$user->media_path_slug.'\Shared' || $h == '/'.$user->media_path_slug.'/Shared') || ($h == '\\' || $h == '/') || ($h == $user->media_path_slug.'\Client Files' || $h == $user->media_path_slug.'/Client Files' || $h == '\\'.$user->media_path_slug.'\Client Files' || $h == '/'.$user->media_path_slug.'/Client Files')){
-           array_push($public_root['disabled'], 'share'); 
+           array_push($public_root['disabled'], 'share');
         }
-        
-        
+
+
 
         $opts = [
             'roots' => [
@@ -1039,7 +1039,7 @@ class File_sharing extends AdminController
             $select = [
                 'id',
                 'hash_share',
-                
+
                 'expiration_date',
                 'download_limits',
                 'type',

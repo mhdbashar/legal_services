@@ -24,18 +24,18 @@
 					</div>
 				</div>
 				<div id="div_staff">
-					<?php 
+					<?php
 					$selected_role = array();
 					echo render_select('role[]',$roles,array('roleid',array('name')),'role',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-					<?php 
+					<?php
 					$selected = array();
 					echo render_select('staff[]',$staffs,array('staffid',array('firstname','lastname')),'staff',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
 				</div>
 				<div id="div_client" class="hide">
-					<?php 
+					<?php
 					$selected_role = array();
 					echo render_select('customer_group[]',$client_groups,array('id','name'),'customer_group',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-					<?php 
+					<?php
 					$selected = array();
 					echo render_select('customer[]',$clients,array('userid','company'),'customer',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
 				</div>
@@ -123,7 +123,7 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
 				<button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
 			</div>
-			<?php echo form_close(); ?>  
+			<?php echo form_close(); ?>
 		</div>
 	</div>
 </div>

@@ -56,6 +56,7 @@ $(function(){
         if(type == "fs_staff"){
             $('#div_client').addClass('hide');
             $('#div_staff').removeClass('hide');
+
             $('input[name="type"]').eq(0).prop("checked", true);
             $('select[name="staff[]"]').val(staff).change();
             $('select[name="role[]"]').val(role).change();
@@ -65,7 +66,8 @@ $(function(){
             $('input[name="type"]').eq(1).prop("checked", true);
             $('select[name="customer[]"]').val(customer).change();
             $('select[name="customer_group[]"]').val(customer_group).change();
-        } 
+        }
+
 
         $('#fs-config-form input[name="min_size"]').val(minSize);
         $('#fs-config-form input[name="max_size"]').val(maxSize);

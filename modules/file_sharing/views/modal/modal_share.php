@@ -7,6 +7,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title add-title"><?php echo _l('fs_share')?></h4>
 			</div>
+
 			<?php echo form_open_multipart(admin_url('file_sharing/add_new_share'),array('id'=>'fs-share-form'));?>
 			<?php echo form_hidden('id'); ?>
 			<?php echo form_hidden('isowner'); ?>
@@ -20,7 +21,7 @@
 			<?php echo form_hidden('ts'); ?>
 			<?php echo form_hidden('write'); ?>
 			<?php echo form_hidden('url'); ?>
-			
+
 			<div class="modal-body">
 				<div class="row mtop15 mbot15 fs-gr-radio">
 					<div class="col-md-12">
@@ -39,18 +40,18 @@
 					</div>
 				</div>
 				<div id="div_staff">
-					<?php 
+					<?php
 					$selected_role = array();
 					echo render_select('role[]',$roles,array('roleid',array('name')),'role',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-					<?php 
+					<?php
 					$selected = array();
 					echo render_select('staff[]',$staffs,array('staffid',array('firstname','lastname')),'staff',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
 				</div>
 				<div id="div_client" class="hide">
-					<?php 
+					<?php
 					$selected_role = array();
 					echo render_select('customer_group[]',$client_groups,array('id','name'),'customer_group',$selected_role,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
-					<?php 
+					<?php
 					$selected = array();
 					echo render_select('customer[]',$clients,array('userid','company'),'customer',$selected,array('multiple'=>true, 'data-actions-box' => true),array(),'','',false); ?>
 				</div>
@@ -112,7 +113,7 @@
 			            </div>
 					</div>
 				</div>
-				<div class="row hide" id="div_permisstion">
+				<div class="row " id="div_permisstion">
 					<div class="col-md-6">
 						<h5 class="title mbot5"><?php echo _l('fs_permisstion') ?></h5>
 					    <div class="row">
@@ -164,13 +165,13 @@
 					    </div>
 					</div>
 				</div>
-				
+
 			</div>
 			<div class="modal-footer">
             	<button type="button" class="btn btn-default" onclick="close_share(); return false;"><?php echo _l('close'); ?></button>
 				<button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
 			</div>
-			<?php echo form_close(); ?>  
+			<?php echo form_close(); ?>
 		</div>
 	</div>
 </div>

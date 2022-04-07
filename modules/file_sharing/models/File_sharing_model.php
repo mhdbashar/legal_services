@@ -1764,6 +1764,7 @@ class File_sharing_model extends App_Model
 
         $locales = get_locales();
 
+
         if (isset($locales[$language])) {
             $locale = $locales[$language];
         } elseif (isset($locales[ucfirst($language)])) {

@@ -23,9 +23,14 @@ class Telegram_model extends App_Model
      */
     public function update($data, $id)
     {
-        $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'telegram', $data);
-        return $this->db->affected_rows() ;
+        $info = $this->get($id);
+        if(is_object($info))
+        {
+            $this->db->where('id', $id);
+            $this->db->update(db_prefix() . 'telegram', $data);
+            return $this->db->affected_rows() ;
+        }
+        return $this->add($data);
     }
 
     /**

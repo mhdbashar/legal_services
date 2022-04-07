@@ -990,7 +990,7 @@ class Tasks extends AdminController
         $comment_id = false;
         if ($data['content'] != ''
             || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
-
+            $comment_id = $this->tasks_model->add_task_comment($data);
             if ($comment_id) {
                 $commentAttachments = handle_task_attachments_array($data['taskid'], 'file');
                 if ($commentAttachments && is_array($commentAttachments)) {

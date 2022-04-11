@@ -190,10 +190,10 @@ class Invoices extends AdminController
         }
 
         if (total_rows(db_prefix() . 'invoices', [
-            'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
-            'number' => $number,
-            'status !=' => Invoices_model::STATUS_DRAFT,
-        ]) > 0) {
+                'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
+                'number' => $number,
+                'status !=' => Invoices_model::STATUS_DRAFT,
+            ]) > 0) {
             echo 'false';
         } else {
             echo 'true';
@@ -385,6 +385,8 @@ class Invoices extends AdminController
 
             $data['invoice']        = $invoice;
             $data['edit']           = true;
+            if($this->invoices_model->is_draft($id))
+                $data['edit']           = false;
             $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
 
             $title = _l('edit', _l('invoice_lowercase')) . ' - ' . format_invoice_number($invoice->id);
@@ -502,9 +504,9 @@ class Invoices extends AdminController
         $total_credits_applied = 0;
         foreach ($this->input->post('amount') as $credit_id => $amount) {
             $success = $this->credit_notes_model->apply_credits($credit_id, [
-            'invoice_id' => $invoice_id,
-            'amount'     => $amount,
-        ]);
+                'invoice_id' => $invoice_id,
+                'amount'     => $amount,
+            ]);
             if ($success) {
                 $total_credits_applied++;
             }

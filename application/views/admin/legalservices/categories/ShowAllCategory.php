@@ -81,30 +81,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="panel_s">
-                    <div class="panel-body">
-                        <div class="_buttons">
+            <?php if($ServID ==1){ ?>
+                <div class="col-md-12">
+                    <div class="panel_s">
+                        <div class="panel-body">
                             <div class="_buttons">
-                                <button id="BtnAddChild_2" data-toggle="modal" data-target="#add-child-cat_2" class="btn btn-info pull-left" disabled><?php echo _l('add_child_sub_categories'); ?></button>
-                                <div class="clearfix"></div>
-                                <hr class="hr-panel-heading" />
-                                <h4 class="text-center">  <?php echo _l('child_sub_categories'); ?></h4>
+                                <div class="_buttons">
+                                    <button id="BtnAddChild_2" data-toggle="modal" data-target="#add-child-cat_2" class="btn btn-info pull-left" disabled><?php echo _l('add_child_sub_categories'); ?></button>
+                                    <div class="clearfix"></div>
+                                    <hr class="hr-panel-heading" />
+                                    <h4 class="text-center">  <?php echo _l('child_sub_categories'); ?></h4>
+                                </div>
+                                <table id="SubCatChild_2" class="table dt-table scroll-responsive">
+                                    <thead>
+                                    <th>#</th>
+                                    <th><?php echo _l('name'); ?></th>
+                                    <th><?php echo _l('_description'); ?></th>
+                                    <th><?php echo _l('options'); ?></th>
+                                    </thead>
+                                    <tbody id="BodyTable_2">
+                                    </tbody>
+                                </table>
                             </div>
-                            <table id="SubCatChild_2" class="table dt-table scroll-responsive">
-                                <thead>
-                                <th>#</th>
-                                <th><?php echo _l('name'); ?></th>
-                                <th><?php echo _l('_description'); ?></th>
-                                <th><?php echo _l('options'); ?></th>
-                                </thead>
-                                <tbody id="BodyTable_2">
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -236,10 +238,12 @@
                                 <td>
                                     <a href="<?php echo admin_url('edit_category/') . $ServID; ?>/${val.id}" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                     <a href="<?php echo admin_url('delete_category/') . $ServID; ?>/${val.id}" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                                <div class="radio radio-primary radio-inline">
+                                    <?php if($ServID ==1){ ?>
+                                    <div class="radio radio-primary radio-inline">
                                     <input type="radio" name="CatDetails"  id="${val.id}" onchange="MakePrimary_2(<?php echo $ServID?>,${val.id})">
                                     <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                     </div>
+                                    <?php }?>
                                 </td>
                             </tr>`
                         );
@@ -250,10 +254,12 @@
                                 <td>${val.name}</td>
                                 <th>${val.cat_description}</th>
                                 <td>
-                                <div class="radio radio-primary radio-inline">
+                                    <?php if($ServID ==1){ ?>
+                                    <div class="radio radio-primary radio-inline">
                                     <input type="radio" name="CatDetails"  id="${val.id}" onchange="MakePrimary_2(<?php echo $ServID?>,${val.id})">
                                     <label for="${val.id}"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                     </div>
+                                    <?php }?>
                                 </td>
                             </tr>`
                         );

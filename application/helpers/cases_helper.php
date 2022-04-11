@@ -927,3 +927,29 @@ function handle_case_discussion_comment_attachments($discussion_id, $post_data, 
 
     return $insert_data;
 }
+
+function get_judicialdept_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('*');
+    $CI->db->where('j_id', $id);
+    $jud = $CI->db->get(db_prefix() . 'my_judicialdept')->row();
+    if ($jud) {
+        return $jud;
+    }
+    return false;
+}
+
+function get_court_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('*');
+    $CI->db->where('c_id', $id);
+    $jud = $CI->db->get(db_prefix() . 'my_courts')->row();
+    if ($jud) {
+        return $jud;
+    }
+    return false;
+}
+
+

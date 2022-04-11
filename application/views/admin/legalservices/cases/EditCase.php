@@ -170,6 +170,20 @@
                                  aria-labelledby="head_court_info">
                                 <div class="panel-body">
                                     <div class="row">
+                                        <div>
+                                            <p style="color: red">
+                                                المعلومات في حال عدم ظهورها
+                                                <br><br>
+                                                <?php echo get_court_by_id($case->court_id) ? _l('Court').' : '.get_court_by_id($case->court_id)->court_name : _l('Court').' : '._l('dropdown_non_selected_tex'); ?>
+                                                <br>
+                                                <?php echo get_judicialdept_by_id($case->jud_num) ? _l('NumJudicialDept').' : '.get_judicialdept_by_id($case->jud_num)->Jud_number : _l('NumJudicialDept').' : '._l('dropdown_non_selected_tex'); ?>
+                                                <br>
+                                                <?php echo get_cat_name_by_id($case->cat_id) ? _l('Categories').' : '.get_cat_name_by_id($case->cat_id) : _l('Categories').' : '._l('dropdown_non_selected_tex'); ?>
+                                                <br>
+                                                <?php echo get_cat_name_by_id($case->subcat_id) ? _l('SubCategories').' : '.get_cat_name_by_id($case->subcat_id) : _l('SubCategories').' : '._l('dropdown_non_selected_tex'); ?>
+                                                <br>
+                                            </p>
+                                        </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="control-label"><?php echo _l('Court'); ?></label>
@@ -214,16 +228,16 @@
                                                 <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                             </div>
                                         <?php } ?>
-                                        <?php $cats = get_category_by_court_id($case->court_id);
-                                        if($cats){ ?>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label"><?php echo _l('Categories'); ?></label>
                                                 <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
-                                                    <?php foreach ($cats as $row): ?>
+                                                    <?php $cats = get_category_by_court_id($case->court_id);
+                                                    if(count($cats)>0){?>
+                                                    <?php foreach ($cats as $row){ ?>
                                                         <option value="<?php echo $row->id; ?>" <?php echo $case->cat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
-                                                    <?php endforeach; ?>
+                                                    <?php  }} ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -233,14 +247,14 @@
                                                 <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
                                                     <?php $data = get_subcategory_by_category_id($case->cat_id);
+                                                    if(count($data)>0){
                                                     foreach ($data as $row) { ?>
                                                             <option value="<?php echo $row->id; ?>" <?php echo $case->subcat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
-                                                        <?php  } ?>
+                                                        <?php  }} ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div id="childsubcat"></div>
-                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-10">

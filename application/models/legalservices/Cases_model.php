@@ -407,7 +407,8 @@ class Cases_model extends App_Model
             $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
 
-        if (!isset($data['childsubcat_id'])) $data['childsubcat_id'] = 0;
+        if (!isset($data['childsubcat_id'])) $data['childsubcat_id'] = '';
+        if (!isset($data['subcat_id'])) $data['subcat_id'] = '';
 
         if (isset($data['representative']) && $data['representative'] == '') {
             $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
@@ -3093,6 +3094,7 @@ class Cases_model extends App_Model
             unset($_new_data['opponent_id']);
             unset($_new_data['representative']);
             unset($_new_data['court_id']);
+            unset($_new_data['childsubcat_id']);//////
             unset($_new_data['jud_num']);
             unset($_new_data['case_status']);
             unset($_new_data['case_result']);

@@ -21,6 +21,7 @@
                                 <th><?php echo _l('_description'); ?></th>
                                 <th><?php echo _l('clients_country'); ?></th>
                                 <th><?php echo _l('clients_city'); ?></th>
+                                <th><?php echo _l('Categories'); ?></th>
                                 <th><?php echo _l('options'); ?></th>
 
                                 </thead>
@@ -49,13 +50,23 @@
                                             <?php echo $value; ?>
                                         </td>
                                         <td>
+                                            <?php $value = get_category_by_court_id($court->c_id); ?>
+                                        <?php if($value){foreach ($value as $cat){
+
+                                            echo $cat->name;
+                                            echo '<br>';
+                                            } }?>
+                                        </td>
+                                        <td>
                                             <?php if($court->is_basic != 1){ ?>
-                                                <a href="<?php echo admin_url("edit_court/$court->c_id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                                 <a href="<?php echo admin_url("delete_court/$court->c_id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                             <?php } ?>
+                                            <a href="<?php echo admin_url("edit_court/$court->c_id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+
                                             <a href="<?php echo admin_url("judicial_control/$court->c_id"); ?>" class="btn btn-info btn-icon">
                                                 <?php echo _l('Judicial'); ?>
                                             </a>
+
                                         </td>
 
                                     </tr>

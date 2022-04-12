@@ -34,7 +34,7 @@
                                             <?php echo $judicial->Jud_description; ?>
                                         </td>
                                         <td>
-                                            <?php if (has_permission('judicial_departments', '', 'edit') && $judicial->j_is_basic != 1) { ?>
+                                            <?php if (has_permission('judicial_departments', '', 'edit')) { ?>
                                                 <a href="<?php echo admin_url("edit_judicial/$judicial->c_id/$judicial->j_id") ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                             <?php } ?>
                                             <?php if (has_permission('judicial_departments', '', 'delete') && $judicial->j_is_basic != 1) { ?>

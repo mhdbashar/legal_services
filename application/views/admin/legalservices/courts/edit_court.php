@@ -22,9 +22,11 @@
                                 $field_city = 'Name_en';
                             }
                             ?>
-                            <?php $value = (isset($court) ? $court->country : ''); ?>
-                            <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$value); ?>
-                            <div class="form-group">
+                        <?php $form_group_class = (isset($court) && $court->is_basic == 1 ? 'hide' : ''); ?>
+
+                        <?php $value = (isset($court) ? $court->country : ''); ?>
+                        <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$value,[],[],$form_group_class); ?>
+                            <div class="form-group <?php echo $form_group_class?>">
                                 <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
                                 <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                 <select id="city" name="city" class="form-control custom_select_arrow">
@@ -34,12 +36,14 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+
                         <?php $value = (isset($court) ? $court->court_name : ''); ?>
-                        <?php echo render_input('court_name','name',$value); ?>
+                        <?php $input_attrs = (isset($court) && $court->is_basic == 1 ? ['readonly' => true] : []); ?>
+                        <?php echo render_input('court_name','name',$value,'',$input_attrs); ?>
                         <?php $value = (isset($court) ? $court->court_description : ''); ?>
                         <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('court_description', '', $value, array(), array(), '', 'tinymce'); ?>
-                        <div id="cat"></div>
+                        <div id="cat" class="<?php echo $form_group_class?>"></div>
 
                     </div>
                 </div>

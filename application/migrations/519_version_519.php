@@ -32,7 +32,7 @@ class Migration_Version_519 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `court_description` TEXT DEFAULT NULL');
         }
         if (!$this->db->field_exists('is_basic', db_prefix() . 'my_courts')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `is_basic` int(1) NOT NULL');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `is_basic` int(1) NOT NULL DEFAULT "0"');
         }
 
         // Add fields to judical table
@@ -46,7 +46,7 @@ class Migration_Version_519 extends CI_Migration
         }
 
         if (!$this->db->field_exists('j_is_basic', db_prefix() . 'my_judicialdept')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `j_is_basic` int(1) NOT NULL');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `j_is_basic` int(1) NOT NULL DEFAULT "0"');
         }
 
         // Add fields to categories table
@@ -55,7 +55,7 @@ class Migration_Version_519 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_categories` ADD `cat_description` TEXT DEFAULT NULL');
         }
         if (!$this->db->field_exists('is_basic', db_prefix() . 'my_categories')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_categories` ADD `is_basic` int(1) NOT NULL');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_categories` ADD `is_basic` int(1) NOT NULL DEFAULT "0"');
         }
         if (!$this->db->field_exists('country', db_prefix() . 'my_categories')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_categories` ADD `country` int(11) NOT NULL');
@@ -64,10 +64,10 @@ class Migration_Version_519 extends CI_Migration
         // Add fields to cases table
 
         if (!$this->db->field_exists('childsubcat_id', db_prefix() . 'my_cases')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `childsubcat_id` int(11) NOT NULL');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `childsubcat_id` int(11) NOT NULL DEFAULT "0"');
         }
         if (!$this->db->field_exists('childsubcat_id', db_prefix() . 'case_movement')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'case_movement` ADD `childsubcat_id` int(11) NOT NULL');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'case_movement` ADD `childsubcat_id` int(11) NOT NULL DEFAULT "0"');
         }
 
         $this->db->where('is_default', 1);
@@ -86,6 +86,11 @@ class Migration_Version_519 extends CI_Migration
 
         add_option("courts_updated", false);
         if (!get_option("courts_updated")) {
+            //update country and city
+            $this->db->query('UPDATE tblmy_categories SET `country` = `194`;');
+            $this->db->query('UPDATE tblmy_courts SET `country` = `194`;');
+            $this->db->query('UPDATE tblmy_courts SET `city` = `الرياض`;');
+
             //insert new cities
             $this->db->empty_table('tblcities');
             $this->db->query("INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES

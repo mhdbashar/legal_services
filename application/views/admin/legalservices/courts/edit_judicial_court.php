@@ -13,7 +13,8 @@
                         <hr class="hr-panel-heading" />
                         <div class="clearfix"></div>
                         <?php $value = (isset($judicial) ? $judicial->Jud_number : ''); ?>
-                        <?php echo render_input('Jud_number','NumJudicialDept',$value); ?>
+                        <?php $is_basic = (isset($judicial) && $judicial->j_is_basic == 1 ? ['readonly' => true] : []); ?>
+                        <?php echo render_input('Jud_number','NumJudicialDept',$value,'',$is_basic); ?>
                         <?php $value = (isset($judicial) ? $judicial->Jud_email : ''); ?>
                         <?php echo render_input('Jud_email','_email',$value); ?>
                         <?php $value = (isset($judicial) ? $judicial->Jud_description : ''); ?>

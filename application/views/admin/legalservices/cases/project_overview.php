@@ -180,6 +180,10 @@ $CI->load->library('app_modules');?>
                     <table class="table no-margin project-overview-table">
                         <tbody>
                         <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('file_number_in_court'); ?></td>
+                            <td><?php echo $project->file_number_court ? $project->file_number_court : _l('nothing_was_specified'); ?></td>
+                        </tr>
+                        <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('lead_country'); ?></td>
                             <td><?php echo $project->country_name ? $project->country_name : _l('nothing_was_specified'); ?></td>
                         </tr>

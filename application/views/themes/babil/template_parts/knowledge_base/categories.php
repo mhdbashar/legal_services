@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="article_group_wrapper">
                 <h4 class="bold"><i class="fa fa-folder-o"></i> <a href="<?php echo site_url('knowledge-base/category/'.$category->groupid); ?>"><?php echo $category->name; ?></a>
-                    <small><?php echo count($category->description); ?></small>
+<!--                    <small>--><?php //echo count($category->description); ?><!--</small>-->
                 </h4>
             </div>
         </div>

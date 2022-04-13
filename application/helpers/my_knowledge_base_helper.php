@@ -38,7 +38,7 @@ function kb_all_main_group_name($parent_id){
             }
         }
     }
-        $data = implode($data,'>>');
+        $data = implode('>>',$data);
         return $data;
 }
 
@@ -55,7 +55,7 @@ function kb_all_childe_group_name($id){
             break;
         }
     }
-    $data = implode($data,'-');
+    $data = implode('>>',$data);
     return $data;
 }
 

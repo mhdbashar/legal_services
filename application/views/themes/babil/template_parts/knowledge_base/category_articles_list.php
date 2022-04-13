@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');?>
 <div class="col-md-12">
-    <?php if(isset($childe_groups) && count($childe_groups)>0){?>
+    <?php if(isset($childe_groups) && ($childe_groups)>0){?>
         <?php foreach($childe_groups as $category){?>
                 <div class="article_group_wrapper">
                     <h4 class="bold"><i class="fa fa-folder-o"></i> <a href="<?php echo site_url('knowledge-base/category/'.$category->groupid); ?>"><?php echo $category->name; ?></a>

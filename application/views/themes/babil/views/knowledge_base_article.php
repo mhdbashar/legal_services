@@ -1,20 +1,24 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-    <div class="panel_s section-knowledge-base">
+    <div class="panel_s section-knowledge-base" dir="rtl">
         <div class="panel-body">
-            <div class="row kb-article">
+            <div class="row kb-article" >
                 <div class="col-md-<?php if(count($related_articles) == 0){echo '12';}else{echo '8';} ?>">
                     <h1 class="bold no-mtop kb-article-single-heading"><?php echo $article->subject; ?></h1>
                     <small>
                         <?php echo _l('article_total_views'); ?>: <?php echo total_rows(db_prefix().'views_tracking',array('rel_type'=>'kb_article','rel_id'=>$article->articleid)); ?>
                     </small>
                     <hr class="no-mtop" />
-                    <div class="col-md-12" >
+                    <?php if($article->type == 2){
+                        $custom_fields = get_custom_fields('kb_'.$article->type);
+
+                    if(count($custom_fields) > 0){
+                        ?>
+<!--                    <div class="col-md-12" >-->
                         <table class="table table-striped">
                             <thead>
                             </thead>
                             <tbody>
                             <?php
-                            $custom_fields = get_custom_fields('kb_'.$article->type);
                             foreach ($custom_fields as $custom){
                                 $field = get_custom_field_value($article->articleid,$custom['id'],$custom['fieldto']);
                                 ?>
@@ -25,27 +29,17 @@
                             <?php } ?>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="col-md-12" >
+<!--                    </div>-->
+                    <?php } } ?>
                     <div class="mtop10 tc-content kb-article-content">
-<!--                        --><?php
-//                        $custom_fields = get_custom_fields('kb_'.$article->type);
-//                        foreach ($custom_fields as $custom){
-//                            $field = get_custom_field_value($article->articleid,$custom['id'],$custom['fieldto']);
-//                            ?>
-<!--                            <h4 class="--><?php //echo $custom['type'];?><!--" style="color: rgb(48, 176, 232)"> --><?php //echo $custom['name'];?><!-- </h4>-->
-<!--                            --><?php //echo $field;?>
-<!--                            <br>-->
-<!--                            <br>-->
-<!--                        --><?php //} ?>
                         <?php foreach ( $fields as $d){
-                            echo '<h4 class="text text-xl pb-4 pt-2 " style="color: rgb(48, 176, 232)">'.$d['title'].'</h4>';
+                            echo '<h4  style="color: rgb(48, 176, 232)">'.$d['title'].'</h4>';
                             echo $d['description'];
                             echo '<br>';
-                            echo '<br>';
-                        }?>
+                            echo '<br>';?>
 
-                    </div>
+                       <?php }?>
+
                     </div>
                     <hr />
                     <h4 class="mtop20"><?php echo _l('clients_knowledge_base_find_useful'); ?></h4>

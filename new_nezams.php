@@ -72,21 +72,23 @@ if (isset($_POST["import"]))
                 }
                 for ($row = 8 ; $row <= 9;$row++) {
                     $custom_field_title = $worksheet->getCell('A' . $row)->getValue();
-
-
                     $fld_value = $worksheet->getCell('B' . $row)->getValue();
                     if($custom_field_title != '' && $fld_value != '') {
-                        if ($fld_value == '') {
+                        $sql = "INSERT INTO tblknowledge_custom_fields(knowledge_id, title, description)
+                    VALUES
+                    ('$cat_id','$custom_field_title','$fld_value')";
+                        mysqli_query($connect, $sql);
+                    }elseif ($custom_field_title != '' && $fld_value == ''){
+                            $sql = "INSERT INTO tblknowledge_custom_fields(knowledge_id, title, description)
+                    VALUES
+                    ('$cat_id','معلومات النظام','$custom_field_title')";
+                            mysqli_query($connect, $sql);
+
+                    } elseif ($custom_field_title == '' && $fld_value != ''){
                             $sql = "INSERT INTO tblknowledge_custom_fields(knowledge_id, title, description)
                     VALUES
                     ('$cat_id','معلومات النظام','$fld_value')";
-                        } else {
-                            $sql = "INSERT INTO tblknowledge_custom_fields(knowledge_id, title, description)
-                    VALUES
-                    ('$cat_id','$custom_field_title','$fld_value')";
-
-                        }
-                        mysqli_query($connect, $sql);
+                            mysqli_query($connect, $sql);
                     }
                 }
 
@@ -109,8 +111,6 @@ if (isset($_POST["import"]))
 //                    echo '<br>';
 
                 }
-            echo $lastRow;
-            echo '<br>';
             }
             else
             {
@@ -119,6 +119,7 @@ if (isset($_POST["import"]))
             $sheet_num++;
             $i++;
         }
+        echo 'DONE';
     }
     else
     {

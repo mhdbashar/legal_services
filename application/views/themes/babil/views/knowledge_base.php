@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="panel_s">
+<div class="panel_s" dir="rtl">
     <div class="panel-body">
         <?php if(count($articles) == 0){ ?>
             <p class="no-margin"><?php echo _l('clients_knowledge_base_articles_not_found'); ?></p>

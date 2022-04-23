@@ -1658,7 +1658,7 @@ class Cases_model extends App_Model
         return false;
     }
 
-    // v 9.0.3 deprecated
+    // v 2.9.3 deprecated
     public function get_project_overview_weekly_chart_data($slug = '', $id, $type = 'this_week')
     {
         $billing_type = get_case_billing_type($id);

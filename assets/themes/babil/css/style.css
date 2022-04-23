@@ -549,14 +549,14 @@ body {
     min-height: 100vh;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 #wrapper {
     -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+    -ms-flex: 1;
+    flex: 1;
 }
 
 footer {
@@ -1043,17 +1043,16 @@ b {
     color: #555555;
 }
 
+.checkbox input[type="checkbox"]:focus+label::before {
+    outline: thin dotted;
+    outline: 5px auto transparent;
+    outline-offset: -10px;
+}
+
 .checkbox input[type="checkbox"],
 .checkbox input[type="radio"] {
     opacity: 0;
     z-index: 1;
-}
-
-.checkbox input[type="checkbox"]:focus+label::before,
-.checkbox input[type="radio"]:focus+label::before {
-    outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
 }
 
 .checkbox input[type="checkbox"]:checked+label::after,
@@ -1188,8 +1187,8 @@ b {
 
 .radio input[type="radio"]:focus+label::before {
     outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
+    outline: 5px auto transparent;
+    outline-offset: -5px;
 }
 
 .radio input[type="radio"]:checked+label::after {
@@ -2277,7 +2276,7 @@ div.dataTables_wrapper div.dataTables_length label,
 #calendar .fc-header-toolbar button,
 #calendar .fc-day-header,
 #calendar .fc-toolbar .fc-center {
-   text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .tc-content ul,

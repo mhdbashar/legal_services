@@ -48,6 +48,7 @@
       // Trigger item select width fix
       $('#invoice-project-modal').on('shown.bs.modal', function(){
         $('#item_select').trigger('change')
-    })
+          lastItemAddedKey = $("body").find('.invoice-items-table .item').length
+      })
 
 </script>

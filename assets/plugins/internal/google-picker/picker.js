@@ -1,9 +1,9 @@
 /*!
  * Internal Google Drive Picker Plugin.
  *
- * https://babil.net.sa/
+ * https://perfexcrm.com/
  *
- * Copyright (c) 2019 Babil Team
+ * Copyright (c) 2019 Marjan Stojanov
  */
 
 (function($) {

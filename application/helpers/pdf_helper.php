@@ -4,17 +4,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Load PDF language for client
- * This is used eq if client have different language the system default language so in this case the PDF document
- * will be on client language not on system language
- * @param  mixed $clientid client id
+ *
+ * @param string|null $clientLangauge
+ *
  * @return null
  */
-function load_pdf_language($clientid)
+function load_pdf_language($clientLanguage)
 {
     $CI = & get_instance();
 
-    $language       = get_option('active_language');
-    $clientLanguage = get_client_default_language($clientid);
+    $language = get_option('active_language');
 
     // When cron or email sending pdf document the pdfs need to be on the client language
     if (is_data_for_customer() || DEFINED('CRON')) {
@@ -35,7 +34,7 @@ function load_pdf_language($clientid)
         $CI->lang->load('custom_lang', $language);
     }
 
-    hooks()->do_action('load_pdf_language', ['language' => $language, 'client_id' => $clientid]);
+    hooks()->do_action('load_pdf_language', ['language' => $language]);
 }
 
 /**

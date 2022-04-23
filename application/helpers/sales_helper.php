@@ -87,9 +87,15 @@ function app_format_money($amount, $currency, $excludeSymbol = false)
     /**
      *  Check ewhether the amount is numeric and valid
      */
-    if (!is_numeric($amount) && $amount != 0) {
+
+    if (!is_numeric($amount) && $amount != 0 ) {
         return $amount;
     }
+
+    if(is_null($amount)) {
+        $amount = 0;
+    }
+
 
     /**
      * Check if currency is passed as Object from database or just currency name e.q. USD
@@ -128,6 +134,7 @@ function app_format_money($amount, $currency, $excludeSymbol = false)
      * Format the amount
      * @var string
      */
+
     $amountFormatted = number_format($amount, $d, $currency->decimal_separator, $currency->thousand_separator);
 
     /**
@@ -427,6 +434,9 @@ if (!function_exists('format_customer_info')) {
 
         // Remove multiple white spaces
         $format = preg_replace('/\s+/', ' ', $format);
+        // Remove multiple coma
+        $format = preg_replace('/,{2,}/m', '', $format);
+
         $format = trim($format);
 
         return hooks()->apply_filters('customer_info_text', $format, $filterData);

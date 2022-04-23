@@ -175,9 +175,7 @@
                                           <?php
                                              echo render_select('move_to_source_leads_bulk',$sources,array('id','name'),'lead_source');
                                              echo render_datetime_input('leads_bulk_last_contact','leads_dt_last_contact');
-                                             if(has_permission('leads','','edit')){
                                                echo render_select('assign_to_leads_bulk',$staff,array('staffid',array('firstname','lastname')),'leads_dt_assigned');
-                                             }
                                              ?>
                                           <div class="form-group">
                                              <?php echo '<p><b><i class="fa fa-tag" aria-hidden="true"></i> ' . _l('tags') . ':</b></p>'; ?>

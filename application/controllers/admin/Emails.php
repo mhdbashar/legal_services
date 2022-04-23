@@ -138,6 +138,11 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        $data['notifications'] = $this->emails_model->get([
+            'type'     => 'notifications',
+            'language' => 'english',
+        ]);
+
         $data['written_report'] = $this->emails_model->get([
             'type'     => 'written_report',
             'language' => $lang,
@@ -261,7 +266,6 @@ class Emails extends AdminController
             hooks()->do_action('before_send_test_smtp_email');
             $this->email->initialize();
             if (get_option('mail_engine') == 'phpmailer') {
-
                 $this->email->set_debug_output(function ($err) {
                     if (!isset($GLOBALS['debug'])) {
                         $GLOBALS['debug'] = '';
@@ -293,11 +297,20 @@ class Emails extends AdminController
                 set_alert('success', 'Seems like your SMTP settings is set correctly. Check your email now.');
                 hooks()->do_action('smtp_test_email_success');
             } else {
-
                 set_debug_alert('<h1>Your SMTP settings are not set correctly here is the debug log.</h1><br />' . $this->email->print_debugger() . (isset($GLOBALS['debug']) ? $GLOBALS['debug'] : ''));
 
                 hooks()->do_action('smtp_test_email_failed');
             }
         }
+    }
+
+    public function delete_queued_email($id)
+    {
+        if (staff_can('edit', 'settings')) {
+            $this->email->delete_queued_email($id);
+            set_alert('success', _l('deleted', _l('email_queue')));
+        }
+
+        redirect(admin_url('settings?group=email&tab=email_queue'));
     }
 }

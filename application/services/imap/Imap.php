@@ -1,136 +1,33 @@
 <?php
 
-namespace app\services\imap;
+namespace app\services\messages;
 
-use Exception;
-use Ddeboer\Imap\Server;
-use app\services\imap\ConnectionErrorException;
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Imap
+use app\services\messages\AbstractMessage;
+
+class PhpVersionNotice extends AbstractMessage
 {
-    /**
-     * @var string
-     */
-    protected $host;
+    protected $alertClass = 'warning';
 
-    /**
-     * @var string
-     */
-    protected $port;
-
-    /**
-     * @var string
-     */
-    protected $encryption;
-
-    /**
-     * @var boolean
-     */
-    protected $validateCertificate;
-
-    /**
-     * @var string
-     */
-    protected $username;
-
-    /**
-     * @var \Ddeboer\Imap\Connection
-     */
-    protected $connection;
-
-    /**
-     * Create new IMAP instance
-     */
-    public function __construct($username, $password, $host, $encryption, $port = '', $validateCertificate = false)
+    public function isVisible()
     {
-        $this->host                = $host;
-        $this->port                = $port;
-        $this->encryption          = strtolower($encryption);
-        $this->username            = $username;
-        $this->password            = $password;
-        $this->validateCertificate = $validateCertificate;
+        return version_compare(PHP_VERSION, '7.4', '<') && get_option('show_php_version_notice') == '1' && is_admin();
     }
 
-    /**
-     * Get the selectable folder names
-     *
-     * @return array
-     */
-    public function getSelectableFolders()
+    public function getMessage()
     {
-        $connection = $this->testConnection();
-        $folders    = $connection->getMailboxes();
-
-        foreach ($folders as $key => $folder) {
-            if ($folder->getAttributes() & \LATT_NOSELECT) {
-                unset($folders[$key]);
-            }
-        }
-
-        return array_keys(array_map(function ($folder) {
-            return $folder->getName();
-        }, $folders));
-    }
-
-    /**
-     * Test the IMAP connection
-     *
-     * @return \Ddeboer\Imap\Connection
-     */
-    public function testConnection()
-    {
-        try {
-            return $this->createConnection();
-        } catch (Exception $e) {
-            throw new ConnectionErrorException($e->getMessage());
-        }
-    }
-
-    /**
-     * Create IMAP connection
-     *
-     * @return \Ddeboer\Imap\Connection
-     */
-    public function createConnection()
-    {
-        if ($this->connection) {
-            return $this->connection;
-        }
-
-        $server = new Server(
-            $this->host,
-            $this->port,
-            $this->getConnectionFlags()
-        );
-
-        return $this->connection = $server->authenticate($this->username, $this->password);
-    }
-
-    /**
-     * Get full address of mailbox.
-     *
-     * @return string
-     */
-    protected function getConnectionFlags()
-    {
-        $flags = '';
-
-        if ($this->encryption) {
-            $flags .= '/imap';
-            if (in_array($this->encryption, ['tls', 'notls', 'ssl'])) {
-                $flags .= '/' . $this->encryption;
-            } elseif ($this->encryption === 'starttls') {
-                $flags .= '/tls';
-            }
-
-            if (!$this->validateCertificate) {
-                $flags .= '/novalidate-cert';
-            } else {
-                $flags .= '/validate-cert';
-            }
-        }
-
-
-        return $flags;
+        ?>
+        <div class="mtop15"></div>
+        <h4><strong>Outdated PHP Version Detected!</strong></h4><hr />
+        <p>
+            The system detected that the version of <b>PHP (<?php echo PHP_VERSION; ?>)</b> your server is using is outdated and no longer supported, you may experience issues with the functionalities and errors may be shown in your dashboard.
+        </p>
+        <p>
+            As the PHP core developers recently released new and improved versions, it's strongly recommended to <b>upgrade to PHP version newer or equal than 7.4</b> to get the best results, you can consult with your hosting provider or server administrator to help you with this process.
+        </p>
+        <hr />
+        <a href="<?php echo admin_url('misc/dismiss_php_version_notice'); ?>" class="alert-link">Got it! Don't show this message again</a>
+        <?php
     }
 }

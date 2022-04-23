@@ -143,7 +143,7 @@ class Clients extends AdminController
             $title = _l('add_new', _l('client_lowercase'));
         } else {
             $client                = $this->clients_model->get($id);
-            $data['customer_tabs'] = get_customer_profile_tabs();
+            $data['customer_tabs'] = get_customer_profile_tabs($id);
 
             if (!$client) {
                 show_404();
@@ -333,6 +333,17 @@ class Clients extends AdminController
         }
         $data['customer_id'] = $customer_id;
         $data['contactid']   = $contact_id;
+
+        if (is_automatic_calling_codes_enabled()) {
+            $clientCountryId = $this->db->select('country')
+                    ->where('userid', $customer_id)
+                    ->get('clients')->row()->country ?? null;
+
+            $clientCountry = get_country($clientCountryId);
+            $callingCode   = $clientCountry ? '+' . ltrim($clientCountry->calling_code, '+') : null;
+        } else {
+            $callingCode = null;
+        }
         
         if ($this->input->post()) {
             $data             = $this->input->post();
@@ -341,7 +352,12 @@ class Clients extends AdminController
 //            $data['lastname'] = '';
             $data['password'] = $this->input->post('password', false);
 
+            if ($callingCode && !empty($data['phonenumber']) && $data['phonenumber'] == $callingCode) {
+                $data['phonenumber'] = '';
+            }
+
             unset($data['contactid']);
+
             if ($contact_id == '') {
                 if (!has_permission('customers', '', 'create')) {
                     if (!is_customer_admin($customer_id)) {
@@ -422,6 +438,9 @@ class Clients extends AdminController
                 ]);
             die;
         }
+
+        $data['calling_code'] = $callingCode;
+
         if ($contact_id == '') {
             $title = _l('add_new', _l('contact_lowercase'));
         } else {

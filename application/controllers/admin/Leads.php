@@ -1,6 +1,8 @@
 <?php
 
 use app\services\imap\Imap;
+use app\services\LeadProfileBadges;
+use app\services\leads\LeadsKanban;
 use app\services\imap\ConnectionErrorException;
 use Ddeboer\Imap\Exception\MailboxDoesNotExistException;
 
@@ -61,9 +63,11 @@ class Leads extends AdminController
         if (!is_staff_member()) {
             ajax_access_denied();
         }
+
         $data['statuses']      = $this->leads_model->get_status();
         $data['base_currency'] = get_base_currency();
         $data['summary'] = get_leads_summary();
+
         echo $this->load->view('admin/leads/kan-ban', $data, true);
     }
 
@@ -186,6 +190,13 @@ class Leads extends AdminController
                 $data['purposes'] = $this->gdpr_model->get_consent_purposes($lead->id, 'lead');
                 $data['consents'] = $this->gdpr_model->get_consents(['lead_id' => $lead->id]);
             }
+
+            $leadProfileBadges = new LeadProfileBadges($id);
+            $data['total_reminders'] = $leadProfileBadges->getCount('reminders');
+            $data['total_notes'] = $leadProfileBadges->getCount('notes');
+            $data['total_attachments'] = $leadProfileBadges->getCount('attachments');
+            $data['total_tasks'] = $leadProfileBadges->getCount('tasks');
+            $data['total_proposals'] = $leadProfileBadges->getCount('proposals');
         }
 
 
@@ -218,10 +229,13 @@ class Leads extends AdminController
         $this->db->where('id', $status);
         $status = $this->db->get(db_prefix() . 'leads_status')->row_array();
 
-        $leads = $this->leads_model->do_kanban_query($status['id'], $this->input->get('search'), $page, [
-            'sort_by' => $this->input->get('sort_by'),
-            'sort'    => $this->input->get('sort'),
-        ]);
+        $leads = (new LeadsKanban($status['id']))
+            ->search($this->input->get('search'))
+            ->sortBy(
+                $this->input->get('sort_by'),
+                $this->input->get('sort')
+            )
+            ->page($page)->get();
 
         foreach ($leads as $lead) {
             $this->load->view('admin/leads/_kan_ban_card', [
@@ -691,6 +705,8 @@ class Leads extends AdminController
         }
         echo json_encode([
             'success' => $this->leads_model->delete_lead_attachment($id),
+            'leadView' => $this->_get_lead_data($lead_id),
+            'id' => $lead_id
         ]);
     }
 
@@ -701,6 +717,8 @@ class Leads extends AdminController
         }
         echo json_encode([
             'success' => $this->misc_model->delete_note($id),
+            'leadView' => $this->_get_lead_data($lead_id),
+            'id' => $lead_id
         ]);
     }
 
@@ -988,7 +1006,7 @@ class Leads extends AdminController
                         set_alert('success', _l('added_successfully', _l('lead_source')));
                     }
                 } else {
-                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                    echo json_encode(['success' => $id ? true : false, 'id' => $id]);
                 }
             } else {
                 $id = $data['id'];
@@ -1052,7 +1070,7 @@ class Leads extends AdminController
                         set_alert('success', _l('added_successfully', _l('lead_status')));
                     }
                 } else {
-                    echo json_encode(['success' => $id ? true : fales, 'id' => $id]);
+                    echo json_encode(['success' => $id ? true : false, 'id' => $id]);
                 }
             } else {
                 $id = $data['id'];

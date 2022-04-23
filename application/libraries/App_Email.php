@@ -18,35 +18,15 @@ class App_Email extends App_mailer
     public function __construct($config = [])
     {
         $this->email_queue_table = db_prefix() . 'mail_queue';
+
         parent::__construct($config);
     }
 
-    public function set_smtp_user($value)
-    {
-        $value                         = (string) $value;
-        $this->properties['smtp_user'] = $value;
-        $this->_smtp_auth              = ($value != '' && $this->smtp_pass != '');
-        if ($this->mailer_engine == 'phpmailer') {
-            $this->phpmailer->Username = $value;
-            $this->phpmailer->SMTPAuth = $this->_smtp_auth;
-        }
-
-        return $this;
-    }
-
-    public function set_smtp_pass($value)
-    {
-        $value                         = (string) $value;
-        $this->properties['smtp_pass'] = $value;
-        $this->_smtp_auth              = ($this->smtp_user != '' && $value != '');
-        if ($this->mailer_engine == 'phpmailer') {
-            $this->phpmailer->Password = $value;
-            $this->phpmailer->SMTPAuth = $this->_smtp_auth;
-        }
-
-        return $this;
-    }
-
+    /**
+     * Set the mail queue status
+     *
+     * @param string $status
+     */
     public function set_status($status)
     {
         $this->status = $status;
@@ -65,6 +45,7 @@ class App_Email extends App_mailer
         if ($this->status != false) {
             $this->CI->db->where('q.status', $this->status);
         }
+
         $query = $this->CI->db->get("{$this->email_queue_table} q", $limit, $offset);
 
         return $query->result();
@@ -270,5 +251,17 @@ class App_Email extends App_mailer
     public function clean_up_old_queue()
     {
         $this->CI->db->query('DELETE FROM ' . $this->email_queue_table . ' WHERE (status = "sent" AND date < "' . date('Y-m-d H:i:s', strtotime('-1 week')) . '") OR (status="pending" AND date < "' . date('Y-m-d H:i:s', strtotime('-3 day')) . '")');
+    }
+
+    /**
+     * Delete the given queued email
+     *
+     * @param  int $id
+     *
+     * @return void
+     */
+    public function delete_queued_email($id)
+    {
+        $this->CI->db->query('DELETE FROM ' . $this->email_queue_table . ' WHERE id=' . $id);
     }
 }

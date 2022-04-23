@@ -76,6 +76,7 @@ class Settings extends AdminController
         $this->load->model('tickets_model');
         $this->load->model('leads_model');
         $this->load->model('currencies_model');
+        $this->load->model('staff_model');
         $data['taxes']                                   = $this->taxes_model->get();
         $data['ticket_priorities']                       = $this->tickets_model->get_priority();
         $data['ticket_priorities']['callback_translate'] = 'ticket_priority_translate';
@@ -83,6 +84,7 @@ class Settings extends AdminController
         $data['leads_sources']                           = $this->leads_model->get_source();
         $data['leads_statuses']                          = $this->leads_model->get_status();
         $data['title']                                   = _l('options');
+        $data['staff']                                   = $this->staff_model->get('', ['active' => 1]);
 
         $data['admin_tabs'] = ['update', 'info'];
 
@@ -191,7 +193,7 @@ class Settings extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function remove_favicon()
+    public function remove_fv()
     {
         hooks()->do_action('before_remove_favicon');
         if (!has_permission('settings', '', 'delete')) {

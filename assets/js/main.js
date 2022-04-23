@@ -908,6 +908,37 @@ $(function () {
         }
     });
 
+    // Prevent closing the modal if comment is being written
+    $('body').on('hide.bs.modal', '#task-modal', function(e) {
+        tinymce.editors.forEach(function(editor){
+            if (editor.id.includes("task_comment") &&
+                editor.getContent() !== '' &&
+                $(editor.editorContainer).is(':visible')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Prevent closing the modal if timesheet is being recorded/edited
+    $('body').on('hide.bs.modal', '#task-modal', function(e) {
+        var taskModal = $('#task-modal');
+        if (taskModal.find('.timesheet-edit').is(':visible')) {
+            e.preventDefault();
+        }
+
+        if (taskModal.find('.add-timesheet').is(':visible')) {
+            var timesheetStartTime = taskModal.find('#timesheet_start_time').val();
+            var timesheetEndTime = taskModal.find('#timesheet_end_time').val();
+            var timesheetDuration = taskModal.find('#timesheet_duration').val();
+            var timesheetNote = taskModal.find('#task_single_timesheet_note').val();
+
+            if (timesheetStartTime !== '' || timesheetEndTime !== '' || timesheetDuration !== '' || timesheetNote !== '') {
+                e.preventDefault();
+            }
+        }
+    });
+
+
     // On task single modal hidden remove all html data
     $("body").on("hidden.bs.modal", '#task-modal', function () {
         // Clear memory leak

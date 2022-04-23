@@ -228,67 +228,67 @@ function add_encryption_key_old()
 }
 
 /**
-* @deprecated
-* Function moved in main.js
-*/
+ * @deprecated
+ * Function moved in main.js
+ */
 function app_admin_ajax_search_function()
 {
     ?>
-<script>
-  function init_ajax_search(type, selector, server_data, url){
+    <script>
+        function init_ajax_search(type, selector, server_data, url){
 
-    var ajaxSelector = $('body').find(selector);
-    if(ajaxSelector.length){
-      var options = {
-        ajax: {
-          url: (typeof(url) == 'undefined' ? admin_url + 'misc/get_relation_data' : url),
-          data: function () {
-            var data = {};
-            data.type = type;
-            data.rel_id = '';
-            data.q = '{{{q}}}';
-            if(typeof(server_data) != 'undefined'){
-              jQuery.extend(data, server_data);
+            var ajaxSelector = $('body').find(selector);
+            if(ajaxSelector.length){
+                var options = {
+                    ajax: {
+                        url: (typeof(url) == 'undefined' ? admin_url + 'misc/get_relation_data' : url),
+                        data: function () {
+                            var data = {};
+                            data.type = type;
+                            data.rel_id = '';
+                            data.q = '{{{q}}}';
+                            if(typeof(server_data) != 'undefined'){
+                                jQuery.extend(data, server_data);
+                            }
+                            return data;
+                        }
+                    },
+                    locale: {
+                        emptyTitle: "<?php echo _l('search_ajax_empty'); ?>",
+                        statusInitialized: "<?php echo _l('search_ajax_initialized'); ?>",
+                        statusSearching:"<?php echo _l('search_ajax_searching'); ?>",
+                        statusNoResults:"<?php echo _l('not_results_found'); ?>",
+                        searchPlaceholder:"<?php echo _l('search_ajax_placeholder'); ?>",
+                        currentlySelected:"<?php echo _l('currently_selected'); ?>",
+                    },
+                    requestDelay:500,
+                    cache:false,
+                    preprocessData: function(processData){
+                        var bs_data = [];
+                        var len = processData.length;
+                        for(var i = 0; i < len; i++){
+                            var tmp_data =  {
+                                'value': processData[i].id,
+                                'text': processData[i].name,
+                            };
+                            if(processData[i].subtext){
+                                tmp_data.data = {subtext:processData[i].subtext}
+                            }
+                            bs_data.push(tmp_data);
+                        }
+                        return bs_data;
+                    },
+                    preserveSelectedPosition:'after',
+                    preserveSelected:true
+                }
+                if(ajaxSelector.data('empty-title')){
+                    options.locale.emptyTitle = ajaxSelector.data('empty-title');
+                }
+                ajaxSelector.selectpicker().ajaxSelectPicker(options);
             }
-            return data;
-          }
-        },
-        locale: {
-          emptyTitle: "<?php echo _l('search_ajax_empty'); ?>",
-          statusInitialized: "<?php echo _l('search_ajax_initialized'); ?>",
-          statusSearching:"<?php echo _l('search_ajax_searching'); ?>",
-          statusNoResults:"<?php echo _l('not_results_found'); ?>",
-          searchPlaceholder:"<?php echo _l('search_ajax_placeholder'); ?>",
-          currentlySelected:"<?php echo _l('currently_selected'); ?>",
-        },
-        requestDelay:500,
-        cache:false,
-        preprocessData: function(processData){
-          var bs_data = [];
-          var len = processData.length;
-          for(var i = 0; i < len; i++){
-            var tmp_data =  {
-              'value': processData[i].id,
-              'text': processData[i].name,
-            };
-            if(processData[i].subtext){
-              tmp_data.data = {subtext:processData[i].subtext}
-            }
-            bs_data.push(tmp_data);
-          }
-          return bs_data;
-        },
-        preserveSelectedPosition:'after',
-        preserveSelected:true
-      }
-      if(ajaxSelector.data('empty-title')){
-        options.locale.emptyTitle = ajaxSelector.data('empty-title');
-      }
-      ajaxSelector.selectpicker().ajaxSelectPicker(options);
-    }
-  }
- </script>
-<?php
+        }
+    </script>
+    <?php
 }
 
 /**
@@ -522,8 +522,8 @@ function get_email_template_language($template_slug, $email)
     $language = get_option('active_language');
 
     if (total_rows(db_prefix() . 'contacts', [
-        'email' => $email,
-    ]) > 0 && in_array($template_slug, get_client_email_templates_slugs())) {
+            'email' => $email,
+        ]) > 0 && in_array($template_slug, get_client_email_templates_slugs())) {
         $CI->db->where('email', $email);
 
         $contact = $CI->db->get(db_prefix() . 'contacts')->row();
@@ -544,7 +544,7 @@ function get_email_template_language($template_slug, $email)
     } elseif (isset($GLOBALS['SENDING_EMAIL_TEMPLATE_CLASS']) || defined('EMAIL_TEMPLATE_PROPOSAL_ID_HELP')) {
         if (defined('EMAIL_TEMPLATE_PROPOSAL_ID_HELP')) {
             $CI->db->select('rel_type,rel_id')
-            ->where('id', EMAIL_TEMPLATE_PROPOSAL_ID_HELP);
+                ->where('id', EMAIL_TEMPLATE_PROPOSAL_ID_HELP);
             $proposal = $CI->db->get(db_prefix() . 'proposals')->row();
         } else {
             $class = $GLOBALS['SENDING_EMAIL_TEMPLATE_CLASS'];
@@ -552,11 +552,11 @@ function get_email_template_language($template_slug, $email)
             // check for leads default language
             if ($class->get_rel_type() == 'proposal') {
                 $CI->db->select('rel_type,rel_id')
-            ->where('id', $class->get_rel_id());
+                    ->where('id', $class->get_rel_id());
                 $proposal = $CI->db->get(db_prefix() . 'proposals')->row();
             } elseif ($class->get_rel_type() == 'lead') {
                 $CI->db->select('id, default_language')
-            ->where('id', $class->get_rel_id());
+                    ->where('id', $class->get_rel_id());
                 $lead = $CI->db->get(db_prefix() . 'leads')->row();
             }
         }
@@ -633,7 +633,7 @@ if (!function_exists('get_table_items_and_taxes')) {
         $i                 = 1;
         foreach ($items as $item) {
 
-              // No relation data on preview becuase taxes are not saved in database
+            // No relation data on preview becuase taxes are not saved in database
             if (!defined('INVOICE_PREVIEW_SUBSCRIPTION')) {
                 if (!$rel_data) {
                     $rel_data = get_relation_data($item['rel_type'], $item['rel_id']);
@@ -746,9 +746,9 @@ if (!function_exists('get_table_items_and_taxes')) {
             } else {
                 if (get_option('show_tax_per_item') == 1) {
                     $itemHTML .= hooks()->apply_filters('item_tax_table_row', '0%', [
-                            'item_taxes' => $item_taxes,
-                            'item_id'    => $item['id'],
-                        ]);
+                        'item_taxes' => $item_taxes,
+                        'item_id'    => $item['id'],
+                    ]);
                 }
             }
 
@@ -763,11 +763,11 @@ if (!function_exists('get_table_items_and_taxes')) {
 
             $item_amount_with_quantity = hooks()->apply_filters(
                 'item_preview_amount_with_currency',
-            app_format_number(($item['qty'] * $item['rate'])),
-            [
-                'item'       => $item,
-                'item_taxes' => $item_taxes,
-            ]
+                app_format_number(($item['qty'] * $item['rate'])),
+                [
+                    'item'       => $item,
+                    'item_taxes' => $item_taxes,
+                ]
             );
 
             $itemHTML .= '<td class="amount" align="right">' . $item_amount_with_quantity . '</td>';
@@ -1023,7 +1023,7 @@ function check_missing_language_strings($language)
         }
     }
     if (isset($keys_missing)) {
-        echo '<br />--<br />Language keys missing please create <a href="https://help.babil.net.sa/overwrite-translation-text/" target="_blank">custom_lang.php</a> and add the keys listed above.';
+        echo '<br />--<br />Language keys missing please create <a href="https://help.perfexcrm.com/overwrite-translation-text/" target="_blank">custom_lang.php</a> and add the keys listed above.';
         echo '<br /> Here is how you should add the keys (You can just copy paste this text above and add your translations)<br /><br />';
         foreach ($missing_keys as $key) {
             echo '$lang[\'' . $key . '\'] = \'Add your translation\';<br />';
@@ -1240,9 +1240,9 @@ hooks()->add_filter('get_option', '_check_removed_number_padding_option_name', 1
 function _check_deprecated_calendar_view_name_option($value, $name)
 {
     if ($name === 'default_view_calendar' &&
-            is_client_logged_in() &&
-            get_option('_v283_update_clients_theme') !== 'babil' &&
-            active_clients_theme() !== 'babil') {
+        is_client_logged_in() &&
+        get_option('_v283_update_clients_theme') !== 'perfex' &&
+        active_clients_theme() !== 'perfex') {
         $CalendarV5toV3ViewNamesMap = [
             'dayGridMonth' => 'month',
             'dayGridWeek'  => 'basicWeek',
@@ -1266,4 +1266,16 @@ function _check_removed_number_padding_option_name($value, $name)
     }
 
     return $value;
+}
+
+/**
+ * Prepares task array gantt data to be used in the gantt chart
+ * @param  array $task task array
+ * @return array
+ */
+function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
+{
+    _deprecated_function('get_task_array_gantt_data', '2.9.2', 'AbstractGantt::tasks_array_data');
+
+    return \app\services\projects\AbstractGantt::tasks_array_data($task, $dep_id, $defaultEnd);
 }

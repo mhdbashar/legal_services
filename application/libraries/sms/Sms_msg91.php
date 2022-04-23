@@ -8,8 +8,6 @@ class Sms_msg91 extends App_sms
 
     private $sender_id;
 
-    private $dlt_te_id;
-
     private $api_type;
 
     private $apiRequestUrl = 'http://api.msg91.com/api/v2/sendsms';
@@ -23,38 +21,37 @@ class Sms_msg91 extends App_sms
         $this->sender_id = $this->get_option('msg91', 'sender_id');
         $this->auth_key  = $this->get_option('msg91', 'auth_key');
         $this->api_type  = $this->get_option('msg91', 'api_type');
-        $this->dlt_te_id = $this->get_option('msg91', 'dlt_te_id');
 
         $this->add_gateway('msg91', [
-                'info' => _l("sms_msg91_sms_integration_is_one_way_messaging"),
-                'name'    => 'MSG91',
-                'options' => [
-                    [
-                        'name'  => 'sender_id',
-                        'label' => 'Sender ID',
-                        'info'  => _l('sms_sender_id_trans'),
-                    ],
-                    [
-                        'name'          => 'api_type',
-                        'field_type'    => 'radio',
-                        'default_value' => 'api',
-                        'label'         => 'Api Type',
-                        'options'       => [
-                            ['label' => 'World', 'value' => 'world'],
-                            ['label' => 'Api', 'value' => 'api'],
-                        ],
-                    ],
-                    [
-                        'name'  => 'auth_key',
-                        'label' => 'Auth Key',
-                    ],
-                    [
-                        'name'  => 'dlt_te_id',
-                        'label' => 'DLT Template ID (India only)',
-                        'info'  => '<p><a href="https://help.msg91.com/category/341-dlt-related-process" target="_blank">DLT Related Process</a> | <a href="https://help.msg91.com/article/369-map-your-dlt-entity-pe-id" target="_blank">Map DLT With SenderID</a></p>',
+            'info' => "<p>
+                    MSG91 SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.
+                </p>
+                <hr class='hr-10'>",
+            'name'    => 'MSG91',
+            'options' => [
+                [
+                    'name'  => 'sender_id',
+                    'label' => 'Sender ID',
+                    'info'  => '<p><a href="https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
+                ],
+                [
+                    'name'          => 'api_type',
+                    'field_type'    => 'radio',
+                    'default_value' => 'api',
+                    'label'         => 'Api Type',
+                    'options'       => [
+                        ['label' => 'World', 'value' => 'world'],
+                        ['label' => 'Api', 'value' => 'api'],
                     ],
                 ],
-            ]);
+                [
+                    'name'  => 'auth_key',
+                    'label' => 'Auth Key',
+                ],
+            ],
+        ]);
+
+        hooks()->add_action('after_sms_trigger_textarea_content', [$this, 'addDltTemplateIdField']);
     }
 
     /**
@@ -170,6 +167,25 @@ class Sms_msg91 extends App_sms
         return empty($this->sender_id) ? get_option('companyname') : $this->sender_id;
     }
 
+    public function addDltTemplateIdField($trigger)
+    {
+        $activeGateway = $this->get_active_gateway();
+
+        if ($activeGateway && strtolower($activeGateway['name']) === 'msg91') {
+            $triggerName = $this->dltTemplmateIdOptionName($trigger['name']);
+
+            echo '<input type="text" class="form-control"
+                placeholder="DLT Template ID (India only)"
+                name="settings[' . $triggerName . ']"
+                value="' . get_option($triggerName) . '">';
+        }
+    }
+
+    protected function dltTemplmateIdOptionName($triggerName)
+    {
+        return 'sms_msg91_' . $triggerName . '_dlt_template_id';
+    }
+
     /**
      * Get the API common query string options
      *
@@ -178,14 +194,17 @@ class Sms_msg91 extends App_sms
     protected function getCommonQueryString()
     {
         return hooks()->apply_filters('msg91_common_options', array_filter([
-                'route'     => 4,
-                'country'   => 0,
-                'unicode'   => 1,
-                'sender'    => $this->getSender(),
-                'DLT_TE_ID' => $this->dlt_te_id ?: null,
-            ], function ($value) {
-                return !is_null($value);
-            }));
+            'route'     => 4,
+            'country'   => 0,
+            'unicode'   => 1,
+            'dev_mode'  => $this->test_mode ? 1 : null,
+            'sender'    => $this->getSender(),
+            'DLT_TE_ID' => static::$trigger_being_sent ?
+                get_option($this->dltTemplmateIdOptionName(static::$trigger_being_sent)) ?: null :
+                null,
+        ], function ($value) {
+            return !is_null($value);
+        }));
     }
 
     /**
@@ -201,6 +220,6 @@ class Sms_msg91 extends App_sms
             ],
             'version'        => CURL_HTTP_VERSION_1_1,
             'decode_content' => [CURLOPT_ENCODING => ''],
-            ];
+        ];
     }
 }

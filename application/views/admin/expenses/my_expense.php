@@ -332,6 +332,7 @@
                     </div>
                 </div>
             </div>
+            <?php hooks()->do_action('before_expense_form_template_close', $expense ?? null); ?>
             <?php echo form_close(); ?>
         </div>
         <div class="btn-bottom-pusher"></div>

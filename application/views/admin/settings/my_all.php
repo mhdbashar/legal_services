@@ -242,6 +242,15 @@
                 }
             });
         }
+
+        $('input[name="settings[reminder_for_completed_but_not_billed_tasks]"]').on('change',function() {
+            if($(this).val() == '1'){
+                $('.staff_notify_completed_but_not_billed_tasks_fields').removeClass('hide');
+            } else {
+                $('.staff_notify_completed_but_not_billed_tasks_fields').addClass('hide');
+            }
+        });
+
     </script>
 <?php } ?>
 <?php hooks()->do_action('settings_group_end', $tab); ?>

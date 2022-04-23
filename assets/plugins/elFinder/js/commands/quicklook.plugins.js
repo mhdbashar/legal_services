@@ -1164,7 +1164,7 @@ elFinder.prototype.commands.quicklook.plugins = [
 						(video = mime.indexOf('video/') === 0) && ql.hideinfo();
 						node = $('<embed src="'+url+'" type="'+mime+'" class="elfinder-quicklook-preview-'+(video ? 'video' : 'audio')+'"/>')
 							.appendTo(preview);
-
+						
 						win.on('viewchange.embed', setNavi);
 						setNavi();
 					}

@@ -124,6 +124,9 @@ class Subscription extends ClientsController
             'mode'                 => 'setup',
             'success_url'          => site_url('subscription/complete_setup/' . $subscription->hash . '?session_id={CHECKOUT_SESSION_ID}'),
             'cancel_url'           => $cancelUrl,
+            'setup_intent_data'    => [
+                'description' => $subscription->name,
+            ],
         ];
 
         if ($customerExistsButWithoutPaymentMethod) {
@@ -168,11 +171,20 @@ class Subscription extends ClientsController
             ]);
 
             $payment_method = $session->setup_intent->payment_method;
+            $client         = $this->clients_model->get($subscription->clientid);
 
             $customerPayload = [
-                    'email'       => $payment_method->billing_details->email,
-                    'name'        => $payment_method->billing_details->name,
-                    'description' => $subscription->company,
+                'email'       => $payment_method->billing_details->email,
+                'name'        => $payment_method->billing_details->name,
+                'description' => $subscription->company,
+                // https://stripe.com/docs/india-accept-international-payments
+                'address' => [
+                    'line1'       => $client->billing_street,
+                    'postal_code' => $client->billing_zip,
+                    'city'        => $client->billing_zip,
+                    'state'       => $client->billing_state,
+                    'country'     => get_country($client->billing_country)->iso2 ?? null,
+                ],
             ];
 
             if ($session->client_reference_id) {
@@ -191,8 +203,8 @@ class Subscription extends ClientsController
             $this->stripe_core->update_customer($customer->id, [
                 'invoice_settings' => [
                     'default_payment_method' => $payment_method->id,
-                  ],
-              ]);
+                ],
+            ]);
 
             $this->create_subscription($subscription, $customer->id);
         } catch (Exception $e) {

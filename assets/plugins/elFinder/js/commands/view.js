@@ -41,7 +41,7 @@ elFinder.prototype.commands.view = function() {
 	this.exec = function() {
 		var self  = this,
 			value = this.value == 'list' ? 'icons' : 'list';
-
+			
 		fm.storage('view', value);
 		return fm.lazy(function() {
 			fm.viewchange();

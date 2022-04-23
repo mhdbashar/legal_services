@@ -27,7 +27,7 @@
        'total_finished_tasks'=>total_project_finished_tasks_by_milestone(0, $project->id),
        'color'=>NULL,
       );
-      $_milestones = $this->projects_model->get_milestones($project->id);
+   $_milestones = $this->projects_model->get_milestones($project->id, ['hide_from_customer' => 0]);
       foreach($_milestones as $m){
           $milestones[] = $m;
       }

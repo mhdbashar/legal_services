@@ -11,15 +11,15 @@ class Stripe_gateway extends App_gateway
         $this->webhookEndPoint = site_url('gateways/stripe/webhook_endpoint');
 
         /**
-        * Call App_gateway __construct function
-        */
+         * Call App_gateway __construct function
+         */
         parent::__construct();
 
         /**
-        * REQUIRED
-        * Gateway unique id
-        * The ID must be alpha/alphanumeric
-        */
+         * REQUIRED
+         * Gateway unique id
+         * The ID must be alpha/alphanumeric
+         */
         $this->setId('stripe');
 
         /**
@@ -30,16 +30,16 @@ class Stripe_gateway extends App_gateway
 
         /**
          * Add gateway settings
-        */
+         */
         $this->setSettings([
+            [
+                'name'  => 'api_publishable_key',
+                'label' => 'settings_paymentmethod_stripe_api_publishable_key',
+            ],
             [
                 'name'      => 'api_secret_key',
                 'encrypted' => true,
                 'label'     => 'settings_paymentmethod_stripe_api_secret_key',
-            ],
-            [
-                'name'  => 'api_publishable_key',
-                'label' => 'settings_paymentmethod_stripe_api_publishable_key',
             ],
             [
                 'name'          => 'description_dashboard',
@@ -129,27 +129,28 @@ class Stripe_gateway extends App_gateway
         $description = str_replace('{invoice_number}', format_invoice_number($data['invoiceid']), $this->getSetting('description_dashboard'));
 
         $items = [
-                'name'     => $description,
-                'amount'   => strcasecmp($data['invoice']->currency_name, 'JPY') == 0 ? intval($data['amount']) : $data['amount'] * 100,
-                'currency' => strtolower($data['invoice']->currency_name),
-                'quantity' => 1,
+            'name'     => $description,
+            'amount'   => strcasecmp($data['invoice']->currency_name, 'JPY') == 0 ? intval($data['amount']) : $data['amount'] * 100,
+            'currency' => strtolower($data['invoice']->currency_name),
+            'quantity' => 1,
         ];
 
         $successUrl = site_url('gateways/stripe/success/' . $data['invoice']->id . '/' . $data['invoice']->hash);
         $cancelUrl  = site_url('invoice/' . $data['invoiceid'] . '/' . $data['invoice']->hash);
 
         $sessionData = [
-              'payment_method_types' => ['card'],
-              'line_items'           => [$items],
-              'success_url'          => $successUrl,
-              'cancel_url'           => $cancelUrl,
-              'payment_intent_data'  => [
-                  'description' => $description,
-                  'metadata'    => [
-                        'ClientId'  => $data['invoice']->clientid,
-                        'InvoiceId' => $data['invoice']->id,
+            'payment_method_types' => ['card'],
+            'line_items'           => [$items],
+            'success_url'          => $successUrl,
+            'cancel_url'           => $cancelUrl,
+            'payment_intent_data'  => [
+                'description' => $description,
+                'metadata'    => [
+                    'ClientId'    => $data['invoice']->clientid,
+                    'InvoiceId'   => $data['invoice']->id,
+                    'InvoiceHash' => $data['invoice']->hash,
                 ],
-              ],
+            ],
         ];
 
         if ($data['invoice']->client->stripe_id) {
@@ -212,7 +213,7 @@ function stripe_gateway_webhook_check($gateway)
                 echo 'Webhook endpoint (' . $endpoint . ') not found for ' . $environment . ' environment.';
                 echo '<br />Click <a href="' . site_url('gateways/stripe/create_webhook') . '">here</a> to create the webhook directly in Stripe.';
                 echo '</div>';
-            } elseif($webhook && $webhook->id != get_option('stripe_webhook_id')){
+            } elseif ($webhook && $webhook->id != get_option('stripe_webhook_id')) {
                 echo '<div class="alert alert-warning">';
                 echo 'The application stored Stripe webhook id does not match the configured webhook.';
                 echo '<br />Click <a href="' . site_url('gateways/stripe/create_webhook?recreate=true') . '">here</a> to re-create the webhook directly in Stripe and delete the old webhook.';

@@ -468,7 +468,14 @@ class Credit_notes_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'creditnotes', ['status' => $status]);
 
-        return $this->db->affected_rows() > 0 ? true : false;
+        if ( $this->db->affected_rows() > 0 ) {
+
+            hooks()->do_action('credit_note_status_changed', $id, ['status' => $status]);
+
+            return true;
+        }
+
+        return false;
     }
 
     public function total_remaining_credits_by_customer($customer_id)
@@ -615,6 +622,10 @@ class Credit_notes_model extends App_Model
         $id = $this->add($new_credit_note_data);
         if ($id) {
             if ($_invoice->status != 2) {
+                if ($_invoice->status == Invoices_model::STATUS_DRAFT) {
+                    $this->invoices_model->change_invoice_number_when_status_draft($invoice_id);
+                }
+
                 if ($this->apply_credits($id, ['invoice_id' => $invoice_id, 'amount' => $_invoice->total_left_to_pay])) {
                     update_invoice_status($invoice_id, true);
                 }

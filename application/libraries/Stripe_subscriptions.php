@@ -18,7 +18,26 @@ class Stripe_subscriptions extends Stripe_core
 
     public function get_plans()
     {
-        return \Stripe\Plan::all(['limit' => 100, 'expand' => ['data.product']]);
+        $hasMore       = true;
+        $data          = null;
+        $startingAfter = null;
+        do {
+            $plans = \Stripe\Plan::all(
+                array_merge(['limit' => 100, 'expand' => ['data.product']], $startingAfter ? ['starting_after' => $startingAfter] : [])
+            );
+
+            if (is_null($data)) {
+                $data = $plans;
+            } else {
+                $data->data = array_merge($data->data, $plans->data);
+            }
+
+            $startingAfter = $data->data[count($data->data) - 1]->id ?? null;
+            $hasMore       = $plans['has_more'];
+            $data['has_more'] = $hasMore;
+        } while ($hasMore);
+
+        return $data;
     }
 
     public function get_plan($id)
@@ -58,14 +77,14 @@ class Stripe_subscriptions extends Stripe_core
         $stripeSubscription = $this->get_subscription($id);
 
         \Stripe\Subscription::update($id, [
-        'cancel_at_period_end' => false,
-        'items'                => [
-            [
-                'id'   => $stripeSubscription->items->data[0]->id,
-                'plan' => $plan_id,
+            'cancel_at_period_end' => false,
+            'items'                => [
+                [
+                    'id'   => $stripeSubscription->items->data[0]->id,
+                    'plan' => $plan_id,
+                ],
             ],
-        ],
-    ]);
+        ]);
     }
 
     public function pause()
@@ -81,10 +100,10 @@ class Stripe_subscriptions extends Stripe_core
         }
 
         if ($update_values['stripe_tax_id'] != $db_subscription->stripe_tax_id
-                    || $update_values['stripe_tax_id_2'] != $db_subscription->stripe_tax_id_2
-                    || $update_values['quantity'] != $db_subscription->quantity
-                    || $update_values['stripe_plan_id'] != $db_subscription->stripe_plan_id
-                ) {
+            || $update_values['stripe_tax_id_2'] != $db_subscription->stripe_tax_id_2
+            || $update_values['quantity'] != $db_subscription->quantity
+            || $update_values['stripe_plan_id'] != $db_subscription->stripe_plan_id
+        ) {
             $stripeSubscription = $this->get_subscription($subscription_id);
 
             if (empty($update_values['stripe_tax_id']) && empty($update_values['stripe_tax_id_2'])) {
@@ -110,11 +129,11 @@ class Stripe_subscriptions extends Stripe_core
 
             if ($update_values['stripe_plan_id'] != $db_subscription->stripe_plan_id) {
                 $items = [
-                            [
-                                'id'   => $stripeSubscription->items->data[0]->id,
-                                'plan' => $update_values['stripe_plan_id'],
-                            ],
-                         ];
+                    [
+                        'id'   => $stripeSubscription->items->data[0]->id,
+                        'plan' => $update_values['stripe_plan_id'],
+                    ],
+                ];
 
                 // If quantity is changed, update quantity too
                 if ($update_values['quantity'] != $db_subscription->quantity) {

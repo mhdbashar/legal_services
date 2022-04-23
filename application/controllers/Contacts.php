@@ -58,6 +58,16 @@ class Contacts extends ClientsController
      */
     public function contact($id = null)
     {
+        if (is_automatic_calling_codes_enabled()) {
+            $clientCountryId = $this->db->select('country')
+                    ->where('userid', get_client_user_id())
+                    ->get('clients')->row()->country ?? null;
+            $clientCountry = get_country($clientCountryId);
+            $callingCode   = $clientCountry ? '+' . ltrim($clientCountry->calling_code, '+') : null;
+        } else {
+            $callingCode = null;
+        }
+
         if ($this->input->post()) {
             $this->form_validation->set_rules('firstname', _l('client_firstname'), 'required');
             $this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
@@ -66,6 +76,7 @@ class Contacts extends ClientsController
                 $this->form_validation->set_message('contact_email_profile_unique', _l('contact_form_validation_is_unique'));
                 $this->form_validation->set_rules('email', _l('clients_email'), 'trim|required|valid_email|callback_contact_email_profile_unique[' . $id . ']');
             } else {
+                $this->form_validation->set_rules('password', _l('client_password'), 'required');
                 $this->form_validation->set_message('is_unique', _l('contact_form_validation_is_unique'));
                 $this->form_validation->set_rules('email', _l('client_email'), 'trim|required|is_unique[' . db_prefix() . 'contacts.email]|valid_email');
             }
@@ -87,16 +98,21 @@ class Contacts extends ClientsController
             }
 
             if ($this->form_validation->run() != false) {
-                $data = $this->input->post();
+                $data        = $this->input->post();
+                $phonenumber = $this->input->post('phonenumber');
+
+                if ($callingCode && !empty($phonenumber) && $phonenumber == $callingCode) {
+                    $phonenumber = '';
+                }
 
                 $contact_data = [
                     'is_primary'         => 0,
-                    'firstname'          => $this->input->post('firstname'),
-                    'lastname'           => $this->input->post('lastname'),
-                    'title'              => $this->input->post('title'),
-                    'email'              => $this->input->post('email'),
-                    'phonenumber'        => $this->input->post('phonenumber'),
-                    'direction'          => $this->input->post('direction'),
+                    'firstname'          => $data['firstname'],
+                    'lastname'           => $data['lastname'],
+                    'title'              => $data['title'],
+                    'email'              => $data['email'],
+                    'phonenumber'        => $phonenumber,
+                    'direction'          => $data['direction'],
                     'invoice_emails'     => isset($data['invoice_emails']) ? 1 : 0,
                     'credit_note_emails' => isset($data['credit_note_emails']) ? 1 : 0,
                     'estimate_emails'    => isset($data['estimate_emails']) ? 1 : 0,
@@ -146,6 +162,7 @@ class Contacts extends ClientsController
         $data['customer_permissions'] = get_contact_permissions();
         $data['title']                = _l('customer_contact');
         $data['bodyclass']            = 'contact';
+        $data['calling_code']         = $callingCode;
 
         $this->data($data);
         $this->view('contact');

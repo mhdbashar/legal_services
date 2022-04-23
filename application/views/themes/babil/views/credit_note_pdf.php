@@ -27,7 +27,7 @@ $organization_info .= '</div>';
 // Bill to
 $credit_note_info = '<b>' . _l('credit_note_bill_to') . '</b>';
 $credit_note_info .= '<div style="color:#424242;">';
-    $credit_note_info .= format_customer_info($credit_note, 'credit_note', 'billing');
+$credit_note_info .= format_customer_info($credit_note, 'credit_note', 'billing');
 $credit_note_info .= '</div>';
 
 // ship to to
@@ -38,15 +38,23 @@ if ($credit_note->include_shipping == 1 && $credit_note->show_shipping_on_credit
     $credit_note_info .= '</div>';
 }
 
+$credit_note_info = hooks()->apply_filters('credit_note_pdf_header_after_shipping_info', $credit_note_info, $credit_note);
+
 $credit_note_info .= '<br />' . _l('credit_note_date') . ': ' . _d($credit_note->date) . '<br />';
+
+$credit_note_info = hooks()->apply_filters('credit_note_pdf_header_after_date', $credit_note_info, $credit_note);
 
 if (!empty($credit_note->reference_no)) {
     $credit_note_info .= _l('reference_no') . ': ' . $credit_note->reference_no . '<br />';
+    $credit_note_info = hooks()->apply_filters('credit_note_pdf_header_after_reference_no', $credit_note_info, $credit_note);
 }
 
 if ($credit_note->project_id != 0 && get_option('show_project_on_credit_note') == 1) {
     $credit_note_info .= _l('project') . ': ' . get_project_name_by_id($credit_note->project_id) . '<br />';
+    $credit_note_info = hooks()->apply_filters('credit_note_pdf_header_after_project', $credit_note_info, $credit_note);
 }
+
+$credit_note_info = hooks()->apply_filters('credit_note_pdf_header_before_custom_fields', $credit_note_info, $credit_note);
 
 foreach ($pdf_custom_fields as $field) {
     $value = get_custom_field_value($credit_note->id, $field['id'], 'credit_note');
@@ -55,6 +63,8 @@ foreach ($pdf_custom_fields as $field) {
     }
     $credit_note_info .= $field['name'] . ': ' . $value . '<br />';
 }
+
+$credit_note_info = hooks()->apply_filters('credit_note_pdf_header_after_custom_fields', $credit_note_info, $credit_note);
 
 $left_info  = $swap == '1' ? $credit_note_info : $organization_info;
 $right_info = $swap == '1' ? $organization_info : $credit_note_info;

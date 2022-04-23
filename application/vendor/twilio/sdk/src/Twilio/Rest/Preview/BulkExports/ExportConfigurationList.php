@@ -20,22 +20,21 @@ class ExportConfigurationList extends ListResource {
      * Construct the ExportConfigurationList
      *
      * @param Version $version Version that contains the resource
-     * @return \Twilio\Rest\Preview\BulkExports\ExportConfigurationList
      */
     public function __construct(Version $version) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array();
+        $this->solution = [];
     }
 
     /**
      * Constructs a ExportConfigurationContext
      *
-     * @param string $resourceType The type of communication – Messages, Calls
-     * @return \Twilio\Rest\Preview\BulkExports\ExportConfigurationContext
+     * @param string $resourceType The type of communication – Messages, Calls,
+     *                             Conferences, and Participants
      */
-    public function getContext($resourceType) {
+    public function getContext(string $resourceType): ExportConfigurationContext {
         return new ExportConfigurationContext($this->version, $resourceType);
     }
 
@@ -44,7 +43,7 @@ class ExportConfigurationList extends ListResource {
      *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Preview.BulkExports.ExportConfigurationList]';
     }
 }

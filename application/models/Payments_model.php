@@ -140,6 +140,22 @@ class Payments_model extends App_Model
     }
 
     /**
+     * Check whether payment exist by transaction id for the given invoice
+     *
+     * @param  int $transactionId
+     * @param  int|null $invoiceId
+     *
+     * @return bool
+     */
+    public function transaction_exists($transactionId, $invoiceId = null)
+    {
+        return total_rows('invoicepaymentrecords', array_filter([
+                'transactionid' => $transactionId,
+                'invoiceid' => $invoiceId
+            ])) > 0;
+    }
+
+    /**
      * Record new payment
      * @param array $data payment data
      * @return boolean
@@ -409,5 +425,144 @@ class Payments_model extends App_Model
         }
 
         return false;
+    }
+
+    public function add_batch_payment($paymentsData)
+    {
+        $sendBatchPaymentEmail = true;
+        if (isset($paymentsData['do_not_send_invoice_payment_recorded'])) {
+            $sendBatchPaymentEmail = false;
+        }
+
+        $paymentIds = [];
+        foreach ($paymentsData['invoice'] as $data) {
+            if (empty($data['invoiceid']) || empty($data['amount']) || empty($data['date']) || empty('paymentmode')) {
+                continue;
+            }
+
+            $data['date'] = to_sql_date($data['date']);
+            $data['daterecorded'] = date('Y-m-d H:i:s');
+            $data = hooks()->apply_filters('before_payment_recorded', $data);
+
+            $this->db->insert(db_prefix() . 'invoicepaymentrecords', $data);
+            $insert_id = $this->db->insert_id();
+
+            if ($insert_id) {
+                $paymentIds[] = $insert_id;
+                $invoice = $this->invoices_model->get($data['invoiceid']);
+                $force_update = false;
+
+                if (!class_exists('Invoices_model', false)) {
+                    $this->load->model('invoices_model');
+                }
+
+                if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+                    $force_update = true;
+                    // update invoice number for invoice with draft - V2.7.2
+                    $this->invoices_model->change_invoice_number_when_status_draft($invoice->id);
+                }
+                update_invoice_status($data['invoiceid'], $force_update);
+
+                $this->invoices_model->log_invoice_activity(
+                    $data['invoiceid'], 'invoice_activity_payment_made_by_staff',
+                    false,
+                    serialize([
+                        app_format_money($data['amount'], $invoice->currency_name),
+                        '<a href="' . admin_url('payments/payment/' . $insert_id) . '" target="_blank">#' . $insert_id . '</a>',
+                    ])
+                );
+                log_activity('Payment Recorded [ID:' . $insert_id . ', Invoice Number: ' . format_invoice_number($invoice->id) . ', Total: ' . app_format_money($data['amount'],
+                        $invoice->currency_name) . ']');
+            }
+            hooks()->do_action('after_payment_added', $insert_id);
+        }
+
+        if (count($paymentIds) > 0 && $sendBatchPaymentEmail) {
+            $this->send_batch_payment_notification_to_customers($paymentIds);
+        }
+
+        return count($paymentIds);
+    }
+
+    private function send_batch_payment_notification_to_customers($paymentIds)
+    {
+        $paymentData = $this->db
+            ->select(db_prefix() . 'invoicepaymentrecords.*,' . db_prefix() . 'invoices.currency,' . db_prefix() . 'invoices.clientId,' . db_prefix() . 'invoices.hash')
+            ->join(db_prefix() . 'invoices', 'invoicepaymentrecords.invoiceid=invoices.id')
+            ->where_in('invoicepaymentrecords.id', $paymentIds)
+            ->get(db_prefix() . 'invoicepaymentrecords')
+            ->result();
+
+        // used collection groupBy as a workaround for mysql8.0 only full group mode
+        $paymentData = collect($paymentData)->groupBy('clientId');
+
+        foreach ($paymentData as $clientId => $payments) {
+            $contacts = $this->get_contacts_for_payment_emails($clientId);
+            foreach ($contacts as $contact) {
+                if (count($payments) === 1) {
+                    $this->send_invoice_payment_recorded($payments[0], $contact);
+                } else {
+                    $template = mail_template('invoice_batch_payments', $payments, $contact);
+                    foreach ($payments as $payment) {
+                        $payment = $this->get($payment->id);
+                        $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
+                        $template = $this->_add_payment_mail_attachments_to_template($template, $payment);
+                    }
+                    $template->send();
+                }
+            }
+        }
+    }
+
+    public function send_invoice_payment_recorded($payment, $contact)
+    {
+        if (!class_exists('Invoices_model', false)) {
+            $this->load->model('invoices_model');
+        }
+
+        // to get structure matching payment_pdf()
+        $payment = $this->get($payment->id);
+        $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
+        $template = mail_template('invoice_payment_recorded_to_customer', (array) $contact, $payment->invoice_data, false, $payment->id);
+        $template = $this->_add_payment_mail_attachments_to_template($template, $payment);
+
+        return $template->send();
+    }
+
+    private function _add_payment_mail_attachments_to_template($template, $payment) {
+        set_mailing_constant();
+
+        $paymentPDF = payment_pdf($payment);
+        $filename   = mb_strtoupper(slug_it(_l('payment') . '-' . $payment->paymentid), 'UTF-8') . '.pdf';
+        $attach = $paymentPDF->Output($filename, 'S');
+        $template->add_attachment([
+            'attachment' => $attach,
+            'filename'   => $filename,
+            'type'       => 'application/pdf',
+        ]);
+
+        if (get_option('attach_invoice_to_payment_receipt_email') == 1) {
+            $invoice_number = format_invoice_number($payment->invoiceid);
+            set_mailing_constant();
+            $pdfInvoice           = invoice_pdf($payment->invoice_data);
+            $pdfInvoiceAttachment = $pdfInvoice->Output($invoice_number . '.pdf', 'S');
+
+            $template->add_attachment([
+                'attachment' => $pdfInvoiceAttachment,
+                'filename'   => str_replace('/', '-', $invoice_number) . '.pdf',
+                'type'       => 'application/pdf',
+            ]);
+        }
+        return $template;
+    }
+
+    private function get_contacts_for_payment_emails($client_id)
+    {
+        if (!class_exists('Clients_model', false)) {
+            $this->load->model('clients_model');
+        }
+        return $this->clients_model->get_contacts($client_id, [
+            'active' => 1, 'invoice_emails' => 1,
+        ]);
     }
 }

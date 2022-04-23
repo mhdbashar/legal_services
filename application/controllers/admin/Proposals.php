@@ -1,4 +1,5 @@
 <?php
+use app\services\proposals\ProposalsPipeline;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -706,10 +707,13 @@ class Proposals extends AdminController
         $status = $this->input->get('status');
         $page   = $this->input->get('page');
 
-        $proposals = $this->proposals_model->do_kanban_query($status, $this->input->get('search'), $page, [
-            'sort_by' => $this->input->get('sort_by'),
-            'sort'    => $this->input->get('sort'),
-        ]);
+        $proposals = (new ProposalsPipeline($status))
+            ->search($this->input->get('search'))
+            ->sortBy(
+                $this->input->get('sort_by'),
+                $this->input->get('sort')
+            )
+            ->page($page)->get();
 
         foreach ($proposals as $proposal) {
             $this->load->view('admin/proposals/pipeline/_kanban_card', [

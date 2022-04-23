@@ -122,6 +122,30 @@
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
            data-title="<?php echo _l('tasks_reminder_notification_before_help'); ?>"></i>
         <?php echo render_input('settings[tasks_reminder_notification_before]', 'tasks_reminder_notification_before', get_option('tasks_reminder_notification_before'), 'number'); ?>
+
+        <?php echo render_input('settings[automatically_stop_task_timer_after_hours]','automatically_stop_task_timer_after_hours',get_option('automatically_stop_task_timer_after_hours'),'number'); ?>
+        <hr />
+        <?php
+        render_yes_no_option('reminder_for_completed_but_not_billed_tasks', 'send_reminder_for_completed_but_not_billed_tasks');
+        ?>
+        <div class="staff_notify_completed_but_not_billed_tasks_fields <?php echo get_option('reminder_for_completed_but_not_billed_tasks') == '1' ? '' : 'hide'; ?>">
+            <?php
+            $selected = get_staff_user_id();
+            if (!empty(get_option('staff_notify_completed_but_not_billed_tasks'))) {
+                $selected = json_decode(get_option('staff_notify_completed_but_not_billed_tasks'));
+            }
+            echo render_select('settings[staff_notify_completed_but_not_billed_tasks][]', $staff, ['staffid', ['firstname', 'lastname']], 'staff_to_notify_completed_but_not_billed_tasks', $selected, ['multiple' => true], [], '', '', false);
+
+            $weekdays = [];
+            foreach (array_combine(get_weekdays_original(), get_weekdays()) as $key => $day) {
+                $weekdays[] = ['id' => $key, 'day' => $day];
+            }
+            $selected = json_decode(get_option('reminder_for_completed_but_not_billed_tasks_days'));
+            if (empty($selected)) {
+                $selected = ['Monday'];
+            }
+            echo render_select('settings[reminder_for_completed_but_not_billed_tasks_days][]', $weekdays, ['id', ['day']], 'reminder_for_completed_but_not_billed_tasks_days', $selected, ['multiple' => true, 'data'], [], '', '', false); ?>
+        </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="procurations">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"

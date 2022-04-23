@@ -1,4 +1,44 @@
 $(function() {
+    $('#tickets_bulk_actions').on('show.bs.modal', function () {
+        $('#primary_ticket_id').find('option').remove().end().append('<option></option>');
+        $('#merge_tickets').prop("checked", false);
+        $('#merge_tickets').trigger('change');
+    });
+
+    $('#merge_tickets').on('change', function () {
+        var $mergeCheckbox = $(this)
+        var merge_tickets = $mergeCheckbox.prop('checked');
+        var $bulkChange = $('#bulk_change');
+        var $ticketsSelect = $('#primary_ticket_id');
+        var rows = $('.table-tickets').find('tbody tr');
+
+        $ticketsSelect.find('option').remove().end().append('<option></option>');
+        if (merge_tickets) {
+            $('#bulk_change').addClass('hide');
+            $('#merge_tickets_wrapper').removeClass('hide');
+            $('.mass_delete_checkbox').addClass('hide');
+            $('#mass_delete').prop('checked', false);
+            $bulkChange.addClass('hide');
+
+            $.each(rows, function() {
+                var checkbox = $($(this).find('td').eq(0)).find('input');
+                if (checkbox.prop('checked') == true) {
+                    $ticketsSelect.append('<option value="' + checkbox.val() + '" data-status="'+ checkbox.data('status')  +'">'+ checkbox.data('name') +'</option');
+                }
+            });
+            $ticketsSelect.selectpicker('refresh')
+        } else {
+            $('#merge_tickets_wrapper').addClass('hide');
+            $bulkChange.removeClass('hide');
+            $('.mass_delete_checkbox').removeClass('hide');
+        }
+    });
+
+    $('#primary_ticket_id').on('change', function () {
+        var status = $(this).find('option:selected').data('status');
+        $('#primary_ticket_status').selectpicker('val', status);
+    });
+
     // Add predefined reply click
     $('#insert_predefined_reply').on('change', function(e) {
         e.preventDefault();
@@ -145,6 +185,8 @@ $(function() {
                 } else {
                     window.location.reload();
                 }
+            } else if (typeof(response.message) !== 'undefined') {
+                alert_float('warning', response.message)
             }
         });
     });
@@ -240,9 +282,21 @@ function insert_ticket_knowledgebase_link(e) {
 function tickets_bulk_action(event) {
     if (confirm_delete()) {
         var mass_delete = $('#mass_delete').prop('checked');
+        var merge_tickets = $('#merge_tickets').prop('checked');
         var ids = [];
         var data = {};
-        if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+
+        if (typeof(merge_tickets) != 'undefined' && merge_tickets == true){
+            data.merge_tickets = true;
+            data.primary_ticket = $('#primary_ticket_id').val();
+            data.primary_ticket_status = $('#primary_ticket_status').val();
+
+            if (data.primary_ticket == '') {
+                console.log('empty')
+
+                return;
+            }
+        } else if (mass_delete == false || typeof(mass_delete) == 'undefined') {
             data.status = $('#move_to_status_tickets_bulk').val();
             data.department = $('#move_to_department_tickets_bulk').val();
             data.priority = $('#move_to_priority_tickets_bulk').val();

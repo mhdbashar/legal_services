@@ -254,6 +254,36 @@
                </div>
                <?php } ?>
             </div>
+
+             <?php if(!empty($proposal->signature)){ ?>
+                 <div class="row mtop20">
+                     <div class="col-md-12 proposal-value">
+                         <h4 class="bold mbot10">
+                             <?php echo _l('signature'); ?>
+                         </h4>
+                     </div>
+                     <div class="col-md-5 text-muted proposal-signed-by">
+                         <?php echo _l('proposal_signed_by'); ?>
+                     </div>
+                     <div class="col-md-7 proposal-proposal-signed-by">
+                         <?php echo "{$proposal->acceptance_firstname} {$proposal->acceptance_lastname}"; ?>
+                     </div>
+
+                     <div class="col-md-5 text-muted proposal-signed-by">
+                         <?php echo _l('proposal_signed_date'); ?>
+                     </div>
+                     <div class="col-md-7 proposal-proposal-signed-by">
+                         <?php echo _d(explode(' ', $proposal->acceptance_date)[0]); ?>
+                     </div>
+
+                     <div class="col-md-5 text-muted proposal-signed-by">
+                         <?php echo _l('proposal_signed_ip'); ?>
+                     </div>
+                     <div class="col-md-7 proposal-signed-by">
+                         <?php echo $proposal->acceptance_ip; ?>
+                     </div>
+                 </div>
+             <?php } ?>
             <div style="margin-top:80px;"></div>
          </div>
       </div>

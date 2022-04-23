@@ -241,49 +241,49 @@ function task_rel_link($rel_id, $rel_type)
  * @param  array $task task array
  * @return array
  */
-function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
-{
-    $data = [];
-
-    $data['id']     = $task['id'];
-    $data['desc']   = $task['name'];
-    $data['status'] = $task['status'];
-
-    $data['start'] = strftime('%Y-%m-%d', strtotime($task['startdate']));
-
-    if ($task['duedate']) {
-        $data['end'] = strftime('%Y-%m-%d', strtotime($task['duedate']));
-    } else {
-        $data['end'] = $defaultEnd;
-    }
-
-    $data['desc']  = $task['name'] . ' - ' . _l('task_total_logged_time') . ' ' . seconds_to_time_format($task['total_logged_time']);
-    $data['label'] = $task['name'];
-    if ($task['duedate'] && date('Y-m-d') > $task['duedate'] && $task['status'] != Tasks_model::STATUS_COMPLETE) {
-        $data['custom_class'] = 'ganttRed';
-    } elseif ($task['status'] == Tasks_model::STATUS_COMPLETE) {
-        $data['custom_class'] = 'ganttGreen';
-    }
-
-    $data['name']     = $task['name'];
-    $data['task_id']  = $task['id'];
-    $data['progress'] = 0;
-
-    //for task in single project gantt
-    if ($dep_id) {
-        $data['dependencies'] = $dep_id;
-    }
-
-    if (!staff_can('edit', 'tasks') || is_client_logged_in()) {
-        if (isset($data['custom_class'])) {
-            $data['custom_class'] .= ' noDrag';
-        } else {
-            $data['custom_class'] = 'noDrag';
-        }
-    }
-
-    return $data;
-}
+//function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
+//{
+//    $data = [];
+//
+//    $data['id']     = $task['id'];
+//    $data['desc']   = $task['name'];
+//    $data['status'] = $task['status'];
+//
+//    $data['start'] = strftime('%Y-%m-%d', strtotime($task['startdate']));
+//
+//    if ($task['duedate']) {
+//        $data['end'] = strftime('%Y-%m-%d', strtotime($task['duedate']));
+//    } else {
+//        $data['end'] = $defaultEnd;
+//    }
+//
+//    $data['desc']  = $task['name'] . ' - ' . _l('task_total_logged_time') . ' ' . seconds_to_time_format($task['total_logged_time']);
+//    $data['label'] = $task['name'];
+//    if ($task['duedate'] && date('Y-m-d') > $task['duedate'] && $task['status'] != Tasks_model::STATUS_COMPLETE) {
+//        $data['custom_class'] = 'ganttRed';
+//    } elseif ($task['status'] == Tasks_model::STATUS_COMPLETE) {
+//        $data['custom_class'] = 'ganttGreen';
+//    }
+//
+//    $data['name']     = $task['name'];
+//    $data['task_id']  = $task['id'];
+//    $data['progress'] = 0;
+//
+//    //for task in single project gantt
+//    if ($dep_id) {
+//        $data['dependencies'] = $dep_id;
+//    }
+//
+//    if (!staff_can('edit', 'tasks') || is_client_logged_in()) {
+//        if (isset($data['custom_class'])) {
+//            $data['custom_class'] .= ' noDrag';
+//        } else {
+//            $data['custom_class'] = 'noDrag';
+//        }
+//    }
+//
+//    return $data;
+//}
 /**
  * Common function used to select task relation name
  * @return string
@@ -525,12 +525,12 @@ function get_sql_calc_task_logged_time($task_id)
 
 function get_sql_select_task_assignees_ids()
 {
-    return '(SELECT GROUP_CONCAT(staffid SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
+    return '(SELECT GROUP_CONCAT(staffid ORDER BY ' . db_prefix() . 'task_assigned.id ASC SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id)';
 }
 
 function get_sql_select_task_asignees_full_names()
 {
-    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
+    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) ORDER BY ' . db_prefix() . 'task_assigned.id ASC SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid WHERE taskid=' . db_prefix() . 'tasks.id)';
 }
 
 function get_sql_select_task_total_checklist_items()

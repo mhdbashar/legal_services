@@ -1,13 +1,42 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/**
+ * @property Invoices_model $invoices_model
+ * @property Payments_model $payments_model
+ */
 class Payments extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('payments_model');
+    }
+
+    public function batch_payment_modal() {
+        $this->load->model('invoices_model');
+        $data['invoices'] = $this->invoices_model->get_unpaid_invoices();
+        $data['customers'] = $this->db->select('userid,' . get_sql_select_client_company())
+            ->where_in('userid', collect($data['invoices'])->pluck('clientid')->toArray())
+            ->get(db_prefix() . 'clients')->result();
+        $this->load->view('admin/payments/batch_payment_modal', $data);
+    }
+
+    public function add_batch_payment()
+    {
+        if ($this->input->method() !== 'post') {
+            show_404();
+        }
+
+        if (!staff_can('create', 'payment')) {
+            access_denied('Create Payment');
+        }
+        $totalAdded = $this->payments_model->add_batch_payment($this->input->post());
+        if ($totalAdded > 0) {
+            set_alert('success', _l('batch_payment_added_successfully', $totalAdded));
+            return redirect(admin_url('payments'));
+        }
+        return redirect(admin_url('invoices'));
     }
 
     /* In case if user go only on /payments */

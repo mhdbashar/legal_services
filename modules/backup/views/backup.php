@@ -45,7 +45,7 @@
 										<td>
 											<?php echo bytesToSize($fullPath); ?>
 										</td>
-										<td data-order="<?php echo strftime('%Y-%m-%d %H:%M:%S', filectime($fullPath)); ?>">
+										<td data-order="<?php echo date('Y-m-d H:m:s', filectime($fullPath)); ?>">
 											<?php echo date('M dS, Y, g:i a',filectime($fullPath)); ?>
 										</td>
 										<td>

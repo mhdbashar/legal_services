@@ -3,7 +3,7 @@
    $len = count($comments);
    $i = 0;
    foreach ($comments as $comment) { ?>
-<div class="col-md-12" data-commentid="<?php echo $comment['id']; ?>">
+       <div class="col-md-12 comment-item" data-commentid="<?php echo $comment['id']; ?>">
 
    <?php if($comment['staffid'] != 0){ ?>
    <a href="<?php echo admin_url('profile/' . $comment['staffid']); ?>">

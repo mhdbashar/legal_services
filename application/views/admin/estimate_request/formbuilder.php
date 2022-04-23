@@ -38,7 +38,7 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="tab_form_integration">
                                     <p><?php echo _l('form_integration_code_help'); ?></p>
-                                    <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/quote/' . $form->form_key); ?>" frameborder="0" allowfullscreen></iframe></textarea>
+                                    <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/quote/' . $form->form_key); ?>" frameborder="0" sandbox="allow-top-navigation allow-scripts allow-forms allow-same-origin" allowfullscreen></iframe></textarea>
                                     <h4 class="mtop15 font-medium bold">Share direct link</h4>
                                     <p>
                                         <span class="label label-default">
@@ -119,8 +119,36 @@
                                         </div>
                                         <?php $value = (isset($form) ? $form->submit_btn_name : 'Submit'); ?>
                                         <?php echo render_input('submit_btn_name', 'form_btn_submit_text', $value); ?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <?php $value = (isset($form) ? $form->submit_btn_bg_color : '#84c529'); ?>
+                                                <?php echo render_color_picker('submit_btn_bg_color',_l('submit_button_bg_color'), $value); ?>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <?php $value = (isset($form) ? $form->submit_btn_text_color : '#ffffff'); ?>
+                                                <?php echo render_color_picker('submit_btn_text_color',_l('submit_button_text_color'), $value); ?>
+                                            </div>
+                                        </div>
+                                        <hr class="no-mtop" />
+                                        <label for="" class="control-label bold"><?php echo _l('form_submit_success_action'); ?>?</label>
+                                        <div class="clearfix"></div>
+                                        <div class="radio radio-primary">
+                                            <input type="radio" name="submit_action" value="0" id="success_message" <?php if (isset($form) && $form->submit_action == '0' || !isset($form)) {
+                                                echo 'checked';
+                                            } ?>>
+                                            <label for="success_message"><?php echo _l('form_submit_success_display_thank_you'); ?></label>
+                                        </div>
+                                        <div class="radio radio-primary">
+                                            <input type="radio" name="submit_action" value="1" id="website_redirect" <?php if (isset($form) && $form->submit_action == '1') {
+                                                echo 'checked';
+                                            } ?>>
+                                            <label for="website_redirect"><?php echo _l('form_submit_success_redirect_to_website'); ?></label>
+                                        </div>
                                         <?php $value = (isset($form) ? $form->success_submit_msg : ''); ?>
                                         <?php echo render_textarea('success_submit_msg', 'form_success_submit_msg', $value); ?>
+                                        <?php $value = (isset($form) ? $form->submit_redirect_url : ''); ?>
+                                        <?php echo render_input('submit_redirect_url', 'form_submit_website_url', $value, 'url'); ?>
+                                        <hr>
                                     </div>
                                     <div class="col-md-6">
                                         <?php
@@ -137,7 +165,7 @@
                                         <?php echo render_select('responsible', $members, array('staffid', array('firstname', 'lastname')), 'estimate_request_assignee', $selected); ?>
                                         <hr/>
                                         <label for=""
-                                               class="control-label"><?php echo _l('notification_settings'); ?></label>
+                                               class="control-label bold"><?php echo _l('notification_settings'); ?></label>
                                         <div class="clearfix"></div>
                                         <div class="checkbox checkbox-primary">
                                             <input type="checkbox" name="notify_request_submitted"
@@ -428,6 +456,34 @@
                         return isRequired;
                     }
                 }
+            },
+            success_submit_msg: {
+                required: {
+                    depends:function(element){
+                        var isRequired = ($('input[name="submit_action"]:checked').val() === '0') ? true : false;
+                        if(isRequired) {
+                            $('[for="success_submit_msg"]').find('.req').removeClass('hide');
+                        } else {
+                            $(element).next('p.text-danger').remove();
+                            $('[for="success_submit_msg"]').find('.req').addClass('hide');
+                        }
+                        return isRequired;
+                    }
+                }
+            },
+            submit_redirect_url: {
+                required: {
+                    depends:function(element){
+                        var isRequired = ($('input[name="submit_action"]:checked').val() === '1') ? true : false;
+                        if(isRequired) {
+                            $('[for="submit_redirect_url"]').find('.req').removeClass('hide');
+                        } else {
+                            $(element).next('p.text-danger').remove();
+                            $('[for="submit_redirect_url"]').find('.req').addClass('hide');
+                        }
+                        return isRequired;
+                    }
+                }
             }
         });
 
@@ -443,6 +499,19 @@
 
         $create_task_on_duplicate.trigger('change');
 
+        var $submitActionInput = $('input[name="submit_action"]');
+        $submitActionInput.on('change',function(){
+            $('#form_info').validate().checkForm();
+
+            if ($('input[name="submit_action"]:checked').val() === '1') {
+                $('[app-field-wrapper="submit_redirect_url"]').removeClass('hide');
+                $('[app-field-wrapper="success_submit_msg"]').addClass('hide');
+            } else {
+                $('[app-field-wrapper="success_submit_msg"]').removeClass('hide');
+                $('[app-field-wrapper="submit_redirect_url"]').addClass('hide');
+            }
+        });
+        $submitActionInput.trigger('change');
     });
 
     function do_form_field_restrictions(fId, type) {

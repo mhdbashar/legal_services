@@ -43,6 +43,7 @@ class Goals_model extends App_Model
 
             if (!$goal || $goal && isset($goal['dashboard']) && $goal['dashboard'] === false) {
                 unset($goals[$key]);
+                continue;
             }
 
             $goals[$key]['achievement']    = $this->calculate_goal_achievement($val['id']);
@@ -230,7 +231,7 @@ class Goals_model extends App_Model
             $sql .= ' WHERE ' . db_prefix() . "invoicepaymentrecords.date BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
             if ($goal->staff_id != 0) {
-                $sql .= ' AND (' . db_prefix() . 'invoices.addedfrom=' . $goal->staff_id . ' OR sale_agent=' . $goal->staff_id . ')';
+                $sql .= ' AND (sale_agent=' . $goal->staff_id . ')';
             }
         } elseif ($type == 8) {
             $sql = 'SELECT SUM(total) as total FROM ' . db_prefix() . 'invoices';
@@ -238,7 +239,7 @@ class Goals_model extends App_Model
             $sql .= ' WHERE ' . db_prefix() . "invoices.date BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
             if ($goal->staff_id != 0) {
-                $sql .= ' AND (' . db_prefix() . 'invoices.addedfrom=' . $goal->staff_id . ' OR sale_agent=' . $goal->staff_id . ')';
+                $sql .= ' AND (sale_agent=' . $goal->staff_id . ')';
             }
         } elseif ($type == 2) {
             $sql = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(date_converted) BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND status = 1 AND " . db_prefix() . 'leads.id IN (SELECT leadid FROM ' . db_prefix() . 'clients WHERE leadid=' . db_prefix() . 'leads.id)';

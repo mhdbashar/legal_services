@@ -254,9 +254,9 @@ function get_styling_areas($type = 'admin')
                 'additional_selectors' => '',
             ],
             [
-                'name'                 => _l('theme_style_modal_white_text_color'),
+                'name'                 => _l('theme_style_modal_header_text_color'),
                 'id'                   => 'modal-header-white-text-color',
-                'target'               => '.modal-header .color-white',
+                'target'               => '.modal-header > *:not(.modal-title)',
                 'css'                  => 'color',
                 'additional_selectors' => '',
             ],

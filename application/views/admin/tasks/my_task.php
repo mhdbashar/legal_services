@@ -111,7 +111,7 @@
                </div>
                <?php
                   if($this->input->get('ticket_to_task')) {
-                    echo form_hidden('ticket_to_task');
+                      echo form_hidden('ticket_to_task', $rel_id);
                   }
                   } ?>
                <hr />
@@ -295,6 +295,28 @@
                      </div>
                   </div>
                </div>
+                <?php if (!isset($task)) { ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group select-placeholder>">
+                                <label for="assignees"><?php echo _l('task_single_assignees'); ?></label>
+                                <select name="assignees[]" id="assignees" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" multiple data-live-search="true">
+                                    <?php foreach($members as $member){ ?>
+                                        <option value="<?php echo $member['staffid']; ?>" <?php if((get_option('new_task_auto_assign_current_member') == '1') && get_staff_user_id()  == $member['staffid']){echo 'selected'; } ?>>
+                                            <?php echo $member['firstname'] . ' ' .  $member['lastname']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <?php
+                            $follower = (get_option('new_task_auto_follower_current_member') == '1') ? [get_staff_user_id()] : '';
+                            echo render_select('followers[]', $members, ['staffid', ['firstname', 'lastname']], 'task_single_followers', $follower,['multiple'=>true], [], '', '', false);
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
                <?php
                   if(isset($task)
                      && $task->status == Tasks_model::STATUS_COMPLETE
@@ -340,11 +362,15 @@
    var _rel_id = $('#rel_id'),
    _rel_type = $('#rel_type'),
    _rel_id_wrapper = $('#rel_id_wrapper'),
+       _current_member = undefined,
    data = {};
 
    var _milestone_selected_data;
    _milestone_selected_data = undefined;
 
+   <?php if(get_option('new_task_auto_assign_current_member') == '1') { ?>
+   _current_member = "<?php echo get_staff_user_id(); ?>";
+   <?php } ?>
    $(function(){
 
     $( "body" ).off( "change", "#rel_id" );
@@ -394,6 +420,8 @@
     init_selectpicker();
     task_rel_select();
 
+       var _allAssigneeSelect = $("#assignees").html();
+
     $('body').on('change','#rel_id',function(){
      if($(this).val() != ''){
        if(_rel_type.val() == 'project'){
@@ -404,6 +432,12 @@
             $('input[name="duedate"]').val(_milestone_selected_data.due_date)
           }
           $("select[name='milestone']").selectpicker('refresh');
+
+             $("#assignees").html(project.assignees);
+             if(typeof(_current_member) != 'undefined'){
+                 $("#assignees").val(_current_member);
+             }
+             $("#assignees").selectpicker('refresh')
           if(project.billing_type == 3){
            $('.task-hours').addClass('project-task-hours');
          } else {
@@ -439,6 +473,15 @@
       _rel_id.change();
       <?php } ?>
 
+       _rel_type.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+           if (previousValue == 'project') {
+               $("#assignees").html(_allAssigneeSelect);
+               if(typeof(_current_member) != 'undefined'){
+                   $("#assignees").val(_current_member);
+               }
+               $("#assignees").selectpicker('refresh')
+           }
+       });
     });
 
    <?php if(isset($_milestone_selected_data)){ ?>

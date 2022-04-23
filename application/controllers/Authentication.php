@@ -90,7 +90,7 @@ class Authentication extends ClientsController
                 'accept_terms_and_conditions',
                 _l('terms_and_conditions'),
                 'required',
-                    ['required' => _l('terms_and_conditions_validation')]
+                ['required' => _l('terms_and_conditions_validation')]
             );
         }
 
@@ -130,33 +130,48 @@ class Authentication extends ClientsController
         }
         if ($this->input->post()) {
             if ($this->form_validation->run() !== false) {
-                $data = $this->input->post();
+                $data      = $this->input->post();
+                $countryId = is_numeric($data['country']) ? $data['country'] : 0;
+
+                if (is_automatic_calling_codes_enabled()) {
+                    $customerCountry = get_country($countryId);
+
+                    if ($customerCountry) {
+                        $callingCode = '+' . ltrim($customerCountry->calling_code, '+');
+
+                        if (startsWith($data['contact_phonenumber'], $customerCountry->calling_code)) { // with calling code but without the + prefix
+                            $data['contact_phonenumber'] = '+' . $data['contact_phonenumber'];
+                        } elseif (!startsWith($data['contact_phonenumber'], $callingCode)) {
+                            $data['contact_phonenumber'] = $callingCode . $data['contact_phonenumber'];
+                        }
+                    }
+                }
 
                 define('CONTACT_REGISTERING', true);
 
                 $clientid = $this->clients_model->add([
-                      'billing_street'      => $data['address'],
-                      'billing_city'        => $data['city'],
-                      'billing_state'       => $data['state'],
-                      'billing_zip'         => $data['zip'],
-                      'billing_country'     => is_numeric($data['country']) ? $data['country'] : 0,
-                      'firstname'           => $data['firstname'],
-                      'lastname'            => $data['lastname'],
-                      'email'               => $data['email'],
-                      'contact_phonenumber' => $data['contact_phonenumber'] ,
-                      'website'             => $data['website'],
-                      'title'               => $data['title'],
-                      'password'            => $data['passwordr'],
-                      'company'             => $data['company'],
-                      'vat'                 => isset($data['vat']) ? $data['vat'] : '',
-                      'phonenumber'         => $data['phonenumber'],
-                      'country'             => $data['country'],
-                      'city'                => $data['city'],
-                      'address'             => $data['address'],
-                      'zip'                 => $data['zip'],
-                      'state'               => $data['state'],
-                      'custom_fields'       => isset($data['custom_fields']) && is_array($data['custom_fields']) ? $data['custom_fields'] : [],
-                      'default_language'    => (get_contact_language() != '') ? get_contact_language() : get_option('active_language'),
+                    'billing_street'      => $data['address'],
+                    'billing_city'        => $data['city'],
+                    'billing_state'       => $data['state'],
+                    'billing_zip'         => $data['zip'],
+                    'billing_country'     => $countryId,
+                    'firstname'           => $data['firstname'],
+                    'lastname'            => $data['lastname'],
+                    'email'               => $data['email'],
+                    'contact_phonenumber' => $data['contact_phonenumber'] ,
+                    'website'             => $data['website'],
+                    'title'               => $data['title'],
+                    'password'            => $data['passwordr'],
+                    'company'             => $data['company'],
+                    'vat'                 => isset($data['vat']) ? $data['vat'] : '',
+                    'phonenumber'         => $data['phonenumber'],
+                    'country'             => $data['country'],
+                    'city'                => $data['city'],
+                    'address'             => $data['address'],
+                    'zip'                 => $data['zip'],
+                    'state'               => $data['state'],
+                    'custom_fields'       => isset($data['custom_fields']) && is_array($data['custom_fields']) ? $data['custom_fields'] : [],
+                    'default_language'    => (get_contact_language() != '') ? get_contact_language() : get_option('active_language'),
                 ], true);
 
                 if ($clientid) {
@@ -252,10 +267,10 @@ class Authentication extends ClientsController
                     'userid' => $userid,
                 ]);
                 $success = $this->Authentication_model->reset_password(
-                        0,
-                        $userid,
-                        $new_pass_key,
-                        $this->input->post('passwordr', false)
+                    0,
+                    $userid,
+                    $new_pass_key,
+                    $this->input->post('passwordr', false)
                 );
                 if (is_array($success) && $success['expired'] == true) {
                     set_alert('danger', _l('password_reset_key_expired'));

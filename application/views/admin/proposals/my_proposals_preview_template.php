@@ -16,7 +16,14 @@
                     <?php if(isset($proposal)){ ?>
                         <li role="presentation">
                             <a href="#tab_comments" onclick="get_proposal_comments(); return false;" aria-controls="tab_comments" role="tab" data-toggle="tab">
-                                <?php echo _l('proposal_comments'); ?>
+                                <?php
+                                echo _l('proposal_comments');
+                                $total_comments = total_rows(db_prefix() . 'proposal_comments', [
+                                        'proposalid' => $proposal->id,
+                                    ]
+                                );
+                                ?>
+                                <span class="badge total_comments <?php echo $total_comments === 0 ? 'hide' : ''; ?>"><?php echo $total_comments ?></span>
                             </a>
                         </li>
                         <li role="presentation">
@@ -55,7 +62,14 @@
                         <?php hooks()->do_action('after_li_proposal_view'); ?>
                         <li role="presentation" class="tab-separator">
                             <a href="#tab_templates" onclick="get_templates('proposals', <?php echo $proposal->id ?? '' ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
-                                <?php echo _l('templates'); ?>
+                                <?php
+                                echo _l('templates');
+                                $total_templates = total_rows(db_prefix() . 'templates', [
+                                        'type' => 'proposals',
+                                    ]
+                                );
+                                ?>
+                                <span class="badge total_templates <?php echo $total_templates === 0 ? 'hide' : ''; ?>"><?php echo $total_templates ?></span>
                             </a>
                         </li>
                         <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
@@ -301,6 +315,11 @@
                         <?php if(!empty($proposal->signature)) { ?>
                             <div class="row mtop25">
                                 <div class="col-md-6 col-md-offset-6 text-right">
+                                    <div class="bold">
+                                        <p class="no-mbot"><?php echo _l('contract_signed_by') . ": {$proposal->acceptance_firstname} {$proposal->acceptance_lastname}"?></p>
+                                        <p class="no-mbot"><?php echo _l('proposal_signed_date') . ': ' . _dt($proposal->acceptance_date) ?></p>
+                                        <p class="no-mbot"><?php echo _l('proposal_signed_ip') . ": {$proposal->acceptance_ip}"?></p>
+                                    </div>
                                     <p class="bold"><?php echo _l('document_customer_signature_text'); ?>
                                         <?php if(has_permission('proposals','','delete')){ ?>
                                             <a href="<?php echo admin_url('proposals/clear_signature/'.$proposal->id); ?>" data-toggle="tooltip" title="<?php echo _l('clear_signature'); ?>" class="_delete text-danger">

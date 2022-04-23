@@ -57,6 +57,23 @@ class Import_customers extends App_import
                     if (empty($row[$i]) || (!empty($row[$i]) && !startsWith($row[$i], 'cus_'))) {
                         $row[$i] = null;
                     }
+                } elseif ($databaseFields[$i] == 'contact_phonenumber') {
+                    if (is_automatic_calling_codes_enabled() && !empty($row[$i])) {
+                        $customerCountryIndex = array_search('country', $databaseFields);
+                        if (isset($row[$customerCountryIndex]) && !empty($row[$customerCountryIndex])) {
+                            $customerCountry = $this->getCountry(null, $this->countryValue($row[$customerCountryIndex]));
+
+                            if ($customerCountry) {
+                                $callingCode = '+' . ltrim($customerCountry->calling_code, '+');
+
+                                if (startsWith($row[$i], $customerCountry->calling_code)) { // with calling code but without the + prefix
+                                    $row[$i] = '+' . $row[$i];
+                                } elseif (!startsWith($row[$i], $callingCode)) {
+                                    $row[$i] = $callingCode . $row[$i];
+                                }
+                            }
+                        }
+                    }
                 }
 
                 $insert[$databaseFields[$i]] = $row[$i];
@@ -263,14 +280,40 @@ class Import_customers extends App_import
     private function getCountry($search = null, $id = null)
     {
         if ($search) {
+            $searchSlug = slug_it($search);
+
+            if (empty($search)) {
+                return null;
+            }
+
+            if ($country = $this->ci->app_object_cache->get('import-country-search-' . $searchSlug)) {
+                return $country;
+            }
+
             $this->ci->db->where('iso2', $search);
             $this->ci->db->or_where('short_name', $search);
             $this->ci->db->or_where('long_name', $search);
         } else {
+            if (empty($id)) {
+                return null;
+            }
+
+            if ($country = $this->ci->app_object_cache->get('import-country-id-' . $id)) {
+                return $country;
+            }
+
             $this->ci->db->where('country_id', $id);
         }
 
-        return  $this->ci->db->get(db_prefix() . 'countries')->row();
+        $country = $this->ci->db->get(db_prefix() . 'countries')->row();
+
+        if ($search) {
+            $this->ci->app_object_cache->add('import-country-search-' . $searchSlug, $country);
+        } else {
+            $this->ci->app_object_cache->add('import-country-id-' . $id, $country);
+        }
+
+        return $country;
     }
 
     private function countryValue($value)

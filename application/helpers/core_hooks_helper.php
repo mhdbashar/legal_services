@@ -33,6 +33,16 @@ if (get_instance()->config->item('csrf_protection')) {
 }
 
 /**
+ * Set the application identification key
+ */
+function _maybe_set_identification_key()
+{
+    if (!defined('SEEDING') && !get_option('identification_key')) {
+        get_instance()->app->set_identification_key();
+    }
+}
+
+/**
  * Register core merge fields builder classes
  * This function is used by filter in core_hooks_helper.php
  * @param  array $fields current registered fields
@@ -55,6 +65,10 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/event_merge_fields';
     $fields[] = 'merge_fields/other_merge_fields';
     $fields[] = 'merge_fields/estimate_request_merge_fields';
+    $fields[] = 'merge_fields/notifications_merge_fields';
+    $fields[] = 'merge_fields/invoice_batch_payments_merge_fields';
+    $fields[] = 'merge_fields/other_merge_fields';
+
     $fields[] = 'merge_fields/sessions_merge_fields';
 //    $fields[] = 'merge_fields/termination_staff_merge_fields';
     $fields[] = 'merge_fields/wreports_merge_fields';
@@ -73,16 +87,19 @@ function _maybe_add_estimate_request_link_in_customers_area()
 
     if ($formId != 0) {
         $CI = &get_instance();
+
         $CI->load->model('estimate_request_model');
 
         if ($form = $CI->estimate_request_model->get_form(['id' => $formId])) {
+            $link = hooks()->apply_filters(
+                'customers_area_estimate_request_link',
+                site_url('forms/quote/' . $form->form_key) . '?styled=1',
+                $form
+            );
+
             add_theme_menu_item('estimate-request', [
-                'name' => _l('customers_estimate_request_link_text'),
-                'href' => hooks()->apply_filters(
-                    'customers_area_estimate_request_link',
-                    site_url('forms/quote/' . $form->form_key) . '?styled=1',
-                    $form
-                ),
+                'name'     => _l('customers_estimate_request_link_text'),
+                'href'     => $link,
                 'position' => 1,
             ]);
         }

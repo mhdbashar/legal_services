@@ -21,7 +21,12 @@
                 ?>
                 <?php echo render_date_input('new_start_date','contract_start_date',_d(date('Y-m-d'))); ?>
                 <?php echo render_date_input('new_end_date','contract_end_date',_d($new_end_date_assume)); ?>
-                <?php echo render_input('new_value','contract_value',$contract->contract_value,'number'); ?>
+                <?php echo render_input(
+                    'new_value',
+                    'contract_value',
+                    $contract->contract_value,
+                    'number'
+                ); ?>
                 <?php if($contract->signed == 1) { ?>
                 <div class="checkbox">
                   <input type="checkbox" name="renew_keep_signature" id="renew_keep_signature">
@@ -41,3 +46,10 @@
     <?php echo form_close(); ?>
 </div>
 </div>
+<script>
+    $(function(){
+        $('#renew_keep_signature').on('change', function(e) {
+            $("#new_value").prop('disabled', this.checked)
+        });
+    })
+</script>

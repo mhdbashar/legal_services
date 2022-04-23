@@ -106,8 +106,8 @@ function get_available_staff_permissions($data = [])
         ],
         'projects' => [
             'name'         => _l('projects'),
-            'capabilities' => array_merge($withNotApplicableViewOwn, [ 'create_milestones' => _l('permission_create_milestones'),
-                'edit_milestones'=> _l('permission_edit_milestones'),'delete_milestones'=> _l('permission_delete_milestones')]),
+            'capabilities' => array_merge($withNotApplicableViewOwn, [ 'create_milestones' => _l('permission_create_timesheets'),
+                'edit_milestones'=> _l('permission_edit_milestones'), 'delete_milestones'=> _l('permission_delete_milestones')]),
             'help'         => [
                 'view'     => _l('help_project_permissions'),
                 'view_own' => _l('permission_projects_based_on_assignee'),
@@ -144,7 +144,12 @@ function get_available_staff_permissions($data = [])
         // ],
         'tasks' => [
             'name'         => _l('tasks'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn, [
+                'edit_timesheet' => _l('permission_edit_timesheets'),
+                'edit_own_timesheet' => _l('permission_edit_own_timesheets'),
+                'delete_timesheet' => _l('permission_delete_timesheets'),
+                'delete_own_timesheet' => _l('permission_delete_own_timesheets'),
+            ]),
             'help'        => [
                 'view'     => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
@@ -152,7 +157,12 @@ function get_available_staff_permissions($data = [])
         ],
         'sessions' => [
             'name'         => _l('sessions'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn, [
+                'edit_timesheet' => _l('permission_edit_timesheets'),
+                'edit_own_timesheet' => _l('permission_edit_own_timesheets'),
+                'delete_timesheet' => _l('permission_delete_timesheets'),
+                'delete_own_timesheet' => _l('permission_delete_own_timesheets'),
+            ]),
             'help'        => [
                 'view'     => _l('help_sessions_permissions'),
                 'view_own' => _l('permission_sessions_based_on_assignee'),

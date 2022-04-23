@@ -18,25 +18,27 @@ function app_generate_short_link($data)
 {
     hooks()->do_action('before_generate_short_link', $data);
     $accessToken = get_option('bitly_access_token');
-    $client = new Client();
+    $client      = new Client();
 
     try {
-        $response = $client->request('POST', "https://api-ssl.bitly.com/v4/bitlinks", [
-            "headers" => [
+        $response = $client->request('POST', 'https://api-ssl.bitly.com/v4/bitlinks', [
+            'headers' => [
                 'Authorization' => "Bearer $accessToken",
-                'Accept'        => "application/json",
+                'Accept'        => 'application/json',
             ],
-            "json"    => [
-                "long_url"  => $data['long_url'],
-                "domain"    => "bit.ly",
-                "title"     => $data['title'],
-            ]
+            'json' => [
+                'long_url' => $data['long_url'],
+                'domain'   => 'bit.ly',
+                'title'    => $data['title'],
+            ],
         ]);
 
         $response = json_decode($response->getBody());
+
         return $response->link;
     } catch (RequestException $e) {
         log_activity('Bitly ERROR' . (string) $e->getResponse()->getBody());
+
         return false;
     }
 }
@@ -61,18 +63,19 @@ function app_archive_short_link($link)
 
     $client = new Client();
     try {
-        $client->patch("https://api-ssl.bitly.com/v4/bitlinks/" . $link, [
-            "headers" => [
+        $client->patch('https://api-ssl.bitly.com/v4/bitlinks/' . $link, [
+            'headers' => [
                 'Authorization' => "Bearer $accessToken",
-                'Accept'        => "application/json",
+                'Accept'        => 'application/json',
             ],
-            "json"    => [
-                "archived" => true
-            ]
+            'json' => [
+                'archived' => true,
+            ],
         ]);
         return true;
     } catch (RequestException $e) {
         log_activity('Bitly ERROR' . (string) $e->getResponse()->getBody());
+
         return false;
     }
 }
@@ -516,7 +519,15 @@ function _l($line, $label = '', $log_errors = true)
     if (is_array($label) && count($label) > 0) {
         $_line = vsprintf($CI->lang->line(trim($line), $log_errors), $label);
     } else {
-        $_line = @sprintf($CI->lang->line(trim($line), $log_errors), $label);
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            try {
+                $_line = sprintf($CI->lang->line(trim($line), $log_errors), $label);
+            } catch (\ValueError $e) {
+                $_line = $CI->lang->line(trim($line), $log_errors);
+            }
+        } else {
+            $_line = @sprintf($CI->lang->line(trim($line), $log_errors), $label);
+        }
     }
 
     $hook_data = hooks()->apply_filters('after_get_language_text', ['line' => $line, 'formatted_line' => $_line]);
@@ -557,7 +568,8 @@ function _d($date)
     }
 
     $format    = get_current_date_format();
-    $formatted = strftime($format, strtotime($date));
+    $dateTime = new DateTime($date);
+    $formatted = $dateTime->format(str_replace('%', '', $format));
 
     return hooks()->apply_filters('after_format_date', $formatted, $date);
 }
@@ -583,11 +595,17 @@ function _dt($date, $is_timesheet = false)
     }
 
     if ($hour12 == false) {
-        $tf = '%H:%M:%S';
+        $tf = 'H:i:s';
         if ($is_timesheet == true) {
-            $tf = '%H:%M';
+            $tf = 'H:i';
         }
-        $date = strftime($format . ' ' . $tf, $date);
+
+        if(is_numeric($date)) {
+            $date = date('Y-m-d H:i:s',$date);
+        }
+
+        $dateTime = new DateTime($date);
+        $date = $dateTime->format(str_replace('%', '', $format . ' ' . $tf));
     } else {
         $date = date(get_current_date_format(true) . ' g:i A', $date);
     }
@@ -615,7 +633,10 @@ function to_sql_date($date, $datetime = false)
     ]);
 
     if ($datetime == false) {
-        return hooks()->apply_filters('to_sql_date_formatted', date_format(date_create_from_format($from_format, $date), $to_date));
+        return hooks()->apply_filters(
+            'to_sql_date_formatted',
+            DateTime::createFromFormat($from_format, $date)->format($to_date)
+        );
     }
 
     if (strpos($date, ' ') === false) {
@@ -637,7 +658,7 @@ function to_sql_date($date, $datetime = false)
     }
 
     $date = _simplify_date_fix($date, $from_format);
-    $d    = strftime('%Y-%m-%d %H:%M:%S', strtotime($date));
+    $d    = date('Y-m-d H:i:s', strtotime($date));
 
     return hooks()->apply_filters('to_sql_date_formatted', $d);
 }
@@ -670,7 +691,7 @@ function _simplify_date_fix($date, $from_format)
  */
 function is_date($date)
 {
-    if (strlen($date) < 10) {
+    if (empty($date) || strlen($date) < 10) {
         return false;
     }
 
@@ -824,7 +845,7 @@ function csrf_jquery_token()
 function app_happy_text($text)
 {
     // We won't do this on texts with URL's
-    if(strpos($text, 'http') !== false) {
+    if (strpos($text, 'http') !== false) {
         return $text;
     }
 
@@ -916,4 +937,18 @@ function get_last_upgrade_copy_data()
     }
 
     return false;
+}
+
+
+
+if(!function_exists('collect')) {
+    /**
+     * Collect items in a Collection instance
+     * @since  2.9.2
+     * @param  array $items
+     * @return \Illuminate\Support\Collection
+     */
+    function collect($items) {
+        return new Illuminate\Support\Collection($items);
+    }
 }

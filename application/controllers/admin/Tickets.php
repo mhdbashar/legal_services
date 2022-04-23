@@ -2,6 +2,10 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * @property Tickets_model $tickets_model
+ */
+
 class Tickets extends AdminController
 {
     public function __construct()
@@ -153,7 +157,7 @@ class Tickets extends AdminController
             // request from project area to create new ticket
             $data['project_id'] = $this->input->get('project_id');
             $data['userid']     = get_client_id_by_project_id($data['project_id']);
-            if (total_rows(db_prefix().'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
+            if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
                 $contact = $this->clients_model->get_contacts($data['userid']);
                 if (isset($contact[0])) {
                     $data['contact'] = $contact[0];
@@ -161,7 +165,7 @@ class Tickets extends AdminController
             }
         } elseif ($this->input->get('contact_id') && $this->input->get('contact_id') > 0 && $this->input->get('userid')) {
             $contact_id = $this->input->get('contact_id');
-            if (total_rows(db_prefix().'contacts', ['active' => 1, 'id' => $contact_id]) == 1) {
+            if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'id' => $contact_id]) == 1) {
                 $contact = $this->clients_model->get_contact($contact_id);
                 if ($contact) {
                     $data['contact'] = (array) $contact;
@@ -236,6 +240,27 @@ class Tickets extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function update_staff_replying($ticketId, $userId = '')
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode(['success' => $this->tickets_model->update_staff_replying($ticketId, $userId)]);
+            die;
+        }
+    }
+
+    public function check_staff_replying($ticketId)
+    {
+        if ($this->input->is_ajax_request()) {
+            $ticket = $this->tickets_model->get_staff_replying($ticketId);
+            $isAnotherReplying = $ticket->staff_id_replying !== null && $ticket->staff_id_replying !== get_staff_user_id();
+            echo json_encode([
+                'is_other_staff_replying' => $isAnotherReplying,
+                'message' => $isAnotherReplying ? _l('staff_is_currently_replying', get_staff_full_name($ticket->staff_id_replying)) : ''
+            ]);
+            die;
+        }
+    }
+
     public function ticket($id)
     {
         if (!$id) {
@@ -243,6 +268,7 @@ class Tickets extends AdminController
         }
 
         $data['ticket'] = $this->tickets_model->get_ticket_by_id($id);
+        $data['merged_tickets'] = $this->tickets_model->get_merged_tickets_by_primary_id($id);
 
         if (!$data['ticket']) {
             blank_page(_l('ticket_not_found'));
@@ -314,11 +340,11 @@ class Tickets extends AdminController
 
             if ($data['type'] == 'reply') {
                 $this->db->where('id', $data['id']);
-                $this->db->update(db_prefix().'ticket_replies', [
+                $this->db->update(db_prefix() . 'ticket_replies', [
                     'message' => $data['data'],
                 ]);
             } elseif ($data['type'] == 'ticket') {
-                $this->db->where('ticketid', $data['id']);
+                $this->db->update(db_prefix() . 'tickets', [
                 $this->db->update(db_prefix().'tickets', [
                     'message' => $data['data'],
                 ]);
@@ -356,6 +382,21 @@ class Tickets extends AdminController
         if ($this->input->post()) {
             $this->session->mark_as_flash('active_tab');
             $this->session->mark_as_flash('active_tab_settings');
+
+            if ($this->input->post('merge_ticket_ids') !== 0) {
+                $ticketsToMerge = explode(',', $this->input->post('merge_ticket_ids'));
+
+                $alreadyMergedTickets = $this->tickets_model->get_already_merged_tickets($ticketsToMerge);
+                if (count($alreadyMergedTickets) > 0) {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('cannot_merge_tickets_with_ids', implode(',', $alreadyMergedTickets)),
+                    ]);
+
+                    die();
+                }
+            }
+
             $success = $this->tickets_model->update_single_ticket_settings($this->input->post());
             if ($success) {
                 $this->session->set_flashdata('active_tab', true);
@@ -450,7 +491,7 @@ class Tickets extends AdminController
                 'name',
             ];
             $sIndexColumn = 'id';
-            $sTable       = db_prefix().'tickets_predefined_replies';
+            $sTable       = db_prefix() . 'tickets_predefined_replies';
             $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], [], [
                 'id',
             ]);
@@ -724,57 +765,76 @@ class Tickets extends AdminController
     {
         hooks()->do_action('before_do_bulk_action_for_tickets');
         if ($this->input->post()) {
-            $total_deleted = 0;
-            $ids           = $this->input->post('ids');
-            $status        = $this->input->post('status');
-            $department    = $this->input->post('department');
-            $service       = $this->input->post('service');
-            $priority      = $this->input->post('priority');
-            $tags          = $this->input->post('tags');
-            $is_admin      = is_admin();
-            if (is_array($ids)) {
-                foreach ($ids as $id) {
-                    if ($this->input->post('mass_delete')) {
-                        if ($is_admin) {
-                            if ($this->tickets_model->delete($id)) {
-                                $total_deleted++;
-                            }
-                        }
-                    } else {
-                        if ($status) {
-                            $this->db->where('ticketid', $id);
-                            $this->db->update(db_prefix().'tickets', [
-                                'status' => $status,
-                            ]);
-                        }
-                        if ($department) {
-                            $this->db->where('ticketid', $id);
-                            $this->db->update(db_prefix().'tickets', [
-                                'department' => $department,
-                            ]);
-                        }
-                        if ($priority) {
-                            $this->db->where('ticketid', $id);
-                            $this->db->update(db_prefix().'tickets', [
-                                'priority' => $priority,
-                            ]);
-                        }
+            $ids      = $this->input->post('ids');
+            $is_admin = is_admin();
 
-                        if ($service) {
-                            $this->db->where('ticketid', $id);
-                            $this->db->update(db_prefix().'tickets', [
-                                'service' => $service,
-                            ]);
+            if (!is_array($ids)) {
+                return;
+            }
+
+            if ($this->input->post('merge_tickets')) {
+                $primary_ticket = $this->input->post('primary_ticket');
+                $status         = $this->input->post('primary_ticket_status');
+
+                if ($this->tickets_model->is_merged($primary_ticket)) {
+                    set_alert('warning', _l('cannot_merge_into_merged_ticket'));
+
+                    return;
+                }
+
+                $total_merged = $this->tickets_model->merge($primary_ticket, $status, $ids);
+            } elseif ($this->input->post('mass_delete')) {
+                $total_deleted = 0;
+                if ($is_admin) {
+                    foreach ($ids as $id) {
+                        if ($this->tickets_model->delete($id)) {
+                            $total_deleted++;
                         }
-                        if ($tags) {
-                            handle_tags_save($tags, $id, 'ticket');
-                        }
+                    }
+                }
+            } else {
+                $status     = $this->input->post('status');
+                $department = $this->input->post('department');
+                $service    = $this->input->post('service');
+                $priority   = $this->input->post('priority');
+                $tags       = $this->input->post('tags');
+
+                foreach ($ids as $id) {
+                    if ($status) {
+                        $this->db->where('ticketid', $id);
+                        $this->db->update(db_prefix() . 'tickets', [
+                            'status' => $status,
+                        ]);
+                    }
+                    if ($department) {
+                        $this->db->where('ticketid', $id);
+                        $this->db->update(db_prefix() . 'tickets', [
+                            'department' => $department,
+                        ]);
+                    }
+                    if ($priority) {
+                        $this->db->where('ticketid', $id);
+                        $this->db->update(db_prefix() . 'tickets', [
+                            'priority' => $priority,
+                        ]);
+                    }
+
+                    if ($service) {
+                        $this->db->where('ticketid', $id);
+                        $this->db->update(db_prefix() . 'tickets', [
+                            'service' => $service,
+                        ]);
+                    }
+                    if ($tags) {
+                        handle_tags_save($tags, $id, 'ticket');
                     }
                 }
             }
 
             if ($this->input->post('mass_delete')) {
                 set_alert('success', _l('total_tickets_deleted', $total_deleted));
+            } elseif ($this->input->post('merge_tickets') && $total_merged > 0) {
+                set_alert('success', _l('tickets_merged'));
             }
         }
     }

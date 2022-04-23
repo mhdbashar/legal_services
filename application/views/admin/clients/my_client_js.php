@@ -193,7 +193,7 @@ $(function() {
         admin_url + 'expenses/table/' + customer_id,
         'undefined',
         'undefined',
-        'undefined', [5, 'desc']);
+        'undefined', [6, 'desc']);
 
     /* Customer profile proposals table */
     initDataTable('.table-proposals-client-profile',

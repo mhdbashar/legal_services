@@ -22,6 +22,8 @@
     <hr />
     <?php render_yes_no_option('staff_members_open_tickets_to_all_contacts','staff_members_open_tickets_to_all_contacts','staff_members_open_tickets_to_all_contacts_help'); ?>
     <hr />
+      <?php render_yes_no_option('automatically_assign_ticket_to_first_staff_responding','automatically_assign_ticket_to_first_staff_responding'); ?>
+      <hr />
     <?php render_yes_no_option('access_tickets_to_none_staff_members','access_tickets_to_none_staff_members'); ?>
     <hr />
     <?php render_yes_no_option('allow_non_admin_staff_to_delete_ticket_attachments','allow_non_admin_staff_to_delete_ticket_attachments'); ?>

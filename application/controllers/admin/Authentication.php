@@ -51,6 +51,7 @@ class Authentication extends App_Controller
                     set_alert('danger', _l('admin_auth_inactive_account'));
                     redirect(admin_url('authentication'));
                 } elseif (is_array($data) && isset($data['two_factor_auth']) && $data['two_factor_auth']>0) {
+                    $this->session->set_userdata('_two_factor_auth_established', true);
                     if( $data['two_factor_auth'] == 3) {
                         if(!$data['user']->phonenumber){
                             set_alert('danger', _l('two_factor_auth_phonenumber_code_not_found'));
@@ -103,6 +104,10 @@ class Authentication extends App_Controller
 
     public function two_factor($type = 'email')
     {
+        if(!$this->session->has_userdata('_two_factor_auth_established')) {
+            show_404();
+        }
+
         $this->form_validation->set_rules('code', _l('two_factor_authentication_code'), 'required');
 
         if ($this->input->post()) {
@@ -113,7 +118,7 @@ class Authentication extends App_Controller
                     $user = $this->Authentication_model->get_user_by_two_factor_auth_code($code);
                     $this->Authentication_model->clear_two_factor_auth_code($user->staffid);
                     $this->Authentication_model->two_factor_auth_login($user);
-
+                    $this->session->unset_userdata('_two_factor_auth_established');
                     $this->load->model('announcements_model');
                     $this->announcements_model->set_announcements_as_read_except_last_one(get_staff_user_id(), true);
 
@@ -124,6 +129,7 @@ class Authentication extends App_Controller
                 } elseif ($this->Authentication_model->is_google_two_factor_code_valid($code) && $type = 'app') {
                     $user = get_staff($this->session->userdata('tfa_staffid'));
                     $this->Authentication_model->two_factor_auth_login($user);
+                    $this->session->unset_userdata('_two_factor_auth_established');
                     $this->load->model('announcements_model');
                     $this->announcements_model->set_announcements_as_read_except_last_one(get_staff_user_id(), true);
 
@@ -132,11 +138,14 @@ class Authentication extends App_Controller
                     hooks()->do_action('after_staff_login');
                     redirect(admin_url());
                 } else {
+                    log_activity('Failed Two factor authentication attempt [Staff Name: '. get_staff_full_name() . ', IP: ' . $this->input->ip_address() . ']');
+
                     set_alert('danger', _l('two_factor_code_not_valid'));
                     redirect(admin_url('authentication/two_factor/' . $type));
                 }
             }
         }
+
         $this->load->view('authentication/set_two_factor_auth_code');
     }
 

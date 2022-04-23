@@ -1524,7 +1524,7 @@ elFinder.prototype.commands.resize = function() {
 			return dfrd.resolve();
 		}
 		
-
+		
 		fm.openUrl(files[0].hash, 'sameorigin', function(src) {
 			open(files[0], id, src);
 		});

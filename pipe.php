@@ -17,8 +17,8 @@ $system_path = rtrim($system_path, '/') . '/';
 
 define('BASEPATH', str_replace('\\', '/', $system_path));
 define('APPPATH', $application_folder . '/');
-$view_folder = APPPATH.'views';
-define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+$view_folder = APPPATH . 'views';
+define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 define('EXT', '.php');
 define('ENVIRONMENT', $environment ? $environment : 'development');
 define('FCPATH', dirname(__FILE__) . '/');
@@ -34,8 +34,8 @@ require(BASEPATH . 'core/Common.php');
 if ($composer_autoload = config_item('composer_autoload')) {
     if ($composer_autoload === true) {
         file_exists(APPPATH . 'vendor/autoload.php')
-        ? require_once(APPPATH . 'vendor/autoload.php')
-        : log_message('error', '$config[\'composer_autoload\'] is set to TRUE but ' . APPPATH . 'vendor/autoload.php was not found.');
+            ? require_once(APPPATH . 'vendor/autoload.php')
+            : log_message('error', '$config[\'composer_autoload\'] is set to TRUE but ' . APPPATH . 'vendor/autoload.php was not found.');
     } elseif (file_exists($composer_autoload)) {
         require_once($composer_autoload);
     } else {
@@ -128,18 +128,15 @@ $attachments     = [];
 $mailAttachments = $message->getAllAttachmentParts();
 
 foreach ($mailAttachments as $attachment) {
-    $filename = $attachment->getHeaderParameter('Content-Disposition', 'filename');
+    $filename = $attachment->getFilename();
+    $content  = $attachment->getContent();
 
-    if (empty($filename)) {
-        $filename = $attachment->getHeaderParameter('Content-Disposition', 'name');
-    }
-
-    if (!$filename) {
+    if (!$filename || !$content) {
         continue;
     }
 
     $attachments[] = [
-        'data'     => $attachment->getContent(),
+        'data'     => $content,
         'filename' => sanitize_file_name($filename),
     ];
 }
@@ -160,6 +157,7 @@ if ($reply_to = $message->getHeaderValue('reply-to')) {
     $fromemail = $reply_to;
 }
 
+$cc       = [];
 $toemails = [];
 foreach (['to', 'cc', 'bcc'] as $checkHeader) {
     $addreses = $message->getHeader($checkHeader);
@@ -167,6 +165,9 @@ foreach (['to', 'cc', 'bcc'] as $checkHeader) {
     if ($addreses) {
         foreach ($addreses->getAddresses() as $addr) {
             $toemails[] = $addr->getEmail();
+            if ($checkHeader === 'cc') {
+                $cc[] = $addr->getEmail();
+            }
         }
     }
 }
@@ -202,6 +203,7 @@ $body = preg_replace('/\n/', '<br />', $body);
 
 $instance->tickets_model->insert_piped_ticket([
     'to'          => $to,
+    'cc'          => $cc,
     'fromname'    => $fromname,
     'email'       => $fromemail,
     'subject'     => $subject,

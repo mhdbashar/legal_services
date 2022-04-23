@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php echo form_hidden('rel_id',$id); ?>
 <?php echo form_hidden('rel_type',$name); ?>
-<?php echo render_date_input('date','set_reminder_date','',array('data-date-min-date'=>_d(date('Y-m-d')))); ?>
+<?php echo render_datetime_input('date','set_reminder_date','',array('data-date-min-date'=>_d(date('Y-m-d')), 'data-step'=>30)); ?>
 <?php echo render_input('time','set_reminder_time','', 'time'); ?>
 <?php echo render_select('staff',$members,array('staffid',array('firstname','lastname')),'reminder_set_to',get_staff_user_id(),array('data-current-staff'=>get_staff_user_id())); ?>
 <?php echo render_textarea('description','reminder_description'); ?>

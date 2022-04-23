@@ -115,7 +115,7 @@
                                     foreach($available_merge_fields as $field){
                                         foreach($field as $key => $val){
                                             echo '<div class="col-md-6 merge_fields_col">';
-                                            echo '<h5 class="bold">'.ucfirst($key).'</h5>';
+                                            echo '<h5 class="bold">'.ucwords(str_replace([ '-', '_'], ' ', $key)).'</h5>';
                                             foreach($val as $_field){
                                                 if(count($_field['available']) == 0
                                                     && isset($_field['templates']) && in_array($template->slug, $_field['templates'])) {
@@ -123,8 +123,12 @@
                                                     $_field['available'][] = '1';
                                                 }
                                                 foreach($_field['available'] as $_available){
-                                                    if(($_available == $template->type || isset($_field['templates']) && in_array($template->slug, $_field['templates'])) && !in_array($_field['name'], $mergeLooped)){
-                                                        $mergeLooped[] = $_field['name'];
+                                                    if(
+                                                        ($_available == $template->type ||
+                                                            isset($_field['templates']) &&
+                                                            in_array($template->slug, $_field['templates'])
+                                                        ) && !in_array($template->slug, $_field['exclude'] ?? []) &&
+                                                        !in_array($_field['name'], $mergeLooped)){                                                        $mergeLooped[] = $_field['name'];
                                                         echo '<p>'.$_field['name'];
                                                         echo '<span class="pull-right"><a href="#" class="add_merge_field">';
                                                         echo $_field['key'];

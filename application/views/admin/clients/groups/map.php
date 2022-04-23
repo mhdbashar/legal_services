@@ -18,6 +18,9 @@ if(isset($client)){ ?>
 </div>
 <div class="col-md-4">
     <button class="btn btn-info label-margin" onclick="save_longitude_and_latitude(<?php echo $client->userid; ?>); return false;"><?php echo _l('submit'); ?></button>
+    <?php if (!empty($client->latitude) && !empty($client->longitude)) { ?>
+        <a class="btn btn-default label-margin" target="_blank" href="<?php echo 'https://www.google.com/maps/search/?api=1&query=' . urlencode($client->latitude . ', ' . $client->longitude); ?>"><?php echo _l('open_google_map'); ?></a>
+    <?php } ?>
 </div>
 </div>
 <hr />

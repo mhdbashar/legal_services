@@ -44,58 +44,61 @@ class Mollie extends App_Controller
      */
     public function webhook($key = null)
     {
-        $ip = $this->input->ip_address();
-
-        // https://help.mollie.com/hc/en-us/articles/213470829-Which-IP-addresses-does-Mollie-use-From-which-IP-range-can-I-expect-requests-
-        $fixedIps = [
-            '146.148.31.21', '23.251.137.244',
-            '34.89.231.130', '34.90.137.245', '34.90.10.225',
-            '35.204.34.167', '35.204.72.248', '35.246.254.59',
-        ];
-
-        if (!$key && // Backward compatibility
-                !ip_in_range($ip, '87.233.229.26-87.233.229.27') &&
-                !ip_in_range($ip, '87.233.217.240-87.233.217.255') &&
-                !in_array($ip, $fixedIps)) {
-            return false;
-        }
-
         $trans_id  = $this->input->post('id');
         $oResponse = $this->mollie_gateway->fetch_payment($trans_id);
 
-        if ($oResponse->isSuccessful()) {
-            $data = $oResponse->getData();
+        log_activity('Mollie payment webhook called. ID: ' . $trans_id);
 
-            // log_message('error', json_encode($data));
+        if (!$oResponse) {
+            log_activity('Mollie payment not found via webhook. ID: ' . $trans_id);
 
-            // When key is not passed is checked at the top with the ip range
-            if (!$key || $data['metadata']['webhookKey'] == $key) {
-                if ($data['status'] == 'paid') {
-                    $this->db->where('transactionid', $trans_id);
-                    $this->db->where('invoiceid', $data['metadata']['order_id']);
-                    $payment = $this->db->get(db_prefix() . 'invoicepaymentrecords')->row();
+            return;
+        }
 
-                    if ($data['amount']['value'] == $data['amountRemaining']['value']) {
-                        // New payment
-                        $this->mollie_gateway->addPayment([
-                                'amount'        => $data['amount']['value'],
-                                'invoiceid'     => $data['metadata']['order_id'],
-                                'paymentmethod' => $data['method'],
-                                'transactionid' => $trans_id,
-                          ]);
-                    } elseif ($data['amount']['value'] == $data['amountRefunded']['value']) {
-                        // log_message('error', 'Fully refunded');
-                        $this->db->where('id', $payment->id);
-                        $this->db->delete(db_prefix() . 'invoicepaymentrecords');
-                        update_invoice_status($data['metadata']['order_id']);
-                    } elseif ($data['amount']['value'] != $data['amountRemaining']['value']) {
-                        // log_message('error', 'Partially refunded');
-                        $this->db->where('id', $payment->id);
-                        $this->db->update(db_prefix() . 'invoicepaymentrecords', ['amount' => $data['amountRemaining']['value']]);
-                        update_invoice_status($data['metadata']['order_id']);
-                    }
-                }
+        if (!$oResponse->isSuccessful()) {
+            log_activity('Cannot retrieve mollie payment via webhook. ID:' . $trans_id . '. Message:' . $oResponse->getMessage());
+
+            return;
+        }
+
+        $data = $oResponse->getData();
+
+        if ($data['metadata']['webhookKey'] !== $key) {
+            log_activity('Mollie payment webhook key does not match. Url Key: "' . $key . '", Metadata Key: "' . $data['metadata']['webhookKey'] . '"');
+
+            return;
+        }
+
+        // log_message('error', json_encode($data));
+
+        if ($data['status'] == 'paid') {
+            $this->db->where('transactionid', $trans_id);
+            $this->db->where('invoiceid', $data['metadata']['order_id']);
+            $payment = $this->db->get(db_prefix() . 'invoicepaymentrecords')->row();
+
+            if ($data['amountRemaining']['value'] == 0) {
+                $this->db->where('id', $payment->id);
+                $this->db->delete(db_prefix() . 'invoicepaymentrecords');
+                update_invoice_status($data['metadata']['order_id']);
+                log_activity('Mollie payment fully refunded. ID: ' . $trans_id);
+            } elseif ($data['amountRefunded']['value'] > 0) {
+                $this->db->where('id', $payment->id);
+                $this->db->update(db_prefix() . 'invoicepaymentrecords', ['amount' => $data['amountRemaining']['value']]);
+                update_invoice_status($data['metadata']['order_id']);
+                log_activity('Mollie payment partially refunded. ID: ' . $trans_id);
+            } elseif (total_rows('invoicepaymentrecords', ['invoiceid' => $data['metadata']['order_id'], 'transactionid' => $trans_id]) == 0) {
+                // New payment
+                $this->mollie_gateway->addPayment([
+                    'amount'        => $data['amount']['value'],
+                    'invoiceid'     => $data['metadata']['order_id'],
+                    'paymentmethod' => $data['method'],
+                    'transactionid' => $trans_id,
+                ]);
+            } else {
+                log_activity('Mollie payment not applicable. ' . json_encode($data));
             }
+        } else {
+            log_activity('Mollie payment failed. Status: ' . $data['status']);
         }
     }
 }

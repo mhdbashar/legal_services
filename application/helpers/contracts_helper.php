@@ -1,8 +1,5 @@
 <?php
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -25,18 +22,20 @@ function get_contract_shortlink($contract)
 
     // Create short link and return the newly created short link
     $short_link = app_generate_short_link([
-        'long_url'  => $long_url,
-        'title'     => 'Contract #'. $contract->id
+        'long_url' => $long_url,
+        'title'    => 'Contract #' . $contract->id,
     ]);
 
     if ($short_link) {
         $CI = &get_instance();
         $CI->db->where('id', $contract->id);
         $CI->db->update(db_prefix() . 'contracts', [
-            'short_link' => $short_link
+            'short_link' => $short_link,
         ]);
+
         return $short_link;
     }
+
     return $long_url;
 }
 

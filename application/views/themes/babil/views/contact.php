@@ -47,7 +47,13 @@
                   <?php echo form_error('email'); ?>
                </div>
                <div class="col-md-6">
-                  <?php $value = (isset($my_contact) ? $my_contact->phonenumber : ''); ?>
+                   <?php
+                   if(!isset($my_contact)) {
+                       $value = $calling_code ?: '';
+                   } else {
+                       $value = empty($my_contact->phonenumber) ? $calling_code : $my_contact->phonenumber;
+                   }
+                   ?>
                   <?php echo render_input('phonenumber', 'client_phonenumber', $value, 'text', array('autocomplete' => 'off')); ?>
                   <?php echo form_error('phonenumber'); ?>
                </div>

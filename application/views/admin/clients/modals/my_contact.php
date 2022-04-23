@@ -6,7 +6,7 @@
             <?php echo form_open(admin_url('clients/form_contact/'.$customer_id.'/'.$contactid),array('id'=>'contact-form','autocomplete'=>'off')); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"><?php echo $title; ?><br /><small class="color-white" id=""><?php echo get_company_name($customer_id,true); ?></small></h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo $title; ?><br /><small id=""><?php echo get_company_name($customer_id,true); ?></small></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -49,7 +49,13 @@
                         <?php echo render_input( 'email', 'client_email',$value, 'email'); ?>
                         <?php $value=( isset($contact) ? $contact->id_number : ''); ?>
                         <?php echo render_input( 'id_number', 'id_number',$value, 'id_number'); ?>
-                        <?php $value=( isset($contact) ? $contact->phonenumber : ''); ?>
+                        <?php
+                        if(!isset($contact)) {
+                            $value = $calling_code ?: '';
+                        } else {
+                            $value = empty($contact->phonenumber) ? $calling_code : $contact->phonenumber;
+                        }
+                        ?>
                         <?php echo render_input( 'phonenumber', 'client_phonenumber',$value,'text',array('autocomplete'=>'off')); ?>
                         <div class="form-group contact-direction-option">
                           <label for="direction"><?php echo _l('document_direction'); ?></label>

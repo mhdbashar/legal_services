@@ -135,6 +135,7 @@ class Stripe_core
             'url'            => $this->ci->stripe_gateway->webhookEndPoint,
             'enabled_events' => $this->get_webhook_events(),
             'api_version'    => $this->apiVersion,
+            'metadata'       => ['identification_key' => get_option('identification_key')],
         ]);
 
         update_option('stripe_webhook_id', $webhook->id);
@@ -154,7 +155,7 @@ class Stripe_core
     {
         \Stripe\WebhookEndpoint::update($id, [
             'disabled' => false,
-          ]);
+        ]);
     }
 
     /**
@@ -231,10 +232,10 @@ class Stripe_core
         $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 
         return \Stripe\Webhook::constructEvent(
-                $payload,
-                $sig_header,
-                $secret
-          );
+            $payload,
+            $sig_header,
+            $secret
+        );
     }
 
     /**

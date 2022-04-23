@@ -121,7 +121,9 @@ function handle_newsfeed_post_attachments($postid)
         // Make sure we have a filepath
         if (!empty($tmpFilePath) && $tmpFilePath != '') {
             _maybe_create_upload_path($path);
-            $filename = unique_filename($path, $_FILES['file']['name']);
+            $originalFilename = unique_filename($path, $_FILES['file']['name'][$i]);
+            $filename = app_generate_hash() . '.' . get_file_extension($originalFilename);
+
             // In case client side validation is bypassed
             if (_upload_extension_allowed($filename)) {
                 $newFilePath = $path . $filename;
@@ -131,7 +133,9 @@ function handle_newsfeed_post_attachments($postid)
                     $attachment    = [];
                     $attachment[]  = [
                     'file_name' => $filename,
-                    'filetype'  => $_FILES['file']['type'],
+                        'original_file_name'  => $originalFilename,
+                        'filetype'  => $_FILES['file']['type'],
+                        'subject'    => $originalFilename,
                     ];
                     $CI->misc_model->add_attachment_to_database($postid, 'newsfeed_post', $attachment);
                 }

@@ -43,9 +43,9 @@ foreach ($milestones as $milestone) {
         <i class="fa fa-reorder pointer"></i>&nbsp;
       <?php } ?>
       <?php if ($milestone['id'] != 0 && staff_can('edit_milestones', 'projects')) { ?>
-        <a href="#" data-description-visible-to-customer="<?php echo $milestone['description_visible_to_customer']; ?>" data-description="<?php echo htmlspecialchars(clear_textarea_breaks($milestone['description'])); ?>" data-name="<?php echo $milestone['name']; ?>" data-due_date="<?php echo _d($milestone['due_date']); ?>" data-order="<?php echo $milestone['milestone_order']; ?>" onclick="edit_milestone(this,<?php echo $milestone['id']; ?>); return false;" class="edit-milestone-phase <?php if ($milestone['color'] != '') { echo 'color-white'; } ?>">
+       <a href="#" data-hide-from-customer="<?php echo $milestone['hide_from_customer']; ?>" data-description-visible-to-customer="<?php echo $milestone['description_visible_to_customer']; ?>" data-description="<?php echo $milestone['description'] ? htmlspecialchars(clear_textarea_breaks($milestone['description'])) : ''; ?>" data-name="<?php echo $milestone['name']; ?>" data-start_date="<?php echo _d($milestone['start_date']); ?>" data-due_date="<?php echo _d($milestone['due_date']); ?>" data-order="<?php echo $milestone['milestone_order']; ?>" onclick="edit_milestone(this,<?php echo $milestone['id']; ?>); return false;" class="edit-milestone-phase <?php if ($milestone['color'] != '') { echo 'color-white'; } ?>">
         <?php } ?>
-        <span class="bold heading"><?php echo $milestone['name']; ?></span>
+           <span class="bold heading"><?php echo $milestone['name']; ?></span>  | <?php echo _d($milestone['start_date']) . ' - ' . _d($milestone['due_date']); ?>
         <?php if ($milestone['id'] != 0 && staff_can('edit_milestones', 'projects')) { ?>
         </a>
       <?php } ?>

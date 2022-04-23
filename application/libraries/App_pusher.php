@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class App_pusher
@@ -38,7 +40,8 @@ class App_pusher
                 $this->app_key,
                 $this->app_secret,
                 $this->app_id,
-                $this->pusher_options
+                $this->pusher_options,
+                new Client(['verify' => false])
             );
         }
     }

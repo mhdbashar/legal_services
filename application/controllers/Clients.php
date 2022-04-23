@@ -2,6 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use app\services\projects\Gantt;
 use app\services\ValidatesContact;
 
 class Clients extends ClientsController
@@ -464,28 +465,22 @@ class Clients extends ClientsController
                         $data['project_time_left_percent'] = 0;
                     }
                 }
-                $total_tasks = total_rows(db_prefix() . 'tasks', [
-                    'rel_id'            => $id,
-                    'rel_type'          => 'project',
-                    'visible_to_client' => 1,
-                ]);
+                $total_tasks = $this->projects_model->get_tasks($id, [
+                    db_prefix() . 'milestones.hide_from_customer' => 0,
+                ], false, true);
                 $total_tasks = hooks()->apply_filters('client_project_total_tasks', $total_tasks, $id);
 
-                $data['tasks_not_completed'] = total_rows(db_prefix() . 'tasks', [
-                    'status !='         => 5,
-                    'rel_id'            => $id,
-                    'rel_type'          => 'project',
-                    'visible_to_client' => 1,
-                ]);
+                $data['tasks_not_completed'] = $this->projects_model->get_tasks($id, [
+                    'status !='                                   => 5,
+                    db_prefix() . 'milestones.hide_from_customer' => 0,
+                ], false, true);
 
                 $data['tasks_not_completed'] = hooks()->apply_filters('client_project_tasks_not_completed', $data['tasks_not_completed'], $id);
 
-                $data['tasks_completed'] = total_rows(db_prefix() . 'tasks', [
-                    'status'            => 5,
-                    'rel_id'            => $id,
-                    'rel_type'          => 'project',
-                    'visible_to_client' => 1,
-                ]);
+                $data['tasks_completed'] = $this->projects_model->get_tasks($id, [
+                    'status'                                      => 5,
+                    db_prefix() . 'milestones.hide_from_customer' => 0,
+                ], false, true);
                 $data['tasks_completed'] = hooks()->apply_filters('client_project_tasks_completed', $data['tasks_completed'], $id);
 
                 $data['total_tasks']                  = $total_tasks;
@@ -495,9 +490,9 @@ class Clients extends ClientsController
                 if ($project->settings->create_tasks == 0) {
                     redirect(site_url('clients/project/' . $project->id));
                 }
-                $data['milestones'] = $this->projects_model->get_milestones($id);
+                $data['milestones'] = $this->projects_model->get_milestones($id, ['hide_from_customer' => 0]);
             } elseif ($group == 'project_gantt') {
-                $data['gantt_data'] = $this->projects_model->get_gantt_data($id);
+                $data['gantt_data'] = (new Gantt($id, 'milestones'))->excludeMilestonesFromCustomer()->get();
             } elseif ($group == 'project_discussions') {
                 if ($this->input->get('discussion_id')) {
                     $data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
@@ -509,11 +504,13 @@ class Clients extends ClientsController
                 $data['files'] = $this->other->get_imported_files($id);
             } elseif ($group == 'project_tasks') {
                 $data['tasks_statuses'] = $this->tasks_model->get_statuses();
-                $data['project_tasks']  = $this->projects_model->get_tasks($id);
+                $data['project_tasks']  = $this->projects_model->get_tasks($id, [
+                    db_prefix() . 'milestones.hide_from_customer' => 0,
+                ]);
             } elseif ($group == 'project_activity') {
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_milestones') {
-                $data['milestones'] = $this->projects_model->get_milestones($id);
+                $data['milestones'] = $this->projects_model->get_milestones($id, ['hide_from_customer' => 0]);
             } elseif ($group == 'project_invoices') {
                 $data['invoices'] = [];
                 if (has_contact_permission('invoices')) {
@@ -535,7 +532,7 @@ class Clients extends ClientsController
                         'project_id'                   => $id,
                     ];
 
-                    if (!!can_logged_in_contact_view_all_tickets()) {
+                    if (!can_logged_in_contact_view_all_tickets()) {
                         $where_tickets[db_prefix() . 'tickets.contactid'] = get_contact_user_id();
                     }
 
@@ -559,11 +556,14 @@ class Clients extends ClientsController
                     'rel_id'   => $project->id,
                     'rel_type' => 'project',
                 ]);
+                if (total_rows('milestones', ['hide_from_customer' => 1, 'id' => $data['view_task']->milestone]) > 0 ) {
+                    show_404();
+                }
 
                 $data['title'] = $data['view_task']->name;
             }
         } elseif ($group == 'edit_task') {
-            $data['milestones'] = $this->projects_model->get_milestones($id);
+            $data['milestones'] = $this->projects_model->get_milestones($id, ['hide_from_customer' => 0]);
             $data['task']       = $this->tasks_model->get($this->input->get('taskid'), [
                 'rel_id'                => $project->id,
                 'rel_type'              => 'project',
@@ -2121,6 +2121,10 @@ class Clients extends ClientsController
         $data['ticket'] = $this->tickets_model->get_ticket_by_id($id, get_client_user_id());
         if (!$data['ticket'] || $data['ticket']->userid != get_client_user_id()) {
             show_404();
+        }
+
+        if ($data['ticket']->merged_ticket_id != null) {
+            redirect(site_url('clients/ticket/' . $data['ticket']->merged_ticket_id));
         }
 
         if ($this->input->post()) {

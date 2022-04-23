@@ -90,4 +90,12 @@ class Dashboard extends AdminController
             die();
         }
     }
+    /* Chart monthly payments statistics on home page / ajax */
+    public function monthly_payments_statistics($currency)
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->dashboard_model->get_monthly_payments_statistics($currency));
+            die();
+        }
+    }
 }

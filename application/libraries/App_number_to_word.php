@@ -134,10 +134,14 @@ class App_number_to_word
                 for ($i = count($this->val_array) - 2; $i >= 0; $i--) {
                     // separate each element in VAL array to 1 and 2 digits
                     $this->num_value = intval($this->val_array[$i]);
-
                     // if VAL = 0 then no word
                     if ($this->num_value == 0) {
-                        $this->num_word = ' ' . $this->num_word;
+                        // e.q. zero dolars and 64 cents
+                        if(count($this->val_array) === 2){
+                            $this->num_word = _l('num_word_0') . ' ' . $this->num_word;
+                        } else {
+                            $this->num_word = ' ' . $this->num_word;
+                        }
                     }
 
                     // if 0 < VAL < 100 or 2 digits
@@ -183,53 +187,53 @@ class App_number_to_word
         $count = 0;
         global $ones, $tens, $triplets;
         $ones = [
-    '',
-    ' ' . _l('num_word_1'),
-    ' ' . _l('num_word_2'),
-    ' ' . _l('num_word_3'),
-    ' ' . _l('num_word_4'),
-    ' ' . _l('num_word_5'),
-    ' ' . _l('num_word_6'),
-    ' ' . _l('num_word_7'),
-    ' ' . _l('num_word_8'),
-    ' ' . _l('num_word_9'),
-    ' ' . _l('num_word_10'),
-    ' ' . _l('num_word_11'),
-    ' ' . _l('num_word_12'),
-    ' ' . _l('num_word_13'),
-    ' ' . _l('num_word_14'),
-    ' ' . _l('num_word_15'),
-    ' ' . _l('num_word_16'),
-    ' ' . _l('num_word_17'),
-    ' ' . _l('num_word_18'),
-    ' ' . _l('num_word_19'),
-  ];
+            '',
+            ' ' . _l('num_word_1'),
+            ' ' . _l('num_word_2'),
+            ' ' . _l('num_word_3'),
+            ' ' . _l('num_word_4'),
+            ' ' . _l('num_word_5'),
+            ' ' . _l('num_word_6'),
+            ' ' . _l('num_word_7'),
+            ' ' . _l('num_word_8'),
+            ' ' . _l('num_word_9'),
+            ' ' . _l('num_word_10'),
+            ' ' . _l('num_word_11'),
+            ' ' . _l('num_word_12'),
+            ' ' . _l('num_word_13'),
+            ' ' . _l('num_word_14'),
+            ' ' . _l('num_word_15'),
+            ' ' . _l('num_word_16'),
+            ' ' . _l('num_word_17'),
+            ' ' . _l('num_word_18'),
+            ' ' . _l('num_word_19'),
+        ];
         $tens = [
-    '',
-    '',
-    ' ' . _l('num_word_20'),
-    ' ' . _l('num_word_30'),
-    ' ' . _l('num_word_40'),
-    ' ' . _l('num_word_50'),
-    ' ' . _l('num_word_60'),
-    ' ' . _l('num_word_70'),
-    ' ' . _l('num_word_80'),
-    ' ' . _l('num_word_90'),
-  ];
+            '',
+            '',
+            ' ' . _l('num_word_20'),
+            ' ' . _l('num_word_30'),
+            ' ' . _l('num_word_40'),
+            ' ' . _l('num_word_50'),
+            ' ' . _l('num_word_60'),
+            ' ' . _l('num_word_70'),
+            ' ' . _l('num_word_80'),
+            ' ' . _l('num_word_90'),
+        ];
 
         $triplets = [
-    '',
-    ' ' . _l('num_word_thousand'),
-    ' ' . _l('num_word_million'),
-    ' ' . _l('num_word_billion'),
-    ' ' . _l('num_word_trillion'),
-    ' Quadrillion',
-    ' Quintillion',
-    ' Sextillion',
-    ' Septillion',
-    ' Octillion',
-    ' Nonillion',
-  ];
+            '',
+            ' ' . _l('num_word_thousand'),
+            ' ' . _l('num_word_million'),
+            ' ' . _l('num_word_billion'),
+            ' ' . _l('num_word_trillion'),
+            ' Quadrillion',
+            ' Quintillion',
+            ' Sextillion',
+            ' Septillion',
+            ' Octillion',
+            ' Nonillion',
+        ];
 
         return $this->convert_number_indian($num);
     }

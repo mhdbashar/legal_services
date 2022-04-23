@@ -537,4 +537,6 @@ function _maybe_system_setup_warnings()
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\TcpdfFileMissing'), 'check']);
     // Check for cron job running
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\CronJobFailure'), 'check']);
+    // Php version notice
+    hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\PhpVersionNotice'), 'check']);
 }

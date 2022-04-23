@@ -48,18 +48,23 @@ if ($invoice->include_shipping == 1 && $invoice->show_shipping_on_invoice == 1) 
 }
 
 $invoice_info .= '<br />' . _l('invoice_data_date') . ' ' . _d($invoice->date) . '<br />';
+$invoice_info = hooks()->apply_filters('invoice_pdf_header_after_date', $invoice_info, $invoice);
 
 if (!empty($invoice->duedate)) {
     $invoice_info .= _l('invoice_data_duedate') . ' ' . _d($invoice->duedate) . '<br />';
+    $invoice_info = hooks()->apply_filters('invoice_pdf_header_after_due_date', $invoice_info, $invoice);
 }
 
 if ($invoice->sale_agent != 0 && get_option('show_sale_agent_on_invoices') == 1) {
     $invoice_info .= _l('sale_agent_string') . ': ' . get_staff_full_name($invoice->sale_agent) . '<br />';
+    $invoice_info = hooks()->apply_filters('invoice_pdf_header_after_sale_agent', $invoice_info, $invoice);
 }
 
 if ($invoice->project_id != 0 && get_option('show_project_on_invoice') == 1) {
     $invoice_info .= _l('project') . ': ' . get_project_name_by_id($invoice->project_id) . '<br />';
+    $invoice_info = hooks()->apply_filters('invoice_pdf_header_after_project_name', $invoice_info, $invoice);
 }
+$invoice_info = hooks()->apply_filters('invoice_pdf_header_before_custom_fields', $invoice_info, $invoice);
 
 foreach ($pdf_custom_fields as $field) {
     $value = get_custom_field_value($invoice->id, $field['id'], 'invoice');
@@ -68,6 +73,7 @@ foreach ($pdf_custom_fields as $field) {
     }
     $invoice_info .= $field['name'] . ': ' . $value . '<br />';
 }
+$invoice_info = hooks()->apply_filters('invoice_pdf_header_after_custom_fields', $invoice_info, $invoice);
 
 $left_info  = $swap == '1' ? $invoice_info : $organization_info;
 $right_info = $swap == '1' ? $organization_info : $invoice_info;

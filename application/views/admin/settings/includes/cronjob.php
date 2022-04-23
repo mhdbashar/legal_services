@@ -27,10 +27,14 @@
     <li role="presentation">
         <a href="#tickets" aria-controls="tickets" role="tab" data-toggle="tab"><?php echo _l('tickets'); ?></a>
     </li>
+
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
+
 </ul>
+
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="set_invoice">
+
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('inv_hour_of_day_perform_auto_operations_help'); ?>"></i>
         <?php echo render_input('settings[invoice_auto_operations_hour]','hour_of_day_perform_auto_operations',get_option('invoice_auto_operations_hour'),'number',array('data-toggle'=>'tooltip','data-title'=>_l('hour_of_day_perform_auto_operations_format'),'max'=>23)); ?>
         <hr />
@@ -82,6 +86,7 @@
         </div>
         <hr />
         <?php render_yes_no_option('create_invoice_from_recurring_only_on_paid_invoices','invoices_create_invoice_from_recurring_only_on_paid_invoices','invoices_create_invoice_from_recurring_only_on_paid_invoices_tooltip'); ?>
+
     </div>
     <div role="tabpanel" class="tab-pane" id="tasks">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_tasks_reminder_notification_help'); ?>"></i>
@@ -89,10 +94,35 @@
         <hr />
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('tasks_reminder_notification_before_help'); ?>"></i>
         <?php echo render_input('settings[tasks_reminder_notification_before]','tasks_reminder_notification_before',get_option('tasks_reminder_notification_before'),'number'); ?>
+
+        <?php echo render_input('settings[automatically_stop_task_timer_after_hours]','automatically_stop_task_timer_after_hours',get_option('automatically_stop_task_timer_after_hours'),'number'); ?>
+        <hr />
+        <?php
+        render_yes_no_option('reminder_for_completed_but_not_billed_tasks', 'send_reminder_for_completed_but_not_billed_tasks');
+        ?>
+        <div class="staff_notify_completed_but_not_billed_tasks_fields <?php echo get_option('reminder_for_completed_but_not_billed_tasks') == '1' ? '' : 'hide'; ?>">
+            <?php
+            $selected = get_staff_user_id();
+            if (!empty(get_option('staff_notify_completed_but_not_billed_tasks'))) {
+                $selected = json_decode(get_option('staff_notify_completed_but_not_billed_tasks'));
+            }
+            echo render_select('settings[staff_notify_completed_but_not_billed_tasks][]', $staff, ['staffid', ['firstname', 'lastname']], 'staff_to_notify_completed_but_not_billed_tasks', $selected, ['multiple' => true], [], '', '', false);
+
+            $weekdays = [];
+            foreach (array_combine(get_weekdays_original(), get_weekdays()) as $key => $day) {
+                $weekdays[] = ['id' => $key, 'day' => $day];
+            }
+            $selected = json_decode(get_option('reminder_for_completed_but_not_billed_tasks_days'));
+            if (empty($selected)) {
+                $selected = ['Monday'];
+            }
+            echo render_select('settings[reminder_for_completed_but_not_billed_tasks_days][]', $weekdays, ['id', ['day']], 'reminder_for_completed_but_not_billed_tasks_days', $selected, ['multiple' => true, 'data'], [], '', '', false); ?>
+        </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="contracts">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
         <?php echo render_input('settings[contracts_auto_operations_hour]','hour_of_day_perform_auto_operations',get_option('contracts_auto_operations_hour'),'number',array('max'=>23)); ?>
+
         <hr />
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('settings_reminders_contracts_tooltip'); ?>"></i>
         <?php echo render_input('settings[contract_expiration_before]','send_expiry_reminder_before',get_option('contract_expiration_before'),'number'); ?>
@@ -121,11 +151,14 @@
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
         <?php echo render_input('settings[proposals_auto_operations_hour]','hour_of_day_perform_auto_operations',get_option('proposals_auto_operations_hour'),'number',array('max'=>23)); ?>
         <hr />
+
         <?php echo render_input('settings[send_proposal_expiry_reminder_before]','send_expiry_reminder_before',get_option('send_proposal_expiry_reminder_before'),'number'); ?>
     </div>
+
     <div role="tablpanel" class="tab-pane" id="expenses">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
         <?php echo render_input('settings[expenses_auto_operations_hour]','hour_of_day_perform_auto_operations',get_option('expenses_auto_operations_hour'),'number',array('max'=>23)); ?>
     </div>
+
     <?php hooks()->do_action('after_cron_settings_last_tab_content'); ?>
 </div>

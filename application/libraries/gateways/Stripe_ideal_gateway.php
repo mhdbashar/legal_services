@@ -12,21 +12,18 @@ class Stripe_ideal_gateway extends App_gateway
 
     public function __construct()
     {
-        //Disable payment gateway
-        return false;
-
         $this->webhookEndPoint = site_url('gateways/stripe_ideal/webhook');
 
         /**
-        * Call App_gateway __construct function
-        */
+         * Call App_gateway __construct function
+         */
         parent::__construct();
 
         /**
-        * REQUIRED
-        * Gateway unique id
-        * The ID must be alpha/alphanumeric
-        */
+         * REQUIRED
+         * Gateway unique id
+         * The ID must be alpha/alphanumeric
+         */
         $this->setId('stripe_ideal');
 
         /**
@@ -37,7 +34,7 @@ class Stripe_ideal_gateway extends App_gateway
 
         /**
          * Add gateway settings
-        */
+         */
         $this->setSettings([
             [
                 'name'      => 'api_secret_key',
@@ -133,12 +130,18 @@ class Stripe_ideal_gateway extends App_gateway
             'url'            => $this->webhookEndPoint,
             'enabled_events' => $this->webhookEvents,
             'api_version'    => $this->apiVersion,
+            'metadata'       => ['identification_key' => $this->get_webhook_identification_key()],
         ]);
 
         update_option('stripe_ideal_webhook_id', $webhook->id);
         update_option('stripe_ideal_webhook_signing_secret', $webhook->secret);
 
         return $webhook;
+    }
+
+    public function get_webhook_identification_key()
+    {
+        return 'ideal-' . get_option('identification_key');
     }
 
     public function get_source($id)
@@ -155,15 +158,15 @@ class Stripe_ideal_gateway extends App_gateway
         \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
 
         return \Stripe\Charge::create([
-                'currency'    => 'eur',
-                'amount'      => $amount,
-                'source'      => $source,
-                'description' => str_replace('{invoice_number}', format_invoice_number($invoice_id), $this->getSetting('description_dashboard')),
-                'metadata'    => [
-                    'invoice_id'        => $invoice_id,
-                    'pcrm-stripe-ideal' => true,
-                ],
-            ]);
+            'currency'    => 'eur',
+            'amount'      => $amount,
+            'source'      => $source,
+            'description' => str_replace('{invoice_number}', format_invoice_number($invoice_id), $this->getSetting('description_dashboard')),
+            'metadata'    => [
+                'invoice_id'        => $invoice_id,
+                'pcrm-stripe-ideal' => true,
+            ],
+        ]);
     }
 
     public function finish_payment($charge)
@@ -282,6 +285,15 @@ function stripe_ideal_gateway_webhook_check($gateway)
                 echo '<div class="alert alert-warning">';
                 echo 'Webhook endpoint (' . $endpoint . ') not found for ' . $environment . ' environment.';
                 echo '<br />Click <a href="' . site_url('gateways/stripe_ideal/create_webhook') . '">here</a> to create the webhook directly in Stripe.';
+                echo '</div>';
+            } elseif ($webhook && $webhook->id != get_option('stripe_ideal_webhook_id')) {
+                echo '<div class="alert alert-warning">';
+                echo 'The application stored Stripe webhook id does not match the configured webhook.';
+                echo '<br />Click <a href="' . site_url('gateways/stripe_ideal/create_webhook?recreate=true') . '">here</a> to re-create the webhook directly in Stripe and delete the old webhook.';
+                echo '</div>';
+            } elseif ($webhook && $webhook->status != 'enabled') {
+                echo '<div class="alert alert-warning">';
+                echo 'Your Stripe configured webhook is disabled, you should consider enabling your webhook via Stripe dashboard or by clicking <a href="' . site_url('gateways/stripe_ideal/enable_webhook') . '">here</a>.';
                 echo '</div>';
             }
         }

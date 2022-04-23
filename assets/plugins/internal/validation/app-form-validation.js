@@ -1,9 +1,9 @@
 /*!
  * Internal App Plugin for validation that extends jQuery Validation plugin.
  *
- * https://babil.net.sa/
+ * https://perfexcrm.com/
  *
- * Copyright (c) 2019 Babil Team
+ * Copyright (c) 2019 Marjan Stojanov
  */
 
 if (typeof($.validator) == 'undefined') {

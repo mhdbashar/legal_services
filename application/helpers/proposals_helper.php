@@ -22,18 +22,20 @@ function get_proposal_shortlink($proposal)
 
     // Create short link and return the newly created short link
     $short_link = app_generate_short_link([
-        'long_url'  => $long_url,
-        'title'     => format_proposal_number($proposal->id)
+        'long_url' => $long_url,
+        'title'    => format_proposal_number($proposal->id),
     ]);
 
     if ($short_link) {
         $CI = &get_instance();
         $CI->db->where('id', $proposal->id);
         $CI->db->update(db_prefix() . 'proposals', [
-            'short_link' => $short_link
+            'short_link' => $short_link,
         ]);
+
         return $short_link;
     }
+
     return $long_url;
 }
 
@@ -147,7 +149,9 @@ function format_proposal_status($status, $classes = '', $label = true)
  */
 function format_proposal_number($id)
 {
-    return get_option('proposal_number_prefix') . str_pad($id, get_option('number_padding_prefixes'), '0', STR_PAD_LEFT);
+    $format = get_option('proposal_number_prefix') . str_pad($id, get_option('number_padding_prefixes'), '0', STR_PAD_LEFT);
+
+    return hooks()->apply_filters('proposal_number_format', $format, $id);
 }
 
 

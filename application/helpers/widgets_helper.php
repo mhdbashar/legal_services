@@ -32,7 +32,7 @@ function get_dashboard_widgets()
             'container' => 'left-8',
         ],
         [
-            'path'      => 'admin/dashboard/widgets/weekly_payments_chart',
+            'path'      => 'admin/dashboard/widgets/payments_chart',
             'container' => 'left-8',
         ],
         [

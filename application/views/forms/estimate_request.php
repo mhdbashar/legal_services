@@ -8,6 +8,11 @@
     <title><?php echo $form->name; ?></title>
     <?php app_external_form_header($form); ?>
     <?php hooks()->do_action('app_estimate_request_form_head'); ?>
+    <style>
+        #form_submit:hover {
+            background-color: <?php echo adjust_color_brightness($form->submit_btn_bg_color, -30) ?> !important;
+        }
+    </style>
 </head>
 <body class="estimate-request-form <?php echo $form->form_key . ($this->input->get('styled') === '1' ? ' styled' : ''); ?>"<?php if (is_rtl(true)) {
     echo ' dir="rtl"';
@@ -32,7 +37,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="g-recaptcha"
-                            data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
+                                 data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
                             <div id="recaptcha_response_field" class="text-danger"></div>
                         </div>
                     </div>
@@ -43,7 +48,7 @@
                         <div class="col-md-12 ">
                             <div class="checkbox chk">
                                 <input class="relative" type="checkbox" name="accept_terms_and_conditions" required="true"
-                                id="accept_terms_and_conditions" <?php echo set_checkbox('accept_terms_and_conditions', 'on'); ?>>
+                                       id="accept_terms_and_conditions" <?php echo set_checkbox('accept_terms_and_conditions', 'on'); ?>>
                                 <label for="accept_terms_and_conditions">
                                     <?php echo _l('gdpr_terms_agree', terms_url()); ?>
                                 </label>
@@ -53,8 +58,13 @@
                 <?php } ?>
                 <div class="clearfix"></div>
                 <div class="text-left col-md-12 submit-btn-wrapper">
-                    <button class="btn btn-success" id="form_submit"
-                    type="submit"><?php echo $form->submit_btn_name; ?></button>
+                    <button
+                            class="btn"
+                            id="form_submit"
+                            type="submit"
+                            style="color: <?php echo $form->submit_btn_text_color ?>; background-color: <?php echo $form->submit_btn_bg_color ?>;">
+                        <i class="fa fa-spinner fa-spin hide" style="margin-right: 2px;"></i>
+                        <?php echo $form->submit_btn_name; ?></button>
                 </div>
             </div>
 
@@ -66,6 +76,7 @@
 <?php app_external_form_footer($form); ?>
 <script>
     var form_id = '#<?php echo $form->form_key; ?>';
+    var form_redirect_url = '<?php echo $form->submit_action == 1 ? $form->submit_redirect_url : 0; ?>';
     $(function () {
         $(form_id).appFormValidator({
             errorPlacement: function (error, element) {
@@ -82,6 +93,7 @@
                         $(this).prop('disabled', true);
                     }
                 });
+                $('#form_submit .fa-spin').removeClass('hide');
 
                 var formURL = $(form).attr("action");
                 var formData = new FormData($(form)[0]);
@@ -96,11 +108,23 @@
                     url: formURL
                 }).always(function () {
                     $('#form_submit').prop('disabled', false);
+                    $('#form_submit .fa-spin').addClass('hide');
                 }).done(function (response) {
                     response = JSON.parse(response);
-                    // In case action hook is used to redirect
-                    if (response.redirect_url) {
-                        window.top.location.href = response.redirect_url;
+                    if (form_redirect_url !== '0') {
+                        if (window.top) {
+                            window.top.location.href = form_redirect_url;
+                        } else {
+                            window.location.href = form_redirect_url;
+                        }
+                        return;
+                    } else if (response.redirect_url) {
+                        // In case action hook is used to redirect
+                        if (window.top) {
+                            window.top.location.href = response.redirect_url;
+                        } else {
+                            window.location.href = response.redirect_url;
+                        }
                         return;
                     }
                     if (response.success == false || response.success == 'false') {

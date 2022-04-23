@@ -90,7 +90,7 @@ class Two_checkout_gateway extends App_gateway
     /**
      * Generate payment reference
      * @param int $id
-     * @return string 
+     * @return string
      */
     public function reference($id)
     {
@@ -146,7 +146,7 @@ class Two_checkout_gateway extends App_gateway
 function two_checkout_gateway_webhook_notice($gateway)
 {
     if ($gateway['id'] === 'two_checkout') {
-        echo '<div class="alert alert-info">';
+        echo '<div class="alert alert-info mtop15">';
         echo _l('two_gateway_webhook_notice', site_url('gateways/two_checkout/webhook'));
         echo '</div>';
     }

@@ -59,40 +59,47 @@
                                 <?php } ?>
                                 <li role="presentation">
                                     <a href="#tab_proposals_leads" onclick="initDataTable('.table-proposals-lead', admin_url + 'proposals/proposal_relations/' + <?php echo $lead->id; ?> + '/lead','undefined', 'undefined','undefined',[6,'desc']);" aria-controls="tab_proposals_leads" role="tab" data-toggle="tab">
-                                        <?php echo _l('proposals'); ?>
+                                        <?php echo _l('proposals');
+                                        if($total_proposals > 0){
+                                            echo ' <span class="badge">'.$total_proposals.'</span>';
+                                        }
+                                        ?>
                                     </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#tab_tasks_leads" onclick="init_rel_tasks_table(<?php echo $lead->id; ?>,'lead','.table-rel-tasks-leads');" aria-controls="tab_tasks_leads" role="tab" data-toggle="tab">
-                                        <?php echo _l('tasks'); ?>
+                                        <?php echo _l('tasks');
+                                        if($total_tasks > 0){
+                                            echo ' <span class="badge">'.$total_tasks.'</span>';
+                                        }
+                                        ?>
                                     </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">
-                                        <?php echo _l('lead_attachments'); ?>
+                                        <?php echo _l('lead_attachments');
+                                        if($total_attachments > 0){
+                                            echo ' <span class="badge">'.$total_attachments.'</span>';
+                                        }
+                                        ?>
                                     </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#lead_reminders" onclick="initDataTable('.table-reminders-leads', admin_url + 'misc/get_reminders/' + <?php echo $lead->id; ?> + '/' + 'lead', undefined, undefined,undefined,[1, 'asc']);" aria-controls="lead_reminders" role="tab" data-toggle="tab">
-                                        <?php echo _l('leads_reminders_tab'); ?>
-                                        <?php
-                                        $total_reminders = total_rows(db_prefix().'reminders',
-                                            array(
-                                                'isnotified'=>0,
-                                                'staff'=>get_staff_user_id(),
-                                                'rel_type'=>'lead',
-                                                'rel_id'=>$lead->id
-                                            )
-                                        );
+                                        <?php echo _l('leads_reminders_tab');
                                         if($total_reminders > 0){
-                                            echo '<span class="badge">'.$total_reminders.'</span>';
+                                            echo ' <span class="badge">'.$total_reminders.'</span>';
                                         }
                                         ?>
                                     </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#lead_notes" aria-controls="lead_notes" role="tab" data-toggle="tab">
-                                        <?php echo _l('lead_add_edit_notes'); ?>
+                                        <?php echo _l('lead_add_edit_notes');
+                                        if($total_notes > 0){
+                                            echo ' <span class="badge">'.$total_notes.'</span>';
+                                        }
+                                        ?>
                                     </a>
                                 </li>
                                 <li role="presentation">

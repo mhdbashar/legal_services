@@ -83,6 +83,8 @@ class Cron_model extends App_Model
             $this->delete_activity_log();
             $this->send_scheduled_emails();
             $this->delete_twocheckout_logs();
+            $this->stop_task_timers();
+            $this->non_billed_tasks_notification();
 
             $this->legal_services_recycle_bin_reminders();
             $this->empty_legal_services_recycle_bin();
@@ -114,6 +116,65 @@ class Cron_model extends App_Model
             // For all cases try to release the lock after everything is finished
             $this->lockHandle();
         }
+    }
+
+
+    public function non_billed_tasks_notification()
+    {
+        if (get_option('reminder_for_completed_but_not_billed_tasks') === '0') {
+            return;
+        }
+
+        $tasks_reminder_notification_hour = get_option('tasks_reminder_notification_hour');
+        if (!$this->shouldRunAutomations($tasks_reminder_notification_hour)) {
+            return;
+        }
+
+        $daysToNotify = get_option('reminder_for_completed_but_not_billed_tasks_days');
+        if (empty($daysToNotify) || $daysToNotify === '[]') {
+            return;
+        }
+
+        $daysToNotify    = json_decode($daysToNotify, true);
+        $lastNotifiedDay = get_option('tasks_reminder_notification_last_notified_day');
+        $today           = date('l');
+
+        if (!in_array($today, $daysToNotify) || $lastNotifiedDay === $today) {
+            return;
+        }
+
+        $countNonBilledTasks = total_rows(db_prefix() . 'tasks', ['billable' => 1, 'billed' => 0, 'status' => Tasks_model::STATUS_COMPLETE]);
+
+        if ($countNonBilledTasks > 0) {
+            $staffToNotify = json_decode(get_option('staff_notify_completed_but_not_billed_tasks'));
+
+            $this->db->select('email, staffid');
+            $this->db->where('active', 1);
+            $this->db->where_in('staffid', $staffToNotify);
+            $staffToNotify = $this->db->get(db_prefix() . 'staff')->result_array();
+
+            foreach ($staffToNotify as $staff) {
+                send_mail_template('non_billed_tasks_reminder_to_staff', $staff['email'], $staff['staffid']);
+            }
+            update_option('tasks_reminder_notification_last_notified_day', $today);
+        }
+    }
+
+    public function stop_task_timers()
+    {
+        $older_than_hours = get_option('automatically_stop_task_timer_after_hours');
+        if ($older_than_hours == '0' || empty($older_than_hours)) {
+            return;
+        }
+
+        $older_than_hours = intval($older_than_hours);
+        $time_ago         = strtotime(" - {$older_than_hours} hours");
+        $this->db->where('end_time IS NULL');
+        $this->db->where('task_id !=', '0');
+        $this->db->where('start_time <=', $time_ago);
+        $this->db->update(db_prefix() . 'taskstimers', [
+            'end_time' => time(),
+        ]);
     }
 
     private function delete_twocheckout_logs()
@@ -356,6 +417,8 @@ class Cron_model extends App_Model
             return;
         }
 
+        hooks()->do_action('before_check_recurring_tasks');
+
         $this->db->select('id,addedfrom,recurring_type,repeat_every,last_recurring_date,startdate,duedate');
         $this->db->where('recurring', 1);
         $this->db->where('(cycles != total_cycles OR cycles=0)');
@@ -430,6 +493,7 @@ class Cron_model extends App_Model
                 }
             }
         }
+        hooks()->do_action('after_check_recurring_tasks');
     }
 
     private function recurring_expenses()
@@ -1456,6 +1520,7 @@ class Cron_model extends App_Model
 
                 $fromAddress = $formFields['email'] ?? $fromAddress;
                 $fromName    = $formFields['name'] ?? $fromName;
+                $fromName    = $fromName ?: 'Unknown';
 
                 /**
                  * Check the the fromAddress is null, perhaps invalid address?
@@ -1768,6 +1833,7 @@ class Cron_model extends App_Model
                     $data['body']    = $body;
 
                     $data['to'] = [];
+                    $data['cc'] = [];
                     // To is the department name
                     $data['to'][] = $dept['email'];
 
@@ -1775,6 +1841,7 @@ class Cron_model extends App_Model
                     if (count($message->getCc()) > 0) {
                         foreach ($message->getCc() as $recipient) {
                             $data['to'][] = $recipient->getAddress();
+                            $data['cc'][] = $recipient->getAddress();
                         }
                     }
 

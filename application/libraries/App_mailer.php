@@ -11,6 +11,7 @@ class App_mailer extends CI_Email
         'mailpath'            => '/usr/sbin/sendmail',
         'protocol'            => 'mail',
         'smtp_host'           => '',
+        'smtp_auth'           => null,
         'smtp_user'           => '',
         'smtp_pass'           => '',
         'smtp_port'           => 25,
@@ -64,6 +65,9 @@ class App_mailer extends CI_Email
         $this->CI = get_instance();
         $this->CI->load->helper('email');
         $this->CI->load->helper('html');
+
+        isset(self::$func_overload) or self::$func_overload = (defined('MB_OVERLOAD_STRING') && ((int) @ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING));
+
         // Set the default property 'debug_output' by using CLI autodetection.
         self::$default_properties['debug_output'] = (strpos(PHP_SAPI, 'cli') !== false or defined('STDIN')) ? 'echo' : 'html';
         // Wipe out certain properties that are declared within the parent class.
@@ -116,7 +120,7 @@ class App_mailer extends CI_Email
             return $this->properties[$name];
         }
 
-        throw new OutOfBoundsException('The property ' . $name . ' does not exists.');
+        throw new \OutOfBoundsException('The property ' . $name . ' does not exists.');
     }
 
     public function __isset($name)
@@ -161,7 +165,9 @@ class App_mailer extends CI_Email
     public function clear($clear_attachments = false)
     {
         $clear_attachments = !empty($clear_attachments);
+
         parent::clear($clear_attachments);
+
         if ($this->mailer_engine == 'phpmailer') {
             $this->phpmailer->clearAllRecipients();
             $this->phpmailer->clearReplyTos();
@@ -300,7 +306,7 @@ class App_mailer extends CI_Email
             // This change probably is not needed, done anyway.
             //$this->phpmailer->Subject = $subject;
             $this->phpmailer->Subject = str_replace(['{unwrap}', '{/unwrap}'], '', $subject);
-        //
+            //
         } else {
             parent::subject($subject);
         }
@@ -459,37 +465,28 @@ class App_mailer extends CI_Email
     public function set_mailer_engine($mailer_engine)
     {
         $mailer_engine = strpos(strtolower($mailer_engine), 'phpmailer') !== false ? 'phpmailer' : 'codeigniter';
+
         if ($this->mailer_engine == $mailer_engine) {
             return $this;
         }
+
         $this->mailer_engine = $mailer_engine;
+
         if ($mailer_engine == 'phpmailer') {
             if (!is_object($this->phpmailer)) {
+
                 // Try to autoload the PHPMailer if there is already a registered autoloader.
-                $phpmailer_class_exists = class_exists('PHPMailer', true);
-                // No? Search for autoloader at some fixed places.
-                if (!$phpmailer_class_exists && defined('COMMONPATH')) {
-                    $autoloader = COMMONPATH . 'third_party/phpmailer/PHPMailerAutoload.php';
-                    @ include_once $autoloader;
-                    $phpmailer_class_exists = class_exists('PHPMailer', true);
-                }
+                $phpmailer_class_exists = class_exists('PHPMailer\\PHPMailer\\PHPMailer', true);
+
                 if (!$phpmailer_class_exists) {
-                    $autoloader = APPPATH . 'third_party/phpmailer/PHPMailerAutoload.php';
-                    @ include_once $autoloader;
-                    $phpmailer_class_exists = class_exists('PHPMailer', true);
+                    throw new \Exception('The class PHPMailer\\PHPMailer\\PHPMailer can not be found.');
                 }
-                if (!$phpmailer_class_exists) {
-                    throw new Exception('The file PHPMailerAutoload.php can not be found.');
-                }
-                $this->phpmailer = new PHPMailer();
-                // The property PluginDir seems to be useless, setting it just in case.
-                if (property_exists($this->phpmailer, 'PluginDir')) {
-                    $phpmailer_reflection       = new ReflectionClass($this->phpmailer);
-                    $this->phpmailer->PluginDir = dirname($phpmailer_reflection->getFileName()) . DIRECTORY_SEPARATOR;
-                    unset($phpmailer_reflection);
-                }
+
+                $this->phpmailer                           = new \PHPMailer\PHPMailer\PHPMailer();
+                \PHPMailer\PHPMailer\PHPMailer::$validator = 'valid_email';
             }
         }
+
         $this->refresh_properties();
         $this->clear(true);
 
@@ -553,9 +550,14 @@ class App_mailer extends CI_Email
 
     public function set_smtp_user($value)
     {
-        $value                         = (string) $value;
+        $value = (string) $value;
+
         $this->properties['smtp_user'] = $value;
-        $this->_smtp_auth              = !($value == '' && $this->smtp_pass == '');
+
+        $this->_smtp_auth = $this->smtp_auth === null
+            ? !($value == '' && $this->smtp_pass == '')
+            : !empty($this->smtp_auth);
+
         if ($this->mailer_engine == 'phpmailer') {
             $this->phpmailer->Username = $value;
             $this->phpmailer->SMTPAuth = $this->_smtp_auth;
@@ -566,9 +568,14 @@ class App_mailer extends CI_Email
 
     public function set_smtp_pass($value)
     {
-        $value                         = (string) $value;
+        $value = (string) $value;
+
         $this->properties['smtp_pass'] = $value;
-        $this->_smtp_auth              = !($this->smtp_user == '' && $value == '');
+
+        $this->_smtp_auth = $this->smtp_auth === null
+            ? !($this->smtp_user == '' && $value == '')
+            : !empty($this->smtp_auth);
+
         if ($this->mailer_engine == 'phpmailer') {
             $this->phpmailer->Password = $value;
             $this->phpmailer->SMTPAuth = $this->_smtp_auth;
@@ -703,8 +710,10 @@ class App_mailer extends CI_Email
 
     public function set_priority($n = 3)
     {
-        $n                            = preg_match('/^[1-5]$/', $n) ? (int) $n : 3;
+        $n = preg_match('/^[1-5]$/', $n) ? (int) $n : 3;
+
         $this->properties['priority'] = $n;
+
         if ($this->mailer_engine == 'phpmailer') {
             $this->phpmailer->Priority = $n;
         }
@@ -714,10 +723,16 @@ class App_mailer extends CI_Email
 
     public function set_newline($newline = "\n")
     {
-        $newline                     = in_array($newline, ["\n", "\r\n", "\r"]) ? $newline : "\n";
+        $newline = in_array($newline, ["\n", "\r\n", "\r"]) ? $newline : "\n";
+
         $this->properties['newline'] = $newline;
+
         if ($this->mailer_engine == 'phpmailer') {
-            $this->phpmailer->LE = $newline;
+            if (property_exists('\\PHPMailer\\PHPMailer\\PHPMailer', 'LE')) {
+                $reflection = new \ReflectionProperty('\\PHPMailer\\PHPMailer\\PHPMailer', 'LE');
+                $reflection->setAccessible(true);
+                $reflection->setValue(null, $newline);
+            }
         }
 
         return $this;
@@ -726,7 +741,8 @@ class App_mailer extends CI_Email
     // A CodeIgniter specific option, PHPMailer uses the standard value "\r\n" only.
     public function set_crlf($crlf = "\n")
     {
-        $crlf                     = ($crlf !== "\n" && $crlf !== "\r\n" && $crlf !== "\r") ? "\n" : $crlf;
+        $crlf = ($crlf !== "\n" && $crlf !== "\r\n" && $crlf !== "\r") ? "\n" : $crlf;
+
         $this->properties['crlf'] = $crlf;
 
         return $this;

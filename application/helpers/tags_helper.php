@@ -97,9 +97,11 @@ function prep_tags_input($tag_names)
 function render_tags($tags)
 {
     $tags_html = '';
+
     if (!is_array($tags)) {
-        $tags = explode(',', $tags);
+        $tags = empty($tags) ? [] : explode(',', $tags);
     }
+
     $tags = array_filter($tags, function ($value) {
         return $value !== '';
     });

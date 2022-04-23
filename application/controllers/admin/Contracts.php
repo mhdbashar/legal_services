@@ -77,7 +77,14 @@ class Contracts extends AdminController
                 if (!has_permission('contracts', '', 'edit')) {
                     access_denied('contracts');
                 }
-                $success = $this->contracts_model->update($this->input->post(), $id);
+                $contract = $this->contracts_model->get($id);
+                $data     = $this->input->post();
+
+                if ($contract->signed == 1) {
+                    unset($data['contract_value'],$data['clientid'], $data['datestart'], $data['dateend']);
+                }
+
+                $success = $this->contracts_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('contract')));
                 }
@@ -289,7 +296,7 @@ class Contracts extends AdminController
 
     public function renew()
     {
-        if (!has_permission('contracts', '', 'create') && !has_permission('contracts', '', 'edit')) {
+        if (!has_permission('contracts', '', 'edit')) {
             access_denied('contracts');
         }
         if ($this->input->post()) {

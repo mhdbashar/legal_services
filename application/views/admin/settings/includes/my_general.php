@@ -50,7 +50,7 @@
 					</div>
 					<?php if(has_permission('settings','','delete')){ ?>
 						<div class="col-md-3 text-right">
-							<a href="<?php echo admin_url('settings/remove_favicon'); ?>" class="_delete text-danger"><i class="fa fa-remove"></i></a>
+                            <a href="<?php echo admin_url('settings/remove_fv'); ?>" class="_delete text-danger"><i class="fa fa-remove"></i></a>
 						</div>
 					<?php } ?>
 				</div>

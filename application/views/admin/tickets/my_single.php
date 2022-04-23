@@ -5,6 +5,14 @@
    <div class="content">
       <div class="row">
          <div class="col-md-12">
+             <?php if ($ticket->merged_ticket_id !== null) { ?>
+                 <div class="alert alert-danger" role="alert">
+                     <p><?php echo _l('ticket_merged_notice'); ?>: <?php echo $ticket->merged_ticket_id; ?></p>
+                     <div class="ptop10">
+                         <a href="<?php echo admin_url('tickets/ticket/' . $ticket->merged_ticket_id ); ?>" class="btn btn-default"><?php echo _l('view_primary_ticket'); ?></a>
+                     </div>
+                 </div>
+             <?php } ?>
             <div class="panel_s">
                <div class="panel-body">
                   <div class="horizontal-scrollable-tabs">
@@ -227,18 +235,25 @@
                            <?php } ?>
                         </div>
                         <?php echo render_textarea('message','','',array(),array(),'','tinymce'); ?>
+                         <div class="alert alert-warning staff_replying_notice <?php echo ($ticket->staff_id_replying === null || $ticket->staff_id_replying === get_staff_user_id()) ? 'hide' : '' ?>">
+                             <?php if ($ticket->staff_id_replying !== null && $ticket->staff_id_replying !== get_staff_user_id()) { ?>
+                                 <p><?php echo _l('staff_is_currently_replying', get_staff_full_name($ticket->staff_id_replying)); ?></p>
+                             <?php } ?>
+                         </div>
                      </div>
                      <div class="panel_s ticket-reply-tools">
-                        <div class="btn-bottom-toolbar text-right">
+                         <?php if ($ticket->merged_ticket_id === null) { ?>
+                         <div class="btn-bottom-toolbar text-right">
                            <button type="submit" class="btn btn-info" data-form="#single-ticket-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>">
                               <?php echo _l('ticket_single_add_response'); ?>
                            </button>
                         </div>
-                        <div class="panel-body">
+                         <?php } ?>
+                         <div class="panel-body">
                            <div class="row">
                               <div class="col-md-5">
                                  <?php echo render_select('status',$statuses,array('ticketstatusid','name'),'ticket_single_change_status',get_option('default_ticket_reply_status'),array(),array(),'','',false); ?>
-                                 <?php echo render_input('cc','CC'); ?>
+                                  <?php echo render_input('cc','CC', $ticket->cc); ?>
                                  <?php if($ticket->assigned !== get_staff_user_id()){ ?>
                                     <div class="checkbox">
                                        <input type="checkbox" name="assign_to_current_user" id="assign_to_current_user">
@@ -250,6 +265,25 @@
                                     <label for="ticket_add_response_and_back_to_list"><?php echo _l('ticket_add_response_and_back_to_list'); ?></label>
                                  </div>
                               </div>
+                               <?php
+                               $totalMergedTickets = count($merged_tickets);
+                               if ($totalMergedTickets > 0) { ?>
+                                   <div class="col-md-7">
+                                       <div class="panel panel-default mtop25">
+                                           <div class="panel-heading">
+                                               <strong><?php echo _l('ticket_merged_tickets_header', $totalMergedTickets) ?></strong>
+                                           </div>
+                                           <ul class="list-group">
+                                               <?php foreach ($merged_tickets as $merged_ticket) { ?>
+                                                   <a href="<?php echo admin_url('tickets/ticket/' . $merged_ticket['ticketid']) ?>" class="list-group-item">
+                                                       #<?php echo $merged_ticket['ticketid'] ?> - <?php echo $merged_ticket['subject'] ?>
+                                                   </a>
+                                                   <?php
+                                               } ?>
+                                           </ul>
+                                       </div>
+                                   </div>
+                               <?php } ?>
                            </div>
                            <hr />
                            <div class="row attachments">
@@ -308,7 +342,7 @@
                         <?php echo render_input('subject','ticket_settings_subject',$ticket->subject); ?>
                         <div class="form-group select-placeholder">
                            <label for="contactid" class="control-label"><?php echo _l('contact'); ?></label>
-                           <select name="contactid" id="contactid" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(!empty($ticket->from_name) && !empty($ticket->ticket_email)){echo ' data-no-contact="true"';} else {echo ' data-ticket-emails="'.$ticket->ticket_emails.'"';} ?>>
+                            <select name="contactid" id="contactid" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(!$ticket->userid){echo ' data-no-contact="true"';} else {echo ' data-ticket-emails="'.$ticket->ticket_emails.'"';} ?>>
                               <?php
                               $rel_data = get_relation_data('contact',$ticket->contactid);
                               $rel_val = get_relation_values($rel_data,'contact');
@@ -334,10 +368,6 @@
                       <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
                    </div>
                    <div class="col-md-6">
-                     <div class="form-group mbot20">
-                        <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
-                        <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
-                     </div>
                      <div class="form-group select-placeholder">
                         <label for="assigned" class="control-label">
                            <?php echo _l('ticket_settings_assign_to'); ?>
@@ -386,6 +416,17 @@
                            </select>
                         </div>
                      </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <?php  echo render_input('merge_ticket_ids','merge_ticket_ids_field_label', '', 'text', $ticket->merged_ticket_id === null ? array('placeholder'=> _l('merge_ticket_ids_field_placeholder')) : array('disabled'=>true)); ?>
+                           </div>
+                           <div class="col-md-6">
+                               <div class="form-group mbot20">
+                                   <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
+                                   <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
+                               </div>
+                           </div>
+                       </div>
                   </div>
                   <div class="col-md-12">
                      <?php echo render_custom_fields('tickets',$ticket->ticketid); ?>
@@ -642,6 +683,38 @@
          },100);
       }
    });
+       var editorMessage = tinymce.get('message');
+       if(typeof(editorMessage) != 'undefined') {
+           var firstTypeCheckPerformed = false;
+
+           editorMessage.on('change', function () {
+               if(!firstTypeCheckPerformed) {
+                   // make AJAX Request
+                   $.get(admin_url+'tickets/check_staff_replying/<?php echo $ticket->ticketid; ?>', function (result) {
+                       var data = JSON.parse(result)
+                       if (data.is_other_staff_replying === true || data.is_other_staff_replying === 'true') {
+                           $('.staff_replying_notice').html('<p>' + data.message + '</p>');
+                           $('.staff_replying_notice').removeClass('hide');
+                       } else {
+                           $('.staff_replying_notice').addClass('hide');
+                       }
+                   });
+
+                   firstTypeCheckPerformed = true;
+               }
+
+               $.post(admin_url+'tickets/update_staff_replying/<?php echo $ticket->ticketid; ?>/<?php echo get_staff_user_id()?>');
+           });
+
+           $(document).on('pagehide, beforeunload', function () {
+               $.post(admin_url+'tickets/update_staff_replying/<?php echo $ticket->ticketid; ?>');
+           })
+
+           $(document).on('visibilitychange', function () {
+               if (document.visibilityState === 'visible' || (editorMessage.getContent().trim() != '')) return;
+               $.post(admin_url+'tickets/update_staff_replying/<?php echo $ticket->ticketid; ?>');
+           })
+       }
    });
 
 

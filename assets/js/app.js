@@ -1065,10 +1065,15 @@ function appDatepicker(options) {
         // Check in case the input have date-end-date or date-min-date
         var max_date = that.attr('data-date-end-date');
         var min_date = that.attr('data-date-min-date');
+        var step = that.attr('data-step');
         var lazy = that.attr('data-lazy');
 
         if (lazy) {
-            opt.lazyInit = lazy == 'true';
+            opt_time.lazyInit = lazy == 'true';
+        }
+
+        if(step) {
+            opt_time.step = parseInt(step);
         }
 
         if (max_date) {

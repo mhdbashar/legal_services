@@ -38,7 +38,7 @@
 </div>
 <div class="modal fade" id="department" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('departments/department')); ?>
+        <?php echo form_open(admin_url('departments/department'), ['id' => 'department-form']); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

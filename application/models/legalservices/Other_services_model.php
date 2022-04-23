@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+use app\services\projects\Gantt;
+use app\services\projects\AllProjectsGantt;
+use app\services\projects\HoursOverviewChart;
+
 class Other_services_model extends App_Model
 {
     private $project_settings;
@@ -1094,9 +1098,13 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_project_members($id)
+    public function get_project_members($id, $with_name = false)
     {
-        $this->db->select('email,oservice_id,staff_id');
+        if ($with_name) {
+            $this->db->select('firstname,lastname,email,project_id,staff_id');
+        } else {
+            $this->db->select('email,project_id,staff_id');
+        }
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
         $this->db->where('oservice_id', $id);
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
@@ -1526,6 +1534,14 @@ class Other_services_model extends App_Model
             }
         }
 
+        if (isset($where[db_prefix() . 'milestones.hide_from_customer'])) {
+            $this->db->group_start();
+            $this->db->where(db_prefix() . 'milestones.hide_from_customer', $where[db_prefix() . 'milestones.hide_from_customer']);
+            $this->db->or_where(db_prefix() . 'tasks.milestone', 0);
+            $this->db->group_end();
+            unset($where[db_prefix() . 'milestones.hide_from_customer']);
+        }
+
         $this->db->where($where);
 
         // Milestones kanban order
@@ -1544,6 +1560,12 @@ class Other_services_model extends App_Model
 
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
         }
+
+        $tasks = hooks()->apply_filters('get_projects_tasks', $tasks, [
+            'project_id' => $id,
+            'where'      => $where,
+            'count'      => $count,
+        ]);
 
         return $tasks;
     }
@@ -1750,326 +1772,326 @@ class Other_services_model extends App_Model
 
         return false;
     }
+    // v 9.0.3 deprecated
+//    public function get_project_overview_weekly_chart_data($slug = '',$id, $type = 'this_week')
+//    {
+//        $billing_type = get_oservice_billing_type($id);
+//        $chart = [];
+//
+//        $has_permission_create = has_permission('projects', '', 'create');
+//        // If don't have permission for projects create show only bileld time
+//        if (!$has_permission_create) {
+//            $timesheets_type = 'total_logged_time_only';
+//        } else {
+//            if ($billing_type == 2 || $billing_type == 3) {
+//                $timesheets_type = 'billable_unbilled';
+//            } else {
+//                $timesheets_type = 'total_logged_time_only';
+//            }
+//        }
+//
+//        $chart['data'] = [];
+//        $chart['data']['labels'] = [];
+//        $chart['data']['datasets'] = [];
+//
+//        $chart['data']['datasets'][] = [
+//            'label' => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('project_overview_billable_hours')) : str_replace(':', '', _l('project_overview_logged_hours'))),
+//            'data' => [],
+//            'backgroundColor' => [],
+//            'borderColor' => [],
+//            'borderWidth' => 1,
+//        ];
+//
+//        if ($timesheets_type == 'billable_unbilled') {
+//            $chart['data']['datasets'][] = [
+//                'label' => str_replace(':', '', _l('project_overview_unbilled_hours')),
+//                'data' => [],
+//                'backgroundColor' => [],
+//                'borderColor' => [],
+//                'borderWidth' => 1,
+//            ];
+//        }
+//
+//        $temp_weekdays_data = [];
+//        $weeks = [];
+//        $where_time = '';
+//
+//        if ($type == 'this_month') {
+//            $beginThisMonth = date('Y-m-01');
+//            $endThisMonth = date('Y-m-t 23:59:59');
+//
+//            $weeks_split_start = date('Y-m-d', strtotime($beginThisMonth));
+//            $weeks_split_end = date('Y-m-d', strtotime($endThisMonth));
+//
+//            $where_time = 'start_time BETWEEN ' . strtotime($beginThisMonth) . ' AND ' . strtotime($endThisMonth);
+//        } elseif ($type == 'last_month') {
+//            $beginLastMonth = date('Y-m-01', strtotime('-1 MONTH'));
+//            $endLastMonth = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
+//
+//            $weeks_split_start = date('Y-m-d', strtotime($beginLastMonth));
+//            $weeks_split_end = date('Y-m-d', strtotime($endLastMonth));
+//
+//            $where_time = 'start_time BETWEEN ' . strtotime($beginLastMonth) . ' AND ' . strtotime($endLastMonth);
+//        } elseif ($type == 'last_week') {
+//            $beginLastWeek = date('Y-m-d', strtotime('monday last week'));
+//            $endLastWeek = date('Y-m-d 23:59:59', strtotime('sunday last week'));
+//            $where_time = 'start_time BETWEEN ' . strtotime($beginLastWeek) . ' AND ' . strtotime($endLastWeek);
+//        } else {
+//            $beginThisWeek = date('Y-m-d', strtotime('monday this week'));
+//            $endThisWeek = date('Y-m-d 23:59:59', strtotime('sunday this week'));
+//            $where_time = 'start_time BETWEEN ' . strtotime($beginThisWeek) . ' AND ' . strtotime($endThisWeek);
+//        }
+//
+//        if ($type == 'this_week' || $type == 'last_week') {
+//            foreach (get_weekdays() as $day) {
+//                array_push($chart['data']['labels'], $day);
+//            }
+//            $weekDay = date('w', strtotime(date('Y-m-d H:i:s')));
+//            $i = 0;
+//            foreach (get_weekdays_original() as $day) {
+//                if ($weekDay != '0') {
+//                    $chart['data']['labels'][$i] = date('d', strtotime($day . ' ' . str_replace('_', ' ', $type))) . ' - ' . $chart['data']['labels'][$i];
+//                } else {
+//                    if ($type == 'this_week') {
+//                        $strtotime = 'last ' . $day;
+//                        if ($day == 'Sunday') {
+//                            $strtotime = 'sunday this week';
+//                        }
+//                        $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
+//                    } else {
+//                        $strtotime = $day . ' last week';
+//                        $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
+//                    }
+//                }
+//                $i++;
+//            }
+//        } elseif ($type == 'this_month' || $type == 'last_month') {
+//            $weeks_split_start = new DateTime($weeks_split_start);
+//            $weeks_split_end = new DateTime($weeks_split_end);
+//            $weeks = get_weekdays_between_dates($weeks_split_start, $weeks_split_end);
+//            $total_weeks = count($weeks);
+//            for ($i = 1; $i <= $total_weeks; $i++) {
+//                array_push($chart['data']['labels'], split_weeks_chart_label($weeks, $i));
+//            }
+//        }
+//
+//        $loop_break = ($timesheets_type == 'billable_unbilled') ? 2 : 1;
+//
+//        for ($i = 0; $i < $loop_break; $i++) {
+//            $temp_weekdays_data = [];
+//            // Store the weeks in new variable for each loop to prevent duplicating
+//            $tmp_weeks = $weeks;
+//
+//
+//            $color = '3, 169, 244';
+//
+//            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$slug.'" AND rel_id = "' . $id . '"';
+//
+//            if ($timesheets_type != 'total_logged_time_only') {
+//                $where .= ' AND billable=1';
+//                if ($i == 1) {
+//                    $color = '252, 45, 66';
+//                    $where .= ' AND billed = 0';
+//                }
+//            }
+//
+//            $where .= ')';
+//            $this->db->where($where_time);
+//            $this->db->where($where);
+//            if (!$has_permission_create) {
+//                $this->db->where('staff_id', get_staff_user_id());
+//            }
+//            $timesheets = $this->db->get(db_prefix() . 'taskstimers')->result_array();
+//
+//            foreach ($timesheets as $t) {
+//                $total_logged_time = 0;
+//                if ($t['end_time'] == null) {
+//                    $total_logged_time = time() - $t['start_time'];
+//                } else {
+//                    $total_logged_time = $t['end_time'] - $t['start_time'];
+//                }
+//
+//                if ($type == 'this_week' || $type == 'last_week') {
+//                    $weekday = date('N', $t['start_time']);
+//                    if (!isset($temp_weekdays_data[$weekday])) {
+//                        $temp_weekdays_data[$weekday] = 0;
+//                    }
+//                    $temp_weekdays_data[$weekday] += $total_logged_time;
+//                } else {
+//                    // months - this and last
+//                    $w = 1;
+//                    foreach ($tmp_weeks as $week) {
+//                        $start_time_date = strftime('%Y-%m-%d', $t['start_time']);
+//                        if (!isset($tmp_weeks[$w]['total'])) {
+//                            $tmp_weeks[$w]['total'] = 0;
+//                        }
+//                        if (in_array($start_time_date, $week)) {
+//                            $tmp_weeks[$w]['total'] += $total_logged_time;
+//                        }
+//                        $w++;
+//                    }
+//                }
+//            }
+//
+//            if ($type == 'this_week' || $type == 'last_week') {
+//                ksort($temp_weekdays_data);
+//                for ($w = 1; $w <= 7; $w++) {
+//                    $total_logged_time = 0;
+//                    if (isset($temp_weekdays_data[$w])) {
+//                        $total_logged_time = $temp_weekdays_data[$w];
+//                    }
+//                    array_push($chart['data']['datasets'][$i]['data'], sec2qty($total_logged_time));
+//                    array_push($chart['data']['datasets'][$i]['backgroundColor'], 'rgba(' . $color . ',0.8)');
+//                    array_push($chart['data']['datasets'][$i]['borderColor'], 'rgba(' . $color . ',1)');
+//                }
+//            } else {
+//                // loop over $tmp_weeks because the unbilled is shown twice because we auto increment twice
+//                // months - this and last
+//                foreach ($tmp_weeks as $week) {
+//                    $total = 0;
+//                    if (isset($week['total'])) {
+//                        $total = $week['total'];
+//                    }
+//                    $total_logged_time = $total;
+//                    array_push($chart['data']['datasets'][$i]['data'], sec2qty($total_logged_time));
+//                    array_push($chart['data']['datasets'][$i]['backgroundColor'], 'rgba(' . $color . ',0.8)');
+//                    array_push($chart['data']['datasets'][$i]['borderColor'], 'rgba(' . $color . ',1)');
+//                }
+//            }
+//        }
+//
+//        return $chart;
+//    }
 
-    public function get_project_overview_weekly_chart_data($slug = '',$id, $type = 'this_week')
-    {
-        $billing_type = get_oservice_billing_type($id);
-        $chart = [];
+//    public function get_gantt_data($slug, $project_id, $type = 'milestones', $taskStatus = null)
+//    {
+//        $ServID = $this->legal->get_service_id_by_slug($slug);
+//        $type_data = [];
+//        if ($type == 'milestones') {
+//            $type_data[] = [
+//                'name' => _l('milestones_uncategorized'),
+//                'id' => 0,
+//            ];
+//            $_milestones = $this->get_milestones($slug,$project_id);
+//            foreach ($_milestones as $m) {
+//                $type_data[] = $m;
+//            }
+//        } elseif ($type == 'members') {
+//            $type_data[] = [
+//                'name' => _l('task_list_not_assigned'),
+//                'staff_id' => 0,
+//            ];
+//            $_members = $this->get_project_members($project_id);
+//            foreach ($_members as $m) {
+//                $type_data[] = $m;
+//            }
+//        } else {
+//            if (!$taskStatus) {
+//                $statuses = $this->tasks_model->get_statuses();
+//                foreach ($statuses as $status) {
+//                    $type_data[] = $status['id'];
+//                }
+//            } else {
+//                $type_data[] = $taskStatus;
+//            }
+//        }
+//
+//        $gantt_data = [];
+//        $has_permission = has_permission('tasks', '', 'view');
+//
+//        foreach ($type_data as $data) {
+//            if ($type == 'milestones') {
+//
+//                $tasks = $this->get_tasks($ServID,$project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+//                $name = $data['name'];
+//            } elseif ($type == 'members') {
+//                if ($data['staff_id'] != 0) {
+//
+//                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+//                    $name = get_staff_full_name($data['staff_id']);
+//                } else {
+//                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+//                    $name = $data['name'];
+//                }
+//            } else {
+//
+//                $tasks = $this->get_tasks($ServID,$project_id, [
+//                    'status' => $data,
+//                ], true);
+//
+//                $name = format_task_status($data, false, true);
+//            }
+//
+//            if (count($tasks) > 0) {
+//                $data = get_task_array_gantt_data($tasks[0]);
+//                $data['name'] = $name;
+//
+//                $gantt_data[] = $data;
+//                unset($tasks[0]);
+//
+//                foreach ($tasks as $task) {
+//                    $gantt_data[] = get_task_array_gantt_data($task);
+//                }
+//            }
+//        }
+//
+//        return $gantt_data;
+//    }
 
-        $has_permission_create = has_permission('projects', '', 'create');
-        // If don't have permission for projects create show only bileld time
-        if (!$has_permission_create) {
-            $timesheets_type = 'total_logged_time_only';
-        } else {
-            if ($billing_type == 2 || $billing_type == 3) {
-                $timesheets_type = 'billable_unbilled';
-            } else {
-                $timesheets_type = 'total_logged_time_only';
-            }
-        }
-
-        $chart['data'] = [];
-        $chart['data']['labels'] = [];
-        $chart['data']['datasets'] = [];
-
-        $chart['data']['datasets'][] = [
-            'label' => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('project_overview_billable_hours')) : str_replace(':', '', _l('project_overview_logged_hours'))),
-            'data' => [],
-            'backgroundColor' => [],
-            'borderColor' => [],
-            'borderWidth' => 1,
-        ];
-
-        if ($timesheets_type == 'billable_unbilled') {
-            $chart['data']['datasets'][] = [
-                'label' => str_replace(':', '', _l('project_overview_unbilled_hours')),
-                'data' => [],
-                'backgroundColor' => [],
-                'borderColor' => [],
-                'borderWidth' => 1,
-            ];
-        }
-
-        $temp_weekdays_data = [];
-        $weeks = [];
-        $where_time = '';
-
-        if ($type == 'this_month') {
-            $beginThisMonth = date('Y-m-01');
-            $endThisMonth = date('Y-m-t 23:59:59');
-
-            $weeks_split_start = date('Y-m-d', strtotime($beginThisMonth));
-            $weeks_split_end = date('Y-m-d', strtotime($endThisMonth));
-
-            $where_time = 'start_time BETWEEN ' . strtotime($beginThisMonth) . ' AND ' . strtotime($endThisMonth);
-        } elseif ($type == 'last_month') {
-            $beginLastMonth = date('Y-m-01', strtotime('-1 MONTH'));
-            $endLastMonth = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
-
-            $weeks_split_start = date('Y-m-d', strtotime($beginLastMonth));
-            $weeks_split_end = date('Y-m-d', strtotime($endLastMonth));
-
-            $where_time = 'start_time BETWEEN ' . strtotime($beginLastMonth) . ' AND ' . strtotime($endLastMonth);
-        } elseif ($type == 'last_week') {
-            $beginLastWeek = date('Y-m-d', strtotime('monday last week'));
-            $endLastWeek = date('Y-m-d 23:59:59', strtotime('sunday last week'));
-            $where_time = 'start_time BETWEEN ' . strtotime($beginLastWeek) . ' AND ' . strtotime($endLastWeek);
-        } else {
-            $beginThisWeek = date('Y-m-d', strtotime('monday this week'));
-            $endThisWeek = date('Y-m-d 23:59:59', strtotime('sunday this week'));
-            $where_time = 'start_time BETWEEN ' . strtotime($beginThisWeek) . ' AND ' . strtotime($endThisWeek);
-        }
-
-        if ($type == 'this_week' || $type == 'last_week') {
-            foreach (get_weekdays() as $day) {
-                array_push($chart['data']['labels'], $day);
-            }
-            $weekDay = date('w', strtotime(date('Y-m-d H:i:s')));
-            $i = 0;
-            foreach (get_weekdays_original() as $day) {
-                if ($weekDay != '0') {
-                    $chart['data']['labels'][$i] = date('d', strtotime($day . ' ' . str_replace('_', ' ', $type))) . ' - ' . $chart['data']['labels'][$i];
-                } else {
-                    if ($type == 'this_week') {
-                        $strtotime = 'last ' . $day;
-                        if ($day == 'Sunday') {
-                            $strtotime = 'sunday this week';
-                        }
-                        $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
-                    } else {
-                        $strtotime = $day . ' last week';
-                        $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
-                    }
-                }
-                $i++;
-            }
-        } elseif ($type == 'this_month' || $type == 'last_month') {
-            $weeks_split_start = new DateTime($weeks_split_start);
-            $weeks_split_end = new DateTime($weeks_split_end);
-            $weeks = get_weekdays_between_dates($weeks_split_start, $weeks_split_end);
-            $total_weeks = count($weeks);
-            for ($i = 1; $i <= $total_weeks; $i++) {
-                array_push($chart['data']['labels'], split_weeks_chart_label($weeks, $i));
-            }
-        }
-
-        $loop_break = ($timesheets_type == 'billable_unbilled') ? 2 : 1;
-
-        for ($i = 0; $i < $loop_break; $i++) {
-            $temp_weekdays_data = [];
-            // Store the weeks in new variable for each loop to prevent duplicating
-            $tmp_weeks = $weeks;
-
-
-            $color = '3, 169, 244';
-
-            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$slug.'" AND rel_id = "' . $id . '"';
-
-            if ($timesheets_type != 'total_logged_time_only') {
-                $where .= ' AND billable=1';
-                if ($i == 1) {
-                    $color = '252, 45, 66';
-                    $where .= ' AND billed = 0';
-                }
-            }
-
-            $where .= ')';
-            $this->db->where($where_time);
-            $this->db->where($where);
-            if (!$has_permission_create) {
-                $this->db->where('staff_id', get_staff_user_id());
-            }
-            $timesheets = $this->db->get(db_prefix() . 'taskstimers')->result_array();
-
-            foreach ($timesheets as $t) {
-                $total_logged_time = 0;
-                if ($t['end_time'] == null) {
-                    $total_logged_time = time() - $t['start_time'];
-                } else {
-                    $total_logged_time = $t['end_time'] - $t['start_time'];
-                }
-
-                if ($type == 'this_week' || $type == 'last_week') {
-                    $weekday = date('N', $t['start_time']);
-                    if (!isset($temp_weekdays_data[$weekday])) {
-                        $temp_weekdays_data[$weekday] = 0;
-                    }
-                    $temp_weekdays_data[$weekday] += $total_logged_time;
-                } else {
-                    // months - this and last
-                    $w = 1;
-                    foreach ($tmp_weeks as $week) {
-                        $start_time_date = strftime('%Y-%m-%d', $t['start_time']);
-                        if (!isset($tmp_weeks[$w]['total'])) {
-                            $tmp_weeks[$w]['total'] = 0;
-                        }
-                        if (in_array($start_time_date, $week)) {
-                            $tmp_weeks[$w]['total'] += $total_logged_time;
-                        }
-                        $w++;
-                    }
-                }
-            }
-
-            if ($type == 'this_week' || $type == 'last_week') {
-                ksort($temp_weekdays_data);
-                for ($w = 1; $w <= 7; $w++) {
-                    $total_logged_time = 0;
-                    if (isset($temp_weekdays_data[$w])) {
-                        $total_logged_time = $temp_weekdays_data[$w];
-                    }
-                    array_push($chart['data']['datasets'][$i]['data'], sec2qty($total_logged_time));
-                    array_push($chart['data']['datasets'][$i]['backgroundColor'], 'rgba(' . $color . ',0.8)');
-                    array_push($chart['data']['datasets'][$i]['borderColor'], 'rgba(' . $color . ',1)');
-                }
-            } else {
-                // loop over $tmp_weeks because the unbilled is shown twice because we auto increment twice
-                // months - this and last
-                foreach ($tmp_weeks as $week) {
-                    $total = 0;
-                    if (isset($week['total'])) {
-                        $total = $week['total'];
-                    }
-                    $total_logged_time = $total;
-                    array_push($chart['data']['datasets'][$i]['data'], sec2qty($total_logged_time));
-                    array_push($chart['data']['datasets'][$i]['backgroundColor'], 'rgba(' . $color . ',0.8)');
-                    array_push($chart['data']['datasets'][$i]['borderColor'], 'rgba(' . $color . ',1)');
-                }
-            }
-        }
-
-        return $chart;
-    }
-
-    public function get_gantt_data($slug, $project_id, $type = 'milestones', $taskStatus = null)
-    {
-        $ServID = $this->legal->get_service_id_by_slug($slug);
-        $type_data = [];
-        if ($type == 'milestones') {
-            $type_data[] = [
-                'name' => _l('milestones_uncategorized'),
-                'id' => 0,
-            ];
-            $_milestones = $this->get_milestones($slug,$project_id);
-            foreach ($_milestones as $m) {
-                $type_data[] = $m;
-            }
-        } elseif ($type == 'members') {
-            $type_data[] = [
-                'name' => _l('task_list_not_assigned'),
-                'staff_id' => 0,
-            ];
-            $_members = $this->get_project_members($project_id);
-            foreach ($_members as $m) {
-                $type_data[] = $m;
-            }
-        } else {
-            if (!$taskStatus) {
-                $statuses = $this->tasks_model->get_statuses();
-                foreach ($statuses as $status) {
-                    $type_data[] = $status['id'];
-                }
-            } else {
-                $type_data[] = $taskStatus;
-            }
-        }
-
-        $gantt_data = [];
-        $has_permission = has_permission('tasks', '', 'view');
-
-        foreach ($type_data as $data) {
-            if ($type == 'milestones') {
-
-                $tasks = $this->get_tasks($ServID,$project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                $name = $data['name'];
-            } elseif ($type == 'members') {
-                if ($data['staff_id'] != 0) {
-
-                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                    $name = get_staff_full_name($data['staff_id']);
-                } else {
-                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                    $name = $data['name'];
-                }
-            } else {
-
-                $tasks = $this->get_tasks($ServID,$project_id, [
-                    'status' => $data,
-                ], true);
-
-                $name = format_task_status($data, false, true);
-            }
-
-            if (count($tasks) > 0) {
-                $data = get_task_array_gantt_data($tasks[0]);
-                $data['name'] = $name;
-
-                $gantt_data[] = $data;
-                unset($tasks[0]);
-
-                foreach ($tasks as $task) {
-                    $gantt_data[] = get_task_array_gantt_data($task);
-                }
-            }
-        }
-
-        return $gantt_data;
-    }
-
-    public function get_all_projects_gantt_data($ServID, $filters = [])
-    {
-        $statuses = $this->get_project_statuses();
-        $gantt_data = [];
-
-        $statusesIds = [];
-        foreach ($statuses as $status) {
-            if (!in_array($status['id'], $filters['status'])) {
-                continue;
-            }
-
-            if (!has_permission('projects', '', 'view')) {
-                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . get_staff_user_id() . ')');
-            }
-
-            if ($filters['member']) {
-                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . $filters['member'] . ')');
-            }
-
-            $this->db->where('status', $status['id']);
-            $this->db->order_by('deadline IS NULL ASC, deadline', '', false);
-            $projects = $this->db->get(db_prefix() . 'my_other_services')->result_array();
-
-            foreach ($projects as $project) {
-                $tasks = $this->get_tasks($ServID, $project['id'], [], true);
-
-                $data = [];
-                $data['values'] = [];
-                $values = [];
-                $data['desc'] = ' '; // right white background
-                $data['name'] = $project['name']; // the heading
-
-                $values['from'] = strftime('%Y/%m/%d', strtotime($project['start_date']));
-                $values['to'] = strftime('%Y/%m/%d', strtotime($project['deadline']));
-                $values['desc'] = '';
-                $values['label'] = $project['name'];
-
-                $values['dataObj'] = [
-                    'project_id' => $project['id'],
-                ];
-                $values['customClass'] = 'ganttproject';
-                $data['values'][] = $values;
-                $gantt_data[] = $data;
-
-                if (count($tasks) > 0) {
-                    foreach ($tasks as $task) {
-                        $gantt_data[] = get_task_array_gantt_data($task);
-                    }
-                }
-            }
-        }
-
-        return $gantt_data;
-    }
+//    public function get_all_projects_gantt_data($ServID, $filters = [])
+//    {
+//        $statuses = $this->get_project_statuses();
+//        $gantt_data = [];
+//
+//        $statusesIds = [];
+//        foreach ($statuses as $status) {
+//            if (!in_array($status['id'], $filters['status'])) {
+//                continue;
+//            }
+//
+//            if (!has_permission('projects', '', 'view')) {
+//                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . get_staff_user_id() . ')');
+//            }
+//
+//            if ($filters['member']) {
+//                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . $filters['member'] . ')');
+//            }
+//
+//            $this->db->where('status', $status['id']);
+//            $this->db->order_by('deadline IS NULL ASC, deadline', '', false);
+//            $projects = $this->db->get(db_prefix() . 'my_other_services')->result_array();
+//
+//            foreach ($projects as $project) {
+//                $tasks = $this->get_tasks($ServID, $project['id'], [], true);
+//
+//                $data = [];
+//                $data['values'] = [];
+//                $values = [];
+//                $data['desc'] = ' '; // right white background
+//                $data['name'] = $project['name']; // the heading
+//
+//                $values['from'] = strftime('%Y/%m/%d', strtotime($project['start_date']));
+//                $values['to'] = strftime('%Y/%m/%d', strtotime($project['deadline']));
+//                $values['desc'] = '';
+//                $values['label'] = $project['name'];
+//
+//                $values['dataObj'] = [
+//                    'project_id' => $project['id'],
+//                ];
+//                $values['customClass'] = 'ganttproject';
+//                $data['values'][] = $values;
+//                $gantt_data[] = $data;
+//
+//                if (count($tasks) > 0) {
+//                    foreach ($tasks as $task) {
+//                        $gantt_data[] = get_task_array_gantt_data($task);
+//                    }
+//                }
+//            }
+//        }
+//
+//        return $gantt_data;
+//    }
 
     public function calc_milestone_logged_time($slug,$project_id, $id)
     {
@@ -2101,11 +2123,12 @@ class Other_services_model extends App_Model
         return $q->total_logged_time;
     }
 
-    public function get_milestones($slug,$project_id)
+    public function get_milestones($project_id, $where = [])
     {
         $this->db->select('*, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id) as total_tasks, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id AND status=5) as total_finished_tasks');
         $this->db->where(array(db_prefix() . 'milestones.rel_sid' => $project_id, db_prefix() . 'milestones.rel_stype' => $slug));
         $this->db->order_by('milestone_order', 'ASC');
+        $this->db->where($where);
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
         $i          = 0;
         foreach ($milestones as $milestone) {
@@ -2122,14 +2145,13 @@ class Other_services_model extends App_Model
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $data['rel_stype']   = $slug;
-        $data['due_date']    = to_sql_date($data['due_date']);
-        $data['datecreated'] = date('Y-m-d');
-        $data['description'] = nl2br($data['description']);
-        if (isset($data['description_visible_to_customer'])) {
-            $data['description_visible_to_customer'] = 1;
-        } else {
-            $data['description_visible_to_customer'] = 0;
-        }
+        $data['due_date']                         = to_sql_date($data['due_date']);
+        $data['start_date']                       = to_sql_date($data['start_date']);
+        $data['datecreated']                     = date('Y-m-d');
+        $data['description']                     = nl2br($data['description']);
+        $data['description_visible_to_customer'] = isset($data['description_visible_to_customer']) ? 1 : 0;
+        $data['hide_from_customer']              = isset($data['hide_from_customer']) ? 1 : 0;
+
         $this->db->insert(db_prefix() . 'milestones', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -2154,15 +2176,12 @@ class Other_services_model extends App_Model
     {
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->where('id', $id);
-        $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-        $data['due_date'] = to_sql_date($data['due_date']);
-        $data['description'] = nl2br($data['description']);
-
-        if (isset($data['description_visible_to_customer'])) {
-            $data['description_visible_to_customer'] = 1;
-        } else {
-            $data['description_visible_to_customer'] = 0;
-        }
+        $milestone                               = $this->db->get(db_prefix() . 'milestones')->row();
+        $data['due_date']                        = to_sql_date($data['due_date']);
+        $data['start_date']                      = to_sql_date($data['start_date']);
+        $data['description']                     = nl2br($data['description']);
+        $data['description_visible_to_customer'] = isset($data['description_visible_to_customer']) ? 1 : 0;
+        $data['hide_from_customer']              = isset($data['hide_from_customer']) ? 1 : 0;
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'milestones', $data);
@@ -2249,28 +2268,12 @@ class Other_services_model extends App_Model
      */
     public function send_project_customer_email($id, $template, $ServID = '')
     {
-        $this->db->select('clientid,contact_notification,notify_contacts');
-        $this->db->where('id', $id);
-        $project = $this->db->get(db_prefix() . 'my_other_services')->row();
+        $sent = false;
+        $contacts = $this->clients_model->get_contacts_for_project_notifications($id, 'project_emails');
 
-        $sent     = false;
-
-        if ($project->contact_notification == 1) {
-            $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
-        } elseif ($project->contact_notification == 2) {
-            $contacts = [];
-            $contactIds = unserialize($project->notify_contacts);
-            if(count($contactIds) > 0){
-                $this->db->where_in('id', $contactIds);
-                $this->db->where('active', 1);
-                $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-            }
-        } else {
-            $contacts = [];
-        }
 
         foreach ($contacts as $contact) {
-            if (send_mail_template($template, $id, $project->clientid, $contact, $ServID)) {
+            if (send_mail_template($template, $id, $contact['userid'], $contact)) {
                 $sent = true;
             }
         }
@@ -2302,6 +2305,7 @@ class Other_services_model extends App_Model
             } else {
                 $this->log_activity($data['project_id'], 'LService_status_updated', '<b><lang>project_status_' . $data['status_id'] . '</lang></b>');
                 if ($old_status == 4) {
+                    $this->db->where('id', $data['project_id']);
                     $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => null]);
                 }
             }
@@ -2940,13 +2944,17 @@ class Other_services_model extends App_Model
             $_new_data['deadline'] = null;
         }
 
+        if ($data['name']) {
+            $_new_data['name'] = $data['name'];
+        }
+
         $_new_data['project_created'] = date('Y-m-d H:i:s');
         $_new_data['addedfrom'] = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
 
         if ($project->contact_notification == 2) {
-            $contacts = $this->clients_model->get_contacts($_new_data['clientid'], ['active' => 1, 'project_emails' => 1]);
+            $contacts                     = $this->clients_model->get_contacts($_new_data['clientid'], ['active' => 1, 'project_emails' => 1]);
             $_new_data['notify_contacts'] = serialize(array_column($contacts, 'id'));
         }
 
@@ -2992,13 +3000,16 @@ class Other_services_model extends App_Model
                 $milestones = $this->get_milestones($slug,$project_id);
                 $_added_milestones = [];
                 foreach ($milestones as $milestone) {
-                    $oldProjectStartDate = new DateTime($project->start_date);
-                    $dDuedate            = new DateTime($milestone['due_date']);
-                    $dDiff               = $oldProjectStartDate->diff($dDuedate);
+                    $newProjectStartDate                                   = new DateTimeImmutable($_new_data['start_date']);
+                    $oldProjectStartDate                                   = new DateTime($project->start_date);
+                    $oldMilestoneStartDate                                 = new DateTime($milestone['start_date']); // assuming that the MySQL column added is start_date
+                    $diffBetweenOldProjectStartDateAndOldMilesoneStartDate = $oldProjectStartDate->diff($oldMilestoneStartDate);
+                    $newMilestoneStartDate                                 = $newProjectStartDate->modify('+' . $diffBetweenOldProjectStartDateAndOldMilesoneStartDate->days . ' DAY');
 
-                    $newProjectStartDate = new DateTime($_new_data['start_date']);
-                    $newProjectStartDate->modify('+' . $dDiff->days . ' DAY');
-                    $newMilestoneDueDate = $newProjectStartDate->format('Y-m-d');
+                    $oldMilestoneDueDate                                   = new DateTime($milestone['due_date']);
+                    $diffBetweenOldMilestoneDueDateAndOldMilesoneStartDate = $oldMilestoneStartDate->diff($oldMilestoneDueDate);
+                    $newMilestoneDueDate                                   = $newMilestoneStartDate->modify('+' . $diffBetweenOldMilestoneDueDateAndOldMilesoneStartDate->days . ' DAY');
+
 
                     $this->db->insert(db_prefix() . 'milestones', [
                         'name' => $milestone['name'],
@@ -3007,9 +3018,11 @@ class Other_services_model extends App_Model
                         'milestone_order' => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
                         'description' => $milestone['description'],
+                        'start_date'                      => $oldMilestoneDueDate->format('Y-m-d'),
                         'due_date' => $newMilestoneDueDate,
                         'datecreated' => date('Y-m-d'),
                         'color' => $milestone['color'],
+                        'hide_from_customer'              => $milestone['hide_from_customer'],
                     ]);
 
                     $milestone_id = $this->db->insert_id();
@@ -3635,19 +3648,7 @@ class Other_services_model extends App_Model
             send_mail_template($staff_template, $project, $member, $additional_data['staff']);
         }
         if ($action_visible_to_customer == 1) {
-            if ($project->contact_notification == 1) {
-                $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
-            } elseif ($project->contact_notification == 2) {
-                $contacts = [];
-                $contactIds = unserialize($project->notify_contacts);
-                if(count($contactIds) > 0){
-                    $this->db->where_in('id', $contactIds);
-                    $this->db->where('active', 1);
-                    $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-                }
-            } else {
-                $contacts = [];
-            }
+            $contacts = $this->clients_model->get_contacts_for_project_notifications($project_id, 'project_emails');
 
             foreach ($contacts as $contact) {
                 if (is_client_logged_in() && $contact['id'] == get_contact_user_id()) {
@@ -3789,15 +3790,15 @@ class Other_services_model extends App_Model
             $_item = $this->db->get(db_prefix() . 'itemable')->row();
 
             $data = [
-                'billable' => 'on',
-                'name' => $_item->description,
-                'description' => $_item->long_description,
-                'startdate' => $project_data['start_date'],
-                'duedate' => '',
-                'rel_type' => 'project',
-                'rel_id' => $project_id,
-                'hourly_rate' => $project_data['billing_type'] == 3 ? $_item->rate : 0,
-                'priority' => get_option('default_task_priority'),
+                'billable'            => 'on',
+                'name'                => $_item->description,
+                'description'         => $_item->long_description,
+                'startdate'           => _d($project_data['start_date']),
+                'duedate'             => '',
+                'rel_type'            => 'project',
+                'rel_id'              => $project_id,
+                'hourly_rate'         => $project_data['billing_type'] == 3 ? $_item->rate : 0,
+                'priority'            => get_option('default_task_priority'),
                 'withDefaultAssignee' => false,
             ];
 
@@ -3823,5 +3824,48 @@ class Other_services_model extends App_Model
                 }
             }
         }
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param  int $id
+     * @param  string $type
+     *
+     * @return array
+     */
+    public function get_project_overview_weekly_chart_data($id, $type = 'this_week')
+    {
+        _deprecated_function('Projects_model::get_project_overview_weekly_chart_data', '2.9.2', 'HoursOverviewChart class');
+
+        return (new HoursOverviewChart($id, $type))->get();
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param  array $filters
+     *
+     * @return array
+     */
+    public function get_all_projects_gantt_data($filters = [])
+    {
+        _deprecated_function('Projects_model::get_all_projects_gantt_data', '2.9.2', 'AllProjectsGantt class');
+
+        return (new AllProjectsGantt($filters))->get();
+    }
+
+    /**
+     * @deprecated
+     *
+     * @return array
+     */
+    public function get_gantt_data($project_id, $type = 'milestones', $taskStatus = null, $type_where = [])
+    {
+        _deprecated_function('Projects_model::get_gantt_data', '2.9.2', 'Gantt class');
+
+        return (new Gantt($project_id, $type))->forTaskStatus($taskStatus)
+            ->excludeMilestonesFromCustomer(isset($type_where['hide_from_customer']) && $type_where['hide_from_customer'] == 1)
+            ->get();
     }
 }

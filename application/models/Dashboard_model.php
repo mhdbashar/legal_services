@@ -140,6 +140,60 @@ class Dashboard_model extends App_Model
         return $chart;
     }
 
+    /**
+     * @param  mixed
+     * @return array
+     * Used in home dashboard page, currency passed from javascript (undefined or integer)
+     * Displays monthly payment statistics (chart)
+     */
+    public function get_monthly_payments_statistics($currency)
+    {
+        $all_payments                 = [];
+        $has_permission_payments_view = has_permission('payments', '', 'view');
+        $this->db->select('SUM(amount) as total, MONTH(' . db_prefix() . 'invoicepaymentrecords.date) as month');
+        $this->db->from(db_prefix() . 'invoicepaymentrecords');
+        $this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid');
+        $this->db->where('YEAR(' . db_prefix() . 'invoicepaymentrecords.date) = YEAR(CURRENT_DATE)');
+        $this->db->where('' . db_prefix() . 'invoices.status !=', 5);
+        $this->db->group_by('month');
+
+        if ($currency != 'undefined') {
+            $this->db->where('currency', $currency);
+        }
+
+        if (!$has_permission_payments_view) {
+            $this->db->where('invoiceid IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE addedfrom=' . get_staff_user_id() . ' and addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature="invoices" AND capability="view_own"))');
+        }
+
+        $all_payments = $this->db->get()->result_array();
+
+        for ($i = 1; $i <= 12; $i++) {
+            if (!isset($all_payments[$i])) {
+                $all_payments[$i]['total'] = 0;
+                $all_payments[$i]['month'] = $i;
+            }
+            $all_payments[$i]['label'] = _l(date("F", mktime(0, 0, 0, $i, 1)));
+        }
+        usort($all_payments, function($a, $b) {
+            return (int) $a['month'] <=> (int) $b['month'];
+        });
+
+        $chart = [
+            'labels'   => array_column($all_payments, 'label'),
+            'datasets' => [
+                [
+                    'label'           => _l('report_sales_type_income'),
+                    'backgroundColor' => 'rgba(37,155,35,0.2)',
+                    'borderColor'     => '#84c529',
+                    'borderWidth'     => 1,
+                    'tension'         => false,
+                    'data'            => array_column($all_payments, 'total'),
+                ],
+            ],
+        ];
+        return $chart;
+    }
+
     public function projects_status_stats()
     {
         $this->load->model('projects_model');
@@ -270,6 +324,7 @@ class Dashboard_model extends App_Model
             ]);
 
             $this->db->where('department', $department['departmentid']);
+            $this->db->where(db_prefix() . 'tickets.merged_ticket_id IS NULL', null, false);
             $total = $this->db->count_all_results(db_prefix() . 'tickets');
 
             if ($total > 0) {
@@ -336,6 +391,7 @@ class Dashboard_model extends App_Model
                 }
 
                 $this->db->where('status', $status['ticketstatusid']);
+                $this->db->where(db_prefix() . 'tickets.merged_ticket_id IS NULL', null, false);
                 $total = $this->db->count_all_results(db_prefix() . 'tickets');
                 if ($total > 0) {
                     array_push($chart['labels'], ticket_status_translate($status['ticketstatusid']));

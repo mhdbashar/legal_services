@@ -378,6 +378,7 @@ function validateDefaultValueField() {
 
     var value = $('[name="default_value"]').val();
     var type = $('#type').val();
+
     var message = '';
     var valid = jQuery.Deferred();
     var $error = $('#default-value-error');
@@ -389,10 +390,13 @@ function validateDefaultValueField() {
         return;
     }
 
-    value = value.trim();
+    if(value){
+        value = value.trim();
+    }
 
     switch(type) {
         case 'input':
+        case 'link':
         case 'textarea':
         valid.resolve({
             valid: true,

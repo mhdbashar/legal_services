@@ -28,7 +28,14 @@
 
 	this.getstate = function(select) {
 		var sel = this.files(select),
-			cnt = sel.length;
+			cnt = sel.length,
+			filter = function(files) {
+				var fres = true;
+				return $.grep(files, function(file) {
+					fres = fres && file.mime == 'directory' || ! file.read ? false : true;
+					return fres;
+				});
+			};
 		
 		return cnt == 1 
 			? (sel[0].read ? 0 : -1)
@@ -80,7 +87,7 @@
 		
 		var doOpen = function() {
 			var openCB = function(url) {
-					var link = $('<a>').hide().appendTo($('body'));
+					var link = $('<a rel="noopener">').hide().appendTo($('body'));
 					if (fm.UA.Mobile || !inline) {
 						if (html5dl) {
 							if (!inline) {
@@ -137,11 +144,11 @@
 							}
 							wnd = window.open('about:blank', target);
 						}
-
+						
 						if (!wnd) {
 							return dfrd.reject('errPopup');
 						}
-
+						
 						if (url === '') {
 							var form = document.createElement("form");
 							form.action = fm.options.url;
@@ -160,7 +167,7 @@
 								input.value = val;
 								form.appendChild(input);
 							});
-
+							
 							document.body.appendChild(form);
 							form.submit();
 						} else if (into !== 'window') {
@@ -171,24 +178,24 @@
 					link.remove();
 				},
 				wnd, target, getOnly;
-
+			
 			try {
 				reg = new RegExp(fm.option('dispInlineRegex'), 'i');
 			} catch(e) {
 				reg = false;
 			}
-
+	
 			// open files
 			html5dl  = (typeof $('<a>').get(0).download === 'string');
 			cnt = files.length;
 			while (cnt--) {
 				target = 'elf_open_window';
 				file = files[cnt];
-
+				
 				if (!file.read) {
 					return dfrd.reject(['errOpen', file.name, 'errPerm']);
 				}
-
+				
 				inline = (reg && file.mime.match(reg));
 				fm.openUrl(file.hash, !inline, openCB);
 			}

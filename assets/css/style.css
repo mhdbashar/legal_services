@@ -639,22 +639,11 @@ a.disabled {
 }
 
 .modal-header {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#226faa+0,2989d8+37,72c0d3+100 */
-    background: #226faa;
-    /* Old browsers */
-    /* FF3.6-15 */
-    /* Chrome10-25,Safari5.1-6 */
-    background: -webkit-gradient(linear, left top, right top, from(#226faa), color-stop(37%, #2989d8), to(#72c0d3));
-    background: linear-gradient(to right, #226faa 0%, #2989d8 37%, #72c0d3 100%);
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#226faa', endColorstr='#72c0d3', GradientType=1);
-    /* IE6-9 */
+    background: #fbfbfb;
     border-radius: 6px;
-    color: #fff;
     padding: 18px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-color: transparent;
 }
 
 .modal-content {
@@ -1999,17 +1988,16 @@ body.rtl .dataTables_length {
     color: #555555;
 }
 
+.checkbox input[type="checkbox"]:focus+label::before {
+    outline: thin dotted;
+    outline: 5px auto transparent;
+    outline-offset: -10px;
+}
+
 .checkbox input[type="checkbox"],
 .checkbox input[type="radio"] {
     opacity: 0;
     z-index: 1;
-}
-
-.checkbox input[type="checkbox"]:focus+label::before,
-.checkbox input[type="radio"]:focus+label::before {
-    outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
 }
 
 .checkbox input[type="checkbox"]:checked+label::after,
@@ -2144,8 +2132,8 @@ body.rtl .dataTables_length {
 
 .radio input[type="radio"]:focus+label::before {
     outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
+    outline: 5px auto transparent;
+    outline-offset: -5px;
 }
 
 .radio input[type="radio"]:checked+label::after {
@@ -2819,7 +2807,7 @@ label:not(.control-label) {
 #calendar .fc-header-toolbar button,
 #calendar .fc-day-header,
 #calendar .fc-toolbar .fc-center {
-   text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .bootstrap-select .btn-default {
@@ -2843,7 +2831,9 @@ label:not(.control-label) {
 }
 
 .bootstrap-select.btn-group.disabled,
-.bootstrap-select.btn-group>.disabled {
+.bootstrap-select.btn-group>.disabled,
+.bootstrap-select.disabled,
+.bootstrap-select>.disabled {
     background-color: #eef1f6 !important;
     border-color: #d1dbe5 !important;
     cursor: not-allowed;
@@ -6106,6 +6096,11 @@ body.rtl .hr-panel-heading.project-area-separation {
     list-style: initial !important;
 }
 
+.jquery-comments.tc-content ul.main ul:not(.child-comments),
+.jquery-comments.tc-content ul.main ol {
+    line-height: 0.8;
+}
+
 .jquery-comments ul.main li.comment .wrapper .content {
     padding: 5px 0 5px 0;
 }
@@ -6726,7 +6721,7 @@ ul.dt-button-collection.dropdown-menu {
 }
 
 .lead-modal .lead-top-btn {
-    margin-top: -17px;
+    margin-top: -14px;
     z-index: 10;
     position: relative;
 }
@@ -7876,6 +7871,7 @@ table .tags-labels {
     word-wrap: break-word;
     word-break: break-word;
     min-width: 100%;
+    white-space: pre-wrap;
 }
 
 table .tags-labels .label-tag,
@@ -8163,17 +8159,18 @@ body.rtl .ajax-remove-values-option .ajax-clear-values {
 
 .modal-header .close:hover,
 .modal-header .close:active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(230 230 230);
     border-radius: 50%;
     outline: 0;
 }
 
 .modal-header .close {
+    background: rgb(234 234 234 / 80%);
+    border-radius: 50%;
     margin-top: -3px;
     font-size: 24px;
     font-weight: 400;
-    color: #fff;
-    opacity: 0.9;
+    opacity: 0.7;
     width: 28px;
     height: 28px;
     padding-bottom: 0;
@@ -9191,7 +9188,7 @@ span.mention {
 
 #side-menu li .nav-second-level li >.badge,
 #setup-menu li .nav-second-level li >.badge {
-        position: absolute;
+    position: absolute;
     right: 11px;
     top: 8px;
 }
@@ -9201,4 +9198,17 @@ span.mention {
     position: absolute;
     right: 11px;
     top: 15px;
+}
+
+.bg-danger {
+    background-color: #f3031c;
+}
+
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.fc-toolbar-chunk {
+    margin: 5px 0px;
 }

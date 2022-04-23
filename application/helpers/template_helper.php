@@ -11,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function html_purify($content)
 {
-    if (hooks()->apply_filters('html_purify_content', true) === false) {
+    if (empty($content) || hooks()->apply_filters('html_purify_content', true) === false) {
         return $content;
     }
 
@@ -30,7 +30,11 @@ function html_purify($content)
         $config->set('Cache.DefinitionImpl', null);
     }
 
-    $config->set('HTML.SafeIframe', true);
+    //allow YouTube and Vimeo
+    // $regex = hooks()->apply_filters('html_purify_safe_iframe_regexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
+
+    // $config->set('URI.SafeIframeRegexp', $regex);
+    // $config->set('HTML.SafeIframe', true);
     $config->set('Attr.AllowedFrameTargets', ['_blank']);
     $config->set('Core.EscapeNonASCIICharacters', true);
     $config->set('CSS.AllowTricky', true);
@@ -40,15 +44,13 @@ function html_purify($content)
     $config->set('HTML.MaxImgLength', null);
     $config->set('CSS.MaxImgLength', null);
 
-    //allow YouTube and Vimeo
-    $regex = hooks()->apply_filters('html_purify_safe_iframe_regexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
-
-    $config->set('URI.SafeIframeRegexp', $regex);
     hooks()->apply_filters('html_purifier_config', $config);
 
     $def = $config->maybeGetRawHTMLDefinition();
 
     if ($def) {
+
+        $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
         $def->addAttribute('p', 'pagebreak', 'Text');
         $def->addAttribute('div', 'align', 'Enum#left,right,center');
         $def->addAttribute('span', 'data-mention-id', 'Number');
@@ -88,6 +90,10 @@ function html_purify($content)
  */
 function clear_textarea_breaks($text, $replace = '')
 {
+    if(empty($text)) {
+        return $text;
+    }
+
     $breaks = [
         '<br />',
         '<br>',
@@ -204,31 +210,31 @@ function app_external_form_footer($form)
     $CI->app_scripts->add('common-js', 'assets/builds/common.js', $assetsGroup); ?>
 
     <script>
-       var app = {};
-       app.options = {};
-       app.lang = {};
-       app.options.date_format = '<?php echo $date_format; ?>';
-       app.options.time_format = '<?php echo get_option('time_format'); ?>';
-       app.options.calendar_first_day = '<?php echo get_option('calendar_first_day '); ?>';
-       app.lang.file_exceeds_max_filesize = "<?php echo _l('ticket_form_validation_file_size', bytesToSize('', file_upload_max_size())); ?>";
-       app.lang.validation_extension_not_allowed = "<?php echo _l('validation_extension_not_allowed'); ?>";
-   </script>
+        var app = {};
+        app.options = {};
+        app.lang = {};
+        app.options.date_format = '<?php echo $date_format; ?>';
+        app.options.time_format = '<?php echo get_option('time_format'); ?>';
+        app.options.calendar_first_day = '<?php echo get_option('calendar_first_day '); ?>';
+        app.lang.file_exceeds_max_filesize = "<?php echo _l('ticket_form_validation_file_size', bytesToSize('', file_upload_max_size())); ?>";
+        app.lang.validation_extension_not_allowed = "<?php echo _l('validation_extension_not_allowed'); ?>";
+    </script>
 
-   <?php echo app_compile_scripts($assetsGroup); ?>
+    <?php echo app_compile_scripts($assetsGroup); ?>
 
-   <script>
-    $(function(){
+    <script>
+        $(function(){
 
-        $('body').tooltip({
-             selector: '[data-toggle="tooltip"]'
+            $('body').tooltip({
+                selector: '[data-toggle="tooltip"]'
+            });
+
+            appColorPicker();
+            appDatepicker();
+            appSelectPicker($('select'));
         });
-
-        appColorPicker();
-        appDatepicker();
-        appSelectPicker($('select'));
-    });
-</script>
-<?php
+    </script>
+    <?php
 }
 
 /**

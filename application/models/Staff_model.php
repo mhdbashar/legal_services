@@ -807,7 +807,7 @@ class Staff_model extends App_Model
         }
 
         foreach ($timers as $timer) {
-            $start_date = strftime('%Y-%m-%d', $timer['start_time']);
+            $start_date = date('Y-m-d', $timer['start_time']);
 
             $end_time    = $timer['end_time'];
             $notFinished = false;

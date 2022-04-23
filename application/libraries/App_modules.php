@@ -81,8 +81,8 @@ class App_modules
         include_once($module['init_file']);
 
         /**
-        * Maybe used from another modules?
-        */
+         * Maybe used from another modules?
+         */
         hooks()->do_action('pre_activate_module', $module);
 
         /**
@@ -302,10 +302,10 @@ class App_modules
         $moduleFilesVersion = $module['headers']['version'];
 
         /**
-        * Check if downgrade is required
-        * By default, version_compare() returns -1 if the first version is lower than the second,
-        * 0 if they are equal, and 1 if the second is lower.
-        */
+         * Check if downgrade is required
+         * By default, version_compare() returns -1 if the first version is lower than the second,
+         * 0 if they are equal, and 1 if the second is lower.
+         */
         if (version_compare($moduleInstalledVersion, $moduleFilesVersion) === 1) {
             return true;
         }
@@ -449,7 +449,7 @@ class App_modules
         // For caching
         $this->query_db_modules();
 
-        foreach ($this->get_valid_modules() as $module) {
+        foreach (static::get_valid_modules() as $module) {
             $name = $module['name'];
             // If the module hasn't already been added and isn't a file
             if (!isset($this->modules[$name])) {
@@ -590,15 +590,15 @@ class App_modules
      * Get valid modules
      * @return array
      */
-    private function get_valid_modules()
+    public static function get_valid_modules()
     {
         /**
-        * Modules path
-        *
-        * APP_MODULES_PATH constant is defined in application/config/constants.php
-        *
-        * @var array
-        */
+         * Modules path
+         *
+         * APP_MODULES_PATH constant is defined in application/config/constants.php
+         *
+         * @var array
+         */
         $modules = directory_map(APP_MODULES_PATH, 1);
 
         $valid_modules = [];

@@ -87,7 +87,7 @@
              $.each($('._hidden_inputs._filters input'),function(){
                Expenses_ServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
              });
-             initDataTable('.table-expenses', admin_url+'expenses/table', 'undefined', 'undefined', Expenses_ServerParams, <?php echo hooks()->apply_filters('expenses_table_default_order', json_encode(array(5,'desc'))); ?>).column(0).visible(false, false).columns.adjust();
+            initDataTable('.table-expenses', admin_url+'expenses/table', [0], [0], Expenses_ServerParams, <?php echo hooks()->apply_filters('expenses_table_default_order', json_encode(array(6,'desc'))); ?>).column(1).visible(false, false).columns.adjust();
              //initDataTable('.table-expenses_case', admin_url+'expenses/table_case', 'undefined', 'undefined', Expenses_ServerParams, <?php //echo hooks()->apply_filters('expenses_table_default_order', json_encode(array(5,'desc'))); ?>).column(0).visible(false, false).columns.adjust();
              //initDataTable('.table-expenses_oservice', admin_url+'expenses/table_oservice', 'undefined', 'undefined', Expenses_ServerParams, <?php //echo hooks()->apply_filters('expenses_table_default_order', json_encode(array(5,'desc'))); ?>).column(0).visible(false, false).columns.adjust();
 

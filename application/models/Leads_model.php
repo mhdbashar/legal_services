@@ -1,4 +1,5 @@
 <?php
+use app\services\AbstractKanban;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -57,55 +58,7 @@ class Leads_model extends App_Model
         return $this->db->get('leads')->row();
     }
 
-    public function do_kanban_query($status, $search = '', $page = 1, $sort = [], $count = false)
-    {
-        $limit                          = get_option('leads_kanban_limit');
-        $default_leads_kanban_sort      = get_option('default_leads_kanban_sort');
-        $default_leads_kanban_sort_type = get_option('default_leads_kanban_sort_type');
-        $has_permission_view            = has_permission('leads', '', 'view');
 
-        $this->db->select(db_prefix() . 'leads.title, ' . db_prefix() . 'leads.website, ' . db_prefix() . 'leads.lead_value, ' . db_prefix() . 'leads.address, ' . db_prefix() . 'leads.city, ' . db_prefix() . 'leads.state, ' . db_prefix() . 'leads.country, ' . db_prefix() . 'leads.zip, ' . db_prefix() . 'leads.name as lead_name,' . db_prefix() . 'leads_sources.name as source_name,' . db_prefix() . 'leads.id as id,' . db_prefix() . 'leads.assigned,' . db_prefix() . 'leads.email,' . db_prefix() . 'leads.phonenumber,' . db_prefix() . 'leads.company,' . db_prefix() . 'leads.dateadded,' . db_prefix() . 'leads.status,' . db_prefix() . 'leads.lastcontact,(SELECT COUNT(*) FROM ' . db_prefix() . 'clients WHERE leadid=' . db_prefix() . 'leads.id) as is_lead_client, (SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_files, (SELECT COUNT(id) FROM ' . db_prefix() . 'notes WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_notes,(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'leads.id and rel_type="lead" ORDER by tag_order ASC) as tags');
-        $this->db->from(db_prefix() . 'leads');
-        $this->db->join(db_prefix() . 'leads_sources', db_prefix() . 'leads_sources.id=' . db_prefix() . 'leads.source');
-        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'leads.assigned', 'left');
-        $this->db->where('status', $status);
-        if (!$has_permission_view) {
-            $this->db->where('(assigned = ' . get_staff_user_id() . ' OR addedfrom=' . get_staff_user_id() . ' OR is_public=1)');
-        }
-        if ($search != '') {
-            if (!startsWith($search, '#')) {
-                $this->db->where('(' . db_prefix() . 'leads.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads_sources.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.email LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.phonenumber LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.company LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
-            } else {
-                $this->db->where(db_prefix() . 'leads.id IN
-                (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
-                AND ' . db_prefix() . 'taggables.rel_type=\'lead\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
-                ');
-            }
-        }
-
-        if (isset($sort['sort_by']) && $sort['sort_by'] && isset($sort['sort']) && $sort['sort']) {
-            $this->db->order_by($sort['sort_by'], $sort['sort']);
-        } else {
-            $this->db->order_by($default_leads_kanban_sort, $default_leads_kanban_sort_type);
-        }
-
-        if ($count == false) {
-            if ($page > 1) {
-                $page--;
-                $position = ($page * $limit);
-                $this->db->limit($limit, $position);
-            } else {
-                $this->db->limit($limit);
-            }
-        }
-
-        if ($count == false) {
-            return $this->db->get()->result_array();
-        }
-
-        return $this->db->count_all_results();
-    }
 
     /**
      * Add new lead to database
@@ -886,12 +839,8 @@ class Leads_model extends App_Model
             ]);
         }
         if (isset($data['order'])) {
-            foreach ($data['order'] as $order_data) {
-                $this->db->where('id', $order_data[0]);
-                $this->db->update(db_prefix() . 'leads', [
-                    'leadorder' => $order_data[1],
-                ]);
-            }
+            AbstractKanban::updateOrder($data['order'], 'leadorder', 'leads', $data['status']);
+
         }
         if ($affectedRows > 0) {
             if ($_log_message == '') {
@@ -1211,5 +1160,20 @@ class Leads_model extends App_Model
         }
 
         return $data;
+    }
+    public function do_kanban_query($status, $search = '', $page = 1, $sort = [], $count = false)
+    {
+        _deprecated_function('Leads_model::do_kanban_query', '2.9.2', 'LeadsKanban class');
+
+        $kanBan = (new LeadsKanban($status))
+            ->search($search)
+            ->page($page)
+            ->sortBy($sort['sort'] ?? null, $sort['sort_by'] ?? null);
+
+        if ($count) {
+            return $kanBan->countAll();
+        }
+
+        return $kanBan->get();
     }
 }

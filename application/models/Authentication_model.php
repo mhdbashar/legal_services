@@ -259,6 +259,8 @@ class Authentication_model extends App_Model
         $this->db->set('last_login', date('Y-m-d H:i:s'));
         $this->db->where($_id, $user_id);
         $this->db->update($table);
+
+        log_activity('User Successfully Logged In [User Id: ' . $user_id . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
     }
 
     /**
@@ -324,6 +326,7 @@ class Authentication_model extends App_Model
 
         if ($user) {
             if ($user->active == 0) {
+                log_activity('Inactive User Tried Password Reset [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
                 return [
                     'memberinactive' => true,
                 ];
@@ -349,6 +352,8 @@ class Authentication_model extends App_Model
                 }
 
                 if ($sent) {
+                    log_activity('Password Reset Email sent [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
+
                     hooks()->do_action('forgot_password_email_sent', ['is_staff_member' => $staff, 'user' => $user]);
 
                     return true;
@@ -359,6 +364,7 @@ class Authentication_model extends App_Model
 
             return false;
         }
+        log_activity('Non Existing User Tried Password Reset [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
         return false;
     }

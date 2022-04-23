@@ -40,15 +40,15 @@ class App
      * @var array
      */
     private $available_reminders = [
-            'customer',
-            'lead',
-            'estimate',
-            'invoice',
-            'proposal',
-            'expense',
-            'credit_note',
-            'ticket',
-            'task',
+        'customer',
+        'lead',
+        'estimate',
+        'invoice',
+        'proposal',
+        'expense',
+        'credit_note',
+        'ticket',
+        'task',
     ];
 
     /**
@@ -121,10 +121,10 @@ class App
         if ($update['success'] == false) {
             show_error($update['message']);
         } else {
-            set_alert('success', _l('migration_lang_15'));
-
+            set_alert('success', 'Your database is up to date');
+            update_option('last_updated_date', time());
             if (is_staff_logged_in()) {
-                redirect(admin_url(), 'refresh');
+                redirect(admin_url('settings?group=update'), 'refresh');
             } else {
                 redirect(admin_url('authentication'));
             }
@@ -137,6 +137,9 @@ class App
      */
     public function get_update_info()
     {
+        $lastUpdatedDate = get_option('last_updated_date');
+        $dateInstall     = get_option('di');
+
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => 1,
@@ -147,10 +150,20 @@ class App
             CURLOPT_URL            => UPDATE_INFO_URL,
             CURLOPT_POST           => 1,
             CURLOPT_POSTFIELDS     => [
-                'update_info'     => 'true',
-                'current_version' => $this->get_current_db_version(),
-                'php_version'     => PHP_VERSION,
-                'purchase_key'    => get_option('purchase_key'),
+                'identification_key'      => get_option('identification_key'),
+                'base_url'                => site_url(),
+                'installed_date'          => $dateInstall ? date('Y-m-d H:i:s', (int) $dateInstall) : null,
+                'last_updated_date'       => $lastUpdatedDate ? date('Y-m-d H:i:s', (int) $lastUpdatedDate) : null,
+                'current_version'         => $this->get_current_db_version(),
+                'php_version'             => PHP_VERSION,
+                'purchase_key'            => get_option('purchase_key'),
+                'server_ip'               => $_SERVER['SERVER_ADDR'],
+                'database_driver'         => $this->ci->db->platform() ?? null,
+                'database_driver_version' => $this->ci->db->version() ?? null,
+                'update_info'             => 'true',
+                // For portal
+                'installed_version' => wordwrap($this->get_current_db_version(), 1, '.', true) ?? null,
+                'app_url'           => site_url(),
             ],
         ]);
 
@@ -168,6 +181,16 @@ class App
         }
 
         return $result;
+    }
+
+    /**
+     * Set the application identification key
+     *
+     * @param string|null $key
+     */
+    public function set_identification_key($key = null)
+    {
+        update_option('identification_key', $key ?: uniqid(rand() . time()));
     }
 
     /**
@@ -361,11 +384,11 @@ class App
         // Temporary checking for v1.8.0
         if ($this->ci->db->field_exists('autoload', db_prefix() . 'options')) {
             $options = $this->ci->db->select('name, value')
-            ->where('autoload', 1)
-            ->get(db_prefix() . 'options')->result_array();
+                ->where('autoload', 1)
+                ->get(db_prefix() . 'options')->result_array();
         } else {
             $options = $this->ci->db->select('name, value')
-            ->get(db_prefix() . 'options')->result_array();
+                ->get(db_prefix() . 'options')->result_array();
         }
 
         // Loop the options and store them in a array to prevent fetching again and again from database

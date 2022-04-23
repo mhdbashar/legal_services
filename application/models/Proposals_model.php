@@ -1,5 +1,8 @@
 <?php
 
+use app\services\AbstractKanban;
+use app\services\proposals\ProposalsPipeline;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Proposals_model extends App_Model
@@ -460,12 +463,8 @@ class Proposals_model extends App_Model
     public function update_pipeline($data)
     {
         $this->mark_action_status($data['status'], $data['proposalid']);
-        foreach ($data['order'] as $order_data) {
-            $this->db->where('id', $order_data[0]);
-            $this->db->update(db_prefix() . 'proposals', [
-                'pipeline_order' => $order_data[1],
-            ]);
-        }
+        AbstractKanban::updateOrder($data['order'], 'pipeline_order', 'proposals', $data['status']);
+
     }
 
     public function get_attachments($proposal_id, $id = '')

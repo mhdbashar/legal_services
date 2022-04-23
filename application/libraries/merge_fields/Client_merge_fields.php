@@ -28,6 +28,7 @@ class Client_merge_fields extends App_merge_fields
                            'task-added-attachment-to-contacts',
                            'task-commented-to-contacts',
                            'task-status-change-to-contacts',
+                              'invoices-batch-payments',
                     ],
                 ],
             [
@@ -51,6 +52,7 @@ class Client_merge_fields extends App_merge_fields
                     'task-added-attachment-to-contacts',
                     'task-commented-to-contacts',
                     'task-status-change-to-contacts',
+                    'invoices-batch-payments',
                 ],
             ],
             [
@@ -135,6 +137,7 @@ class Client_merge_fields extends App_merge_fields
                         'contract-expiration',
                         'send-contract',
                         'contract-comment-to-client',
+                            'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -155,6 +158,7 @@ class Client_merge_fields extends App_merge_fields
                         'contract-expiration',
                          'send-contract',
                           'contract-comment-to-client',
+                           'invoices-batch-payments',
                     ],
                 ],
                    [
@@ -221,6 +225,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                           'templates' => [
                         'gdpr-removal-request',
+                              'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -239,6 +244,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                           'templates' => [
                         'gdpr-removal-request',
+                              'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -272,7 +278,7 @@ class Client_merge_fields extends App_merge_fields
                         'project',
                         'credit_note',
                         'subscriptions',
-                    ],
+                    ]
                 ],
                 [
                     'name'      => _l('client_zip'),
@@ -288,6 +294,9 @@ class Client_merge_fields extends App_merge_fields
                         'credit_note',
                         'subscriptions',
                     ],
+                    'templates' => [
+                        'invoices-batch-payments',
+                    ]
                 ],
                 [
                     'name'      => _l('client_state'),
@@ -303,6 +312,9 @@ class Client_merge_fields extends App_merge_fields
                         'credit_note',
                         'subscriptions',
                     ],
+                    'templates' => [
+                        'invoices-batch-payments',
+                    ]
                 ],
                 [
                     'name'      => _l('client_address'),
@@ -318,6 +330,9 @@ class Client_merge_fields extends App_merge_fields
                         'credit_note',
                         'subscriptions',
                     ],
+                    'templates' => [
+                        'invoices-batch-payments',
+                    ]
                 ],
                 [
                     'name'      => _l('client_vat_number'),
@@ -333,6 +348,9 @@ class Client_merge_fields extends App_merge_fields
                         'credit_note',
                         'subscriptions',
                     ],
+                    'templates' => [
+                        'invoices-batch-payments',
+                    ]
                 ],
                 [
                     'name'      => _l('client_id'),

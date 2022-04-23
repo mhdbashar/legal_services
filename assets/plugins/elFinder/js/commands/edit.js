@@ -264,7 +264,7 @@ elFinder.prototype.commands.edit = function() {
 					if (fm.searchStatus.state < 2 && phash !== fm.cwd().hash) {
 						reqOpen = fm.exec('open', [phash], {thash: phash});
 					} else if (!fm.file(phash)) {
-						reqInfo = fm.request({cmd: 'info', targets: [phash]});
+						reqInfo = fm.request({cmd: 'info', targets: [phash]}); 
 					}
 					
 					$.when([reqOpen, reqInfo]).done(function() {

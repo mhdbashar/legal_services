@@ -73,7 +73,11 @@ class Forms extends ClientsController
                                 'name'  => $field->name,
                                 'value' => $field->values[$index]->label,
                             ];
-                        } elseif (in_array($field->type, ['select', 'checkbox-group'])) {
+
+                            continue;
+                        }
+
+                        if (in_array($field->type, ['select', 'checkbox-group'])) {
                             if (is_array($post_data[$field->name])) {
                                 $value = '';
                                 foreach ($post_data[$field->name] as $selected) {
@@ -90,19 +94,35 @@ class Forms extends ClientsController
                                 'name'  => $field->name,
                                 'value' => $value,
                             ];
-                        } elseif ($field->type == 'date') {
-                            $submission[] = [
-                                'label' => $field->label,
-                                'name'  => $field->name,
-                                'value' => $post_data[$field->name],
-                            ];
-                        } else {
-                            $submission[] = [
-                                'label' => $field->label,
-                                'name'  => $field->name,
-                                'value' => $post_data[$field->name],
-                            ];
+
+                            continue;
                         }
+
+                        if ($field->type == 'date') {
+                            $submission[] = [
+                                'label' => $field->label,
+                                'name'  => $field->name,
+                                'value' => $post_data[$field->name],
+                            ];
+
+                            continue;
+                        }
+
+                        if ($field->type == 'textarea') {
+                            $submission[] = [
+                                'label' => $field->label,
+                                'name'  => $field->name,
+                                'value' => nl2br($post_data[$field->name]),
+                            ];
+
+                            continue;
+                        }
+                            $submission[] = [
+                                'label' => $field->label,
+                                'name'  => $field->name,
+                                'value' => $post_data[$field->name],
+                            ];
+
                     }
 
                     if (isset($field->required)) {
@@ -224,10 +244,13 @@ class Forms extends ClientsController
                 ]);
             }
 
-            echo json_encode([
-                'success' => $success,
-                'message' => $form->success_submit_msg,
-            ]);
+            $response = ['success' => $success];
+
+            if ($form->submit_action === '0') {
+                $response['message'] = $form->success_submit_msg;
+            }
+
+            echo json_encode($response);
             die;
         }
         $data['form'] = $form;
@@ -452,6 +475,7 @@ class Forms extends ClientsController
                     if ((isset($regular_fields['name']) && empty($regular_fields['name'])) || !isset($regular_fields['name'])) {
                         $regular_fields['name'] = 'Unknown';
                     }
+                    $regular_fields['name'] = $form->lead_name_prefix . $regular_fields['name'];
                     $regular_fields['source']       = $form->lead_source;
                     $regular_fields['addedfrom']    = 0;
                     $regular_fields['lastcontact']  = null;
@@ -542,10 +566,13 @@ class Forms extends ClientsController
                         'task_id' => $task_id,
                     ]);
                 }
-                echo json_encode([
-                    'success' => $success,
-                    'message' => $form->success_submit_msg,
-                ]);
+                $response = ['success' => $success];
+
+                if ($form->submit_action === '0') {
+                    $response['message'] = $form->success_submit_msg;
+                }
+
+                echo json_encode($response);
                 die;
             }
         }
@@ -621,6 +648,10 @@ class Forms extends ClientsController
             show_404();
         }
 
+        if (!empty($ticket->merged_ticket_id)) {
+            redirect(site_url('forms/tickets/' . $this->tickets_model->get($ticket->merged_ticket_id)->ticketkey));
+        }
+
         if (!is_client_logged_in() && $ticket->userid) {
             load_client_language($ticket->userid);
         }
@@ -671,8 +702,9 @@ class Forms extends ClientsController
 
     public function ticket()
     {
+        $provided_language = $this->input->get('language');
         $form            = new stdClass();
-        $form->language  = get_option('active_language');
+        $form->language  = $provided_language ? $provided_language : get_option('active_language');
         $form->recaptcha = 1;
 
         $this->lang->load($form->language . '_lang', $form->language);

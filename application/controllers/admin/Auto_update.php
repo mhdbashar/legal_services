@@ -6,7 +6,7 @@ class Auto_update extends AdminController
 {
     public function index()
     {
-        $purchase_key   = trim($this->input->post('purchase_key', false));
+        $purchase_key = trim($this->input->post('purchase_key', false));
         $latest_version = $this->input->post('latest_version');
 
         $url = UPDATE_URL . '?purchase_key=' . $purchase_key;
@@ -20,6 +20,7 @@ class Auto_update extends AdminController
         }
 
         try {
+            $this->checkPermissions();
             $config = new app\services\upgrade\Config(
                 $purchase_key,
                 $latest_version,
@@ -46,6 +47,29 @@ class Auto_update extends AdminController
     }
 
     // Temporary function for v1.7.0 will be removed in a future, or perhaps not?
+
+    /**
+     * @throws Exception
+     */
+    private function checkPermissions()
+    {
+        $eMessage = 'The application could not write data into <strong>' . FCPATH;
+        $eMessage .= '</strong> folder. Please give your web server user (<strong>' . get_current_user();
+        $eMessage .= '</strong>) write permissions in <code>' . FCPATH . '</code> folder:<br/><br/>';
+        $eMessage .= '<pre style="background: #f0f0f0;padding: 15px;width: 50%;  margin-top:0px; border-radius: 4px;">sudo chgrp ' . get_current_user() . ' ';
+        $eMessage .= FCPATH . '<br/>sudo chmod ug+rwx ' . FCPATH . '</pre>';
+
+        $directoryIterator = new RecursiveDirectoryIterator(FCPATH);
+
+        foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
+            if ($file->isFile() && !$file->isWritable() && strpos($file->getPathName(), '.git') === false) {
+                throw new Exception($eMessage);
+            }
+        }
+
+        return true;
+    }
+
     public function database()
     {
     }

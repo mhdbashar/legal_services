@@ -260,6 +260,7 @@ echo form_hidden('project_percent',$percent);
                       })
                   }
 
+                editorConfig.toolbar = editorConfig.toolbar.replace('alignright','alignright strikethrough')
                   editorConfig.plugins[0] += ' mention';
                   editorConfig.content_style = 'span.mention {\
                      background-color: #eeeeee;\

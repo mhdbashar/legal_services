@@ -778,4 +778,6 @@
         <div class="btn-bottom-pusher"></div>
       </div>
    </div>
+    <?php hooks()->do_action('after_render_invoice_template', isset($invoice) ? $invoice : false); ?>
+
 </div>

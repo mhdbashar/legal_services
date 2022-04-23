@@ -8,8 +8,11 @@ function maybe_test_sms_gateway()
 {
     $CI = &get_instance();
     if (is_staff_logged_in() && $CI->input->post('sms_gateway_test')) {
+        $gateway = $CI->{'sms_' . $CI->input->post('id')};
 
-        $retval = $CI->{'sms_' . $CI->input->post('id')}->send(
+        $gateway->set_test_mode(true);
+
+        $retval = $gateway->send(
             $CI->input->post('number'),
             clear_textarea_breaks(nl2br($CI->input->post('message')))
         );
@@ -21,6 +24,8 @@ function maybe_test_sms_gateway()
         } else {
             $response['success'] = true;
         }
+
+        $gateway->set_test_mode(false);
 
         echo json_encode($response);
         die;

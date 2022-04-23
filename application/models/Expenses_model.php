@@ -230,6 +230,9 @@ class Expenses_model extends App_Model
         }
         $data['addedfrom'] = get_staff_user_id();
         $data['dateadded'] = date('Y-m-d H:i:s');
+
+        $data = hooks()->apply_filters('before_expense_added', $data);
+
         $this->db->insert(db_prefix() . 'expenses', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -250,10 +253,13 @@ class Expenses_model extends App_Model
                     }
                 }
                 $expense                  = $this->get($insert_id);
-                $activity_additional_data = $expense->name . '<br />';
-                $activity_additional_data .= app_format_money($expense->amount, $expense->currency_data->name);
+                $activity_additional_data = $expense->name;
+
                 $this->projects_model->log_activity($data['project_id'], 'project_activity_recorded_expense', $activity_additional_data, $visible_activity);
             }
+
+            hooks()->do_action('after_expense_added', $insert_id);
+
             log_activity('New Expense Added [' . $insert_id . ']');
 
             return $insert_id;
@@ -672,10 +678,14 @@ class Expenses_model extends App_Model
         if (isset($data['project_id']) && $data['project_id'] == '' || !isset($data['project_id'])) {
             $data['project_id'] = 0;
         }
+        $data = hooks()->apply_filters('before_expense_updated', $data, $id);
+
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'expenses', $data);
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('after_expense_updated', $id);
+
             log_activity('Expense Updated [' . $id . ']');
             $affectedRows++;
         }

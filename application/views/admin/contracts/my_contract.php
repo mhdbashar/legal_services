@@ -3,6 +3,14 @@
 <div id="wrapper">
     <div class="content">
         <div class="row">
+            <?php
+            if(isset($contract) && $contract->signed == 1) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <?php echo  _l('contract_signed_not_all_fields_editable'); ?>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="col-md-5 left-column">
                 <div class="panel_s">
                     <div class="panel-body">
@@ -19,7 +27,7 @@
                         </div>
                         <div class="form-group select-placeholder f_client_id">
                             <label for="clientid" class="control-label"><span class="text-danger">* </span><?php echo _l('contract_client_string'); ?></label>
-                            <select id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php echo isset($contract) && $contract->signed == 1 ? ' disabled' : ''; ?>>
                                 <?php $selected = (isset($contract) ? $contract->client : '');
                                 if($selected == ''){
                                     $selected = (isset($customer_id) ? $customer_id: '');
@@ -41,7 +49,7 @@
                      <div class="form-group select-placeholder projects-wrapper<?php if((!isset($contract)) || (isset($contract) && !customer_has_projects($contract->client))){ echo ' hide';} ?>">
                   <label for="project_id"><?php echo _l('project'); ?></label>
                   <div id="project_ajax_search_wrapper">
-                     <select name="project_id" id="project_id" class="projects ajax-search ays-ignore" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                   <select name="project_id" id="project_id" class="projects ajax-search ays-ignore" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php echo isset($contract) && $contract->signed == 1 ? ' disabled' : ''; ?>>
                      <?php
                         if(isset($contract) && $contract->project_id != 0){
                          echo '<option value="'.$contract->project_id.'" selected>'.get_project_name_by_id($contract->project_id).'</option>';
@@ -78,8 +86,8 @@
                         <?php echo render_input('subject','contract_subject',$value); ?>
                         <div class="form-group">
                             <label for="contract_value"><?php echo _l('contract_value'); ?></label>
-                            <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
-                                <input type="number" class="form-control" name="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>">
+                            <div class="input-group" data-toggle="tooltip" title="<?php echo isset($contract) && $contract->signed == 1 ? '' : _l('contract_value_tooltip'); ?>">
+                                <input type="number" class="form-control" name="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>"<?php echo isset($contract) && $contract->signed == 1 ? ' disabled' : ''; ?>>
                                 <div class="input-group-addon">
                                     <?php echo $base_currency->symbol; ?>
                                 </div>
@@ -96,11 +104,21 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php $value = (isset($contract) ? _d($contract->datestart) : _d(date('Y-m-d'))); ?>
-                                <?php echo render_date_input('datestart','contract_start_date',$value); ?>
+                                <?php echo render_date_input(
+                                    'datestart',
+                                    'contract_start_date',
+                                    $value,
+                                    isset($contract) && $contract->signed == 1 ? ['disabled'=>true] : []
+                                ); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php $value = (isset($contract) ? _d($contract->dateend) : ''); ?>
-                                <?php echo render_date_input('dateend','contract_end_date',$value); ?>
+                                <?php echo render_date_input(
+                                    'dateend',
+                                    'contract_end_date',
+                                    $value,
+                                    isset($contract) && $contract->signed == 1 ? ['disabled'=>true] : []
+                                ); ?>
                             </div>
                         </div>
                         <?php $value = (isset($contract) ? $contract->description : ''); ?>
@@ -178,7 +196,13 @@
                                         </li>
                                         <li role="presentation" class="tab-separator">
                                             <a href="#tab_templates" onclick="get_templates('contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
-                                                <?php echo _l('templates'); ?>
+                                                <?php echo _l('templates');
+                                                $total_templates = total_rows(db_prefix() . 'templates', [
+                                                        'type' => 'contracts',
+                                                    ]
+                                                );
+                                                ?>
+                                                <span class="badge total_templates <?php echo $total_templates === 0 ? 'hide' : ''; ?>"><?php echo $total_templates ?></span>
                                             </a>
                                         </li>
                                         <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
@@ -199,7 +223,7 @@
                             </div>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo ' active';} ?>" id="tab_content">
-                                    <div class="row">
+                                    <div class="row mtop15">
                                         <?php if($contract->signed == 1){ ?>
                                             <div class="col-md-12">
                                                 <div class="alert alert-success">
@@ -285,7 +309,7 @@
                                         <div class="col-md-12">
                                             <?php if(isset($contract_merge_fields)){ ?>
                                                 <hr class="hr-panel-heading" />
-                                                <p class="bold mtop10 text-right"><a href="#" onclick="slideToggle('.avilable_merge_fields'); return false;"><?php echo _l('available_merge_fields'); ?></a></p>
+                                                <p class="bold text-right no-mbot"><a href="#" onclick="slideToggle('.avilable_merge_fields'); return false;"><?php echo _l('available_merge_fields'); ?></a></p>
                                                 <div class=" avilable_merge_fields mtop15 hide">
                                                     <ul class="list-group">
                                                         <?php
@@ -306,7 +330,8 @@
                                             <?php echo _l('contract_content_permission_edit_warning'); ?>
                                         </div>
                                     <?php } ?>
-                                    <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>"
+                                    <div class="tc-content<?php if(staff_can('edit','contracts') &&
+                                        !($contract->signed == 1)){echo ' editable';} ?>"
                                          style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                                         <?php
                                         if(empty($contract->content) && staff_can('edit','contracts')){
@@ -334,7 +359,7 @@
                                     <?php } ?>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="tab_notes">
-                                    <?php echo form_open(admin_url('contracts/add_note/'.$contract->id),array('id'=>'sales-notes','class'=>'contract-notes-form')); ?>
+                                    <?php echo form_open(admin_url('contracts/add_note/'.$contract->id),array('id'=>'sales-notes','class'=>'contract-notes-form mtop15')); ?>
                                     <?php echo render_textarea('description'); ?>
                                     <div class="text-right">
                                         <button type="submit" class="btn btn-info mtop15 mbot15"><?php echo _l('contract_add_note'); ?></button>
@@ -355,7 +380,7 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'attachments'){echo ' active';} ?>" id="attachments">
-                                    <?php echo form_open(admin_url('contracts/add_contract_attachment/'.$contract->id),array('id'=>'contract-attachments-form','class'=>'dropzone')); ?>
+                                    <?php echo form_open(admin_url('contracts/add_contract_attachment/'.$contract->id),array('id'=>'contract-attachments-form','class'=>'dropzone mtop15')); ?>
                                     <?php echo form_close(); ?>
                                     <div class="text-right mtop15">
                                         <button class="gpicker" data-on-pick="contractGoogleDriveSave">
@@ -394,8 +419,8 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'renewals'){echo ' active';} ?>" id="renewals">
-                                    <?php if(has_permission('contracts', '', 'create') || has_permission('contracts', '', 'edit')){ ?>
-                                        <div class="_buttons">
+                                    <div class="mtop15">
+                                        <?php if(has_permission('contracts', '', 'edit')){ ?>                                        <div class="_buttons">
                                             <a href="#" class="btn btn-default" data-toggle="modal" data-target="#renew_contract_modal">
                                                 <i class="fa fa-refresh"></i> <?php echo _l('contract_renew_heading'); ?>
                                             </a>
@@ -453,7 +478,9 @@
                                         </div>
                                     <?php } ?>
                                 </div>
+                                </div>
                                 <div role="tabpanel" class="tab-pane" id="tab_emails_tracking">
+                                    <div class="mtop15">
                                     <?php
                                     $this->load->view('admin/includes/emails_tracking',array(
                                             'tracked_emails'=>
@@ -461,11 +488,14 @@
                                     );
                                     ?>
                                 </div>
+                                </div>
                                 <div role="tabpanel" class="tab-pane" id="tab_tasks">
+                                    <div class="mtop15">
                                     <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'contract')); ?>
                                 </div>
+                                </div>
                                 <div role="tabpanel" class="tab-pane" id="tab_templates">
-                                    <div class="row contract-templates">
+                                    <div class="row contract-templates mtop15">
                                         <div class="col-md-12">
                                             <button type="button" class="btn btn-info" onclick="add_template('contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
                                             <hr>

@@ -7,7 +7,7 @@
 </div>
 <?php } ?>
 <?php if(count($invoices_to_merge) > 0){ ?>
-<div class="panel_s no-padding mbot5">
+    <div class="panel_s no-padding mbot5 mergeable-invoices">
    <div class="panel-body">
       <h4 class="font-medium bold no-mtop mbot15"><?php echo _l('invoices_available_for_merging'); ?></h4>
       <hr class="hr-panel-heading hr-10"/>

@@ -123,6 +123,8 @@ class Settings_model extends App_Model
                     }
                     $val = $this->encryption->encrypt($val);
                 }
+            } elseif ($name == 'staff_notify_completed_but_not_billed_tasks' || $name == 'reminder_for_completed_but_not_billed_tasks_days') {
+                $val = json_encode($val);
             }
 
             if (update_option($name, $val)) {

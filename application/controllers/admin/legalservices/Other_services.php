@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+use app\services\projects\Gantt;
+use app\services\projects\AllProjectsGantt;
+use app\services\projects\HoursOverviewChart;
+
 class Other_services extends AdminController
 {
     public function __construct()
@@ -580,7 +584,11 @@ class Other_services extends AdminController
             $path = get_upload_path_by_type_oservice('oservice') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
-                $this->zip->read_file($path . '/' . $file['file_name']);
+                if ($file['original_file_name'] != '') {
+                    $this->zip->read_file($path . '/' . $file['file_name'], $path . '/' . $file['original_file_name']);
+                } else {
+                    $this->zip->read_file($path . '/' . $file['file_name']);
+                }
             }
             $this->zip->download(slug_it(get_oservice_name_by_id($id)) . '-files.zip');
             $this->zip->clear_data();
@@ -872,11 +880,22 @@ class Other_services extends AdminController
     public function timesheet()
     {
         if ($this->input->post()) {
+            if (
+                $this->input->post('timer_id') &&
+                !(staff_can('edit_timesheet', 'tasks') || (staff_can('edit_own_timesheet', 'tasks') && total_rows(db_prefix() . 'taskstimers', ['staff_id' => get_staff_user_id(), 'id' => $this->input->post('timer_id')]) > 0))
+            ) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => _l('access_denied'),
+                ]);
+                die;
+            }
             $message = '';
             $success = false;
             $success = $this->tasks_model->timesheet($this->input->post());
             if ($success === true) {
-                $message = _l('added_successfully', _l('project_timesheet'));
+                $langKey = $this->input->post('timer_id') ? 'updated_successfully' : 'added_successfully';
+                $message = _l($langKey, _l('project_timesheet'));
             } elseif (is_array($success) && isset($success['end_time_smaller'])) {
                 $message = _l('failed_to_add_project_timesheet_end_time_smaller');
             } else {
@@ -1210,9 +1229,13 @@ class Other_services extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             $selected_milestone = '';
+            $assigned           = '';
             if ($task_id != '' && $task_id != 'undefined') {
-                $task = $this->tasks_model->get($task_id);
+                $task               = $this->tasks_model->get($task_id);
                 $selected_milestone = $task->milestone;
+                $assigned           = array_map(function ($member) {
+                    return $member['assigneeid'];
+                }, $this->tasks_model->get_task_assignees($task_id));
             }
 
             $allow_to_view_tasks = 0;
@@ -1234,6 +1257,9 @@ class Other_services extends AdminController
                     'id',
                     'name',
                 ], 'task_milestone', $selected_milestone),
+                'assignees' => render_select('assignees[]', $this->projects_model->get_project_members($id, true), [
+                    'staff_id', ['firstname', 'lastname'],
+                ], 'task_single_assignees', $assigned, ['multiple' => true], [], '', '', false),
             ]);
         }
     }
@@ -1281,6 +1307,7 @@ class Other_services extends AdminController
 
                 $_member['id'] = $member['staff_id'];
                 $_member['name'] = $staff->firstname . ' ' . $staff->lastname;
+
                 return $_member;
             }, $members);
 

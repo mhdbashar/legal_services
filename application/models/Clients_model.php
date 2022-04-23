@@ -1771,4 +1771,34 @@ class Clients_model extends App_Model
             'profile_image' => null,
         ]);
     }
+
+    /**
+     * @param $projectId
+     * @param  string  $tasks_email
+     *
+     * @return array[]
+     */
+    public function get_contacts_for_project_notifications($projectId, $type)
+    {
+        $this->db->select('clientid,contact_notification,notify_contacts');
+        $this->db->from(db_prefix() . 'projects');
+        $this->db->where('id', $projectId);
+        $project  = $this->db->get()->row();
+
+        if (!in_array($project->contact_notification, [1,2])) {
+            return [];
+        }
+
+        $this->db
+            ->where('userid', $project->clientid)
+            ->where('active', 1)
+            ->where($type, 1);
+
+        if ($project->contact_notification == 2) {
+            $projectContacts = unserialize($project->notify_contacts);
+            $this->db->where_in('id', $projectContacts);
+        }
+
+        return $this->db->get(db_prefix() . 'contacts')->result_array();
+    }
 }

@@ -17,156 +17,72 @@ use Twilio\Values;
  */
 abstract class ExportCustomJobOptions {
     /**
-     * @param string $nextToken The token for the next page of job results
-     * @param string $previousToken The token for the previous page of result
-     * @return ReadExportCustomJobOptions Options builder
-     */
-    public static function read($nextToken = Values::NONE, $previousToken = Values::NONE) {
-        return new ReadExportCustomJobOptions($nextToken, $previousToken);
-    }
-
-    /**
-     * @param string $friendlyName The friendly_name
-     * @param string $startDay The start_day
-     * @param string $endDay The end_day
-     * @param string $webhookUrl The webhook_url
-     * @param string $webhookMethod The webhook_method
-     * @param string $email The email
+     * @param string $webhookUrl The optional webhook url called on completion of
+     *                           the job. If this is supplied, `WebhookMethod` must
+     *                           also be supplied.
+     * @param string $webhookMethod This is the method used to call the webhook on
+     *                              completion of the job. If this is supplied,
+     *                              `WebhookUrl` must also be supplied.
+     * @param string $email The optional email to send the completion notification
+     *                      to
      * @return CreateExportCustomJobOptions Options builder
      */
-    public static function create($friendlyName = Values::NONE, $startDay = Values::NONE, $endDay = Values::NONE, $webhookUrl = Values::NONE, $webhookMethod = Values::NONE, $email = Values::NONE) {
-        return new CreateExportCustomJobOptions($friendlyName, $startDay, $endDay, $webhookUrl, $webhookMethod, $email);
-    }
-}
-
-class ReadExportCustomJobOptions extends Options {
-    /**
-     * @param string $nextToken The token for the next page of job results
-     * @param string $previousToken The token for the previous page of result
-     */
-    public function __construct($nextToken = Values::NONE, $previousToken = Values::NONE) {
-        $this->options['nextToken'] = $nextToken;
-        $this->options['previousToken'] = $previousToken;
-    }
-
-    /**
-     * The token for the next page of job results, and may be null if there are no more pages
-     *
-     * @param string $nextToken The token for the next page of job results
-     * @return $this Fluent Builder
-     */
-    public function setNextToken($nextToken) {
-        $this->options['nextToken'] = $nextToken;
-        return $this;
-    }
-
-    /**
-     * The token for the previous page of results, and may be null if this is the first page
-     *
-     * @param string $previousToken The token for the previous page of result
-     * @return $this Fluent Builder
-     */
-    public function setPreviousToken($previousToken) {
-        $this->options['previousToken'] = $previousToken;
-        return $this;
-    }
-
-    /**
-     * Provide a friendly representation
-     *
-     * @return string Machine friendly representation
-     */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Preview.BulkExports.ReadExportCustomJobOptions ' . \implode(' ', $options) . ']';
+    public static function create(string $webhookUrl = Values::NONE, string $webhookMethod = Values::NONE, string $email = Values::NONE): CreateExportCustomJobOptions {
+        return new CreateExportCustomJobOptions($webhookUrl, $webhookMethod, $email);
     }
 }
 
 class CreateExportCustomJobOptions extends Options {
     /**
-     * @param string $friendlyName The friendly_name
-     * @param string $startDay The start_day
-     * @param string $endDay The end_day
-     * @param string $webhookUrl The webhook_url
-     * @param string $webhookMethod The webhook_method
-     * @param string $email The email
+     * @param string $webhookUrl The optional webhook url called on completion of
+     *                           the job. If this is supplied, `WebhookMethod` must
+     *                           also be supplied.
+     * @param string $webhookMethod This is the method used to call the webhook on
+     *                              completion of the job. If this is supplied,
+     *                              `WebhookUrl` must also be supplied.
+     * @param string $email The optional email to send the completion notification
+     *                      to
      */
-    public function __construct($friendlyName = Values::NONE, $startDay = Values::NONE, $endDay = Values::NONE, $webhookUrl = Values::NONE, $webhookMethod = Values::NONE, $email = Values::NONE) {
-        $this->options['friendlyName'] = $friendlyName;
-        $this->options['startDay'] = $startDay;
-        $this->options['endDay'] = $endDay;
+    public function __construct(string $webhookUrl = Values::NONE, string $webhookMethod = Values::NONE, string $email = Values::NONE) {
         $this->options['webhookUrl'] = $webhookUrl;
         $this->options['webhookMethod'] = $webhookMethod;
         $this->options['email'] = $email;
     }
 
     /**
-     * The friendly_name
+     * The optional webhook url called on completion of the job. If this is supplied, `WebhookMethod` must also be supplied.
      *
-     * @param string $friendlyName The friendly_name
+     * @param string $webhookUrl The optional webhook url called on completion of
+     *                           the job. If this is supplied, `WebhookMethod` must
+     *                           also be supplied.
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
-        $this->options['friendlyName'] = $friendlyName;
-        return $this;
-    }
-
-    /**
-     * The start_day
-     *
-     * @param string $startDay The start_day
-     * @return $this Fluent Builder
-     */
-    public function setStartDay($startDay) {
-        $this->options['startDay'] = $startDay;
-        return $this;
-    }
-
-    /**
-     * The end_day
-     *
-     * @param string $endDay The end_day
-     * @return $this Fluent Builder
-     */
-    public function setEndDay($endDay) {
-        $this->options['endDay'] = $endDay;
-        return $this;
-    }
-
-    /**
-     * The webhook_url
-     *
-     * @param string $webhookUrl The webhook_url
-     * @return $this Fluent Builder
-     */
-    public function setWebhookUrl($webhookUrl) {
+    public function setWebhookUrl(string $webhookUrl): self {
         $this->options['webhookUrl'] = $webhookUrl;
         return $this;
     }
 
     /**
-     * The webhook_method
+     * This is the method used to call the webhook on completion of the job. If this is supplied, `WebhookUrl` must also be supplied.
      *
-     * @param string $webhookMethod The webhook_method
+     * @param string $webhookMethod This is the method used to call the webhook on
+     *                              completion of the job. If this is supplied,
+     *                              `WebhookUrl` must also be supplied.
      * @return $this Fluent Builder
      */
-    public function setWebhookMethod($webhookMethod) {
+    public function setWebhookMethod(string $webhookMethod): self {
         $this->options['webhookMethod'] = $webhookMethod;
         return $this;
     }
 
     /**
-     * The email
+     * The optional email to send the completion notification to
      *
-     * @param string $email The email
+     * @param string $email The optional email to send the completion notification
+     *                      to
      * @return $this Fluent Builder
      */
-    public function setEmail($email) {
+    public function setEmail(string $email): self {
         $this->options['email'] = $email;
         return $this;
     }
@@ -176,13 +92,8 @@ class CreateExportCustomJobOptions extends Options {
      *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Preview.BulkExports.CreateExportCustomJobOptions ' . \implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Preview.BulkExports.CreateExportCustomJobOptions ' . $options . ']';
     }
 }

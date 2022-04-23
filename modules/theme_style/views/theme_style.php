@@ -144,7 +144,7 @@ $tags = get_styling_areas('tags');
                                           <div class="modal-header">
                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                              <h4 class="modal-title"><?php echo _l('theme_style_example_modal_heading'); ?></h4>
-                                             <span class="color-white"><?php echo _l('theme_style_sample_text'); ?></span>
+                                             <span><?php echo _l('theme_style_sample_text'); ?></span>
                                           </div>
                                           <div class="modal-body">
                                              <?php echo _l('theme_style_modal_body'); ?>

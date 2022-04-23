@@ -17,8 +17,17 @@ class Stripe extends App_Controller
             $this->load->library('stripe_core');
 
             try {
+                $webhooks = $this->stripe_core->list_webhook_endpoints();
+
+                foreach ($webhooks->data as $webhook) {
+                    if ((isset($webhook->metadata->identification_key) &&
+                            $webhook->metadata->identification_key == get_option('identification_key')) ||
+                        $webhook->url == $this->stripe_gateway->webhookEndPoint) {
+                        $this->stripe_core->delete_webhook($webhook->id);
+                    }
+                }
+
                 if ($this->input->get('recreate')) {
-                    $this->stripe_core->delete_webhook(get_option('stripe_webhook_id'));
                     update_option('stripe_webhook_id', '');
                     update_option('stripe_webhook_signing_secret', '');
                 }
@@ -75,12 +84,12 @@ class Stripe extends App_Controller
             $event = $this->stripe_core->construct_event($payload, get_option('stripe_webhook_signing_secret'));
         } catch (\UnexpectedValueException $e) {
             // Invalid payload
-          http_response_code(400); // PHP 5.4 or greater
-          exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         } catch (\Stripe\Error\SignatureVerification $e) {
             // Invalid signature
-              http_response_code(400); // PHP 5.4 or greater
-              exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         }
 
         try {
@@ -95,14 +104,23 @@ class Stripe extends App_Controller
                     if (isset($payment->metadata->InvoiceId)) {
                         $this->load->model('invoices_model');
 
-                        $invoice = $this->invoices_model->get($payment->metadata->InvoiceId);
+                        $invoice = $this->invoices_model->get(
+                            $payment->metadata->InvoiceId,
+                            // 1 Stripe account, multiple CRM installations
+                            isset($payment->metadata->InvoiceHash) ? [
+                                'hash' => $payment->metadata->InvoiceHash,
+                            ] : []
+                        );
 
                         if ($invoice) {
-                            $this->stripe_gateway->addPayment([
-                                  'amount'        => (strcasecmp($invoice->currency_name, 'JPY') == 0 ? $payment->amount : $payment->amount / 100),
-                                  'invoiceid'     => $invoice->id,
-                                  'transactionid' => $payment->id,
-                            ]);
+                            $this->load->model('payments_model');
+                            if (!$this->payments_model->transaction_exists($payment->id, $invoice->id)) {
+                                $this->stripe_gateway->addPayment([
+                                    'amount'        => (strcasecmp($invoice->currency_name, 'JPY') == 0 ? $payment->amount : $payment->amount / 100),
+                                    'invoiceid'     => $invoice->id,
+                                    'transactionid' => $payment->id,
+                                ]);
+                            }
 
                             if (!$this->stripe_gateway->is_test()) {
                                 $this->db->where('userid', $payment->metadata->ClientId);
@@ -125,6 +143,7 @@ class Stripe extends App_Controller
                 $this->customerSubscriptionUpdatedEvent($event);
             }
         } catch (\Exception $e) {
+            log_activity('Stripe webhook error: ' . $e->getMessage());
         }
     }
 
@@ -159,9 +178,9 @@ class Stripe extends App_Controller
             $subscription = $this->stripe_subscriptions->get_subscription($subscription->id);
 
             $this->stripe_core->update_customer($subscription->customer, [
-                    'invoice_settings' => [
-                      'default_payment_method' => $subscription->default_payment_method,
-                    ],
+                'invoice_settings' => [
+                    'default_payment_method' => $subscription->default_payment_method,
+                ],
             ]);
 
             \Stripe\Subscription::update($subscription->id, ['default_payment_method' => '']);
@@ -222,9 +241,14 @@ class Stripe extends App_Controller
                     $this->db->update('clients', ['stripe_id' => $invoice->customer]);
                 }
 
-                $new_invoice_data = create_subscription_invoice_data($dbSubscription, $invoice);
                 $this->subscriptions_model->update($dbSubscription->id, ['next_billing_cycle' => $crmSubscriptionItem->period->end]);
+                $this->load->model('payments_model');
 
+                if ($this->payments_model->transaction_exists($invoice->charge)) {
+                    return;
+                }
+
+                $new_invoice_data = create_subscription_invoice_data($dbSubscription, $invoice);
                 $this->load->model('invoices_model');
 
                 if (!defined('STRIPE_SUBSCRIPTION_INVOICE')) {
@@ -262,7 +286,6 @@ class Stripe extends App_Controller
                     }
 
                     $this->subscriptions_model->update($dbSubscription->id, $update);
-
                 }
             }
         }
@@ -287,10 +310,10 @@ class Stripe extends App_Controller
                 // Will handle requires action in the event invoice.payment_action_required
                 if ($payment_intent->status != 'requires_action') {
                     $this->subscriptions_model->send_email_template(
-                            $dbSubscription->id,
-                            $this->getStaffCCForMailTemplate($dbSubscription->created_from),
-                            'subscription_payment_failed_to_customer'
-                        );
+                        $dbSubscription->id,
+                        $this->getStaffCCForMailTemplate($dbSubscription->created_from),
+                        'subscription_payment_failed_to_customer'
+                    );
                 }
             }
         }
@@ -327,12 +350,12 @@ class Stripe extends App_Controller
                 }
 
                 send_mail_template(
-                'subscription_payment_requires_action',
-                 $dbSubscription,
-                 $contact,
-                 $invoice->hosted_invoice_url,
-                 $this->getStaffCCForMailTemplate($dbSubscription->created_from)
-             );
+                    'subscription_payment_requires_action',
+                    $dbSubscription,
+                    $contact,
+                    $invoice->hosted_invoice_url,
+                    $this->getStaffCCForMailTemplate($dbSubscription->created_from)
+                );
             }
         }
     }
@@ -352,11 +375,11 @@ class Stripe extends App_Controller
 
             if ($dbSubscription) {
                 $update = [
-                        'status'             => $subscription->status,
-                        'next_billing_cycle' => $subscription->current_period_end,
-                        'quantity'           => $subscription->items->data[0]->quantity,
-                        'ends_at'            => $subscription->cancel_at_period_end ? $subscription->current_period_end : null,
-                    ];
+                    'status'             => $subscription->status,
+                    'next_billing_cycle' => $subscription->current_period_end,
+                    'quantity'           => $subscription->items->data[0]->quantity,
+                    'ends_at'            => $subscription->cancel_at_period_end ? $subscription->current_period_end : null,
+                ];
 
                 if ($dbSubscription->status == 'future') {
                     unset($update['status']);
@@ -383,15 +406,15 @@ class Stripe extends App_Controller
 
             if ($dbSubscription) {
                 $this->subscriptions_model->send_email_template(
-                        $dbSubscription->id,
-                        $this->getStaffCCForMailTemplate($dbSubscription->created_from),
-                        'subscription_cancelled_to_customer'
-                    );
+                    $dbSubscription->id,
+                    $this->getStaffCCForMailTemplate($dbSubscription->created_from),
+                    'subscription_cancelled_to_customer'
+                );
 
                 $this->subscriptions_model->update(
-                        $dbSubscription->id,
-                        ['status' => $subscription->status, 'next_billing_cycle' => null]
-                    );
+                    $dbSubscription->id,
+                    ['status' => $subscription->status, 'next_billing_cycle' => null]
+                );
             }
         }
     }
@@ -406,8 +429,8 @@ class Stripe extends App_Controller
     protected function getStaffCCForMailTemplate($staff_id)
     {
         $this->db->select('email')
-                ->from(db_prefix() . 'staff')
-                ->where('staffid', $staff_id);
+            ->from(db_prefix() . 'staff')
+            ->where('staffid', $staff_id);
         $staff = $this->db->get()->row();
 
         return $staff ? $staff->email : '';

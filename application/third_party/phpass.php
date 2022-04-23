@@ -218,8 +218,9 @@ class PasswordHash
         // of entropy.
         $itoa64 = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $output = '$2a$';
-        $output .= chr(ord('0') + $this->iteration_count_log2 / 10);
-        $output .= chr(ord('0') + $this->iteration_count_log2 % 10);
+
+        $output .= chr((int)(ord('0') + $this->iteration_count_log2 / 10));
+        $output .= chr((int)(ord('0') + $this->iteration_count_log2 % 10));
         $output .= '$';
         $i = 0;
         do {
@@ -270,9 +271,9 @@ class PasswordHash
             $random = $this->get_random_bytes(6);
         }
         $hash = $this->crypt_private(
-                $password,
+            $password,
             $this->gensalt_private($random)
-            );
+        );
         if (strlen($hash) == 34) {
             return $hash;
         }

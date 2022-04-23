@@ -1,5 +1,7 @@
 <?php
 
+use app\services\CustomerProfileBadges;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -122,18 +124,25 @@ function get_opponent_profile_tabs()
 }
 
 /**
- * Filter only visible tabs selected from the profile
+ * Filter only visible tabs selected from the profile and add badge
  * @param  array $tabs available tabs
+ * @param  int $id client
  * @return array
  */
-function filter_client_visible_tabs($tabs)
+function filter_client_visible_tabs($tabs, $id = '')
 {
     $newTabs = [];
+    $customerProfileBadges = null;
 
     $visible = get_option('visible_customer_profile_tabs');
     if ($visible != 'all') {
         $visible = unserialize($visible);
     }
+
+    if ($id !== '') {
+        $customerProfileBadges = new CustomerProfileBadges($id);
+    }
+
 
     $appliedSettings = is_array($visible);
     foreach ($tabs as $key => $tab) {
@@ -144,6 +153,11 @@ function filter_client_visible_tabs($tabs)
                 continue;
             }
         }
+
+        if (!is_null($customerProfileBadges)) {
+            $tab['badge'] = $customerProfileBadges->getBadge($tab['slug']);
+        }
+
 
         $newTabs[$key] = $tab;
     }
@@ -187,6 +201,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-user-circle',
         'view'     => 'admin/clients/groups/profile',
         'position' => 5,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('contacts', [
@@ -194,6 +209,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-users',
         'view'     => 'admin/clients/groups/contacts',
         'position' => 10,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('procurations', [
@@ -202,6 +218,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/procurations',
         'visible'  => (has_permission('procurations', '', 'view') || is_admin()),
         'position' => 10,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('notes', [
@@ -209,6 +226,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-sticky-note-o',
         'view'     => 'admin/clients/groups/notes',
         'position' => 15,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('statement', [
@@ -217,6 +235,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/statement',
         'visible'  => has_permission('invoices', '', 'view'),
         'position' => 20,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('invoices', [
@@ -225,6 +244,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/invoices',
         'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
         'position' => 25,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('payments', [
@@ -233,6 +253,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/payments',
         'visible'  => (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
         'position' => 30,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('proposals', [
@@ -241,6 +262,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/proposals',
         'visible'  => (has_permission('proposals', '', 'view') || has_permission('proposals', '', 'view_own') || (get_option('allow_staff_view_proposals_assigned') == 1 && staff_has_assigned_proposals())),
         'position' => 35,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('credit_notes', [
@@ -249,6 +271,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/credit_notes',
         'visible'  => (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')),
         'position' => 40,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('estimates', [
@@ -257,6 +280,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/estimates',
         'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
         'position' => 45,
+        'badge'    => []
     ]);
 
     // $CI->app_tabs->add_customer_profile_tab('subscriptions', [
@@ -265,6 +289,7 @@ function app_init_customer_profile_tabs()
     //     'view'     => 'admin/clients/groups/subscriptions',
     //     'visible'  => (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')),
     //     'position' => 50,
+    //    'badge'    => []
     // ]);
 
     $CI->app_tabs->add_customer_profile_tab('expenses', [
@@ -273,6 +298,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/expenses',
         'visible'  => (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
         'position' => 55,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('contracts', [
@@ -281,6 +307,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/contracts',
         'visible'  => (has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own')),
         'position' => 60,
+        'badge'    => []
     ]);
 
     // $CI->app_tabs->add_customer_profile_tab('projects', [
@@ -288,6 +315,7 @@ function app_init_customer_profile_tabs()
     //     'icon'     => 'fa fa-bars',
     //     'view'     => 'admin/clients/groups/projects',
     //     'position' => 65,
+//    'badge'    => []
     // ]);
 
     $CI->app_tabs->add_customer_profile_tab('tasks', [
@@ -295,6 +323,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-tasks',
         'view'     => 'admin/clients/groups/tasks',
         'position' => 70,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('tickets', [
@@ -303,6 +332,7 @@ function app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/tickets',
         'visible'  => ((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()),
         'position' => 75,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('attachments', [
@@ -310,6 +340,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
         'position' => 80,
+        'badge'    => []
     ]);
 
     // $CI->app_tabs->add_customer_profile_tab('vault', [
@@ -317,6 +348,7 @@ function app_init_customer_profile_tabs()
     //     'icon'     => 'fa fa-lock',
     //     'view'     => 'admin/clients/groups/vault',
     //     'position' => 85,
+//    'badge'    => []
     // ]);
 
     $CI->app_tabs->add_customer_profile_tab('reminders', [
@@ -324,6 +356,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-clock-o',
         'view'     => 'admin/clients/groups/reminders',
         'position' => 90,
+        'badge'    => []
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('map', [
@@ -331,6 +364,7 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/clients/groups/map',
         'position' => 95,
+        'badge'    => []
     ]);
 }
 
@@ -1217,3 +1251,18 @@ function get_contact_language()
 
     return '';
 }
+
+/**
+ * @since  2.9.0
+ *
+ * Indicates whether the contact automatically
+ * appended calling codes feature is enabled based on the
+ * customer selected country
+ *
+ * @return boolean
+ */
+function is_automatic_calling_codes_enabled()
+{
+    return hooks()->apply_filters('automatic_calling_codes_enabled', true);
+}
+

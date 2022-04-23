@@ -35,6 +35,9 @@
                <li role="presentation">
                   <a href="#customer_admins" aria-controls="customer_admins" role="tab" data-toggle="tab">
                   <?php echo _l( 'customer_admins' ); ?>
+                  <?php if(count($customer_admins) > 0 ) { ?>
+                      <span class="badge bg-default"><?php echo count($customer_admins) ?></span>
+                  <?php } ?>
                   </a>
                </li>
                <?php hooks()->do_action('after_customer_admins_tab',$client); ?>

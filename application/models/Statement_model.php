@@ -183,6 +183,12 @@ class Statement_model extends App_Model
                 FROM ' . db_prefix() . 'creditnotes
                 WHERE ' . db_prefix() . 'creditnotes.date < "' . $this->db->escape_str($from) . '"
                 AND ' . db_prefix() . 'creditnotes.clientid=' . $this->db->escape_str($customer_id) . '
+                ) - (
+                    SELECT COALESCE(SUM(' . db_prefix() . 'creditnote_refunds.amount),0)
+                    FROM ' . db_prefix() . 'creditnote_refunds
+                    WHERE ' . db_prefix() . 'creditnote_refunds.refunded_on < "' . $this->db->escape_str($from) . '"
+                    AND ' . db_prefix() . 'creditnote_refunds.credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE clientid=' . $this->db->escape_str($customer_id) . ')
+                )
             )
         )
             )

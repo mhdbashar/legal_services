@@ -1,5 +1,7 @@
 <?php
 
+use app\services\MergeTickets;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Tickets_model extends App_Model
@@ -13,7 +15,7 @@ class Tickets_model extends App_Model
 
     public function ticket_count($status = null)
     {
-        $where = '';
+        $where = 'AND merged_ticket_id is NULL';
         if (!is_admin()) {
             $this->load->model('departments_model');
             $staff_deparments_ids = $this->departments_model->get_staff_departments(get_staff_user_id(), true);
@@ -79,6 +81,7 @@ class Tickets_model extends App_Model
 
         $email   = $data['email'];
         $to      = $data['to'];
+        $cc      = $data['cc'] ?? [];
         $subject = $subject;
         $message = $message;
 
@@ -175,6 +178,12 @@ class Tickets_model extends App_Model
 
                                         $this->db->where('userid', $userid);
                                         $this->db->where('ticketid', $tid);
+                                        $this->db->group_start();
+                                        $this->db->where('userid', $userid);
+
+                                        // Allow CC'ed user to reply to the ticket
+                                        $this->db->or_like('cc', $email);
+                                        $this->db->group_end();
                                         $t = $this->db->get(db_prefix() . 'tickets')->row();
                                         if (!$t) {
                                             $abuse = true;
@@ -209,6 +218,12 @@ class Tickets_model extends App_Model
                                                 $data['userid'] = $userid;
                                             }
                                             $tid = $this->add($data, null, $attachments);
+                                            if ($tid && count($cc) > 0) {
+                                                // A customer opens a ticket by mail to "support@example".com, with one or many 'Cc'
+                                                // Remember those 'Cc'.
+                                                $this->db->where('ticketid', $tid);
+                                                $this->db->update('tickets', ['cc' => implode(',', $cc)]);
+                                            }
                                             // Dont change this line
                                             $mailstatus = 'Ticket Imported Successfully';
                                         }
@@ -300,6 +315,10 @@ class Tickets_model extends App_Model
         }
         $this->db->order_by('lastreply', 'asc');
 
+        if (is_client_logged_in()) {
+            $this->db->where(db_prefix() . 'tickets.merged_ticket_id IS NULL', null, false);
+        }
+
         return $this->db->get(db_prefix() . 'tickets')->result_array();
     }
 
@@ -377,7 +396,7 @@ class Tickets_model extends App_Model
         $this->db->where('ticketid', $id);
         $this->db->where('replyid', is_numeric($replyid) ? $replyid : null);
 
-        return $this->db->get(db_prefix() . 'ticket_attachments')->result_array();
+        return $this->db->get('ticket_attachments')->result_array();
     }
 
     /**
@@ -431,7 +450,9 @@ class Tickets_model extends App_Model
             unset($data['cc']);
         }
 
-        $data['ticketid'] = $id;
+        // if ticket is merged
+        $ticket           = $this->get($id);
+        $data['ticketid'] = ($ticket && $ticket->merged_ticket_id != null) ? $ticket->merged_ticket_id : $id;
         $data['date']     = date('Y-m-d H:i:s');
         $data['message']  = trim($data['message']);
 
@@ -557,12 +578,28 @@ class Tickets_model extends App_Model
                 }
                 pusher_trigger_notification($notifiedUsers);
             } else {
+                $this->update_staff_replying($id);
+
+                $total_staff_replies = total_rows(db_prefix() . 'ticket_replies', ['admin is NOT NULL', 'ticketid' => $ticket->ticketid]);
+                if (
+                    $ticket->assigned == 0 &&
+                    get_option('automatically_assign_ticket_to_first_staff_responding') == '1' &&
+                    $total_staff_replies == 1
+                ) {
+                    $this->db->where('ticketid', $id);
+                    $this->db->update(db_prefix() . 'tickets', ['assigned' => $admin]);
+                }
                 $sendEmail = true;
                 if ($isContact && total_rows(db_prefix() . 'contacts', ['ticket_emails' => 1, 'id' => $ticket->contactid]) == 0) {
                     $sendEmail = false;
                 }
                 if ($sendEmail) {
                     send_mail_template('ticket_new_reply_to_customer', $ticket, $email, $_attachments, $cc);
+                }
+
+                if ($cc) {
+                    $this->db->where('ticketid', $id);
+                    $this->db->update('tickets', ['cc' => is_array($cc) ? implode(',', $cc) : $cc]);
                 }
             }
             hooks()->do_action('after_ticket_reply_added', [
@@ -884,6 +921,11 @@ class Tickets_model extends App_Model
                     }
                 }
                 pusher_trigger_notification($notifiedUsers);
+            } else {
+                if ($cc) {
+                    $this->db->where('ticketid', $ticketid);
+                    $this->db->update('tickets', ['cc' => is_array($cc) ? implode(',', $cc) : $cc]);
+                }
             }
 
             $sendEmail = true;
@@ -924,6 +966,7 @@ class Tickets_model extends App_Model
             $this->db->where(db_prefix() . 'tickets.userid', get_client_user_id());
         }
         $this->db->limit($limit);
+        $this->db->where(db_prefix() . 'tickets.merged_ticket_id IS NULL', null, false);
 
         return $this->db->get()->result_array();
     }
@@ -945,6 +988,11 @@ class Tickets_model extends App_Model
         }
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
+
+            $this->db->where('merged_ticket_id', $ticketid);
+            $this->db->set('merged_ticket_id', null);
+            $this->db->update(db_prefix() . 'tickets');
+
             $this->db->where('ticketid', $ticketid);
             $attachments = $this->db->get(db_prefix() . 'ticket_attachments')->result_array();
             if (count($attachments) > 0) {
@@ -1009,6 +1057,14 @@ class Tickets_model extends App_Model
         $data         = hooks()->apply_filters('before_ticket_settings_updated', $data);
 
         $ticketBeforeUpdate = $this->get_ticket_by_id($data['ticketid']);
+
+        if (isset($data['merge_ticket_ids'])) {
+            $tickets = explode(',', $data['merge_ticket_ids']);
+            if ($this->merge($data['ticketid'], $ticketBeforeUpdate->status, $tickets)) {
+                $affectedRows++;
+            }
+            unset($data['merge_ticket_ids']);
+        }
 
         if (isset($data['custom_fields']) && count($data['custom_fields']) > 0) {
             if (handle_custom_fields_post($data['ticketid'], $data['custom_fields'])) {
@@ -1489,6 +1545,7 @@ class Tickets_model extends App_Model
             $i = 0;
             foreach ($thisWeekDays[1] as $weekDate) {
                 $this->db->like('DATE(date)', $weekDate, 'after');
+                $this->db->where(db_prefix() . 'tickets.merged_ticket_id IS NULL', null, false);
                 if ($byDepartments) {
                     $this->db->where('department IN (SELECT departmentid FROM ' . db_prefix() . 'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")');
                 }
@@ -1503,7 +1560,7 @@ class Tickets_model extends App_Model
 
     public function get_tickets_assignes_disctinct()
     {
-        return $this->db->query('SELECT DISTINCT(assigned) as assigned FROM ' . db_prefix() . 'tickets WHERE assigned != 0')->result_array();
+        return $this->db->query('SELECT DISTINCT(assigned) as assigned FROM ' . db_prefix() . 'tickets WHERE assigned != 0 AND merged_ticket_id IS NULL')->result_array();
     }
 
     /**
@@ -1546,5 +1603,101 @@ class Tickets_model extends App_Model
         ]);
 
         return true;
+    }
+
+    /**
+     * Check whether the given ticketid is already merged into another primary ticket
+     *
+     * @param  int  $id
+     *
+     * @return boolean
+     */
+    public function is_merged($id)
+    {
+        return total_rows('tickets', "ticketid={$id} and merged_ticket_id IS NOT NULL") > 0;
+    }
+
+    /**
+     * @param $primary_ticket_id
+     * @param $status
+     * @param  array  $ids
+     *
+     * @return bool
+     */
+    public function merge($primary_ticket_id, $status, array $ids)
+    {
+        if ($this->is_merged($primary_ticket_id)) {
+            return false;
+        }
+
+        if (($index = array_search($primary_ticket_id, $ids)) !== false) {
+            unset($ids[$index]);
+        }
+
+        if (count($ids) == 0) {
+            return false;
+        }
+
+        return (new MergeTickets($primary_ticket_id, $ids))
+            ->markPrimaryTicketAs($status)
+            ->merge();
+    }
+
+    /**
+     * @param array $tickets id's of tickets to check
+     * @return array
+     */
+    public function get_already_merged_tickets($tickets) {
+        if (count($tickets) === 0) {
+            return [];
+        }
+
+        $alreadyMerged = [];
+        foreach ($tickets as $ticketId) {
+            if ($this->is_merged((int) $ticketId)) {
+                $alreadyMerged[] = $ticketId;
+            }
+        }
+
+        return $alreadyMerged;
+    }
+
+    /**
+     * @param $primaryTicketId
+     * @return array
+     */
+    public function get_merged_tickets_by_primary_id($primaryTicketId)
+    {
+        return $this->db->where('merged_ticket_id', $primaryTicketId)->get(db_prefix() . 'tickets')->result_array();
+    }
+
+    public function update_staff_replying($ticketId, $userId = '')
+    {
+        $ticket = $this->get($ticketId);
+
+        if ($userId === '') {
+            return $this->db->where('ticketid', $ticketId)
+                ->set('staff_id_replying', null)
+                ->update(db_prefix() . 'tickets');
+        }
+
+        if ($ticket->staff_id_replying !== $userId && !is_null($ticket->staff_id_replying)) {
+            return false;
+        }
+
+        if ($ticket->staff_id_replying === $userId) {
+            return true;
+        }
+
+        return $this->db->where('ticketid', $ticketId)
+            ->set('staff_id_replying', $userId)
+            ->update(db_prefix() . 'tickets');
+    }
+
+    public function get_staff_replying($ticketId)
+    {
+        $this->db->select('ticketid,staff_id_replying');
+        $this->db->where('ticketid', $ticketId);
+        return $this->db->get(db_prefix() . 'tickets')->row();
     }
 }

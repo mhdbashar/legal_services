@@ -168,9 +168,16 @@ abstract class App_pdf extends TCPDF
         return get_custom_fields($this->type(), $whereCF);
     }
 
+    public function isLastPage()
+    {
+        return $this->last_page_flag;
+    }
+
     public function Close()
     {
-        $this->process_signature();
+        if (hooks()->apply_filters('process_pdf_signature_on_close', true)) {
+            $this->processSignature();
+        }
 
         hooks()->do_action('pdf_close', ['pdf_instance' => $this, 'type' => $this->type()]);
 
@@ -233,7 +240,7 @@ abstract class App_pdf extends TCPDF
 
     protected function load_language($client_id)
     {
-        load_pdf_language($client_id);
+        load_pdf_language(get_client_default_language($client_id));
 
         return $this;
     }
@@ -283,13 +290,13 @@ abstract class App_pdf extends TCPDF
     }
 
     /**
-    * Unset all class variables except the following critical variables.
-    *
-    * @param $destroyall (boolean) if true destroys all class variables, otherwise preserves critical variables.
-    * @param $preserve_objcopy (boolean) if true preserves the objcopy variable
-    *
-    * @since 4.5.016 (2009-02-24)
-    */
+     * Unset all class variables except the following critical variables.
+     *
+     * @param $destroyall (boolean) if true destroys all class variables, otherwise preserves critical variables.
+     * @param $preserve_objcopy (boolean) if true preserves the objcopy variable
+     *
+     * @since 4.5.016 (2009-02-24)
+     */
     public function _destroy($destroyall = false, $preserve_objcopy = false)
     {
         // restore internal encoding

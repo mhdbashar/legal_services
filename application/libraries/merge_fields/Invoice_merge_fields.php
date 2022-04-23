@@ -17,6 +17,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_number'),
@@ -28,6 +31,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_duedate'),
@@ -35,6 +41,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'available' => [
                         'invoice',
                         'dispute'
+                    ],
+                    'exclude' => [
+                        'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -59,6 +68,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_sale_agent'),
@@ -66,6 +78,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'available' => [
                         'invoice',
                         'dispute'
+                    ],
+                    'exclude' => [
+                        'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -78,6 +93,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_subtotal'),
@@ -89,6 +107,9 @@ class Invoice_merge_fields extends App_merge_fields
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_amount_due'),
@@ -97,12 +118,18 @@ class Invoice_merge_fields extends App_merge_fields
                         'invoice',
                         'dispute'
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
                 [
                     'name'      => _l('invoice_days_overdue'),
                     'key'       => '{total_days_overdue}',
                     'available' => [
                         'invoice',
+                    ],
+                    'exclude' => [
+                        'invoices-batch-payments',
                     ],
                 ],
                 [
@@ -136,6 +163,9 @@ class Invoice_merge_fields extends App_merge_fields
                         'invoice',
                         'dispute'
                     ],
+                    'exclude' => [
+                        'invoices-batch-payments',
+                    ],
                 ],
             ];
     }
@@ -150,7 +180,7 @@ class Invoice_merge_fields extends App_merge_fields
     {
         $fields = [];
         $this->ci->db->where('id', $invoice_id);
-        $invoice = $this->ci->db->get(db_prefix().'invoices')->row();
+        $invoice = $this->ci->db->get(db_prefix() . 'invoices')->row();
 
         if (!$invoice) {
             return $fields;
@@ -163,7 +193,7 @@ class Invoice_merge_fields extends App_merge_fields
 
         if ($payment_id) {
             $this->ci->db->where('id', $payment_id);
-            $payment = $this->ci->db->get(db_prefix().'invoicepaymentrecords')->row();
+            $payment = $this->ci->db->get(db_prefix() . 'invoicepaymentrecords')->row();
 
             $fields['{payment_total}'] = app_format_money($payment->amount, $currency);
             $fields['{payment_date}']  = _d($payment->date);
@@ -174,14 +204,15 @@ class Invoice_merge_fields extends App_merge_fields
         $fields['{invoice_total}']      = app_format_money($invoice->total, $currency);
         $fields['{invoice_subtotal}']   = app_format_money($invoice->subtotal, $currency);
 
-        $fields['{invoice_link}']    = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
-        $fields['{invoice_number}']  = format_invoice_number($invoice_id);
-        $fields['{invoice_duedate}'] = _d($invoice->duedate);
-        $fields['{total_days_overdue}']    = get_total_days_overdue($invoice->duedate);
-        $fields['{invoice_date}']    = _d($invoice->date);
-        $fields['{invoice_status}']  = format_invoice_status($invoice->status, '', false);
-        $fields['{project_name}']    = get_project_name_by_id($invoice->project_id);
-        $fields['{invoice_short_url}']    = get_invoice_shortlink($invoice);
+        $fields['{invoice_link}']       = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
+        $fields['{invoice_number}']     = format_invoice_number($invoice_id);
+        $fields['{invoice_duedate}']    = _d($invoice->duedate);
+        $fields['{total_days_overdue}'] = get_total_days_overdue($invoice->duedate);
+        $fields['{invoice_date}']       = _d($invoice->date);
+        $fields['{invoice_status}']     = format_invoice_status($invoice->status, '', false);
+        $fields['{project_name}']       = get_project_name_by_id($invoice->project_id);
+        $fields['{invoice_short_url}']  = get_invoice_shortlink($invoice);
+
 
         $custom_fields = get_custom_fields('invoice');
         foreach ($custom_fields as $field) {

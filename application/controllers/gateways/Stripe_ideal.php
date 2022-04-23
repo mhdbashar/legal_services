@@ -73,6 +73,27 @@ class Stripe_ideal extends App_Controller
     public function create_webhook()
     {
         if (staff_can('edit', 'settings')) {
+            $this->load->library('stripe_core');
+
+            try {
+                $webhooks = $this->stripe_core->list_webhook_endpoints();
+
+                foreach ($webhooks->data as $webhook) {
+                    if ((isset($webhook->metadata->identification_key) &&
+                            $webhook->metadata->identification_key == $this->stripe_ideal_gateway->get_webhook_identification_key()) ||
+                        $webhook->url == $this->stripe_ideal_gateway->webhookEndPoint) {
+                        $this->stripe_core->delete_webhook($webhook->id);
+                    }
+                }
+
+                if ($this->input->get('recreate')) {
+                    update_option('stripe_ideal_webhook_id', '');
+                    update_option('stripe_ideal_webhook_signing_secret', '');
+                }
+            } catch (Exception $e) {
+            }
+
+
             try {
                 $this->stripe_ideal_gateway->create_webhook();
                 set_alert('success', _l('webhook_created'));
@@ -80,6 +101,22 @@ class Stripe_ideal extends App_Controller
                 $this->session->set_flashdata('stripe-ideal-webhook-failure', true);
                 set_alert('warning', $e->getMessage());
             }
+
+            redirect(admin_url('settings/?group=payment_gateways&tab=online_payments_stripe_ideal_tab'));
+        }
+    }
+
+    /**
+     * Enable the application Stripe ideal webhook endpoint
+     *
+     * @return mixed
+     */
+    public function enable_webhook()
+    {
+        if (staff_can('edit', 'settings')) {
+            $this->load->library('stripe_core');
+
+            $this->stripe_core->enable_webhook(get_option('stripe_ideal_webhook_id'));
 
             redirect(admin_url('settings/?group=payment_gateways&tab=online_payments_stripe_ideal_tab'));
         }
@@ -100,23 +137,23 @@ class Stripe_ideal extends App_Controller
                 $payload,
                 $sig_header,
                 get_option('stripe_ideal_webhook_signing_secret')
-          );
+            );
         } catch (\UnexpectedValueException $e) {
             // Invalid payload
-          http_response_code(400); // PHP 5.4 or greater
-          exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         } catch (\Stripe\Error\SignatureVerification $e) {
             // Invalid signature
-              http_response_code(400); // PHP 5.4 or greater
-              exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         }
 
         if ($event->type == 'source.chargeable') {
             $source = $event->data->object;
 
             if (isset($source->metadata['pcrm-stripe-ideal'])
-                    && $source->type == 'ideal'
-                    && $source->status == 'chargeable') {
+                && $source->type == 'ideal'
+                && $source->status == 'chargeable') {
                 $invoice_id = intval($source->metadata['invoice_id']);
                 $charge     = $this->stripe_ideal_gateway->charge($source->id, $source->amount, $invoice_id);
 

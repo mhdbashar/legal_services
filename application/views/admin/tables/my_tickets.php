@@ -77,6 +77,12 @@ if ($this->ci->input->post('my_tickets')) {
     array_push($where, 'OR assigned = ' . get_staff_user_id());
 }
 
+if ($this->ci->input->post('merged_tickets')) {
+    array_push($where, 'AND merged_ticket_id IS NOT NULL');
+} else {
+    array_push($where, 'AND merged_ticket_id IS NULL');
+}
+
 $assignees  = $this->ci->tickets_model->get_tickets_assignes_disctinct();
 $_assignees = [];
 foreach ($assignees as $__assignee) {

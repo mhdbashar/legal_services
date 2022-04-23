@@ -52,7 +52,7 @@
                             echo $previewMarkdown;
                         } else {
                             if(empty($file->external)) {
-                                echo '<a href="'.site_url('uploads/oservices/'.$file->oservice_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
+                                echo '<a href="' . site_url('uploads/oservices/' . $file->project_id . '/' . $file->file_name) . '" download="' .  $file->original_file_name . '">' . $file->file_name . '</a>';
                             } else {
                                 echo '<a href="'.$file->external_link.'" target="_blank">'.$file->file_name.'</a>';
                             }

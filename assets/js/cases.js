@@ -179,8 +179,7 @@ $(function() {
     $.each($('._hidden_inputs._filters input'), function() {
         Expenses_ServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
-
-    _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+    _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [5, 'desc']);
 
     slug_expenses_case = $(".table-case-expenses").attr('data-slug');
     _table_api_case = initDataTable('.table-case-expenses', admin_url + 'legalservices/cases/expenses/' + project_id + '/' + slug_expenses_case, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
@@ -219,8 +218,16 @@ $(function() {
 
     appValidateForm($('#milestone_form'), {
         name: 'required',
+        start_date: 'required',
         due_date: 'required'
     });
+
+    var milestone_form= $('#milestone_form');
+    var milestone_start_date = milestone_form.find('#start_date');
+    milestone_start_date.on('changed.bs.select', function (e) {
+        milestone_form.find('#due_date').data('data-date-min-date', milestone_start_date.val());
+    });
+
 
     appValidateForm($('#discussion_form'), {
         subject: 'required',
@@ -277,6 +284,7 @@ $(function() {
         $('#milestone input[name="milestone_order"]').val($('.table-milestones tbody tr').length + 1);
         $('#milestone textarea[name="description"]').val('');
         $('#milestone input[name="description_visible_to_customer"]').prop('checked', false);
+        $('#milestone input[name="hide_from_customer"]').prop('checked', false);
         $('#milestone .add-title').removeClass('hide');
         $('#milestone .edit-title').removeClass('hide');
     });
@@ -448,14 +456,19 @@ function new_timesheet() {
 
 function edit_milestone(invoker, id) {
 
-    var description_visible_to_customer = $(invoker).data('description-visible-to-customer');
+    var description_visible_to_customer = $(invoker).data('description-visible-to-customer'),
+        hide_from_customer = $(invoker).data('hide-from-customer');
     if (description_visible_to_customer == 1) {
         $('input[name="description_visible_to_customer"]').prop('checked', true);
     } else {
         $('input[name="description_visible_to_customer"]').prop('checked', false);
     }
+
+    $('input[name="hide_from_customer"]').prop('checked', hide_from_customer == 1);
+
     $('#additional_milestone').append(hidden_input('id', id));
     $('#milestone input[name="name"]').val($(invoker).data('name'));
+    $('#milestone input[name="start_date"]').val($(invoker).data('start_date'));
     $('#milestone input[name="due_date"]').val($(invoker).data('due_date'));
     $('#milestone input[name="milestone_order"]').val($(invoker).data('order'));
     $('#milestone textarea[name="description"]').val($(invoker).data('description'));

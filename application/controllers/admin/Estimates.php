@@ -1,5 +1,7 @@
 <?php
 
+use app\services\estimates\EstimatesPipeline;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Estimates extends AdminController
@@ -333,7 +335,10 @@ class Estimates extends AdminController
 
             $data['estimates_years'] = $this->estimates_model->get_estimates_years();
 
-            if (count($data['estimates_years']) >= 1 && $data['estimates_years'][0]['year'] != date('Y')) {
+            if (
+                count($data['estimates_years']) >= 1
+                && !\app\services\utilities\Arr::inMultidimensional($data['estimates_years'], 'year', date('Y'))
+            ) {
                 array_unshift($data['estimates_years'], ['year' => date('Y')]);
             }
 
@@ -620,10 +625,13 @@ class Estimates extends AdminController
         $status = $this->input->get('status');
         $page   = $this->input->get('page');
 
-        $estimates = $this->estimates_model->do_kanban_query($status, $this->input->get('search'), $page, [
-            'sort_by' => $this->input->get('sort_by'),
-            'sort'    => $this->input->get('sort'),
-        ]);
+        $estimates = (new EstimatesPipeline($status))
+            ->search($this->input->get('search'))
+            ->sortBy(
+                $this->input->get('sort_by'),
+                $this->input->get('sort')
+            )
+            ->page($page)->get();
 
         foreach ($estimates as $estimate) {
             $this->load->view('admin/estimates/pipeline/_kanban_card', [

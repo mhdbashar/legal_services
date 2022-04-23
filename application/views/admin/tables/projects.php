@@ -15,7 +15,7 @@ $aColumns = [
     'deadline',
     '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'project_members JOIN ' . db_prefix() . 'staff on ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'project_members.staff_id WHERE project_id=' . db_prefix() . 'projects.id ORDER BY staff_id) as members',
     'status',
-    ];
+];
 
 
 $sIndexColumn = 'id';
@@ -90,7 +90,7 @@ foreach ($rResult as $aRow) {
     $name .= '<a href="' . $link . '">' . _l('view') . '</a>';
 
     if ($hasPermissionCreate && !$clientid) {
-        $name .= ' | <a href="#" onclick="copy_project(' . $aRow['id'] . ');return false;">' . _l('copy_project') . '</a>';
+        $name .= ' | <a href="#" data-name="'. htmlspecialchars($aRow['name'] , ENT_QUOTES).'" onclick="copy_project(' . $aRow['id'] . ', this);return false;">' . _l('copy_project') . '</a>';
     }
 
     if ($hasPermissionEdit) {
@@ -122,11 +122,11 @@ foreach ($rResult as $aRow) {
             $members_ids = explode(',', $aRow['members_ids']);
             $member_id   = $members_ids[$key];
             $membersOutput .= '<a href="' . admin_url('profile/' . $member_id) . '">' .
-            staff_profile_image($member_id, [
-                'staff-profile-image-small mright5',
+                staff_profile_image($member_id, [
+                    'staff-profile-image-small mright5',
                 ], 'small', [
-                'data-toggle' => 'tooltip',
-                'data-title'  => $member,
+                    'data-toggle' => 'tooltip',
+                    'data-title'  => $member,
                 ]) . '</a>';
             // For exporting
             $exportMembers .= $member . ', ';

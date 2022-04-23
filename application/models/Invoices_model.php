@@ -50,6 +50,33 @@ class Invoices_model extends App_Model
     {
         return $this->db->query('SELECT DISTINCT(sale_agent) as sale_agent, CONCAT(firstname, \' \', lastname) as full_name FROM ' . db_prefix() . 'invoices JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . 'invoices.sale_agent WHERE sale_agent != 0')->result_array();
     }
+    public function get_unpaid_invoices()
+    {
+        if (!staff_can('view', 'invoices')) {
+            $where = get_invoices_where_sql_for_staff(get_staff_user_id());
+            $this->db->where($where);
+        }
+        $this->db->select(db_prefix() . 'invoices.*,'. get_sql_select_client_company());
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'invoices.clientid='. db_prefix() . 'clients.userid', 'left');
+        $this->db->where_not_in('status', [self::STATUS_CANCELLED, self::STATUS_PAID]);
+        $this->db->where('total >', 0);
+        $this->db->order_by('number,YEAR(date)', 'desc');
+        $invoices = $this->db->get(db_prefix() . 'invoices')->result();
+
+        if (!class_exists('payment_modes_model', false)) {
+            $this->load->model('payment_modes_model');
+        }
+
+        return array_map(function ($invoice) {
+            $allowedModes = [];
+            foreach (unserialize($invoice->allowed_payment_modes) as $modeId) {
+                $allowedModes[] = $this->payment_modes_model->get($modeId);
+            }
+            $invoice->allowed_payment_modes = $allowedModes;
+            $invoice->total_left_to_pay = get_invoice_total_left_to_pay($invoice->id, $invoice->total);
+            return $invoice;
+        }, $invoices);
+    }
 
     /**
      * Get invoice by id
@@ -150,6 +177,8 @@ class Invoices_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
             $this->log_invoice_activity($id, 'invoice_activity_unmarked_as_cancelled');
+            hooks()->do_action('invoice_unmarked_as_cancelled', $id);
+
 
             return true;
         }
@@ -1579,7 +1608,7 @@ class Invoices_model extends App_Model
                     if ($attachStatementPdf) {
                         $template->add_attachment([
                             'attachment' => $attachStatementPdf,
-                            'filename'   => $statementPdfFileName,
+                            'filename'   => $statementPdfFileName . '.pdf',
                             'type'       => 'application/pdf',
                         ]);
                     }

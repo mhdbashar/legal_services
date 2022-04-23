@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 define('SMS_TRIGGER_INVOICE_OVERDUE', 'invoice_overdue_notice');
@@ -25,11 +27,15 @@ class App_sms
 
     protected $ci;
 
+    public static $trigger_being_sent;
+
+    public $test_mode = false;
+
     public function __construct()
     {
         $this->ci = &get_instance();
 
-        $this->client = new \GuzzleHttp\Client(
+        $this->client = new Client(
             [ 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept'       => 'application/json',
@@ -91,6 +97,13 @@ class App_sms
         return $gateway;
     }
 
+    public function set_test_mode($value)
+    {
+        $this->test_mode = $value;
+
+        return $this;
+    }
+
     public function get_gateways()
     {
         return hooks()->apply_filters('get_sms_gateways', self::$gateways);
@@ -138,13 +151,20 @@ class App_sms
         if ($gateway !== false) {
             $className = 'sms_' . $gateway['id'];
             if ($this->is_trigger_active($trigger)) {
-                $message = $this->parse_merge_fields($merge_fields, $this->get_trigger_value($trigger));
+                $message = $this->parse_merge_fields(
+                    $merge_fields,
+                    $this->get_trigger_value($trigger)
+                );
 
                 $message = clear_textarea_breaks($message);
+
+                static::$trigger_being_sent = $trigger;
 
                 $retval = $this->ci->{$className}->send($phone, $message, $trigger);
 
                 hooks()->do_action('sms_trigger_triggered', ['message' => $message, 'trigger' => $trigger, 'phone' => $phone]);
+
+                static::$trigger_being_sent = null;
 
                 return $retval;
             }

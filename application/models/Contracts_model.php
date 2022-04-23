@@ -151,12 +151,14 @@ class Contracts_model extends App_Model
     {
         $affectedRows = 0;
 
-        $data['datestart'] = to_sql_date($data['datestart']);
-        if ($data['dateend'] == '') {
-            $data['dateend'] = null;
-        } else {
-            $data['dateend'] = to_sql_date($data['dateend']);
+        if(isset($data['datestart'])) {
+            $data['datestart'] = to_sql_date($data['datestart']);
         }
+
+        if(isset($data['dateend'])) {
+            $data['dateend'] = $data['dateend'] == '' ? null : to_sql_date($data['dateend']);
+        }
+
         if (isset($data['trash'])) {
             $data['trash'] = 1;
         } else {
@@ -590,6 +592,13 @@ class Contracts_model extends App_Model
         if ($keepSignature) {
             unset($data['renew_keep_signature']);
         }
+
+        $contract = $this->get($data['contractid']);
+
+        if($keepSignature) {
+            $data['new_value'] = $contract->contract_value;
+        }
+
         $data['new_start_date']      = to_sql_date($data['new_start_date']);
         $data['new_end_date']        = to_sql_date($data['new_end_date']);
         $data['date_renewed']        = date('Y-m-d H:i:s');

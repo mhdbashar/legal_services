@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     '1', // bulk actions
-   'ticketid',
+    'ticketid',
     'subject',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'tickets.ticketid and rel_type="ticket" ORDER by tag_order ASC) as tags',
     db_prefix() . 'departments.name as department_name',
@@ -14,7 +14,7 @@ $aColumns = [
     'priority',
     'lastreply',
     db_prefix() . 'tickets.date',
-    ];
+];
 
 $contactColumn = 6;
 $tagsColumns   = 3;
@@ -29,7 +29,7 @@ $additionalSelect = [
     db_prefix() . 'tickets.userid',
     'assigned',
     db_prefix() . 'clients.company',
-    ];
+];
 
 $join = [
     'LEFT JOIN ' . db_prefix() . 'contacts ON ' . db_prefix() . 'contacts.id = ' . db_prefix() . 'tickets.contactid',
@@ -38,7 +38,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'tickets_status ON ' . db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status',
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.userid',
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
-    ];
+];
 
 $custom_fields = get_table_custom_fields('tickets');
 foreach ($custom_fields as $key => $field) {
@@ -78,6 +78,12 @@ if (count($_statuses) > 0) {
 
 if ($this->ci->input->post('my_tickets')) {
     array_push($where, 'OR assigned = ' . get_staff_user_id());
+}
+
+if ($this->ci->input->post('merged_tickets')) {
+    array_push($where, 'AND merged_ticket_id IS NOT NULL');
+} else {
+    array_push($where, 'AND merged_ticket_id IS NULL');
 }
 
 $assignees  = $this->ci->tickets_model->get_tickets_assignes_disctinct();
@@ -138,7 +144,7 @@ foreach ($rResult as $aRow) {
         }
 
         if ($aColumns[$i] == '1') {
-            $_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow['ticketid'] . '"><label></label></div>';
+            $_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow['ticketid'] . '" data-name="'. $aRow['subject'] .'" data-status="'. $aRow['status'] .'"><label></label></div>';
         } elseif ($aColumns[$i] == 'lastreply') {
             if ($aRow[$aColumns[$i]] == null) {
                 $_data = _l('ticket_no_reply_yet');
@@ -150,7 +156,7 @@ foreach ($rResult as $aRow) {
             if ($aRow['assigned'] != 0) {
                 if ($aColumns[$i] != 'ticketid') {
                     $_data .= '<a href="' . admin_url('profile/' . $aRow['assigned']) . '" data-toggle="tooltip" title="' . get_staff_full_name($aRow['assigned']) . '" class="pull-left mright5">' . staff_profile_image($aRow['assigned'], [
-                        'staff-profile-image-xs',
+                            'staff-profile-image-xs',
                         ]) . '</a>';
                 }
             }

@@ -1,6 +1,7 @@
 <?php
 
 use app\services\utilities\Date;
+use app\services\tasks\TasksKanban;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -109,13 +110,14 @@ class Tasks extends AdminController
         $status = $this->input->get('status');
         $page   = $this->input->get('page');
 
-        $where = [];
-        if ($this->input->get('project_id')) {
-            $where['rel_id']   = $this->input->get('project_id');
-            $where['rel_type'] = 'project';
-        }
-
-        $tasks = $this->tasks_model->do_kanban_query($status, $this->input->get('search'), $page, false, $where);
+        $tasks = (new TasksKanban($status))
+            ->search($this->input->get('search'))
+            ->sortBy(
+                $this->input->get('sort_by'),
+                $this->input->get('sort')
+            )
+            ->forProject($ci->input->get('project_id') ?: null)
+            ->page($page)->get();
 
         foreach ($tasks as $task) {
             $this->load->view('admin/tasks/_kan_ban_card', [
@@ -463,9 +465,10 @@ class Tasks extends AdminController
             }
         }
 
-        $data['id']    = $id;
+        $data['members'] = $this->staff_model->get();
+        $data['id']      = $id;
+        $data['title']   = $title;
         $data['legal_services'] = $this->legal->get_all_services();
-        $data['title'] = $title;
         $this->load->view('admin/tasks/task', $data);
     }
 
@@ -655,7 +658,7 @@ class Tasks extends AdminController
         $data['staff']              = $this->staff_model->get('', ['active' => 1]);
         $data['reminders']          = $this->tasks_model->get_reminders($taskid);
 
-        $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
+        $data['task_staff_members'] = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
         // For backward compatibilities
         $data['staff_reminders'] = $data['task_staff_members'];
 
@@ -859,11 +862,12 @@ class Tasks extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
-                $post_data                    = $this->input->post();
-                $data['task_id']              = $post_data['taskid'];
-                $data['checklists']           = $this->tasks_model->get_checklist_items($post_data['taskid']);
-                $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($data['task_id']);
-                $data['hide_completed_items'] = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $data['task_id']);
+                $post_data                       = $this->input->post();
+                $data['task_id']                 = $post_data['taskid'];
+                $data['checklists']              = $this->tasks_model->get_checklist_items($post_data['taskid']);
+                $data['task_staff_members']      = $this->tasks_model->get_staff_members_that_can_access_task($data['task_id']);
+                $data['current_user_is_creator'] = $this->tasks_model->is_task_creator(get_staff_user_id(), $data['task_id']);
+                $data['hide_completed_items']    = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $data['task_id']);
 
                 $this->load->view('admin/tasks/checklist_items_template', $data);
             }
@@ -1654,7 +1658,7 @@ class Tasks extends AdminController
 
     public function delete_timesheet($id)
     {
-        if (has_permission('tasks', '', 'delete') || has_permission('projects', '', 'delete') || total_rows(db_prefix() . 'taskstimers', ['staff_id' => get_staff_user_id(), 'id' => $id]) > 0) {
+        if (staff_can('delete_timesheet', 'tasks') || staff_can('delete_own_timesheet', 'tasks') && total_rows(db_prefix() . 'taskstimers', ['staff_id' => get_staff_user_id(), 'id' => $id]) > 0) {
             $alert_type = 'warning';
             $success    = $this->tasks_model->delete_timesheet($id);
             if ($success) {
@@ -1665,6 +1669,33 @@ class Tasks extends AdminController
             if (!$this->input->is_ajax_request()) {
                 redirect($_SERVER['HTTP_REFERER']);
             }
+        }
+    }
+
+    public function update_timesheet()
+    {
+        if ($this->input->is_ajax_request()) {
+            if (staff_can('edit_timesheet', 'tasks') || (staff_can('edit_own_timesheet', 'tasks') && total_rows(db_prefix() . 'taskstimers', ['staff_id' => get_staff_user_id(), 'id' => $this->input->post('timer_id')]) > 0)) {
+                $success = $this->tasks_model->timesheet($this->input->post());
+                if ($success === true) {
+                    $this->session->set_flashdata('task_single_timesheets_open', true);
+                    $message = _l('updated_successfully', _l('project_timesheet'));
+                } else {
+                    $message = _l('failed_to_update_timesheet');
+                }
+
+                echo json_encode([
+                    'success' => $success,
+                    'message' => $message,
+                ]);
+                die;
+            }
+
+            echo json_encode([
+                'success' => false,
+                'message' => _l('access_denied'),
+            ]);
+            die;
         }
     }
 
@@ -1859,7 +1890,9 @@ class Tasks extends AdminController
         if ($this->input->post() && $this->input->is_ajax_request()) {
             $payload = $this->input->post();
             $item    = $this->tasks_model->get_checklist_item($payload['checklistId']);
-            if ($item->addedfrom == get_staff_user_id() || is_admin()) {
+            if ($item->addedfrom == get_staff_user_id()
+                || is_admin() ||
+                $this->tasks_model->is_task_creator(get_staff_user_id(), $payload['taskId'])) {
                 $this->tasks_model->update_checklist_assigned_staff($payload);
                 die;
             }

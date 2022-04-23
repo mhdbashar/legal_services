@@ -48,11 +48,12 @@
                             <?php } ?>
                             <hr />
                         </div>
+                        <?php echo render_input('name','project_name', (isset($project) ? $project->name : '')); ?>
                         <div class="form-group">
-                          <label for="clientid_copy_project"><?php echo _l('project_customer'); ?></label>
-                          <select id="clientid_copy_project" name="clientid_copy_project" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                        </select>
-                      </div>
+                            <label for="clientid_copy_project"><?php echo _l('project_customer'); ?></label>
+                            <select id="clientid_copy_project" name="clientid_copy_project" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            </select>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php echo render_date_input('start_date','project_start_date',_d(date('Y-m-d'))); ?>
@@ -77,60 +78,66 @@
 <!-- /.modal -->
 <!-- Copy Project end -->
 <script>
-// Copy project modal and set url if ID is passed manually eq from project list area
-function copy_project(id) {
+    // Copy project modal and set url if ID is passed manually eq from project list area
+    function copy_project(id, el) {
 
-    $('#copy_project').modal('show');
+        $('#copy_project').modal('show');
 
-    if (typeof(id) != 'undefined') {
-        $('#copy_form').attr('action', $('#copy_form').data('copy-url') + id);
-    }
+        if (typeof(id) != 'undefined') {
+            $('#copy_form').attr('action', $('#copy_form').data('copy-url') + id);
+        }
 
-    appValidateForm($('#copy_form'), {
-        start_date: 'required',
-        clientid_copy_project: 'required',
-    });
+        if (typeof el != 'undefined') {
+            let name = $(el).data('name');
+            $('#copy_form input[name="name"]').val(name);
+        }
 
-    var copy_members = $('#c_members');
-    var copy_tasks = $('input[name="tasks"].copy');
-    var copy_assignees_and_followers = $('input[name="task_include_assignees"],input[name="task_include_followers"]');
+        appValidateForm($('#copy_form'), {
+            name: 'required',
+            start_date: 'required',
+            clientid_copy_project: 'required',
+        });
 
-    copy_members.off('change');
-    copy_tasks.off('change');
-    copy_assignees_and_followers.off('change');
+        var copy_members = $('#c_members');
+        var copy_tasks = $('input[name="tasks"].copy');
+        var copy_assignees_and_followers = $('input[name="task_include_assignees"],input[name="task_include_followers"]');
+
+        copy_members.off('change');
+        copy_tasks.off('change');
+        copy_assignees_and_followers.off('change');
 
         copy_members.on('change',function(){
             if(!$(this).prop('checked')) {
                 copy_assignees_and_followers.prop('checked',false)
-           }
-       });
+            }
+        });
 
         copy_tasks.on('change', function() {
-          var checked = $(this).prop('checked');
-          if (checked) {
+            var checked = $(this).prop('checked');
+            if (checked) {
 
-              var copy_assignees = $('input[name="task_include_assignees"]').prop('checked');
-              var copy_followers = $('input[name="task_include_followers"]').prop('checked');
+                var copy_assignees = $('input[name="task_include_assignees"]').prop('checked');
+                var copy_followers = $('input[name="task_include_followers"]').prop('checked');
 
-              if (copy_assignees || copy_followers) {
-                  $('input[name="members"].copy').prop('checked', true);
-              }
+                if (copy_assignees || copy_followers) {
+                    $('input[name="members"].copy').prop('checked', true);
+                }
 
-              $('.copy-project-tasks-status-wrapper').removeClass('hide');
-              $('.tasks-copy-option').removeClass('hide');
+                $('.copy-project-tasks-status-wrapper').removeClass('hide');
+                $('.tasks-copy-option').removeClass('hide');
 
-          } else {
-              $('.copy-project-tasks-status-wrapper').addClass('hide');
-              $('.tasks-copy-option').addClass('hide');
-          }
-      });
+            } else {
+                $('.copy-project-tasks-status-wrapper').addClass('hide');
+                $('.tasks-copy-option').addClass('hide');
+            }
+        });
 
-      copy_assignees_and_followers.on('change', function() {
-          var checked = $(this).prop('checked');
-          if (checked == true) {
-              $('input[name="members"].copy').prop('checked', true);
-          }
-      });
-}
+        copy_assignees_and_followers.on('change', function() {
+            var checked = $(this).prop('checked');
+            if (checked == true) {
+                $('input[name="members"].copy').prop('checked', true);
+            }
+        });
+    }
 
 </script>

@@ -56,6 +56,10 @@ class Knowledge_base extends ClientsController
             show_404();
         }
 
+        hooks()->add_action('app_customers_head', function () {
+            echo '<head rel="canonical" href="' . current_url() . '" />';
+        });
+
         $data['knowledge_base_search'] = true;
         $data['related_articles']      = $this->knowledge_base_model->get_related_articles($data['article']->articleid);
         add_views_tracking('kb_article', $data['article']->articleid);

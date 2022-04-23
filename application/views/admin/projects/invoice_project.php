@@ -21,7 +21,7 @@
                     <?php echo _l('save_as_draft'); ?>
                 </button>
                 <button class="btn btn-info invoice-form-submit save-and-send transaction-submit">
-                      <?php echo _l('save_and_send'); ?>
+                    <?php echo _l('save_and_send'); ?>
                 </button>
                 <button class="btn btn-info invoice-form-submit transaction-submit">
                     <?php echo _l('submit'); ?>
@@ -45,8 +45,9 @@
     $('#invoice-project-modal #clientid').change();
     $('input[name="show_quantity_as"]:checked').change();
     calculate_total();
-   // Trigger item select width fix
+    // Trigger item select width fix
     $('#invoice-project-modal').on('shown.bs.modal', function(){
         $('#item_select').trigger('change')
+        lastItemAddedKey = $("body").find('.invoice-items-table .item').length
     })
 </script>

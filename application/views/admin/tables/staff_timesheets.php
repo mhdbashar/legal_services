@@ -233,7 +233,7 @@ if ($filter == 'today') {
     }
     $chart_type = 'month';
 } else {
-//    $_start_time = new DateTime(date('Y-m-d', strtotime($start_date)));
+    $_start_time = new DateTime(date('Y-m-d', strtotime($start_date)));
     $_end_time   = new DateTime(date('Y-m-d', strtotime($end_date)));
 
     $chart_type  = 'weeks_split';
@@ -271,8 +271,7 @@ foreach ($chartData as $timer) {
         }
         $temp_weekdays_data[$weekday] += $total_logged_time_d;
     } elseif ($chart_type == 'month') {
-        $month = intval(strftime('%d', $timer['start_time']));
-
+        $month = intval(date('d', $timer['start_time']));
         if (!isset($temp_months_data[$month])) {
             $temp_months_data[$month] = 0;
         }
@@ -281,7 +280,8 @@ foreach ($chartData as $timer) {
     } elseif ($chart_type == 'weeks_split') {
         $w = 1;
         foreach ($weeks as $week) {
-            $start_time_date = strftime('%Y-%m-%d', $timer['start_time']);
+            $start_time_date = date('Y-m-d', $timer['start_time']);
+
             if (!isset($weeks[$w]['total'])) {
                 $weeks[$w]['total'] = 0;
             }
@@ -318,7 +318,7 @@ foreach ($rResult as $aRow) {
         <button type="button"
         onclick="timer_action(this, ' . $aRow['task_id'] . ', ' . $aRow['id'] . ', 1);"
         class="btn btn-info btn-xs">' . _l('save')
-        . "</button>'
+            . "</button>'
         class=\"text-danger\"
         onclick=\"return false;\">
         <i class=\"fa fa-clock-o\"></i> " . _l('task_stop_timer') . '

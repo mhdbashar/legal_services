@@ -220,7 +220,7 @@ elFinder.prototype.commands.netmount = function() {
 				// To support of third-party cookie blocking (ITP) on CORS
 				// On iOS and iPadOS 13.4 and Safari 13.1 on macOS, the session cannot be continued when redirecting OAuth in CORS mode
 				self.fm.request({
-					data : {cmd : 'netmount', protocol : d.protocol, host: d.host, user : 'init', pass : 'return', options: d.options},
+					data : {cmd : 'netmount', protocol : d.protocol, host: d.host, user : 'init', pass : 'return', options: d.options}, 
 					preventDefault : true
 				}).done(function(data) {
 					d = JSON.parse(data.body);

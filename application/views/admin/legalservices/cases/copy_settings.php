@@ -48,6 +48,7 @@
                             <?php } ?>
                             <hr />
                         </div>
+                        <?php echo render_input('name','name', (isset($project) ? $project->name : '')); ?>
                         <div class="form-group">
                           <label for="clientid_copy_project"><?php echo _l('project_customer'); ?></label>
                           <select id="clientid_copy_project" name="clientid_copy_project" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -86,7 +87,13 @@ function copy_project(id) {
         $('#copy_form').attr('action', $('#copy_form').data('copy-url') + id);
     }
 
+    if (typeof el != 'undefined') {
+        let name = $(el).data('name');
+        $('#copy_form input[name="name"]').val(name);
+    }
+
     appValidateForm($('#copy_form'), {
+        name: 'required',
         start_date: 'required',
         clientid_copy_project: 'required',
     });

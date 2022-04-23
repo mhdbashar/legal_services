@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script>
     var weekly_payments_statistics;
+    var monthly_payments_statistics;
     var user_dashboard_visibility = <?php echo $user_dashboard_visibility; ?>;
     $(function() {
         $( "[data-container]" ).sortable({
@@ -88,30 +89,30 @@
 
         $('.screen-options-area').append(widgetsOptionsHTML);
         $('body').find('#dashboard-options input.widget-visibility').on('change',function(){
-          if($(this).prop('checked') == false) {
-            $('#widget-'+$(this).val()).addClass('hide');
-        } else {
-            $('#widget-'+$(this).val()).removeClass('hide');
-        }
-
-        var data = {};
-        var options = $('#dashboard-options input[type="checkbox"]').map(function() {
-            return { id: this.value, visible: this.checked ? 1 : 0 };
-        }).get();
-
-        data.widgets = options;
-/*
-        if (typeof(csrfData) !== 'undefined') {
-            data[csrfData['token_name']] = csrfData['hash'];
-        }
-*/
-        $.post(admin_url+'staff/save_dashboard_widgets_visibility',data).fail(function(data) {
-            // Demo usage, prevent multiple alerts
-            if($('body').find('.float-alert').length == 0) {
-                alert_float('danger', data.responseText);
+            if($(this).prop('checked') == false) {
+                $('#widget-'+$(this).val()).addClass('hide');
+            } else {
+                $('#widget-'+$(this).val()).removeClass('hide');
             }
+
+            var data = {};
+            var options = $('#dashboard-options input[type="checkbox"]').map(function() {
+                return { id: this.value, visible: this.checked ? 1 : 0 };
+            }).get();
+
+            data.widgets = options;
+            /*
+                    if (typeof(csrfData) !== 'undefined') {
+                        data[csrfData['token_name']] = csrfData['hash'];
+                    }
+            */
+            $.post(admin_url+'staff/save_dashboard_widgets_visibility',data).fail(function(data) {
+                // Demo usage, prevent multiple alerts
+                if($('body').find('.float-alert').length == 0) {
+                    alert_float('danger', data.responseText);
+                }
+            });
         });
-    });
 
         var tickets_chart_departments = $('#tickets-awaiting-reply-by-department');
         var tickets_chart_status = $('#tickets-awaiting-reply-by-status');
@@ -131,11 +132,11 @@
                 type: 'doughnut',
                 data: <?php echo $tickets_reply_by_status; ?>,
                 options: {
-                   onClick:function(evt){
-                    onChartClickRedirect(evt,this);
-                }
-            },
-        });
+                    onClick:function(evt){
+                        onChartClickRedirect(evt,this);
+                    }
+                },
+            });
         }
         if (leads_chart.length > 0) {
             // Leads overview status
@@ -158,15 +159,15 @@
                 options: {
                     maintainAspectRatio:false,
                     onClick:function(evt){
-                       onChartClickRedirect(evt,this);
-                   }
-               }
-           });
+                        onChartClickRedirect(evt,this);
+                    }
+                }
+            });
         }
 
         if($(window).width() < 500) {
             // Fix for small devices weekly payment statistics
-            $('#weekly-payment-statistics').attr('height', '250');
+            $('#payment-statistics').attr('height', '250');
         }
 
         fix_user_data_widget_tabs();
@@ -176,58 +177,125 @@
         });
         // Payments statistics
         init_weekly_payment_statistics( <?php echo $weekly_payment_stats; ?> );
+
         $('select[name="currency"]').on('change', function() {
-            init_weekly_payment_statistics();
+            let $activeChart = $('#Payment-chart-name').data('active-chart');
+
+            if (typeof(weekly_payments_statistics) !== 'undefined') {
+                weekly_payments_statistics.destroy();
+            }
+
+            if (typeof(monthly_payments_statistics) !== 'undefined') {
+                monthly_payments_statistics.destroy();
+            }
+
+            if ($activeChart == 'weekly') {
+                init_weekly_payment_statistics();
+            } else if ($activeChart == 'monthly'){
+                init_monthly_payment_statistics();
+            }
+
         });
     });
     function fix_user_data_widget_tabs(){
         if((app.browser != 'firefox'
-                && isRTL == 'false' && is_mobile()) || (app.browser == 'firefox'
-                && isRTL == 'false' && is_mobile())){
-                $('.horizontal-scrollable-tabs ul.nav-tabs-horizontal').css('margin-bottom','26px');
+            && isRTL == 'false' && is_mobile()) || (app.browser == 'firefox'
+            && isRTL == 'false' && is_mobile())){
+            $('.horizontal-scrollable-tabs ul.nav-tabs-horizontal').css('margin-bottom','26px');
         }
     }
     function init_weekly_payment_statistics(data) {
-        if ($('#weekly-payment-statistics').length > 0) {
+        if ($('#payment-statistics').length > 0) {
 
             if (typeof(weekly_payments_statistics) !== 'undefined') {
                 weekly_payments_statistics.destroy();
             }
             if (typeof(data) == 'undefined') {
                 var currency = $('select[name="currency"]').val();
-                $.get(admin_url + 'home/weekly_payments_statistics/' + currency, function(response) {
-                    weekly_payments_statistics = new Chart($('#weekly-payment-statistics'), {
+                $.get(admin_url + 'dashboard/weekly_payments_statistics/' + currency, function(response) {
+                    weekly_payments_statistics = new Chart($('#payment-statistics'), {
                         type: 'bar',
                         data: response,
                         options: {
                             responsive:true,
                             scales: {
                                 yAxes: [{
-                                  ticks: {
-                                    beginAtZero: true,
-                                }
-                            }]
+                                    ticks: {
+                                        beginAtZero: true,
+                                    }
+                                }]
+                            },
                         },
-                    },
-                });
+                    });
                 }, 'json');
             } else {
-                weekly_payments_statistics = new Chart($('#weekly-payment-statistics'), {
+                weekly_payments_statistics = new Chart($('#payment-statistics'), {
                     type: 'bar',
                     data: data,
                     options: {
                         responsive: true,
                         scales: {
                             yAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                            }
-                        }]
+                                ticks: {
+                                    beginAtZero: true,
+                                }
+                            }]
+                        },
                     },
-                },
-            });
+                });
             }
 
         }
+    }
+
+    function init_monthly_payment_statistics() {
+        if ($('#payment-statistics').length > 0) {
+
+            if (typeof(monthly_payments_statistics) !== 'undefined') {
+                monthly_payments_statistics.destroy();
+            }
+
+            var currency = $('select[name="currency"]').val();
+            $.get(admin_url + 'dashboard/monthly_payments_statistics/' + currency, function(response) {
+                monthly_payments_statistics = new Chart($('#payment-statistics'), {
+                    type: 'bar',
+                    data: response,
+                    options: {
+                        responsive:true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                }
+                            }]
+                        },
+                    },
+                });
+            }, 'json');
+        }
+    }
+
+    function update_payment_statistics(el) {
+        let type = $(el).data('type');
+        let $chartNameWrapper = $('#Payment-chart-name');
+        $chartNameWrapper.data('active-chart', type);
+        $chartNameWrapper.text($(el).text());
+
+        if (typeof(weekly_payments_statistics) !== 'undefined') {
+            weekly_payments_statistics.destroy();
+        }
+
+        if (typeof(monthly_payments_statistics) !== 'undefined') {
+            monthly_payments_statistics.destroy();
+        }
+
+        console.log(type);
+
+        if (type == 'weekly') {
+            init_weekly_payment_statistics();
+        } else if (type == 'monthly') {
+            init_monthly_payment_statistics();
+        }
+
     }
 </script>

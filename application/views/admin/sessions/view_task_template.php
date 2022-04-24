@@ -9,20 +9,20 @@
 <?php } ?>
 <div class="modal-header task-single-header" data-task-single-id="<?php echo $task->id; ?>" data-status="<?php echo $task->status; ?>">
    <?php if($this->input->get('opened_from_lead_id')){ ?>
-   <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;" class="back-to-from-task color-white" data-placement="left" data-toggle="tooltip" data-title="<?php echo _l('back_to_lead'); ?>">
+       <a href="#" onclick="init_lead(<?php echo $this->input->get('opened_from_lead_id'); ?>); return false;" class="back-to-from-task" data-placement="left" data-toggle="tooltip" data-title="<?php echo _l('back_to_lead'); ?>">
    <i class="fa fa-tty" aria-hidden="true"></i>
    </a>
    <?php } ?>
    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
    <h4 class="modal-title"><?php echo $task->name; ?></h4>
    <?php if($task->billed == 1){ ?>
-   <?php  echo '<p class="no-margin">'._l('task_is_billed','<a href="'.admin_url('invoices/list_invoices/'.$task->invoice_id).'" target="_blank" class="color-white">'.format_invoice_number($task->invoice_id)). '</a></p>'; ?>
+       <?php  echo '<p class="no-margin">'._l('task_is_billed','<a href="'.admin_url('invoices/list_invoices/'.$task->invoice_id).'" target="_blank">'.format_invoice_number($task->invoice_id)). '</a></p>'; ?>
    <?php } ?>
    <?php if($task->is_public == 0){ ?>
-   <small class="no-margin color-white">
+    <p class="no-margin">
    <?php echo _l('session_is_private'); ?>
    <?php if(has_permission('sessions','','edit')) { ?> -
-   <a href="#" class="color-white text-has-action"onclick="make_session_public(<?php echo $task->id; ?>); return false;">
+       <a href="#" class="text-has-action" onclick="make_task_public(<?php echo $task->id; ?>); return false;">
    <?php echo _l('task_view_make_public'); ?>
    </a>
    <?php } ?>
@@ -200,6 +200,48 @@
                               ?>
                         </td>
                      </tr>
+                                <tr>
+                                    <td class="timesheet-edit task-modal-edit-timesheet-<?php echo $timesheet['id'] ?> hide" colspan="5">
+                                        <form class="task-modal-edit-timesheet-form">
+                                            <input type="hidden" name="timer_id" value="<?php echo $timesheet['id'] ?>">
+                                            <input type="hidden" name="task_id" value="<?php echo $task->id ?>">
+                                            <div class="timesheet-start-end-time">
+                                                <div class="col-md-6">
+                                                    <?php echo render_datetime_input('start_time','task_log_time_start', _dt($timesheet['start_time'], true)); ?>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <?php echo render_datetime_input('end_time','task_log_time_end', _dt($timesheet['end_time'], true)); ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        <?php echo _l('task_single_log_user'); ?>
+                                                    </label>
+                                                    <br />
+                                                    <select name="staff_id" class="selectpicker" data-width="100%">
+                                                        <?php foreach($task->assignees as $assignee){
+                                                            if((!staff_can('create', 'task') && !staff_can('edit', 'task') && $assignee['assigneeid'] != get_staff_user_id()) || ($task->rel_type == 'project' && !has_permission('projects','','edit') && $assignee['assigneeid'] != get_staff_user_id())){continue;}
+                                                            $selected = '';
+                                                            if($assignee['assigneeid'] == $timesheet['staff_id']){
+                                                                $selected = ' selected';
+                                                            }
+                                                            ?>
+                                                            <option<?php echo $selected; ?> value="<?php echo $assignee['assigneeid']; ?>" >
+                                                                <?php echo $assignee['full_name']; ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <?php echo render_textarea('note','note', $timesheet['note'], ['id' => 'note' . $timesheet['id']] ); ?>
+                                            </div>
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-default edit-timesheet-cancel"><?php echo _l('cancel'); ?></button>
+                                                <button class="btn btn-success edit-timesheet-submit"></i> <?php echo _l('submit'); ?></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
                      <?php } ?>
                      <?php } ?>
                      <?php if($timers_found == false){ ?>
@@ -210,7 +252,11 @@
                      <?php if($task->billed == 0 && ($is_assigned || (count($task->assignees) > 0 && is_admin())) && $task->status != Sessions_model::STATUS_COMPLETE){
                         ?>
                      <tr class="odd">
-                        <td colspan="5">
+                         <td colspan="5" class="add-timesheet">
+                             <div class="col-md-12">
+                                 <p class="font-medium bold mtop5"><?php echo _l('add_timesheet'); ?></p>
+                                 <hr class="mtop10 mbot10" />
+                             </div>
                            <div class="timesheet-start-end-time">
                               <div class="col-md-6">
                                  <?php echo render_date_input('timesheet_start_time','task_log_time_start'); ?>
@@ -341,7 +387,9 @@
                   <?php $this->load->view('admin/sessions/checklist_items_template',
                      array(
                        'task_id'=>$task->id,
-                       'checklists'=>$task->checklist_items)); ?>
+                         'current_user_is_creator'=>$task->current_user_is_creator,
+                         'checklists'=>$task->checklist_items));
+                  ?>
                </div>
             </div>
             <div class="clearfix"></div>
@@ -1032,4 +1080,40 @@
            sessionExternalFileUpload(pickData, 'gdrive', <?php echo $task->id; ?>);
    }});
 
+   $('.edit-timesheet-cancel').click(function () {
+       $('.timesheet-edit').addClass('hide');
+       $('.add-timesheet').removeClass('hide');
+   });
+
+   $('.task-single-edit-timesheet').click(function () {
+       var edit_timesheet_id = $(this).data('timesheet-id');
+       $('.timesheet-edit, .add-timesheet').addClass('hide');
+       $('.task-modal-edit-timesheet-' + edit_timesheet_id).removeClass('hide');
+   });
+
+   $('.task-modal-edit-timesheet-form').submit(event => {
+       event.preventDefault();
+       $('.edit-timesheet-submit').prop('disabled', true);
+
+       var form = new FormData(event.target);
+       var data = {};
+
+       data.timer_id = form.get('timer_id');
+       data.start_time =  form.get('start_time');
+       data.end_time =  form.get('end_time');
+       data.timesheet_staff_id =  form.get('staff_id');
+       data.timesheet_task_id =  form.get('task_id');
+       data.note =  form.get('note');
+
+       $.post(admin_url + 'tasks/update_timesheet', data).done(function (response) {
+           response = JSON.parse(response);
+           if (response.success === true || response.success == 'true') {
+               init_task_modal(data.timesheet_task_id);
+               alert_float('success', response.message);
+           } else {
+               alert_float('warning', response.message);
+           }
+           $('.edit-timesheet-submit').prop('disabled', false);
+       });
+   });
 </script>

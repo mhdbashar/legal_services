@@ -7,12 +7,12 @@
           <span class="inline-block full-width mtop10 mbot10"><?php echo $task['name']; ?></span>
         </a>
       </div>
-      <div class="col-md-6 text-muted">
+        <div class="col-md-4 text-muted mtop10">
        <?php
        echo format_members_by_ids_and_names_session($task['assignees_ids'],$task['assignees'],false,'staff-profile-image-xs');
        ?>
      </div>
-     <div class="col-md-6 text-right text-muted">
+        <div class="col-md-8 text-right text-muted mtop10">
       <?php if($task['total_checklist_items'] > 0){ ?>
         <span class="mright5 inline-block text-muted" data-toggle="tooltip" data-title="<?php echo _l('task_checklist_items'); ?>">
           <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -29,14 +29,28 @@
        <?php echo $task['total_files']; ?>
      </span>
    </div>
-   <?php $tags = get_tags_in($task['id'],'task');
-   if(count($tags) > 0){ ?>
-     <div class="col-md-12">
-      <div class="mtop5 kanban-tags">
+    </div>
+      <?php $tags = get_tags_in($task['id'],'task'); ?>
+      <?php if(count($tags) > 0 || !empty($task['duedate'])){ ?>
+      <div class="row mtop5">
+          <?php
+          if(count($tags) > 0){ ?>
+              <div class="col-md-6">
+                  <div class="kanban-tags">
         <?php echo render_tags($tags); ?>
       </div>
     </div>
   <?php } ?>
+
+          <?php if(!empty($task['duedate'])) { ?>
+              <div class="mtop5 col-md-6 text-right<?php echo count($tags) === 0 ? ' col-md-offset-6' : ''; ?>">
+            <span class="text-muted" data-toggle="tooltip" title="<?php echo _l('task_single_due_date'); ?>">
+            <i class="fa fa-calendar-check-o"></i> <?php echo _d($task['duedate']); ?>
+            </span>
+              </div>
+          <?php } ?>
+      </div>
+      <?php } ?>
 
 </div>
 </div>

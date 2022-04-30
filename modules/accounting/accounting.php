@@ -76,6 +76,7 @@ function accounting_add_head_component() {
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/report.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/treegrid/css/jquery.treegrid.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/box_loading.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
+		
 	}
 
 	if (!(strpos($viewuri, 'admin/accounting/chart_of_accounts') === false)) {
@@ -198,6 +199,7 @@ function accounting_load_js() {
 	if (!(strpos($viewuri, 'admin/accounting/rp_') === false) || !(strpos($viewuri, 'admin/accounting/report') === false)) {
 		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/treegrid/js/jquery.treegrid.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
 		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/main.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/html2pdf/html2pdf.bundle.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
 	}
 
 	if (!(strpos($viewuri, '/admin/accounting/dashboard') === false)) {

@@ -31,6 +31,22 @@
                                 <?php echo isset($movement['court_name']) && $movement['court_name'] != '' ?  maybe_translate(_l('nothing_was_specified'), $movement['court_name']) :  _l('nothing_was_specified'); ?>
                             </p>
                             <p class="mtop10 no-mbot">
+                                <?php echo _l('NumJudicialDept') . ' :'; $Jud = get_judicialdept_by_id($movement['jud_num']);?>
+                                <?php echo isset($movement['jud_num']) && $movement['jud_num'] != '' ?  maybe_translate(_l('nothing_was_specified'), $Jud->Jud_number ):  _l('nothing_was_specified'); ?>
+                            </p>
+                            <p class="mtop10 no-mbot">
+                                <?php echo _l('Categories') . ' :'; ?>
+                                <?php echo isset($movement['cat_id']) && $movement['cat_id'] != '' ?  maybe_translate(_l('nothing_was_specified'), get_cat_name_by_id($movement['cat_id'])) :  _l('nothing_was_specified'); ?>
+                            </p>
+                            <p class="mtop10 no-mbot">
+                                <?php echo _l('SubCategories') . ' :'; ?>
+                                <?php echo isset($movement['subcat_id']) && $movement['subcat_id'] != '' ?  maybe_translate(_l('nothing_was_specified'), get_cat_name_by_id($movement['subcat_id'])) :  _l('nothing_was_specified'); ?>
+                            </p>
+                            <p class="mtop10 no-mbot">
+                                <?php echo _l('child_sub_categories') . ' :'; ?>
+                                <?php echo isset($movement['childsubcat_id']) && $movement['childsubcat_id'] != 0 ?  maybe_translate(_l('nothing_was_specified'), get_cat_name_by_id($movement['childsubcat_id'])) :  _l('nothing_was_specified'); ?>
+                            </p>
+                            <p class="mtop10 no-mbot">
                                 <?php
                                 $this->load->model('legalservices/Case_movement_model', 'movement');
                                 $data['judges_case_mov'] = $this->movement->GetJudgesCasesMovement($movement['id']);

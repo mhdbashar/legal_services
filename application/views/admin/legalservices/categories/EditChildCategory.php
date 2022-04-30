@@ -2,7 +2,7 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
-        <?php echo form_open($this->uri->uri_string(),array('id'=>'Judicial-form')); ?>
+        <?php echo form_open($this->uri->uri_string(),array('id'=>'category-form')); ?>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel_s">
@@ -12,14 +12,11 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <div class="clearfix"></div>
-                        <?php $value = (isset($judicial) ? $judicial->Jud_number : ''); ?>
-                        <?php $is_basic = (isset($judicial) && $judicial->j_is_basic == 1 ? ['readonly' => true] : []); ?>
-                        <?php echo render_input('Jud_number','NumJudicialDept',$value,'',$is_basic); ?>
-                        <?php $value = (isset($judicial) ? $judicial->Jud_email : ''); ?>
-                        <?php echo render_input('Jud_email','_email',$value); ?>
-                        <?php $value = (isset($judicial) ? $judicial->Jud_description : ''); ?>
-                        <p class="bold"><?php echo _l('_description'); ?></p>
-                        <?php echo render_textarea('Jud_description', '', $value, array(), array(), '', 'tinymce'); ?>
+                        <?php $value = (isset($category) ? $category->name : ''); ?>
+                        <?php echo render_input('name','name',$value); ?>
+                        <?php $value = (isset($category) ? $category->cat_description : ''); ?>
+                        <p class="bold"><?php echo _l('category_description'); ?></p>
+                        <?php echo render_textarea('cat_description', '', $value, array(), array(), '', 'tinymce'); ?>
 
                     </div>
                 </div>
@@ -34,7 +31,7 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
-        _validate_form($('#Judicial-form'),{Jud_number:'required'});
+        _validate_form($('#category-form'),{name:'required'});
     });
 </script>
 </body>

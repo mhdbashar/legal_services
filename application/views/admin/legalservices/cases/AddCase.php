@@ -76,32 +76,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php $cats = get_relation_data('mycategory', $ServID);
-                                        if($cats){ ?>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                                        <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
-                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                            <option selected disabled></option>
-                                                            <?php foreach ($cats as $row): ?>
-                                                                <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                                        <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
-                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                            <option selected disabled></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <?php echo render_input('file_number_case', 'file_number_in_office', ''); ?>
@@ -201,7 +176,7 @@
                                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
                                                     <select class="selectpicker custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                         <option selected></option>
-                                                        <?php $data = get_relation_data('mycourts', '');
+                                                        <?php $data = get_courts_by_country_city(get_option('company_country'),get_option('company_city'));
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
                                                         <?php endforeach; ?>
@@ -228,6 +203,33 @@
                                             </div>
                                             <?php } ?>
                                         </div>
+                                        <?php $cats = get_relation_data('mycategory', $ServID);
+                                        if($cats){ ?>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
+                                                        <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                            <option selected disabled></option>
+<!--                                                            --><?php //foreach ($cats as $row): ?>
+<!--                                                                <option value="--><?php //echo $row->id; ?><!--">--><?php //echo $row->name; ?><!--</option>-->
+<!--                                                            --><?php //endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                                        <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
+                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                            <option selected disabled></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div id="childsubcat"></div>
+                                            </div>
+                                        <?php } ?>
                                         <div class="row">
                                             <div class="col-md-10">
                                                 <?php
@@ -692,6 +694,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('court_name_modal','name'); ?>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
+                        <?php echo render_textarea('court_description', '', '', array(), array(), '', 'tinymce'); ?>
+                        <div id="cat"></div>
                     </div>
                 </div>
             </div>
@@ -755,6 +760,9 @@
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('Jud_number_modal','NumJudicialDept'); ?>
+                        <?php echo render_input('Jud_email','_email',''); ?>
+                        <p class="bold"><?php echo _l('_description'); ?></p>
+                        <?php echo render_textarea('Jud_description', '', '', array(), array(), '', 'tinymce'); ?>
                     </div>
                 </div>
             </div>
@@ -826,20 +834,30 @@
     <?php if (has_permission('courts', '', 'create')) { ?>
     $("#AddCourt").click(function () {
         court_name = $('#court_name_modal').val();
+        var cat_id = [];
+        $("input[name='modal_cat_id']:checked").each(function(){
+            cat_id.push(this.value);
+        });
         if(court_name == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_court_from_modal'); ?>',
-                data: {court_name : court_name},
+                data: {
+                    court_name : court_name,
+                    court_description: tinymce.get("court_description").getContent(),
+                    country : $('#country').val(),
+                    city : $('#city').val(),
+                    cat_id : JSON.stringify(cat_id)
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#jud_num').html('');
-                        $("#court_id").append(new Option(court_name, data, true, true));
-                        $("#court_id_modal").append(new Option(court_name, data, true, true));
+                        $('#court_id').append($('<option>', {value: data, text: court_name,selected : true}));
+                        $('#court_id').selectpicker('refresh');
                         $('#add-court').modal('hide');
+                        GetCourtJad();
                     }else {
                         alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }
@@ -886,7 +904,11 @@
         }else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/courts/add_judicial_department_modal/'); ?>' + court_id_modal,
-                data: {Jud_number : Jud_number_modal},
+                data: {
+                    Jud_number : Jud_number_modal,
+                    Jud_description : tinymce.get("Jud_description").getContent(),
+                    Jud_email : $('#Jud_email').val()
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
@@ -908,11 +930,13 @@
 
     function GetSubCat() {
         $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
+                $('#subcat_id').append('<option value=""></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
@@ -922,6 +946,9 @@
 
     function GetCourtJad() {
         $('#jud_num').html('');
+        $('#cat_id').empty();
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         id = $('#court_id').val();
         $.ajax({
             url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
@@ -932,15 +959,114 @@
                 });
             }
         });
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_court_category'); ?>",
+            data: {c_id: $("#court_id").val()},
+            type: "POST",
+            success: function (data) {
+                $('#cat_id').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#cat_id').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                });
+            }
+        });
     }
 
     $("#country").change(function () {
+        // $('#court_id').empty();
+        var groupFilter = $('#court_id');
+        groupFilter.selectpicker('val', '');
+        groupFilter.find('option').remove();
+        groupFilter.selectpicker("refresh");
+        $('#jud_num').html('');
+        $('#cat_id').empty();
+        $('#subcat_id').html('');
+        $('#childsubcat').html('');
         $.ajax({
             url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
             data: {country: $(this).val()},
             type: "POST",
             success: function (data) {
                 $("#city").html(data);
+            }
+        });
+    });
+
+    $("#city").change(function () {
+       var groupFilter = $('#court_id');
+       groupFilter.selectpicker('val', '');
+       groupFilter.find('option').remove();
+       groupFilter.selectpicker("refresh");
+       $('#jud_num').html('');
+       $('#cat_id').empty();
+       $('#subcat_id').html('');
+       $('#childsubcat').html('');
+        $.ajax({
+            url: '<?php echo admin_url("legalservices/courts/build_dropdown_courts"); ?>',
+            data: {
+                country : $('#country').val(),
+                city : $('#city').val()
+            },
+            type: "POST",
+            success: function (data) {
+                $('#court_id').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
+                }));
+                $('#court_id').selectpicker('refresh');
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#court_id').append($('<option>', {
+                        value: value['c_id'],
+                        text: value['court_name'],
+                    }));
+                $('#court_id').selectpicker('refresh');
+                });
+            }
+        });
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_for_modal_case'); ?>",
+            data: {country: $("#country").val()},
+            type: "POST",
+            success: function (data) {
+                $("#cat").html('');
+                $("#cat").html(data);
+            }
+        });
+    });
+    $("#subcat_id").change(function () {
+        $('#childsubcat').html('');
+        id = $('#subcat_id').val();
+        $.ajax({
+            url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
+            success: function (data) {
+                response = JSON.parse(data);
+                if(response.length != 0) {
+                    $('#childsubcat').html(`
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                        <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                        </select>
+                    </div>
+                </div>
+                `);
+                    $('#childsubcat_id').append('<option value=""></option>');
+                    $.each(response, function (key, value) {
+                        $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    });
+                }
+                else {
+                    $('#childsubcat').html('');
+                }
             }
         });
     });
@@ -1182,6 +1308,15 @@
             });
         });
         $("#view_tasks").trigger('change');
+        $.ajax({
+            url: "<?php echo admin_url('legalservices/Courts/build_dropdown_category_for_modal_case'); ?>",
+            data: {country: $("#country").val()},
+            type: "POST",
+            success: function (data) {
+                $("#cat").html('');
+                $("#cat").html(data);
+            }
+        });
         $("#view_session_logs").trigger('change');
     });
 </script>

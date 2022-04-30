@@ -87,9 +87,9 @@ class Migration_Version_519 extends CI_Migration
         add_option("courts_updated", false);
         if (!get_option("courts_updated")) {
             //update country and city
-            $this->db->query('UPDATE tblmy_categories SET `country` = `194`;');
-            $this->db->query('UPDATE tblmy_courts SET `country` = `194`;');
-            $this->db->query('UPDATE tblmy_courts SET `city` = `الرياض`;');
+            $this->db->query('UPDATE tblmy_categories SET `country` = 194;');
+            $this->db->query('UPDATE tblmy_courts SET `country` = 194;');
+            $this->db->query('UPDATE tblmy_courts SET `city` = "الرياض";');
 
             //insert new cities
             $this->db->empty_table('tblcities');

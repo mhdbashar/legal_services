@@ -57,3 +57,14 @@ function get_country_name($id)
 
     return '';
 }
+function get_country_name_by_staff_default_language($id,$staff_language)
+{
+    $country = get_country($id);
+    if ($country) {
+        if($staff_language == 'arabic')
+            return $country->short_name_ar;
+        else
+            return $country->short_name;
+    }
+    return '';
+}

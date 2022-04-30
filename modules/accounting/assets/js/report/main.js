@@ -24,7 +24,7 @@ function printDiv()
 
   	newWin.document.close();
 
-  	setTimeout(function(){newWin.close();},10);
+  //	setTimeout(function(){newWin.close();},10);
 }
 
 function printExcel(){

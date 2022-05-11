@@ -2059,4 +2059,35 @@ class Sessions extends AdminController
             ajax_access_denied();
         }
     }
+
+    public function build_dropdown_courts_for_sessions() {
+        $data = $this->input->post();
+        if ($data['rel_type'] == 'kd-y') {
+            $case = get_case_by_id($data['rel_id']);
+            if ($case) {
+                $courts = get_courts_by_country_city($case->country, $case->city);
+            }
+        } elseif ($data['rel_type'] == 'customer') {
+            $customer = get_customer_by_id($data['rel_id']);
+            if ($customer) {
+                $courts = get_courts_by_country_city($customer->country, $customer->city);
+            }
+        } elseif ($data['rel_type'] != '') {
+            $serv = get_service_by_id($data['rel_id']);
+            if ($serv) {
+                $courts = get_courts_by_country_city($serv->country, $serv->city);
+            }
+        }
+        if($courts > 0){
+            echo json_encode($courts);
+        }else{
+            $all_courts = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));
+            if ($all_courts) {
+                $courts = $all_courts;
+            }
+            echo json_encode($courts);
+        }
+        die();
+    }
+
 }

@@ -815,6 +815,13 @@ function get_customer_by_id($custom_id){
     return $custom;
 }
 
+function get_all_judicialdept_by_court_id($court_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('c_id', $court_id);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_judicialdept')->result();
+}
 
 /*public function my_create_new_email_template()
 {

@@ -488,7 +488,7 @@
             init_selectpicker();
             task_rel_select();
 
-            $('body').on('change','#rel_id',function(){
+                $('body').on('change','#rel_id',function(){
                 if($(this).val() != ''){
                     if(_rel_type.val() == 'project'){
                         $.get(admin_url + 'projects/get_rel_project_data/'+$(this).val()+'/'+taskid,function(project){
@@ -529,8 +529,8 @@
                         $.ajax({
                             url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
                             data: {
-                                rel_id : $('select[name="rel_id"]').val(),
-                                rel_type : _rel_type.val()
+                                rel_id: $('select[name="rel_id"]').val(),
+                                rel_type: _rel_type.val()
                             },
                             type: "POST",
                             success: function (data) {
@@ -540,13 +540,14 @@
                                 }));
                                 $('#court_id').selectpicker('refresh');
                                 response = JSON.parse(data);
-                                $.each(response, function (key, value) {
-                                    $('#court_id').append($('<option>', {
-                                        value: value['c_id'],
-                                        text: value['court_name'],
-                                    }));
+                                $.each(response.courts, function (key, value) {
+                                    $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
                                     $('#court_id').selectpicker('refresh');
                                 });
+                                if(response.jud != ''){
+                                    $.each(response.jud, function (key, value) {
+                                        $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
+                                    });}
                             }
                         });
                     } else {
@@ -556,8 +557,8 @@
                         $.ajax({
                             url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
                             data: {
-                                rel_id : $('select[name="rel_id"]').val(),
-                                rel_type : _rel_type.val()
+                                rel_id: $('select[name="rel_id"]').val(),
+                                rel_type: _rel_type.val()
                             },
                             type: "POST",
                             success: function (data) {
@@ -567,17 +568,17 @@
                                 }));
                                 $('#court_id').selectpicker('refresh');
                                 response = JSON.parse(data);
-                                $.each(response, function (key, value) {
-                                    $('#court_id').append($('<option>', {
-                                        value: value['c_id'],
-                                        text: value['court_name'],
-                                    }));
+                                $.each(response.courts, function (key, value) {
+                                    $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
                                     $('#court_id').selectpicker('refresh');
                                 });
+                                if(response.jud != ''){
+                                    $.each(response.jud, function (key, value) {
+                                        $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
+                                    });}
                             }
                         });
-
-                        reset_task_duedate_input();
+                         reset_task_duedate_input();
                     }
                 }
             });
@@ -667,7 +668,38 @@
             });
             return false;
         }
+        $(function() {
+            $('select[name="rel_id"]').on('change', function () {
+                $('#court_id').find('option').remove();
+                $('#court_id').selectpicker("refresh");
+                $('#dept').html('');
+                $.ajax({
+                    url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
+                    data: {
+                        rel_id: $('select[name="rel_id"]').val(),
+                        rel_type: _rel_type.val()
+                    },
+                    type: "POST",
+                    success: function (data) {
+                        $('#court_id').append($('<option>', {
+                            value: '',
+                            text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
+                        }));
+                        $('#court_id').selectpicker('refresh');
+                        response = JSON.parse(data);
+                        $.each(response.courts, function (key, value) {
+                            $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
+                            $('#court_id').selectpicker('refresh');
+                        });
+                        if(response.jud != ''){
+                        $.each(response.jud, function (key, value) {
+                            $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
+                        });}
+                    }
+                });
 
+            });
+        });
         function GetCourtJad() {
             $('#dept').html('');
             id = $('#court_id').val();

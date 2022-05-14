@@ -2095,7 +2095,7 @@ class Sessions extends AdminController
                 $jud = 0;
             }
         }
-        if($courts > 0){
+        if(isset($courts) && $courts > 0){
             echo json_encode([
                 'courts' => $courts,
                 'jud'   => $jud > 0 ? $jud : '',

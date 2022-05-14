@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <?php echo $title; ?>
+                    <?php echo $title;?>
                 </h4>
             </div>
             <div class="modal-body">
@@ -157,26 +157,53 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <?php if($rel_type == 'kd-y'){
-                                        $case = get_case_by_id($rel_id);
-                                        if($case) {
-                                            $courts = [];
-                                            $courts = get_courts_by_country_city($case->country, $case->city);
-                                            $value = (isset($case->court_id) ? $case->court_id : '');
+                                    <?php
+                                    if(isset($task)){
+                                        if ($task->rel_type == '') {
+                                            $all_courts = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));
+                                            if ($all_courts) {
+                                                $courts = [];
+                                                $courts = $all_courts;
+                                                $value = (isset($task) ? $task->court_id : '');
+                                            }
+                                        } elseif ($task->rel_type == 'kd-y') {
+                                            $case = get_case_by_id($rel_id);
+                                            if ($case) {
+                                                $courts = [];
+                                                $courts = get_courts_by_country_city($case->country, $case->city);
+                                                $value = (isset($task) ? $task->court_id : '');
+                                            }
+
+                                        } elseif ($task->rel_type != '') {
+                                            $serv = get_service_by_id($rel_id);
+                                            if ($serv) {
+                                                $courts = [];
+                                                $courts = get_courts_by_country_city($serv->country, $serv->city);
+                                                $value = (isset($task) ? $task->court_id : '');
+                                            }
                                         }
-                                    }elseif($rel_type != ''){
-                                        $serv = get_service_by_id($rel_id);
-                                        if($serv) {
-                                            $courts = [];
-                                            $courts = get_courts_by_country_city($serv->country,$serv->city);
-                                            $value = (isset($serv->court_id) ? $serv->court_id : '');
-                                        }
-                                    }elseif($rel_type == ''){
-                                        $all_courts = get_courts_by_country_city(get_option('company_country'),get_option('company_city'));
-                                        if($all_courts){
-                                            $courts = [];
-                                            $courts = $all_courts;
-                                            $value = (isset($task) ? $task->court_id : '');
+                                    }else {
+                                        if ($rel_type == '') {
+                                            $all_courts = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));
+                                            if ($all_courts) {
+                                                $courts = [];
+                                                $courts = $all_courts;
+                                                $value = (isset($task) ? $task->court_id : '');
+                                            }
+                                        } elseif ($rel_type == 'kd-y') {
+                                            $case = get_case_by_id($rel_id);
+                                            if ($case) {
+                                                $courts = [];
+                                                $courts = get_courts_by_country_city($case->country, $case->city);
+                                                $value = (isset($case->court_id) ? $case->court_id : '');
+                                            }
+                                        } elseif ($rel_type != '') {
+                                            $serv = get_service_by_id($rel_id);
+                                            if ($serv) {
+                                                $courts = [];
+                                                $courts = get_courts_by_country_city($serv->country, $serv->city);
+                                                $value = (isset($serv->court_id) ? $serv->court_id : '');
+                                            }
                                         }
                                     }?>
                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
@@ -185,7 +212,6 @@
                                         <?php if(is_array($courts)){foreach($courts as $court) { ?>
                                             <option value="<?php echo $court->c_id; ?>" <?php echo $value == $court->c_id ? 'selected' : '';?> ><?php echo $court->court_name; ?></option>
                                         <?php }}else{
-                                            $value = (isset($task) ? $task->court_id : '');
                                             foreach($courts as $court) { ?>
                                                 <option value="<?php echo $court['c_id'] ?>" <?php echo $value == $court['c_id'] ? 'selected' : ''; ?>><?php echo $court['court_name'] ?></option>
                                         <?php }} ?>
@@ -195,15 +221,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <?php
-                                    if ($rel_type == 'kd-y'){
-                                        $data = (isset($case) ? get_relation_data('myjudicial',$case->court_id) : array());
-                                        $j_value = (isset($case->jud_num) ? $case->jud_num : '');
-                                    }elseif($rel_type != ''){
-                                        $data = (isset($serv->court_id) ? get_relation_data('myjudicial',$serv->court_id) : array());
-                                        $j_value = (isset($serv->jud_num) ? $serv->jud_num : '');
-                                    }elseif($rel_type == ''){
-                                        $data = (isset($task) ? get_relation_data('myjudicial',$task->court_id) : array());
+                                    if(isset($task)){
+                                        $data = (isset($task) ? get_relation_data('myjudicial', $task->court_id) : array());
                                         $j_value = (isset($task->dept) ? $task->dept : '');
+                                    }else {
+                                        if ($rel_type == 'kd-y') {
+                                            $data = (isset($case) ? get_relation_data('myjudicial', $case->court_id) : array());
+                                            $j_value = (isset($case->jud_num) ? $case->jud_num : '');
+                                        } elseif ($rel_type != '') {
+                                            $data = (isset($serv->court_id) ? get_relation_data('myjudicial', $serv->court_id) : array());
+                                            $j_value = (isset($serv->jud_num) ? $serv->jud_num : '');
+                                        } elseif ($rel_type == '') {
+                                            $data = (isset($task) ? get_relation_data('myjudicial', $task->court_id) : array());
+                                            $j_value = (isset($task->dept) ? $task->dept : '');
+                                        }
                                     }?>
                                     <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                     <select class="form-control custom_select_arrow" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -463,14 +494,12 @@
             },session_form_handler);
 
             $('.rel_id_label').html(_rel_type.find('option:selected').text());
-
             _rel_type.on('change', function() {
                 var clonedSelect = _rel_id.html('').clone();
                 _rel_id.selectpicker('destroy').remove();
                 _rel_id = clonedSelect;
                 $('#rel_id_select').append(clonedSelect);
                 $('.rel_id_label').html(_rel_type.find('option:selected').text());
-
                 task_rel_select();
                 if($(this).val() != ''){
                     _rel_id_wrapper.removeClass('hide');
@@ -482,109 +511,84 @@
                 $('#court_id').find('option').remove();
                 $('#court_id').selectpicker("refresh");
                 $('#dept').html('');
+                // _rel_id.change();
             });
+
             init_datepicker();
             init_color_pickers();
             init_selectpicker();
             task_rel_select();
 
-                $('body').on('change','#rel_id',function(){
+            $('body').on('change','#rel_id',function(){
                 if($(this).val() != ''){
-                    if(_rel_type.val() == 'project'){
-                        $.get(admin_url + 'projects/get_rel_project_data/'+$(this).val()+'/'+taskid,function(project){
-                            $("select[name='milestone']").html(project.milestones);
-                            if(typeof(_milestone_selected_data) != 'undefined'){
-                                $("select[name='milestone']").val(_milestone_selected_data.id);
-                                $('input[name="duedate"]').val(_milestone_selected_data.due_date)
-                            }
-                            $("select[name='milestone']").selectpicker('refresh');
-                            if(project.billing_type == 3){
-                                $('.task-hours').addClass('project-task-hours');
-                            } else {
-                                $('.task-hours').removeClass('project-task-hours');
-                            }
-                            if(project.deadline) {
-                                var $duedate = $('#_task_modal #duedate');
-                                var currentSelectedTaskDate = $duedate.val();
-                                $duedate.attr('data-date-end-date', project.deadline);
-                                $duedate.datetimepicker('destroy');
-                                init_datepicker($duedate);
-
-                                if(currentSelectedTaskDate) {
-                                    var dateTask = new Date(unformat_date(currentSelectedTaskDate));
-                                    var projectDeadline = new Date(project.deadline);
-                                    if(dateTask > projectDeadline) {
-                                        $duedate.val(project.deadline_formatted);
-                                    }
-                                }
-                            } else {
-                                reset_task_duedate_input();
-                            }
-                            init_project_details(_rel_type.val(),project.allow_to_view_tasks);
-                        },'json');
-
-                        $('#court_id').find('option').remove();
-                        $('#court_id').selectpicker("refresh");
-                        $('#dept').html('');
-                        $.ajax({
-                            url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
-                            data: {
-                                rel_id: $('select[name="rel_id"]').val(),
-                                rel_type: _rel_type.val()
-                            },
-                            type: "POST",
-                            success: function (data) {
-                                $('#court_id').append($('<option>', {
-                                    value: '',
-                                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
-                                }));
+                    $('#court_id').find('option').remove();
+                    $('#court_id').selectpicker("refresh");
+                    $('#dept').html('');
+                    $.ajax({
+                        url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
+                        data: {
+                            rel_id: $(this).val(),
+                            rel_type: _rel_type.val()
+                        },
+                        type: "POST",
+                        success: function (data) {
+                            $('#court_id').append($('<option>', {
+                                value: '',
+                                text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
+                            }));
+                            $('#court_id').selectpicker('refresh');
+                            response = JSON.parse(data);
+                            $.each(response.courts, function (key, value) {
+                                $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
                                 $('#court_id').selectpicker('refresh');
-                                response = JSON.parse(data);
-                                $.each(response.courts, function (key, value) {
-                                    $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
-                                    $('#court_id').selectpicker('refresh');
-                                });
-                                if(response.jud != ''){
-                                    $.each(response.jud, function (key, value) {
-                                        $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
-                                    });}
-                            }
-                        });
-                    } else {
-                        $('#court_id').find('option').remove();
-                        $('#court_id').selectpicker("refresh");
-                        $('#dept').html('');
-                        $.ajax({
-                            url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
-                            data: {
-                                rel_id: $('select[name="rel_id"]').val(),
-                                rel_type: _rel_type.val()
-                            },
-                            type: "POST",
-                            success: function (data) {
-                                $('#court_id').append($('<option>', {
-                                    value: '',
-                                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
-                                }));
-                                $('#court_id').selectpicker('refresh');
-                                response = JSON.parse(data);
-                                $.each(response.courts, function (key, value) {
-                                    $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
-                                    $('#court_id').selectpicker('refresh');
-                                });
-                                if(response.jud != ''){
-                                    $.each(response.jud, function (key, value) {
-                                        $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
-                                    });}
-                            }
-                        });
-                         reset_task_duedate_input();
-                    }
+                            });
+                            if(response.jud != ''){
+                                $.each(response.jud, function (key, value) {
+                                    $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
+                                });}
+                        }
+                    });
+
+                    // if(_rel_type.val() == 'project'){
+                    //     $.get(admin_url + 'projects/get_rel_project_data/'+$(this).val()+'/'+taskid,function(project){
+                    //         $("select[name='milestone']").html(project.milestones);
+                    //         if(typeof(_milestone_selected_data) != 'undefined'){
+                    //             $("select[name='milestone']").val(_milestone_selected_data.id);
+                    //             $('input[name="duedate"]').val(_milestone_selected_data.due_date)
+                    //         }
+                    //         $("select[name='milestone']").selectpicker('refresh');
+                    //         if(project.billing_type == 3){
+                    //             $('.task-hours').addClass('project-task-hours');
+                    //         } else {
+                    //             $('.task-hours').removeClass('project-task-hours');
+                    //         }
+                    //         if(project.deadline) {
+                    //             var $duedate = $('#_task_modal #duedate');
+                    //             var currentSelectedTaskDate = $duedate.val();
+                    //             $duedate.attr('data-date-end-date', project.deadline);
+                    //             $duedate.datetimepicker('destroy');
+                    //             init_datepicker($duedate);
+                    //
+                    //             if(currentSelectedTaskDate) {
+                    //                 var dateTask = new Date(unformat_date(currentSelectedTaskDate));
+                    //                 var projectDeadline = new Date(project.deadline);
+                    //                 if(dateTask > projectDeadline) {
+                    //                     $duedate.val(project.deadline_formatted);
+                    //                 }
+                    //             }
+                    //         } else {
+                    //             reset_task_duedate_input();
+                    //         }
+                    //         init_project_details(_rel_type.val(),project.allow_to_view_tasks);
+                    //     },'json');
+                    // } else {
+                    //      // reset_task_duedate_input();
+                    // }
                 }
             });
 
             <?php if(!isset($task) && $rel_id != ''){ ?>
-            _rel_id.change();
+              _rel_id.change();
             <?php } ?>
             <?php if(get_option('time_format') == 24) {?>
             $('#time').datetimepicker({
@@ -668,38 +672,6 @@
             });
             return false;
         }
-        $(function() {
-            $('select[name="rel_id"]').on('change', function () {
-                $('#court_id').find('option').remove();
-                $('#court_id').selectpicker("refresh");
-                $('#dept').html('');
-                $.ajax({
-                    url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
-                    data: {
-                        rel_id: $('select[name="rel_id"]').val(),
-                        rel_type: _rel_type.val()
-                    },
-                    type: "POST",
-                    success: function (data) {
-                        $('#court_id').append($('<option>', {
-                            value: '',
-                            text: '<?php echo _l('dropdown_non_selected_tex'); ?>',
-                        }));
-                        $('#court_id').selectpicker('refresh');
-                        response = JSON.parse(data);
-                        $.each(response.courts, function (key, value) {
-                            $('#court_id').append('<option value="' + value['c_id'] + '"' + value['selected'] + '>' + value['court_name'] + '</option>');
-                            $('#court_id').selectpicker('refresh');
-                        });
-                        if(response.jud != ''){
-                        $.each(response.jud, function (key, value) {
-                            $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
-                        });}
-                    }
-                });
-
-            });
-        });
         function GetCourtJad() {
             $('#dept').html('');
             id = $('#court_id').val();

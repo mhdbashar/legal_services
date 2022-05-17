@@ -344,7 +344,6 @@ class Tickets extends AdminController
                     'message' => $data['data'],
                 ]);
             } elseif ($data['type'] == 'ticket') {
-                $this->db->update(db_prefix() . 'tickets', [
                 $this->db->update(db_prefix().'tickets', [
                     'message' => $data['data'],
                 ]);

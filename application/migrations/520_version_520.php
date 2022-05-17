@@ -43,6 +43,15 @@ class Migration_Version_520 extends CI_Migration
         if (!$this->db->field_exists('original_file_name', db_prefix() . 'project_files')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'project_files` ADD `original_file_name` MEDIUMTEXT DEFAULT NULL AFTER `file_name`');
         }
+        if (!$this->db->field_exists('original_file_name', db_prefix() . 'case_files')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'case_files` ADD `original_file_name` MEDIUMTEXT DEFAULT NULL AFTER `file_name`');
+        }
+        if (!$this->db->field_exists('original_file_name', db_prefix() . 'iservice_files')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'iservice_files` ADD `original_file_name` MEDIUMTEXT DEFAULT NULL AFTER `file_name`');
+        }
+        if (!$this->db->field_exists('original_file_name', db_prefix() . 'oservice_files')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'oservice_files` ADD `original_file_name` MEDIUMTEXT DEFAULT NULL AFTER `file_name`');
+        }
 
         if (!$this->db->field_exists('submit_redirect_url', db_prefix() . 'web_to_lead')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'web_to_lead` ADD `submit_redirect_url` MEDIUMTEXT DEFAULT NULL AFTER `success_submit_msg`');

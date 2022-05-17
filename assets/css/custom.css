@@ -710,7 +710,13 @@ textarea[name="checklist-description-session"]:disabled {
     position: relative;
     top: 5px;
 }
-
+li a i.menu-icon {
+    margin-left: 16px;
+    display: block;
+    float: right;
+    width: 18px;
+    font-size: 17px;
+}
 
 
 

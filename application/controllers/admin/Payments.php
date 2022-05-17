@@ -16,9 +16,10 @@ class Payments extends AdminController
     public function batch_payment_modal() {
         $this->load->model('invoices_model');
         $data['invoices'] = $this->invoices_model->get_unpaid_invoices();
-        $data['customers'] = $this->db->select('userid,' . get_sql_select_client_company())
-            ->where_in('userid', collect($data['invoices'])->pluck('clientid')->toArray())
-            ->get(db_prefix() . 'clients')->result();
+        $data['customers'] = $this->db->select('userid,' . get_sql_select_client_company());
+        if(!empty(collect($data['invoices'])->pluck('clientid')->toArray()))
+            $data['customers']->where_in('userid', collect($data['invoices'])->pluck('clientid')->toArray());
+        $data['customers']->get(db_prefix() . 'clients')->result();
         $this->load->view('admin/payments/batch_payment_modal', $data);
     }
 

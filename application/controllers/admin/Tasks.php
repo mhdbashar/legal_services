@@ -1598,7 +1598,7 @@ class Tasks extends AdminController
         }
     }
 
-    public function timer_tracking($data)
+    public function timer_tracking($data = [])
     {
 
 

@@ -2512,6 +2512,7 @@ $lang['estimate_not_found'] = "لم يتم العثور على عرض السعر
 $lang['expense_not_found'] = "لم يتم العثور على مصروف";
 $lang['proposal_not_found'] = "لم يتم العثور على العطاء";
 $lang['new_task_assigned_non_user'] = "تم تعيين مهمة جديدة لك - %s";
+$lang['new_session_assigned_non_user'] = "تم تعيين جلسة جديدة لك - %s";
 $lang['no_child_found'] = "No Child %s Found";
 $lang['company_vat_number'] = "الرقم الضريبي";
 $lang['not_lead_assigned_from_form'] = "تم تخصيص عميل محتمل جديد لك";

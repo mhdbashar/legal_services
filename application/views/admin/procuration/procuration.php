@@ -16,8 +16,14 @@ if ( get_option('wathq_api_key') )
     $status = '';
     $selected_cases = [];
     if(is_numeric($case_r)){
-      $code = $this->case->get($case_r)->code;
-      $selected_cases[] = ['id' => $case_r, 'code' => $code];
+      $data = $this->case->get($case_r);
+      if(is_null($data)){
+        $code = $this->Dcase->get($case_r)->code;
+        $selected_cases[] = ['id' => $case_r, 'code' => $code];
+      }else{
+          $code =$data->code;
+          $selected_cases[] = ['id' => $case_r, 'code' => $code];
+      }
     }
     $type = '';
     $case = '';

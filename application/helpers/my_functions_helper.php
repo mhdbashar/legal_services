@@ -343,6 +343,15 @@ function my_custom_setup_menu_items()
         ]);
     }
 
+    if (has_permission('case_status', '', 'create')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item9', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("projects_statuses"), // The name if the item
+            'href' => admin_url('legalservices/disputes_cases/index_case_statuses'), // URL of the item
+            'position' => 9, // The menu position
+        ]);
+    }
+
     if (has_permission('procurations', '', 'create')) {
         $CI->app_menu->add_setup_menu_item('2', [
             'name' => _l("procurations"), // The name if the item
@@ -709,7 +718,7 @@ function format_dispute_invoice_number($id)
     $CI = & get_instance();
 
     $CI->db->select('date,number,prefix,number_format,status')
-        ->from(db_prefix() . 'my_project_invoices')
+        ->from(db_prefix() . 'my_disputes_cases_invoices')
         ->where('id', $id);
 
     $invoice = $CI->db->get()->row();

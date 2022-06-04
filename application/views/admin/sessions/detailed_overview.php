@@ -14,6 +14,9 @@
                                 if (isset($ServID) && $ServID == 1) { ?>
                                     <a href="<?php echo admin_url('Case/view/' . $ServID . '/' . $this->input->get('project_id') . '?group=project_tasks'); ?>"
                                        class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
+                                <?php }elseif (isset($ServID) && $ServID == 22) { ?>
+                                    <a href="<?php echo admin_url('Disputes_cases/view/' . $ServID . '/' . $this->input->get('project_id') . '?group=project_tasks'); ?>"
+                                       class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
                                 <?php } else { ?>
                                     <a href="<?php echo admin_url('SOther/view/' . $ServID . '/' . $this->input->get('project_id') . '?group=project_tasks'); ?>"
                                        class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
@@ -115,7 +118,9 @@
                                 if ($this->input->get('rel_type')) {
                                     if (isset($ServID) && $ServID == 1) {
                                         $project_name = get_case_name_by_id($this->input->get('project_id'));
-                                    } else {
+                                    } elseif (isset($ServID) && $ServID == 22){
+                                        $project_name = get_disputes_case_name_by_id($this->input->get('project_id'));
+                                    }else {
                                         $project_name = get_oservice_name_by_id($this->input->get('project_id'));
                                     }
                                 } else {

@@ -150,6 +150,12 @@ class Projects_merge_fields extends App_merge_fields
                 $files_table = 'case_files';
                 $comm_table  = 'casediscussioncomments';
                 $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
+            }elseif ($additional_data['ServID'] == 22){
+                $serv_table  = 'my_disputes_cases';
+                $dis_table   = 'my_disputes_casediscussions';
+                $files_table = 'my_disputes_case_files';
+                $comm_table  = 'my_disputes_casediscussioncomments';
+                $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
             }else{
                 $serv_table  = 'my_other_services';
                 $dis_table   = 'oservicediscussions';

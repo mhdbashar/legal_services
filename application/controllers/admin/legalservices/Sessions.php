@@ -1964,9 +1964,9 @@ class Sessions extends AdminController
                                         ]);
                                     if ($user_id != get_staff_user_id()) {
                                         $notification_data = [
-                                        'description' => 'not_task_assigned_to_you',
+                                        'description' => 'not_session_assigned_to_you',
                                         'touserid'    => $user_id,
-                                        'link'        => '#taskid=' . $id,
+                                        'link'        => '#sessionid=' . $id,
                                         ];
 
                                         $notification_data['additional_data'] = serialize([
@@ -2059,4 +2059,62 @@ class Sessions extends AdminController
             ajax_access_denied();
         }
     }
+
+    public function build_dropdown_courts_for_sessions() {
+        $data = $this->input->post();
+        if ($data['rel_type'] == 'kd-y') {
+            $case = get_case_by_id($data['rel_id']);
+            if ($case) {
+                $courts = get_courts_by_country_city($case->country, $case->city);
+                foreach ($courts as $court){
+                    $court->selected = (isset($case->court_id) && $case->court_id == $court->c_id ? 'selected' : '');
+                }
+                $jud = get_all_judicialdept_by_court_id($case->court_id);
+                if($jud){
+                    foreach ($jud as $j){
+                        $j->selected = (isset($case->jud_num) && $case->jud_num == $j->j_id ? 'selected' : '');
+                    }
+                }
+            }
+        } elseif ($data['rel_type'] == 'customer') {
+            $customer = get_customer_by_id($data['rel_id']);
+            if ($customer) {
+                $courts = get_courts_by_country_city($customer->country, $customer->city);
+                foreach ($courts as $court){
+                    $court->selected = (isset($customer->court_id) && $customer->court_id == $court->c_id ? 'selected' : '');
+                }
+                $jud = 0;
+            }
+        } elseif ($data['rel_type'] != '') {
+            $serv = get_service_by_id($data['rel_id']);
+            if ($serv) {
+                $courts = get_courts_by_country_city($serv->country, $serv->city);
+                foreach ($courts as $court){
+                    $court->selected = (isset($serv->court_id) && $serv->court_id == $court->c_id ? 'selected' : '');
+                }
+                $jud = 0;
+            }
+        }
+        if(isset($courts) && $courts > 0){
+            echo json_encode([
+                'courts' => $courts,
+                'jud'   => $jud > 0 ? $jud : '',
+            ]);
+        }else{
+            $all_courts = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));
+            if ($all_courts) {
+                foreach ($all_courts as $court){
+                    $court->selected =  '';
+                }
+                $courts = $all_courts;
+                $jud = 0;
+            }
+            echo json_encode([
+                'courts' => $courts,
+                'jud'   => $jud > 0 ? $jud : '',
+            ]);
+        }
+        die();
+    }
+
 }

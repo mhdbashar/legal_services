@@ -1593,6 +1593,7 @@ $lang['not_task_added_you_as_follower'] = "تمت أضافك كمتابع في �
 $lang['not_task_added_someone_as_follower'] = "تمت إضافة %s كمتابع في المهمة %s ...";
 $lang['not_task_added_himself_as_follower'] = "أضاف نفسه كمتابع في المهمة %s ...";
 $lang['not_task_assigned_to_you'] = "عٌينت مهمة لك %s ...";
+$lang['not_session_assigned_to_you'] = "عٌينت جلسة لك %s ...";
 $lang['not_task_assigned_someone'] = "تم تعيين %s للمهمة %s ...";
 $lang['not_task_will_do_user'] = "سيؤدي المهمة %s ...";
 $lang['not_task_new_attachment'] = "تم إضافة مرفق جديد";

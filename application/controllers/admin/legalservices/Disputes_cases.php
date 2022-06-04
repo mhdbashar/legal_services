@@ -387,7 +387,7 @@ class Disputes_cases extends AdminController
                 $data['project_overview_chart'] = $this->Dcase->get_project_overview_weekly_chart_data($slug,$id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart'):'this_week'));
             } elseif ($group == 'project_invoices') {
                 $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-
+//
                 $data['invoiceid']   = '';
                 $data['status']      = '';
                 $data['custom_view'] = '';

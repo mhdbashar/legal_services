@@ -354,11 +354,11 @@ function get_user_pinned_disputes_cases($slug)
 {
     $CI = &get_instance();
     $CI->db->select(db_prefix() . 'my_disputes_cases.id, ' . db_prefix() . 'my_disputes_cases.name, ' . db_prefix() . 'my_disputes_cases.clientid, ' . get_sql_select_client_company());
-    $CI->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'pinned_cases.project_id');
+    $CI->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'disputes_pinned_cases.project_id');
     $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_disputes_cases.clientid');
-    $CI->db->where(db_prefix() . 'pinned_cases.staff_id', get_staff_user_id());
+    $CI->db->where(db_prefix() . 'disputes_pinned_cases.staff_id', get_staff_user_id());
     $CI->db->where(db_prefix() . 'my_disputes_cases.deleted', 0);
-    $projects = $CI->db->get(db_prefix() . 'pinned_cases')->result_array();
+    $projects = $CI->db->get(db_prefix() . 'disputes_pinned_cases')->result_array();
     $CI->load->model('legalservices/Disputes_cases_model', 'disputes_case');
 
     foreach ($projects as $key => $project) {

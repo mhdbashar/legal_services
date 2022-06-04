@@ -49,7 +49,7 @@
                                 <?php } ?>
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
-                                if(total_rows(db_prefix().'pinned_cases',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
+                                if(total_rows(db_prefix().'disputes_pinned_cases',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
                                     $project_pin_tooltip = _l('unpin_project');
                                 }
                                 ?>

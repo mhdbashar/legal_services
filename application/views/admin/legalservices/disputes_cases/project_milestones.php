@@ -15,7 +15,7 @@
    <div class="clearfix"></div>
 <?php } ?>
 <?php if($milestones_found){ ?>
-   <div class="case-milestones-kanban">
+   <div class="disputes-case-milestones-kanban">
       <div class="kan-ban-tab" id="kan-ban-tab" style="overflow:auto;">
          <div class="row">
             <div class="container-fluid">

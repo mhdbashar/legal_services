@@ -73,7 +73,7 @@
                   <li class="divider"></li>
                   <?php } ?>
                   <?php foreach($payment_modes as $mode){
-                     if(total_rows(db_prefix().'my_project_invoicepaymentrecords',array('paymentmode'=>$mode['id'])) == 0){continue;}
+                     if(total_rows(db_prefix().'my_disputes_cases_invoicepaymentrecords',array('paymentmode'=>$mode['id'])) == 0){continue;}
                      ?>
                   <li>
                      <a href="#" data-cview="invoice_payments_by_<?php echo $mode['id']; ?>" onclick="dt_custom_view('<?php echo $mode['id']; ?>','.table-invoices','invoice_payments_by_<?php echo $mode['id']; ?>'); return false;">

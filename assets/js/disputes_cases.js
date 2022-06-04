@@ -376,9 +376,9 @@ function milestones_switch_view() {
 
 function milestones_case_switch_view(ServID, slug) {
     $('#milestones-table').toggleClass('hide');
-    $('.case-milestones-kanban').toggleClass('hide');
-    if (!$.fn.DataTable.isDataTable('.table-milestones_case')) {
-        initDataTable('.table-milestones_case', admin_url + 'legalservices/disputes_cases/milestones/' + project_id + '/' + ServID + '/' + slug);
+    $('.disputes-case-milestones-kanban').toggleClass('hide');
+    if (!$.fn.DataTable.isDataTable('.table-milestones_disputes_case')) {
+        initDataTable('.table-milestones_disputes_case', admin_url + 'legalservices/disputes_cases/milestones/' + project_id + '/22/' + slug);
     }
 }
 

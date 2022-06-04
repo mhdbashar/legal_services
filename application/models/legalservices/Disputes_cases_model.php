@@ -742,7 +742,7 @@ class Disputes_cases_model extends App_Model
             $this->db->delete(db_prefix() . 'my_disputes_cases_opponents');
 
             $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'case_notes');
+            $this->db->delete(db_prefix() . 'disputes_case_notes');
 
             $this->db->where('rel_id', $id);
             $this->db->where('rel_type', $slug);
@@ -807,7 +807,7 @@ class Disputes_cases_model extends App_Model
             $this->db->delete(db_prefix() . 'my_disputes_case_settings');
 
             $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'case_activity');
+            $this->db->delete(db_prefix() . 'disputes_case_activity');
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'expenses');
@@ -825,7 +825,7 @@ class Disputes_cases_model extends App_Model
             $this->db->delete(db_prefix() . 'tickets');
 
             $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'pinned_cases');
+            $this->db->delete(db_prefix() . 'disputes_pinned_cases');
 
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->delete(db_prefix() . 'irac_method');
@@ -1062,7 +1062,7 @@ class Disputes_cases_model extends App_Model
                         if ($this->db->affected_rows() > 0) {
                             $this->db->where('staff_id', $project_member['staff_id']);
                             $this->db->where('project_id', $id);
-                            $this->db->delete(db_prefix() . 'pinned_cases');
+                            $this->db->delete(db_prefix() . 'disputes_pinned_cases');
 
                             $this->log_activity($id, 'project_activity_removed_team_member', get_staff_full_name($project_member['staff_id']));
                             $affectedRows++;
@@ -1407,11 +1407,11 @@ class Disputes_cases_model extends App_Model
 
     public function pin_action($id)
     {
-        if (total_rows(db_prefix() . 'pinned_cases', [
+        if (total_rows(db_prefix() . 'disputes_pinned_cases', [
                 'staff_id' => get_staff_user_id(),
                 'project_id' => $id,
             ]) == 0) {
-            $this->db->insert(db_prefix() . 'pinned_cases', [
+            $this->db->insert(db_prefix() . 'disputes_pinned_cases', [
                 'staff_id'   => get_staff_user_id(),
                 'project_id' => $id,
             ]);
@@ -1420,7 +1420,7 @@ class Disputes_cases_model extends App_Model
         }
         $this->db->where('project_id', $id);
         $this->db->where('staff_id', get_staff_user_id());
-        $this->db->delete(db_prefix() . 'pinned_cases');
+        $this->db->delete(db_prefix() . 'disputes_pinned_cases');
 
         return true;
     }
@@ -1724,7 +1724,7 @@ class Disputes_cases_model extends App_Model
     public function change_activity_visibility($id, $visible)
     {
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'case_activity', [
+        $this->db->update(db_prefix() . 'disputes_case_activity', [
             'visible_to_customer' => $visible,
         ]);
     }
@@ -3503,7 +3503,7 @@ class Disputes_cases_model extends App_Model
     {
         $this->db->where('project_id', $project_id);
         $this->db->where('staff_id', get_staff_user_id());
-        $notes = $this->db->get(db_prefix() . 'case_notes')->row();
+        $notes = $this->db->get(db_prefix() . 'disputes_case_notes')->row();
         if ($notes) {
             return $notes->content;
         }
@@ -3516,10 +3516,10 @@ class Disputes_cases_model extends App_Model
         // Check if the note exists for this project;
         $this->db->where('project_id', $project_id);
         $this->db->where('staff_id', get_staff_user_id());
-        $notes = $this->db->get(db_prefix() . 'case_notes')->row();
+        $notes = $this->db->get(db_prefix() . 'disputes_case_notes')->row();
         if ($notes) {
             $this->db->where('id', $notes->id);
-            $this->db->update(db_prefix() . 'case_notes', [
+            $this->db->update(db_prefix() . 'disputes_case_notes', [
                 'content' => $data['content'],
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -3528,7 +3528,7 @@ class Disputes_cases_model extends App_Model
 
             return false;
         }
-        $this->db->insert(db_prefix() . 'case_notes', [
+        $this->db->insert(db_prefix() . 'disputes_case_notes', [
             'staff_id'   => get_staff_user_id(),
             'content'    => $data['content'],
             'project_id' => $project_id,
@@ -3562,7 +3562,7 @@ class Disputes_cases_model extends App_Model
             $this->db->limit($limit);
         }
         $this->db->order_by('dateadded', 'desc');
-        $activities = $this->db->get(db_prefix() . 'case_activity')->result_array();
+        $activities = $this->db->get(db_prefix() . 'disputes_case_activity')->result_array();
         $i          = 0;
         foreach ($activities as $activity) {
             $seconds          = get_string_between($activity['additional_data'], '<seconds>', '</seconds>');
@@ -3575,7 +3575,7 @@ class Disputes_cases_model extends App_Model
                 $_additional_data = str_replace('<lang>' . $other_lang_keys . '</lang>', _l($other_lang_keys), $_additional_data);
             }
             if (strpos($_additional_data, 'project_status_') !== false) {
-                $_additional_data = get_case_status_by_id(strafter($_additional_data, 'project_status_'));
+                $_additional_data = get_disputes_case_status_by_id(strafter($_additional_data, 'project_status_'));
 
                 if (isset($_additional_data['name'])) {
                     $_additional_data = $_additional_data['name'];
@@ -3616,7 +3616,7 @@ class Disputes_cases_model extends App_Model
 
         $data = hooks()->apply_filters('before_log_project_activity', $data);
 
-        $this->db->insert(db_prefix() . 'case_activity', $data);
+        $this->db->insert(db_prefix() . 'disputes_case_activity', $data);
     }
 
     public function new_project_file_notification($ServID = '', $file_id, $project_id)

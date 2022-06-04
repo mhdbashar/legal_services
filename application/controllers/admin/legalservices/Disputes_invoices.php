@@ -41,7 +41,7 @@ class Disputes_invoices extends AdminController
         $data['invoices_years']       = $this->invoices->get_invoices_years();
         $data['invoices_sale_agents'] = $this->invoices->get_sale_agents();
         $data['invoices_statuses']    = $this->invoices->get_statuses();
-        $data['bodyclass']            = 'invoices-total-manual';
+//        $data['bodyclass']            = 'invoices-total-manual';
         $this->load->view('admin/legalservices/disputes_cases/invoices/manage', $data);
     }
 
@@ -546,7 +546,7 @@ class Disputes_invoices extends AdminController
     public function get_invoices_total()
     {
         if ($this->input->post()) {
-            load_invoices_total_template();
+            disputes_load_invoices_total_template();
         }
     }
 

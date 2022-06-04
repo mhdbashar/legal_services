@@ -412,9 +412,8 @@ class Disputes_cases extends AdminController
                 $taskStatus         = (!$this->input->get('gantt_task_status') ? null : $this->input->get('gantt_task_status'));
                 $data['gantt_data'] = $this->Dcase->get_gantt_data($slug, $id, $gantt_type, $taskStatus);
             } elseif ($group == 'project_milestones') {
-                $data['bodyclass'] .= 'case-milestones ';
+                $data['bodyclass'] .= 'disputes-case-milestones ';
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
-
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0, 'is_session' => 0]) > 0);
             } elseif ($group == 'project_files') {
@@ -752,7 +751,7 @@ class Disputes_cases extends AdminController
         }
     }
 
-    public function remove_file($ServID = '', $project_id, $id)
+    public function remove_file($ServID = '22', $project_id, $id)
     {
         $this->Dcase->remove_file($id);
         redirect(admin_url('Disputes_cases/view/' .$ServID .'/'. $project_id . '?group=project_files'));
@@ -802,16 +801,16 @@ class Disputes_cases extends AdminController
     {
         if ($this->Dcase->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
-                $this->app->get_table_data('milestones_case', [
+                $this->app->get_table_data('milestones_disputes_case', [
                     'project_id' => $project_id,
-                    'ServID' => $ServID,
+                    'ServID' => '22',
                     'slug' => $slug
                 ]);
             }
         }
     }
 
-    public function milestone($ServID = '', $id = '')
+    public function milestone($ServID = '22', $id = '')
     {
         if ($this->input->post()) {
             $message = '';

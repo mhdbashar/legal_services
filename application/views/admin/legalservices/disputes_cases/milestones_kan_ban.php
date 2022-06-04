@@ -19,10 +19,10 @@ foreach ($milestones as $milestone) {
    $milestone_color = ' style="background:'.$milestone["color"].';border:1px solid '.$milestone['color'].'"';
  }
 
- $this->load->model('legalservices/Disputes_cases_model', 'case');
- $total_pages = ceil($this->case->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere, true)/get_option('tasks_kanban_limit'));
+ $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+ $total_pages = ceil($this->Dcase->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere, true)/get_option('tasks_kanban_limit'));
 
- $tasks = $this->case->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere);
+ $tasks = $this->Dcase->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere);
  $total_tasks = count($tasks);
 
  if($milestone['id'] == 0 && count($tasks) == 0){

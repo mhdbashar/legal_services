@@ -22,9 +22,9 @@ class Login extends API_Controller
         ]);
         $this->form_validation->set_rules('password', _l('admin_auth_login_password'), 'required');
         $this->form_validation->set_rules('email', _l('admin_auth_login_email'), 'trim|required|valid_email');
-        if (show_recaptcha()) {
-            $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
-        }
+//        if (show_recaptcha()) {
+//            $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
+//        }
         if ($this->form_validation->run() !== false) {
             $email = $this->input->post('email');
             $password = $this->input->post('password', false);

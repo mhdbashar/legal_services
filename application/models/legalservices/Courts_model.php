@@ -106,7 +106,6 @@ class Courts_model extends App_Model
             $this->db->update(db_prefix() . 'my_cases', ['jud_num' => $default->j_id]);
 
         }
-        return true;
         $this->db->where('c_id', $id);
         $this->db->delete(db_prefix() . 'my_courts');
         if ($this->db->affected_rows() > 0) {

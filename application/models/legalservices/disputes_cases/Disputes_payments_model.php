@@ -2,12 +2,12 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Payments_model extends App_Model
+class Disputes_payments_model extends App_Model
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('invoices_model');
+        $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
     }
 
     /**
@@ -114,7 +114,7 @@ class Payments_model extends App_Model
                 ]);
             }
 
-            $invoice = $this->invoices_model->get($invoiceid);
+            $invoice = $this->invoices->get($invoiceid);
             // Check if request coming from admin area and the user added note so we can insert the note also when the payment is recorded
             if (isset($data['note']) && $data['note'] != '') {
                 $this->session->set_userdata([
@@ -189,14 +189,14 @@ class Payments_model extends App_Model
         $this->db->insert(db_prefix() . 'my_disputes_cases_invoicepaymentrecords', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $invoice      = $this->invoices_model->get($data['invoiceid']);
+            $invoice      = $this->invoices->get($data['invoiceid']);
             $force_update = false;
 
             if (!class_exists('Invoices_model', false)) {
                 $this->load->model('invoices_model');
             }
 
-            if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+            if ($invoice->status == 6) {
                 $force_update = true;
             }
 
@@ -207,16 +207,16 @@ class Payments_model extends App_Model
                 $activity_lang_key = 'invoice_activity_payment_made_by_client';
             }
 
-            $this->invoices_model->log_invoice_activity($data['invoiceid'], $activity_lang_key, !is_staff_logged_in() ? true : false, serialize([
+            $this->invoices->log_invoice_activity($data['invoiceid'], $activity_lang_key, !is_staff_logged_in() ? true : false, serialize([
                 app_format_money($data['amount'], $invoice->currency_name),
-                '<a href="' . admin_url('disputes/payments/payment/' . $insert_id) . '" target="_blank">#' . $insert_id . '</a>',
+                '<a href="' . admin_url('legalservices/disputes_payments/payment/' . $insert_id) . '" target="_blank">#' . $insert_id . '</a>',
             ]));
 
             log_activity('Payment Recorded [ID:' . $insert_id . ', Invoice Number: ' . disputes_format_invoice_number($invoice->id) . ', Total: ' . app_format_money($data['amount'], $invoice->currency_name) . ']');
 
             // Send email to the client that the payment is recorded
             $payment               = $this->get($insert_id);
-            $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
+            $payment->invoice_data = $this->invoices->get($payment->invoiceid);
             set_mailing_constant();
             $paymentpdf           = payment_pdf($payment);
             $payment_pdf_filename = mb_strtoupper(slug_it(_l('payment') . '-' . $payment->paymentid), 'UTF-8') . '.pdf';
@@ -293,7 +293,7 @@ class Payments_model extends App_Model
                     if ($subscription != false) {
                         $activity_lang_key = 'invoice_activity_subscription_payment_succeeded';
                     }
-                    $this->invoices_model->log_invoice_activity($invoice->id, $activity_lang_key, false, $additional_activity_data);
+                    $this->invoices->log_invoice_activity($invoice->id, $activity_lang_key, false, $additional_activity_data);
                 }
             }
 
@@ -379,7 +379,7 @@ class Payments_model extends App_Model
     public function delete($id)
     {
         $current         = $this->get($id);
-        $current_invoice = $this->invoices_model->get($current->invoiceid);
+        $current_invoice = $this->invoices->get($current->invoiceid);
         $invoiceid       = $current->invoiceid;
         hooks()->do_action('before_payment_deleted', [
             'paymentid' => $id,
@@ -389,7 +389,7 @@ class Payments_model extends App_Model
         $this->db->delete(db_prefix() . 'my_disputes_cases_invoicepaymentrecords');
         if ($this->db->affected_rows() > 0) {
             disputes_update_invoice_status($invoiceid);
-            $this->invoices_model->log_invoice_activity($invoiceid, 'invoice_activity_payment_deleted', false, serialize([
+            $this->invoices->log_invoice_activity($invoiceid, 'invoice_activity_payment_deleted', false, serialize([
                 $current->paymentid,
                 app_format_money($current->amount, $current_invoice->currency_name),
             ]));

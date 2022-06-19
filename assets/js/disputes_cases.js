@@ -50,7 +50,7 @@ $(function() {
     slug_credit_notes_case = $(".table-credit-notes_case").attr('data-slug');
     servid_credit_notes_case = $(".table-credit-notes_case").attr('data-servid');
     clientid = 0;
-    initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_case/' + clientid + '/'+ servid_credit_notes_case+ '/'+slug_credit_notes_case+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+    initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_disputes_case/' + clientid + '/'+ servid_credit_notes_case+ '/'+slug_credit_notes_case+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
     if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
         var chartOptions = {
@@ -486,10 +486,10 @@ function mass_stop_timers(only_billable,servid) {
     });
 }
 
-function pre_invoice_project() {
-    requestGet('projects/get_pre_invoice_project_info/' + project_id).done(function(response) {
-        $('#pre_invoice_project').html(response);
-        $('#pre_invoice_project_settings').modal('show');
+function pre_invoice_project(servid) {
+    requestGet('legalservices/disputes_cases/get_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
+        $('#invoice_project').html(response);
+        $('#invoice_project_settings').modal('show');
     });
 }
 
@@ -529,6 +529,9 @@ function load_small_table_item(id, selector, input_name, url, table) {
 function init_invoice_disputes(id) {
     load_small_table_item(id, '#invoice', 'invoiceid', 'admin/legalservices/disputes_invoices/get_invoice_data_ajax', '.table-disputes_cases');
 }
+function init_invoice(id) {
+    load_small_table_item(id, '#invoice', 'invoiceid', 'admin/legalservices/disputes_cases/get_invoice_data_ajax', '.table-invoices_disputes_case');
+}
 
 
 var table_invoices = $('table.table-invoices.diputes');
@@ -562,10 +565,7 @@ if (table_invoices.length > 0/* || table_estimates.length > 0*/) {
 }
 
 
-// function init_invoice_case(id) {
-//     load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices_case');
-// }
-//
+
 // // Init single credit note case
 // function init_credit_note_case(id) {
 //     load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes_case');
@@ -591,32 +591,32 @@ function delete_credit_note_attachment(id) {
 }
 
 init_table_tickets_case();
-// var table_invoices_case,
+var table_invoices_disputes_case,
 //     table_estimates_case;
 //
-// // table_invoices_case = $('table.table-invoices_case');
-// // table_estimates_case = $('table.table-estimates_case');
+table_invoices_disputes_case = $('table.table-invoices_disputes_case');
+// table_estimates_case = $('table.table-estimates_case');
 //
-// if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
-//
-//     // Invoices additional server params
-//     var Invoices_Estimates_ServerParamsCase = {};
-//     var Invoices_Estimates_FilterCase = $('._hidden_inputs._filters input');
-//
-//     $.each(Invoices_Estimates_FilterCase, function() {
-//         Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
-//     });
-//
-//     if (table_invoices_case.length) {
-//         // Invoices tables
-//         // servid_invoices_case = $(".table-invoices_case").attr('data-servid');
-//         // slug_invoices_case = $(".table-invoices_case").attr('data-slug');
-//         clientid = 0;
-//         initDataTable(table_invoices_case, (admin_url + 'invoices/table_case/'+ clientid + '/' + servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
-//             [3, 'desc'],
-//             [0, 'desc']
-//         ] : [table_invoices_case.find('th.next-recurring-date').index(), 'asc']);
-//     }
+if (table_invoices_disputes_case.length > 0 /*|| table_estimates_case.length > 0 */) {
+
+    // Invoices additional server params
+    var Invoices_Estimates_ServerParamsCase = {};
+    var Invoices_Estimates_FilterCase = $('._hidden_inputs._filters input');
+
+    $.each(Invoices_Estimates_FilterCase, function() {
+        Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    if (table_invoices_disputes_case.length) {
+        // Invoices tables
+        // servid_invoices_case = $(".table-invoices_case").attr('data-servid');
+        // slug_invoices_case = $(".table-invoices_case").attr('data-slug');
+        clientid = 0;
+        initDataTable(table_invoices_disputes_case, (admin_url + 'invoices/table_disputes_case/'+ clientid + '/' + servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
+            [3, 'desc'],
+            [0, 'desc']
+        ] : [table_invoices_disputes_case.find('th.next-recurring-date').index(), 'asc']);
+    }
 //
 //     if (table_estimates_case.length) {
 //         // Estimates table
@@ -628,7 +628,7 @@ init_table_tickets_case();
 //             [0, 'desc']
 //         ]);
 //     }
-// }
+}
 
 function init_table_tickets_case(manual) {
 
@@ -668,73 +668,6 @@ function init_table_tickets_case(manual) {
     }
 }
 
-// function invoice_case(ServID , project_id) {
-//     $('#pre_invoice_project_settings').modal('hide');
-//     var data = {};
-//
-//     data.type = $('input[name="invoice_data_type"]:checked').val();
-//     data.timesheets_include_notes = $('input[name="timesheets_include_notes"]:checked').val();
-//
-//     data.project_id = project_id;
-//
-//     data.tasks = $("#tasks_who_will_be_billed input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses = $("#expenses_who_will_be_billed .expense-to-bill input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses_add_note = $("#expenses_who_will_be_billed .expense-add-note input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses_add_name = $("#expenses_who_will_be_billed .expense-add-name input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     $.post(admin_url + 'legalservices/other_services/get_invoice_project_data/'+ServID, data).done(function(response) {
-//         $('#invoice_project').html(response);
-//         $('#invoice-project-modal').modal({
-//             show: true,
-//             backdrop: 'static'
-//         });
-//     });
-// }
-
-// function invoice_project(ServID = 22 , project_id) {
-//     $('#pre_invoice_project_settings').modal('hide');
-//     var data = {};
-//
-//     data.type = $('input[name="invoice_data_type"]:checked').val();
-//     data.timesheets_include_notes = $('input[name="timesheets_include_notes"]:checked').val();
-//
-//     data.project_id = project_id;
-//
-//     data.tasks = $("#tasks_who_will_be_billed input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses = $("#expenses_who_will_be_billed .expense-to-bill input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses_add_note = $("#expenses_who_will_be_billed .expense-add-note input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     data.expenses_add_name = $("#expenses_who_will_be_billed .expense-add-name input:checkbox:checked").map(function() {
-//         return $(this).val();
-//     }).get();
-//
-//     $.post(admin_url + 'legalservices/disputes_cases/get_invoice_project_data/'+ServID, data).done(function(response) {
-//         $('#invoice_project').html(response);
-//         $('#invoice-project-modal').modal({
-//             show: true,
-//             backdrop: 'static'
-//         });
-//     });
-// }
 
 function delete_project_discussion(id) {
     if (confirm_delete()) {

@@ -10,6 +10,8 @@ class Disputes_invoices extends AdminController
     {
         parent::__construct();
         $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
+        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+
         $this->load->model('credit_notes_model');
         $this->ci = & get_instance();
     }
@@ -33,7 +35,6 @@ class Disputes_invoices extends AdminController
         }
 
         close_setup_menu();
-
         $this->load->model('payment_modes_model');
         $data['payment_modes']        = $this->payment_modes_model->get('', [], true);
         $data['invoiceid']            = $id;
@@ -402,7 +403,7 @@ class Disputes_invoices extends AdminController
             $data['edit']           = true;
             $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
 
-            $title = _l('edit', _l('invoice_lowercase')) . ' - ' . format_invoice_number($invoice->id);
+            $title = _l('edit', _l('invoice_lowercase')) . ' - ' . disputes_format_invoice_number($invoice->id);
         }
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
@@ -484,10 +485,11 @@ class Disputes_invoices extends AdminController
         $data = prepare_mail_preview_data($template_name, $invoice->clientid);
 
         // Check for recorded payments
-        $this->load->model('payments_model');
+        $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
         $data['invoices_to_merge']          = $this->invoices->check_for_merge_invoice($invoice->clientid, $id);
         $data['members']                    = $this->staff_model->get('', ['active' => 1]);
-        $data['payments']                   = $this->payments_model->get_invoice_payments($id);
+//        $data['payments']                   = $this->payments->get_invoice_payments($id);
+        $invoice->payments = $this->payments->get_invoice_payments($id);
         $data['activity']                   = $this->invoices->get_invoice_activity($id);
         $data['totalNotes']                 = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
         $data['invoice_recurring_invoices'] = $this->invoices->get_invoice_recurring_invoices($id);
@@ -512,7 +514,6 @@ class Disputes_invoices extends AdminController
         }
 
         $data['invoice'] = $invoice;
-
         $data['record_payment'] = false;
 
         if ($this->session->has_userdata('record_payment')) {
@@ -554,12 +555,12 @@ class Disputes_invoices extends AdminController
     public function record_invoice_payment_ajax($id)
     {
         $this->load->model('payment_modes_model');
-        $this->load->model('payments_model');
+        $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
         $data['payment_modes'] = $this->payment_modes_model->get('', [
             'expenses_only !=' => 1,
         ]);
         $data['invoice']  = $this->invoices->get($id);
-        $data['payments'] = $this->payments_model->get_invoice_payments($id);
+        $data['payments'] = $this->payments->get_invoice_payments($id);
         $this->load->view('admin/legalservices/disputes_cases/invoices/record_payment_template', $data);
     }
 
@@ -572,12 +573,11 @@ class Disputes_invoices extends AdminController
             access_denied('Record Payment');
         }
         if ($this->input->post()) {
-            $this->load->model('payments_model');
+            $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
 
             $data = $this->input->post();
             $invoice_data = $this->invoices->get($data['invoiceid']);
-
-            $project_data = $this->projects_model->get($invoice_data->project_id);
+            $project_data = $this->Dcase->get($invoice_data->project_id);
             $billing_type = $project_data->billing_type;
             $project_percent = $project_data->project_rate_per_hour;
             $project_cost = $project_data->project_cost;
@@ -622,7 +622,7 @@ class Disputes_invoices extends AdminController
 
 
             //Array ( [cancel_merged_invoices] => on [clientid] => 2 [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [show_shipping_on_invoice] => on [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [number] => 000024 [date] => 1441-1-22 [duedate] => 1441-2-22 [tags] => [allowed_payment_modes] => Array ( [0] => 1 ) [currency] => 1 [sale_agent] => [recurring] => 0 [discount_type] => [repeat_every_custom] => 1 [repeat_type_custom] => day [adminnote] => [item_select] => [show_quantity_as] => 1 [description] => [long_description] => [quantity] => 1 [unit] => [rate] => [newitems] => Array ( [1] => Array ( [order] => 1 [description] => Disputes static fees [long_description] => [qty] => 1 [unit] => [rate] => 500 ) [2] => Array ( [order] => 2 [description] => Disputes percent fees [long_description] => [qty] => 1 [unit] => [rate] => 25 ) [3] => Array ( [order] => 3 [description] => test [long_description] => [qty] => 1 [unit] => [rate] => 5 ) ) [subtotal] => 530.00 [discount_percent] => 0 [discount_total] => 0.00 [adjustment] => 0 [total] => 530.00 [task_id] => [expense_id] => [clientnote] => [terms] => [project_id] => 4 )
-            $id = $this->payments_model->process_payment($data, '');
+            $id = $this->payments->process_payment($data, '');
             if ($id) {
 
                 //Array ( [invoiceid] => 14 [amount] => 380.00 [date] => 1441-1-21 [paymentmode] => 1 [do_not_redirect] => on [transactionid] => 25552135123221 [note] => )
@@ -721,11 +721,11 @@ class Disputes_invoices extends AdminController
         if (!has_permission('payments', '', 'delete')) {
             access_denied('payments');
         }
-        $this->load->model('payments_model');
+        $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
         if (!$id) {
             redirect(admin_url('payments'));
         }
-        $response = $this->payments_model->delete($id);
+        $response = $this->payments->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('payment')));
         } else {
@@ -805,13 +805,12 @@ class Disputes_invoices extends AdminController
                 access_denied('Invoices');
             }
         }
-
         $invoice        = $this->invoices->get($id);
+//        echo '<pre>';echo print_r($invoice);exit();
         $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);
-        $invoice_number = format_invoice_number($invoice->id);
-
+        $invoice_number = disputes_format_invoice_number($invoice->id);
         try {
-            $pdf = invoice_pdf($invoice);
+            $pdf = disputes_case_invoice_pdf($invoice);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;

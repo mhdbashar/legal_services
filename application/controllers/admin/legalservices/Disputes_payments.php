@@ -7,7 +7,7 @@ class Disputes_payments extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('payments_model');
+        $this->load->model('legalservices/disputes_cases/Disputes_payments_model','payments');
     }
 
     /* In case if user go only on /payments */
@@ -51,21 +51,21 @@ class Disputes_payments extends AdminController
         }
 
         if (!$id) {
-            redirect(admin_url('legalservices/disputes_cases/payments'));
+            redirect(admin_url('legalservices/disputes_payments'));
         }
 
         if ($this->input->post()) {
             if (!has_permission('payments', '', 'edit')) {
                 access_denied('Update Payment');
             }
-            $success = $this->payments_model->update($this->input->post(), $id);
+            $success = $this->payments->update($this->input->post(), $id);
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('payment')));
             }
-            redirect(admin_url('legalservices/disputes_cases/payments/payment/' . $id));
+            redirect(admin_url('legalservices/disputes_payments/payment/' . $id));
         }
 
-        $payment = $this->payments_model->get($id);
+        $payment = $this->payments->get($id);
 
         if (!$payment) {
             show_404();
@@ -106,7 +106,7 @@ class Disputes_payments extends AdminController
             access_denied('View Payment');
         }
 
-        $payment = $this->payments_model->get($id);
+        $payment = $this->payments->get($id);
 
         if (!has_permission('payments', '', 'view')
             && !has_permission('invoices', '', 'view_own')
@@ -116,9 +116,8 @@ class Disputes_payments extends AdminController
 
         $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
         $payment->invoice_data = $this->invoices->get($payment->invoiceid);
-
         try {
-            $paymentpdf = payment_pdf($payment);
+            $paymentpdf = disputes_case_payment_pdf($payment);
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;
@@ -155,7 +154,7 @@ class Disputes_payments extends AdminController
             access_denied('Send Payment');
         }
 
-        $payment = $this->payments_model->get($id);
+        $payment = $this->payments->get($id);
 
         if (!has_permission('payments', '', 'view')
             && !has_permission('invoices', '', 'view_own')
@@ -199,7 +198,7 @@ class Disputes_payments extends AdminController
         load_admin_language();
         set_alert($sent ? 'success' : 'danger', _l($sent ? 'payment_sent_successfully' : 'payment_sent_failed'));
 
-        redirect(admin_url('legalservices/disputes_cases/payments/payment/' . $id));
+        redirect(admin_url('legalservices/disputes_payments/payment/' . $id));
     }
 
     /* Delete payment */
@@ -211,12 +210,12 @@ class Disputes_payments extends AdminController
         if (!$id) {
             redirect(admin_url('disputes/payments'));
         }
-        $response = $this->payments_model->delete($id);
+        $response = $this->payments->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('payment')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('payment_lowercase')));
         }
-        redirect(admin_url('legalservices/disputes_cases/payments'));
+        redirect(admin_url('legalservices/disputes_payments'));
     }
 }

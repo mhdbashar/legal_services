@@ -38,8 +38,7 @@ class Disputes_cases extends AdminController
             $id = $this->Dcase->add($ServID,$data);
             if ($id) {
                 set_alert('success', _l('added_successfully'));
-                set_alert('success', _l('added_successfully'));
-                redirect(admin_url("legalservices/disputes_cases/view/$ServID/$id"));
+                redirect(admin_url("Disputes_cases/view/$ServID/$id"));
             }
         }
 
@@ -114,7 +113,6 @@ class Disputes_cases extends AdminController
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
         $data['title']    = _l('edit').' '._l('LegalService');
-//        echo '<pre>';echo print_r($data);exit();
 
         $this->load->view('admin/legalservices/disputes_cases/EditCase',$data);
     }
@@ -154,23 +152,39 @@ class Disputes_cases extends AdminController
         redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '', $slug='')
+//    public function table($clientid = '', $slug='')
+//    {
+//        if($slug != ''):
+//            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+//            $model = $this->Dcase;
+//            $this->app->get_table_data('disputes_cases', [
+//                'clientid' => $clientid,
+//                'service' => $service,
+//                'model' => $model,
+//                'ServID' => $service->id
+//            ]);
+//        else:
+//            $this->app->get_table_data('disputes_cases', [
+//                'clientid' => $clientid,
+//            ]);
+//        endif;
+//
+//    }
+    public function table($clientid = '')
     {
-        if($slug != ''):
-            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
-            $model = $this->Dcase;
-            $this->app->get_table_data('disputes_cases', [
-                'clientid' => $clientid,
-                'service' => $service,
-                'model' => $model,
-                'ServID' => $service->id
-            ]);
-        else:
-            $this->app->get_table_data('disputes_cases', [
-                'clientid' => $clientid,
-            ]);
-        endif;
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
 
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->disputes_get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+        ]);
     }
 
     public function procurations($case_id)
@@ -386,15 +400,14 @@ class Disputes_cases extends AdminController
 
                 $data['project_overview_chart'] = $this->Dcase->get_project_overview_weekly_chart_data($slug,$id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart'):'this_week'));
             } elseif ($group == 'project_invoices') {
-                $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-//
+                $this->load->model('invoices_model');
                 $data['invoiceid']   = '';
                 $data['status']      = '';
                 $data['custom_view'] = '';
 
-                $data['invoices_years']       = $this->invoices->get_invoices_years();
-                $data['invoices_sale_agents'] = $this->invoices->get_sale_agents();
-                $data['invoices_statuses']    = $this->invoices->get_statuses();
+                $data['invoices_years']       = $this->invoices_model->get_invoices_years();
+                $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
+                $data['invoices_statuses']    = $this->invoices_model->get_statuses();
             } elseif ($group == 'disputes_invoices') {
                 //$data['tab']['view'] = 'disputes/disputes_invoices';
                 $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
@@ -1020,6 +1033,38 @@ class Disputes_cases extends AdminController
             ]);
         }
     }
+    public function get_invoice_project_info($ServID, $project_id)
+    {
+        if (staff_can('create', 'invoices')) {
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['billable_tasks'] = $this->case->get_tasks($project_id, [
+                'billable'     => 1,
+                'billed'       => 0,
+                'startdate <=' => date('Y-m-d'),
+            ]);
+
+            $data['not_billable_tasks'] = $this->case->get_tasks($project_id, [
+                'billable'    => 1,
+                'billed'      => 0,
+                'startdate >' => date('Y-m-d'),
+            ]);
+
+            $data['project_id']   = $project_id;
+            $data['ServID']       = $ServID;
+            $data['billing_type'] = get_case_billing_type($project_id);
+
+            $this->load->model('expenses_model');
+            $this->db->where('invoiceid IS NULL');
+            $data['expenses'] = $this->expenses_model->get('', [
+                'rel_sid'    => $project_id,
+                'rel_stype'  => $slug,
+                'billable'  => 1,
+            ]);
+
+            $this->load->view('admin/legalservices/disputes_cases/project_invoice_settings', $data);
+        }
+    }
+
     public function get_pre_invoice_project_info($ServID = 22,$project_id)
     {
         if (staff_can('create', 'invoices')) {
@@ -1047,38 +1092,251 @@ class Disputes_cases extends AdminController
             $this->load->view('admin/legalservices/disputes_cases/project_pre_invoice_settings', $data);
         }
     }
+    public function get_invoice_data()
+    {
+        if (staff_can('create', 'invoices')) {
+            $type       = $this->input->post('type');
+            $project_id = $this->input->post('project_id');
+            // Check for all cases
+            if ($type == '') {
+                $type == 'single_line';
+            }
+            $this->load->model('payment_modes_model');
+            $data['payment_modes'] = $this->payment_modes_model->get('', [
+                'expenses_only !=' => 1,
+            ]);
+            $this->load->model('taxes_model');
+            $data['taxes']         = $this->taxes_model->get();
+            $data['currencies']    = $this->currencies_model->get();
+            $data['base_currency'] = $this->currencies_model->get_base_currency();
+            $this->load->model('invoice_items_model');
 
-//    public function get_pre_invoice_project_info($ServID, $project_id)
-//    {
-//        if (staff_can('create', 'invoices')) {
-//            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-//            $data['billable_tasks'] = $this->Dcase->get_tasks($project_id, [
-//                'billable'     => 1,
-//                'billed'       => 0,
-//                'startdate <=' => date('Y-m-d'),
-//            ]);
-//
-//            $data['not_billable_tasks'] = $this->Dcase->get_tasks($project_id, [
-//                'billable'    => 1,
-//                'billed'      => 0,
-//                'startdate >' => date('Y-m-d'),
-//            ]);
-//
-//            $data['project_id']   = $project_id;
-//            $data['ServID']       = $ServID;
-//            $data['billing_type'] = get_case_billing_type($project_id);
-//
-//            $this->load->model('expenses_model');
-//            $this->db->where('invoiceid IS NULL');
-//            $data['expenses'] = $this->expenses_model->get('', [
-//                'rel_sid'    => $project_id,
-//                'rel_stype'  => $slug,
-//                'billable'  => 1,
-//            ]);
-//
-//            $this->load->view('admin/legalservices/disputes_cases/project_pre_invoice_settings', $data);
-//        }
-//    }
+            $data['ajaxItems'] = false;
+            if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
+                $data['items'] = $this->invoice_items_model->get_grouped();
+            } else {
+                $data['items']     = [];
+                $data['ajaxItems'] = true;
+            }
+
+            $data['items_groups'] = $this->invoice_items_model->get_groups();
+            $data['staff']        = $this->staff_model->get('', ['active' => 1]);
+            $project              = $this->Dcase->get($project_id);
+            $data['project']      = $project;
+            $items                = [];
+
+            $project    = $this->Dcase->get($project_id);
+            $item['id'] = 0;
+
+            $default_tax     = @unserialize(get_option('default_tax'));
+            $item['taxname'] = $default_tax;
+
+            $tasks = $this->input->post('tasks');
+            if ($tasks) {
+                $item['long_description'] = '';
+                $item['qty']              = 0;
+                $item['task_id']          = [];
+                if ($type == 'single_line') {
+                    $item['description'] = $project->name;
+                    foreach ($tasks as $task_id) {
+                        $task = $this->tasks_model->get($task_id);
+                        $sec  = $this->tasks_model->calc_task_total_time($task_id);
+                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours') . "\r\n";
+                        $item['task_id'][] = $task_id;
+                        if ($project->billing_type == 2) {
+                            if ($sec < 60) {
+                                $sec = 0;
+                            }
+                            $item['qty'] += sec2qty(task_timer_round($sec));
+                        }
+                    }
+                    if ($project->billing_type == 1) {
+                        $item['qty']  = 1;
+                        $item['rate'] = $project->project_cost;
+                    } elseif ($project->billing_type == 2) {
+                        $item['rate'] = $project->project_rate_per_hour;
+                    }
+                    $item['unit'] = '';
+                    $items[]      = $item;
+                } elseif ($type == 'task_per_item') {
+                    foreach ($tasks as $task_id) {
+                        $task                     = $this->tasks_model->get($task_id);
+                        $sec                      = $this->tasks_model->calc_task_total_time($task_id);
+                        $item['description']      = $project->name . ' - ' . $task->name;
+                        $item['qty']              = floatVal(sec2qty(task_timer_round($sec)));
+                        $item['long_description'] = seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours');
+                        if ($project->billing_type == 2) {
+                            $item['rate'] = $project->project_rate_per_hour;
+                        } elseif ($project->billing_type == 3) {
+                            $item['rate'] = $task->hourly_rate;
+                        }
+                        $item['task_id'] = $task_id;
+                        $item['unit']    = '';
+                        $items[]         = $item;
+                    }
+                } elseif ($type == 'timesheets_individualy') {
+                    $timesheets     = $this->Dcase->get_timesheets($project_id, $tasks);
+                    $added_task_ids = [];
+                    foreach ($timesheets as $timesheet) {
+                        if ($timesheet['task_data']->billed == 0 && $timesheet['task_data']->billable == 1) {
+                            $item['description'] = $project->name . ' - ' . $timesheet['task_data']->name;
+                            if (!in_array($timesheet['task_id'], $added_task_ids)) {
+                                $item['task_id'] = $timesheet['task_id'];
+                            }
+
+                            array_push($added_task_ids, $timesheet['task_id']);
+
+                            $item['qty']              = floatVal(sec2qty(task_timer_round($timesheet['total_spent'])));
+                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format(task_timer_round($timesheet['total_spent']))) . ' ' . _l('hours');
+
+                            if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
+                                $item['long_description'] .= "\r\n\r\n" . _l('note') . ': ' . $timesheet['note'];
+                            }
+
+                            if ($project->billing_type == 2) {
+                                $item['rate'] = $project->project_rate_per_hour;
+                            } elseif ($project->billing_type == 3) {
+                                $item['rate'] = $timesheet['task_data']->hourly_rate;
+                            }
+                            $item['unit'] = '';
+                            $items[]      = $item;
+                        }
+                    }
+                }
+            }
+            if ($project->billing_type != 1) {
+                $data['hours_quantity'] = true;
+            }
+            if ($this->input->post('expenses')) {
+                if (isset($data['hours_quantity'])) {
+                    unset($data['hours_quantity']);
+                }
+                if (count($tasks) > 0) {
+                    $data['qty_hrs_quantity'] = true;
+                }
+                $expenses       = $this->input->post('expenses');
+                $addExpenseNote = $this->input->post('expenses_add_note');
+                $addExpenseName = $this->input->post('expenses_add_name');
+
+                if (!$addExpenseNote) {
+                    $addExpenseNote = [];
+                }
+
+                if (!$addExpenseName) {
+                    $addExpenseName = [];
+                }
+
+                $this->load->model('expenses_model');
+                foreach ($expenses as $expense_id) {
+                    // reset item array
+                    $item                     = [];
+                    $item['id']               = 0;
+                    $expense                  = $this->expenses_model->get($expense_id);
+                    $item['expense_id']       = $expense->expenseid;
+                    $item['description']      = _l('item_as_expense') . ' ' . $expense->name;
+                    $item['long_description'] = $expense->description;
+
+                    if (in_array($expense_id, $addExpenseNote) && !empty($expense->note)) {
+                        $item['long_description'] .= PHP_EOL . $expense->note;
+                    }
+
+                    if (in_array($expense_id, $addExpenseName) && !empty($expense->expense_name)) {
+                        $item['long_description'] .= PHP_EOL . $expense->expense_name;
+                    }
+
+                    $item['qty'] = 1;
+
+                    $item['taxname'] = [];
+                    if ($expense->tax != 0) {
+                        array_push($item['taxname'], $expense->tax_name . '|' . $expense->taxrate);
+                    }
+                    if ($expense->tax2 != 0) {
+                        array_push($item['taxname'], $expense->tax_name2 . '|' . $expense->taxrate2);
+                    }
+                    $item['rate']  = $expense->amount;
+                    $item['order'] = 1;
+                    $item['unit']  = '';
+                    $items[]       = $item;
+                }
+            }
+            $data['customer_id']          = $project->clientid;
+            $data['invoice_from_project'] = true;
+            $data['add_items']            = $items;
+            $data['ServID']               = 22;
+            $this->load->view('admin/legalservices/disputes_cases/invoice_project', $data);
+        }
+    }
+    public function get_invoice_data_ajax($id)
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            echo _l('access_denied');
+            die;
+        }
+
+        if (!$id) {
+            die(_l('invoice_not_found'));
+        }
+        $this->load->model('invoices_model');
+
+        $invoice = $this->invoices_model->get($id);
+
+        if (!$invoice || !disputes_user_can_view_invoice($id)) {
+            echo _l('invoice_not_found');
+            die;
+        }
+
+        $invoice->date    = _d($invoice->date);
+        $invoice->duedate = _d($invoice->duedate);
+
+        $template_name = 'invoice_send_to_customer';
+
+        if ($invoice->sent == 1) {
+            $template_name = 'invoice_send_to_customer_already_sent';
+        }
+
+        $data = prepare_mail_preview_data($template_name, $invoice->clientid);
+
+        // Check for recorded payments
+        $this->load->model('payments_model');
+        $data['invoices_to_merge']          = $this->invoices_model->check_for_merge_invoice($invoice->clientid, $id);
+        $data['members']                    = $this->staff_model->get('', ['active' => 1]);
+        $data['payments']                   = $this->payments_model->get_invoice_payments($id);
+        $data['activity']                   = $this->invoices_model->get_invoice_activity($id);
+        $data['totalNotes']                 = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
+        $data['invoice_recurring_invoices'] = $this->invoices_model->get_invoice_recurring_invoices($id);
+
+        $data['applied_credits'] = $this->credit_notes_model->get_applied_invoice_credits($id);
+        // This data is used only when credit can be applied to invoice
+        if (credits_can_be_applied_to_invoice($invoice->status)) {
+            $data['credits_available'] = $this->credit_notes_model->total_remaining_credits_by_customer($invoice->clientid);
+
+            if ($data['credits_available'] > 0) {
+                $data['open_credits'] = $this->credit_notes_model->get_open_credits($invoice->clientid);
+            }
+
+            $customer_currency = $this->clients_model->get_customer_default_currency($invoice->clientid);
+            $this->load->model('currencies_model');
+
+            if ($customer_currency != 0) {
+                $data['customer_currency'] = $this->currencies_model->get($customer_currency);
+            } else {
+                $data['customer_currency'] = $this->currencies_model->get_base_currency();
+            }
+        }
+
+        $data['invoice'] = $invoice;
+
+        $data['record_payment'] = false;
+
+        if ($this->session->has_userdata('record_payment')) {
+            $data['record_payment'] = true;
+            $this->session->unset_userdata('record_payment');
+        }
+
+        $this->load->view('admin/invoices/invoice_preview_template', $data);
+    }
     public function get_invoice_project_data()
     {
         if (staff_can('create', 'invoices')) {
@@ -1274,18 +1532,9 @@ class Disputes_cases extends AdminController
     public function invoice_project($project_id)
     {
         if (staff_can('create', 'invoices')) {
-            //$this->load->model('invoices_model');
             $data               = $this->input->post();
-            //var_dump($data); exit;
             $opponents = $data['opponents'];
             unset($data['opponents']);
-            //var_dump($opponents); exit;
-            foreach ($opponents as $opponent) {
-                $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
-                    'opponent_id' => $opponent,
-                    'case_id' => $project_id
-                ]);
-            }
             $data['project_id'] = $project_id;
             $data['prefix']     = 'DIS-';
             $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
@@ -1304,8 +1553,7 @@ class Disputes_cases extends AdminController
                 $data['adjustment'] = 0;
                 $data['duedate'] = $installment_date[$cycl] ? $installment_date[$cycl] : $data['duedate'];
                 $data['subtotal'] = $data['total'] = $installment_total[$cycl];
-
-                //print_r($data); die();
+                $data['clientid'] = $opponents[0];
                 $invoice_id = $this->invoices->add($data, false, $opponents);
                 if ($invoice_id) {
                     $this->Dcase->log_activity($project_id, 'project_activity_invoiced_project', disputes_format_invoice_number($invoice_id));
@@ -1316,9 +1564,27 @@ class Disputes_cases extends AdminController
                 set_alert('success', _l('project_invoiced_successfully'));
             }
 
+            redirect(admin_url('Disputes_cases/view/22/' . $project_id . '?group=disputes_invoices'));
+        }
+    }
+    public function invoice($project_id)
+    {
+        if (staff_can('create', 'invoices')) {
+            $slug = $this->legal->get_service_by_id(22)->row()->slug;
+            $this->load->model('invoices_model');
+            $data               = $this->input->post();
+            $data['rel_stype']  = $slug;
+            $data['rel_sid']    = $project_id;
+            $data['project_id'] = null;
+            $invoice_id         = $this->invoices_model->add($data);
+            if ($invoice_id) {
+                $this->case->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
+                set_alert('success', _l('project_invoiced_successfully'));
+            }
             redirect(admin_url('Disputes_cases/view/22/' . $project_id . '?group=project_invoices'));
         }
     }
+
 
     public function view_project_as_client($id, $clientid, $ServID='')
     {

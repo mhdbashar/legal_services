@@ -45,8 +45,13 @@
                                 $invoice_func = 'pre_invoice_case';
                                 ?>
                                 <?php if(has_permission('invoices','','create')){ ?>
-                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_disputes_case'); ?></a>
                                 <?php } ?>
+
+                                <?php if(has_permission('invoices','','create')){ ?>
+                                    <a href="#" onclick="pre_invoice_project(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                                <?php } ?>
+
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
                                 if(total_rows(db_prefix().'disputes_pinned_cases',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
@@ -201,6 +206,7 @@ echo form_hidden('project_percent',$percent);
             $(this).find('strong.project-percent').html(parseInt(100 * stepValue) + '<i>%</i>');
         });
         init_invoice_disputes();
+        init_invoice();
     });
 
     function discussion_comments_case(selector,discussion_id,discussion_type){
@@ -508,6 +514,7 @@ echo form_hidden('project_percent',$percent);
         new_task(admin_url + 'tasks/task?rel_type=<?php echo $service->slug; ?>&rel_id=' + project_id + '&milestone_id=' + milestone_id);
         $('body [data-toggle="popover"]').popover('hide');
     });
+
     function invoice_disputes(project_id) {
         $('#pre_invoice_project_settings').modal('hide');
         var data = {};
@@ -541,6 +548,78 @@ echo form_hidden('project_percent',$percent);
             });
         });
     }
+    function invoice_project(project_id) {
+        $('#invoice_project_settings').modal('hide');
+        var data = {};
+
+        data.type = $('input[name="invoice_data_type"]:checked').val();
+        data.timesheets_include_notes = $('input[name="timesheets_include_notes"]:checked').val();
+
+        data.project_id = project_id;
+
+        data.tasks = $("#tasks_who_will_be_billed input:checkbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        data.expenses = $("#expenses_who_will_be_billed .expense-to-bill input:checkbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        data.expenses_add_note = $("#expenses_who_will_be_billed .expense-add-note input:checkbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        data.expenses_add_name = $("#expenses_who_will_be_billed .expense-add-name input:checkbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        $.post(admin_url + 'legalservices/disputes_cases/get_invoice_data/', data).done(function(response) {
+            $('#invoice_project').html(response);
+            $('#invoice-project-modal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+        });
+    }
+    var table_invoices_disputes_case,
+//     table_estimates_case;
+//
+        table_invoices_disputes_case = $('table.table-invoices_disputes_case');
+    // table_estimates_case = $('table.table-estimates_case');
+    //
+    if (table_invoices_disputes_case.length > 0 /*|| table_estimates_case.length > 0 */) {
+
+        // Invoices additional server params
+        var Invoices_Estimates_ServerParamsCase = {};
+        var Invoices_Estimates_FilterCase = $('._hidden_inputs._filters input');
+
+        $.each(Invoices_Estimates_FilterCase, function() {
+            Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        if (table_invoices_disputes_case.length) {
+            // Invoices tables
+            // servid_invoices_case = $(".table-invoices_case").attr('data-servid');
+            // slug_invoices_case = $(".table-invoices_case").attr('data-slug');
+            clientid = 0;
+            initDataTable(table_invoices_disputes_case, (admin_url + 'invoices/table_disputes_case/'+ clientid + '/22/kdaya_altnfith' + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
+                [3, 'desc'],
+                [0, 'desc']
+            ] : [table_invoices_disputes_case.find('th.next-recurring-date').index(), 'asc']);
+        }
+//
+//     if (table_estimates_case.length) {
+//         // Estimates table
+//         servid_estimates_case = $(".table-estimates_case").attr('data-servid');
+//         slug_estimates_case = $(".table-estimates_case").attr('data-slug');
+//         clientid = 0;
+//         initDataTable(table_estimates_case, admin_url + 'estimates/table_case/' + clientid + '/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, [
+//             [3, 'desc'],
+//             [0, 'desc']
+//         ]);
+//     }
+    }
+
     var table_invoices = $('table.table-invoices.diputes');
     //var table_estimates = $('table.table-estimates');
 

@@ -74,7 +74,7 @@
          <h4 class="font-medium mtop15 mbot20"><?php echo _l('related_to_project',array(
             _l('invoice_lowercase'),
             _l('project_lowercase'),
-            '<a href="'.admin_url('projects/view/'.$invoice->project_id).'" target="_blank">' . $invoice->project_data->name . '</a>',
+            '<a href="'.admin_url('Disputes_cases/view/22/'.$invoice->project_id).'" target="_blank">' . $invoice->project_data->name . '</a>',
             )); ?></h4>
       </div>
       <?php } ?>
@@ -86,7 +86,7 @@
                 echo '<i class="fa fa-tag" aria-hidden="true" data-toggle="tooltip" data-title="'.implode(', ',$tags).'"></i>';
                }
                ?>
-            <a href="<?php echo admin_url('invoices/invoice/'.$invoice->id); ?>">
+            <a href="<?php echo admin_url('legalservices/disputes_invoices/invoice/'.$invoice->id); ?>">
             <span id="invoice-number">
             <?php echo disputes_format_invoice_number($invoice->id); ?>
             </span>
@@ -202,7 +202,7 @@
                <tr>
                   <td><span class="bold"><?php echo _l('invoice_total_paid'); ?></span></td>
                   <td>
-                     <?php echo '-' . app_format_money(sum_from_table(db_prefix().'invoicepaymentrecords',array('field'=>'amount','where'=>array('invoiceid'=>$invoice->id))), $invoice->currency_name); ?>
+                     <?php echo '-' . app_format_money(sum_from_table(db_prefix().'my_disputes_cases_invoicepaymentrecords',array('field'=>'amount','where'=>array('invoiceid'=>$invoice->id))), $invoice->currency_name); ?>
                   </td>
                </tr>
                <?php } ?>

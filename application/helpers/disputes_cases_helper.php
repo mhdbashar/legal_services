@@ -133,7 +133,7 @@ function app_init_disputes_case_tabs()
     $CI->app_custom_tabs->add_disputes_case_tab_children_item('sales', [
         'slug'     => 'project_invoices',
         'name'     => _l('project_invoices'),
-        'view'     => 'admin/legalservices/disputes_cases/invoices/manage',//'admin/legalservices/disputes_cases/project_invoices',
+        'view'     => 'admin/legalservices/disputes_cases/project_invoices',//'admin/legalservices/disputes_cases/project_invoices',
         'position' => 5,
         'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
     ]);
@@ -233,6 +233,14 @@ function app_init_disputes_case_tabs()
         'view'                      => 'admin/written_reports/tab',
         'position'                  => 100,
     ]);
+    $CI->app_menu->add_sidebar_children_item('sales', [
+        'slug'     => 'disputes_invoices',
+        'name'     => _l('disputes_cases_invoices'),
+        'href'     => admin_url('legalservices/disputes_invoices/list_invoices'), // URL of the item
+        'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
+        'position' => 0,
+    ]);
+
 }
 
 /**
@@ -967,14 +975,14 @@ function disputes_get_invoice_total_left_to_pay($id, $invoice_total = null)
     }
 
     if (!class_exists('payments_model')) {
-        $CI->load->model('legalservices/disputes_cases/payments_model','payments_model');
+        $CI->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
     }
 
     if (!class_exists('credit_notes_model')) {
         $CI->load->model('credit_notes_model');
     }
 
-    $payments = $CI->payments_model->get_invoice_payments($id);
+    $payments = $CI->payments->get_invoice_payments($id);
     $credits  = $CI->credit_notes_model->get_applied_invoice_credits($id);
 
     $payments = array_merge($payments, $credits);
@@ -1581,4 +1589,10 @@ function get_disputes_cases_statuses(){
 function disputes_case_invoice_pdf($invoice, $tag = ''){
     return app_pdf('invoice', LIBSPATH . 'pdf/Disputes_invoice_pdf', $invoice, $tag);
 }
+
+function disputes_case_payment_pdf($payment, $tag = '')
+{
+    return app_pdf('payment', LIBSPATH . 'pdf/Disputes_case_payment_pdf', $payment, $tag);
+}
+
 

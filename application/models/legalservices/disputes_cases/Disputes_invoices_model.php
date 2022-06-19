@@ -70,8 +70,8 @@ class Disputes_invoices_model extends App_Model
                 $invoice->attachments = $this->get_attachments($id);
 
                 if ($invoice->project_id != 0) {
-                    $this->load->model('projects_model');
-                    $invoice->project_data = $this->projects_model->get($invoice->project_id);
+                    $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+                    $invoice->project_data = $this->Dcase->get($invoice->project_id);
                 }
 
                 $invoice->visible_attachments_to_customer_found = false;
@@ -337,7 +337,10 @@ class Disputes_invoices_model extends App_Model
 
         $data  = $hook['data'];
         $items = $hook['items'];
+
         unset($data['opponents']);
+
+
 
         $this->db->insert(db_prefix() . 'my_disputes_cases_invoices', $data);
         $insert_id = $this->db->insert_id();
@@ -1102,7 +1105,7 @@ class Disputes_invoices_model extends App_Model
             }
             $key++;
         }
-        $id = $this->invoices_model->add($new_invoice_data);
+        $id = $this->add($new_invoice_data);
         if ($id) {
             $this->db->where('id', $id);
             $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [

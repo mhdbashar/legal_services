@@ -95,7 +95,7 @@
                <?php if($invoice->project_id != 0 && get_option('show_project_on_invoice') == 1){ ?>
                <p class="no-mbot invoice-html-project">
                   <span class="bold"><?php echo _l('project'); ?>:</span>
-                  <?php echo get_project_name_by_id($invoice->project_id); ?>
+                  <?php echo get_disputes_case_name_by_id($invoice->project_id); ?>
                </p>
                <?php } ?>
                <?php $pdf_custom_fields = get_custom_fields('invoice',array('show_on_pdf'=>1,'show_on_client_portal'=>1));
@@ -167,7 +167,7 @@
                      <tr>
                         <td><span class="bold"><?php echo _l('invoice_total_paid'); ?></span></td>
                         <td>
-                           <?php echo '-' . app_format_money(sum_from_table(db_prefix().'my_project_invoicepaymentrecords',array('field'=>'amount','where'=>array('invoiceid'=>$invoice->id))), $invoice->currency_name); ?>
+                           <?php echo '-' . app_format_money(sum_from_table(db_prefix().'my_disputes_cases_invoicepaymentrecords',array('field'=>'amount','where'=>array('invoiceid'=>$invoice->id))), $invoice->currency_name); ?>
                         </td>
                      </tr>
                      <?php } ?>

@@ -1,102 +1,70 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php if(isset($invoiceid) && $invoiceid != ''){
-    init_head(); ?>
-    <div id="wrapper">
-        <div class="content">
-            <div class="row">
-<?php } ?>
-
-<?php include_once(APPPATH . 'views/admin/legalservices/disputes_cases/invoices/invoices_top_stats.php'); ?>
-<div class="project_invoices">
-    <?php include_once(APPPATH.'views/admin/legalservices/disputes_cases/invoices/filter_params.php'); ?>
-    <?php $this->load->view('admin/legalservices/disputes_cases/invoices/list_template'); ?>
-</div>
-<?php if(isset($invoiceid) && $invoiceid != ''){?>
-            </div>
+<?php init_head(); ?>
+<div id="wrapper">
+    <div class="content">
+        <div class="row">
+            <?php
+            include_once(APPPATH.'views/admin/legalservices/disputes_cases/invoices/filter_params.php');
+            $this->load->view('admin/legalservices/disputes_cases/invoices/list_template');
+            ?>
         </div>
     </div>
-    <?php init_tail(); ?>
-<?php } ?>
+</div>
+<?php $this->load->view('admin/includes/modals/sales_attach_file'); ?>
+<?php init_tail(); ?>
 
-<?php //init_head(); ?>
-<!--<div id="wrapper">-->
-<!--	<div class="content">-->
-<!--		<div class="row">-->
-<!--			--><?php
-//			include_once(APPPATH.'../modules/disputes/views/invoices/filter_params.php');
-//			$this->load->view('disputes/invoices/list_template');
-//			?>
-<!--		</div>-->
-<!--	</div>-->
-<!--</div>-->
-<?php //$this->load->view('admin/includes/modals/sales_attach_file'); ?>
+
+
 <script>var hidden_columns = [2,6,7,8];</script>
-<?php //init_tail(); ?>
 <script>
-    // $(function(){
-    //
-    //     init_invoice_disputes();
-    //
-    // });
-    // $(function(){
-    //     init_invoice();
-    //     init_invoice_case();
-    //     init_invoice_oservice();
-    //     init_invoice_disputes();
-    //
-    // });
+    $(function(){
+        init_invoice_disputes();
 
-	function record_payment_disputes(id) {
-    	if (typeof(id) == 'undefined' || id === '') { return; }
-    	$('#invoice').load(admin_url + 'legalservices/disputes_invoices/record_invoice_payment_ajax/' + id);
-	}
-    function init_disputes_invoices_total(manual) {
 
-        if ($('#invoices_total').length === 0) { return; }
-        var _inv_total_inline = $('.invoices-total-inline');
-        var _inv_total_href_manual = $('.invoices-total');
+    });
 
-        if ($("body").hasClass('invoices-total-manual') && typeof(manual) == 'undefined' &&
-            !_inv_total_href_manual.hasClass('initialized')) {
-            return;
-        }
-
-        if (_inv_total_inline.length > 0 && _inv_total_href_manual.hasClass('initialized')) {
-            // On the next request won't be inline in case of currency change
-            // Used on dashboard
-            _inv_total_inline.removeClass('invoices-total-inline');
-            return;
-        }
-
-        _inv_total_href_manual.addClass('initialized');
-        var _years = $("body").find('select[name="invoices_total_years"]').selectpicker('val');
-        var years = [];
-        $.each(_years, function(i, _y) {
-            if (_y !== '') { years.push(_y); }
-        });
-
-        var currency = $("body").find('select[name="total_currency"]').val();
-        var data = {
-            currency: currency,
-            years: years,
-            init_total: true,
-        };
-
-        var project_id = $('input[name="project_id"]').val();
-        var customer_id = $('.customer_profile input[name="userid"]').val();
-        if (typeof(project_id) != 'undefined') {
-            data.project_id = project_id;
-        } else if (typeof(customer_id) != 'undefined') {
-            data.customer_id = customer_id;
-        }
-        $.post(admin_url + 'legalservices/disputes_invoices/get_invoices_total', data).done(function(response) {
-            $('#invoices_total').html(response);
-        });
+    function record_payment_disputes(id) {
+        if (typeof(id) == 'undefined' || id === '') { return; }
+        $('#invoice').load(admin_url + 'legalservices/disputes_invoices/record_invoice_payment_ajax/' + id);
     }
 
 
-	// Init single invoice
+    // Init single invoice
+    function init_invoice_disputes(id) {
+        load_small_table_item(id, '#invoice', 'invoiceid', 'legalservices/disputes_invoices/get_invoice_data_ajax', '.table-invoices');
+    }
 
+
+    var table_invoices = $('table.table-invoices.diputes');
+    //var table_estimates = $('table.table-estimates');
+
+    if (table_invoices.length > 0/* || table_estimates.length > 0*/) {
+
+        // Invoices additional server params
+        var Invoices_Estimates_ServerParams = {};
+        var Invoices_Estimates_Filter = $('._hidden_inputs._filters input');
+
+        $.each(Invoices_Estimates_Filter, function() {
+            Invoices_Estimates_ServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        if (table_invoices.length) {
+            // Invoices tables
+            initDataTable(table_invoices, (admin_url + 'legalservices/disputes_invoices/table' + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParams, !$('body').hasClass('recurring') ? [
+                [3, 'desc'],
+                [0, 'desc']
+            ] : [table_invoices.find('th.next-recurring-date').index(), 'asc']);
+        }
+
+        /*if (table_estimates.length) {
+            // Estimates table
+            initDataTable(table_estimates, admin_url + 'estimates/table', 'undefined', 'undefined', Invoices_Estimates_ServerParams, [
+                [3, 'desc'],
+                [0, 'desc']
+            ]);
+        }*/
+    }
 </script>
+
 </body>
 </html>

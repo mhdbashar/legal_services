@@ -24,7 +24,7 @@ if (get_option('show_status_on_pdf_ei') == 1) {
 }
 
 if ($status != 2 && $status != 5 && get_option('show_pay_link_to_invoice_pdf') == 1
-    && found_invoice_mode($payment_modes, $invoice->id, false)) {
+    && disputes_found_invoice_mode($payment_modes, $invoice->id, false)) {
     $info_right_column .= ' - <a style="color:#84c529;text-decoration:none;text-transform:uppercase;" href="' . site_url('invoice/' . $invoice->id . '/' . $invoice->hash) . '"><1b>' . _l('view_invoice_pdf_link_pay') . '</1b></a>';
 }
 $info_right_column .= '</div>';
@@ -256,7 +256,7 @@ if (count($invoice->payments) > 0 && get_option('show_transactions_on_invoice_pd
     $pdf->writeHTML($tblhtml, true, false, false, false, $align);
 }
 
-if (found_invoice_mode($payment_modes, $invoice->id, true, true)) {
+if (disputes_found_invoice_mode($payment_modes, $invoice->id, true, true)) {
     $pdf->Ln(4);
     $pdf->SetFont($font_name, 'B', $font_size);
     $pdf->Cell(0, 0, _l('invoice_html_offline_payment') . ":", 0, 1, $align, 0, '', 0);

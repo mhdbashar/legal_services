@@ -72,7 +72,7 @@
                    <select name="project_id" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                    <?php
                      if(isset($invoice) && $invoice->project_id != 0){
-                        echo '<option value="'.$invoice->project_id.'" selected>'.get_project_name_by_id($invoice->project_id).'</option>';
+                        echo '<option value="'.$invoice->project_id.'" selected>'.get_disputes_case_name_by_id($invoice->project_id).'</option>';
                      }
                    ?>
                </select>
@@ -499,7 +499,7 @@
                 <div class="input-group-addon input-group-addon-bill-tasks-help">
                   <?php
                     if(isset($invoice) && !empty($invoice->project_id)) {
-                       $help_text = _l('showing_billable_tasks_from_project') . ' ' . get_project_name_by_id($invoice->project_id);
+                       $help_text = _l('showing_billable_tasks_from_project') . ' ' . get_disputes_case_name_by_id($invoice->project_id);
                     } else {
                        $help_text = _l('invoice_task_item_project_tasks_not_included');
                     }
@@ -825,7 +825,7 @@
         });
         $("body").find('input[name="number"]').rules('add', {
             remote: {
-                url: admin_url + "disputes/invoices/validate_invoice_number",
+                url: admin_url + "legalservices/disputes_invoices/validate_invoice_number",
                 type: 'post',
                 data: {
                     number: function() {

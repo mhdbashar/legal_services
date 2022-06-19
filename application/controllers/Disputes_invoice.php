@@ -35,7 +35,7 @@ class Disputes_invoice extends ClientsController
         }
         // Handle $_POST payment
         if ($this->input->post('make_payment')) {
-            $this->load->model('legalservices/disputes_cases/payments_model','payments');
+            $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
             if (!$this->input->post('paymentmode')) {
                 set_alert('warning', _l('invoice_html_payment_modes_not_selected'));
                 redirect(site_url('disputes_invoice/' . $id . '/' . $hash));
@@ -58,7 +58,7 @@ class Disputes_invoice extends ClientsController
             'clientid' => $invoice->clientid,
         ],'numberword');
         $this->load->model('payment_modes_model');
-        $this->load->model('legalservices/disputes_cases/payments_model','payments');
+        $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
         $data['payments']      = $this->payments->get_invoice_payments($id);
         $data['payment_modes'] = $this->payment_modes_model->get();
         $data['title']         = disputes_format_invoice_number($invoice->id);

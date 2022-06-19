@@ -249,7 +249,7 @@
                   Recurring invoice with status Cancelled <b>is still ongoing recurring invoice</b>. If you want to stop this recurring invoice you should update the invoice recurring field to <b>No</b>.
                </div>
                <?php } ?>
-               <?php $this->load->view('legalservices/disputes_invoices/invoice_preview_html'); ?>
+               <?php $this->load->view('admin/legalservices/disputes_cases/invoices/invoice_preview_html'); ?>
             </div>
             <?php if(count($invoice->payments) > 0) { ?>
             <div class="tab-pane" role="tabpanel" id="invoice_payments_received">

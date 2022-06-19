@@ -46,22 +46,22 @@
 
 								<ul class="dropdown-menu dropdown-menu-right">
 									<li class="hidden-xs">
-										<a href="<?php echo admin_url('disputes/payments/pdf/'.$payment->paymentid.'?output_type=I'); ?>">
+										<a href="<?php echo admin_url('legalservices/disputes_payments/pdf/'.$payment->paymentid.'?output_type=I'); ?>">
 											<?php echo _l('view_pdf'); ?>
 										</a>
 									</li>
 									<li class="hidden-xs">
-										<a href="<?php echo admin_url('disputes/payments/pdf/'.$payment->paymentid.'?output_type=I'); ?>" target="_blank">
+										<a href="<?php echo admin_url('legalservices/disputes_payments/pdf/'.$payment->paymentid.'?output_type=I'); ?>" target="_blank">
 											<?php echo _l('view_pdf_in_new_window'); ?>
 										</a>
 									</li>
 									<li>
-										<a href="<?php echo admin_url('disputes/payments/pdf/'.$payment->paymentid); ?>">
+										<a href="<?php echo admin_url('legalservices/disputes_payments/pdf/'.$payment->paymentid); ?>">
 											<?php echo _l('download'); ?>
 										</a>
 									</li>
 									<li>
-										<a href="<?php echo admin_url('disputes/payments/pdf/'.$payment->paymentid.'?print=true'); ?>" target="_blank">
+										<a href="<?php echo admin_url('legalservices/disputes_payments/pdf/'.$payment->paymentid.'?print=true'); ?>" target="_blank">
 											<?php echo _l('print'); ?>
 										</a>
 									</li>

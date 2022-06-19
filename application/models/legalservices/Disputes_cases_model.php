@@ -61,7 +61,7 @@ class Disputes_cases_model extends App_Model
             $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_disputes_cases.court_id');
             $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_disputes_cases.jud_num');
             $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_disputes_cases.representative');
-            $this->db->join(db_prefix() . 'my_disputes_cases_statuses', db_prefix() . 'my_disputes_cases_statuses.id=' . db_prefix() . 'my_disputes_cases.case_status');
+            $this->db->join(db_prefix() . 'my_disputes_cases_statuses', db_prefix() . 'my_disputes_cases_statuses.id=' . db_prefix() . 'my_disputes_cases.case_status', 'left');
 
             $project = $this->db->get(db_prefix() . 'my_disputes_cases')->row();
             if ($project) {

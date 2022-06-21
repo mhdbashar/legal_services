@@ -339,8 +339,8 @@
                                                 <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option value=""></option>
                                                     <option value="1" <?php if(isset($case) && $case->billing_type == 1 || !isset($case) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 1){echo 'selected'; } ?>><?php echo _l('project_billing_type_fixed_cost'); ?></option>
-                                                    <option value="2" <?php if(isset($case) && $case->billing_type == 2 || !isset($case) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 2){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_hours'); ?></option>
-                                                    <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>" <?php if(isset($case) && $case->billing_type == 3 || !isset($case) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 3){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_task_hours'); ?></option>
+                                                    <option value="10" <?php if(isset($case) && $case->billing_type == 10 || !isset($case) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 10){echo 'selected'; } ?>><?php echo _l('project_billing_type_10'); ?></option>
+                                                    <option value="11" <?php if(isset($case) && $case->billing_type == 11 || !isset($case) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 11){echo 'selected'; } ?>><?php echo _l('project_billing_type_11'); ?></option>
                                                 </select>
                                                 <?php if($disable_type_edit != ''){
                                                     echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
@@ -349,31 +349,57 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <?php if(isset($case) && project_has_recurring_tasks($case->id)) { ?>
+                                        <div class="alert alert-warning recurring-tasks-notice hide"></div>
+                                    <?php } ?>
+                                    <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'project-finished-to-customer','active'=>0)) == 0){ ?>
+                                        <div class="form-group project_marked_as_finished hide">
+                                            <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="project_marked_as_finished_email_to_contacts" id="project_marked_as_finished_email_to_contacts">
+                                                <label for="project_marked_as_finished_email_to_contacts"><?php echo _l('project_marked_as_finished_to_contacts'); ?></label>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if(isset($case)){ ?>
+                                        <div class="form-group mark_all_tasks_as_completed hide">
+                                            <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="mark_all_tasks_as_completed" id="mark_all_tasks_as_completed">
+                                                <label for="mark_all_tasks_as_completed"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
+                                            </div>
+                                        </div>
+                                        <div class="notify_project_members_status_change hide">
+                                            <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="notify_project_members_status_change" id="notify_project_members_status_change">
+                                                <label for="notify_project_members_status_change"><?php echo _l('notify_project_members_status_change'); ?></label>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    <?php } ?>
                                     <?php
                                     $input_field_hide_class_total_cost = '';
                                     if(!isset($case)){
-                                        if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
+                                        if($auto_select_billing_type && $auto_select_billing_type->billing_type == 11 || !$auto_select_billing_type){
                                             $input_field_hide_class_total_cost = 'hide';
                                         }
-                                    } else if(isset($case) && $case->billing_type != 1){
+                                    } else if(isset($case) && $case->billing_type == 11){
                                         $input_field_hide_class_total_cost = 'hide';
                                     }
                                     ?>
-                                    <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
+                                    <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?> ">
                                         <?php $value = (isset($case) ? $case->project_cost : ''); ?>
-                                        <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
+                                        <?php echo render_input('project_cost','project_billing_type_fixed_cost',$value,'number'); ?>
                                     </div>
                                     <?php
                                     $input_field_hide_class_rate_per_hour = '';
                                     if(!isset($case)){
-                                        if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
+                                        if($auto_select_billing_type && $auto_select_billing_type->billing_type == 1 || !$auto_select_billing_type){
                                             $input_field_hide_class_rate_per_hour = 'hide';
                                         }
-                                    } else if(isset($case) && $case->billing_type != 2){
+                                    } else if(isset($case) && $case->billing_type == 1){
                                         $input_field_hide_class_rate_per_hour = 'hide';
                                     }
                                     ?>
-                                    <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
+                                    <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?> ">
                                         <?php $value = (isset($case) ? $case->project_rate_per_hour : ''); ?>
                                         <?php
                                         $input_disable = array();
@@ -381,9 +407,8 @@
                                             $input_disable['disabled'] = true;
                                         }
                                         ?>
-                                        <?php echo render_input('project_rate_per_hour','project_rate_per_hour',$value,'number',$input_disable); ?>
+                                        <?php echo render_input('project_rate_per_hour','project_rate_percent',$value,'number',$input_disable); ?>
                                     </div>
-                                    <?php echo render_input('estimated_hours','estimated_hours',isset($case) ? $case->estimated_hours : '','number'); ?>
                                     <?php $value = (isset($case) ? $case->disputes_total : ''); ?>
                                     <?php echo render_input('disputes_total','disputes_total',$value,'number'); ?>
                                 </div>
@@ -1079,12 +1104,12 @@
             if(type == 1){
                 $('#project_cost').removeClass('hide');
                 $('#project_rate_per_hour').addClass('hide');
-            } else if(type == 2){
-                $('#project_cost').addClass('hide');
+            } else if(type == 10){
+                $('#project_cost').removeClass('hide');
                 $('#project_rate_per_hour').removeClass('hide');
             } else {
                 $('#project_cost').addClass('hide');
-                $('#project_rate_per_hour').addClass('hide');
+                $('#project_rate_per_hour').removeClass('hide');
             }
         });
 

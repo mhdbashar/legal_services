@@ -258,15 +258,15 @@ class Disputes_cases_model extends App_Model
             $project_members = $data['project_members'];
             unset($data['project_members']);
         }
-
         if ($data['billing_type'] == 1) {
             $data['project_rate_per_hour'] = 0;
-        } elseif ($data['billing_type'] == 2) {
+        } elseif ($data['billing_type'] == 11) {
             $data['project_cost'] = 0;
-        } else {
+        }/* else {
             $data['project_rate_per_hour'] = 0;
             $data['project_cost']          = 0;
-        }
+        }*/
+
 
         $data['addedfrom'] = get_staff_user_id();
 
@@ -578,12 +578,13 @@ class Disputes_cases_model extends App_Model
         $data['start_date'] = to_sql_date($data['start_date']);
         if ($data['billing_type'] == 1) {
             $data['project_rate_per_hour'] = 0;
-        } elseif ($data['billing_type'] == 2) {
+        } elseif ($data['billing_type'] == 11) {
             $data['project_cost'] = 0;
-        } else {
+        }/* else {
             $data['project_rate_per_hour'] = 0;
             $data['project_cost']          = 0;
-        }
+        }*/
+
         if (isset($data['opponent_id'])) {
             $opponents = [];
             foreach ($data['opponent_id'] as $opponent){

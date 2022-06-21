@@ -1595,4 +1595,26 @@ function disputes_case_payment_pdf($payment, $tag = '')
     return app_pdf('payment', LIBSPATH . 'pdf/Disputes_case_payment_pdf', $payment, $tag);
 }
 
+function check_if_invoiced_disputes_case($disputes_case_id){
+    $CI = &get_instance();
+    $CI->db->where('project_id', $disputes_case_id);
+    $CI->db->from(db_prefix() . 'my_disputes_cases_invoices');
+    $result = $CI->db->get()->result();
+    if($result)
+        return true;
+    else
+        return false;
+}
+
+function check_if_invoiced_case($disputes_case_id){
+    $CI = &get_instance();
+    $CI->db->where('id', $disputes_case_id);
+    $CI->db->select('is_invoiced');
+    $CI->db->from(db_prefix() . 'my_disputes_cases');
+    $row = $CI->db->get()->row();
+    if($row->is_invoiced == 1)
+        return true;
+    else
+        return false;
+}
 

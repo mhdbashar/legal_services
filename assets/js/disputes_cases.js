@@ -612,7 +612,7 @@ if (table_invoices_disputes_case.length > 0 /*|| table_estimates_case.length > 0
         // servid_invoices_case = $(".table-invoices_case").attr('data-servid');
         // slug_invoices_case = $(".table-invoices_case").attr('data-slug');
         clientid = 0;
-        initDataTable(table_invoices_disputes_case, (admin_url + 'invoices/table_disputes_case/'+ clientid + '/' + servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
+        initDataTable(table_invoices_disputes_case, (admin_url + 'invoices/table_disputes_case/'+ clientid + '/22/kdaya_altnfith' +  ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
             [3, 'desc'],
             [0, 'desc']
         ] : [table_invoices_disputes_case.find('th.next-recurring-date').index(), 'asc']);

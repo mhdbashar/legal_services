@@ -5,7 +5,7 @@
         $total_payments = count($invoice->payments);
         if($total_payments > 0){ ?>
         <h4 class="bold"><?php echo _l('invoice_payments_received'); ?></h4>
-        <?php include_once(APPPATH . '../modules/disputes/views/invoices/invoice_payments_table.php'); ?>
+        <?php include_once(APPPATH . '../application/views/admin/legalservices/disputes_cases/invoices/invoice_payments_table.php'); ?>
         <?php } else { ?>
         <h5 class="bold mtop15 pull-left"><?php echo _l('no_payments_found'); ?></h5>
         <?php } ?>

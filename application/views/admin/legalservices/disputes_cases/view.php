@@ -44,11 +44,11 @@
                                 <?php
                                 $invoice_func = 'pre_invoice_case';
                                 ?>
-                                <?php if(has_permission('invoices','','create')){ ?>
+                                <?php if(has_permission('invoices','','create') && check_if_invoiced_disputes_case($project->id) == 0){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_disputes_case'); ?></a>
                                 <?php } ?>
 
-                                <?php if(has_permission('invoices','','create')){ ?>
+                                <?php if(has_permission('invoices','','create') && check_if_invoiced_case($project->id) == 0){ ?>
                                     <a href="#" onclick="pre_invoice_project(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
 

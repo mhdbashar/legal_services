@@ -1578,7 +1578,9 @@ class Disputes_cases extends AdminController
             $data['project_id'] = null;
             $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
-                $this->case->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
+                $this->db->where('id', $project_id);
+                $this->db->update(db_prefix() . 'my_disputes_cases',['is_invoiced' => '1']);
+                $this->Dcase->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
             redirect(admin_url('Disputes_cases/view/22/' . $project_id . '?group=project_invoices'));

@@ -592,9 +592,10 @@ class Disputes_invoices extends AdminController
             if($billing_type==11){
                 $new_total = $percent;
                 $newitems[] = Array ( 'order' => 1, 'description' => 'Disputes percent fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
-
+            }elseif($billing_type==10){
+                $new_total = $percent;
+                $newitems[] = Array ( 'order' => 1, 'description' => 'Disputes percent fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
             }elseif($billing_type==1 || $billing_type==10){
-
                 if (total_rows(db_prefix() . 'invoices', [
                             'project_id' => $invoice_data->project_id,
                         ]) > 0) {
@@ -602,7 +603,6 @@ class Disputes_invoices extends AdminController
                 }else{
                     $newitems[] = Array ( 'order' => 1, 'description' => 'Disputes static fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $project_cost  );
                 }
-
 
                 if($billing_type==10){
 
@@ -623,44 +623,48 @@ class Disputes_invoices extends AdminController
 
             //Array ( [cancel_merged_invoices] => on [clientid] => 2 [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [show_shipping_on_invoice] => on [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [number] => 000024 [date] => 1441-1-22 [duedate] => 1441-2-22 [tags] => [allowed_payment_modes] => Array ( [0] => 1 ) [currency] => 1 [sale_agent] => [recurring] => 0 [discount_type] => [repeat_every_custom] => 1 [repeat_type_custom] => day [adminnote] => [item_select] => [show_quantity_as] => 1 [description] => [long_description] => [quantity] => 1 [unit] => [rate] => [newitems] => Array ( [1] => Array ( [order] => 1 [description] => Disputes static fees [long_description] => [qty] => 1 [unit] => [rate] => 500 ) [2] => Array ( [order] => 2 [description] => Disputes percent fees [long_description] => [qty] => 1 [unit] => [rate] => 25 ) [3] => Array ( [order] => 3 [description] => test [long_description] => [qty] => 1 [unit] => [rate] => 5 ) ) [subtotal] => 530.00 [discount_percent] => 0 [discount_total] => 0.00 [adjustment] => 0 [total] => 530.00 [task_id] => [expense_id] => [clientnote] => [terms] => [project_id] => 4 )
             $id = $this->payments->process_payment($data, '');
+
             if ($id) {
 
                 //Array ( [invoiceid] => 14 [amount] => 380.00 [date] => 1441-1-21 [paymentmode] => 1 [do_not_redirect] => on [transactionid] => 25552135123221 [note] => )
 
-                    $invoice_data = Array ( 'clientid' => $invoice_data->clientid,
-                     'billing_street' => $invoice_data->billing_street, 
-                     'billing_city' => $invoice_data->billing_city, 
-                     'billing_state' => $invoice_data->billing_state, 
-                     'billing_zip' => $invoice_data->billing_zip, 
+                $invoice_data = [
+                    'clientid' => $project_data->client_data->userid,
+                    'billing_street' => $project_data->client_data->billing_street,
+                     'billing_city' => $project_data->client_data->billing_city,
+                     'billing_state' => $project_data->client_data->billing_state,
+                     'billing_zip' => $project_data->client_data->billing_zip,
                      'show_shipping_on_invoice' => 'on',
-                     'shipping_street' => $invoice_data->shipping_street, 
-                     'shipping_city' => $invoice_data->shipping_city, 
-                     'shipping_state' => $invoice_data->shipping_state, 
-                     'shipping_zip' => $invoice_data->shipping_zip, 
+                     'shipping_street' => $project_data->client_data->shipping_street,
+                     'shipping_city' => $project_data->client_data->shipping_city,
+                     'shipping_state' => $project_data->client_data->shipping_state,
+                     'shipping_zip' => $project_data->client_data->shipping_zip,
                      'number' =>  get_option('next_invoice_number'),
-                     'date' => _d(date('Y-m-d')), 
-                     'duedate' => _d(date('Y-m-d')), 
-                     //'tags' => $invoice_data->tags, 
-                     'allowed_payment_modes' => Array ( 1 ), 
-                     'currency' => $invoice_data->currency, 
-                     'sale_agent' => $invoice_data->sale_agent, 
-                     'discount_type' => $invoice_data->discount_type, 
-                     //'repeat_every_custom' => $invoice_data->repeat_every_custom, 
-                     //'repeat_type_custom' => $invoice_data->repeat_type_custom, 
-                     'adminnote' => $invoice_data->adminnote, 
+                     'date' => _d(date('Y-m-d')),
+                     'duedate' => _d(date('Y-m-d')),
+                     //'tags' => $invoice_data->tags,
+                     'allowed_payment_modes' => Array ( 1 ),
+                     'currency' => $invoice_data->currency,
+                     'sale_agent' => $invoice_data->sale_agent,
+                     'discount_type' => $invoice_data->discount_type,
+                     //'repeat_every_custom' => $invoice_data->repeat_every_custom,
+                     //'repeat_type_custom' => $invoice_data->repeat_type_custom,
+                     'adminnote' => $invoice_data->adminnote,
                      'subtotal' =>  $new_total,
-                     'discount_percent' => $invoice_data->discount_percent, 
-                     'discount_total' => $invoice_data->discount_total, 
-                     'adjustment' => $invoice_data->adjustment, 
+                     'discount_percent' => $invoice_data->discount_percent,
+                     'discount_total' => $invoice_data->discount_total,
+                     'adjustment' => $invoice_data->adjustment,
                      'total' =>  $new_total,
-                     //'task_id' => $invoice_data->task_id, 
-                     //'expense_id' => $invoice_data->expense_id, 
-                     'clientnote' => $invoice_data->clientnote, 
-                     'terms' => $invoice_data->terms, 
+                     //'task_id' => $invoice_data->task_id,
+                     //'expense_id' => $invoice_data->expense_id,
+                     'clientnote' => $invoice_data->clientnote,
+                     'terms' => $invoice_data->terms,
                      'newitems' => $newitems,
-                     'project_id' => $invoice_data->project_id );
-                    
-                    if($new_total>0) $id2 = $this->invoices->add_invoice($invoice_data);
+                     'rel_sid' => $invoice_data->project_id,
+                    'rel_stype'=> 'kdaya_altnfith',
+                    'project_id'=>'0'];
+
+                if($new_total>0) $id2 = $this->invoices->add_invoice($invoice_data);
                     if ($id2) {
                         set_alert('success', _l('added_successfully', _l('invoice')));
                         redirect(admin_url('invoices/list_invoices/' . $id2));

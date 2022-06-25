@@ -1738,7 +1738,7 @@ class Disputes_cases_model extends App_Model
         $file = $this->db->get(db_prefix() . 'my_disputes_case_files')->row();
         if ($file) {
             if (empty($file->external)) {
-                $path     = get_upload_path_by_type_case('case') . $file->project_id . '/';
+                $path     = get_upload_path_by_type_disputes_case('disputes_case') . $file->project_id . '/';
                 $fullPath = $path . $file->file_name;
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
@@ -1761,11 +1761,11 @@ class Disputes_cases_model extends App_Model
             // Delete discussion comments
             $this->_delete_discussion_comments($id, 'file');
 
-            if (is_dir(get_upload_path_by_type_case('case') . $file->project_id)) {
+            if (is_dir(get_upload_path_by_type_disputes_case('disputes_case') . $file->project_id)) {
                 // Check if no attachments left, so we can delete the folder also
-                $other_attachments = list_files(get_upload_path_by_type_case('case') . $file->project_id);
+                $other_attachments = list_files(get_upload_path_by_type_disputes_case('disputes_case') . $file->project_id);
                 if (count($other_attachments) == 0) {
-                    delete_dir(get_upload_path_by_type_case('case') . $file->project_id);
+                    delete_dir(get_upload_path_by_type_disputes_case('disputes_case') . $file->project_id);
                 }
             }
 

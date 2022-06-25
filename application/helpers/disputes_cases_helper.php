@@ -823,9 +823,10 @@ function handle_disputes_case_file_uploads($ServID, $project_id)
             $_FILES['file']['error']    = [$_FILES['file']['error']];
             $_FILES['file']['size']     = [$_FILES['file']['size']];
         }
-
-        $path = get_upload_path_by_type_disputes_case('disputes_case') . $project_id . '/';
-
+        if(!file_exists('uploads/disputes_cases')){
+            mkdir('uploads/disputes_cases');
+        }
+            $path = get_upload_path_by_type_disputes_case('disputes_case') . $project_id . '/';
         for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
             if (_babil_upload_error($_FILES['file']['error'][$i])) {
                 $errors[$_FILES['file']['name'][$i]] = _babil_upload_error($_FILES['file']['error'][$i]);

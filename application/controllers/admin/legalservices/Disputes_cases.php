@@ -608,7 +608,7 @@ class Disputes_cases extends AdminController
                 set_alert('warning', _l('no_files_found'));
                 redirect(admin_url('Disputes_cases/view/'.$ServID.'/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type_case('case') . $id;
+            $path = get_upload_path_by_type_disputes_case('disputes_case') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);

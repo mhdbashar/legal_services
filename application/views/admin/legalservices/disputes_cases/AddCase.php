@@ -183,7 +183,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                                    <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -681,6 +681,32 @@
     </div>
 </div>
 <?php } ?>
+<?php if (has_permission('opponents', '', 'create')) { ?>
+    <div class="modal fade" id="add-opponent-lawyer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <span class="add-title"><?php echo _l('opponent_lawyer'); ?></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo render_input( 'opponent_lawyer_company_modal', 'opponent_lawyer','','text'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                    <button group="button" id="AddOpponent-lawyer" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
 <?php if (has_permission('courts', '', 'create')) { ?>
 <div class="modal fade" id="add-court" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -881,6 +907,34 @@
         }
     });
     <?php } ?>
+    <?php if (has_permission('opponents', '', 'create')) { ?>
+    $("#AddOpponent-lawyer").click(function () {
+        company = $('#opponent_lawyer_company_modal').val();
+        if(company == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('opponents/add'); ?>',
+                data: {
+                    company : company,
+                    client_type : 1
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#opponent_lawyer_id").append(new Option(company, data, true, true));
+                        $('#opponent_lawyer_id').append(newOption).trigger('change');
+                        $('#add-opponent-lawyer').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+    <?php } ?>
+
     var error = false;
     $(".opponent").on('change',function () {
         var sel = $(this).val();

@@ -214,7 +214,7 @@ function get_relation_data($type, $rel_id = '', $extra = [])
         $service_id = $CI->legal->get_service_id_by_slug($pure_slug);
         if($service_id == 1){
             $CI->load->model('legalservices/Cases_model', 'case_serv');
-            $data = $CI->case_serv->get($rel_id, 'name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
+            $data = $CI->case_serv->get($rel_id, db_prefix().'my_cases.name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
         }else{
             $CI->load->model('legalservices/Other_services_model', 'other_serv');
             $data = $CI->other_serv->get($service_id, $rel_id, $where);

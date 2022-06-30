@@ -1,6 +1,6 @@
 
 <?php if (has_permission('procurations', '', 'create') || is_admin()) { ?>
-<a href="<?php echo admin_url('procuration/procurationcu/'.$project->clientid.'/no_id/'.$id); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
+<a href="<?php echo admin_url('procuration/procurationcu/'.$project->clientid.'/d_case/'.$id); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />
 <?php } ?>

@@ -100,26 +100,30 @@ $CI->load->library('app_modules');?>
                                 <?php
                                 if($project->billing_type == 1){
                                     $type_name = 'project_billing_type_fixed_cost';
-                                } else if($project->billing_type == 2){
-                                    $type_name = 'project_billing_type_project_hours';
+                                } else if($project->billing_type == 10){
+                                    $type_name = 'project_billing_type_10';
                                 } else {
-                                    $type_name = 'project_billing_type_project_task_hours';
+                                    $type_name = 'project_billing_type_11';
                                 }
                                 echo _l($type_name);
                                 ?>
                             </td>
-                            <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                                echo '<tr class="project-overview-amount">';
-                                if($project->billing_type == 1){
-                                    echo '<td class="bold">'._l('project_total_cost').'</td>';
+                        </tr>
+                            <?php if($project->billing_type){
+                                if($project->billing_type != 11){
+                                    echo '<tr>';
+                                    echo '<td class="bold">'._l('project_billing_type_fixed_cost').'</td>';
                                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
-                                } else {
-                                    echo '<td class="bold">'._l('project_rate_per_hour').'</td>';
-                                    echo '<td>'.app_format_money($project->project_rate_per_hour, $currency).'</td>';
+                                    echo '<tr>';
                                 }
-                                echo '<tr>';
+                                if($project->billing_type != 1){
+                                    echo '<tr>';
+                                    echo '<td class="bold">'._l('project_rate_percent').'</td>';
+                                    echo '<td>%'.($project->project_rate_per_hour).'</td>';
+                                    echo '<tr>';
+                                }
                             }
-                            }
+                        }
                             ?>
 
                         <tr class="project-overview-customer">

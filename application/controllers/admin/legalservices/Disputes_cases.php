@@ -190,7 +190,7 @@ class Disputes_cases extends AdminController
     public function procurations($case_id)
     {
         $this->app->get_table_data('my_procurations', [
-            'case_id' => $case_id,
+            'disputes_case_id' => $case_id,
             'request' => 'case'
         ]);
     }

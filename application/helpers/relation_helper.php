@@ -66,7 +66,18 @@ function get_relation_data($type, $rel_id = '', $extra = [])
         }
     }
 
-     elseif ($type == 'credit_note') {
+    elseif ($type == 'client_disputes_cases') {
+        if ($rel_id != '') {
+            $CI->load->model('legalservices/Disputes_cases_model');
+            $data = $CI->Disputes_cases_model->get();
+        } else {
+            $CI->load->model('legalservices/Disputes_cases_model');
+            $data = $CI->Disputes_cases_model->get(['clientid' => $rel_id]);
+        }
+    }
+
+
+    elseif ($type == 'credit_note') {
         if ($rel_id != '') {
             $CI->load->model('credit_notes_model');
             $data = $CI->credit_notes_model->get($rel_id);

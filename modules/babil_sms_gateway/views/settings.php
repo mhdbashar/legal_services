@@ -1,7 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <?php echo render_input('settings[receive_sms_token]','receive_sms_token',get_option('receive_sms_token'),'text'); ?>
-<hr />
+<div class="row">
+    <div class="col-md-12">
+    <div class="form-group">
+        <label for="settings[new_gateway]" class="control-label"><?php echo _l('gateway') ?></label>
+        <select required="required" class="form-control" id="settings[new_gateway]" name="settings[new_gateway]"  aria-invalid="false">
+            <option <?php if(!get_option('new_gateway')) echo "selected" ?> value="0"><?= _l('old_gateway') ?></option>
+            <option <?php if(get_option('new_gateway')) echo "selected" ?> value="1"><?= _l('new_gateway') ?></option>
+        </select>
+    </div>
+    </div>
+</div>
 <!--<div class="row">-->
 <!--    <div class="col-md-4">-->
 <!--        --><?php //echo render_input('settings[sms_sender_1]','sms_sender_1',get_option('sms_sender_1'),'text'); ?>

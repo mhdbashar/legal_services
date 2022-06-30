@@ -57,7 +57,7 @@ foreach ($rResult as $aRow) {
     //if (has_permission('hr', '', 'edit'))
         $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_message', 'data-id' => $aRow['msg_id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     //if (has_permission('hr', '', 'delete'))
-        $options .= icon_btn('receive_sms/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
+        $options .= icon_btn('babil_sms_gateway/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $row[]   = $options;
 
     $output['aaData'][] = $row;

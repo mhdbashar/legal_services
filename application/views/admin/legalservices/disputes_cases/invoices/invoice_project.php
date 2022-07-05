@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="modal fade invoice-project" id="invoice-project-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-xxl" role="document">
-        <?php echo form_open('admin/legalservices/disputes_cases/invoice_project/'.$project->id,array('id'=>'disputes_invoice_project_form','class'=>'_transaction_form invoice-form')); ?>
+        <?php echo form_open('admin/legalservices/disputes_invoices/invoice_project/'.$project->id,array('id'=>'disputes_invoice_project_form','class'=>'_transaction_form invoice-form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="background-color: #fff">
                 <!--<button class="btn btn-default invoice-form-submit save-as-draft transaction-submit">
                     <?php echo _l('save_as_draft'); ?>
                 </button>-->

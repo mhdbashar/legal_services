@@ -8,7 +8,7 @@
                 <div class="panel_s project-top-panel panel-full">
                     <div class="panel-body _buttons">
                         <div class="row">
-                            <div class="col-md-7 project-heading">
+                            <div class="project-heading">
                                 <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                                 <div id="project_view_name" class="pull-left">
                                     <select class="selectpicker" id="project_top" data-servid="<?php echo $ServID; ?>" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
@@ -36,7 +36,7 @@
                                 </h4>
                                 <?php endif; ?>
                             </div>
-                            <div class="col-md-5 text-right">
+                            <div class="project-heading pull-right">
                                 <a href="<?php echo admin_url('legalservices/disputes_case_movement/edit/' .$ServID.'/'. $project->id); ?>" class="btn btn-info"><?php echo _l('NewCaseMovement'); ?></a>
                                 <?php if(has_permission('tasks','','create')){ ?>
                                     <a href="#" onclick="new_task_from_relation(undefined,'<?php echo $service->slug; ?>',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>

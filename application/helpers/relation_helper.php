@@ -68,10 +68,10 @@ function get_relation_data($type, $rel_id = '', $extra = [])
 
     elseif ($type == 'client_disputes_cases') {
         if ($rel_id != '') {
-            $CI->load->model('legalservices/Disputes_cases_model');
+            $CI->load->model('legalservices/disputes_cases/Disputes_cases_model');
             $data = $CI->Disputes_cases_model->get();
         } else {
-            $CI->load->model('legalservices/Disputes_cases_model');
+            $CI->load->model('legalservices/disputes_cases/Disputes_cases_model');
             $data = $CI->Disputes_cases_model->get(['clientid' => $rel_id]);
         }
     }
@@ -227,7 +227,7 @@ function get_relation_data($type, $rel_id = '', $extra = [])
             $CI->load->model('legalservices/Cases_model', 'case_serv');
             $data = $CI->case_serv->get($rel_id, db_prefix() . 'my_cases.name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
         }elseif ($service_id == 22){
-            $CI->load->model('legalservices/Disputes_cases_model', 'disputes_serv');
+            $CI->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_serv');
             $data = $CI->disputes_serv->get($rel_id, db_prefix() . 'my_disputes_cases.name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
         }else{
             $CI->load->model('legalservices/Other_services_model', 'other_serv');

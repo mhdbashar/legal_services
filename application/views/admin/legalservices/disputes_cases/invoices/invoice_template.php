@@ -60,7 +60,7 @@
                             array_push($selected,$row['opponent_id']);
                         }
                     }
-                    echo render_select('opponents[]',$opponents_array,array('userid',array('company')),'opponents',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                    echo render_select('opponents[]',$opponents_array,array('userid',array('company')),'opponents',$selected,array('multiple'=>true,'data-actions-box'=>true, 'required'=>true),array(),'','',false);
                 ?>
               </div>
             </div>
@@ -775,8 +775,8 @@
                 </button>
                 <?php } ?>-->
               <div class="btn-group dropup">
-                <button type="button" class="btn-tr btn btn-info invoice-form-submit transaction-submit"><?php echo _l('submit'); ?></button>
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="submit_total btn-tr btn btn-info invoice-form-submit transaction-submit"><?php echo _l('submit'); ?></button>
+                <button type="button" class="submit_total btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right width200">
@@ -801,8 +801,6 @@
    </div>
 </div>
 <script type="text/javascript">
-
-
 
     function validate_disputes_invoice_form(selector) {
         selector = typeof(selector) == 'undefined' ? '#invoice-form' : selector;

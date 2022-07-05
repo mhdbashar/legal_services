@@ -3444,3 +3444,7 @@ $lang['disputes_reminder'] = 'تذكير المنازعات';//disputes_cases_re
 $lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';
 $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعادة إرسال المنازعات تلقائيا فاتورة تذكير المتأخرة قبل / بعد أيام';
 $lang['invoice_disputes_case'] = 'فوترة النزاع';
+$lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية للقضية';
+$lang['disputes_invoice_item'] = 'رسوم فاتورة النزاع';
+
+

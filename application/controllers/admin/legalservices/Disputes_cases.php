@@ -8,10 +8,10 @@ class Disputes_cases extends AdminController
     {
         parent::__construct();
         $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
-        $this->load->model('legalservices/Disputes_case_movement_model', 'Dmovement');
+        $this->load->model('legalservices/disputes_cases/Disputes_case_movement_model', 'Dmovement');
         $this->load->model('Branches_model');
         $this->load->model('tasks_model');
         $this->load->model('legalservices/Phase_model','phase');
@@ -1529,44 +1529,6 @@ class Disputes_cases extends AdminController
         }
     }
 
-    public function invoice_project($project_id)
-    {
-        if (staff_can('create', 'invoices')) {
-            $data               = $this->input->post();
-            $opponents = $data['opponents'];
-            unset($data['opponents']);
-            $data['project_id'] = $project_id;
-            $data['prefix']     = 'DIS-';
-            $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-
-
-            $cycls = $data['cycles'] > 1 ? $data['cycles'] : 1;
-            $installment_date = $data['installment_date'];
-            $installment_total = $data['installment_total'];
-            unset($data['recurring'],$data['cycles'],$data['installment_date'],$data['installment_total']);
-            $data['number']-- ;
-
-            for($cycl=0; $cycl<$cycls; $cycl++) {
-                $data['number']++;
-                $data['discount_percent'] = 0;
-                $data['discount_total'] = 0;
-                $data['adjustment'] = 0;
-                $data['duedate'] = $installment_date[$cycl] ? $installment_date[$cycl] : $data['duedate'];
-                $data['subtotal'] = $data['total'] = $installment_total[$cycl];
-                $data['clientid'] = $opponents[0];
-                $invoice_id = $this->invoices->add($data, false, $opponents);
-                if ($invoice_id) {
-                    $this->Dcase->log_activity($project_id, 'project_activity_invoiced_project', disputes_format_invoice_number($invoice_id));
-                }
-            }
-
-            if ($invoice_id) {
-                set_alert('success', _l('project_invoiced_successfully'));
-            }
-
-            redirect(admin_url('Disputes_cases/view/22/' . $project_id . '?group=disputes_invoices'));
-        }
-    }
     public function invoice($project_id)
     {
         if (staff_can('create', 'invoices')) {

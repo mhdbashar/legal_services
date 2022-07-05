@@ -10,7 +10,7 @@ if (is_rtl()) {
     $style = '';
 }
 $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
-$this->ci->load->model('legalservices/Disputes_cases_model', 'Dcase');
+$this->ci->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
 $slug = $this->ci->legal->get_service_by_id(1)->row()->slug;
 $dimensions    = $pdf->getPageDimensions();
 $custom_fields = get_custom_fields("$slug");

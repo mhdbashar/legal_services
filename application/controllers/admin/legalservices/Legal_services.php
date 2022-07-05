@@ -9,7 +9,7 @@ class Legal_services extends AdminController
         parent::__construct();
         $this->load->model('legalservices/LegalServicesModel' , 'legal');
         $this->load->model('legalservices/Cases_model','case');
-        $this->load->model('legalservices/Disputes_cases_model','disputes_cases');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model','disputes_cases');
         $this->load->model('legalservices/Other_services_model','other');
         $this->load->model('legalservices/Imported_services_model','imported');
         $this->load->model('projects_model');

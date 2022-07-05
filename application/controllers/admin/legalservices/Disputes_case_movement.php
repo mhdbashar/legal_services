@@ -7,9 +7,9 @@ class Disputes_case_movement extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('legalservices/Disputes_case_movement_model', 'Dmovement');
+        $this->load->model('legalservices/disputes_cases/Disputes_case_movement_model', 'Dmovement');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
         $this->load->helper('date');
         $this->load->helper('disputes_cases_helper');
     }

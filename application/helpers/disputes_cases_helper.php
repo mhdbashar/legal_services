@@ -304,8 +304,8 @@ function get_disputes_case($id = null)
         return null;
     }
 
-    if (!class_exists('legalservices/Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases_model', 'disputes_case');
+    if (!class_exists('Disputes_cases_model', false)) {
+        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
     }
 
     $project = get_instance()->disputes_case->get($id);
@@ -320,8 +320,8 @@ function get_disputes_case($id = null)
  */
 function get_disputes_case_status_by_id($id)
 {
-    if (!class_exists('legalservices/Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases_model', 'disputes_case');
+    if (!class_exists('Disputes_cases_model', false)) {
+        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
     }
 
     $statuses = get_instance()->disputes_case->get_project_statuses();
@@ -344,8 +344,8 @@ function get_disputes_case_status_by_id($id)
 }
 
 function get_disputes_status_by_id($id){
-    if (!class_exists('legalservices/Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases_model', 'disputes_case');
+    if (!class_exists('Disputes_cases_model', false)) {
+        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
     }
     $status = get_instance()->disputes_case->get_status_by_id($id);
     if($status) {
@@ -367,7 +367,7 @@ function get_user_pinned_disputes_cases($slug)
     $CI->db->where(db_prefix() . 'disputes_pinned_cases.staff_id', get_staff_user_id());
     $CI->db->where(db_prefix() . 'my_disputes_cases.deleted', 0);
     $projects = $CI->db->get(db_prefix() . 'disputes_pinned_cases')->result_array();
-    $CI->load->model('legalservices/Disputes_cases_model', 'disputes_case');
+    $CI->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
 
     foreach ($projects as $key => $project) {
         $projects[$key]['progress'] = $CI->disputes_case->calc_progress($project['id'], $slug);
@@ -889,7 +889,7 @@ function handle_disputes_case_file_uploads($ServID, $project_id)
         }
     }
     if (count($filesIDS) > 0) {
-        $CI->load->model('legalservices/disputes_cases_model', 'disputes_case');
+        $CI->load->model('legalservices/disputes_cases/disputes_cases_model', 'disputes_case');
         end($filesIDS);
         $lastFileID = key($filesIDS);
         $CI->disputes_case->new_project_file_notification($ServID,$filesIDS[$lastFileID], $project_id);
@@ -1083,7 +1083,7 @@ function disputes_format_invoice_status($status, $classes = '', $label = true)
     if ($status == 1) {
         $status = _l('invoice_status_unpaid');
     } elseif ($status == 2) {
-        $status = _l('invoices');
+        $status = _l('invoice_status_paid');
     } elseif ($status == 3) {
         $status = _l('invoice_status_not_paid_completely');
     } elseif ($status == 4) {
@@ -1091,7 +1091,6 @@ function disputes_format_invoice_status($status, $classes = '', $label = true)
     } elseif ($status == 5) {
         $status = _l('invoice_status_cancelled');
     } else {
-        // status 6
         $status = _l('invoice_status_draft');
     }
     if ($label == true) {

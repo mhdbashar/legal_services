@@ -41,7 +41,7 @@ $ci->load->model('procurationtype_model');
 $ci->load->model('procurationstate_model');
 $ci->load->model('procurations_model');
 $ci->load->model('legalservices/Cases_model', 'case');
-$ci->load->model('legalservices/Disputes_cases_model', 'Dcase');
+$ci->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
 
 foreach ($rResult as $aRow) {
     $row = [];

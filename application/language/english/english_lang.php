@@ -3875,3 +3875,6 @@ $lang['disputes_reminder'] = 'Disputes Reminder';
 $lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'Automatically Send Disputes Invoice Overdue Reminder Before/After Days';
 $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'Automatically Resend Disputes Invoice Overdue Reminder Before/After Days';
 $lang['invoice_disputes_case'] = 'Disputes Invoice';
+$lang['disputes_percent_fees'] = 'Disputes Percent Fees';
+$lang['disputes_invoice_item'] = 'Disputes Invoice';
+

@@ -10,7 +10,7 @@ class Disputes_invoices extends AdminController
     {
         parent::__construct();
         $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
 
         $this->load->model('credit_notes_model');
         $this->ci = & get_instance();
@@ -326,6 +326,45 @@ class Disputes_invoices extends AdminController
     }
 
     /* Add new invoice or update existing */
+    public function invoice_project($project_id)
+    {
+        if (staff_can('create', 'invoices')) {
+            $data               = $this->input->post();
+            $opponents = $data['opponents'];
+            unset($data['opponents']);
+            $data['project_id'] = $project_id;
+            $data['prefix']     = 'DIS-';
+            $this->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
+            $cycls = $data['cycles'] > 1 ? $data['cycles'] : 1;
+            $installment_date = $data['installment_date'];
+            $installment_total = $data['installment_total'];
+            unset($data['recurring'],$data['cycles'],$data['installment_date'],$data['installment_total']);
+            $data['number']-- ;
+            for($cycl=0; $cycl<$cycls; $cycl++) {
+                $data['number']++;
+                $data['discount_percent'] = 0;
+                $data['discount_total'] = 0;
+                $data['adjustment'] = 0;
+                $data['duedate'] = $installment_date[$cycl] ? $installment_date[$cycl] : $data['duedate'];
+                $data['subtotal'] = $data['total'] = $installment_total[$cycl];
+                $data['clientid'] = $opponents[0];
+                $data['newitems'] = [];
+                $data['newitems'][1] = ['order'=> 1 ,'description'=> _l('disputes_invoice_item') ,'qty'=> 1 ,'rate'=>$data['subtotal']];
+
+                $invoice_id = $this->invoices->add($data, false, $opponents);
+                if ($invoice_id) {
+                    $this->Dcase->log_activity($project_id, 'project_activity_invoiced_project', disputes_format_invoice_number($invoice_id));
+                }
+            }
+
+            if ($invoice_id) {
+                set_alert('success', _l('project_invoiced_successfully'));
+            }
+
+            redirect(admin_url('Disputes_cases/view/22/' . $project_id . '?group=disputes_invoices'));
+        }
+    }
+
     public function invoice($id = '')
     {
         if ($this->input->post()) {
@@ -333,60 +372,66 @@ class Disputes_invoices extends AdminController
             $opponents = $invoice_data['opponents'];
             unset($invoice_data['opponents']);
             if ($id == '') {
-                if (!has_permission('invoices', '', 'create')) {
-                    access_denied('invoices');
-                }
-            $cycls = $invoice_data['cycles']>1 ? $invoice_data['cycles'] : 1;
-            $installment_date = $invoice_data['installment_date'];
-            $installment_total = $invoice_data['installment_total'];
-            unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
-            $redUrl = array();
-            for($cycl=0; $cycl<$cycls; $cycl++) {
-                $invoice_data['discount_percent'] = 0;
-                $invoice_data['discount_total'] = 0;
-                $invoice_data['adjustment'] = 0;
-                $invoice_data['duedate'] = $installment_date[$cycl];
-                $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
-                $id = $this->invoices->add($invoice_data);
-                if ($id) {
-                    set_alert('success', _l('added_successfully', _l('invoice')));
-                    $redUrl[] = admin_url('legalservices/disputes_invoices/list_invoices/' . $id);
-                }
-            }
-                if (isset($invoice_data['save_and_record_payment'])) {
-                    $this->session->set_userdata('record_payment', true);
-                }
-                redirect($redUrl[0]);
+//                if (!has_permission('invoices', '', 'create')) {
+//                    access_denied('invoices');
+//                }
+//                $cycls = $invoice_data['cycles']>1 ? $invoice_data['cycles'] : 1;
+//                $installment_date = $invoice_data['installment_date'];
+//                $installment_total = $invoice_data['installment_total'];
+//                unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
+//                $redUrl = array();
+//                for($cycl=0; $cycl<$cycls; $cycl++) {
+//                    $invoice_data['discount_percent'] = 0;
+//                    $invoice_data['discount_total'] = 0;
+//                    $invoice_data['adjustment'] = 0;
+//                    $invoice_data['duedate'] = $installment_date[$cycl];
+//                    $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
+//                    $data['newitems'] = [];
+//                    $data['newitems'][1] = ['order'=> 1 ,'description'=> _l('disputes_invoice_item') ,'qty'=> 1 ,'rate'=>$data['subtotal']];
+//                    $id = $this->invoices->add($invoice_data);
+//                    if ($id) {
+//                        set_alert('success', _l('added_successfully', _l('invoice')));
+//                        $redUrl[] = admin_url('legalservices/disputes_invoices/list_invoices/' . $id);
+//                    }
+//                }
+//                    if (isset($invoice_data['save_and_record_payment'])) {
+//                        $this->session->set_userdata('record_payment', true);
+//                    }
+//                    redirect($redUrl[0]);
             } else {
                 if (!has_permission('invoices', '', 'edit')) {
                     access_denied('invoices');
                 }
-            $cycls = $invoice_data['cycles']>1 ? $invoice_data['cycles'] : 1;
-            $installment_date = $invoice_data['installment_date'];
-            $installment_total = $invoice_data['installment_total'];
-            unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
-            $this->db->where('case_id', $invoice_data['project_id']);
-            $this->db->delete(db_prefix() . 'my_disputes_cases_opponents');
-            foreach ($opponents as $opponent) {
-                $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
-                    'opponent_id' => $opponent,
-                    'case_id' => $invoice_data['project_id']
-                ]);
-            }
-            $invoice_data['project_id'] = $invoice_data['project_id'];
-            $redUrl = array();
-            for($cycl=0; $cycl<$cycls; $cycl++) {
-                $invoice_data['discount_percent'] = 0;
-                $invoice_data['discount_total'] = 0;
-                $invoice_data['adjustment'] = 0;
-                $invoice_data['duedate'] = $installment_date[$cycl];
-                $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
-                $success = $this->invoices->update($invoice_data, $id, $opponents);
-                if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('invoice')));
+                $cycls = $invoice_data['cycles']>1 ? $invoice_data['cycles'] : 1;
+                $installment_date = $invoice_data['installment_date'];
+                $installment_total = $invoice_data['installment_total'];
+                unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
+                $this->db->where('case_id', $invoice_data['project_id']);
+                $this->db->delete(db_prefix() . 'my_disputes_cases_opponents');
+                foreach ($opponents as $opponent) {
+                    $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
+                        'opponent_id' => $opponent,
+                        'case_id' => $invoice_data['project_id']
+                    ]);
                 }
-            }
-                redirect(admin_url('legalservices/disputes_invoices/list_invoices/' . $id));
+                $invoice_data['project_id'] = $invoice_data['project_id'];
+                $redUrl = array();
+                for($cycl=0; $cycl<$cycls; $cycl++) {
+                    $invoice_data['discount_percent'] = 0;
+                    $invoice_data['discount_total'] = 0;
+                    $invoice_data['adjustment'] = 0;
+                    $invoice_data['duedate'] = $installment_date[$cycl];
+                    $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
+                    $invoice_data['items'] = get_items_by_type('disputes', $id);
+                    if($invoice_data['items'] > 0) {
+                        $invoice_data['items'][0]['rate'] = $invoice_data['subtotal'];
+                    }
+                    $success = $this->invoices->update($invoice_data, $id, $opponents);
+                    if ($success) {
+                        set_alert('success', _l('updated_successfully', _l('invoice')));
+                    }
+                }
+                    redirect(admin_url('legalservices/disputes_invoices/list_invoices/' . $id));
             }
         }
         if ($id == '') {
@@ -397,7 +442,8 @@ class Disputes_invoices extends AdminController
             if (!$invoice || !user_can_view_invoice($id)) {
                 blank_page(_l('invoice_not_found'));
             }
-            $data['invoices_to_merge'] = $this->invoices->check_for_merge_invoice($invoice->clientid, $invoice->id);
+//            $data['invoices_to_merge'] = $this->invoices->check_for_merge_invoice($invoice->clientid, $invoice->id);
+            $data['invoices_to_merge'] = [];
             $data['expenses_to_bill']  = $this->invoices->get_expenses_to_bill($invoice->clientid);
             $data['invoice']        = $invoice;
             $data['edit']           = true;
@@ -430,7 +476,7 @@ class Disputes_invoices extends AdminController
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
         // Extract meta values of this project
-        $this->load->model('legalservices/disputes_cases_model','Disputes_model');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model','Disputes_model');
 //        $meta = $this->Disputes_model->get($invoice->project_id?$invoice->project_id:0);
         $data['project'] = $this->Disputes_model->get($invoice->project_id?$invoice->project_id:0);
 //        foreach ($meta as $array) {
@@ -486,7 +532,8 @@ class Disputes_invoices extends AdminController
 
         // Check for recorded payments
         $this->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
-        $data['invoices_to_merge']          = $this->invoices->check_for_merge_invoice($invoice->clientid, $id);
+//        $data['invoices_to_merge']          = $this->invoices->check_for_merge_invoice($invoice->clientid, $id);
+        $data['invoices_to_merge'] =[];
         $data['members']                    = $this->staff_model->get('', ['active' => 1]);
 //        $data['payments']                   = $this->payments->get_invoice_payments($id);
         $invoice->payments = $this->payments->get_invoice_payments($id);
@@ -591,10 +638,10 @@ class Disputes_invoices extends AdminController
 
             if($billing_type==11){
                 $new_total = $percent;
-                $newitems[] = Array ( 'order' => 1, 'description' => 'Disputes percent fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
+                $newitems[] = Array ( 'order' => 1, 'description' => _l('disputes_percent_fees'), 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
             }elseif($billing_type==10){
                 $new_total = $percent;
-                $newitems[] = Array ( 'order' => 1, 'description' => 'Disputes percent fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
+                $newitems[] = Array ( 'order' => 1, 'description' => _l('disputes_percent_fees'), 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
             }elseif($billing_type==1 || $billing_type==10){
                 if (total_rows(db_prefix() . 'invoices', [
                             'project_id' => $invoice_data->project_id,
@@ -606,7 +653,7 @@ class Disputes_invoices extends AdminController
 
                 if($billing_type==10){
 
-                    $newitems[] = Array ( 'order' => 2, 'description' => 'Disputes percent fees', 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
+                    $newitems[] = Array ( 'order' => 2, 'description' => _l('disputes_percent_fees'), 'long_description' =>'', 'qty' => 1, 'unit' => '', 'rate' => $percent  );
 
                     $new_total = $percent + $project_cost;
 
@@ -810,7 +857,6 @@ class Disputes_invoices extends AdminController
             }
         }
         $invoice        = $this->invoices->get($id);
-//        echo '<pre>';echo print_r($invoice);exit();
         $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);
         $invoice_number = disputes_format_invoice_number($invoice->id);
         try {

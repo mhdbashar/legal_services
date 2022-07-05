@@ -7,7 +7,7 @@ class Disputes_payments extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('legalservices/disputes_cases/Disputes_payments_modelDisputes_payments_model','payments');
+        $this->load->model('legalservices/disputes_cases/Disputes_payments_model','payments');
     }
 
     /* In case if user go only on /payments */

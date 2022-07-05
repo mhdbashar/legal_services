@@ -130,7 +130,7 @@
          <?php if($invoice->project_id != 0 && get_option('show_project_on_invoice') == 1){ ?>
          <p class="no-mbot">
             <span class="bold"><?php echo _l('project'); ?>:</span>
-            <?php echo get_project_name_by_id($invoice->project_id); ?>
+            <?php echo get_disputes_case_name_by_id($invoice->project_id); ?>
          </p>
          <?php } ?>
          <?php $pdf_custom_fields = get_custom_fields('invoice',array('show_on_pdf'=>1));

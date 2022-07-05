@@ -334,9 +334,12 @@ class Migration_Version_521 extends CI_Migration
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-
-
-
+        $service = $this->db->get_where('my_basic_services', array('id' => 22))->num_rows();
+        if($service == 0){
+            $this->db->query("INSERT INTO `tblmy_basic_services`(`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) 
+            VALUES 
+(22, 'قضايا التنفيذ', 'kdaya_altnfith', 'Dispute_', 1, 1, 1, 0, '2021-07-27 10:27:07');            ");
+        }
 
 
     }

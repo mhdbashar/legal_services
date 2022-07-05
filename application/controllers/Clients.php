@@ -43,7 +43,7 @@ class Clients extends ClientsController
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
         $this->load->model('legalservices/Imported_services_model', 'imported');
-        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
         hooks()->do_action('after_clients_area_init', $this);
     }
 

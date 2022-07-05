@@ -12,7 +12,7 @@ class Procuration extends AdminController
         $this->load->model('procurations_model');
         $this->load->model('Staff_model');
         $this->load->model('legalservices/Cases_model', 'case');
-        $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
     }
 
     /* List all Procuration */

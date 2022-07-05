@@ -44,7 +44,7 @@ class Disputes_cases_model extends App_Model
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->load->model('legalservices/Disputes_case_movement_model', 'Dmovement');
+        $this->load->model('legalservices/disputes_cases/Disputes_case_movement_model', 'Dmovement');
         $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
     }
 

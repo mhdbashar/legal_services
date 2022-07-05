@@ -66,11 +66,11 @@ class Disputes_invoices_model extends App_Model
             if ($invoice) {
                 $invoice->total_left_to_pay = disputes_get_invoice_total_left_to_pay($invoice->id, $invoice->total);
 
-                $invoice->items       = [];//get_items_by_type('invoice', $id);
+                $invoice->items       = get_items_by_type('disputes', $id);
                 $invoice->attachments = $this->get_attachments($id);
 
                 if ($invoice->project_id != 0) {
-                    $this->load->model('legalservices/Disputes_cases_model', 'Dcase');
+                    $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
                     $invoice->project_data = $this->Dcase->get($invoice->project_id);
                 }
 
@@ -93,7 +93,6 @@ class Disputes_invoices_model extends App_Model
                 $this->load->model('payments_model');
                 $invoice->payments = $this->payments_model->get_invoice_payments($id);
             }
-
             return $invoice;
         }
 
@@ -179,7 +178,7 @@ class Disputes_invoices_model extends App_Model
                 $currencyid = $this->currencies_model->get_base_currency()->id;
             }
         } elseif (isset($data['project_id']) && $data['project_id'] != '') {
-            $this->load->model('legalservices/disputes_cases_model','disputes_case');
+            $this->load->model('legalservices/disputes_cases/Disputes_cases_model','disputes_case');
             $currencyid = $this->disputes_case->get_currency($data['project_id'])->id;
         } else {
             $currencyid = $this->currencies_model->get_base_currency()->id;
@@ -318,7 +317,6 @@ class Disputes_invoices_model extends App_Model
             $items = $data['newitems'];
             unset($data['newitems']);
         }
-        //$this->load->model('invoices_model');
 
         $data = $this->map_shipping_columns($data, $expense);
 
@@ -450,7 +448,7 @@ class Disputes_invoices_model extends App_Model
             disputes_update_invoice_status($insert_id);
 
             foreach ($items as $key => $item) {
-                if ($itemid = add_new_sales_item_post($item, $insert_id, 'invoice')) {
+                if ($itemid = add_new_sales_item_post($item, $insert_id, 'disputes')) {
                     if (isset($billed_tasks[$key])) {
                         foreach ($billed_tasks[$key] as $_task_id) {
                             $this->db->insert(db_prefix() . 'related_items', [
@@ -468,7 +466,7 @@ class Disputes_invoices_model extends App_Model
                                 ]);
                         }
                     }
-                    _maybe_insert_post_item_tax($itemid, $item, $insert_id, 'invoice');
+                    _maybe_insert_post_item_tax($itemid, $item, $insert_id, 'disputes');
                 }
             }
 
@@ -1271,7 +1269,7 @@ class Disputes_invoices_model extends App_Model
         // Delete items checked to be removed from database
         foreach ($data['removed_items'] as $remove_item_id) {
             $original_item = $this->get_invoice_item($remove_item_id);
-            if (handle_removed_sales_item_post($remove_item_id, 'invoice')) {
+            if (handle_removed_sales_item_post($remove_item_id, 'disputes_invoice')) {
                 $affectedRows++;
 
                 $this->log_invoice_activity($id, 'invoice_estimate_activity_removed_item', false, serialize([
@@ -1314,20 +1312,19 @@ class Disputes_invoices_model extends App_Model
                 ]));
             }
         }
-
         if (count($items) > 0) {
             foreach ($items as $key => $item) {
-                $original_item = $this->get_invoice_item($item['itemid']);
+                $original_item = $this->get_invoice_item($item['id']);
 
-                if (update_sales_item_post($item['itemid'], $item, 'item_order')) {
+                if (update_sales_item_post($item['id'], $item, 'item_order')) {
                     $affectedRows++;
                 }
 
-                if (update_sales_item_post($item['itemid'], $item, 'unit')) {
+                if (update_sales_item_post($item['id'], $item, 'unit')) {
                     $affectedRows++;
                 }
 
-                if (update_sales_item_post($item['itemid'], $item, 'description')) {
+                if (update_sales_item_post($item['id'], $item, 'description')) {
                     $this->log_invoice_activity($id, 'invoice_estimate_activity_updated_item_short_description', false, serialize([
                         $original_item->description,
                         $item['description'],
@@ -1335,7 +1332,7 @@ class Disputes_invoices_model extends App_Model
                     $affectedRows++;
                 }
 
-                if (update_sales_item_post($item['itemid'], $item, 'long_description')) {
+                if (update_sales_item_post($item['id'], $item, 'long_description')) {
                     $this->log_invoice_activity($id, 'invoice_estimate_activity_updated_item_long_description', false, serialize([
                         $original_item->long_description,
                         $item['long_description'],
@@ -1343,7 +1340,7 @@ class Disputes_invoices_model extends App_Model
                     $affectedRows++;
                 }
 
-                if (update_sales_item_post($item['itemid'], $item, 'rate')) {
+                if (update_sales_item_post($item['id'], $item, 'rate')) {
                     $this->log_invoice_activity($id, 'invoice_estimate_activity_updated_item_rate', false, serialize([
                         $original_item->rate,
                         $item['rate'],
@@ -1351,7 +1348,7 @@ class Disputes_invoices_model extends App_Model
                     $affectedRows++;
                 }
 
-                if (update_sales_item_post($item['itemid'], $item, 'qty')) {
+                if (update_sales_item_post($item['id'], $item, 'qty')) {
                     $this->log_invoice_activity($id, 'invoice_estimate_activity_updated_qty_item', false, serialize([
                         $item['description'],
                         $original_item->qty,
@@ -1361,13 +1358,13 @@ class Disputes_invoices_model extends App_Model
                 }
 
                 if (isset($item['custom_fields'])) {
-                    if (handle_custom_fields_post($item['itemid'], $item['custom_fields'])) {
+                    if (handle_custom_fields_post($item['id'], $item['custom_fields'])) {
                         $affectedRows++;
                     }
                 }
 
                 if (!isset($item['taxname']) || (isset($item['taxname']) && count($item['taxname']) == 0)) {
-                    if (delete_taxes_from_item($item['itemid'], 'invoice')) {
+                    if (delete_taxes_from_item($item['id'], 'disputes_invoice')) {
                         $affectedRows++;
                     }
                 } else {
@@ -1387,7 +1384,7 @@ class Disputes_invoices_model extends App_Model
                         }
                         $i++;
                     }
-                    if (_maybe_insert_post_item_tax($item['itemid'], $item, $id, 'invoice')) {
+                    if (_maybe_insert_post_item_tax($item['id'], $item, $id, 'disputes_invoice')) {
                         $affectedRows++;
                     }
                 }
@@ -1395,7 +1392,7 @@ class Disputes_invoices_model extends App_Model
         }
 
         foreach ($newitems as $key => $item) {
-            if ($new_item_added = add_new_sales_item_post($item, $id, 'invoice')) {
+            if ($new_item_added = add_new_sales_item_post($item, $id, 'disputes_invoice')) {
                 if (isset($billed_tasks[$key])) {
                     foreach ($billed_tasks[$key] as $_task_id) {
                         $this->db->insert(db_prefix() . 'related_items', [
@@ -1413,7 +1410,7 @@ class Disputes_invoices_model extends App_Model
                             ]);
                     }
                 }
-                _maybe_insert_post_item_tax($new_item_added, $item, $id, 'invoice');
+                _maybe_insert_post_item_tax($new_item_added, $item, $id, 'disputes_invoice');
 
                 $this->log_invoice_activity($id, 'invoice_estimate_activity_added_item', false, serialize([
                         $item['description'],
@@ -1647,10 +1644,10 @@ class Disputes_invoices_model extends App_Model
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 
-            $items = get_items_by_type('invoice', $id);
+            $items = get_items_by_type('disputes_invoice', $id);
 
             $this->db->where('rel_id', $id);
-            $this->db->where('rel_type', 'invoice');
+            $this->db->where('rel_type', 'disputes_invoice');
             $this->db->delete(db_prefix() . 'itemable');
 
             foreach ($items as $item) {
@@ -1788,16 +1785,16 @@ class Disputes_invoices_model extends App_Model
 
 
 $client_ids = array($invoice->clientid);
-$meta = $this->Disputes_model->get_project_meta($invoice->project_id);
-foreach ($meta as $array) {
-    if($array['meta_key']=='opponent_lawyer_id') array_push($client_ids, $array['meta_value']);
-    elseif($array['meta_key']=='opponent_id'){
-        $opponent_ids = explode(',', $array['meta_value']);
-        foreach ($opponent_ids as $opponent_id) {
-            array_push($client_ids, $opponent_id);
-        }
-    }
-}
+//$meta = $this->Disputes_model->get_project_meta($invoice->project_id);
+//foreach ($meta as $array) {
+//    if($array['meta_key']=='opponent_lawyer_id') array_push($client_ids, $array['meta_value']);
+//    elseif($array['meta_key']=='opponent_id'){
+//        $opponent_ids = explode(',', $array['meta_value']);
+//        foreach ($opponent_ids as $opponent_id) {
+//            array_push($client_ids, $opponent_id);
+//        }
+//    }
+//}
 
 foreach ($client_ids as $clientid) {
 

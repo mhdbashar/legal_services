@@ -14,7 +14,7 @@ class Disputes_case_data_pdf extends App_pdf
         parent::__construct();
 
         $this->ci->load->model('legalservices/LegalServicesModel', 'legal');
-        $this->ci->load->model('legalservices/Disputes_cases_model', 'Dcase');
+        $this->ci->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
 
         $this->project_id = $project_id;
     }

@@ -349,7 +349,7 @@ class Disputes_invoices extends AdminController
                 $data['subtotal'] = $data['total'] = $installment_total[$cycl];
                 $data['clientid'] = $opponents[0];
                 $data['newitems'] = [];
-                $data['newitems'][1] = ['order'=> 1 , 'long_description' => '', 'description'=> _l('disputes_invoice_item') ,'qty'=> 1 ,'rate'=>$data['subtotal']];
+                $data['newitems'][1] = ['order'=> 1 , 'unit'=> ''  ,'long_description' => '', 'description'=> _l('disputes_invoice_item') ,'qty'=> 1 ,'rate'=>$data['subtotal']];
 
                 $invoice_id = $this->invoices->add($data, false, $opponents);
                 if ($invoice_id) {

@@ -304,9 +304,7 @@ function get_disputes_case($id = null)
         return null;
     }
 
-    if (!class_exists('Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
 
     $project = get_instance()->disputes_case->get($id);
 
@@ -320,9 +318,7 @@ function get_disputes_case($id = null)
  */
 function get_disputes_case_status_by_id($id)
 {
-    if (!class_exists('Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
 
     $statuses = get_instance()->disputes_case->get_project_statuses();
 
@@ -344,9 +340,8 @@ function get_disputes_case_status_by_id($id)
 }
 
 function get_disputes_status_by_id($id){
-    if (!class_exists('Disputes_cases_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/Disputes_cases_model', 'disputes_case');
+
     $status = get_instance()->disputes_case->get_status_by_id($id);
     if($status) {
         return $status;
@@ -975,9 +970,7 @@ function disputes_get_invoice_total_left_to_pay($id, $invoice_total = null)
         $invoice_total = $CI->db->get(db_prefix() . 'my_disputes_cases_invoices')->row()->total;
     }
 
-    if (!class_exists('payments_model')) {
-        $CI->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
-    }
+    $CI->load->model('legalservices/disputes_cases/disputes_payments_model','payments');
 
     if (!class_exists('credit_notes_model')) {
         $CI->load->model('credit_notes_model');
@@ -1074,9 +1067,7 @@ function disputes_check_invoice_restrictions($id, $hash)
  */
 function disputes_format_invoice_status($status, $classes = '', $label = true)
 {
-    if (!class_exists('Disputes_invoices_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
 
     $id          = $status;
     $label_class = disputes_get_invoice_status_label($status);
@@ -1106,9 +1097,7 @@ function disputes_format_invoice_status($status, $classes = '', $label = true)
  */
 function disputes_get_invoice_status_label($status)
 {
-    if (!class_exists('Disputes_invoices_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
 
     $label_class = '';
     if ($status == 1) {
@@ -1141,9 +1130,7 @@ function disputes_invoice_status_color_pdf($status_id)
 {
     $statusColor = '';
 
-    if (!class_exists('Disputes_invoices_model', false)) {
-        get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
-    }
+    get_instance()->load->model('legalservices/disputes_cases/disputes_invoices_model','invoices');
 
     if ($status_id == 1) {
         $statusColor = '252, 45, 66';

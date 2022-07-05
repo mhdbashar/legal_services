@@ -533,7 +533,7 @@ class Disputes_cases extends AdminController
             $data['judges_case']    = $this->Dcase->GetJudgesCases($id);
             $data['title']          = $data['project']->name;
             $data['bodyclass']     .= 'project invoices-total-manual estimates-total-manual';
-            $data['project_status'] = get_case_status_by_id($project->status);
+            $data['project_status'] = get_disputes_case_status_by_id($project->status);
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['case_model']     = $this->Dcase;
             $data['ServID']         = $ServID;

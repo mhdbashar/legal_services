@@ -210,7 +210,7 @@
     </div>
 </section>
 <script>
-    var url = 'http://library.lawyernet.net/library/api/search';
+    var url = 'https://library.lawyernet.net/api/search';
     // var url = 'http://localhost/library/api/search'
 
     function getswabek() {

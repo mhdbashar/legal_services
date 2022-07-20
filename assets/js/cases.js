@@ -350,6 +350,12 @@ $(function() {
             }
         }
     });
+    //for get library data
+    $('#fancyTabWidget').ready(function () {
+        getswabek();
+        // getalanzema();
+    });
+
 });
 function projectFileGoogleDriveSave(pickData) {
     saveProjectExternalFile(pickData, 'gdrive');

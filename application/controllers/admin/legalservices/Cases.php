@@ -76,7 +76,7 @@ class Cases extends AdminController
         if ($this->input->post()) {
 
             $data = $this->input->post();
-            $data['description'] = html_purify($this->input->post('description', false));
+            $data['description'] = $this->input->post('description', false);
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -451,6 +451,7 @@ class Cases extends AdminController
                 $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
                 $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
             }elseif ($group == 'help_library'){
+                $data['search'] = $project->description;
                 $tags_array = get_service_tags($id, $slug);
                 $tags = array();
                 foreach ($tags_array as $tag){

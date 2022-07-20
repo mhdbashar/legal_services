@@ -18,7 +18,7 @@
             <div class="arrow-down">
                 <div class="arrow-down-inner"></div>
             </div>
-            <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-tags"></span>نماذج وعقود</a>
+            <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-tags"></span>المبادئ القضائية</a>
             <div class="whiteBlock"></div>
         </li>
         <li class="tab fancyTab">
@@ -209,3 +209,108 @@
         </div>
     </div>
 </section>
+<script>
+    var url = 'http://library.lawyernet.net/library/api/search';
+    // var url = 'http://localhost/library/api/search'
+
+    function getswabek() {
+        $('#tabBody0').html('');
+        $('#tabBody1').html('');
+        $('#tabBody2').html('');
+        $("#tabBody0").append('<div class="dt-loader"></div>');
+        $("#tabBody1").append('<div class="dt-loader"></div>');
+        $("#tabBody2").append('<div class="dt-loader"></div>');
+        $.ajax({
+            url: url,
+            data: {
+                text: '<?php echo $search?>',
+                type: 13
+            },
+            type: "POST",
+            success: function (data) {
+                response = JSON.parse(data);
+                $('#tabBody0').html('');
+                $.each(response, function (key, value) {
+                    $('#tabBody0').append(`
+                        <div class="thumbnail book-body">
+                            <div class="row">
+                                <div class="col-md-8 caption">
+                                    <a href="${value['link']}" target="_blank">
+                                        <h4>${value['name']}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+               getalanzema();
+            }
+        });
+    }
+
+    function getalanzema() {
+        $.ajax({
+            url: url,
+            data: {
+                text: '<?php echo $search?>',
+                type: 2
+            },
+            type: "POST",
+            success: function (data) {
+                response = JSON.parse(data);
+                $('#tabBody1').html('');
+                $.each(response, function (key, value) {
+                    $('#tabBody1').append(`
+                        <div class="thumbnail book-body">
+                            <div class="row">
+                                <div class="col-md-8 caption">
+                                    <a href="${value['link']}" target="_blank">
+                                        <h4>${value['name']}</h4>
+                                    </a>
+                                    <br>
+                                   <h5>${value['title']}</h5>
+                                   <br>
+                                   <p>${value['description']}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+                getalmabada();
+            }
+        });
+    }
+
+    function getalmabada() {
+        $.ajax({
+            url: url,
+            data: {
+                text: '<?php echo $search?>',
+                type: 12
+            },
+            type: "POST",
+            success: function (data) {
+                response = JSON.parse(data);
+                $('#tabBody2').html('');
+                $.each(response, function (key, value) {
+                    $('#tabBody2').append(`
+                        <div class="thumbnail book-body">
+                            <div class="row">
+                                <div class="col-md-8 caption">
+                                    <a href="${value['link']}" target="_blank">
+                                        <h4>${value['name']}</h4>
+                                    </a>
+                                    <br>
+                                   <h5>${value['title']}</h5>
+                                   <br>
+                                   <p>${value['description']}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+        });
+    }
+
+</script>

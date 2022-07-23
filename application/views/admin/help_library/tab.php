@@ -232,18 +232,15 @@
                 $('#tabBody0').html('');
                 $.each(response, function (key, value) {
                     $('#tabBody0').append(`
-                        <div class="thumbnail book-body">
-                            <div class="row">
-                                <div class="col-md-8 caption">
-                                    <a href="${value['link']}" target="_blank">
-                                        <h4>${value['name']}</h4>
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="thumbnail">
+                            <a href="${value['link']}" target="_blank">
+                                <h4>${value['name']}</h4>
+                            </a>
                         </div>
                     `);
                 });
-               getalanzema();
+                if(response == 0)$('#tabBody0').html('<h4 class="text-center"><?php echo _l("smtp_encryption_none"); ?>...</h4>');
+                getalanzema();
             }
         });
     }
@@ -263,19 +260,18 @@
                     $('#tabBody1').append(`
                         <div class="thumbnail book-body">
                             <div class="row">
-                                <div class="col-md-8 caption">
+                                <div class="col-md-12 caption">
                                     <a href="${value['link']}" target="_blank">
                                         <h4>${value['name']}</h4>
                                     </a>
-                                    <br>
                                    <h5>${value['title']}</h5>
-                                   <br>
                                    <p>${value['description']}</p>
                                 </div>
                             </div>
                         </div>
                     `);
                 });
+                if(response == 0)$('#tabBody1').html('<h4 class="text-center"><?php echo _l("smtp_encryption_none"); ?>...</h4>');
                 getalmabada();
             }
         });
@@ -296,19 +292,18 @@
                     $('#tabBody2').append(`
                         <div class="thumbnail book-body">
                             <div class="row">
-                                <div class="col-md-8 caption">
+                                <div class="col-md-12 caption">
                                     <a href="${value['link']}" target="_blank">
                                         <h4>${value['name']}</h4>
                                     </a>
-                                    <br>
                                    <h5>${value['title']}</h5>
-                                   <br>
                                    <p>${value['description']}</p>
                                 </div>
                             </div>
                         </div>
                     `);
                 });
+                if(response == 0)$('#tabBody2').html('<h4 class="text-center"><?php echo _l("smtp_encryption_none"); ?>...</h4>');
             }
         });
     }

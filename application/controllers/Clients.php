@@ -1344,6 +1344,21 @@ class Clients extends ClientsController
                     redirect(site_url('clients/legal_services/' . $id . '/' . $ServID . '?group=project_discussions'));
 
                     break;
+                case 'edit_discussion':
+                    $data = $this->input->post();
+                    unset($data['action']);
+                    if ($ServID == 1) {
+                        $success = $this->case->edit_discussion($data, $data['oservice_id']);
+                    } else {
+                        $success = $this->other->edit_discussion($data, $data['id']);
+                    }
+
+                    if ($success) {
+                        set_alert('success', _l('updated_successfully', _l('project_discussion')));
+                    }
+                    redirect(site_url('clients/legal_services/' . $id . '/' . $ServID . '?group=project_discussions'));
+
+                    break;    
                 case 'upload_file':
                     if ($ServID == 1) {
                         handle_case_file_uploads($ServID, $id);

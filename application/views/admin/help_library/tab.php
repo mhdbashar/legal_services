@@ -258,9 +258,9 @@
                 $('#tabBody1').html('');
                 $.each(response, function (key, value) {
                     $('#tabBody1').append(`
-                        <div class="thumbnail book-body">
+                        <div class="thumbnail">
                             <div class="row">
-                                <div class="col-md-12 caption">
+                                <div class="col-md-12">
                                     <a href="${value['link']}" target="_blank">
                                         <h4>${value['name']}</h4>
                                     </a>
@@ -290,9 +290,9 @@
                 $('#tabBody2').html('');
                 $.each(response, function (key, value) {
                     $('#tabBody2').append(`
-                        <div class="thumbnail book-body">
+                        <div class="thumbnail">
                             <div class="row">
-                                <div class="col-md-12 caption">
+                                <div class="col-md-12">
                                     <a href="${value['link']}" target="_blank">
                                         <h4>${value['name']}</h4>
                                     </a>

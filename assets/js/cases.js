@@ -352,7 +352,7 @@ $(function() {
     });
     //for get library data
     $('#fancyTabWidget').ready(function () {
-        getswabek();
+        get_library_data_api();
         // getalanzema();
     });
 

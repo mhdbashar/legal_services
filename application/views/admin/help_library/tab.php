@@ -123,10 +123,9 @@
 </section>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // var url = 'https://library.lawyernet.net/api/search';
-    //
-    var url = 'http://localhost/library/api/search';
-
+    var url = 'https://library.lawyernet.net/api/search';
+    
+    // var url = 'http://localhost/library/api/search';
     var befor = '<div class="thumbnail"><div class="row"><div class="col-md-12">';
     var after = '</div></div></div>';
     var non = '<h4 class="text-center"><?php echo _l("smtp_encryption_none"); ?>...</h4>';

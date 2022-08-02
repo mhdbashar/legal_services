@@ -15,6 +15,7 @@
             <?php echo render_select('budget', $budgets, array('id', 'name'), 'budget', '', array(), array(), '', '', false); ?>
           </div>
           <div class=" col-md-6 pull-right">
+            <a href="<?php echo admin_url('accounting/budget_import'); ?>" class="btn btn-success mtop25 pull-right mleft5 <?php if(!has_permission('accounting_budget', '', 'create')){echo 'hide';} ?>"><?php echo _l('import_budget'); ?></a>
             <a href="#" onclick="creating_a_budget(); return false;" class="px-0 btn btn-info mtop25 pull-right <?php if(!has_permission('accounting_budget', '', 'create')){echo 'hide';} ?>"><?php echo _l('new'); ?></a>
           </div>
         </div>
@@ -38,6 +39,7 @@
               <hr>
               <a href="#" onclick="save_budget(); return false;" class="px-0 btn btn-info display-block mleft5 pull-right"><?php echo _l('save'); ?></a>
               <a href="#" onclick="clear_budget(); return false;" class="px-0 btn btn-default display-block mleft5 pull-right"><?php echo _l('clear'); ?></a>
+              <a href="#" onclick="delete_budget(); return false;" class="px-0 btn btn-danger display-block mleft5 pull-right"><?php echo _l('delete'); ?></a>
             </div>
           </div>
         </div>
@@ -96,7 +98,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="budget-exísts-modal">
+<div class="modal fade" id="budget-exists-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

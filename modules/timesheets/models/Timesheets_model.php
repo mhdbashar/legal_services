@@ -2787,9 +2787,9 @@ class timesheets_model extends app_model
                                 $data_send_mail['staff_name'] = $staff_name;
                                 $data_send_mail['type_check'] = 'checked in';
                                 $data_send_mail['date_time'] = _d($data['date']);
-//								$template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
-//								$template->send();
-//								$this->notifications($staffid, 'timesheets/requisition_manage', 'checked in at '._d($data['date']));
+                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
+                                $template->send();
+                                $this->notifications($staffid, 'timesheets/requisition_manage', 'checked in at '._d($data['date']));
                             }
                         }
                     }
@@ -2801,10 +2801,9 @@ class timesheets_model extends app_model
                                 $data_send_mail['staff_name'] = get_staff_full_name($data['staff_id']);
                                 $data_send_mail['type_check'] = 'checked out';
                                 $data_send_mail['date_time'] = _d($data['date']);
-                                // Notice attendance error
-//								$template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
-//								$template->send();
-//								$this->notifications($staffid, 'timesheets/requisition_manage', 'checked out at '._d($data['date']));
+                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
+                                $template->send();
+                                $this->notifications($staffid, 'timesheets/requisition_manage', 'checked out at '._d($data['date']));
                             }
                         }
                     }
@@ -7424,7 +7423,7 @@ class timesheets_model extends app_model
                 $time_in_ = $time_in;
                 $time_out_ = $time_out;
 
-                if($data_shift_type){
+                if($data_shift_type && get_option('flexible_hours')){
                     $start_work = strtotime($data_shift_type->time_start_work);
                     $end_work = strtotime($data_shift_type->time_end_work);
                     $start_lunch_break = strtotime($data_shift_type->start_lunch_break_time);

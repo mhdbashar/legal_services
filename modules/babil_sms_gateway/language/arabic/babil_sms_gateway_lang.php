@@ -14,6 +14,10 @@ $lang['receive_sms_token'] = 'التوكن';
 
 $lang['messages'] = 'الرسائل';
 
+$lang['whatsapp_messages'] = 'رسائل واتساب';
+
+$lang['saved_whatsapp_messages'] = 'رسائل واتساب المحفوظة';
+
 $lang['message'] = 'الرسالة';
 
 $lang['sender'] = 'المرسل';

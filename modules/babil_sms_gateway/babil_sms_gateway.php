@@ -116,14 +116,24 @@ function babil_sms_gateway_module_init_menu_items() {
             'href' => admin_url('babil_sms_gateway/saved_messages'),
             'position' => 3,
         ]);
-//
-//        $CI->app_menu->add_sidebar_children_item('receive_sms', [
-//            'slug' => 'rec_settings',
-//            'name' => _l('setting'),
-//            'icon' => 'fa fa-gears',
-//            'href' => admin_url('receive_sms/setting'),
-//            'position' => 8,
-//        ]);
+// whatsapp
+
+        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
+            'slug' => 'receive-sms-messages',
+            'name' => _l('whatsapp_messages'),
+            'icon' => 'fa fa-envelope',
+            'href' => admin_url('babil_sms_gateway/whatsapp'),
+            'position' => 3,
+        ]);
+
+
+        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
+            'slug' => 'saved-sms-messages',
+            'name' => _l('saved_whatsapp_messages'),
+            'icon' => 'fa fa-file-text-o',
+            'href' => admin_url('babil_sms_gateway/whatsapp/saved_messages'),
+            'position' => 3,
+        ]);
     }
 }
 

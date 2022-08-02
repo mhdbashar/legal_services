@@ -1,22 +1,63 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('tax_detail_report'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th><?php echo _l('invoice_payments_table_date_heading'); ?></th>
-          <th><?php echo _l('transaction_type'); ?></th>
-          <th><?php echo _l('description'); ?></th>
-          <th><?php echo _l('customer'); ?></th>
-          <th><?php echo _l('tax_name'); ?></th>
-          <th><?php echo _l('tax_rate'); ?></th>
-          <th class="total_amount"><?php echo _l('amount'); ?></th>
-          <th class="total_amount"><?php echo _l('balance'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="8">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="8">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('tax_detail_report'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="8">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td class="text-bold"><?php echo _l('invoice_payments_table_date_heading'); ?></td>
+          <td class="text-bold"><?php echo _l('transaction_type'); ?></td>
+          <td class="text-bold"><?php echo _l('description'); ?></td>
+          <td class="text-bold"><?php echo _l('customer'); ?></td>
+          <td class="text-bold"><?php echo _l('tax_name'); ?></td>
+          <td class="text-bold"><?php echo _l('tax_rate'); ?></td>
+          <td class="total_amount text-bold"><?php echo _l('amount'); ?></td>
+          <td class="total_amount text-bold"><?php echo _l('balance'); ?></td>
+        </tr>
         <?php
          $row_index = 1; 
          $parent_index = 1; 

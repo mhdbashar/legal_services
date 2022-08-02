@@ -1,21 +1,56 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('profit_and_loss_budget_performance'); ?></h4>
+    
     <?php if($data_report['data'] != []){ ?>
-    <p class="text-center"><?php echo _d($data_report['last_from_date']) .' - '. _d($data_report['last_to_date']); ?></p>
+    
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th></th>
-          <th class="th_total_width_auto"><?php echo date('F Y'); ?></th>
-          <th class="th_total_width_auto"><?php echo _l('budget'); ?></th>
-          <th class="th_total_width_auto"><?php echo date('F', strtotime($data_report['from_date'])).' - '.date('F', strtotime($data_report['to_date'])).' '.date('Y'); ?></th>
-          <th class="th_total_width_auto"><?php echo _l('ytd_budget'); ?></th>
-          <th class="th_total_width_auto"><?php echo _l('annual_budget'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="6">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('profit_and_loss_budget_performance'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['last_from_date']) .' - '. _d($data_report['last_to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td></td>
+          <td class="th_total_width_auto text-bold"><?php echo date('F Y'); ?></td>
+          <td class="th_total_width_auto text-bold"><?php echo _l('budget'); ?></td>
+          <td class="th_total_width_auto text-bold"><?php echo date('F', strtotime($data_report['from_date'])).' - '.date('F', strtotime($data_report['to_date'])).' '.date('Y', strtotime($data_report['to_date'])); ?></td>
+          <td class="th_total_width_auto text-bold"><?php echo _l('ytd_budget'); ?></td>
+          <td class="th_total_width_auto text-bold"><?php echo _l('annual_budget'); ?></td>
+        </tr>
         <?php
           $row_index = 0;
           $parent_index = 0;
@@ -179,7 +214,9 @@
         </tbody>
     </table>
     <?php }else{ ?>
-          <h4 class="text-center text-danger"><?php echo _l('no_budget_has_been_created_2'); ?></h4>
+        <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
+        <h4 class="text-center"><?php echo _l('profit_and_loss_budget_performance'); ?></h4>
+        <h4 class="text-center text-danger"><?php echo _l('no_budget_has_been_created_2'); ?></h4>
     <?php } ?>
   </div>
 </div>

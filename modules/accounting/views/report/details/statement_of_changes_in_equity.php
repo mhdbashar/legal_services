@@ -1,16 +1,34 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('statement_of_changes_in_equity'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th></th>
-          <th class="th_total"><?php echo _l('total'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="2">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('statement_of_changes_in_equity'); ?></h4>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td></td>
+          <td class="th_total text-bold"><?php echo _l('total'); ?></td>
+        </tr>
         <?php
           $row_index = 1;
           $data = $this->accounting_model->get_html_statement_of_changes_in_equity($data_report['data']['owner_equity'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], 0, $currency);

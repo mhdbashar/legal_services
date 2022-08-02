@@ -167,6 +167,7 @@
                 type: 13
             },
             type: "POST",
+            time:300,
             success: function (data) {
                 response = JSON.parse(data);
                 $('#tabBody0').html('');
@@ -174,7 +175,7 @@
                     $('#tabBody0').append(`
                         <div class="thumbnail">
                             <a href="${value['link']}" target="_blank">
-                                <h4>${value['name']}</h4>
+                                <h5>${value['name']}</h5>
                             </a>
                         </div>
                     `);

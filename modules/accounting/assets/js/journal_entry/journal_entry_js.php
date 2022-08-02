@@ -100,11 +100,13 @@
           var total_debit = 0, total_credit = 0;
 
           $.each(journal_entry, function(index, value) {
-            if(value[1] != '' && value[1] != null){
-              total_debit += parseFloat(value[1]);
-            }
-            if(value[2] != '' && value[2] != null){
-              total_credit += parseFloat(value[2]);
+            if(value[0] != ''){
+              if(value[1] != '' && value[1] != null){
+                total_debit += parseFloat(value[1]);
+              }
+              if(value[2] != '' && value[2] != null){
+                total_credit += parseFloat(value[2]);
+              }
             }
           });
           
@@ -120,17 +122,19 @@
     	var journal_entry = JSON.parse($('input[name="journal_entry"]').val());
       var total_debit = 0, total_credit = 0;
 	    $.each(journal_entry, function(index, value) {
-        if(value[1] != '' && value[1] != null){
-          total_debit += parseFloat(value[1].toFixed(2));
-        }
-        if(value[2] != '' && value[2] != null){
-          total_credit += parseFloat(value[2].toFixed(2));
+        if(value[0] != ''){
+          if(value[1] != '' && value[1] != null){
+            total_debit += parseFloat(value[1]);
+          }
+          if(value[2] != '' && value[2] != null){
+            total_credit += parseFloat(value[2]);
+          }
         }
       });
       
-	    if(total_debit == total_credit){
+	    if(total_debit.toFixed(2) == total_credit.toFixed(2)){
 	    	if(total_debit > 0){
-	    		$('input[name="amount"]').val(total_debit);
+	    		$('input[name="amount"]').val(total_debit.toFixed(2));
 	    		$('#journal-entry-form').submit();
 	    	}else{
 	    		alert('<?php echo _l('you_must_fill_out_at_least_two_detail_lines'); ?>');

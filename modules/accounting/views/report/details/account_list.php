@@ -1,19 +1,48 @@
 <div id="accordion">
     <div class="card">
-      <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-      <h4 class="text-center"><?php echo _l('account_list'); ?></h4>
-      <p class="text-center"><?php echo _d(date('Y-m-d')); ?></p>
       <table class="tree">
-        <thead>
-          <tr class="tr_header">
-            <th><?php echo _l('number').' - '._l('acc_account'); ?></th>
-            <th><?php echo _l('type'); ?></th>
-            <th><?php echo _l('detail_type'); ?></th>
-            <th><?php echo _l('description'); ?></th>
-            <th class="total_amount"><?php echo _l('acc_amount'); ?></th>
-          </tr>
-        </thead>
         <tbody>
+          <tr>
+            <td colspan="5">
+                <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('account_list'); ?></h4>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d(date('Y-m-d')); ?></p>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="tr_header">
+            <td class="text-bold"><?php echo _l('number').' - '._l('acc_account'); ?></td>
+            <td class="text-bold"><?php echo _l('type'); ?></td>
+            <td class="text-bold"><?php echo _l('detail_type'); ?></td>
+            <td class="text-bold"><?php echo _l('description'); ?></td>
+            <td class="total_amount text-bold"><?php echo _l('acc_amount'); ?></td>
+          </tr>
           <?php
             $row_index = 1;
             $total = 0;

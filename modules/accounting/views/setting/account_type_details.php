@@ -1,4 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+ <?php echo form_open(admin_url('accounting/reset_account_detail_types')); ?>
+<div class="row mbot10">
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-info _delete"><?php echo _l('reset_account_detail_types'); ?></button> <label class="text-danger"><?php echo _l('accounting_reset_account_detail_types_button_tooltip'); ?></label>
+  </div>
+</div>
+<hr>
+<?php echo form_close(); ?>
 <div>
 	<a href="#" class="btn btn-info add-new-account-type-detail mbot15"><?php echo _l('add'); ?></a>
 </div>

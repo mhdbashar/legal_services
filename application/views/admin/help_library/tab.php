@@ -133,6 +133,7 @@
     function get_library_data_api() {
         add_loader();
         getdata_tabBody0();
+        $('#tab0').click();
     }
 
     function copyElementText(id) {

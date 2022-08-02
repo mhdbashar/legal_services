@@ -451,7 +451,7 @@
                             </div>
                         </div>
                         <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
-                        <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
+                        <?php echo render_textarea('description','',$case->description,array(),array(),'',''); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
                                 <input type="checkbox" name="send_created_email" id="send_created_email">

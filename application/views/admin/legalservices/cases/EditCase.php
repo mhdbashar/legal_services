@@ -488,7 +488,7 @@
                             </div>
                         <?php } ?>
                         <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
-                        <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
+                        <?php echo render_textarea('description','',$case->description,array(),array(),'',''); ?>
                         <?php if (isset($estimate)) {?>
                 <hr class="hr-panel-heading" />
                 <h5 class="font-medium"><?php echo _l('estimate_items_convert_to_tasks') ?></h5>

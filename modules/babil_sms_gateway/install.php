@@ -24,3 +24,17 @@ if ($CI->db->field_exists('msg' ,db_prefix() . 'saved_sms')) {
     CHANGE COLUMN `msg` `msg` TEXT NOT NULL
   ;");
 }
+
+
+if (!$CI->db->table_exists(db_prefix() . 'saved_wa')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'saved_wa` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `sender` varchar(200) NOT NULL,
+      `msg` TEXT NOT NULL,
+      `msg_id` int(11) NOT NULL,
+      `created_at` datetime NOT NULL,
+      `rel_type` varchar(30) NOT NULL,
+      `rel_id` int(11) NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

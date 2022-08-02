@@ -441,7 +441,7 @@
                                 <hr />
                             </div>
                         <?php } ?>
-                        <p for="cases</p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <?php if (isset($estimate)) {?>
                 <hr class="hr-panel-heading" />

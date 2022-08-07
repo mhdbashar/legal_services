@@ -1,24 +1,87 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('budget_overview'); ?></h4>
     <?php if($data_report['type'] != ''){ ?>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
-  
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th></th>
-          <?php 
-          foreach($data_report['headers'] as $header){ ?>
-            <th class="th_total_width_auto"><?php echo html_entity_decode($header); ?></th>
-          <?php } ?>
-          <th class="th_total_width_auto"><?php echo _l('total'); ?></th>
-        </tr>
-      </thead>
-
       <?php if($data_report['type'] == 'profit_and_loss_accounts'){ ?>
       <tbody>
+        <tr class="treegrid-01 parent-node expanded">
+          <td colspan="14">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="treegrid-02 parent-node expanded">
+          <td colspan="14">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('budget_overview'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="treegrid-03 parent-node expanded">
+          <td colspan="14">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td></td>
+          <?php 
+          foreach($data_report['headers'] as $header){ ?>
+            <td class="th_total_width_auto text-bold"><?php echo html_entity_decode($header); ?></td>
+          <?php } ?>
+          <td class="th_total_width_auto text-bold"><?php echo _l('total'); ?></td>
+        </tr>
         <?php
           $row_index = 0;
           $parent_index = 0;
@@ -280,8 +343,98 @@
         </tbody>
       <?php }else{ ?>
         <tbody>
+          <tr class="treegrid-01 parent-node expanded">
+          <td colspan="14">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="treegrid-02 parent-node expanded">
+          <td colspan="14">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('budget_overview'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="treegrid-03 parent-node expanded">
+          <td colspan="14">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td></td>
+          <?php 
+          foreach($data_report['headers'] as $header){ ?>
+            <td class="th_total_width_auto text-bold"><?php echo html_entity_decode($header); ?></td>
+          <?php } ?>
+          <td class="th_total_width_auto text-bold"><?php echo _l('total'); ?></td>
+        </tr>
         <tr class="treegrid-1000 parent-node expanded">
           <td class="parent"><?php echo _l('acc_assets'); ?></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td></td>
         </tr>
         <?php
@@ -675,6 +828,8 @@
       <?php } ?>
     </table>
       <?php }else{ ?>
+            <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
+            <h4 class="text-center"><?php echo _l('budget_overview'); ?></h4>
             <h4 class="text-center text-danger"><?php echo _l('no_budget_has_been_created_2'); ?></h4>
       <?php } ?>
   </div>

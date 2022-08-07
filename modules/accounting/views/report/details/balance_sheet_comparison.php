@@ -1,22 +1,46 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('balance_sheet_comparison'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th rowspan="2"></th>
-          <th colspan="2" class="text-center th_total"><?php echo _l('total'); ?></th>
-        </tr>
-        <tr class="tr_header">
-          <th class="th_total"><?php echo html_entity_decode($data_report['this_year']); ?></th>
-          <th class="th_total"><?php echo html_entity_decode($data_report['last_year']); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="3">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo html_entity_decode(get_option('companyname')); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('balance_sheet_comparison'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="border-top">
+          <td></td>
+          <td colspan="2" class="text-center th_total text-bold"><?php echo _l('total'); ?></td>
+          <td></td>
+        </tr>
+        <tr class="border-bottom">
+          <td></td>
+          <td class="th_total text-bold"><?php echo html_entity_decode($data_report['this_year']); ?></td>
+          <td class="th_total text-bold"><?php echo html_entity_decode($data_report['last_year']); ?></td>
+        </tr>
         <tr class="treegrid-1000 parent-node expanded">
           <td class="parent"><?php echo _l('acc_assets'); ?></td>
+          <td></td>
           <td></td>
         </tr>
         <?php
@@ -81,6 +105,7 @@
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1000 parent-node expanded">
             <td class="parent"><?php echo _l('long_term_assets'); ?></td>
             <td></td>
+            <td></td>
           </tr>
           <?php 
             $data = $this->accounting_model->get_html_balance_sheet_comparision($data_report['data']['fixed_assets'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
@@ -115,6 +140,7 @@
             <tr class="treegrid-1001 parent-node expanded">
               <td class="parent"><?php echo _l('liabilities_and_shareholders_equity'); ?></td>
               <td></td>
+              <td></td>
             </tr>
             <?php
             $row_index += 1;
@@ -125,10 +151,12 @@
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('acc_current_liabilities'); ?></td>
               <td></td>
+              <td></td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
               <td class="parent"><?php echo _l('accounts_payable'); ?></td>
+              <td></td>
               <td></td>
             </tr>
             <?php 
@@ -173,6 +201,7 @@
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('acc_non_current_liabilities'); ?></td>
               <td></td>
+              <td></td>
             </tr>
             <?php 
             $data = $this->accounting_model->get_html_balance_sheet_comparision($data_report['data']['non_current_liabilities'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0, 'total_py_amount' => 0], $parent_index, $currency);
@@ -197,6 +226,7 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
               <td class="parent"><?php echo _l('shareholders_equity'); ?></td>
+              <td></td>
               <td></td>
             </tr>
             <?php $row_index += 1; ?>

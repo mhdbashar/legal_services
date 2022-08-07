@@ -794,6 +794,34 @@ function get_courts_by_country_city($country,$city)
     return $CI->db->get(db_prefix() . 'my_courts')->result();
 }
 
+function get_case_by_id($case_id){
+    $CI = & get_instance();
+    $CI->db->where('id', $case_id);
+    $case = $CI->db->get(db_prefix() . 'my_cases')->row();
+    return $case;
+}
+
+function get_service_by_id($serv_id){
+    $CI = & get_instance();
+    $CI->db->where('id', $serv_id);
+    $serv = $CI->db->get(db_prefix() . 'my_other_services')->row();
+    return $serv;
+}
+
+function get_customer_by_id($custom_id){
+    $CI = & get_instance();
+    $CI->db->where('userid', $custom_id);
+    $custom = $CI->db->get(db_prefix() . 'clients')->row();
+    return $custom;
+}
+
+function get_all_judicialdept_by_court_id($court_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('c_id', $court_id);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_judicialdept')->result();
+}
 
 /*public function my_create_new_email_template()
 {

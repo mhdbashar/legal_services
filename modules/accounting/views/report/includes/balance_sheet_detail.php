@@ -39,7 +39,7 @@
                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                  <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                       <a href="#" onclick="printDiv(); return false;">
+                       <a href="#" onclick="printDiv2(); return false;">
                        <?php echo _l('export_to_pdf'); ?>
                        </a>
                     </li>

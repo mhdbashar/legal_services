@@ -1,11 +1,5 @@
 <?php
 
-$lang['gateway'] = 'Gateway';
-
-$lang['old_gateway'] = 'Old Gateway';
-
-$lang['new_gateway'] = 'New Gateway';
-
 $lang['device_sms'] = 'Device SMS';
 
 $lang['babil_sms_gateway'] = 'Receive SMS';

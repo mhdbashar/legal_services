@@ -10,7 +10,7 @@ Module Name: بوابة بابل للرسائل الصادرة والواردة
 Description: ادارة استلام الرسائل النصية القصيرة
 Author: Babil Team
 Author URI: https://www.babiltec.com
-Version: 1.0.1
+Version: 1.0
 Requires at least: 2.3.5
 */
 
@@ -116,24 +116,14 @@ function babil_sms_gateway_module_init_menu_items() {
             'href' => admin_url('babil_sms_gateway/saved_messages'),
             'position' => 3,
         ]);
-// whatsapp
-
-        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
-            'slug' => 'receive-sms-messages',
-            'name' => _l('whatsapp_messages'),
-            'icon' => 'fa fa-envelope',
-            'href' => admin_url('babil_sms_gateway/whatsapp'),
-            'position' => 3,
-        ]);
-
-
-        $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [
-            'slug' => 'saved-sms-messages',
-            'name' => _l('saved_whatsapp_messages'),
-            'icon' => 'fa fa-file-text-o',
-            'href' => admin_url('babil_sms_gateway/whatsapp/saved_messages'),
-            'position' => 3,
-        ]);
+//
+//        $CI->app_menu->add_sidebar_children_item('receive_sms', [
+//            'slug' => 'rec_settings',
+//            'name' => _l('setting'),
+//            'icon' => 'fa fa-gears',
+//            'href' => admin_url('receive_sms/setting'),
+//            'position' => 8,
+//        ]);
     }
 }
 

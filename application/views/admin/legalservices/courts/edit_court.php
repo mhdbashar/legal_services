@@ -43,8 +43,8 @@
                         <?php $value = (isset($court) ? $court->court_description : ''); ?>
                         <p class="bold"><?php echo _l('_description'); ?></p>
                         <?php echo render_textarea('court_description', '', $value, array(), array(), '', 'tinymce'); ?>
-                        <div id="cat" class="<?php echo $form_group_class?>"></div>
-
+                        <div id="cat" class="form-group"></div>
+                        <div class="form-group"><h5 style="color: red"><?php echo _l('ملاحظة : يمكن ان تتأثر القضايا المرتبطة عند تعديل التصنيف'); ?></h5></div>
                     </div>
                 </div>
             </div>

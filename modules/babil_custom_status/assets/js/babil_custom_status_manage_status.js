@@ -1,7 +1,7 @@
 (function($) {
 "use strict";
 	jQuery.validator.addMethod("alphanumeric", function(value, element) {
-    	return this.optional(element) || /^[\w. ]+$/i.test(value);
+    	return this.optional(element) || /(\w+:\/\/)?([-.a-z0-9_\u0600-\u06FF\u08A0-\u08FF]+)(\.\w+)(:\d{1,5})?(\/\S*)?/i || /^[\w. ]+$/i.test(value);
 	}, "Letters, numbers, and underscores only please");
 	appValidateForm($("body").find('#babil-custom-status-form'), {
 		name: {'required':true,'alphanumeric':true,'maxlength':50},

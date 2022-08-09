@@ -12,11 +12,11 @@
             <div class="col-md-10">
               <div class="row">
               <?php echo form_open(admin_url('accounting/view_report'),array('id'=>'filter-form')); ?>
-                <div class="col-md-3 hide">
+                <div class="col-md-3">
                   <?php echo render_date_input('from_date','from_date', _d($from_date)); ?>
                 </div>
                 <div class="col-md-3">
-                  <?php echo render_date_input('to_date','as_of', _d($to_date)); ?>
+                  <?php echo render_date_input('to_date','to_date', _d($to_date)); ?>
                 </div>
                 <div class="col-md-3">
                   <?php 

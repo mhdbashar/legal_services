@@ -495,7 +495,7 @@ $lang['back_to_sessions_list'] = "العودة إلى قائمة الجلسات"
 $lang['ticket_status'] = "حالة التذكرة";
 $lang['ticket_priority'] = "أولوية التذكرة";
 $lang['ticket_service'] = "تذكرة خدمة";
-$lang['staff_fullname'] = "اسم الموظف";
+$lang['staff_fullname'] = "الاسم الكامل";
 $lang['staff_email'] = "البريد الالكتروني";
 $lang['staff_datecreated'] = "تاريخ إنشاء الموظف";
 $lang['reset_password_url'] = "رابط إعادة تعيين كلمة المرور";
@@ -1059,7 +1059,9 @@ $lang['legal_authority'] = "الاستناد القانوني / النص الن�
 $lang['analysis'] = "التحليل";
 $lang['IRAC_result'] = "النتيجة";
 $lang['IRAC_method'] = "طريقة IRAC";
-$lang['help_library'] = "الموارد والمكتبة المساعدة";
+$lang['help_library'] = "الموارد والمكتبة <span style='color:red;font-size:10px;' >تشغيل تجريبي</span>";
+
+
 $lang['soon'] = "قريباً";
 $lang['legal_procedures_management'] = "إدارة الإجراءات القانونية";
 $lang['legal_procedures'] = "الإجراءات القانونية";

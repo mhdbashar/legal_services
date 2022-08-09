@@ -46,6 +46,30 @@ var fnServerParams, id, inventory_asset_account, income_account, expense_account
 	    }
 	});
 
+  $('input[name="acc_payment_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_payment_automatic_conversion"]').is(':checked') == true){
+        $('#div_payment_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_payment_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_payment_expense_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_payment_expense_automatic_conversion"]').is(':checked') == true){
+        $('#div_payment_expense_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_payment_expense_automatic_conversion').addClass('hide');
+      }
+  });
+
+  $('input[name="acc_credit_note_automatic_conversion"]').on('change', function() {
+      if($('input[name="acc_credit_note_automatic_conversion"]').is(':checked') == true){
+        $('#div_credit_note_automatic_conversion').removeClass('hide');
+      }else{
+        $('#div_credit_note_automatic_conversion').addClass('hide');
+      }
+  });
+
   $('input[name="acc_expense_automatic_conversion"]').on('change', function() {
       if($('input[name="acc_expense_automatic_conversion"]').is(':checked') == true){
         $('#div_expense_automatic_conversion').removeClass('hide');

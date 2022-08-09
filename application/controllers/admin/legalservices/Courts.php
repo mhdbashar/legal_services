@@ -190,6 +190,7 @@ class Courts extends AdminController
         if ($response == true) {
             $this->db->where('c_id', $id);
             $this->db->delete(db_prefix() . 'my_courts_categories');
+            set_alert('success', _l('deleted', _l('Court')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('Court')));
         }

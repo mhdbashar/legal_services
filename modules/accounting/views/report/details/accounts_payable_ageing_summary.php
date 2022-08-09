@@ -1,21 +1,58 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('accounts_payable_ageing_summary'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th></th>
-          <th class="th_total_width_auto"><?php echo _l('current'); ?></th>
-          <th class="th_total_width_auto">1 - 30</th>
-          <th class="th_total_width_auto">31 - 60</th>
-          <th class="th_total_width_auto">61 - 90</th>
-          <th class="th_total_width_auto">91 AND OVER</th>
-          <th class="th_total_width_auto"><?php echo _l('total'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="7">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('accounts_payable_ageing_summary'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td></td>
+          <td class="th_total_width_auto text-bold"><?php echo _l('current'); ?></td>
+          <td class="th_total_width_auto text-bold">1 - 30</td>
+          <td class="th_total_width_auto text-bold">31 - 60</td>
+          <td class="th_total_width_auto text-bold">61 - 90</td>
+          <td class="th_total_width_auto text-bold">91 AND OVER</td>
+          <td class="th_total_width_auto text-bold"><?php echo _l('total'); ?></td>
+        </tr>
         <?php
          $row_index = 1; 
          $parent_index = 1; 

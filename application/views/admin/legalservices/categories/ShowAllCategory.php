@@ -40,14 +40,12 @@
                                             <?php echo get_country_name_by_staff_default_language($value,$staff_language);?>
                                         </td>
                                         <td>
-<!--                                            --><?php //if($cat->is_basic != 1){ ?>
-<!--                                                <a href="--><?php //echo admin_url("edit_category/$ServID/$cat->id"); ?><!--" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>-->
-<!--                                                <a href="--><?php //echo admin_url("delete_category/$ServID/$cat->id"); ?><!--" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>-->
-<!--                                            --><?php //} ?>
-                                            <div class="radio radio-primary radio-inline">
-                                                <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                            <?php if($cat->is_basic != 1){ ?>
                                                 <a href="<?php echo admin_url("delete_category/$ServID/$cat->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                                                <input style="margin: 5px" type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
+                                            <?php } ?>
+                                            <div class="radio radio-primary radio-inline">
+                                                <input  type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
                                                 <label for="<?php echo $cat->id; ?>"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                             </div>
                                         </td>
@@ -256,6 +254,7 @@
                                 <td>${val.name}</td>
                                 <th>${val.cat_description}</th>
                                 <td>
+                                    <a href="<?php echo admin_url('edit_category/') . $ServID; ?>/${val.id}" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                     <?php if($ServID ==1){ ?>
                                     <div class="radio radio-primary radio-inline">
                                     <input type="radio" name="CatDetails"  id="${val.id}" onchange="MakePrimary_2(<?php echo $ServID?>,${val.id})">
@@ -301,6 +300,10 @@
                             `<tr>
                             <td>${count}</td>
                             <td>${val.name}</td>
+                            <th>${val.cat_description}</th>
+                            <td>
+                                <a href="<?php echo admin_url('edit_category/') . $ServID; ?>/${val.id}" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                            </td>
                         </tr>`
                         );
                     }

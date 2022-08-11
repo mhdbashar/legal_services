@@ -40,12 +40,14 @@
                                             <?php echo get_country_name_by_staff_default_language($value,$staff_language);?>
                                         </td>
                                         <td>
-                                            <?php if($cat->is_basic != 1){ ?>
+<!--                                            --><?php //if($cat->is_basic != 1){ ?>
+<!--                                                <a href="--><?php //echo admin_url("edit_category/$ServID/$cat->id"); ?><!--" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>-->
+<!--                                                <a href="--><?php //echo admin_url("delete_category/$ServID/$cat->id"); ?><!--" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>-->
+<!--                                            --><?php //} ?>
+                                            <div class="radio radio-primary radio-inline">
                                                 <a href="<?php echo admin_url("edit_category/$ServID/$cat->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                                 <a href="<?php echo admin_url("delete_category/$ServID/$cat->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                                            <?php } ?>
-                                            <div class="radio radio-primary radio-inline">
-                                                <input type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
+                                                <input style="margin: 5px" type="radio" name="CatDetails"  id="<?php echo $cat->id; ?>" onchange="MakePrimary(<?php echo $ServID.','.$cat->id?>)">
                                                 <label for="<?php echo $cat->id; ?>"><?php echo _l('Categories'); ?> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></label>
                                             </div>
                                         </td>

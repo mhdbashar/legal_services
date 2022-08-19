@@ -2,7 +2,6 @@
 const queryString = window.location.search;
 var servid = $('#project_top').attr('data-servid');
 var relid = $('input[name="project_id"]').val();
-console.log('hiiiiiiiiiiiiiiiiiiiii', servid, relid);
 
 define('elFinderConfig', {
     // elFinder options (REQUIRED)

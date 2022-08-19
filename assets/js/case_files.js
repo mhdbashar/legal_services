@@ -9,7 +9,7 @@ define('elFinderConfig', {
     // Documentation for client options:
     // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
     defaultOpts: {
-        url: 'http://localhost/legal_services/admin//utilities/case_media_connector/' + servid + '/' + relid // connector URL (REQUIRED)
+        url: admin_url + '/utilities/case_media_connector/' + servid + '/' + relid // connector URL (REQUIRED)
         ,
         commandsOptions: {
             edit: {

@@ -4,20 +4,20 @@
 
         <li role="presentation" class="project_tab_activity">
             <a id="tab0" href="#tabBody0" role="tab" aria-expanded="true" aria-controls="tabBody0" aria-selected="true"
-               data-toggle="tab"  ><i class="fa fa-gavel" aria-hidden="true"></i> السوابق القضائية</a>
+               data-toggle="tab"><i class="fa fa-gavel" aria-hidden="true"></i> السوابق القضائية</a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab"
-                ><i class="fa fa-balance-scale" aria-hidden="true"></i>الانظمة السعودية</a>
+            ><i class="fa fa-balance-scale" aria-hidden="true"></i>الانظمة السعودية</a>
 
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-tags"></span>
+            ><span class="fa fa-tags"></span>
                 المبادئ القضائية
             </a>
         </li>
@@ -25,95 +25,95 @@
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab3" href="#tabBody3" role="tab" aria-controls="tabBody3" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-bullhorn"></span> التعاميم العدلية </a>
+            ><span class="fa fa-bullhorn"></span> التعاميم العدلية </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab4" href="#tabBody4" role="tab" aria-controls="tabBody4" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-address-book-o"></span> الدليل العملي للأحوال الشخصية </a>
+            ><span class="fa fa-address-book-o"></span> الدليل العملي للأحوال الشخصية </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab5" href="#tabBody5" role="tab" aria-controls="tabBody5" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-briefcase"></span>الدليل العملي للقضاء العمالي </a>
+            ><span class="fa fa-briefcase"></span>الدليل العملي للقضاء العمالي </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab6" href="#tabBody6" role="tab" aria-controls="tabBody6" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-file-pdf-o"></span> الدليل العملي في القضايا الجزائية </a>
+            ><span class="fa fa-file-pdf-o"></span> الدليل العملي في القضايا الجزائية </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab7" href="#tabBody7" role="tab" aria-controls="tabBody7" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-mortar-board"></span> الدليل العملي للشركات</a>
+            ><span class="fa fa-mortar-board"></span> الدليل العملي للشركات</a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab8" href="#tabBody8" role="tab" aria-controls="tabBody8" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-university"></span> الدليل العملي للقضاء الإداري </a>
+            ><span class="fa fa-university"></span> الدليل العملي للقضاء الإداري </a>
 
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab9" href="#tabBody9" role="tab" aria-controls="tabBody9" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-pencil-square"></span>الدليل العملي للقضاء العام </a>
+            ><span class="fa fa-pencil-square"></span>الدليل العملي للقضاء العام </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab10" href="#tabBody10" role="tab" aria-controls="tabBody10" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-info-circle"></span>الدليل العملي للمحامي في الاسانيد والقواعد النظامية
+            ><span class="fa fa-info-circle"></span>الدليل العملي للمحامي في الاسانيد والقواعد النظامية
                 والشرعية </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab11" href="#tabBody11" role="tab" aria-controls="tabBody11" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-share-square-o"></span> القضاء العمالي </a>
+            ><span class="fa fa-share-square-o"></span> القضاء العمالي </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab12" href="#tabBody12" role="tab" aria-controls="tabBody12" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-sticky-note-o"></span>التفتيش القضائي </a>
+            ><span class="fa fa-sticky-note-o"></span>التفتيش القضائي </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab13" href="#tabBody13" role="tab" aria-controls="tabBody13" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-file-word-o"></span> قرارات هيئة التدقيق مجتمعة </a>
+            ><span class="fa fa-file-word-o"></span> قرارات هيئة التدقيق مجتمعة </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab14" href="#tabBody14" role="tab" aria-controls="tabBody14" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-hdd-o"></span> مبادئ لجنة تسوية المنازعات المصرفية </a>
+            ><span class="fa fa-hdd-o"></span> مبادئ لجنة تسوية المنازعات المصرفية </a>
         </li>
 
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab15" href="#tabBody15" role="tab" aria-controls="tabBody15" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-map-o"></span> قرارات محكمة الاستئناف </a>
+            ><span class="fa fa-map-o"></span> قرارات محكمة الاستئناف </a>
         </li>
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab16" href="#tabBody16" role="tab" aria-controls="tabBody16" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-tags"></span> مدونة القرارات والمبادئ العمالية </a>
+            ><span class="fa fa-tags"></span> مدونة القرارات والمبادئ العمالية </a>
         </li>
 
         <li role="presentation" class="project_tab_invoices">
             <a id="tab17" href="#tabBody17" role="tab" aria-controls="tabBody17" aria-selected="true" data-toggle="tab"
-                ><span class="fa fa-search"></span> مجموعة الأحكام القضائية </a>
+            ><span class="fa fa-search"></span> مجموعة الأحكام القضائية </a>
         </li>
 
     </ul>
-    
+
     <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
         <?php for ($i = 0; $i < 18; $i++) { ?>
             <div class="tab-pane fade active in" id="tabBody<?= $i ?>" role="tabpanel" aria-labelledby="tab<?= $i ?>"
@@ -123,12 +123,13 @@
 </section>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    var url = 'https://library.lawyernet.net/api/search';
-    
-    // var url = 'http://localhost/library/api/search';
+    // var url = 'https://library.lawyernet.net/api/search';
+
+    var url = 'http://localhost/library/api/search';
     var befor = '<div class="thumbnail"><div class="row"><div class="col-md-12">';
     var after = '</div></div></div>';
     var non = '<h4 class="text-center"><?php echo _l("smtp_encryption_none"); ?>...</h4>';
+    var search = <?=$search?>;
 
     function get_library_data_api() {
         add_loader();
@@ -164,11 +165,11 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 13
             },
             type: "POST",
-            time:300,
+            time: 300,
             success: function (data) {
                 response = JSON.parse(data);
                 $('#tabBody0').html('');
@@ -191,7 +192,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 2
             },
             type: "POST",
@@ -218,7 +219,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 12
             },
             type: "POST",
@@ -245,7 +246,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 3
             },
             type: "POST",
@@ -272,7 +273,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 4
             },
             type: "POST",
@@ -299,7 +300,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 5
             },
             type: "POST",
@@ -326,7 +327,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 6
             },
             type: "POST",
@@ -353,7 +354,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 7
             },
             type: "POST",
@@ -380,7 +381,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 8
             },
             type: "POST",
@@ -407,7 +408,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 9
             },
             type: "POST",
@@ -434,7 +435,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 10
             },
             type: "POST",
@@ -461,7 +462,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 11
             },
             type: "POST",
@@ -488,7 +489,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 14
             },
             type: "POST",
@@ -515,7 +516,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 15
             },
             type: "POST",
@@ -542,7 +543,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 16
             },
             type: "POST",
@@ -569,7 +570,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 17
             },
             type: "POST",
@@ -596,7 +597,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 18
             },
             type: "POST",
@@ -623,7 +624,7 @@
         $.ajax({
             url: url,
             data: {
-                text: '<?php echo $search?>',
+                text: search,
                 type: 19
             },
             type: "POST",

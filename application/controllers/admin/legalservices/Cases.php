@@ -400,6 +400,23 @@ class Cases extends AdminController
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0, 'is_session' => 0]) > 0);
             } elseif ($group == 'project_files') {
                 $data['files'] = $this->case->get_files($id);
+            } elseif ($group == 'case_files') {
+
+                $this->load->helper('url');
+                $data['title']     = _l('media_files');
+                $data['connector'] = admin_url() . '/utilities/media_connector';
+
+                $mediaLocale = get_media_locale();
+
+                $this->app_scripts->add('media-js', 'assets/plugins/elFinder/js/elfinder.min.js');
+                $this->app_scripts->add('require-js', 'assets/js/case_require.min.js');
+                $this->app_scripts->add('case-files-js', 'assets/js/case_files.js');
+
+                if (file_exists(FCPATH . 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js') && $mediaLocale != 'en') {
+                    $this->app_scripts->add('media-lang-js', 'assets/plugins/elFinder/js/i18n/elfinder.' . $mediaLocale . '.js');
+                }
+
+
             } elseif ($group == 'project_expenses') {
                 $this->load->model('taxes_model');
                 $this->load->model('expenses_model');

@@ -1,5 +1,6 @@
 <?php
 
+$lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';

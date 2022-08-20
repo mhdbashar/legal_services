@@ -80,6 +80,13 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['upload_files'],
     ]);
 
+    $CI->app_custom_tabs->add_case_tab('case_files', [
+        'name'                      => _l('case_files'),
+        'icon'                      => 'fa fa-files-o',
+        'view'                      => 'admin/case_files/tab',
+        'position'                  => 32,
+    ]);
+
     $CI->app_custom_tabs->add_case_tab('project_discussions', [
         'name' => _l('project_discussions'),
         'icon' => 'fa fa-commenting',

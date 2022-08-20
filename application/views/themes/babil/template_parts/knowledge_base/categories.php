@@ -1,11 +1,33 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php foreach($articles as $category){ ?>
-<div class="col-md-12">
-    <div class="article_group_wrapper">
-        <h4 class="bold"><i class="fa fa-folder-o"></i> <a href="<?php echo site_url('knowledge-base/category/'.$category['group_slug']); ?>"><?php echo $category['name']; ?></a>
-            <small><?php echo count($category['articles']); ?></small>
-        </h4>
-        <p><?php echo $category['description']; ?></p>
-    </div>
-</div>
+<?php defined('BASEPATH') or exit('No direct script access allowed');?>
+<?php if(isset($main_groups) && ($main_groups)>0){?>
+    <?php foreach($main_groups as $category){?>
+
+
+
+
+
+ 
+  		<div class="col-md-3">
+               
+        <div  class="text-center pt-3">
+
+          <a href="<?php echo site_url('knowledge-base/category/'.$category->groupid); ?>" >  <img alt="category" src="<?php echo base_url()?>assets/images/book.png" width="150" height="150" ></a><br><span style="color:#093a64;font-weight: 900;font-size:20px;"><?php echo $category->name; ?> </span>
+          </div>
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+    <?php } ?>
 <?php } ?>
+

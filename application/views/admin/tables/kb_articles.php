@@ -4,9 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     'subject',
+    'type',
     'articlegroup',
     'datecreated',
-    ];
+];
 $sIndexColumn     = 'articleid';
 $sTable           = db_prefix() . 'knowledge_base';
 $additionalSelect = [
@@ -15,11 +16,12 @@ $additionalSelect = [
     'articleid',
     'slug',
     'staff_article',
-     db_prefix() . 'knowledge_base.description',
-    ];
+    'type',
+    db_prefix() . 'knowledge_base.description',
+];
 $join = [
     'LEFT JOIN ' . db_prefix() . 'knowledge_base_groups ON ' . db_prefix() . 'knowledge_base_groups.groupid = ' . db_prefix() . 'knowledge_base.articlegroup',
-    ];
+];
 
 $where   = [];
 $filter  = [];
@@ -31,7 +33,7 @@ foreach ($groups as $group) {
     }
 }
 if (count($_groups) > 0) {
-    array_push($filter, 'AND articlegroup IN (' . implode(', ', $_groups) . ')');
+    array_push($filter, 'AND type IN (' . implode(', ', $_groups) . ')');
 }
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
@@ -50,11 +52,11 @@ foreach ($rResult as $aRow) {
     for ($i = 0; $i < count($aColumns); $i++) {
         $_data = $aRow[$aColumns[$i]];
         if ($aColumns[$i] == 'articlegroup') {
-            $_data = $aRow['name'];
+            $_data = kb_all_main_group_name($aRow['groupid']);
         } elseif ($aColumns[$i] == 'subject') {
-            $link = admin_url('knowledge_base/view/' . $aRow['slug']);
+            $link = admin_url('knowledge_base/view/' . $aRow['articleid']);
             if ($aRow['staff_article'] == 0) {
-                $link = site_url('knowledge-base/article/' . $aRow['slug']);
+                $link = site_url('knowledge-base/article/' . $aRow['articleid']);
             }
 
             $_data = '<b>' . $_data . '</b>';
@@ -83,6 +85,8 @@ foreach ($rResult as $aRow) {
             $_data .= '</div>';
         } elseif ($aColumns[$i] == 'datecreated') {
             $_data = _dt($_data);
+        } elseif ($aColumns[$i] == 'type') {
+            $_data = kb_group_name($aRow['type'])->name;
         }
 
         $row[]              = $_data;

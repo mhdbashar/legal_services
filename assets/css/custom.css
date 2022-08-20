@@ -710,7 +710,17 @@ textarea[name="checklist-description-session"]:disabled {
     position: relative;
     top: 5px;
 }
+.kb-search button[type="submit"] {
+    padding: 14.5px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+p{
+    font-size: 17px;
 
+}
 
 
 

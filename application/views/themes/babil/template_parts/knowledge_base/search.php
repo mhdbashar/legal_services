@@ -2,24 +2,27 @@
 <div class="jumbotron kb-search-jumbotron">
     <div class="kb-search">
         <div class="container">
+<!--            <a href="--><?php //echo site_url('Knowledge_base/advance_search')?><!--">-->
+<!--            <button class="btn btn-success"><h4>--><?php //echo _l('kb_advance_search'); ?><!--</h4></button>-->
+<!--            </a>-->
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="text-center">
                         <h2 class="mbot30 bold kb-search-heading"><?php echo _l('kb_search_articles'); ?></h2>
                         <?php echo form_open(site_url('knowledge-base/search'),array('method'=>'GET','id'=>'kb-search-form')); ?>
                         <div class="form-group has-feedback has-feedback-left">
-                          <div class="input-group">
-                            <input type="search" name="q" placeholder="<?php echo _l('have_a_question'); ?>" class="form-control kb-search-input" value="<?php echo $this->input->get('q'); ?>">
-                            <span class="input-group-btn">
+                            <div class="input-group">
+                                <input type="search" name="q" placeholder="<?php echo _l('have_a_question'); ?>" class="form-control kb-search-input" value="<?php echo $this->input->get('q'); ?>">
+                                <span class="input-group-btn">
                                 <button type="submit" class="btn btn-success kb-search-button"><?php echo _l('kb_search'); ?></button>
                             </span>
-                            <i class="glyphicon glyphicon-search form-control-feedback kb-search-icon"></i>
+                                <i class="glyphicon glyphicon-search form-control-feedback kb-search-icon"></i>
+                            </div>
                         </div>
+                        <?php echo form_close(); ?>
                     </div>
-                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>

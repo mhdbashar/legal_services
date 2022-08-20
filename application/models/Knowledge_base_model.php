@@ -17,7 +17,7 @@ class Knowledge_base_model extends App_Model
      */
     public function get($id = '', $slug = '')
     {
-        $this->db->select('slug,articleid, articlegroup, subject,' . db_prefix() . 'knowledge_base.description,' . db_prefix() . 'knowledge_base.active as active_article,' . db_prefix() . 'knowledge_base_groups.active as active_group,name as group_name,staff_article');
+        $this->db->select('slug,articleid, articlegroup, subject,type,' . db_prefix() . 'knowledge_base.description,' . db_prefix() . 'knowledge_base.active as active_article,' . db_prefix() . 'knowledge_base_groups.active as active_group,name as group_name,staff_article');
         $this->db->from(db_prefix() . 'knowledge_base');
         $this->db->join(db_prefix() . 'knowledge_base_groups', db_prefix() . 'knowledge_base_groups.groupid = ' . db_prefix() . 'knowledge_base.articlegroup', 'left');
         $this->db->order_by('article_order', 'asc');
@@ -36,7 +36,6 @@ class Knowledge_base_model extends App_Model
 
         return $this->db->get()->result_array();
     }
-
     /**
      * Get related artices based on article id
      * @param  mixed $current_id current article id
@@ -87,12 +86,35 @@ class Knowledge_base_model extends App_Model
         if ($slug_total > 0) {
             $data['slug'] .= '-' . ($slug_total + 1);
         }
+        if (isset($data['title'])) {
+            $title = $data['title'];
+            unset($data['title']);
+        }
+        if (isset($data['description'])) {
+            $description = $data['description'];
+            unset($data['description']);
+        }
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            unset($data['custom_fields']);
+        }
 
         $data = hooks()->apply_filters('before_add_kb_article', $data);
 
         $this->db->insert(db_prefix() . 'knowledge_base', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $i=0;
+            foreach ($description as $d) {
+                $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id' => $insert_id, 'title' => $title[$i], 'description' => $d]);
+                $insert = $this->db->insert_id();
+                if ($insert) {
+                    $i++;
+                }
+            }
+            if (isset($custom_fields)) {
+                handle_custom_fields_post($insert_id, $custom_fields);
+            }
             log_activity('New Article Added [ArticleID: ' . $insert_id . ' GroupID: ' . $data['articlegroup'] . ']');
         }
 
@@ -119,9 +141,34 @@ class Knowledge_base_model extends App_Model
         } else {
             $data['staff_article'] = 0;
         }
-
+        if (isset($data['title'])) {
+            $title = $data['title'];
+            unset($data['title']);
+        }
+        if (isset($data['description'])) {
+            $description = $data['description'];
+            unset($data['description']);
+        }
+        $i=0;
+        $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
+        foreach ($description as $d){
+            $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
+            $insert = $this->db->insert_id();
+            if ($insert) {
+                $i++;
+            }
+        }
+        $affectedRows      = 0;
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            if (handle_custom_fields_post($id, $custom_fields)) {
+                $affectedRows++;
+            }
+            unset($data['custom_fields']);
+        }
         $this->db->where('articleid', $id);
         $this->db->update(db_prefix() . 'knowledge_base', $data);
+
         if ($this->db->affected_rows() > 0) {
             log_activity('Article Updated [ArticleID: ' . $id . ']');
 
@@ -192,7 +239,7 @@ class Knowledge_base_model extends App_Model
             $this->db->where('rel_type', 'kb_article');
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'views_tracking');
-
+            $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
             log_activity('Article Deleted [ArticleID: ' . $id . ']');
 
             return true;
@@ -234,6 +281,12 @@ class Knowledge_base_model extends App_Model
             unset($data['disabled']);
         } else {
             $data['active'] = 1;
+        }
+        if (isset($data['main'])) {
+            $data['is_main'] = 1;
+            unset($data['main']);
+        } else {
+            $data['is_main'] = 0;
         }
 
         $data['group_slug'] = slug_it($data['name']);
@@ -279,6 +332,21 @@ class Knowledge_base_model extends App_Model
             unset($data['disabled']);
         } else {
             $data['active'] = 1;
+        }
+        if (isset($data['main'])) {
+            $data['is_main'] = 1;
+            unset($data['main']);
+        } else {
+            $data['is_main'] = 0;
+        }
+        $current = $this->get_kbg_by_id($id);
+        // Check if group already is using
+        if($current->parent_id != $data['parent_id']){
+            if (is_reference_in_table('parent_id', db_prefix() . 'knowledge_base_groups', $id)) {
+                return [
+                    'referenced' => true,
+                ];
+            }
         }
         $this->db->where('groupid', $id);
         $this->db->update(db_prefix() . 'knowledge_base_groups', $data);
@@ -327,11 +395,15 @@ class Knowledge_base_model extends App_Model
                 'referenced' => true,
             ];
         }
+        if (is_reference_in_table('parent_id', db_prefix() . 'knowledge_base_groups', $id)) {
+            return [
+                'referenced' => true,
+            ];
+        }
         $this->db->where('groupid', $id);
         $this->db->delete(db_prefix() . 'knowledge_base_groups');
         if ($this->db->affected_rows() > 0) {
             log_activity('Knowledge Base Group Deleted');
-
             return true;
         }
 
@@ -381,4 +453,28 @@ class Knowledge_base_model extends App_Model
             'success' => false,
         ];
     }
+
+    public function get_content($id = '')
+    {
+        $this->db->select('');
+        $this->db->from(db_prefix() . 'knowledge_custom_fields');
+        $this->db->order_by('id', 'asc');
+        $this->db->where('knowledge_id', $id);
+        return $this->db->get()->result_array();
+    }
+
+    public function kb_main_groups(){
+        $this->db->where('parent_id', 0);
+        return $this->db->get(db_prefix() . 'knowledge_base_groups')->result();
+    }
+
+    public function kb_main_group($parent_id){
+        $this->db->where('parent_id', $parent_id);
+        $main_group = $this->db->get(db_prefix() . 'knowledge_base_groups')->result_array();
+        if($main_group)
+            return $main_group;
+        else
+            return false;
+    }
+
 }

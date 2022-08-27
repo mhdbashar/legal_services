@@ -24,6 +24,32 @@ $info_right_column .= '<b style="color:#4e4e4e;"># ' . $invoice_number . '</b>';
 if (get_option('show_status_on_pdf_ei') == 1) {
     $info_right_column .= '<br /><span style="color:rgb(' . invoice_status_color_pdf($status) . ');text-transform:uppercase;">' . format_invoice_status($status, '', false) . '</span>';
 }
+$company_name = get_option('invoice_company_name');
+$company_vat = get_option('company_vat');
+$created_date = date('Y-m-d H:i:s');
+$total_tax = $invoice->total_tax;
+$total = $invoice->total;
+$data = [
+    [1, $company_name],
+    [2, $company_vat],
+    [3, $created_date],
+    [4, $total],
+    [5, $total_tax]
+];
+$_tlv = __getTLV($data);
+$data = base64_encode($_tlv);
+
+$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+
+//if($invoice->qr_code != null || $invoice->qr_code != ''){
+    $qrCodePath = $response;
+
+//}
+
+//$pdf->Image($qrCodePath,10,10,30,30);
+
+$pdf->Image($qrCodePath,120,45,30,30);
+
 
 if ($status != Invoices_model::STATUS_PAID && $status != Invoices_model::STATUS_CANCELLED && get_option('show_pay_link_to_invoice_pdf') == 1
     && found_invoice_mode($payment_modes, $invoice->id, false)) {
@@ -42,7 +68,7 @@ if (is_rtl()) {
     pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 }
 
-$pdf->ln(10);
+$pdf->ln(2);
 
 $organization_info = '<div style="color:#424242;">';
 
@@ -50,35 +76,31 @@ $organization_info .= format_invoice_info();
 
 $organization_info .= '</div>';
 
-$company_name = get_option('invoice_company_name');
-$company_vat = get_option('company_vat');
-$created_date = date('Y-m-d H:i:s');
-$total_tax = $invoice->total_tax;
-$total = $invoice->total;
 
-$data = [
-    [1, $company_name],
-    [2, $company_vat],
-    [3, $created_date],
-    [4, $total],
-    [5, $total_tax]
-];
-$_tlv = __getTLV($data);
-$data = base64_encode($_tlv);
 
-$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
 
-//if($invoice->qr_code != null || $invoice->qr_code != ''){
-    $qrCodePath = $response;
-    $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
-//}
+
+
+
 
 // Bill to
+
 $invoice_info = '<div align="'.$attr_align.'">';
 $invoice_info .= '<b>' . _l('invoice_bill_to')  . ':</b>';
+ 
 $invoice_info .= '<div style="color:#424242;">';
 $invoice_info .= format_customer_info($invoice, 'invoice', 'billing');
 $invoice_info .= '</div>';
+
+
+
+
+
+
+
+
+
+
 
 // ship to to
 if ($invoice->include_shipping == 1 && $invoice->show_shipping_on_invoice == 1) {
@@ -295,3 +317,5 @@ if (!empty($invoice->terms)) {
     $pdf->Ln(2);
     $pdf->writeHTMLCell('', '', '', '', $invoice->terms, 0, 1, false, true, $align, true);
 }
+ 
+ 

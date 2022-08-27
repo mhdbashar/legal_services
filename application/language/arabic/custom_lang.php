@@ -1,5 +1,6 @@
 <?php
 
+$lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';
@@ -484,7 +485,7 @@ $lang['ticket_public_url'] = "الرابط العام للتذكرة";
 $lang['department'] = "القسم";
 $lang['department_email'] = "بريد القسم";
 $lang['date_opened'] = "تاريخ فتح التذكرة";
-$lang['session_start_timer_only_assignee'] = "تحتاج إلى تعيين هذه الجلسة لإحد الموظفين لبدء المؤقت!";
+$lang['session_start_timer_only_assignee'] = "يجب ان تكون تمت احالتك لهذه الجلسة من أجل بدء المؤقت!";
 $lang['session_no_checklist_items_found'] = "عناصر قائمة التحقق غير موجودة لهذه الجلسة";
 $lang['ticket_subject'] = "موضوع التذكرة";
 $lang['ticket_message'] = "رسالة التذكرة";

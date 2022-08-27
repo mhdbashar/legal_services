@@ -53,7 +53,7 @@
                                             <?php $value = get_category_by_court_id($court->c_id); ?>
                                         <?php if($value){foreach ($value as $cat){
 
-                                            echo $cat->name;
+                                             if(is_object($cat)) echo $cat->name;
                                             echo '<br>';
                                             } }?>
                                         </td>

@@ -130,7 +130,7 @@
 </section>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    var url = 'https://library.lawyernet.net/api/search1';
+    var url = 'https://library.lawyernet.net/api_lib/search1';
 
     // var url = 'http://localhost/legalserv/api_lib/search1';
     var befor = '<div class="thumbnail"><div class="row"><div class="col-md-12">';

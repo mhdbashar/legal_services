@@ -48,8 +48,8 @@ $response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
 
 //$pdf->Image($qrCodePath,10,10,30,30);
 
-$pdf->Image($qrCodePath,120,45,30,30);
-
+//$pdf->Image($qrCodePath,120,45,30,30);
+ 
 
 if ($status != Invoices_model::STATUS_PAID && $status != Invoices_model::STATUS_CANCELLED && get_option('show_pay_link_to_invoice_pdf') == 1
     && found_invoice_mode($payment_modes, $invoice->id, false)) {
@@ -317,5 +317,5 @@ if (!empty($invoice->terms)) {
     $pdf->Ln(2);
     $pdf->writeHTMLCell('', '', '', '', $invoice->terms, 0, 1, false, true, $align, true);
 }
- 
- 
+ $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<img style="width:90px !important; " src="' . $qrCodePath . '"  >'   , 0, 'C', 0, 0, '', '', true, 0, true, true, 0);
+

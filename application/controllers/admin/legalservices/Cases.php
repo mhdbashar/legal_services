@@ -468,7 +468,8 @@ class Cases extends AdminController
                 $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
                 $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
             } elseif ($group == 'help_library') {
-                $data['search'] = json_encode(str_filter_for_library($project->description));
+                $text = $project->name.' '.$project->description;
+                $data['search'] = json_encode(str_filter_for_library($text));
                 $tags_array = get_service_tags($id, $slug);
                 $tags = array();
                 foreach ($tags_array as $tag) {

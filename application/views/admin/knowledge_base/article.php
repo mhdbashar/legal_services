@@ -132,7 +132,6 @@
         init_editor('#descriptions-<?php echo $i; ?>', {append_plugins: 'stickytoolbar'});
         <?php $i++;} ?>
         <?php } ?>
-
         init_editor('#description', {append_plugins: 'stickytoolbar'});
         appValidateForm($('#article-form'),{subject:'required',articlegroup:'required',type:'required'});
     });

@@ -118,8 +118,9 @@ function get_kb_main_groups(){
 
 function kb_childe_group($id){
     $CI = & get_instance();
-        $CI->db->where(['parent_id'=> $id,'active'=>'1']);
-        $val = $CI->db->get(db_prefix() . 'knowledge_base_groups')->result();
+    $CI->db->where(['parent_id'=> $id,'active'=>'1']);
+    $CI->db->order_by('group_order', 'asc');
+    $val = $CI->db->get(db_prefix() . 'knowledge_base_groups')->result();
         if ($val)
             return $val;
 

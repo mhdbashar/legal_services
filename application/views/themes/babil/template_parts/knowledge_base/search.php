@@ -3,7 +3,7 @@
     <div class="kb-search">
         <div class="container">
 <!--            <a href="--><?php //echo site_url('Knowledge_base/advance_search')?><!--">-->
-<!--            <button class="btn btn-success"><h4>--><?php //echo _l('kb_advance_search'); ?><!--</h4></button>-->
+<!--            <button class="btn btn-success"><h4>--><?php //echo _l('البحث المتقدم'); ?><!--</h4></button>-->
 <!--            </a>-->
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">

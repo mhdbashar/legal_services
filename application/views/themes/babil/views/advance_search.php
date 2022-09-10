@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="panel_s" dir="rtl">
     <div class="panel-body">
+        <h1 class="text-center text-bold">البحث المتقدم</h1>
+        <hr/>
         <?php echo form_open(site_url('knowledge_base/advance_searched/0'), ['method' => 'POST', 'id' => 'advance-search']); ?>
         <div class="form-group">
             <?php $country = get_kb_main_groups(); ?>
@@ -25,6 +27,63 @@
                 <?php } ?>
             </select>
         </div>
+
+        <?php foreach ($groups as $group) {
+            $custom_fields = get_custom_fields('kb_' . $group->groupid);
+            if ($group->groupid == 2) {
+                foreach ($custom_fields as $field) {
+                    if ($field['id'] == 1) echo render_date_input($field['id'], $field['name'],'',[],[],$field['id'].' hide');
+                    else if ($field['id'] == 4) {
+                        echo "
+                        <div class='form-group {$field['id']} hide'>
+                            <label for='{$field['id']}' class='control-label'>{$field['name']}</label>
+                            <br>
+                            <tr>
+                                <td>
+                                    <div class='radio radio-primary radio-inline'>
+                                        <input type='radio' name='{$field['id']}'  id='{$field['id']}' value='ساري' checked>
+                                        <label for='{$field['id']}' >ساري</label>
+                                    </div>
+                                    <div class='radio radio-primary radio-inline'>
+                                        <input type='radio' name='{$field['id']}'  id='{$field['id']}' value='غير ساري'>
+                                        <label for='{$field['id']}'> غير ساري </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                    ";}
+                    else if ($field['id'] == 5) {
+                        echo "
+                        <div class='form-group {$field['id']} hide'>
+                            <label for='{$field['id']}' class='control-label'>{$field['name']}</label>
+                            <br>
+                            <tr>
+                                <td>
+                                    <div class='radio radio-primary radio-inline'>
+                                        <input type='radio' name='{$field['id']}'  id='{$field['id']}' value='جرى عليه تعديل' checked>
+                                        <label for='{$field['id']}' >جرى عليه تعديل</label>
+                                    </div>
+                                    <div class='radio radio-primary radio-inline'>
+                                        <input type='radio' name='{$field['id']}'  id='{$field['id']}' value='لم يجري عليه تعديل'>
+                                        <label for='{$field['id']}'>لم يجري عليه تعديل</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                    ";}
+                    else
+                        echo render_input($field['id'], $field['name'],'','',[],[],$field['id'].' hide');
+                }
+
+            }else{
+                foreach ($custom_fields as $field) {
+                    echo render_input($field['id'], $field['name'],'','',[],[],$field['id'].' hide');
+                }
+            }
+        }
+        echo render_input('search_text', 'الكلمات المراد البحث عنها', '', '', [], [], '', 'form-control kb-search-input');
+        ?>
+
         <!--        <div class="form-group">-->
         <!--            <label for="custom_fields" class="control-label">-->
         <?php //echo _l('إختر الحقل'); ?><!--</label>-->
@@ -100,7 +159,7 @@
 
     .control-label, label {
         font-weight: 400;
-        font-size: 20px;
+        font-size: 16px;
         color: #4a4a4a;
     }
 
@@ -125,7 +184,7 @@
     .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
         overflow: hidden;
         font-weight: 400;
-        font-size: 17px;
+        font-size: 15px;
         color: #4a4a4a;
     }
 
@@ -136,8 +195,8 @@
         color: #4a4a4a;
     }
 </style>
-
 <script>
+
     $('#main_group').ready(function () {
         get_custom_fields();
     });
@@ -208,7 +267,6 @@
     })();
 
     function get_main_group() {
-        $('#search').val('');
         var country = $('#country').val();
         $('#custom_fields').html('');
         $('#main_group').html('');
@@ -226,115 +284,69 @@
                     $('#main_group').selectpicker("refresh");
                 });
                 $('#main_group').selectpicker("refresh");
+                get_custom_fields();
             }
         });
     }
 
     function get_custom_fields() {
-        $('#search').val('');
         var custom_id = $('#main_group').val();
         $('#custom_fields').html('');
+        empty_searche();
+        hide_filds();
         $.ajax({
             url: '<?php echo site_url("Knowledge_base/get_custom_fields_ajax/"); ?>' + custom_id,
             type: 'POST',
             success: function (data) {
-                $('#custom_fields').html('');
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    if (custom_id == 2) {
-                        if (value['id'] == 4) {
-                            $('#custom_fields').append(`
-                        <div class="form-group">
-                        <label for="${value['id']}" class="control-label">${value['name']}</label>
-                        <br>
-                            <tr>
-                                <td>
-                                    <div class="radio radio-primary radio-inline">
-                                    <input type="radio" name="${value['id']}"  id="${value['id']}" value="ساري" checked>
-                                    <label for="${value['id']}">ساري</label>
-                                    </div>
-                                    <div class="radio radio-primary radio-inline">
-                                    <input type="radio" name="${value['id']}"  id="${value['id']}" value="غير ساري">
-                                    <label for="${value['id']}"> غير ساري </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </div>
-                        `);
-                        } else if (value['id'] == 5) {
-                            $('#custom_fields').append(`
-                        <div class="form-group">
-                        <label for="${value['id']}" class="control-label">${value['name']}</label>
-                        <br>
-                            <tr>
-                                <td>
-                                    <div class="radio radio-primary radio-inline">
-                                    <input type="radio" name="${value['id']}"  id="${value['id']}" value="جرى عليه تعديل" checked>
-                                    <label for="${value['id']}">جرى عليه تعديل</label>
-                                    </div>
-                                    <div class="radio radio-primary radio-inline">
-                                    <input type="radio" name="${value['id']}"  id="${value['id']}" value="لم يجرى عليه">
-                                    <label for="${value['id']}"> لم يجرى عليه تعديل </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </div>
-                        `);
-                        } else {
-                            $('#custom_fields').append(`
-                        <div class="form-group">
-                        <label for="${value['id']}" class="control-label">${value['name']}</label>
-                        <input type="text" id="${value['id']}" name="${value['id']}"  class="form-control kb-search-input" value="">
-                        </div>
-                        `);
-                        }
-                    }
+                    $(`.form-group.${value['id']}`).removeClass('hide');
                 });
-                $('#custom_fields').append(`
-                    <div class="form-group">
-                    <label for="search_text" class="control-label">الكلمات المراد البحث عنها</label>
-                    <input type="text" id="search_text" name="search_text"  class="form-control kb-search-input">
-                    </div>
-                `);
+                console.log(response);
             }
         });
     }
 
-    function get_search() {
-        var text = $('#search').val();
-        var custom_id = $('#custom_fields').val();
-        var type = $('#main_group').val();
-        $.ajax({
-            url: '<?php echo site_url("Knowledge_base/get_search_results_ajax/"); ?>',
-            type: 'POST',
-            data: {
-                text: text,
-                custom_id: custom_id,
-                type: type
-            },
-            success: function (data) {
-                $('#list').html('');
-                $('#list').append(`<div class="mtop10 tc-content kb-article-content">`);
-                response = JSON.parse(data);
-                $.each(response, function (key, value) {
-                    // if (custom_id != 0)
-                    $('#list').append(`<li class="mtop5 list-group-item"><a href="${value['link']}" target="_blank"><h4>${value['name']}</h4></a><h5 style="color: rgb(0,0,0)">${value['title']}</h5><p style="color: rgb(0,0,0)">${value['description']}</p></li>`);
-                    // else
-                    //     $('#list').append(`<li class="mtop5 list-group-item"><a href="${value['link']}" target="_blank"><h4>${value['name']}</h4></a></li>`);
-                });
-                $('#list').append(`</div>`);
-            }
-        });
-    }
 
-    function search() {
-        alert('dakhd');
-    }
+    //function get_search() {
+    //    var text = $('#search').val();
+    //    var custom_id = $('#custom_fields').val();
+    //    var type = $('#main_group').val();
+    //    $.ajax({
+    //        url: '<?php //echo site_url("Knowledge_base/get_search_results_ajax/"); ?>//',
+    //        type: 'POST',
+    //        data: {
+    //            text: text,
+    //            custom_id: custom_id,
+    //            type: type
+    //        },
+    //        success: function (data) {
+    //            $('#list').html('');
+    //            $('#list').append(`<div class="mtop10 tc-content kb-article-content">`);
+    //            response = JSON.parse(data);
+    //            $.each(response, function (key, value) {
+    //                // if (custom_id != 0)
+    //                $('#list').append(`<li class="mtop5 list-group-item"><a href="${value['link']}" target="_blank"><h4>${value['name']}</h4></a><h5 style="color: rgb(0,0,0)">${value['title']}</h5><p style="color: rgb(0,0,0)">${value['description']}</p></li>`);
+    //                // else
+    //                //     $('#list').append(`<li class="mtop5 list-group-item"><a href="${value['link']}" target="_blank"><h4>${value['name']}</h4></a></li>`);
+    //            });
+    //            $('#list').append(`</div>`);
+    //        }
+    //    });
+    //}
+
     function empty_searche() {
-        for (var i=1;i<50;i++){
-            if(i==4 || i==5)continue;
+        // var main_group = $('#main_group').val();
+        for (var i = 1; i < 50; i++) {
+            if (i == 4 || i == 5) continue;
             $(`#${i}`).val('');
         }
         $(`#search_text`).val('');
     }
+    function hide_filds() {
+        for (var i = 1; i < 50; i++) {
+            $(`.form-group.${i}`).addClass('hide');
+        }
+    }
+
 </script>

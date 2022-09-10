@@ -4,7 +4,7 @@
         <div class="row kb-article" >
             <div class="col-md-12">
                 <div class="mtop10 tc-content kb-article-content">
-                    <?php if($result > 0){?>
+                    <?php if(count($result) > 0){?>
                         <?php foreach ($result as $d){
                             echo '<a href="'.$d['link'].'"><h3  style="color: rgb(48, 176, 232)">'.$d['name'].'</h3></a>';
                             echo '<h5 style="">'.$d['title'].'</h5>';

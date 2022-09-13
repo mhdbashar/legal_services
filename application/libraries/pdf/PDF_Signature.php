@@ -56,8 +56,8 @@ trait PDF_Signature
 
 
 			if(is_rtl() &&  ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)){
-			  $this->SetX(($dimensions['wk'] / 6) - $dimensions['lm']);
-			  $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
+			  $this->SetX(($dimensions['wk'] / 5) - $dimensions['lm']);
+			  $this->MultiCell(($dimensions['wk'] / 4) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
 
 			  $this->SetAlpha(0.5);
 		

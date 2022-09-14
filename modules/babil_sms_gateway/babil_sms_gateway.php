@@ -10,7 +10,7 @@ Module Name: بوابة بابل للرسائل الصادرة والواردة
 Description: ادارة استلام الرسائل النصية القصيرة
 Author: Babil Team
 Author URI: https://www.babiltec.com
-Version: 1.0.1
+Version: 1.0
 Requires at least: 2.3.5
 */
 

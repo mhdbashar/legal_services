@@ -99,6 +99,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['deadline'] != '' ? ($CI->app_modules->is_active('hijri') ? _d($aRow['deadline']) . '<br>' . to_hijri_date(_d($aRow['deadline'])) : _d($aRow['deadline'])) : '';
     $members = $model->GetMembersCases($aRow['id']);
     $membersOutput='';
+    $exportMembers = '';
     foreach ($members as $member):
         $membersOutput .= '<a href="' . admin_url('profile/' . $member->staffid) . '">' .
             staff_profile_image($member->staffid, [
@@ -107,7 +108,11 @@ foreach ($rResult as $aRow) {
                 'data-toggle' => 'tooltip',
                 'data-title'  => $member->firstname.' '.$member->lastname,
             ]) . '</a>';
+        // For exporting
+        $exportMembers .= $member->firstname.' '.$member->lastname . ', ';
     endforeach;
+
+    $membersOutput .= '<span class="hide">' . trim($exportMembers, ', ') . '</span>';
     $row[] = $membersOutput;
     $status = get_case_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';

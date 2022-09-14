@@ -18,6 +18,8 @@
                     echo '<i class="fa fa-magic" aria-hidden="true"></i>';
                 }elseif ($gr == 'account_type_details') {
                     echo '<i class="fa fa-bars " aria-hidden="true"></i>';
+                }elseif ($gr == 'plaid_environment') {
+                    echo '<i class="fa fa-database" aria-hidden="true"></i>';
                 } ?>
                 <?php echo _l($gr); ?>
               </a>

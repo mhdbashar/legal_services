@@ -54,8 +54,11 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdown_<?php echo $key; ?>">
                             <?php
                             foreach($tab['children'] as $d){
-                                echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('projects/view/'.$project->id.'?group='.$d['slug']).'" data-group="'.$d['slug'].'">'.$d['name'];
-
+                                if($d['slug'] == 'project_invoices'){
+                                    echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('disputes/view/'.$project->id.'?group=disputes_invoices').'" data-group="disputes_invoices">'.$d['name'];
+                                }else {
+                                    echo '<li class="nav-tabs-submenu-child"><a href="' . admin_url('projects/view/' . $project->id . '?group=' . $d['slug']) . '" data-group="' . $d['slug'] . '">' . $d['name'];
+                                }
                                 if (isset($d['badge'], $d['badge']['value']) && !empty($d['badge'])) {?>
                                     <span class="badge pull-right
                                     <?=isset($d['badge']['type']) &&  $d['badge']['type'] != '' ? "bg-{$d['badge']['type']}" : 'bg-info' ?>"

@@ -1,26 +1,82 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('profit_and_loss'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
-  
     <table class="tree">
       <thead>
+      </thead>
+      <tbody>
+        <tr class="treegrid-01 parent-node expanded">
+          <td colspan="14">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
+        </tr>
+        <tr class="treegrid-02 parent-node expanded">
+          <td colspan="14">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('profit_and_loss_12_months'); ?></h4>
+          </td>
+          <td></td>
+          <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
+        </tr>
+        <tr class="treegrid-03 parent-node expanded">
+          <td colspan="14">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td></td>
+          <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
+        </tr>
         <tr class="tr_header">
-          <th></th>
+          <td></td>
           <?php 
           $start = $month = strtotime($data_report['from_date']);
           $end = strtotime($data_report['to_date']);
-          while($month < $end)
+          while($month <= $end)
           {
-            echo '<th class="th_total_width_auto">'.date('F Y', $month).'</th>';
+            echo '<td class="th_total_width_auto text-bold">'.date('F', $month).'<br>'.date('Y', $month).'</td>';
               $month = strtotime("+1 month", $month);
           }
           ?>
-          <th class="th_total_width_auto"><?php echo _l('total'); ?></th>
+          <td class="th_total_width_auto text-bold"><?php echo _l('total'); ?></td>
         </tr>
-      </thead>
-      <tbody>
         <?php
           $row_index = 0;
           $parent_index = 0;
@@ -29,20 +85,15 @@
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo _l('acc_income'); ?></td>
-
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"></td>
           </tr>
           <?php
@@ -59,18 +110,15 @@
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_income'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_income, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
@@ -78,18 +126,15 @@
           ?>
            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo _l('acc_cost_of_sales'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td></td>
 
           </tr>
@@ -102,35 +147,29 @@
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_cost_of_sales'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_cost_of_sales, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('gross_profit_uppercase'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_income - $total_cost_of_sales, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
@@ -138,18 +177,15 @@
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo _l('acc_other_income'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td></td>
           </tr>
           <?php 
@@ -162,18 +198,15 @@
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_other_income_loss'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_other_income, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
@@ -181,18 +214,15 @@
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo _l('acc_expenses'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td></td>
           </tr>
           <?php 
@@ -205,18 +235,15 @@
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_expenses'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_expenses, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1;
@@ -224,18 +251,15 @@
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo _l('acc_other_expenses'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td></td>
           </tr>
           <?php 
@@ -248,35 +272,29 @@
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('total_other_expenses'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money($total_other_expenses, $currency->name); ?> </td>
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('net_earnings_uppercase'); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <?php 
+            $start = $month = strtotime($data_report['from_date']);
+            $end = strtotime($data_report['to_date']);
+            while($month <= $end)
+            {
+              echo '<td></td>';
+                $month = strtotime("+1 month", $month);
+            }
+            ?>
             <td class="total_amount"><?php echo app_format_money(($total_income + $total_other_income) - ($total_cost_of_sales + $total_expenses + $total_other_expenses), $currency->name); ?> </td>
           </tr>
         </tbody>

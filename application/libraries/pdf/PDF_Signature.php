@@ -50,14 +50,14 @@ trait PDF_Signature
 
             if ($signatureImage != '' && $signatureExists) {
                 $imageData = base64_encode(file_get_contents($signaturePath));
-                $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img style="width:80px !important; " src="@' . $imageData . '"  >';   
+                $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img style="width:130px !important; " src="@' . $imageData . '"  >';   
  
             }
 
 
 			if(is_rtl() &&  ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)){
-			  $this->SetX(($dimensions['wk'] / 6) - $dimensions['lm']);
-			  $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
+			  $this->SetX(($dimensions['wk'] / 5) - $dimensions['lm']);
+			  $this->MultiCell(($dimensions['wk'] / 4) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
 
 			  $this->SetAlpha(0.5);
 		
@@ -68,7 +68,7 @@ trait PDF_Signature
 				
 			$this->SetX(($dimensions['wk'] / 10) - $dimensions['lm']);
 			$this->Rotate(15);
-			 $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:25px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
+			 $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:40px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
           
             
 			 
@@ -86,7 +86,7 @@ trait PDF_Signature
 			
 			$this->SetX(14);
 			 $this->Rotate(15);
-			 $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:25px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
+			 $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:45px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
 		
 			
 		   }

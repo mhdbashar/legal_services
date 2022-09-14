@@ -91,3 +91,28 @@ th{
 .btn-group.pull-right.mtop25>.btn{
     margin-right: 15px;
 }
+
+.no-margin-top-20{
+    margin-top: -20px;
+}
+
+.no-margin-left-24{
+    margin-left: -24px;
+}
+
+.border-top{
+    border-top: 1px solid black;
+}
+
+.border-bottom{
+    border-bottom: 1px solid black;
+}
+
+.text-bold{
+    font-weight: bold;
+}
+
+#accordion{
+    color: black !important;
+    font-weight: 450;
+}

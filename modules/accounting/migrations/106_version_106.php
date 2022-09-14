@@ -10,8 +10,6 @@ class Migration_Version_106 extends App_module_migration
         
         //Version 1.0.6
 
-        $CI->db->query("DELETE FROM tblacc_accounts WHERE key_name = 'acc_interest_income'");
-
         if (!$CI->db->field_exists('payslip_type' ,db_prefix() . 'acc_account_history')) {
           $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_account_history`
             ADD COLUMN `payslip_type` VARCHAR(45) NULL;');

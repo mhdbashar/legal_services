@@ -1,10 +1,5 @@
 <?php
 
-$lang['gateway'] = 'البوابة';
-
-$lang['old_gateway'] = 'البوابة القديمة';
-
-$lang['new_gateway'] = 'البوابة الجديدة';
 
 $lang['device_sms'] = 'ادارة رسائل SMS الواردة';
 

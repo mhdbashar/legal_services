@@ -3434,7 +3434,7 @@ $lang['status_name'] = 'اسم الحالة';
 $lang['project_contacts'] = 'شهود المشروع';
 $lang['project_contacts_types'] = 'شاهد 1 , شاهد 2 , شاهد 3 , شاهد 4 , شاهد 5 , شاهد 6';
 $lang['project_billing_type_1'] = 'سعر الصرف الثابت';
-$lang['project_billing_type_10'] = 'معدل ثابت + النسبة المئوية ٪';
+$lang['project_billing_type_10'] = 'سعر ثابت + النسبة المئوية ٪';
 $lang['project_billing_type_11'] = 'نسبه مئويه ٪';
 $lang['project_rate_percent'] = 'النسبة المئوية٪';
 $lang['disputes_cases_invoices'] = 'فواتير قضايا التنفيذ';//disputes_cases_invoices
@@ -3446,5 +3446,8 @@ $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعا�
 $lang['invoice_disputes_case'] = 'فوترة النزاع';
 $lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية للقضية';
 $lang['disputes_invoice_item'] = 'رسوم فاتورة النزاع';
+$lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
+$lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
+
 
 

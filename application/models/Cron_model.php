@@ -2477,4 +2477,29 @@ class Cron_model extends App_Model
             update_option('_fix_staffs_and_contacts_names', true);
         }
     }
+
+    private function recurring_disputes_cases_invoices()
+    {
+        $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
+        if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
+            return;
+        }
+        $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
+        $this->db->select('id,duedate');
+        $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
+        $this->db->where('is_sent_notfication', 0);
+        $this->db->where('status !=', 2);
+        $invoices = $this->db->get()->result_array();
+        foreach ($invoices as $invoice) {
+            if(date('Y-m-d') >= $invoice['duedate']){
+                $send = $this->disputes_invoices->send_invoice_to_client($invoice['id'], 'invoice_send_to_customer', true);
+                if($send){
+                    $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
+                        'is_sent_notfication' => 1,
+                    ]);
+                }
+            }
+        }
+    }
+
 }

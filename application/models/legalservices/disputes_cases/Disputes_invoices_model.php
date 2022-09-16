@@ -2044,7 +2044,137 @@ foreach ($client_ids as $clientid) {
 
         return $data;
     }
-    public function test(){
-        return 'test';
+
+    public function send_invoice_to_client($id, $template_name = '', $attachpdf = true, $cc = '', $manually = false, $attachStatement = [])
+    {
+        $originalNumber = null;
+
+        if ($isDraft = $this->is_draft($id)) {
+            // Update invoice number from draft before sending
+            $originalNumber = $this->change_invoice_number_when_status_draft($id);
+        }
+
+        $invoice = hooks()->apply_filters(
+            'invoice_object_before_send_to_client',
+            $this->get($id)
+        );
+
+        if ($template_name == '') {
+            $template_name = $invoice->sent == 0 ?
+                'invoice_send_to_customer' :
+                'invoice_send_to_customer_already_sent';
+
+            $template_name = hooks()->apply_filters('after_invoice_sent_template_statement', $template_name);
+        }
+
+        $emails_sent = [];
+        $send_to     = [];
+
+        // Manually is used when sending the invoice via add/edit area button Save & Send
+        if (!DEFINED('CRON') && $manually === false) {
+            $send_to = $this->input->post('sent_to');
+        } elseif (isset($GLOBALS['scheduled_email_contacts'])) {
+            $send_to = $GLOBALS['scheduled_email_contacts'];
+        } else {
+            $contacts = $this->get_contacts_for_invoice_emails($invoice->clientid);
+
+            foreach ($contacts as $contact) {
+                array_push($send_to, $contact['id']);
+            }
+        }
+
+        $attachStatementPdf = false;
+        if (is_array($send_to) && count($send_to) > 0) {
+            if (isset($attachStatement['attach']) && $attachStatement['attach'] == true) {
+                $statement    = $this->clients_model->get_statement($invoice->clientid, $attachStatement['from'], $attachStatement['to']);
+                $statementPdf = statement_pdf($statement);
+
+                $statementPdfFileName = slug_it(_l('customer_statement') . '-' . $statement['client']->company);
+
+                $attachStatementPdf = $statementPdf->Output($statementPdfFileName . '.pdf', 'S');
+            }
+
+            $status_updated = disputes_update_invoice_status($invoice->id, true, true);
+
+            $invoice_number = disputes_format_invoice_number($invoice->id);
+
+            if ($attachpdf) {
+                set_mailing_constant();
+                $pdf    = invoice_pdf($this->get($id));
+                $attach = $pdf->Output($invoice_number . '.pdf', 'S');
+            }
+
+            $i = 0;
+            foreach ($send_to as $contact_id) {
+                if ($contact_id != '') {
+
+                    // Send cc only for the first contact
+                    if (!empty($cc) && $i > 0) {
+                        $cc = '';
+                    }
+
+                    $contact = $this->clients_model->get_contact($contact_id);
+
+                    if (!$contact) {
+                        continue;
+                    }
+
+                    $template = mail_template($template_name, $invoice, $contact, $cc);
+
+                    if ($attachpdf) {
+                        $template->add_attachment([
+                            'attachment' => $attach,
+                            'filename'   => str_replace('/', '-', $invoice_number . '.pdf'),
+                            'type'       => 'application/pdf',
+                        ]);
+                    }
+
+                    if ($attachStatementPdf) {
+                        $template->add_attachment([
+                            'attachment' => $attachStatementPdf,
+                            'filename'   => $statementPdfFileName,
+                            'type'       => 'application/pdf',
+                        ]);
+                    }
+
+                    if ($template->send()) {
+                        $sent = true;
+                        array_push($emails_sent, $contact->email);
+                    }
+                }
+                $i++;
+            }
+        } elseif ($isDraft) {
+            // Revert the number on failure
+            $this->db->where('id', $id);
+            $this->db->update('tblmy_disputes_cases_invoices', ['number' => $originalNumber]);
+
+            $this->decrement_next_number();
+
+            return false;
+        }
+
+        if (count($emails_sent) > 0) {
+            $this->set_invoice_sent($id, false, $emails_sent, true);
+
+            hooks()->do_action('invoice_sent', $id);
+
+            return true;
+        }
+
+        // In case the invoice not sent and the status was draft and
+        // the invoice status is updated before send return back to draft status
+        // and actually update the number to the orignal number
+        if ($isDraft && $status_updated !== false) {
+            $this->decrement_next_number();
+
+            $this->db->where('id', $invoice->id);
+            $this->db->update('tblmy_disputes_cases_invoices', [
+                'status' => self::STATUS_DRAFT,
+                'number' => $originalNumber,
+            ]);
+        }
+
+        return false;
     }
 }

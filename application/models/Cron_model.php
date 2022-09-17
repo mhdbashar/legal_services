@@ -88,7 +88,7 @@ class Cron_model extends App_Model
             $this->empty_legal_services_recycle_bin();
 
             $this->send_lawyer_daily_agenda();
-
+            $this->recurring_disputes_cases_invoices();
             //$this->fix_and_separate_names();
 
             /**

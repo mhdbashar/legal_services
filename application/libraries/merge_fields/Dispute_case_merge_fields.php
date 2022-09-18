@@ -156,7 +156,7 @@ class Dispute_case_merge_fields extends App_merge_fields
 
         if ($payment_id) {
             $this->ci->db->where('id', $payment_id);
-            $payment = $this->ci->db->get(db_prefix().'my_disputes_cases_invoicepaymentrecords	')->row();
+            $payment = $this->ci->db->get(db_prefix().'my_disputes_cases_invoicepaymentrecords')->row();
 
             $fields['{payment_total}'] = app_format_money($payment->amount, $currency);
             $fields['{payment_date}']  = _d($payment->date);
@@ -167,7 +167,7 @@ class Dispute_case_merge_fields extends App_merge_fields
         $fields['{invoice_total}']      = app_format_money($invoice->total, $currency);
         $fields['{invoice_subtotal}']   = app_format_money($invoice->subtotal, $currency);
 
-        $fields['{invoice_link}']    = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
+        $fields['{invoice_link}']    = site_url('disputes_invoice/index/' . $invoice_id . '/' . $invoice->hash);
         $fields['{invoice_number}']  = format_dispute_invoice_number($invoice_id);
         $fields['{invoice_duedate}'] = _d($invoice->duedate);
         $fields['{invoice_date}']    = _d($invoice->date);

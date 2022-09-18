@@ -1874,7 +1874,7 @@ foreach ($client_ids as $clientid) {
                 $template_name = 'dispute_case_send_to_customer';
 
             }
-            $template_name = hooks()->apply_filters('after_dispute_sent_template_statement', $template_name);
+            $template_name = hooks()->apply_filters('after_invoice_sent_template_statement', $template_name);
         }
         $invoice_number = disputes_format_invoice_number($invoice->id);
 

@@ -1871,7 +1871,7 @@ foreach ($client_ids as $clientid) {
                 $template_name = 'dispute_case_send_to_customer';
 
             } else {
-                $template_name = 'dispute_case_send_to_customer_already_sent';
+                $template_name = 'dispute_case_send_to_customer';
 
             }
             $template_name = hooks()->apply_filters('after_dispute_sent_template_statement', $template_name);

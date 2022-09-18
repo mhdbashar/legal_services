@@ -1862,9 +1862,8 @@ foreach ($client_ids as $clientid) {
      */
     public function send_dispute_to_client($id, $template_name = '', $attachpdf = true, $cc = '', $manually = false, $attachStatement = [], $opponent)
     {
-        // var_dump($opponent); exit;
         $invoice = $this->get($id);
-        $invoice = hooks()->apply_filters('dispute_object_before_send_to_client', $invoice);
+        $invoice = hooks()->apply_filters('invoice_object_before_send_to_client', $invoice);
 
         if ($template_name == '') {
             if ($invoice->sent == 0) {
@@ -1885,7 +1884,7 @@ foreach ($client_ids as $clientid) {
         if (!DEFINED('CRON') && $manually === false) {
             $sent_to = $this->input->post('sent_to');
         } else {
-            $invoice->clientid = $opponent;
+//            $invoice->clientid = $opponent;
             $contacts = $this->clients_model->get_contacts($invoice->clientid, ['active' => 1]);
 
             foreach ($contacts as $contact) {

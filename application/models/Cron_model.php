@@ -21,9 +21,9 @@ class Cron_model extends App_Model
     {
         if (!defined('APP_DISABLE_CRON_LOCK') || defined('APP_DISABLE_CRON_LOCK') && !APP_DISABLE_CRON_LOCK) {
             register_shutdown_function([$this, '__destruct']);
-            $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
-
-            if (!$f) {
+//            $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
+//
+//            if (!$f) {
                 $this->lock_handle = fopen(TEMP_FOLDER . 'pcrm-cron-lock', 'w+');
                 // Again? Disable the lock
                 if (!$this->lock_handle && !defined('APP_DISABLE_CRON_LOCK')) {
@@ -31,9 +31,9 @@ class Cron_model extends App_Model
                     // Used in method can_cron_run
                     define('APP_DISABLE_CRON_LOCK', true);
                 }
-            } else {
-                $this->lock_handle = $f;
-            }
+//            } else {
+//                $this->lock_handle = $f;
+//            }
         }
 
         parent::__construct();
@@ -2485,19 +2485,31 @@ class Cron_model extends App_Model
             return;
         }
         $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
-        $this->db->select('id,duedate');
+        $this->db->select('id,duedate,clientid');
         $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
         $this->db->where('is_sent_notfication', 0);
         $this->db->where('status !=', 2);
         $invoices = $this->db->get()->result_array();
         foreach ($invoices as $invoice) {
-            if(date('Y-m-d') >= $invoice['duedate']){
-                $send = $this->disputes_invoices->send_invoice_to_client($invoice['id'], 'invoice_send_to_customer', true);
-                if($send){
-                    $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
-                        'is_sent_notfication' => 1,
-                    ]);
-                }
+
+            if(date('Y-m-d') == $invoice['duedate']){
+                $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
+                echo '<pre>';
+                echo date('Y-m-d');
+                echo '<br>';
+                echo print_r($invoice);
+                echo '<br>';
+                echo $send;
+                exit();
+//                if($send){
+//                    $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
+//                        'is_sent_notfication' => 1,
+//                    ]);
+//                }
+//                $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
+//                    'is_sent_notfication' => 1,
+//                ]);
+
             }
         }
     }

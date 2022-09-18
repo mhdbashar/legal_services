@@ -101,7 +101,7 @@ class Disputes_invoices_model extends App_Model
         return $this->db->get()->result_array();
     }
 
-    
+
     public function get_invoice_item($id)
     {
         $this->db->where('id', $id);
@@ -1483,7 +1483,7 @@ class Disputes_invoices_model extends App_Model
             foreach($opponents as $opponent){
                 $this->send_dispute_to_client($id, '', true, '', true, [], $opponent);
             }
-            
+
         }
 
         if ($affectedRows > 0) {
@@ -1864,14 +1864,15 @@ foreach ($client_ids as $clientid) {
     {
         // var_dump($opponent); exit;
         $invoice = $this->get($id);
-
         $invoice = hooks()->apply_filters('dispute_object_before_send_to_client', $invoice);
 
         if ($template_name == '') {
             if ($invoice->sent == 0) {
-                $template_name = 'dispute_send_to_customer';
+                $template_name = 'dispute_case_send_to_customer';
+
             } else {
-                $template_name = 'dispute_send_to_customer';
+                $template_name = 'dispute_case_send_to_customer_already_sent';
+
             }
             $template_name = hooks()->apply_filters('after_dispute_sent_template_statement', $template_name);
         }
@@ -1891,7 +1892,6 @@ foreach ($client_ids as $clientid) {
                 array_push($sent_to, $contact['id']);
             }
         }
-
         $attachStatementPdf = false;
         if (is_array($sent_to) && count($sent_to) > 0) {
             if (isset($attachStatement['attach']) && $attachStatement['attach'] == true) {
@@ -1925,6 +1925,7 @@ foreach ($client_ids as $clientid) {
 
                     $template = mail_template($template_name, $invoice, $contact, $cc);
 
+
                     if ($attachpdf) {
                         $template->add_attachment([
                             'attachment' => $attach,
@@ -1940,7 +1941,6 @@ foreach ($client_ids as $clientid) {
                             'type'       => 'application/pdf',
                         ]);
                     }
-
                     if ($template->send()) {
                         $sent = true;
                         array_push($emails_sent, $contact->email);
@@ -1951,7 +1951,6 @@ foreach ($client_ids as $clientid) {
         } else {
             return false;
         }
-
         if ($sent) {
             $this->set_invoice_sent($id, false, $emails_sent, true);
             hooks()->do_action('invoice_sent', $id);
@@ -2077,7 +2076,6 @@ foreach ($client_ids as $clientid) {
             $send_to = $GLOBALS['scheduled_email_contacts'];
         } else {
             $contacts = $this->get_contacts_for_invoice_emails($invoice->clientid);
-
             foreach ($contacts as $contact) {
                 array_push($send_to, $contact['id']);
             }
@@ -2136,7 +2134,6 @@ foreach ($client_ids as $clientid) {
                             'type'       => 'application/pdf',
                         ]);
                     }
-
                     if ($template->send()) {
                         $sent = true;
                         array_push($emails_sent, $contact->email);
@@ -2156,7 +2153,6 @@ foreach ($client_ids as $clientid) {
 
         if (count($emails_sent) > 0) {
             $this->set_invoice_sent($id, false, $emails_sent, true);
-
             hooks()->do_action('invoice_sent', $id);
 
             return true;
@@ -2177,4 +2173,36 @@ foreach ($client_ids as $clientid) {
 
         return false;
     }
+    public function is_draft($id)
+    {
+        return total_rows('tblmy_disputes_cases_invoices', ['id' => $id, 'status' => self::STATUS_DRAFT]) === 1;
+    }
+    protected function get_contacts_for_invoice_emails($client_id)
+    {
+        return $this->clients_model->get_contacts($client_id, [
+            'active' => 1, 'invoice_emails' => 1,
+        ]);
+    }
+    public function change_invoice_number_when_status_draft($id)
+    {
+        $this->db->select('number')->where('id', $id);
+        $invoice = $this->db->get('tblmy_disputes_cases_invoices')->row();
+
+        $newNumber = get_option('next_invoice_number');
+
+        $this->db->where('id', $id);
+        $this->db->update('tblmy_disputes_cases_invoices', ['number' => $newNumber]);
+
+        $this->increment_next_number();
+
+        return $invoice->number;
+    }
+    public function increment_next_number()
+    {
+        // Update next invoice number in settings
+        $this->db->where('name', 'next_invoice_number');
+        $this->db->set('value', 'value+1', false);
+        $this->db->update(db_prefix() . 'options');
+    }
+
 }

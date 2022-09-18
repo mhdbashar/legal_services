@@ -2487,29 +2487,17 @@ class Cron_model extends App_Model
         $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
         $this->db->select('id,duedate,clientid');
         $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
-        $this->db->where('is_sent_notfication', 0);
+        $this->db->where('sent', 0);
         $this->db->where('status !=', 2);
         $invoices = $this->db->get()->result_array();
         foreach ($invoices as $invoice) {
-
             if(date('Y-m-d') == $invoice['duedate']){
                 $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
-                echo '<pre>';
-                echo date('Y-m-d');
-                echo '<br>';
-                echo print_r($invoice);
-                echo '<br>';
-                echo $send;
-                exit();
 //                if($send){
 //                    $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
 //                        'is_sent_notfication' => 1,
 //                    ]);
 //                }
-//                $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
-//                    'is_sent_notfication' => 1,
-//                ]);
-
             }
         }
     }

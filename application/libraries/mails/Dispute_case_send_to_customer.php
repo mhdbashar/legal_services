@@ -10,9 +10,9 @@ class Dispute_case_send_to_customer extends App_mail_template
 
     protected $contact;
 
-    public $slug = 'dispute-send-to-client';
+    public $slug = 'invoice-send-to-client';
 
-    public $rel_type = 'dispute';
+    public $rel_type = 'invoice';
 
     public function __construct($invoice, $contact, $cc = '')
     {

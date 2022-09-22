@@ -2493,11 +2493,9 @@ class Cron_model extends App_Model
         foreach ($invoices as $invoice) {
             if(date('Y-m-d') == $invoice['duedate']){
                 $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
-//                if($send){
-//                    $this->db->update(db_prefix() . 'my_disputes_cases_invoices', [
-//                        'is_sent_notfication' => 1,
-//                    ]);
-//                }
+                if($send){
+                    continue;
+                }
             }
         }
     }

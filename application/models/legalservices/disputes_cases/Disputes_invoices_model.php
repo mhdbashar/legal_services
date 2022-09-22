@@ -1907,7 +1907,7 @@ foreach ($client_ids as $clientid) {
             if ($attachpdf) {
                 $_pdf_invoice = $this->get($id);
                 set_mailing_constant();
-                $pdf    = invoice_pdf($_pdf_invoice);
+                $pdf    = disputes_case_invoice_pdf($_pdf_invoice);
                 $attach = $pdf->Output($invoice_number . '.pdf', 'S');
             }
 
@@ -1962,7 +1962,6 @@ foreach ($client_ids as $clientid) {
                     'status' => self::STATUS_DRAFT,
                 ]);
         }
-
         return false;
     }
 

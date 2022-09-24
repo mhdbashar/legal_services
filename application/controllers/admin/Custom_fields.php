@@ -16,6 +16,7 @@ class Custom_fields extends AdminController
         $this->load->model('custom_fields_model');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Phase_model','phase');
+        $this->load->helper('my_knowledge_base_helper');
         if (!is_admin()) {
             access_denied('Access Custom Fields');
         }

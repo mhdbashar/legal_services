@@ -12,26 +12,25 @@ $aColumns = [
     'source'
 ];
 
-
 $sIndexColumn = 'id';
-$sTable       = db_prefix() . 'appointly_appointments';
+$sTable = db_prefix() . 'appointly_appointments';
 
-$where  = [];
+$where = [];
 
 if (!is_admin() && !staff_appointments_responsible()) {
-    array_push($where, 'AND (' . db_prefix() . 'appointly_appointments.created_by=' . get_staff_user_id() . ') 
-    OR ' . db_prefix() . 'appointly_appointments.id 
+    array_push($where, 'AND (' . db_prefix() . 'appointly_appointments.created_by=' . get_staff_user_id() . ')
+    OR ' . db_prefix() . 'appointly_appointments.id
     IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
 }
 $filters = [];
 if ($this->ci->input->post('approved')) {
-    $filters[] = 'AND (approved = "1" AND cancelled = "0")';
+    $filters[] = 'AND approved = 1';
 }
 if ($this->ci->input->post('cancelled')) {
-    $filters[] = 'AND cancelled = "1"';
+    $filters[] = 'AND cancelled = 1';
 }
 if ($this->ci->input->post('finished')) {
-    $filters[] = 'AND (cancelled= "0" AND finished = "1" AND approved = "1")';
+    $filters[] = 'AND finished = 1';
 }
 if ($this->ci->input->post('internal')) {
     $filters[] = 'AND (source= "internal")';
@@ -42,17 +41,23 @@ if ($this->ci->input->post('external')) {
 if ($this->ci->input->post('lead_related')) {
     $filters[] = 'AND (source= "lead_related")';
 }
+if ($this->ci->input->post('internal_staff')) {
+    $filters[] = 'AND (source= "internal_staff_crm")';
+}
 if ($this->ci->input->post('finished')) {
-    $filters[] = 'AND finished = "1"';
+    $filters[] = 'AND finished = 1';
 }
 if ($this->ci->input->post('not_approved')) {
-    $filters[] = 'AND approved != "1"';
+    $filters[] = 'AND approved != 1';
 }
 if ($this->ci->input->post('upcoming')) {
-    $filters[] = 'AND (finished = "0" AND cancelled = "0" AND approved = "1" AND date > CURDATE())';
+    $filters[] = 'AND date > CURDATE()';
 }
 if ($this->ci->input->post('missed')) {
     $filters[] = 'AND date < CURDATE()';
+}
+if ($this->ci->input->post('recurring')) {
+    $filters[] = 'AND recurring = 1';
 }
 
 if (count($filters) > 0) {
@@ -82,15 +87,14 @@ $additionalSelect = [
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, $additionalSelect);
 
-$output  = $result['output'];
+$output = $result['output'];
 $rResult = $result['rResult'];
-
 
 foreach ($rResult as $aRow) {
     $label_class = 'primary';
     $tooltip = '';
 
-    // Check with Babil CRM default timezone configured in Setup->Settings->Localization
+    // Check with Perfex CRM default timezone configured in Setup->Settings->Localization
     if (date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i')) {
         $label_class = 'danger';
         $tooltip = 'data-toggle="tooltip" title="' . _l('appointment_missed') . '"';
@@ -119,21 +123,27 @@ foreach ($rResult as $aRow) {
         $nameRow .= ' | <a class="approve_appointment" href="' . admin_url('appointly/appointments/approve?appointment_id=' . $aRow['id']) . '">' . _l('appointment_approve') . '</a>';
     }
     if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
-        $nameRow .= ' | <a href="" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this); return false;">' . _l('edit') . '</a>';
+        if ($aRow['source'] != 'internal_staff_crm') {
+            $nameRow .= ' | <a href="" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this); return false;">' . _l('edit') . '</a>';
+        } else {
+            $nameRow .= ' | <a href="" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentGlobalStaffModal(this); return false;">' . _l('edit') . '</a>';
+        }
     }
     // If contact id is not 0 then it means that contact is internal as for that dont show convert to lead
     $isContact = ($aRow['contact_id']) ? 0 : 1;
 
-    $nameRow .= (staff_can('create', 'tasks') && $aRow['approved'] == 1) ?
+    // convert to task
+    $nameRow .= (staff_can('create', 'tasks') && $aRow['approved'] == 1 && $aRow['source'] != 'internal_staff_crm') ?
         ' | <a data-toggle="tooltip" title="' . _l('appointments_create_task_tooltip') . '" href="#" data-customer-id="' . appointly_get_contact_customer_id($aRow['contact_id']) . '" data-source="' . $aRow['source'] . '" data-contact-id="' . $aRow['contact_id'] . '" data-name="' . $aRow['name'] . '" onclick="new_task_from_relation_appointment(this); return false;">' . _l('new_task') . '</a>'
         : '';
 
-    $nameRow .= ($isContact && $aRow['approved'] == 1) ?
+    // convert to lead
+    $nameRow .= ($isContact && $aRow['approved'] == 1 && $aRow['source'] != 'internal_staff_crm') ?
         ' | <a data-toggle="tooltip" title="' . _l('appointments_convert_to_lead_tooltip') . '" href="#" data-name="' . $aRow['name'] . '" data-email="' . $aRow['contact_email'] . '" data-phone="' . $aRow['phone'] . '" onclick="init_appointment_lead(this);return false;">' . _l("appointments_convert_to_lead_label") . '</a>'
         : '';
 
     // If there is no feedback from client and if appintment is marked as finished
-    if ($aRow['feedback'] !== NULL && $aRow['finished'] !== 1) {
+    if ($aRow['feedback'] !== null && $aRow['finished'] !== 1) {
         $nameRow .= ' | <a data-toggle="tooltip" title="' . _l('appointment_view_feedback') . '" href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '#feedback_wrapper">' . _l('appointment_view_feedback') . '</a></li>';
     } else if ($aRow['finished'] == 1) {
         $nameRow .= ' | <a onclick="request_appointment_feedback(\'' . $aRow['id'] . '\'); return false" data-toggle="tooltip" title="' . _l('appointments_request_feedback_from_client') . '" href="">' . _l('appointments_request_feedback') . '</a>';
@@ -144,7 +154,6 @@ foreach ($rResult as $aRow) {
     }
 
     $nameRow .= '</div>';
-
 
     $row[] = $nameRow;
 
@@ -160,9 +169,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['description'];
 
-
     if (staff_can('edit', 'appointments') || staff_can('create', 'appointments') || staff_appointments_responsible()) {
-
         $currentStatus = checkAppointlyStatus($aRow);
 
         $outputStatus = '<div class="dropdown inline-block mleft5">';
@@ -203,15 +210,13 @@ foreach ($rResult as $aRow) {
         $outputStatus .= '</span>';
     } else {
         $outputStatus = '<div>';
-        $outputStatus .= '<a data-toggle="tooltip" title="' .  $currentStatus . '" href="#" style="font-size:14px;vertical-align:middle;cursor:context-menu;" class="text-dark">';
+        $outputStatus .= '<a data-toggle="tooltip" title="' . $currentStatus . '" href="#" style="font-size:14px;vertical-align:middle;cursor:context-menu;" class="text-dark">';
         $outputStatus .= '<span class="label label-callback-status-' . $currentStatus . '">' . $currentStatus . '</span>';
         $outputStatus .= '</a>';
         $outputStatus .= '</div>';
     }
 
-
     $row[] = $outputStatus;
-
 
     if ($aRow['source'] == 'external') {
         $row[] = _l('appointments_source_external_label');
@@ -222,10 +227,13 @@ foreach ($rResult as $aRow) {
     if ($aRow['source'] == 'lead_related') {
         $row[] = _l('lead');
     }
+    if ($aRow['source'] == 'internal_staff_crm') {
+        $row[] = _l('appointment_internal_staff');
+    }
 
     $options = '';
-    $_google_calendar_link =  $aRow['google_calendar_link'] !== null && $aRow['google_added_by_id'] == get_staff_user_id();
-    $_outlook_calendar_link =  $aRow['outlook_calendar_link'] !== null && $aRow['outlook_added_by_id'] == get_staff_user_id();
+    $_google_calendar_link = $aRow['google_calendar_link'] !== null && $aRow['google_added_by_id'] == get_staff_user_id();
+    $_outlook_calendar_link = $aRow['outlook_calendar_link'] !== null && $aRow['outlook_added_by_id'] == get_staff_user_id();
 
     $options .= '<div class="text-center">';
 
@@ -237,11 +245,10 @@ foreach ($rResult as $aRow) {
         $options .= '<a data-outlook-id="' . $aRow['outlook_event_id'] . '" id="outlookLink_' . $aRow['id'] . '" data-toggle="tooltip" title="' . _l('appointment_open_outlook_calendar') . '" href="' . $aRow['outlook_calendar_link'] . '" target="_blank" class="mleft5 calendar_list float-right"><i class="fa fa-envelope" aria-hidden="true"></i></a>';
     }
     if (!$_google_calendar_link && !$_outlook_calendar_link) {
-        $options .= '<p class="text-muted">Not added to any calendar yet.</p>'; #lang
+        $options .= '<p class="text-muted">Not added to any calendar yet.</p>'; //lang
     }
 
     $options .= '</div>';
-
 
     $row['DT_RowId'] = 'appointment_id' . $aRow['id'];
 

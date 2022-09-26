@@ -77,12 +77,6 @@ nestedheaders;
     get_data_budget();
   });
 
-  if($('select[name="budget"]').val() == ''){
-    $('#div_data').addClass('hide');
-  }else{
-    $('#div_data').removeClass('hide');
-  }
-
   $('select[name="budget"]').on('change', function() {
     get_data_budget();
   });
@@ -90,56 +84,57 @@ nestedheaders;
   appValidateForm($('#budget-form'),{budget:'required'},manage_budget);
 
   <?php if(isset($hide_handson)){ ?>
-  $('#workload').addClass('hide');
-  $('.budget-notifi').removeClass('hide');
+    $('#workload').addClass('hide');
+    $('.budget-notifi').removeClass('hide');
 
-<?php }else{ ?>
-  $('#workload').removeClass('hide');
-  $('.budget-notifi').addClass('hide');
-
-<?php } ?>
+  <?php }else{ ?>
+    $('#workload').removeClass('hide');
+    $('.budget-notifi').addClass('hide');
+  <?php } ?>
 
 })(jQuery);
 
 function get_data_budget() {
   "use strict";
 
-  $('#budget-exísts-modal').modal('hide');
+  $('#budget-exists-modal').modal('hide');
 
-  if($('select[name="budget"]').val() == ''){
-    $('#div_data').addClass('hide');
+  if($('select[name="budget"]').val() == '' || $('select[name="budget"]').val() == null){
+    $('#workload').addClass('hide');
+    $('.budget-notifi').removeClass('hide');
   }else{
-    $('#div_data').removeClass('hide');
+    $('#workload').removeClass('hide');
+    $('.budget-notifi').addClass('hide');
+    var data = {};
+    data.budget = $('select[name="budget"]').val();
+
+    //show box loading
+    var html = '';
+    html += '<div class="Box">';
+    html += '<span>';
+    html += '<span></span>';
+    html += '</span>';
+    html += '</div>';
+    $('#box-loading').html(html);
+
+      data.view_type = $('input[name="view_type"]').val();
+      $.post(admin_url + 'accounting/get_data_budget', data).done(function(response) {
+        response = JSON.parse(response);
+        data_budget = response.data_budget;
+        columns = response.columns;
+        nestedheaders = response.nestedheaders;
+
+        workload.updateSettings({
+          data: data_budget,
+          columns: columns,
+          colHeaders: nestedheaders,
+          });
+
+        //hide boxloading
+        $('#box-loading').html('');
+      });
   }
 
-  var data = {};
-  data.budget = $('select[name="budget"]').val();
-
-  //show box loading
-  var html = '';
-  html += '<div class="Box">';
-  html += '<span>';
-  html += '<span></span>';
-  html += '</span>';
-  html += '</div>';
-  $('#box-loading').html(html);
-
-    data.view_type = $('input[name="view_type"]').val();
-    $.post(admin_url + 'accounting/get_data_budget', data).done(function(response) {
-      response = JSON.parse(response);
-      data_budget = response.data_budget;
-      columns = response.columns;
-      nestedheaders = response.nestedheaders;
-
-      workload.updateSettings({
-        data: data_budget,
-        columns: columns,
-        colHeaders: nestedheaders,
-        });
-
-      //hide boxloading
-      $('#box-loading').html('');
-    });
 };
 
 function creating_a_budget(){
@@ -171,7 +166,7 @@ function data_source(){
 
         $('#year-and-type-modal').modal('hide');
 
-        $('#budget-exísts-modal').modal('show');
+        $('#budget-exists-modal').modal('show');
       }else{
         if($('input[name=budget_type]:checked').val() == 'profit_and_loss_accounts'){
           $('#year-and-type-modal').modal('hide');
@@ -200,7 +195,7 @@ function previous_year_and_type(){
     "use strict";
 
     $('#data-source-modal').modal('hide');
-    $('#budget-exísts-modal').modal('hide');
+    $('#budget-exists-modal').modal('hide');
     $('#finish-modal').modal('hide');
     
     $('#year-and-type-modal').modal('show');
@@ -318,5 +313,26 @@ function update_budget(){
       }
 
     });
+}
+
+function delete_budget() {
+    if (confirm("Are you sure?")) {
+    requestGetJSON(admin_url + 'accounting/delete_budget/'+$('select[name="budget"]').val()).done(function (response) {
+        if(response.success == true){
+          alert_float('success',response.message);
+
+          var category = $('select[name="budget"]');
+          category.find('option:selected').remove();
+          category.selectpicker('refresh');
+          get_data_budget();
+        }else{
+          alert_float('warning',response.message);
+
+          get_data_budget();
+        }
+
+      });
+    }
+    return false;
 }
 </script>

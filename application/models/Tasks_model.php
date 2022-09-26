@@ -116,6 +116,7 @@ class Tasks_model extends App_Model
 
             $task->milestone_name = '';
 
+
             if ($task->rel_type == 'project') {
                 $task->project_data = $this->projects_model->get($task->rel_id);
                 if ($task->milestone != 0) {

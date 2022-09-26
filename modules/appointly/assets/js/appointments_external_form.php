@@ -26,7 +26,7 @@
                     closeOnTimeSelect: 1,
                     validateOnBlur: false,
                     minTime: appMinTime,
-                    disabledWeekDays: appWeekends,
+                    disabledWeekDays: [5],
                     onGenerate: function (ct) {
 
                         if (is_busy_times_enabled == 1) {

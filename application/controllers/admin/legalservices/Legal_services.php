@@ -267,15 +267,18 @@ class Legal_services extends AdminController
             $success = $this->legal->update_category_data($CatID,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('Categories')));
-                redirect($_SERVER['HTTP_REFERER']);
+                redirect(admin_url("CategoryControl/$ServID"));
             }else {
                 set_alert('warning', _l('problem_updating', _l('Categories')));
-                redirect($_SERVER['HTTP_REFERER']);
+                redirect(admin_url("CategoryControl/$ServID"));
             }
         }
         $data['category'] = $this->legal->GetCategoryById($CatID)->row();
         $data['title']  = _l('EditCategory');
-        $this->load->view('admin/legalservices/categories/EditCategory',$data);
+        if($data['category']->parent_id != 0)
+            $this->load->view('admin/legalservices/categories/EditChildCategory',$data);
+        else
+            $this->load->view('admin/legalservices/categories/EditCategory',$data);
     }
 
     public function del_category($ServID,$CatID)
@@ -300,7 +303,7 @@ class Legal_services extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting', _l('Categories')));
         }
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(admin_url("CategoryControl/$ServID"));
     }
 
     public function legal_recycle_bin($ServID = '')

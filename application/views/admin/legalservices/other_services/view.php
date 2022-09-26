@@ -428,7 +428,9 @@ echo form_hidden('project_percent',$percent);
         initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
 
         // Init single task data
-        if (typeof(taskid) !== 'undefined' && taskid !== '') { init_session_modal(taskid); }
+        if (typeof(taskid) !== 'undefined' && taskid !== '') { init_task_modal(taskid); }
+        if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }
+
     });
 
     slug_previous_sessions = $(".table-previous_sessions_log").attr('data-new-rel-slug');

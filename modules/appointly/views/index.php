@@ -2,7 +2,7 @@
 init_head();
 $appointly_default_table_filter = get_meta('staff', get_staff_user_id(), 'appointly_default_table_filter');
 
-if (!$appointly_default_table_filter) {
+if ( ! $appointly_default_table_filter) {
     $appointly_default_table_filter = 'all';
 }
 
@@ -10,6 +10,7 @@ $filters = ['approved', 'not_approved', 'cancelled', 'finished', 'upcoming', 'mi
 
 $appointly_show_summary = get_meta('staff', get_staff_user_id(), 'appointly_show_summary');
 $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
+$edit_appointment_id = ($this->session->userdata('from_view_id')) ? $this->session->userdata('from_view_id') : 0;
 ?>
 
 <div id="wrapper">
@@ -32,7 +33,7 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
                 </button>
             </div>
         <?php } ?>
-        <?php if (isset($td_appointments) && !empty($td_appointments)) : ?>
+        <?php if (isset($td_appointments) && ! empty($td_appointments)) : ?>
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel_s">
@@ -85,22 +86,27 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
                         <div class="_buttons">
                             <?php if (staff_can('create', 'appointments') || staff_appointments_responsible()) { ?>
                                 <div class="dropdown pull-left">
-                                    <button class="btn btn-info btn-xs display-block dropdown-toggle" type="button" data-toggle="dropdown"><?= _l("appointment_create_label") ?></button>
+                                    <button class="btn btn-info btn-xs display-block dropdown-toggle" type="button"
+                                            data-toggle="dropdown"><?= _l("appointment_create_label") ?></button>
                                     <ul class="dropdown-menu" style="width:max-content">
                                         <li>
-                                            <a href="#" onClick="return false;" id="createNewAppointment"><?= _l("appointment_create_cle") ?></a>
+                                            <a href="#" onClick="return false;"
+                                               id="createNewAppointment"><?= _l("appointment_create_cle") ?></a>
                                         </li>
                                         <li>
-                                            <a href="#" onClick="return false;" id="createInternal"><?= _l("appointment_staff_meeting") ?></a>
+                                            <a href="#" onClick="return false;"
+                                               id="createInternal"><?= _l("appointment_staff_meeting") ?></a>
                                         </li>
                                     </ul>
                                 </div>
                             <?php } else { ?>
                                 <div class="dropdown pull-left">
-                                    <button class="btn btn-info btn-xs display-block dropdown-toggle disabled" type="button" data-toggle="dropdown"><?= _l("create") ?></button>
+                                    <button class="btn btn-info btn-xs display-block dropdown-toggle disabled"
+                                            type="button" data-toggle="dropdown"><?= _l("create") ?></button>
                                 </div>
                             <?php } ?>
-                            <a href="<?= admin_url('appointly/callbacks'); ?>" id="backToAppointments" class="btn btn-info btn-xs pull-left display-block mleft10">
+                            <a href="<?= admin_url('appointly/callbacks'); ?>" id="backToAppointments"
+                               class="btn btn-info btn-xs pull-left display-block mleft10">
                                 <?= _l('appointly_callbacks'); ?>
                             </a>
 
@@ -111,19 +117,23 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
                                 }
                                 ?>
                             </div>
-                            <div class="btn-group pull-right btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="btn-group pull-right btn-with-tooltip-group _filter_data" data-toggle="tooltip"
+                                 data-title="<?php echo _l('filter_by'); ?>">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-filter" aria-hidden="true"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left width300 height500">
                                     <li class="filter-group <?= ($appointly_default_table_filter == 'all') ? 'active' : ''; ?>">
-                                        <a href="#" data-cview="all" onclick="dt_custom_view('','.table-appointments',''); return false;">
+                                        <a href="#" data-cview="all"
+                                           onclick="dt_custom_view('','.table-appointments',''); return false;">
                                             <?php echo _l('all'); ?>
                                         </a>
                                     </li>
                                     <?php foreach ($filters as $filter) { ?>
                                         <li class="filter-group <?= ($appointly_default_table_filter == $filter) ? 'active' : ''; ?>">
-                                            <a href="#" data-cview="<?php echo $filter; ?>" onclick="dt_custom_view('<?php echo $filter; ?>','.table-appointments', '<?php echo $filter; ?>',true); return false;">
+                                            <a href="#" data-cview="<?php echo $filter; ?>"
+                                               onclick="dt_custom_view('<?php echo $filter; ?>','.table-appointments', '<?php echo $filter; ?>',true); return false;">
                                                 <?= _l('appointment_' . $filter . ($filter == 'missed' ? '_label' : '')); ?>
                                             </a>
                                         </li>
@@ -134,32 +144,41 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
                                     <?php } ?>
                                 </ul>
                             </div>
-                            <div class="btn-group pull-right btn-with-tooltip-group mright5" data-toggle="tooltip" data-title="<?php echo _l('appointly_integrations'); ?>">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="btn-group pull-right btn-with-tooltip-group mright5" data-toggle="tooltip"
+                                 data-title="<?php echo _l('appointly_integrations'); ?>">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-rocket" aria-hidden="true"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left w-max-content">
                                     <?php if ($appointly_outlook_client_id !== '' && strlen($appointly_outlook_client_id) === 36) : ?>
                                         <li>
-                                        <a href="#" data-toggle="tooltip" id="sign_in_outlook" onclick="signInToOutlook(); return false">
-                                            <i class="fa fa-envelope" aria-hidden="true"></i> <?= _l('appointment_login_to_outlook'); ?>
+                                        <a href="#" data-toggle="tooltip" id="sign_in_outlook"
+                                           onclick="signInToOutlook(); return false">
+                                            <i class="fa fa-envelope"
+                                               aria-hidden="true"></i> <?= _l('appointment_login_to_outlook'); ?>
                                         </a>
                                     <?php else : ?>
-                                        <a href="#" data-toggle="tooltip" title="<?= _l('appointments_outlook_revoke'); ?>" id="sign_in_outlook" onclick="signInToOutlook(); return false">
-                                            <i class="fa fa-envelope" aria-hidden="true"></i> <?= _l('appointment_login_to_outlook'); ?>
+                                        <a href="#" data-toggle="tooltip"
+                                           title="<?= _l('appointments_outlook_revoke'); ?>" id="sign_in_outlook"
+                                           onclick="signInToOutlook(); return false">
+                                            <i class="fa fa-envelope"
+                                               aria-hidden="true"></i> <?= _l('appointment_login_to_outlook'); ?>
                                         </a>
                                         </li>
                                     <?php endif; ?>
 
                                     <?php if (get_option('google_client_id') !== '' && get_option('appointly_google_client_secret') !== '') : ?>
                                         <li>
-                                            <?php if (!appointlyGoogleAuth()) : ?>
-                                                <a href="<?= site_url('appointly/google/auth/login'); ?>" class="a_google">
+                                            <?php if ( ! appointlyGoogleAuth()) : ?>
+                                                <a href="<?= site_url('appointly/google/auth/login'); ?>"
+                                                   class="a_google">
                                                     <i class="fa fa-google" aria-hidden="true"></i>
                                                     &nbsp;&nbsp;<?= _l('appointments_sign_in_google'); ?>
                                                 </a>
                                             <?php else : ?>
-                                                <a data-toggle="tooltip" title="<?= _l('appointments_google_revoke') ?>" href="<?= site_url('appointly/google/auth/logout'); ?>">
+                                                <a data-toggle="tooltip" title="<?= _l('appointments_google_revoke') ?>"
+                                                   href="<?= site_url('appointly/google/auth/logout'); ?>">
                                                     <i class="fa fa-google" aria-hidden="true"></i>
                                                     &nbsp;&nbsp;<?= _l('appointments_sign_out_google'); ?></a>
                                             <?php endif; ?>
@@ -170,7 +189,7 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
 
                         </div>
                         <div class="clearfix"></div>
-                        <hr class="hr-panel-heading" />
+                        <hr class="hr-panel-heading"/>
                         <?php render_datatable([
                             _l('id'),
                             [

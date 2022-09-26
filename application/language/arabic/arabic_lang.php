@@ -1,5 +1,11 @@
 <?php
 
+$lang['edit_session']='تم تعديل جلسة من قبل ';
+$lang['new_session1']='تم اضافة جلسة من قبل ';
+$lang['start_timer']='تم اضافة مؤقت من قبل ';
+$lang['click_on']= "اضغط هنا: " ;
+$lang['new_telegram_task']="تم انشاء مهمة جديدة من قبل ";
+$lang['edit_telegram_task']="تم تعديل المهمة من قبل";
 $lang['web_to_lead'] = "نماذج اتصال خارجية";
 $lang['swap_pdf_info'] = "مبادلة معلومات الشركة / العميل (تفاصيل الشركة إلى الجانب الأيمن ، تفاصيل العميل إلى الجانب الأيسر)";
 $lang['ticket_form'] = "نموذج التذاكر";
@@ -1587,8 +1593,11 @@ $lang['not_task_added_you_as_follower'] = "تمت أضافك كمتابع في �
 $lang['not_task_added_someone_as_follower'] = "تمت إضافة %s كمتابع في المهمة %s ...";
 $lang['not_task_added_himself_as_follower'] = "أضاف نفسه كمتابع في المهمة %s ...";
 $lang['not_task_assigned_to_you'] = "عٌينت مهمة لك %s ...";
+$lang['not_session_assigned_to_you'] = "عٌينت جلسة لك %s ...";
 $lang['not_task_assigned_someone'] = "تم تعيين %s للمهمة %s ...";
+$lang['not_session_assigned_someone'] = "تم تعيين %s للجلسة %s ...";
 $lang['not_task_will_do_user'] = "سيؤدي المهمة %s ...";
+$lang['not_session_will_do_user'] = "سيؤدي الجلسة %s ...";
 $lang['not_task_new_attachment'] = "تم إضافة مرفق جديد";
 $lang['not_task_marked_as_complete'] = "تم وضع علامة على المهمة كمكتملة %s";
 $lang['not_task_unmarked_as_complete'] = "تم وضع علامة على المهمة كغير مكتملة %s";
@@ -1910,7 +1919,7 @@ $lang['invoice_project_stop_all_timers'] = "إيقاف جميع الموقتات
 $lang['invoice_project_stop_billable_timers_only'] = "أيقاف مؤقتات الفوترة فقط";
 $lang['project_tasks_total_timers_stopped'] = "تم إيقاف %s مؤقتات";
 $lang['project_invoice_timers_started'] = "تم العثور على مؤقتات تعمل على المهام القابلة للفوترة ، لا يمكن إنشاء الفاتورة. يرجى إيقاف المؤقت لإنشاء الفاتورة.";
-$lang['task_start_timer_only_assignee'] = "تحتاج إلى تعيين هذه المهمة لإحد الموظفين لبدء المؤقت!";
+$lang['task_start_timer_only_assignee'] = "يجب ان تكون تمت احالتك لهذه المهمة من أجل بدء المؤقت!";
 $lang['task_comments'] = "التعليقات";
 $lang['invoice_total_tax'] = "إجمالي الضريبة";
 $lang['estimates_total_tax'] = "إجمالي الضريبة";
@@ -2505,6 +2514,7 @@ $lang['estimate_not_found'] = "لم يتم العثور على عرض السعر
 $lang['expense_not_found'] = "لم يتم العثور على مصروف";
 $lang['proposal_not_found'] = "لم يتم العثور على العطاء";
 $lang['new_task_assigned_non_user'] = "تم تعيين مهمة جديدة لك - %s";
+$lang['new_session_assigned_non_user'] = "تم تعيين جلسة جديدة لك - %s";
 $lang['no_child_found'] = "No Child %s Found";
 $lang['company_vat_number'] = "الرقم الضريبي";
 $lang['not_lead_assigned_from_form'] = "تم تخصيص عميل محتمل جديد لك";
@@ -2733,6 +2743,7 @@ $lang['item_report_paid_invoices_notice'] = "يتم إنشاء تقرير الع
 $lang['overview'] = "نظرة عامة";
 $lang['timer_started_change_status_in_progress'] = "تغيير حالة المهمة إلى قيد التقدم عند بدء تشغيل الموقت (صالح فقط إذا لم تكن حالة المهمة قد بدأت)";
 $lang['company_info_format'] = "تنسيق معلومات الشركة (PDF و HTML)";
+$lang['invoice_info_format'] = "تنسيق معلومات الفواتير (PDF و HTML)";
 $lang['customer_info_format'] = "تنسيق معلومات العميل (PDF و HTML)";
 $lang['custom_field_info_format_embed_info'] = "يمكن تضمين الحقول المخصصة لـ %s بسهولة في مستندات PDF و HTML عن طريق إضافة حقول الدمج في تنسيق الصفحة في الصفحة التالية: %s ";
 $lang['transfer_lead_notes_to_customer'] = "نقل ملاحظات العميل المتوقع إلى ملف تعريف العميل";
@@ -3379,6 +3390,15 @@ $lang['permission_create_milestones'] = "إضافة مراحل خطة العمل
 $lang['permission_edit_milestones'] = "تعديل مراحل خطة العمل";
 $lang['permission_delete_milestones'] = "حذف مراحل خطة العمل";
 $lang['custom_field_add_edit_default_value'] = "القيمة الإفتراضية";
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['add_child_sub_categories'] = "إضافة نوع الدعوى";
+$lang['category_description'] = "وصف التصنيف";
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['_description'] = "الوصف";
+$lang['_email'] = "البريد الإلكتروني";
+
+
+
 $lang['project_setting_view_session_attachments'] = "عرض مرفقات  الجلسة";
 $lang['project_setting_view_session_checklist_items'] = "عرض عناصر قائمة المراجعة في الجلسة";
 $lang['project_setting_view_session_comments'] = "عرض تعليقات الجلسة";

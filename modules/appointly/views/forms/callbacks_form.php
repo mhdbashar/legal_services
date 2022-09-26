@@ -1,6 +1,6 @@
 <div class="cb-form-wrapper pfxcbcontent">
     <link href="<?= module_dir_url('appointly', 'assets/css/callbacks_external_form.css'); ?>" rel="stylesheet" type="text/css">
-    <?php echo form_open('appointly/appointments_public/request_callback_external', array('id' => 'babil-callbacks-form')); ?>
+    <?php echo form_open('appointly/appointments_public/request_callback_external', ['id' => 'perfex-callbacks-form']); ?>
 
     <div class="vertical bar-deactive cb-form-color" data-toggle="tooltip" data-title="<?= _l('callbacks_request_a_callback'); ?>" data-placement="left">
         <!-- <span>Request a Callback</span> -->
@@ -43,7 +43,7 @@
             <div class="col-3 callback_date_from">
                 <input type="text" class="form-control dates" value="" name="date_from" id="date_from">
             </div>
-            <span class="text-center">---</span>
+            <span class="text-center" style="padding-left:14px">--></span>
             <div class="col-3 callback_date_to">
                 <input type="text" class="form-control dates" value="" name="date_to" id="date_to">
             </div>
@@ -56,8 +56,8 @@
                     <optgroup label="<?php echo $key; ?>">
                         <?php foreach ($timezones as $timezone) { ?>
                             <option value="<?php echo $timezone; ?>" <?php if (get_option('default_timezone') == $timezone) {
-                                                                            echo 'selected';
-                                                                        } ?>><?php echo $timezone; ?></option>
+                                echo 'selected';
+                            } ?>><?php echo $timezone; ?></option>
                         <?php } ?>
                     </optgroup>
                 <?php } ?>

@@ -2,7 +2,7 @@
     var appointly_please_wait = "<?= _l('appointment_please_wait'); ?>";
     var is_busy_times_enabled = "<?= get_option('appointly_busy_times_enabled'); ?>";
     var lang_save = "<?= _l('save'); ?>";
-    ;
+
     var lang_view_notes = "<?= _l('appointment_viewing_notes'); ?>";
 
     $(function () {

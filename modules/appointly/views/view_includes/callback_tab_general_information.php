@@ -77,6 +77,7 @@
                 ) {
                     $_remove_assigne = ' <a href="#" class="remove-callback-user text-danger" onclick="remove_callback_assignee(' . $assignee['assigneeid'] . ',' . $assignee['callbackid'] . '); return false;"><i class="fa fa-remove"></i></a>';
                 }
+
                 $_assignees .= '<div class="callback-user" data-cid="' . $assignee['assigneeid'] . '"';
                 $_assignees .= 'data-toggle="tooltip" data-title="' . html_escape($assignee['full_name']) . '">
                                                                 <a href="' . admin_url('profile/' . $assignee['assigneeid']) . '" target="_blank">' . staff_profile_image($assignee['assigneeid'], array(
@@ -84,6 +85,7 @@
                 )) . '</a> ' . $_remove_assigne . '</span>
                                                                 </div>';
             }
+
             if ($_assignees == '') {
                 $_assignees = '<div class="text-danger display-block">' . _l('callback_no_assignees') . '</div>';
             }

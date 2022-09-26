@@ -1299,9 +1299,9 @@ class Sessions_model extends App_Model
 
             if (get_staff_user_id() != $data['assignee'] || $clientRequest) {
                 $notification_data = [
-                    'description' => ($cronOrIntegration == false ? 'not_task_assigned_to_you' : 'new_task_assigned_non_user'),
+                    'description' => ($cronOrIntegration == false ? 'not_session_assigned_to_you' : 'new_session_assigned_non_user'),
                     'touserid'    => $data['assignee'],
-                    'link'        => '#taskid=' . $data['taskid'],
+                    'link'        => '#sessionid=' . $data['taskid'],
                 ];
 
                 $notification_data['additional_data'] = serialize([

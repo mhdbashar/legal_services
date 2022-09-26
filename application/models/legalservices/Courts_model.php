@@ -17,6 +17,14 @@ class Courts_model extends App_Model
     {         
 		return $this->db->get_where(db_prefix() . 'my_courts', array('c_id' => $id));
     }
+
+    public function get_courts_by_country_city($data)
+    {
+        $this->db->where('country', $data['country']);
+        $this->db->where('city', $data['city']);
+        $this->db->where('is_default', 0);
+        return $this->db->get(db_prefix() . 'my_courts');
+    }
 	
 	public function get_judicial_by_id($id)
     {         
@@ -98,7 +106,6 @@ class Courts_model extends App_Model
             $this->db->update(db_prefix() . 'my_cases', ['jud_num' => $default->j_id]);
 
         }
-        return true;
         $this->db->where('c_id', $id);
         $this->db->delete(db_prefix() . 'my_courts');
         if ($this->db->affected_rows() > 0) {
@@ -125,5 +132,6 @@ class Courts_model extends App_Model
         }
         return false;
     }
-	
+
+
 }

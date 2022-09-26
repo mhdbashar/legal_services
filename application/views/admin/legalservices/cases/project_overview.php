@@ -72,6 +72,11 @@ $CI->load->library('app_modules');?>
                             <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo isset($project->clientid) ? $project->clientid : ''; ?>"><?php echo isset($project->client_data->company) ? $project->client_data->company : ''; ?></a>
                             </td>
                         </tr>
+                        <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('opponent'); ?></td>
+                            <td><a href="<?php echo admin_url(); ?>opponents/client/<?php echo isset($project->opponent_id) ? $project->opponent_id : ''; ?>"><?php echo isset($project->opponent_data->company) ? $project->opponent_data->company : ''; ?></a>
+                            </td>
+                        </tr>
                         <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                         <tr class="project-overview-billing">
                             <td class="bold"><?php echo _l('project_billing_type'); ?></td>
@@ -175,6 +180,10 @@ $CI->load->library('app_modules');?>
                     <table class="table no-margin project-overview-table">
                         <tbody>
                         <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('file_number_in_court'); ?></td>
+                            <td><?php echo $project->file_number_court ? $project->file_number_court : _l('nothing_was_specified'); ?></td>
+                        </tr>
+                        <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('lead_country'); ?></td>
                             <td><?php echo $project->country_name ? $project->country_name : _l('nothing_was_specified'); ?></td>
                         </tr>
@@ -189,6 +198,10 @@ $CI->load->library('app_modules');?>
                         <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('SubCategories'); ?></td>
                             <td><?php echo isset($project->subcat) && $project->subcat != '' ? $project->subcat : _l('nothing_was_specified'); ?></td>
+                        </tr>
+                        <tr class="project-overview-customer">
+                            <td class="bold"><?php echo _l('child_sub_categories'); ?></td>
+                            <td><?php echo isset($project->childsubcat_id) && $project->childsubcat_id != 0 ? get_cat_name_by_id($project->childsubcat_id) : _l('nothing_was_specified'); ?></td>
                         </tr>
                         <tr class="project-overview-customer">
                             <td class="bold"><?php echo _l('Court'); ?></td>

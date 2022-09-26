@@ -1,5 +1,5 @@
 var fnServerParams = {};
-var id, amount;
+var id, type, amount;
 
 (function($) {
 	"use strict";

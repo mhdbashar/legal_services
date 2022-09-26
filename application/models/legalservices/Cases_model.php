@@ -58,10 +58,10 @@ class Cases_model extends App_Model
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
-            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id');
-            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num');
-            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative');
-            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status');
+            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id', 'left');
+            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num', 'left');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative', 'left');
+            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status', 'left');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
@@ -114,6 +114,9 @@ class Cases_model extends App_Model
 
                 $project->client_data = new StdClass();
                 $project->client_data = $this->clients_model->get($project->clientid);
+
+                $project->opponent_data = new StdClass();
+                $project->opponent_data = $this->clients_model->get($project->opponent_id);
 
                 $project = hooks()->apply_filters('case_get', $project);
                 $GLOBALS['case'] = $project;
@@ -403,6 +406,9 @@ class Cases_model extends App_Model
         if (isset($data['jud_num']) && $data['jud_num'] == '') {
             $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
+
+        if (!isset($data['childsubcat_id'])) $data['childsubcat_id'] = '0';
+        if (!isset($data['subcat_id'])) $data['subcat_id'] = '0';
 
         if (isset($data['representative']) && $data['representative'] == '') {
             $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
@@ -3088,6 +3094,7 @@ class Cases_model extends App_Model
             unset($_new_data['opponent_id']);
             unset($_new_data['representative']);
             unset($_new_data['court_id']);
+            unset($_new_data['childsubcat_id']);//////
             unset($_new_data['jud_num']);
             unset($_new_data['case_status']);
             unset($_new_data['case_result']);

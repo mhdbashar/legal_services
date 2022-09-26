@@ -752,6 +752,76 @@ function split_name($name)
     $name['lastname'] = (isset($parts[3])) ? $parts[3] : (isset($parts[2]) ? $parts[2] : (isset($parts[1]) ? $parts[1] : ''));
     return $name;
 }
+function build_dropdown_category($data)
+{
+    $CI = & get_instance();
+    $CI->db->where('parent_id', 0);
+    $CI->db->where('country', $data['country']);
+    return $CI->db->get(db_prefix() . 'my_categories')->result_array();
+}
+
+function get_category_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    return $CI->db->get(db_prefix() . 'my_categories')->row();
+}
+function get_subcategory_by_category_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->where('parent_id', $id);
+    return $CI->db->get(db_prefix() . 'my_categories')->result();
+}
+
+function get_category_by_court_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->where('c_id', $id);
+    $c_cat = $CI->db->get(db_prefix() . 'my_courts_categories')->result_array();
+    $category = [];
+    foreach ($c_cat as $cat) {
+        $CI->db->where('id', $cat['cat_id']);
+        $category[] = $CI->db->get(db_prefix() . 'my_categories')->row();
+    }
+    return $category;
+}
+function get_courts_by_country_city($country,$city)
+{
+    $CI = & get_instance();
+    $CI->db->where('country', $country);
+    $CI->db->where('city', $city);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_courts')->result();
+}
+
+function get_case_by_id($case_id){
+    $CI = & get_instance();
+    $CI->db->where('id', $case_id);
+    $case = $CI->db->get(db_prefix() . 'my_cases')->row();
+    return $case;
+}
+
+function get_service_by_id($serv_id){
+    $CI = & get_instance();
+    $CI->db->where('id', $serv_id);
+    $serv = $CI->db->get(db_prefix() . 'my_other_services')->row();
+    return $serv;
+}
+
+function get_customer_by_id($custom_id){
+    $CI = & get_instance();
+    $CI->db->where('userid', $custom_id);
+    $custom = $CI->db->get(db_prefix() . 'clients')->row();
+    return $custom;
+}
+
+function get_all_judicialdept_by_court_id($court_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('c_id', $court_id);
+    $CI->db->where('is_default', 0);
+    return $CI->db->get(db_prefix() . 'my_judicialdept')->result();
+}
 
 /*public function my_create_new_email_template()
 {

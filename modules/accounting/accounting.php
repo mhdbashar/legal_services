@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المحاسبة ومسك الدفاتر
 المحاسبة هي عملية تسجيل البيانات المالية وتتبعها لمعرفة السلامة المالية للكيان. 
-Version: 1.0.8
+Version: 1.1.6
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa
@@ -21,14 +21,32 @@ hooks()->add_action('app_admin_footer', 'accounting_load_js');
 hooks()->add_action('admin_init', 'accounting_module_init_menu_items');
 hooks()->add_action('admin_init', 'accounting_permissions');
 hooks()->add_action('after_invoice_added', 'acc_automatic_invoice_conversion');
-hooks()->add_action('after_payment_added', 'acc_automatic_payment_conversion');
-hooks()->add_action('after_expense_added', 'acc_automatic_expense_conversion');
+hooks()->add_action('after_invoice_updated', 'acc_automatic_invoice_conversion');
 hooks()->add_action('before_invoice_deleted', 'acc_delete_invoice_convert');
-hooks()->add_action('before_payment_deleted', 'acc_delete_payment_convert');
-hooks()->add_action('after_expense_deleted', 'acc_delete_expense_convert');
-hooks()->add_action('invoice_status_changed', 'acc_invoice_status_changed');
 
-define('ACCOUNTING_REVISION', 108);
+hooks()->add_action('after_payment_added', 'acc_automatic_payment_conversion');
+hooks()->add_action('after_payment_updated', 'acc_automatic_payment_conversion');
+hooks()->add_action('before_payment_deleted', 'acc_delete_payment_convert');
+
+hooks()->add_action('after_expense_added', 'acc_automatic_expense_conversion');
+hooks()->add_action('after_expense_updated', 'acc_automatic_expense_conversion');
+hooks()->add_action('after_expense_deleted', 'acc_delete_expense_convert');
+
+hooks()->add_action('invoice_status_changed', 'acc_invoice_status_changed');
+hooks()->add_action('before_pur_order_deleted', 'acc_delete_pur_order_convert');
+hooks()->add_action('before_payslip_deleted', 'acc_delete_payslip_convert');
+hooks()->add_action('before_goods_delivery_deleted', 'acc_delete_stock_export_convert');
+hooks()->add_action('before_goods_receipt_deleted', 'acc_delete_stock_import_convert');
+hooks()->add_action('before_loss_adjustment_deleted', 'acc_delete_loss_adjustment_convert');
+hooks()->add_action('after_payment_pur_invoice_deleted', 'acc_delete_pur_invoice_payment_convert');
+hooks()->add_action('accounting_init',ACCOUNTING_MODULE_NAME.'_appint');
+//hooks()->add_action('pre_activate_module', ACCOUNTING_MODULE_NAME.'_preactivate');
+//hooks()->add_action('pre_deactivate_module', ACCOUNTING_MODULE_NAME.'_predeactivate');
+
+hooks()->add_filter('credits_applied', 'acc_automatic_credit_note_conversion');
+hooks()->add_filter('after_applied_credit_deleted', 'acc_delete_credit_note_convert');
+
+define('ACCOUNTING_REVISION', 116);
 
 /**
  * Register activation module hook
@@ -78,6 +96,10 @@ function accounting_add_head_component() {
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/box_loading.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
 	}
 
+	if (!(strpos($viewuri, 'admin/accounting/accounts_import') === false) || !(strpos($viewuri, 'admin/accounting/report') === false)) {
+		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/box_loading.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
+	}
+
 	if (!(strpos($viewuri, 'admin/accounting/chart_of_accounts') === false)) {
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/chart_of_accounts.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
 	}
@@ -120,6 +142,10 @@ function accounting_add_head_component() {
 		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/box_loading.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
 
 	}
+
+	if (!(strpos($viewuri, 'admin/accounting/budget_import') === false)) {
+		echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/import_budget.css') . '?v=' . ACCOUNTING_REVISION . '"  rel="stylesheet" type="text/css" />';
+	}
 }
 
 /**
@@ -129,6 +155,27 @@ function accounting_load_js() {
 	$CI = &get_instance();
 	$viewuri = $_SERVER['REQUEST_URI'];
 	$mediaLocale = get_media_locale();
+
+	if (!(strpos($viewuri, 'admin/accounting/banking?group=banking_register') === false)) {
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/banking/banking_register.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+	}
+
+	if (!(strpos($viewuri, 'admin/accounting/banking?group=posted_bank_transactions') === false)) {
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/banking/posted_bank_transactions.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+	}
+
+	if (!(strpos($viewuri, 'admin/accounting/banking?group=reconcile_bank_account&bank_account=') === false)) {
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/banking/reconcile_bank_account_detail.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+	}
+
+	if (!(strpos($viewuri, 'admin/accounting/banking?group=reconcile_bank_account') === false)) {
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/banking/reconcile_bank_account.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+	}
+
+	if (!(strpos($viewuri, 'admin/accounting/plaid_bank_new_transactions') === false)) {
+		echo '<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>';
+		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/banking/plaid_new_transaction.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+	}
 
 	if (!(strpos($viewuri, 'admin/accounting/transaction?group=banking') === false)) {
 		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/transaction/banking.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
@@ -195,10 +242,14 @@ function accounting_load_js() {
 		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/reconcile/reconcile.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
 	}
 
-	if (!(strpos($viewuri, 'admin/accounting/rp_') === false) || !(strpos($viewuri, 'admin/accounting/report') === false)) {
-		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/treegrid/js/jquery.treegrid.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
-		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/main.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
-	}
+	if(!(strpos($viewuri,'admin/accounting/rp_') === false) || !(strpos($viewuri,'admin/accounting/report') === false)){
+        echo '<script src="'.module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/treegrid/js/jquery.treegrid.min.js').'?v=' . ACCOUNTING_REVISION.'"></script>';
+        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/jspdf.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+        
+        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/html2pdf.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/tableHTMLExport.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/main.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
+    }
 
 	if (!(strpos($viewuri, '/admin/accounting/dashboard') === false)) {
 		echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/highcharts/highcharts.js') . '"></script>';
@@ -236,6 +287,16 @@ function accounting_module_init_menu_items() {
 				'icon' => 'fa fa-home',
 				'href' => admin_url('accounting/dashboard'),
 				'position' => 1,
+			]);
+		}
+
+		if (has_permission('accounting_banking', '', 'view')) {
+			$CI->app_menu->add_sidebar_children_item('accounting', [
+				'slug' => 'accounting_banking',
+				'name' => _l('banking'),
+				'icon' => 'fa fa-university',
+				'href' => admin_url('accounting/banking?group=banking_register'),
+				'position' => 2,
 			]);
 		}
 
@@ -380,6 +441,7 @@ function accounting_permissions() {
 		'view' => _l('permission_view'),
 		'create' => _l('permission_create'),
 		'edit' => _l('permission_edit'),
+		'delete' => _l('permission_delete'),
 	];
 	register_staff_capabilities('accounting_budget', $capabilities, _l('accounting_budget'));
 	$capabilities = [];
@@ -410,13 +472,17 @@ function acc_automatic_invoice_conversion($invoice_id) {
 	return $invoice_id;
 }
 
-function acc_automatic_payment_conversion($payment_id) {
-	if ($payment_id) {
+function acc_automatic_payment_conversion($data) {
+	if ($data) {
 		if (get_option('acc_payment_automatic_conversion') == 1 || get_option('acc_active_payment_mode_mapping') == 1) {
 			$CI = &get_instance();
 			$CI->load->model('accounting/accounting_model');
 
-			$CI->accounting_model->automatic_payment_conversion($payment_id);
+			if(isset($data['id'])){
+				$CI->accounting_model->automatic_payment_conversion($data['id']);
+			}else{
+				$CI->accounting_model->automatic_payment_conversion($data);
+			}
 		}
 
 	}
@@ -445,7 +511,7 @@ function acc_delete_invoice_convert($invoice_id) {
 
 	}
 
-	return $data;
+	return $invoice_id;
 }
 
 function acc_delete_payment_convert($data) {
@@ -467,7 +533,7 @@ function acc_delete_expense_convert($expense_id) {
 		$CI->accounting_model->delete_convert($expense_id, 'expense');
 	}
 
-	return $data;
+	return $expense_id;
 }
 
 function acc_invoice_status_changed($data) {
@@ -478,3 +544,128 @@ function acc_invoice_status_changed($data) {
 
 	return $data;
 }
+
+function acc_delete_pur_order_convert($pur_order_id) {
+	if ($pur_order_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($pur_order_id, 'purchase_order');
+	}
+
+	return $pur_order_id;
+}
+
+function acc_delete_payslip_convert($payslip_id) {
+	if ($payslip_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($payslip_id, 'payslip');
+	}
+
+	return $payslip_id;
+}
+
+function acc_delete_stock_export_convert($goods_delivery_id) {
+	if ($goods_delivery_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($goods_delivery_id, 'stock_export');
+	}
+
+	return $goods_delivery_id;
+}
+
+function acc_delete_stock_import_convert($goods_receipt_id) {
+	if ($goods_receipt_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($goods_receipt_id, 'stock_import');
+	}
+
+	return $goods_receipt_id;
+}
+
+function acc_delete_loss_adjustment_convert($loss_adjustment_id) {
+	if ($loss_adjustment_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($loss_adjustment_id, 'loss_adjustment');
+	}
+
+	return $loss_adjustment_id;
+}
+
+function acc_delete_pur_invoice_payment_convert($pur_invoice_payment_id) {
+	if ($pur_invoice_payment_id) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($pur_invoice_payment_id, 'purchase_payment');
+	}
+
+	return $pur_invoice_payment_id;
+}
+
+function acc_automatic_credit_note_conversion($data) {
+	if (get_option('acc_credit_note_automatic_conversion') == 1 || get_option('acc_active_credit_note_mode_mapping') == 1) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->automatic_credit_note_conversion($data);
+	}
+
+	return $data;
+}
+
+function acc_delete_credit_note_convert($data) {
+	if ($data['id']) {
+		$CI = &get_instance();
+		$CI->load->model('accounting/accounting_model');
+
+		$CI->accounting_model->delete_convert($data['id'], 'credit_note');
+	}
+
+	return $data;
+}
+
+//function accounting_appint(){
+//    $CI = & get_instance();
+//    require_once 'libraries/gtsslib.php';
+//    $accounting_api = new AccountingLic();
+//    $accounting_gtssres = $accounting_api->verify_license(true);
+////    if(!$accounting_gtssres || ($accounting_gtssres && isset($accounting_gtssres['status']) && !$accounting_gtssres['status'])){
+////         $CI->app_modules->deactivate(ACCOUNTING_MODULE_NAME);
+////        set_alert('danger', "One of your modules failed its verification and got deactivated. Please reactivate or contact support.");
+////        redirect(admin_url('modules'));
+////    }
+//}
+//
+//function accounting_preactivate($module_name){
+//    if ($module_name['system_name'] == ACCOUNTING_MODULE_NAME) {
+//        require_once 'libraries/gtsslib.php';
+//        $accounting_api = new AccountingLic();
+//        $accounting_gtssres = $accounting_api->verify_license();
+//        if(!$accounting_gtssres || ($accounting_gtssres && isset($accounting_gtssres['status']) && !$accounting_gtssres['status'])){
+//             $CI = & get_instance();
+//            $data['submit_url'] = $module_name['system_name'].'/gtsverify/activate';
+//            $data['original_url'] = admin_url('modules/activate/'.ACCOUNTING_MODULE_NAME);
+//            $data['module_name'] = ACCOUNTING_MODULE_NAME;
+//            $data['title'] = "Module License Activation";
+//            echo $CI->load->view($module_name['system_name'].'/activate', $data, true);
+//            exit();
+//        }
+//    }
+//}
+//
+//function accounting_predeactivate($module_name){
+//    if ($module_name['system_name'] == ACCOUNTING_MODULE_NAME) {
+//        require_once 'libraries/gtsslib.php';
+//        $accounting_api = new AccountingLic();
+//        $accounting_api->deactivate_license();
+//    }
+//}

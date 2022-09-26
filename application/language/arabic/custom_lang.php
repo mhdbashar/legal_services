@@ -1,5 +1,6 @@
 <?php
 
+$lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';
@@ -484,7 +485,7 @@ $lang['ticket_public_url'] = "الرابط العام للتذكرة";
 $lang['department'] = "القسم";
 $lang['department_email'] = "بريد القسم";
 $lang['date_opened'] = "تاريخ فتح التذكرة";
-$lang['session_start_timer_only_assignee'] = "تحتاج إلى تعيين هذه الجلسة لإحد الموظفين لبدء المؤقت!";
+$lang['session_start_timer_only_assignee'] = "يجب ان تكون تمت احالتك لهذه الجلسة من أجل بدء المؤقت!";
 $lang['session_no_checklist_items_found'] = "عناصر قائمة التحقق غير موجودة لهذه الجلسة";
 $lang['ticket_subject'] = "موضوع التذكرة";
 $lang['ticket_message'] = "رسالة التذكرة";
@@ -495,7 +496,7 @@ $lang['back_to_sessions_list'] = "العودة إلى قائمة الجلسات"
 $lang['ticket_status'] = "حالة التذكرة";
 $lang['ticket_priority'] = "أولوية التذكرة";
 $lang['ticket_service'] = "تذكرة خدمة";
-$lang['staff_fullname'] = "اسم الموظف";
+$lang['staff_fullname'] = "الاسم الكامل";
 $lang['staff_email'] = "البريد الالكتروني";
 $lang['staff_datecreated'] = "تاريخ إنشاء الموظف";
 $lang['reset_password_url'] = "رابط إعادة تعيين كلمة المرور";
@@ -1059,7 +1060,9 @@ $lang['legal_authority'] = "الاستناد القانوني / النص الن�
 $lang['analysis'] = "التحليل";
 $lang['IRAC_result'] = "النتيجة";
 $lang['IRAC_method'] = "طريقة IRAC";
-$lang['help_library'] = "الموارد والمكتبة المساعدة";
+$lang['help_library'] = "الموارد والمكتبة <span style='color:red;font-size:10px;' >تشغيل تجريبي</span>";
+
+
 $lang['soon'] = "قريباً";
 $lang['legal_procedures_management'] = "إدارة الإجراءات القانونية";
 $lang['legal_procedures'] = "الإجراءات القانونية";
@@ -1089,7 +1092,7 @@ $lang['categories_management'] = "إدارة التصنيفات";
 $lang['no_phases'] = "لا توجد مراحل لهذه الخدمة بعد! إنشاء";
 $lang['date_time'] = "التاريخ / الوقت";
 $lang['billing_shipping'] = "الفواتير";
-$lang['written_reports'] = "التقارير المكتوبة";
+$lang['written_reports'] = "تقرير قضية";
 $lang['report'] = "التقرير";
 $lang['date_updated'] = "تم تحريره بتاريخ";
 $lang['updated_by_staff'] = "تم تحريره من قبل الموظف";

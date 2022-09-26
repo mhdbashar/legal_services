@@ -15,7 +15,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      * @throws \Exception
      */
     public function insert_appointment($data)
@@ -284,7 +284,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function insert_external_appointment($data)
     {
@@ -360,7 +360,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      * @throws \Exception
      */
     public function update_appointment($data)
@@ -471,7 +471,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      * @throws \Exception
      */
     public function update_internal_crm_appointment($data)
@@ -550,7 +550,7 @@ class Appointly_model extends App_Model
      *
      * @param string $appointment_id
      *
-     * @return boolean
+     * @return bool
      */
     public function delete_appointment($appointment_id)
     {
@@ -621,7 +621,8 @@ class Appointly_model extends App_Model
      */
     public function getBusyTimes()
     {
-        $time_format = get_option('time_format');
+        $time_format = '24';
+
         $format = '';
         $time = '24';
 
@@ -630,7 +631,10 @@ class Appointly_model extends App_Model
         } else {
             $time = '12';
             $format = '"%h:%i %p"';
+
+
         }
+
 
         $this->db->select('TIME_FORMAT(start_hour, ' . $format . ') as start_hour, date, source, created_by', false);
         $this->db->from(db_prefix() . 'appointly_appointments');
@@ -638,11 +642,7 @@ class Appointly_model extends App_Model
 
         $dates = $this->db->get()->result_array();
 
-        if ($format == '"%h:%i %p"') {
-            foreach ($dates as &$date) {
-                $date['start_hour'] = substr($date['start_hour'], 1);
-            }
-        }
+
 
 
         if (appointlyGoogleAuth()) {
@@ -695,46 +695,42 @@ class Appointly_model extends App_Model
      */
     public function getCalendarData($start, $end, $data)
     {
-        if (staff_can('view', 'appointments') && staff_can('view_own', 'appointments') || is_admin()) {
-
-            $this->db->select('subject as title, date, hash, start_hour, id, type_id');
-            $this->db->from(db_prefix() . 'appointly_appointments');
-            $this->db->where('finished = 0 AND cancelled = 0');
+        $this->db->select('subject as title, date, hash, start_hour, id, type_id');
+        $this->db->from(db_prefix() . 'appointly_appointments');
+        $this->db->where('finished = 0 AND cancelled = 0');
 
 
+        if (!is_client_logged_in()) {
             if (!staff_appointments_responsible()) {
-                if (!is_client_logged_in()) {
-                    $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
-                } else {
-                    $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE contact_id=' . get_contact_user_id() . ')');
-                }
+                $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
             }
-
-
-            $this->db->where('(CONCAT(date, " ", start_hour) BETWEEN "' . $start . '" AND "' . $end . '")');
-
-            $appointments = $this->db->get()->result_array();
-
-            foreach ($appointments as $key => $appointment) {
-
-                $appointment['url'] = admin_url('appointly/appointments/view?appointment_id=' . $appointment['id']);
-
-                if (is_client_logged_in()) {
-                    $appointment['url'] = admin_url('appointly/appointments_public/client_hash?hash=' . $appointment['hash']);
-                    $appointment['_tooltip'] = $appointment['title'];
-                } else {
-                    $appointment['_tooltip'] = (get_appointment_type($appointment['type_id']))
-                        ? _l('appointments_type_heading') . ": " . get_appointment_type($appointment['type_id'])
-                        : $appointment['title'];
-                }
-
-                $appointment['date'] = $appointment['date'] . ' ' . $appointment['start_hour'] . ':00';
-                $appointment['color'] = get_appointment_color_type($appointment['type_id']);
-                $data[] = $appointment;
-            }
-
-            return $data;
+        } else {
+            $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE contact_id=' . get_contact_user_id() . ')');
         }
+
+
+        $this->db->where('(CONCAT(date, " ", start_hour) BETWEEN "' . $start . '" AND "' . $end . '")');
+
+        $appointments = $this->db->get()->result_array();
+
+        foreach ($appointments as $key => $appointment) {
+
+            $appointment['url'] = admin_url('appointly/appointments/view?appointment_id=' . $appointment['id']);
+
+            if (is_client_logged_in()) {
+                $appointment['url'] = admin_url('appointly/appointments_public/client_hash?hash=' . $appointment['hash']);
+                $appointment['_tooltip'] = $appointment['title'];
+            } else {
+                $appointment['_tooltip'] = (get_appointment_type($appointment['type_id']))
+                    ? _l('appointments_type_heading') . ": " . get_appointment_type($appointment['type_id'])
+                    : $appointment['title'];
+            }
+
+            $appointment['date'] = $appointment['date'] . ' ' . $appointment['start_hour'] . ':00';
+            $appointment['color'] = get_appointment_color_type($appointment['type_id']);
+            $data[] = $appointment;
+        }
+
         return $data;
     }
 
@@ -747,7 +743,7 @@ class Appointly_model extends App_Model
      *
      * @return mixed
      */
-    function apply_contact_data($contact_id, $is_lead)
+    public function apply_contact_data($contact_id, $is_lead)
     {
         if ($is_lead == 'false' || $is_lead == false) {
             return $this->clients_model->get_contact($contact_id);
@@ -765,7 +761,7 @@ class Appointly_model extends App_Model
      *
      * @return array|bool
      */
-    function get_appointment_data($appointment_id)
+    public function get_appointment_data($appointment_id)
     {
         $this->db->where('id', $appointment_id);
         $appointment = $this->db->get(db_prefix() . 'appointly_appointments')->row_array();
@@ -838,9 +834,9 @@ class Appointly_model extends App_Model
      *
      * @param string $appointment_id
      *
-     * @return boolean
+     * @return bool
      */
-    function approve_appointment($appointment_id)
+    public function approve_appointment($appointment_id)
     {
         $this->appointment_approve_notification_and_sms_triggers($appointment_id);
 
@@ -858,7 +854,7 @@ class Appointly_model extends App_Model
      *
      * @return bool|void
      */
-    function getByHash($hash)
+    public function getByHash($hash)
     {
         $this->db->where('hash', $hash);
         $appointment = $this->db->get('appointly_appointments')->row_array();
@@ -884,7 +880,7 @@ class Appointly_model extends App_Model
      *
      * @return void
      */
-    function mark_as_finished($id)
+    public function mark_as_finished($id)
     {
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'appointly_appointments', ['finished' => 1]);
@@ -905,7 +901,7 @@ class Appointly_model extends App_Model
      *
      * @return void
      */
-    function mark_as_ongoing($appointment)
+    public function mark_as_ongoing($appointment)
     {
         $this->appointment_approve_notification_and_sms_triggers($appointment['id']);
 
@@ -1011,9 +1007,9 @@ class Appointly_model extends App_Model
     /**
      * Send appointment early reminders
      *
-     * @param string|integer $appointment_id
+     * @param string|int $appointment_id
      *
-     * @return boolean
+     * @return bool
      */
     public function send_appointment_early_reminders($appointment_id)
     {
@@ -1058,7 +1054,7 @@ class Appointly_model extends App_Model
      * @param string $type
      * @param string $color
      *
-     * @return boolean
+     * @return bool
      */
     public function new_appointment_type($type, $color)
     {
@@ -1140,9 +1136,9 @@ class Appointly_model extends App_Model
      * @param string $feedback
      * @param string $comment
      *
-     * @return boolean
+     * @return bool
      */
-    function handle_feedback_post($id, $feedback, $comment = null)
+    public function handle_feedback_post($id, $feedback, $comment = null)
     {
 
         $data = ['feedback' => $feedback];
@@ -1195,7 +1191,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function insertNewOutlookEvent($data)
     {
@@ -1220,7 +1216,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function updateAndAddExistingOutlookEvent($data)
     {
@@ -1245,7 +1241,7 @@ class Appointly_model extends App_Model
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function sendGoogleMeetRequestEmail($data)
     {

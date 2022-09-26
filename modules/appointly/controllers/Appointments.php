@@ -8,7 +8,7 @@ class Appointments extends AdminController
     {
         parent::__construct();
 
-            $this->staff_no_view_permissions = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
+        $this->staff_no_view_permissions = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
 
         $this->load->model('appointly_model', 'apm');
     }
@@ -39,6 +39,7 @@ class Appointments extends AdminController
         if ($this->staff_no_view_permissions) {
             access_denied('Appointments');
         }
+        $this->session->unset_userdata('from_view_id');
 
         $appointment_id = $this->input->get('appointment_id');
 
@@ -613,6 +614,26 @@ class Appointments extends AdminController
             header('Content-Type: application/json');
             echo json_encode($this->apm->sendGoogleMeetRequestEmail($data));
         }
+    }
+
+    /**
+     * Edit appointment from view directly
+     */
+    public function edit_from_view()
+    {
+        if ($this->staff_no_view_permissions) {
+            access_denied('Appointments');
+        }
+
+        $from_view_id = $this->input->get('from_view_id');
+
+        if ($from_view_id) {
+            $this->session->set_userdata(['from_view_id' => $from_view_id]);
+            echo json_encode(['success' => true]);
+            return;
+        }
+
+        echo json_encode(['success' => false]);
     }
 
 }

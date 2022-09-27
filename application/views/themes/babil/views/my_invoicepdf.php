@@ -17,30 +17,6 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
-
-
-$company_name = get_option('invoice_company_name');
-$company_vat = get_option('company_vat');
-$created_date = date('Y-m-d H:i:s');
-$total_tax = $invoice->total_tax;
-$total = $invoice->total;
-
-$data = [
-    [1, $company_name],
-    [2, $company_vat],
-    [3, $created_date],
-    [4, $total],
-    [5, $total_tax]
-];
-$_tlv = __getTLV($data);
-$data = base64_encode($_tlv);
-
-$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
-
-$qrCodePath = $response;
-$info_left_column .= '<br><img width="120px" style="margin-bottom: 0" src="'.$qrCodePath.'">';
-
-
 $info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('tax_invoice_pdf_heading') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $invoice_number . '</b>';
@@ -68,14 +44,35 @@ if (is_rtl()) {
 
 $pdf->ln(10);
 
-$organization_info = '';
-$organization_info .= '<div style="color:#424242;">';
+$organization_info = '<div style="color:#424242;">';
 
-$organization_info .= format_organization_info();
+//$organization_info .= format_organization_info();
 $organization_info .= format_invoice_info();
 
 $organization_info .= '</div>';
 
+$company_name = get_option('invoice_company_name');
+$company_vat = get_option('company_vat');
+$created_date = date('Y-m-d H:i:s');
+$total_tax = $invoice->total_tax;
+$total = $invoice->total;
+
+$data = [
+    [1, $company_name],
+    [2, $company_vat],
+    [3, $created_date],
+    [4, $total],
+    [5, $total_tax]
+];
+$_tlv = __getTLV($data);
+$data = base64_encode($_tlv);
+
+$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+
+//if($invoice->qr_code != null || $invoice->qr_code != ''){
+$qrCodePath = $response;
+$organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
+//}
 
 // Bill to
 $invoice_info = '<div align="'.$attr_align.'">';

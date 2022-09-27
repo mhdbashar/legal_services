@@ -3,7 +3,7 @@ var fnServerParams = {
         "to_date": '[name="to_date"]',
     	"status": '[name="status"]',
 	};
-var id, type, amount;
+var id, amount;
 	
 (function($) {
 	"use strict";

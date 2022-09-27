@@ -5,7 +5,7 @@ var fnServerParams = {
  "status": '[name="status"]',
 };
 
-var id, type, amount, transaction_banking_id ;
+var id, amount, transaction_banking_id ;
 
 (function($) {
 	"use strict";

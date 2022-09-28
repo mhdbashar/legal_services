@@ -371,6 +371,14 @@ function my_custom_setup_menu_items()
             'href' => admin_url('procuration/type'), // URL of the item
             'position' => 3, // The menu position
         ]);
+
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("regular_duration"), // The name if the item
+            'href' => admin_url('legalservices/regular_durations'), // URL of the item
+            'position' => 9, // The menu position
+        ]);
+
     }
 
 }
@@ -793,6 +801,31 @@ function get_courts_by_country_city($country,$city)
     $CI->db->where('is_default', 0);
     return $CI->db->get(db_prefix() . 'my_courts')->result();
 }
+//****************************************
+function get_dur_number_of_days_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('number_of_days');
+    $CI->db->where('id', $id);
+    $dur_number_of_days = $CI->db->get(db_prefix() . 'regular_durations')->row();
+    if ( $dur_number_of_days) {
+        return  $dur_number_of_days->number_of_days;
+    }
+    return false;
+}
+//**************************************
+function get_dur_name_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $duration_name = $CI->db->get(db_prefix() . 'regular_durations')->row();
+    if ($duration_name) {
+        return $duration_name->name;
+    }
+    return false;
+}
+//*************************************
 
 
 /*public function my_create_new_email_template()

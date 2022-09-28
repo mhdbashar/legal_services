@@ -225,6 +225,12 @@ function app_init_case_tabs()
         'view'                      => 'admin/written_reports/tab',
         'position'                  => 100,
     ]);
+    $CI->app_custom_tabs->add_case_tab('regular_duration', [
+        'name'                      => _l('regular_duration'),
+        'icon'                      => 'fa fas fa-hourglass-end',
+        'view'                      => 'admin/legalservices/regular_duration/tab',
+        'position'                  => 105,
+    ]);
 }
 
 /**

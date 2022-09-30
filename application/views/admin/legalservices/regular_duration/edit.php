@@ -16,8 +16,9 @@
                         <?php echo render_input('number_of_days','number_of_days',$regular_duration->number_of_days); ?>
 
                         <?php
+                        $company_country = get_option('company_country');
                         $this->db->where('parent_id', 0);
-                        $this->db->where('country', get_option('company_country'));
+                        $this->db->where('country', $company_country);
                         $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
 
                         ?>

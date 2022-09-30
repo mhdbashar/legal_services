@@ -47,7 +47,6 @@
             <div class="btn-bottom-toolbar btn-toolbar-container-out text-right">
                 <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
             </div>
-            <?php print_r($this->input->post());?>
         </div>
         <?php echo form_close(); ?>
     </div>

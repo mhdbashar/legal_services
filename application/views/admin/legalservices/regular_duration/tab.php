@@ -27,20 +27,11 @@
                             continue;
 
                         }
-                     if($duration['categories']==0 && $duration['sub_categories']==0)
-                     {?>
-                         <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
-
-                    <?php } ?>
-                        <?php if($duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id)
-                        {?>
-                            <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
-
-                        <?php } ?>
-
-                        <?php if($duration['categories']==$case_info->cat_id && $duration['sub_categories']==0 && $case_info->subcat_id ==0)
-                        {?>
-                            <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
+                         if($duration['categories']==0 && $duration['sub_categories'] == 0 ||
+                             $duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id ||
+                            $duration['categories']==$case_info->cat_id && $duration['sub_categories']==0 && $case_info->subcat_id ==0
+                         ){?>
+                             <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
 
                         <?php } ?>
 

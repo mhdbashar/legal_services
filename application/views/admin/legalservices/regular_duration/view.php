@@ -17,8 +17,11 @@
                                 <tr role="row">
                                     <th class="sorting " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Article Name activate to sort column ascending"><?php echo _l("name")?></th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Group activate to sort column ascending"><?php echo _l("number_of_days")?></th>
+                                    <th class="sorting " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Article Name activate to sort column ascending"><?php echo _l('Court'); ?></th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Group activate to sort column ascending"><?php echo _l('child_sub_categories'); ?></th>
                                     <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" aria-label="Date Published activate to sort column ascending"><?php echo _l("categories")?></th>
                                     <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" aria-label="Date Published activate to sort column ascending"><?php echo _l("sub_categories")?></th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -32,8 +35,11 @@
                                             </div>
                                         </td>
                                         <td><?php echo $duration->number_of_days; ?> </td>
+                                        <td> <?php if($duration->court_id) echo _l(get_court_by_id($duration->court_id)->court_name); ?></td>
+                                        <td><?php if($duration->childsubcat_id)echo _l(get_cat_name_by_id($duration->childsubcat_id)); ?> </td>
                                         <td><?php echo get_cat_name_by_id($duration->categories); ?> </td>
                                         <td><?php echo get_cat_name_by_id($duration->sub_categories); ?> </td>
+
                                     </tr>
                                 <?php } ?>
 

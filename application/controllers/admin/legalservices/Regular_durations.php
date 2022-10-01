@@ -30,7 +30,7 @@ class Regular_durations extends AdminController
             $data = $this->input->post();
             $added = $this->duration->add_new_duration($data);
             if ($added) {
-                set_alert('success', _l('added_successfully'));
+                set_alert('success', _l('added_successfully', _l('regular_duration')));
                 redirect(admin_url("legalservices/regular_durations"));
             }
         }

@@ -579,6 +579,9 @@ function get_cat_name_by_id($id)
     return false;
 }
 
+
+
+
 function convert_to_tags($string)
 {
     // $string_after_replace = preg_replace("/(?!.[.=$'€%-])\p{P}/u", "", $string);

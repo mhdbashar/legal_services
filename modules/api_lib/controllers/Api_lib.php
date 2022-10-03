@@ -241,4 +241,19 @@ class Api_lib extends ClientsController
         exit();
     }
 
+    public function add_staff_babil(){
+        $key = '2XeRfebcWS5y';
+        $data= $this->input->post();
+        unset($data['key']);
+        unset($data['csrf_token_name']);
+        if($key != $this->input->post('key')) return false;
+        $staff = is_staff($data['email'],$data['firstname'],$data['lastname']);
+        if($staff){
+            echo 'ok';
+        }else{
+            $this->load->model('staff_model');
+            $staff_id = $this->staff_model->add_from_babil($data);
+            echo $staff_id;
+        }
+    }
 }

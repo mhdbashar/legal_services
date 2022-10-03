@@ -4,14 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function app_init_admin_sidebar_menu_items()
 {
     $CI = &get_instance();
-
-    $CI->app_menu->add_sidebar_menu_item('dashboard', [
-        'name'     => _l('als_dashboard'),
-        'href'     => admin_url(),
-        'position' => 1,
-        'icon'     => 'fa fa-home',
-        'badge'    => [],
-    ]);
+    if (is_staff_member()) {
+        $CI->app_menu->add_sidebar_menu_item('dashboard', [
+            'name' => _l('als_dashboard'),
+            'href' => admin_url(),
+            'position' => 1,
+            'icon' => 'fa fa-home',
+            'badge' => [],
+        ]);
+    }
 
     if (
         has_permission('customers', '', 'view')
@@ -141,15 +142,15 @@ function app_init_admin_sidebar_menu_items()
 //                 'position' => 30,
 //                 'badge'    => [],
 //         ]);
-
-    $CI->app_menu->add_sidebar_menu_item('tasks', [
-        'name'     => _l('als_tasks'),
-        'href'     => admin_url('tasks'),
-        'icon'     => 'fa fa-tasks',
-        'position' => 35,
-        'badge'    => [],
-    ]);
-
+    if (is_staff_member()) {
+        $CI->app_menu->add_sidebar_menu_item('tasks', [
+            'name' => _l('als_tasks'),
+            'href' => admin_url('tasks'),
+            'icon' => 'fa fa-tasks',
+            'position' => 35,
+            'badge' => [],
+        ]);
+    }
     if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1) || is_staff_member()) {
         $enable_badge = get_option('enable_support_menu_badges');
         $CI->app_menu->add_sidebar_menu_item('support', [
@@ -203,22 +204,43 @@ function app_init_admin_sidebar_menu_items()
     if (has_permission('knowledge_base', '', 'view')) {
         $CI->app_menu->add_sidebar_menu_item('knowledge-base', [
             'name'     => _l('als_kb'),
+//            'href'     => admin_url('knowledge_base'),
+            'icon'     => 'fa fa-folder-open-o',
+            'position' => 50,
+//            'badge'    => []
+        ]);
+        $CI->app_menu->add_sidebar_children_item('knowledge-base', [
+            'slug' => 'knowledge-base',
+            'name'     => _l('als_kb'),
             'href'     => admin_url('knowledge_base'),
             'icon'     => 'fa fa-folder-open-o',
             'position' => 50,
-            'badge'    => []
+//            'badge'    => []
         ]);
+        if(is_admin()) {
+            $CI->app_menu->add_sidebar_children_item('knowledge-base', [
+                'slug' => 'knowledge-base',
+
+                'name' => _l('als_kb_log'),
+                'href' => admin_url('knowledge_base/kb_activity'),
+                'icon' => 'fa fa-folder-open-o',
+                'position' => 50,
+//            'badge'    => []
+            ]);
+        }
     }
 
     // Utilities
-    $CI->app_menu->add_sidebar_menu_item('utilities', [
-        'collapse' => true,
-        'name'     => _l('als_utilities'),
-        'position' => 55,
-        'icon'     => 'fa fa-cogs',
-        'badge'    => [],
-    ]);
+    if (is_staff_member()) {
 
+        $CI->app_menu->add_sidebar_menu_item('utilities', [
+            'collapse' => true,
+            'name' => _l('als_utilities'),
+            'position' => 55,
+            'icon' => 'fa fa-cogs',
+            'badge' => [],
+        ]);
+    }
     $CI->app_menu->add_sidebar_children_item('utilities', [
         'slug'     => 'media',
         'name'     => _l('als_media'),

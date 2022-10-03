@@ -3425,3 +3425,6 @@ $lang['project_setting_comment_on_sessions'] = "التعليق على جلسات
 $lang['new_field'] = 'حقل جديد';
 $lang['kb_article_basic_group'] = 'المجموعة الرئيسية';
 $lang['delete_field'] = 'حذف الحقل';
+$lang['als_kb_log'] = 'نشاط المكتبة';
+$lang['kb_datecreated'] = 'التاريخ';
+$lang['kb_process'] = 'العملية';

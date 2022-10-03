@@ -136,4 +136,17 @@ function get_all_article_by_type($type){
 
     return false;
 }
+function is_staff($email,$firstname,$lastname){
+    $CI = & get_instance();
+    $CI->db->select('staffid,password,firstname,lastname,email');
+    $CI->db->where('email', $email);
+    $CI->db->where('firstname', $firstname);
+    $CI->db->where('lastname', $lastname);
+    $result = $CI->db->get(db_prefix() . 'staff')->row();
+    if($result)
+        return $result;
+
+    return false;
+}
+
 

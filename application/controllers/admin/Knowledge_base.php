@@ -280,12 +280,6 @@ class Knowledge_base extends AdminController
         echo $out;
     }
 
-    public function test($id)
-    {
-        $id = kb_all_main_group($id);
-        echo var_dump($id);
-        exit();
-    }
 
     public function delete_all_article_for_group_by_type($type)
     {
@@ -297,5 +291,16 @@ class Knowledge_base extends AdminController
                 $this->db->delete(db_prefix() . 'customfieldsvalues');
             }
         }
+    }
+
+    public function kb_activity()
+    {
+        if (!has_permission('knowledge_base', '', 'view')) {
+            access_denied('knowledge_base');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('knowlege_activity');
+        }
+        $this->load->view('admin/knowledge_base/kb_activity');
     }
 }

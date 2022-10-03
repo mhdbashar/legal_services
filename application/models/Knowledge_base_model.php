@@ -104,6 +104,7 @@ class Knowledge_base_model extends App_Model
         $this->db->insert(db_prefix() . 'knowledge_base', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $this->db->insert(db_prefix() . 'knowlege_activity', ['knowledge_id'=>$insert_id,'subject'=>$data['subject'],'type'=>$data['type'],'groupid'=>$data['groupid'] ,'staff_id'=> get_staff_user_id(),'datecreated' => date('Y-m-d H:i:s'),'process'=>'add_new']);
             $i=0;
             foreach ($description as $d) {
                 $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id' => $insert_id, 'title' => $title[$i], 'description' => $d]);
@@ -150,15 +151,16 @@ class Knowledge_base_model extends App_Model
             unset($data['description']);
         }
         $i=0;
+        $affectedRows = 0;
         $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
         foreach ($description as $d){
             $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
             $insert = $this->db->insert_id();
             if ($insert) {
                 $i++;
+                $affectedRows++;
             }
         }
-        $affectedRows      = 0;
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             if (handle_custom_fields_post($id, $custom_fields)) {
@@ -169,7 +171,11 @@ class Knowledge_base_model extends App_Model
         $this->db->where('articleid', $id);
         $this->db->update(db_prefix() . 'knowledge_base', $data);
 
+
         if ($this->db->affected_rows() > 0) {
+            $article = $this->db->get_where(db_prefix() . 'knowledge_base', ['articleid'=> $id])->row();
+            $this->db->insert(db_prefix() . 'knowlege_activity', ['knowledge_id'=>$id,'subject'=>$article->subject,'type'=>$article->type ,'groupid'=>$article->articlegroup ,'staff_id'=> get_staff_user_id(),'datecreated' => date('Y-m-d H:i:s'),'process'=>'edit']);
+
             log_activity('Article Updated [ArticleID: ' . $id . ']');
 
             return true;
@@ -230,12 +236,14 @@ class Knowledge_base_model extends App_Model
      */
     public function delete_article($id)
     {
+        $article = $this->db->get_where(db_prefix() . 'knowledge_base', ['articleid'=> $id])->row();
         $this->db->where('articleid', $id);
         $this->db->delete(db_prefix() . 'knowledge_base');
         if ($this->db->affected_rows() > 0) {
+            $this->db->insert(db_prefix() . 'knowlege_activity', ['knowledge_id'=>$article->articleid,'subject'=>$article->subject ,'type'=>$article->type,'groupid'=>$article->groupid ,'staff_id'=> get_staff_user_id(),'datecreated' => date('Y-m-d H:i:s'),'process'=>'delete']);
+
             $this->db->where('articleid', $id);
             $this->db->delete(db_prefix() . 'knowedge_base_article_feedback');
-
             $this->db->where('rel_type', 'kb_article');
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'views_tracking');

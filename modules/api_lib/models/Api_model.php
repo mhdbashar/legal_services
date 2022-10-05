@@ -63,6 +63,10 @@ class Api_model extends App_Model
             FROM tblknowledge_custom_fields
             WHERE (id = $id)";
         return $this->db->query($sql)->row();
+
+//        $this->db->where(['id' => $id]);
+//        $this->db->from(db_prefix() . 'knowledge_custom_fields');
+//        return $this->db->get()->row();
     }
 
     public function get_custom_fields_values($id)

@@ -288,7 +288,7 @@
             }
         });
     }
-
+    
     function get_custom_fields() {
         var custom_id = $('#main_group').val();
         $('#custom_fields').html('');

@@ -290,6 +290,8 @@ class Knowledge_base extends ClientsController
                     }
                 }
 //            } elseif ($main_group == 3) {
+
+
             } else {
                 if (strlen($search_text) > 0) {
                     $texts = explode(' ', $search_text);

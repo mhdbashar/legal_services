@@ -8,6 +8,9 @@
 	<title><?php if (isset($title)){ echo $title; } ?></title>
 	<?php echo compile_theme_css(); ?>
 	<script src="<?php echo base_url('assets/plugins/jquery/jquery.min.js'); ?>"></script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet">
+  
 	<?php app_customers_head(); ?>
 </head>
 <body class="customers <?php echo strtolower($this->agent->browser()); ?><?php if(is_mobile()){echo ' mobile';}?><?php if(isset($bodyclass)){echo ' ' . $bodyclass; } ?>" <?php if($isRTL == 'true'){ echo 'dir="rtl"';} ?>>

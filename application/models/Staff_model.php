@@ -963,58 +963,19 @@ class Staff_model extends App_Model
 
     public function add_from_babil($data)
     {
-        if (isset($data['fakeusernameremembered'])) {
-            unset($data['fakeusernameremembered']);
-        }
-        if (isset($data['fakepasswordremembered'])) {
-            unset($data['fakepasswordremembered']);
-        }
-        // First check for all cases if the email exists.
         $this->db->where('email', $data['email']);
         $email = $this->db->get(db_prefix() . 'staff')->row();
         if ($email) {
             die('Email already exists');
         }
         $data['admin'] = 0;
-//        if (is_admin()) {
-//            if (isset($data['administrator'])) {
-//                $data['admin'] = 1;
-//                unset($data['administrator']);
-//            }
-//        }
-
+        $data['is_not_staff'] = 1;
         $send_welcome_email = true;
-        $original_password  = $data['password'];
-//        if (!isset($data['send_welcome_email'])) {
-//            $send_welcome_email = false;
-//        } else {
-//            unset($data['send_welcome_email']);
-//        }
-
-//        $data['password']    = app_hash_password($data['password']);
+        $original_password  = 'your password';
         $data['datecreated'] = date('Y-m-d H:i:s');
-        if (isset($data['departments'])) {
-            $departments = $data['departments'];
-            unset($data['departments']);
-        }
-
         $permissions = [
             'knowledge_base' => ['view','edit','create']
         ];
-//        if (isset($data['permissions'])) {
-//            $permissions = $data['permissions'];
-//            unset($data['permissions']);
-//        }
-
-        if (isset($data['custom_fields'])) {
-            $custom_fields = $data['custom_fields'];
-            unset($data['custom_fields']);
-        }
-
-        if ($data['admin'] == 1) {
-            $data['is_not_staff'] = 0;
-        }
-
         $this->db->insert(db_prefix() . 'staff', $data);
         $staffid = $this->db->insert_id();
         if ($staffid) {
@@ -1033,22 +994,7 @@ class Staff_model extends App_Model
                 'media_path_slug' => slug_it($slug),
             ]);
 
-            if (isset($custom_fields)) {
-                handle_custom_fields_post($staffid, $custom_fields);
-            }
-            if (isset($departments)) {
-                foreach ($departments as $department) {
-                    $this->db->insert(db_prefix() . 'staff_departments', [
-                        'staffid'      => $staffid,
-                        'departmentid' => $department,
-                    ]);
-                }
-            }
-
-            // Delete all staff permission if is admin we dont need permissions stored in database (in case admin check some permissions)
             $this->update_permissions($data['admin'] == 1 ? [] : $permissions, $staffid);
-
-            log_activity('New Staff Member Added [ID: ' . $staffid . ', ' . $data['firstname'] . ' ' . $data['lastname'] . ']');
 
             // Get all announcements and set it to read.
             $this->db->select('announcementid');

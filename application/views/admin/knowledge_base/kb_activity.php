@@ -17,6 +17,7 @@
                                         _l('staff_member'),
                                         _l('kb_process'),
                                         _l('kb_datecreated'),
+                                        _l('kb_chang_item'),
                                     ),'knowlege_activity'
                                 ); ?>
                             </div>

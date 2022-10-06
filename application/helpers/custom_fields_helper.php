@@ -651,3 +651,76 @@ function is_custom_fields_smart_transfer_enabled()
 
     return false;
 }
+
+function knowledge_base_handle_custom_fields_post($rel_id, $custom_fields, $is_cf_items = false)
+{
+    $affectedRows = 0;
+    $CI           = & get_instance();
+    $updated = [];
+    foreach ($custom_fields as $key => $fields) {
+        foreach ($fields as $field_id => $field_value) {
+            $CI->db->where('relid', $rel_id);
+            $CI->db->where('fieldid', $field_id);
+            $CI->db->where('fieldto', ($is_cf_items ? 'items_pr' : $key));
+            $row = $CI->db->get(db_prefix() . 'customfieldsvalues')->row();
+            if (!is_array($field_value)) {
+                $field_value = trim($field_value);
+            }
+            // Make necessary checkings for fields
+            if (!defined('COPY_CUSTOM_FIELDS_LIKE_HANDLE_POST')) {
+                $CI->db->where('id', $field_id);
+                $field_checker = $CI->db->get(db_prefix() . 'customfields')->row();
+                if ($field_checker->type == 'date_picker') {
+                    $field_value = to_sql_date($field_value);
+                } elseif ($field_checker->type == 'date_picker_time') {
+                    $field_value = to_sql_date($field_value, true);
+                } elseif ($field_checker->type == 'textarea') {
+                    $field_value = nl2br($field_value);
+                } elseif ($field_checker->type == 'checkbox' || $field_checker->type == 'multiselect') {
+                    if ($field_checker->disalow_client_to_edit == 1 && is_client_logged_in()) {
+                        continue;
+                    }
+                    if (is_array($field_value)) {
+                        $v = 0;
+                        foreach ($field_value as $chk) {
+                            if ($chk == 'cfk_hidden') {
+                                unset($field_value[$v]);
+                            }
+                            $v++;
+                        }
+                        $field_value = implode(', ', $field_value);
+                    }
+                }
+            }
+            if ($row) {
+                $CI->db->where('id', $row->id);
+                $CI->db->update(db_prefix() . 'customfieldsvalues', [
+                    'value' => $field_value,
+                ]);
+                if ($CI->db->affected_rows() > 0) {
+                    $affectedRows++;
+                    $updated[] = $CI->db->get_where(db_prefix() . 'customfields',['id'=>$field_id])->row()->name;
+                }
+            } else {
+                if ($field_value != '') {
+                    $CI->db->insert(db_prefix() . 'customfieldsvalues', [
+                        'relid'   => $rel_id,
+                        'fieldid' => $field_id,
+                        'fieldto' => $is_cf_items ? 'items_pr' : $key,
+                        'value'   => $field_value,
+                    ]);
+                    $insert_id = $CI->db->insert_id();
+                    if ($insert_id) {
+                        $affectedRows++;
+                    }
+                }
+            }
+        }
+    }
+    if ($affectedRows > 0) {
+        return $updated;
+    }
+
+    return false;
+}
+

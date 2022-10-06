@@ -146,35 +146,59 @@ class Knowledge_base_model extends App_Model
             $title = $data['title'];
             unset($data['title']);
         }
+        if (isset($data['kb_custom_fields_id'])) {
+            $kb_custom_fields_id = $data['kb_custom_fields_id'];
+            unset($data['kb_custom_fields_id']);
+        }
         if (isset($data['description'])) {
             $description = $data['description'];
             unset($data['description']);
         }
         $i=0;
         $affectedRows = 0;
-        $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
-        foreach ($description as $d){
-            $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
-            $insert = $this->db->insert_id();
-            if ($insert) {
-                $i++;
+        $updated = [];
+        $chang_item ='';
+
+//        $this->db->delete(db_prefix() . 'knowledge_custom_fields',['knowledge_id'=>$id]);
+        foreach ($kb_custom_fields_id as $ct_id){
+            $this->db->where('id', $ct_id);
+            $this->db->update(db_prefix() . 'knowledge_custom_fields', ['title'=>$title[$i],'description'=>$description[$i]]);
+            if ($this->db->affected_rows() > 0) {
                 $affectedRows++;
+                $updated[]= $title[$i];
             }
+            $i++;
+
+//            $this->db->insert(db_prefix() . 'knowledge_custom_fields', ['knowledge_id'=>$id,'title'=>$title[$i],'description'=>$d]);
+//            $insert = $this->db->insert_id();
+//            if ($insert) {
+//                $i++;
+//                $affectedRows++;
+//            }
         }
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
-            if (handle_custom_fields_post($id, $custom_fields)) {
+            $custom_fields_updated = knowledge_base_handle_custom_fields_post($id, $custom_fields);
+            if (count($custom_fields_updated) > 0) {
                 $affectedRows++;
+                $chang_item .= implode(' ، ', $custom_fields_updated);
             }
             unset($data['custom_fields']);
+        }
+
+        if (count($updated) > 0) {
+            if (count($custom_fields_updated) > 0) {
+                $chang_item .= ' ، ';
+            }
+                $chang_item .= implode(' ، ', $updated);
         }
         $this->db->where('articleid', $id);
         $this->db->update(db_prefix() . 'knowledge_base', $data);
 
 
-        if ($this->db->affected_rows() > 0) {
+        if ($this->db->affected_rows() > 0 || $affectedRows > 0) {
             $article = $this->db->get_where(db_prefix() . 'knowledge_base', ['articleid'=> $id])->row();
-            $this->db->insert(db_prefix() . 'knowlege_activity', ['knowledge_id'=>$id,'subject'=>$article->subject,'type'=>$article->type ,'groupid'=>$article->articlegroup ,'staff_id'=> get_staff_user_id(),'datecreated' => date('Y-m-d H:i:s'),'process'=>'edit']);
+            $this->db->insert(db_prefix() . 'knowlege_activity', ['knowledge_id'=>$id,'subject'=>$article->subject,'type'=>$article->type ,'groupid'=>$article->articlegroup ,'staff_id'=> get_staff_user_id(),'datecreated' => date('Y-m-d H:i:s'),'process'=>'edit','chang_item'=>$chang_item]);
 
             log_activity('Article Updated [ArticleID: ' . $id . ']');
 
@@ -464,7 +488,7 @@ class Knowledge_base_model extends App_Model
 
     public function get_content($id = '')
     {
-        $this->db->select('');
+        $this->db->select('*');
         $this->db->from(db_prefix() . 'knowledge_custom_fields');
         $this->db->order_by('id', 'asc');
         $this->db->where('knowledge_id', $id);

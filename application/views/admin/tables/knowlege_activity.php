@@ -9,14 +9,15 @@ $aColumns = [
     'staff_id',
     'process',
     'datecreated',
+    'chang_item',
 ];
-$sIndexColumn     = 'id';
-$sTable           = db_prefix() . 'knowlege_activity';
-$additionalSelect = [];
+$sIndexColumn = 'id';
+$sTable = db_prefix() . 'knowlege_activity';
+$additionalSelect = ['knowledge_id'];
 $join = [];
-$where   = [];
-$filter  = [];
-$groups  = $this->ci->knowledge_base_model->get_kbg();
+$where = [];
+$filter = [];
+$groups = $this->ci->knowledge_base_model->get_kbg();
 $_groups = [];
 foreach ($groups as $group) {
     if ($this->ci->input->post('kb_group_' . $group['groupid'])) {
@@ -34,8 +35,8 @@ if (count($filter) > 0) {
 //    array_push($where, ' AND ' . db_prefix() . 'knowledge_base.active=1');
 //}
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, $additionalSelect);
-$output  = $result['output'];
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, $additionalSelect);
+$output = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
@@ -52,9 +53,13 @@ foreach ($rResult as $aRow) {
             $_data = get_staff_full_name($aRow['staff_id']);
         } elseif ($aColumns[$i] == 'process') {
             $_data = _l($aRow['process']);
+        } elseif ($aColumns[$i] == 'subject') {
+            $_data =  '<a target="_blank" href="' . site_url('knowledge-base/article/'.$aRow['knowledge_id']) . '">' . $aRow['subject'] . '</a>';
+        } elseif ($aColumns[$i] == 'chang_item') {
+            $_data = $aRow['chang_item'];
         }
 
-        $row[]              = $_data;
+        $row[] = $_data;
 //        $row['DT_RowClass'] = 'has-row-options';
     }
 

@@ -3428,3 +3428,5 @@ $lang['delete_field'] = 'حذف الحقل';
 $lang['als_kb_log'] = 'نشاط المكتبة';
 $lang['kb_datecreated'] = 'التاريخ';
 $lang['kb_process'] = 'العملية';
+$lang['kb_chang_item'] = 'الحقول التي تم تعديلها';
+$lang['main_group'] = 'مجموعة رئيسية';

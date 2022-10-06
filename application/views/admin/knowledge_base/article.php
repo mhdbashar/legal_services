@@ -103,6 +103,8 @@
                                     ?>
                                     <hr class="hr-panel-heading"/>
                                     <div id="fld-<?= $i ?>" class="form-group">
+                                        <?php echo render_input('kb_custom_fields_id[]', '', $f['id'], '',[],[],'hide'); ?>
+
                                         <?php echo render_input('title[]', 'title', $f['title'], 'text', array_merge($attrs, ['required' => 'required'])); ?>
                                         <!--                                        --><?php //echo render_textarea('description[]','subject',$f['description'],array('append_plugins'=> 'stickytoolbar', 'required'=>'required'),array('append_plugins'=> 'stickytoolbar'),'','tinymce tinymce-manual');
                                         ?>

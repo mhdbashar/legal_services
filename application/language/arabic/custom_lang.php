@@ -1143,3 +1143,7 @@ $lang['edit_regular_duration'] = "تحرير مدة زمنية نظامية";
 $lang['regular_duration_begin_date'] = "تاريخ بداية المدة الزمنية النظامية";
 $lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
 $lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
+$lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
+
+
+

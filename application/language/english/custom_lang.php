@@ -4087,3 +4087,5 @@ $lang['sub_category'] = "Sub category";
 $lang['regular_duration_begin_date'] = "Regular Duration Begin Date";
 $lang['regular_durations_reminder_notification_before_help'] = "Regular Duration reminder notification before (days)";
 $lang['not_case_deadline_reminder'] = "Case deadline reminder";
+$lang['email_template_regular_durations_fields_heading'] = "Regular Duration Reminder";
+

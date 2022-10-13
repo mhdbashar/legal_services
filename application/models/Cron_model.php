@@ -1073,7 +1073,7 @@ class Cron_model extends App_Model
             $end_date_case = date('Y-m-d',$end_date_case);
             if ($duration_date >= date('Y-m-d')) {
                 $end_date = new DateTime($end_date_case);
-                $diff    = $end_date->diff($now)->format('%a');
+                                $diff    = $end_date->diff($now)->format('%a');
                 // Check if difference between start date and end_date is the same like the reminder before
                 // In this case reminder wont be sent becuase the regular duration it too short
                 $end_date          = strtotime($end_date_case);
@@ -1098,14 +1098,16 @@ class Cron_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member['staffid']);
                         }
+                        send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
+                       // send_mail_template('contract_expiration_reminder_to_staff', $contract, $member);
 
                         // send_mail_template('case_deadline_reminder_to_staff', $row->email, $member['staffid'], $case['id']);
-                        $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
-                        if ($success) {
-                            set_alert('success', _l('custom_file_success_send'));
-                        } else {
-                            set_alert('warning', _l('custom_file_fail_send'));
-                        }
+                       // $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
+                      //  if ($success) {
+                           // set_alert('success', _l('custom_file_success_send'));
+                        //} else {
+                         //   set_alert('warning', _l('custom_file_fail_send'));
+                      //  }
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'my_cases', [
                             'deadline_notified' => 1,

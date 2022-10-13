@@ -16,6 +16,8 @@ class Migration_Version_520 extends CI_Migration
               `id` int(11) NOT NULL AUTO_INCREMENT,
                 `name` varchar (255) NOT NULL,
                 `number_of_days` int(11) NOT NULL,
+                `court_id` int(11) ,
+                `childsubcat_id` int(11) ,
                 `categories` int(11) ,
                 `sub_categories` int(11) ,
                 PRIMARY KEY (`id`)

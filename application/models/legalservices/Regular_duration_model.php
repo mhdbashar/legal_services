@@ -61,7 +61,7 @@ class Regular_duration_model extends App_Model
         $this->db->update(db_prefix() . 'my_cases', $data);
         $insert_id = $this->db->insert_id();
         if ($this->db->affected_rows() > 0) {
-            log_activity('duration Updated [DurationID: ' . $id . ']');
+            log_activity('duration Updated [DurationID:]');
             return true;
         }
         return false;

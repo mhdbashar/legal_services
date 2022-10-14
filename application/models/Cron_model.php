@@ -23,7 +23,7 @@ class Cron_model extends App_Model
             register_shutdown_function([$this, '__destruct']);
             $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
 
-            /*if (!$f) {
+            //if (!$f) {
                 $this->lock_handle = fopen(TEMP_FOLDER . 'pcrm-cron-lock', 'w+');
                 // Again? Disable the lock
                 if (!$this->lock_handle && !defined('APP_DISABLE_CRON_LOCK')) {
@@ -31,8 +31,8 @@ class Cron_model extends App_Model
                     // Used in method can_cron_run
                     define('APP_DISABLE_CRON_LOCK', true);
                 }
-            } else {*/
-                $this->lock_handle = $f;
+           // } else {
+             //   $this->lock_handle = $f;
            //}
         }
 

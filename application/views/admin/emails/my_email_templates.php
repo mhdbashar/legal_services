@@ -179,10 +179,10 @@
                                             <tr>
                                                 <td class="<?php if($rd_template['active'] == 0){echo 'text-throught';} ?>">
                                                     <a href="<?php echo admin_url('emails/email_template/'.$rd_template['emailtemplateid']); ?>"><?php echo $rd_template['name']; ?></a>
-                                                    <?php// if(ENVIRONMENT !== 'production'){ ?>
+                                                    <?php // if(ENVIRONMENT !== 'production'){ ?>
                                                         <br/><small><?php echo $rd_template['slug']; ?></small>
-                                                    <?php// } ?>
-                                                    <?php// if($hasPermissionEdit){ ?>
+                                                    <?php  // } ?>
+                                                    <?php  // if($hasPermissionEdit){ ?>
                                                         <a href="<?php echo admin_url('emails/'.($rd_template['active'] == '1' ? 'disable/' : 'enable/').$rd_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($rd_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
 
                                                     <?php //} ?>

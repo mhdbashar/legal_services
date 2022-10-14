@@ -30,7 +30,7 @@ class regular_duration_deadline_notification extends App_mail_template
     {
 
         $this->set_merge_fields('staff_merge_fields', $this->staffid);
-        $this->set_merge_fields('regular_duration_rem',$this->caseid);
+       // $this->set_merge_fields('regular_duration_rem',$this->caseid);
 
         $this->to($this->staff_email)
             ->set_rel_id($this->staffid)

@@ -106,7 +106,7 @@ class Settings_model extends App_Model
                     return $value !== '';
                 });
                 $val = serialize($val);
-            } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
+            } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'invoice_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
                 $val = strip_tags($val);
                 $val = nl2br($val);
             } elseif (in_array($name, $this->encrypted_fields)) {

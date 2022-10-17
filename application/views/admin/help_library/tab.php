@@ -1,7 +1,11 @@
+<div class="btn-group">
+    <button group="button" class="btn btn-info mbot10" onclick="add_customer()">الإنتقال للمكتبة</button>
+</div>
+<span style="color: red">ملاحظة : يمكنك تسجيل الدخول لموقع المكتبة بستخدام حسابك في هذا الموقع</span>
+
 <section id="fancyTabWidget" class="tabs t-tabs">
+
     <ul class="nav nav-tabs no-margin" role="tablist">
-
-
         <li role="presentation" class="project_tab_activity">
             <a id="tab0" href="#tabBody0" role="tab" aria-expanded="true" aria-controls="tabBody0" aria-selected="true"
                onclick="getdata_tabBody0()"
@@ -119,8 +123,8 @@
             ><span class="fa fa-search"></span> مجموعة الأحكام القضائية </a>
         </li>
 
-    </ul>
 
+    </ul>
     <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
         <?php for ($i = 0; $i < 18; $i++) { ?>
             <div class="tab-pane fade active in" id="tabBody<?= $i ?>" role="tabpanel" aria-labelledby="tab<?= $i ?>"
@@ -128,8 +132,49 @@
         <?php } ?>
     </div>
 </section>
+<?php $staff = get_staff(get_staff_user_id());
+$staff->key = '2XeRfebcWS5y';?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    function add_customer() {
+        // var url_ = 'http://localhost/legalserv/Api_lib/add_staff_babil';
+        // var admin_url = 'http://localhost/legalserv/admin';
+
+        var admin_url = 'https://library.lawyernet.net/admin';
+        var url_ = 'https://library.lawyernet.net/api_lib/add_staff_babil';
+
+        <?php if($staff->add_to_library == 0){?>
+        $.ajax({
+            url: url_,
+            data: {
+                key:"<?=$staff->key?>",
+                email:"<?=$staff->email?>",
+                firstname:"<?=$staff->firstname?>",
+                second_name:"<?=$staff->second_name?>",
+                third_name:"<?=$staff->third_name?>",
+                lastname:"<?=$staff->lastname?>",
+                phonenumber:"<?=$staff->phonenumber?>",
+                password:"<?=$staff->password?>",
+                active:"<?=$staff->active?>",
+            },
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if(data == 'ok'){
+                    window.open(admin_url);
+                }else if(data == 'Email already exists'){
+                    alert_float('warning', '<?php echo _l('Email already exists please change your email');?>');
+                }else{
+                    <?php add_staff_to_library();?>
+                    window.open(admin_url);
+                }
+            }
+        });
+        <?php }elseif($staff->add_to_library == 1){?>
+        window.open(admin_url);
+        <?php }?>
+    }
+
     var url = 'https://library.lawyernet.net/api_lib/search1';
 
     // var url = 'http://localhost/legalserv/api_lib/search1';

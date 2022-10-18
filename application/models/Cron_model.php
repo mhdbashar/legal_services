@@ -1098,7 +1098,26 @@ class Cron_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member['staffid']);
                         }
-                        send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
+
+                        $sent= send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
+                        if (!$sent) {
+                           // set_alert('danger', _l('two_factor_auth_failed_to_send_code'));
+                         //   redirect(admin_url('authentication'));
+                            print("sucsess");
+                            exit();
+                        } else {
+                            //set_alert('success', _l('two_factor_auth_code_sent_successfully', $email));
+                            //redirect(admin_url('authentication/two_factor'));
+                            print("failed");
+
+                            exit();
+                        }
+
+
+
+
+
+
                         // $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
                       //  if ($success) {
                            // set_alert('success', _l('custom_file_success_send'));

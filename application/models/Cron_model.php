@@ -1099,10 +1099,7 @@ class Cron_model extends App_Model
                             array_push($notifiedUsers, $member['staffid']);
                         }
                         send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
-                       // send_mail_template('contract_expiration_reminder_to_staff', $contract, $member);
-
-                        // send_mail_template('case_deadline_reminder_to_staff', $row->email, $member['staffid'], $case['id']);
-                       // $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
+                        // $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
                       //  if ($success) {
                            // set_alert('success', _l('custom_file_success_send'));
                         //} else {

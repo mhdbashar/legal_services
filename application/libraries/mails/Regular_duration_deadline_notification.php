@@ -31,10 +31,9 @@ class Regular_duration_deadline_notification extends App_mail_template
     public function build()
     {
 
-       $test= $this->to($this->staff_email)
+       $this->to($this->staff_email)
              ->set_rel_id($this->staffid);
-        print_r($test);
-        exit();
+
 
            //    ->set_staff_id($this->staffid)
 

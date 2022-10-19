@@ -27,10 +27,12 @@ class Procuration_deadline_reminder_to_staff extends App_mail_template
 
     public function build()
     {
-        $this->to($this->staff_email)
+        $test=$this->to($this->staff_email)
         ->set_rel_id($this->procuration_id)
         ->set_staff_id($this->staffid)
         ->set_merge_fields('staff_merge_fields', $this->staffid)
         ->set_merge_fields('tasks_merge_fields', $this->task_id);
+        print_r($test);
+        exit();
     }
 }

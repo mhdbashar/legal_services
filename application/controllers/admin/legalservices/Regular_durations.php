@@ -31,7 +31,8 @@ class Regular_durations extends AdminController
             $added = $this->duration->add_new_duration($data);
             if ($added) {
                 set_alert('success', _l('added_successfully', _l('regular_duration')));
-                send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  1);
+               // send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  1);
+                send_mail_template('procuration_deadline_reminder_to_staff', "hibakharma@gmail.com", 2, 1);
                 redirect(admin_url("legalservices/regular_durations"));
 
             }

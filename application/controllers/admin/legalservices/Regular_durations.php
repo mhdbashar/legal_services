@@ -33,7 +33,7 @@ class Regular_durations extends AdminController
                 set_alert('success', _l('added_successfully', _l('regular_duration')));
                // send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  1);
 
-                send_mail_template('staff_created', "hibakharma@gmail.com", 2, "123");
+               // send_mail_template('staff_created', "hibakharma@gmail.com", 2, "123");
                 redirect(admin_url("legalservices/regular_durations"));
 
             }

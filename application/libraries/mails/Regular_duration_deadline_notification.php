@@ -9,7 +9,7 @@ class Regular_duration_deadline_notification  extends App_mail_template
 
     protected $staff_email;
 
-    protected $original_password;
+    protected $caseid;
 
     protected $staffid;
 
@@ -18,18 +18,18 @@ class Regular_duration_deadline_notification  extends App_mail_template
 
     public $rel_type = 'regular_duration';
 
-    public function __construct($staff_email, $staffid, $original_password)
+    public function __construct($staff_email, $staffid, $caseid)
     {
         parent::__construct();
         $this->staff_email       = $staff_email;
         $this->staffid           = $staffid;
-        $this->original_password = $original_password;
+        $this->caseid = $caseid;
     }
 
     public function build()
     {
         $this->to($this->staff_email)
             ->set_rel_id($this->staffid)
-            ->set_merge_fields('staff_merge_fields', $this->staffid, $this->original_password);
+            ->set_merge_fields('staff_merge_fields', $this->staffid, $this->caseid);
     }
 }

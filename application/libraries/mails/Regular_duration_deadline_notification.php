@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Regular_duration_deadline_notification  extends App_mail_template
 {
+
     protected $for = 'staff';
 
     protected $staff_email;

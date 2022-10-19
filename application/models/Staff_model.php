@@ -961,7 +961,7 @@ class Staff_model extends App_Model
         return $result;
     }
 
-    public function add_from_babil($data)
+    public function add_from_legalservices($data)
     {
         $this->db->where('email', $data['email']);
         $email = $this->db->get(db_prefix() . 'staff')->row();
@@ -970,6 +970,7 @@ class Staff_model extends App_Model
         }
         $data['admin'] = 0;
         $data['is_not_staff'] = 1;
+        $data['is_from_legal'] = 1;
         $send_welcome_email = true;
         $original_password  = 'your password';
         $data['datecreated'] = date('Y-m-d H:i:s');

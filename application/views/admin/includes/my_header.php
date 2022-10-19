@@ -1,14 +1,19 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 ob_start();
+if(is_staff_from_legalservices(get_staff_user_id())) {
+    $hide = 'hide';
+}else{
+    $hide = '';
+}
 ?>
-<li id="top_search" class="dropdown" data-toggle="tooltip" data-placement="bottom" data-title="<?php echo _l('search_by_tags'); ?>">
+<li id="top_search" class="dropdown <?=$hide?>" data-toggle="tooltip" data-placement="bottom" data-title="<?php echo _l('search_by_tags'); ?>">
     <input type="search" id="search_input" class="form-control" placeholder="<?php echo _l('top_search_placeholder'); ?>">
     <div id="search_results">
     </div>
     <ul class="dropdown-menu search-results animated fadeIn no-mtop search-history" id="search-history">
     </ul>
 </li>
-<li id="top_search_button">
+<li id="top_search_button" class="<?=$hide?>">
     <button class="btn"><i class="fa fa-search"></i></button>
 </li>
 <?php
@@ -18,7 +23,7 @@ ob_end_clean();
 <div id="header">
     <div class="hide-menu"><i class="fa fa-align-left"></i></div>
     <div id="logo">
-        <?php get_company_logo(get_admin_uri().'/') ?>
+        <?php get_company_logo(get_admin_uri().'/');?>
     </div>
     <nav>
         <div class="small-logo">
@@ -75,9 +80,9 @@ ob_end_clean();
                     <?php echo staff_profile_image($current_user->staffid,array('img','img-responsive','staff-profile-image-small','pull-left')); ?>
                 </a>
                 <ul class="dropdown-menu animated fadeIn">
-                    <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>"><?php echo _l('nav_my_profile'); ?></a></li>
-                    <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li>
-                    <li class="header-edit-profile"><a href="<?php echo admin_url('staff/edit_profile'); ?>"><?php echo _l('nav_edit_profile'); ?></a></li>
+                    <li class="header-my-profile <?=$hide?>"><a href="<?php echo admin_url('profile'); ?>"><?php echo _l('nav_my_profile'); ?></a></li>
+                    <li class="header-my-timesheets <?=$hide?>"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li>
+                    <li class="header-edit-profile <?=$hide?>"><a href="<?php echo admin_url('staff/edit_profile'); ?>"><?php echo _l('nav_edit_profile'); ?></a></li>
                     <?php if(!is_language_disabled()){ ?>
                         <li class="dropdown-submenu pull-left header-languages">
                             <a href="#" tabindex="-1"><?php echo _l('language'); ?></a>
@@ -96,16 +101,16 @@ ob_end_clean();
                 </ul>
             </li>
             <?php if(is_staff_member()){ ?>
-                <li class="icon header-newsfeed">
+                <li class="icon header-newsfeed <?=$hide?>">
                     <a href="#" class="open_newsfeed desktop" data-toggle="tooltip" title="<?php echo _l('whats_on_your_mind'); ?>" data-placement="bottom"><i class="fa fa-share fa-fw fa-lg" aria-hidden="true"></i></a>
                 </li>
             <?php } ?>
-            <li class="icon header-todo">
+            <li class="icon header-todo <?=$hide?>">
                 <a href="<?php echo admin_url('todo'); ?>" data-toggle="tooltip" title="<?php echo _l('nav_todo_items'); ?>" data-placement="bottom"><i class="fa fa-check-square-o fa-fw fa-lg"></i>
                     <span class="label bg-warning icon-total-indicator nav-total-todos<?php if($current_user->total_unfinished_todos == 0){echo ' hide';} ?>"><?php echo $current_user->total_unfinished_todos; ?></span>
                 </a>
             </li>
-            <li class="icon header-timers timer-button" data-placement="bottom" data-toggle="tooltip" data-title="<?php echo _l('my_timesheets'); ?>">
+            <li class="icon header-timers timer-button <?=$hide?>" data-placement="bottom" data-toggle="tooltip" data-title="<?php echo _l('my_timesheets'); ?>">
                 <a href="#" id="top-timers" class="dropdown-toggle top-timers" data-toggle="dropdown">
                     <i class="fa fa-clock-o fa-fw fa-lg" aria-hidden="true"></i>
                     <span class="label bg-success icon-total-indicator icon-started-timers<?php if ($totalTimers = count($startedTimers) == 0){ echo ' hide'; }?>">
@@ -116,7 +121,7 @@ ob_end_clean();
                     <?php $this->load->view('admin/tasks/started_timers',array('startedTimers'=>$startedTimers)); ?>
                 </ul>
             </li>
-            <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip" title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
+            <li class="dropdown notifications-wrapper header-notifications <?=$hide?>" data-toggle="tooltip" title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
                 <?php $this->load->view('admin/includes/notifications'); ?>
             </li>
         </ul>

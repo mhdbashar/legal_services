@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
    $totalQuickActionsRemoved = 0;
    $quickActions = $this->app->get_quick_actions_links();
+   if(is_staff_from_legalservices(get_staff_user_id())) {$quickActions=[];}//noor
+
    foreach($quickActions as $key => $item){
     if(isset($item['permission'])){
      if(!has_permission($item['permission'],'','create')){

@@ -3430,3 +3430,4 @@ $lang['kb_datecreated'] = 'التاريخ';
 $lang['kb_process'] = 'العملية';
 $lang['kb_chang_item'] = 'الحقول التي تم تعديلها';
 $lang['main_group'] = 'مجموعة رئيسية';
+$lang['kb_group_add_edit_is_main'] = 'هل هي قسم رئيسي ( من اجل عرضه في الحقول المخصصة )';

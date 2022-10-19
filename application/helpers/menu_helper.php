@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function app_init_admin_sidebar_menu_items()
 {
     $CI = &get_instance();
-    if (is_staff_member()) {
+    if(!is_staff_from_legalservices(get_staff_user_id())){
         $CI->app_menu->add_sidebar_menu_item('dashboard', [
             'name' => _l('als_dashboard'),
             'href' => admin_url(),
@@ -142,7 +142,7 @@ function app_init_admin_sidebar_menu_items()
 //                 'position' => 30,
 //                 'badge'    => [],
 //         ]);
-    if (is_staff_member()) {
+    if(!is_staff_from_legalservices(get_staff_user_id())){
         $CI->app_menu->add_sidebar_menu_item('tasks', [
             'name' => _l('als_tasks'),
             'href' => admin_url('tasks'),
@@ -153,14 +153,17 @@ function app_init_admin_sidebar_menu_items()
     }
     if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1) || is_staff_member()) {
         $enable_badge = get_option('enable_support_menu_badges');
-        $CI->app_menu->add_sidebar_menu_item('support', [
-            'collapse' => $enable_badge,
-            'name'     => _l('support'),
-            'href'     => admin_url('tickets'),
-            'icon'     => 'fa fa-ticket',
-            'position' => 40,
-            'badge'    => []
-        ]);
+
+        if(!is_staff_from_legalservices(get_staff_user_id())) {
+            $CI->app_menu->add_sidebar_menu_item('support', [
+                'collapse' => $enable_badge,
+                'name' => _l('support'),
+                'href' => admin_url('tickets'),
+                'icon' => 'fa fa-ticket',
+                'position' => 40,
+                'badge' => []
+            ]);
+        }
 
         $CI->load->model('tickets_model');
         $statuses = $CI->tickets_model->get_ticket_status();
@@ -182,13 +185,15 @@ function app_init_admin_sidebar_menu_items()
     }
 
     if (is_staff_member()) {
-        $CI->app_menu->add_sidebar_menu_item('leads', [
-            'name'     => _l('als_leads'),
-            'href'     => admin_url('leads'),
-            'icon'     => 'fa fa-tty',
-            'position' => 45,
-            'badge'    => []
-        ]);
+        if(!is_staff_from_legalservices(get_staff_user_id())) {
+            $CI->app_menu->add_sidebar_menu_item('leads', [
+                'name' => _l('als_leads'),
+                'href' => admin_url('leads'),
+                'icon' => 'fa fa-tty',
+                'position' => 45,
+                'badge' => []
+            ]);
+        }
     }
 
     if ((has_permission('estimate_request', '', 'view') || has_permission('estimate_request', '', 'view_own'))) {
@@ -217,7 +222,7 @@ function app_init_admin_sidebar_menu_items()
             'position' => 50,
 //            'badge'    => []
         ]);
-        if(is_admin()) {
+        if(!is_staff_from_legalservices(get_staff_user_id())){
             $CI->app_menu->add_sidebar_children_item('knowledge-base', [
                 'slug' => 'knowledge-base',
 
@@ -231,7 +236,7 @@ function app_init_admin_sidebar_menu_items()
     }
 
     // Utilities
-    if (is_staff_member()) {
+    if(!is_staff_from_legalservices(get_staff_user_id())){
 
         $CI->app_menu->add_sidebar_menu_item('utilities', [
             'collapse' => true,

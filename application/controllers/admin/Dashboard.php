@@ -14,7 +14,11 @@ class Dashboard extends AdminController
     public function index()
     {
         close_setup_menu();
-        $this->load->model('departments_model');
+
+        if(is_staff_from_legalservices(get_staff_user_id())) {
+            redirect(admin_url('knowledge_base'));
+        }
+            $this->load->model('departments_model');
         $this->load->model('todo_model');
         $data['departments'] = $this->departments_model->get();
 

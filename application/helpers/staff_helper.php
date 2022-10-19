@@ -489,3 +489,19 @@ function is_staff_member($staff_id = '')
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
 }
+
+function is_staff_from_legalservices($staff_id = '')
+{
+    if($staff_id == '')
+        return false;
+
+    $CI = & get_instance();
+    $CI->db->where('staffid', $staff_id);
+    $CI->db->where('is_from_legal', 1);
+    $staff = $CI->db->get(db_prefix() . 'staff')->row();
+    if($staff)
+        return true;
+
+    return false;
+}
+

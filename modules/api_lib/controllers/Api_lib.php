@@ -252,7 +252,7 @@ class Api_lib extends ClientsController
             echo 'ok';
         }else{
             $this->load->model('staff_model');
-            $staff_id = $this->staff_model->add_from_babil($data);
+            $staff_id = $this->staff_model->add_from_legalservices($data);
             echo $staff_id;
         }
     }

@@ -3852,3 +3852,13 @@ $lang['project_setting_create_sessions'] = "create session";
 $lang['project_setting_edit_sessions'] = "edit sessions (only sessions created from contact)";
 $lang['project_setting_upload_on_sessions'] = "upload attachments on sessions";
 $lang['project_setting_comment_on_sessions'] = "comment on law service sessions";
+
+$lang['new_field'] = 'New Field';
+$lang['kb_article_basic_group'] = 'Main Group';
+$lang['delete_field'] = 'Delete Field';
+$lang['als_kb_log'] = 'Library Activity';
+$lang['kb_datecreated'] = 'Date';
+$lang['kb_process'] = 'The Operation';
+$lang['kb_chang_item'] = 'Modified Fields';
+$lang['main_group'] = 'Main Group';
+$lang['kb_group_add_edit_is_main'] = 'Is it a main section (in order to display it in the custom fields)';

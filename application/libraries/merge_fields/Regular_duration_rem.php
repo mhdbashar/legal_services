@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class regular_duration_rem extends App_merge_fields
+class Regular_duration_rem extends App_merge_fields
 {
     public function build()
     {

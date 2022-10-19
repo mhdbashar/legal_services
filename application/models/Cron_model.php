@@ -1100,20 +1100,20 @@ class Cron_model extends App_Model
                         }
 
                         $sent= send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
-                        if (!$sent) {
+                       /* if (!$sent) {
                            // set_alert('danger', _l('two_factor_auth_failed_to_send_code'));
                          //   redirect(admin_url('authentication'));
-                            print("sucsess");
+                            print("failed");
                             exit();
                         } else {
                             //set_alert('success', _l('two_factor_auth_code_sent_successfully', $email));
                             //redirect(admin_url('authentication/two_factor'));
-                            print("failed");
+                            print("sucsess");
 
                             exit();
                         }
 
-
+*/
 
 
 

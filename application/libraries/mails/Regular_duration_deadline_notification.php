@@ -19,23 +19,22 @@ class Regular_duration_deadline_notification extends App_mail_template
     public function __construct($staff_email, $staffid, $caseid)
     {
         parent::__construct();
-
+        $this->ci->load->library('merge_fields/staff_merge_fields');
         $this->staff_email = $staff_email;
         $this->staffid     = $staffid;
         $this->caseid     = $caseid;
-
+        $this ->set_merge_fields('staff_merge_fields', $this->staffid);
+        $this->set_merge_fields('regular_duration_rem',$this->caseid);
     }
 
     public function build()
     {
 
-           $this ->set_merge_fields('staff_merge_fields', $this->staffid);
+        $this->to($this->staff_email)
+             ->set_rel_id($this->caseid);
 
-           $this->to($this->staff_email)
-               ->set_rel_id($this->staffid);
+           //    ->set_staff_id($this->staffid)
 
-           //    ->set_staff_id($this->caseid)
-       // $this->set_merge_fields('regular_duration_rem',$this->caseid);
 
 
     }

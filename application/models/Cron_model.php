@@ -1099,7 +1099,8 @@ class Cron_model extends App_Model
                             array_push($notifiedUsers, $member['staffid']);
                         }
 
-                        $sent= send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
+                        send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
+                       // $sent= send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
                        /* if (!$sent) {
                            // set_alert('danger', _l('two_factor_auth_failed_to_send_code'));
                          //   redirect(admin_url('authentication'));

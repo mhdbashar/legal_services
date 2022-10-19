@@ -144,8 +144,7 @@ function mail_template($class)
 
     // Initialize the class and pass the params
     $instance = new $class(...$params);
-print_r($instance);
-exit();
+
     // Call the send method
     return $instance;
 }

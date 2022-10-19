@@ -12,9 +12,9 @@ class Regular_duration_deadline_notification  extends App_mail_template
 
     protected $staffid;
 
-    public $slug = 'regular_duration-deadline-notification';
+    public $slug = 'new-staff-created';
 
-    public $rel_type = 'regular_duration';
+    public $rel_type = 'staff';
 
     public function __construct($staff_email, $staffid, $original_password)
     {

@@ -1081,8 +1081,12 @@ class Cron_model extends App_Model
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
                 // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
-                $this->db->where('admin', 1);
-                $assignees = $this->staff_model->get();
+
+                //$this->db->where('admin', 1);
+               // $assignees = $this->staff_model->get();
+
+                $this->db->where('project_id', $case['id']);
+                $assignees=$this->db->get(db_prefix() . 'my_members_cases')->result_array();
                 foreach ($assignees as $member) {
                     $row = $this->db->get(db_prefix() . 'staff')->row();
                     if ($row) {
@@ -1099,8 +1103,8 @@ class Cron_model extends App_Model
                             array_push($notifiedUsers, $member['staffid']);
                         }
 
-                        send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
-                       // $sent= send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
+                      //  send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
+                        send_mail_template('regular_duration_deadline_notification', $row->email, $member['staffid'],  $case['id']);
                        /* if (!$sent) {
                            // set_alert('danger', _l('two_factor_auth_failed_to_send_code'));
                          //   redirect(admin_url('authentication'));

@@ -1086,15 +1086,16 @@ class Cron_model extends App_Model
                // $assignees = $this->staff_model->get();
 
                 $this->db->where('project_id', $case['id']);
-                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result_array();
-             //   print_r($assignees);
+                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+               //print_r($assignees);
                // exit();
                 foreach ($assignees as $member) {
+                    $this->db->where('staffid',$member->staff_id);
                     $row = $this->db->get(db_prefix() . 'staff')->row();
                     if ($row) {
                         $notified = add_notification([
                             'description'     => 'not_case_deadline_reminder',
-                            'touserid'        => $member['staff_id'],
+                            'touserid'        => $member->staff_id,
                             'fromcompany'     => 1,
                             'fromuserid'      => null,
                             'link'            => 'legalservices/cases/view/1/' . $case['id'],
@@ -1102,8 +1103,9 @@ class Cron_model extends App_Model
                         ]);
 
                         if ($notified) {
-                            array_push($notifiedUsers, $member['staff_id']);
+                            array_push($notifiedUsers, $member->staff_id);
                         }
+
                        // send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
                         send_mail_template('regular_duration_deadline_notification', $row->email,2,1);
                        /* if (!$sent) {

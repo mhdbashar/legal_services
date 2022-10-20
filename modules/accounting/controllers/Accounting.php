@@ -988,7 +988,7 @@ class Accounting extends AdminController
                 $row[] = $_data;
                 
                 $options = '';
-                if(in_array($aRow['account_type_id'], $array_history)){
+                if(true){
                     $options = icon_btn(admin_url('accounting/rp_account_history?account='.$aRow['id']), 'history', 'btn-default', [
                         'title' => _l('account_history'),
                     ]);
@@ -2839,7 +2839,7 @@ class Accounting extends AdminController
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
-        $data['accounts'] = $this->accounting_model->get_accounts('', 'find_in_set(account_type_id, "2,3,4,5,7,8,9,10")');
+        $data['accounts'] = $this->accounting_model->get_accounts();
         $this->load->view('report/includes/account_history', $data);
     }
     
@@ -3848,7 +3848,13 @@ class Accounting extends AdminController
             default:
                 break;
         }
-
+        $account_name = '';
+        $this->db->where('id', $this->input->post('account'));
+        $account = $this->db->get(db_prefix() . 'acc_accounts')->row();
+        if(is_object($account)){
+            $account_name = _l($account->key_name);
+        }
+        $data['account_name'] = $account_name;
         $this->load->view('report/details/'.$data_filter['type'], $data);
     }
 

@@ -1071,6 +1071,17 @@ class Cron_model extends App_Model
             $duration_date=$case['regular_duration_begin_date'];
             $end_date_case  = strtotime($duration_date . " +".$days."days");
             $end_date_case = date('Y-m-d',$end_date_case);
+
+
+            if($end_date_case < $now)
+            {
+                $this->db->where('id', $case['id']);
+                $this->db->update(db_prefix() . 'my_cases', [
+                    'regular_header' => 0,
+                ]);
+            }
+
+
             if ($duration_date >= date('Y-m-d')) {
                 $end_date = new DateTime($end_date_case);
                                 $diff    = $end_date->diff($now)->format('%a');
@@ -1105,36 +1116,10 @@ class Cron_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member->staff_id);
                         }
-
-                       // send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
                         send_mail_template('regular_duration_deadline_notification', $row->email,2,1);
-                       /* if (!$sent) {
-                           // set_alert('danger', _l('two_factor_auth_failed_to_send_code'));
-                         //   redirect(admin_url('authentication'));
-                            print("failed");
-                            exit();
-                        } else {
-                            //set_alert('success', _l('two_factor_auth_code_sent_successfully', $email));
-                            //redirect(admin_url('authentication/two_factor'));
-                            print("sucsess");
-
-                            exit();
-                        }
-
-*/
-
-
-
-
-                        // $success=$this->emails_model-> send_simple_email('hibakharma@gmail.com', 'تنبيه', "انتهت المدة النظامية للقضية");
-                      //  if ($success) {
-                           // set_alert('success', _l('custom_file_success_send'));
-                        //} else {
-                         //   set_alert('warning', _l('custom_file_fail_send'));
-                      //  }
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'my_cases', [
-                            'deadline_notified' => 1,
+                            'deadline_notified' => 1,'regular_header' => 1,
                         ]);
                     }
                 }

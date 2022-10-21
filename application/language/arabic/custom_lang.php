@@ -1144,6 +1144,10 @@ $lang['regular_duration_begin_date'] = "تاريخ بداية المدة الز�
 $lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
 $lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
 $lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
+$lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة النظامية";
+$lang['remember that'] = "تذكر أن المدة النظامية";
+$lang['which started at'] = "والتي بدأت بتاريخ ";
+$lang['will end at'] = "ستنتهي بتاريخ ";
 
 
 

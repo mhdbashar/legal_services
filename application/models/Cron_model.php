@@ -1084,7 +1084,7 @@ class Cron_model extends App_Model
 
             if ($duration_date >= date('Y-m-d')) {
                 $end_date = new DateTime($end_date_case);
-                                $diff    = $end_date->diff($now)->format('%a');
+                $diff    = $end_date->diff($now)->format('%a');
                 // Check if difference between start date and end_date is the same like the reminder before
                 // In this case reminder wont be sent becuase the regular duration it too short
                 $end_date          = strtotime($end_date_case);
@@ -1092,14 +1092,8 @@ class Cron_model extends App_Model
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
                 // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
-
-                //$this->db->where('admin', 1);
-               // $assignees = $this->staff_model->get();
-
                 $this->db->where('project_id', $case['id']);
                 $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
-               //print_r($assignees);
-               // exit();
                 foreach ($assignees as $member) {
                     $this->db->where('staffid',$member->staff_id);
                     $row = $this->db->get(db_prefix() . 'staff')->row();
@@ -1116,7 +1110,7 @@ class Cron_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member->staff_id);
                         }
-                        send_mail_template('regular_duration_deadline_notification', $row->email,2,1);
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['id']);
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'my_cases', [
                             'deadline_notified' => 1,'regular_header' => 1,

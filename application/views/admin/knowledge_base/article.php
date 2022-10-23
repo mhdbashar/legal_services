@@ -61,16 +61,13 @@
                         <?php if (isset($article)) {
                             echo render_input('slug', 'kb_article_slug', $article->slug, 'text');
                         } ?>
-                        <?php $value = (isset($article) ? $article->articlegroup : ''); ?>
-                        <?php $groups = get_kb_groups();
+                        <?php
+                        $value = (isset($article) ? $article->articlegroup : '');
+                        $groups = (isset($article) ? kb_all_childe_group($article->type) : get_kb_groups());
                         foreach ($groups as $key => $group) {
                             $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
-                        } ?>
-                        <?php if (has_permission('knowledge_base', '', 'create')) {
-                            echo render_select_with_input_group('articlegroup', $groups, array('groupid', 'full_name', 'required' => 'required'), 'kb_article_add_edit_group', $value, '<a href="#" onclick="new_kb_group();return false;"><i class="fa fa-plus"></i></a>');
-                        } else {
-                            echo render_select('articlegroup', $groups, array('groupid', 'full_name', 'required' => 'required'), 'kb_article_add_edit_group', $value);
                         }
+                        echo render_select('articlegroup', $groups, array('groupid', 'full_name', 'required' => 'required'), 'kb_article_add_edit_group', $value);
                         ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" id="staff_article"
@@ -188,6 +185,20 @@
                 $("#field").html(data);
                 init_datepicker();
                 init_selectpicker();
+            }
+        });
+        $.ajax({
+            url: "<?php echo admin_url('Knowledge_base/get_kb_all_childe_group_ajax'); ?>",
+            data: {id: id},
+            type: "POST",
+            success: function (data) {
+                $("#articlegroup").empty();
+                response = JSON.parse(data);
+                $('#articlegroup').append('<option value=""></option>');
+                $.each(response, function (key, value) {
+                    $('#articlegroup').append('<option value="' + value['group_id'] + '">' + value['full_name'] + '</option>');
+                });
+                $('#articlegroup').selectpicker('refresh');
             }
         });
     });

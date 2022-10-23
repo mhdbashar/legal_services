@@ -21,7 +21,7 @@ class Knowledge_base extends AdminController
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('kb_articles');
         }
-        $data['groups'] = $this->knowledge_base_model->kb_main_group(1);// 1 المملكة العربية السعودية
+        $data['groups'] = $this->knowledge_base_model->kb_main_group();
         $data['bodyclass'] = 'top-tabs kan-ban-body';
         $data['title'] = _l('kb_string');
         $this->load->view('admin/knowledge_base/articles', $data);
@@ -56,7 +56,7 @@ class Knowledge_base extends AdminController
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('kb_article')));
                 }
-                redirect(admin_url('knowledge_base/article/' . $id));
+
             }
         }
 
@@ -171,6 +171,9 @@ class Knowledge_base extends AdminController
         if (!has_permission('knowledge_base', '', 'view')) {
             access_denied('knowledge_base');
         }
+        if(is_staff_from_legalservices(get_staff_user_id())){
+            redirect(admin_url('knowledge_base'));
+        }
         $data['groups'] = $this->knowledge_base_model->get_kbg();
         $data['title'] = _l('als_kb_groups');
         $this->load->view('admin/knowledge_base/manage_groups', $data);
@@ -206,11 +209,9 @@ class Knowledge_base extends AdminController
                 if (!has_permission('knowledge_base', '', 'edit')) {
                     access_denied('knowledge_base');
                 }
-
                 $id = $post_data['id'];
                 unset($post_data['id']);
                 $response = $this->knowledge_base_model->update_group($post_data, $id);
-//                $response = $this->knowledge_base_model->delete_group($id);
                 if (is_array($response) && isset($response['referenced'])) {
                     set_alert('danger', _l('is_referenced', _l('kb_dt_group_name')));
                 } elseif ($response == true) {
@@ -218,11 +219,8 @@ class Knowledge_base extends AdminController
                 } else {
                     set_alert('warning', _l('problem_deleting', mb_strtolower(_l('kb_dt_group_name'))));
                 }
-
-//                if ($success) {
-//                    set_alert('success', _l('updated_successfully', _l('kb_dt_group_name')));
-//                }
             }
+            $this->update_all_main_group_id();
             die;
         }
     }
@@ -303,4 +301,46 @@ class Knowledge_base extends AdminController
         }
         $this->load->view('admin/knowledge_base/kb_activity');
     }
+
+    public function update_all_main_group_id(){
+        $groups = get_kb_groups();
+        foreach ($groups as $group){
+            if($group['parent_id'] == 0) {
+                $this->db->where('groupid', $group['groupid']);
+                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$group['groupid']]);
+                continue;
+            }
+            if($group['is_main'] == 1) {
+                $this->db->where('groupid', $group['groupid']);
+                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$group['parent_id']]);
+                continue;
+            }
+            $parent_id = $group['parent_id'];
+            for ($i = 0; $i < 11; $i++) {
+                $this->db->where('groupid', $parent_id);
+                $main_group = $this->db->get(db_prefix() . 'knowledge_base_groups')->row();
+                if($main_group) {
+                    if($main_group->is_main==1) {
+                        $this->db->where('groupid', $group['groupid']);
+                        $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$main_group->groupid]);
+                        break;
+                    }
+                    $parent_id = $main_group->parent_id;
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+
+    public function get_kb_all_childe_group_ajax()
+    {
+        $group_id = $this->input->post('id');
+        $groups = kb_all_childe_group($group_id);
+        foreach ($groups as $key => $group) {
+            $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
+        }
+        echo json_encode($groups);
+    }
+
 }

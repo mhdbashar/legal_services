@@ -500,8 +500,8 @@ class Knowledge_base_model extends App_Model
         return $this->db->get(db_prefix() . 'knowledge_base_groups')->result();
     }
 
-    public function kb_main_group($parent_id){
-        $this->db->where('parent_id', $parent_id);
+    public function kb_main_group(){
+        $this->db->where('is_main', 1);
         $main_group = $this->db->get(db_prefix() . 'knowledge_base_groups')->result_array();
         if($main_group)
             return $main_group;

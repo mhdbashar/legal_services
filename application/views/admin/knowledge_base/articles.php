@@ -14,9 +14,12 @@ $has_permission_create = has_permission('knowledge_base','','create');
                                 <a href="<?php echo admin_url('knowledge_base/article'); ?>" class="btn btn-info mright5"><?php echo _l('kb_article_new_article'); ?></a>
                             <?php } ?>
                             <?php if($has_permission_edit || $has_permission_create){ ?>
-                                <a href="<?php echo admin_url('knowledge_base/manage_groups'); ?>" class="btn btn-info mright5"><?php echo _l('als_kb_groups'); ?></a>
+                                <?php if(!is_staff_from_legalservices(get_staff_user_id())){?>
+                                    <a href="<?php echo admin_url('knowledge_base/manage_groups'); ?>" class="btn btn-info mright5"><?php echo _l('als_kb_groups'); ?></a>
+                                <?php } ?>
                             <?php } ?>
-<!--                            <a href="#" class="btn btn-default hidden-xs toggle-articles-list" onclick="initKnowledgeBaseTableArticles(); return false;">-->
+
+                            <!--                            <a href="#" class="btn btn-default hidden-xs toggle-articles-list" onclick="initKnowledgeBaseTableArticles(); return false;">-->
 <!--                                <i class="fa fa-th-list"></i>-->
 <!--                            </a>-->
                             <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data hide" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">

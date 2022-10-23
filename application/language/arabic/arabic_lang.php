@@ -316,24 +316,24 @@ $lang['payment_edit_for_invoice'] = "دفع الفاتورة";
 $lang['payment_edit_amount_received'] = "المبلغ المستلم";
 $lang['payment_edit_date'] = "تاريخ الدفع";
 $lang['kb_article_add_edit_subject'] = "الموضوع";
-$lang['kb_article_add_edit_group'] = "المجموعة";
+$lang['kb_article_add_edit_group'] = "القسم";
 $lang['kb_string'] = "المكتبة القانونية";
-$lang['kb_article'] = "مقال";
-$lang['kb_article_lowercase'] = "مقال";
-$lang['kb_article_new_article'] = "مقال جديد";
+$lang['kb_article'] = "محتوى قانوني";
+$lang['kb_article_lowercase'] = "محتوى قانوني";
+$lang['kb_article_new_article'] = "محتوى قانوني جديد";
 $lang['kb_article_disabled'] = "تعطيل";
-$lang['kb_article_description'] = "وصف المقال";
-$lang['kb_no_articles_found'] = "لم يتم العثور على مقالات في المكتبة القانونية";
-$lang['kb_dt_article_name'] = "أسم المقال";
-$lang['kb_dt_group_name'] = "المجموعة";
-$lang['new_group'] = "مجموعة جديدة";
-$lang['kb_group_add_edit_name'] = "أسم المجموعة";
+$lang['kb_article_description'] = "وصف المحتوى";
+$lang['kb_no_articles_found'] = "لم يتم العثور على محتوى في المكتبة القانونية";
+$lang['kb_dt_article_name'] = "عنوان المحتوى";
+$lang['kb_dt_group_name'] = "القسم";
+$lang['new_group'] = "قسم  جديد";
+$lang['kb_group_add_edit_name'] = "أسم القسم";
 $lang['kb_group_add_edit_description'] = "وصف مختصر";
 $lang['kb_group_add_edit_disabled'] = "تعطيل";
-$lang['kb_group_add_edit_note'] = "ملاحظة: ستكون جميع المقالات في هذه المجموعة مخفية إذا تم اختيار التعطيل";
+$lang['kb_group_add_edit_note'] = "ملاحظة: سيكون جميع المحتوى القانوني في هذ القسم مخفي إذا تم اختيار التعطيل";
 $lang['group_table_name_heading'] = "الأسم";
 $lang['group_table_isactive_heading'] = "تفعيل";
-$lang['kb_no_groups_found'] = "لم يتم العثور على مجموعات في المكتبة القانونية";
+$lang['kb_no_groups_found'] = "لم يتم العثور على أقسام في المكتبة القانونية";
 $lang['media_files'] = "ملفات";
 $lang['new_payment_mode'] = "طريقة دفع جديدة";
 $lang['payment_modes'] = "طرق الدفع";
@@ -357,7 +357,7 @@ $lang['ticket_priority_lowercase'] = "أولوية التذكرة";
 $lang['no_ticket_priorities_found'] = "لم يتم العثور على أولويات التذاكر";
 $lang['ticket_priority_dt_name'] = "إسم أولوية التذكرة";
 $lang['ticket_priority_add_edit_name'] = "اسم الأولوية";
-$lang['kb_reports'] = "تقارير المقالات في المكتبة القانونية";
+$lang['kb_reports'] = "تقارير المحتوى في المكتبة القانونية";
 $lang['sales_reports'] = "تقارير المبيعات";
 $lang['reports_choose_kb_group'] = "اختيار مجموعة";
 $lang['report_kb_yes'] = "نعم";
@@ -546,7 +546,7 @@ $lang['als_media'] = "الوسائط";
 $lang['als_reports'] = "التقارير";
 $lang['als_reports_sales_submenu'] = "المبيعات";
 $lang['als_reports_leads_submenu'] = "العملاء المتوقعين";
-$lang['als_kb_articles_submenu'] = "المقالات";
+$lang['als_kb_articles_submenu'] = "المحتوى القانوني";
 $lang['als_utilities'] = "الأدوات";
 $lang['als_announcements_submenu'] = "الإعلانات";
 $lang['als_calendar_submenu'] = "التقويم";
@@ -777,7 +777,7 @@ $lang['clients_edit_profile_new_password_repeat'] = "أعد إدخال كلمة 
 $lang['clients_edit_profile_change_password_btn'] = "تغيير كلمة المرور";
 $lang['clients_profile_last_changed_password'] = "اخر تغيير لكلمة المرور %s";
 $lang['clients_knowledge_base'] = "المكتبة القانونية";
-$lang['clients_knowledge_base_articles_not_found'] = "لم يتم العثور على مقالات في المكتبة القانونية";
+$lang['clients_knowledge_base_articles_not_found'] = "لم يتم العثور على محتوى في المكتبة القانونية";
 $lang['clients_knowledge_base_find_useful'] = "هل وجدت هذه المادة مفيدة؟";
 $lang['clients_knowledge_base_find_useful_yes'] = "نعم";
 $lang['clients_knowledge_base_find_useful_no'] = "لا";
@@ -1508,10 +1508,10 @@ $lang['custom_field_show_on_table'] = "إظهار في الجدول";
 $lang['custom_field_show_on_client_portal'] = "إظهار في بوابة العميل";
 $lang['custom_field_show_on_client_portal_help'] = "إذا تم تحديد هذا الحقل أيضًا سيتم عرضه في الجداول";
 $lang['custom_field_visibility'] = "الظهور";
-$lang['view_articles_list'] = "عرض المقالات";
-$lang['view_articles_list_all'] = "جميع المقالات";
-$lang['als_all_articles'] = "المقالات";
-$lang['als_kb_groups'] = "المجموعات";
+$lang['view_articles_list'] = "عرض المحتوى القانوني";
+$lang['view_articles_list_all'] = "كامل المحتوى القانوني";
+$lang['als_all_articles'] = "المحتوى القانوني";
+$lang['als_kb_groups'] = "الأقسام";
 $lang['spam_filters'] = "مرشحات البريد المزعج";
 $lang['spam_filter'] = "مرشح البريد المزعج";
 $lang['new_spam_filter'] = "مرشح بريد مزعج جديد";
@@ -2080,7 +2080,7 @@ $lang['report_expenses_base_currency_select_explanation'] = "تحتاج إلى �
 $lang['project_activity_recorded_expense'] = "المصاريف المسجلة";
 $lang['save_customer_and_add_contact'] = "حفظ وإنشاء جهة اتصال";
 $lang['tickets_chart_weekly_opening_stats'] = "إحصائيات أسبوعية";
-$lang['related_knowledgebase_articles'] = "مقالات ذات صلة";
+$lang['related_knowledgebase_articles'] = "محتوى ذو صلة";
 $lang['detailed_overview'] = "نظرة عامة على المهام";
 $lang['tasks_total_checklists_finished'] = "إجمالي العناصر التي تم تعليمها على أنها منتهية";
 $lang['tasks_total_added_attachments'] = "إجمالي المرفقات المضافة";
@@ -2538,9 +2538,9 @@ $lang['hour_of_day_perform_auto_operations_format'] = "تنسيق 24 ساعة م
 $lang['inv_hour_of_day_perform_auto_operations_help'] = "تستخدم للفواتير المتكررة ، والإشعارات المتأخرة ، إلخ.";
 $lang['use_minified_files'] = "استخدام إصدار ملفات مصغّرة لـ css و js (ملفات النظام فقط)";
 $lang['logo_favicon_changed_notice'] = "تم تغيير الشعار أو تغيير Favicon. إذا كنت لا تزال ترى الشعار الإفتراضي ، فحاول مسح ذاكرة التخزين المؤقت للمتصفح";
-$lang['kb_search_articles'] = "البحث في مقالات المكتبة القانونية";
+$lang['kb_search_articles'] = "البحث في محتوى المكتبة القانونية";
 $lang['kb_search'] = "بحث";
-$lang['have_a_question'] = "لديك سؤال؟";
+$lang['have_a_question'] = "أكتب هنا ما تود البحث عنه!";
 $lang['card_expiration_month'] = "شهر إنتهاء الصلاحية";
 $lang['client_website'] = "الموقع الإلكتروني";
 $lang['search_project_members'] = "بحث في موظفين الخدمة ...";
@@ -3404,7 +3404,7 @@ $lang['project_setting_view_session_checklist_items'] = "عرض عناصر قا�
 $lang['project_setting_view_session_comments'] = "عرض تعليقات الجلسة";
 $lang['project_setting_view_session_total_logged_time'] = "عرض مجموع الوقت المسجل للجلسة";
 $lang['project_setting_view_sessions'] = "عرض الجلسات";
-$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)"; 
+$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)";
 $lang['session_milestone'] = "خطة العمل";
 $lang['session_view_comments'] = "التعليقات";
 $lang['session_single_priority'] = "الاولوية";
@@ -3423,11 +3423,11 @@ $lang['project_setting_upload_on_sessions'] = "تحميل المرفقات عل�
 $lang['project_setting_comment_on_sessions'] = "التعليق على جلسات الخدمة";
 
 $lang['new_field'] = 'حقل جديد';
-$lang['kb_article_basic_group'] = 'المجموعة الرئيسية';
+$lang['kb_article_basic_group'] = 'القسم الرئيسي';
 $lang['delete_field'] = 'حذف الحقل';
 $lang['als_kb_log'] = 'نشاط المكتبة';
 $lang['kb_datecreated'] = 'التاريخ';
 $lang['kb_process'] = 'العملية';
 $lang['kb_chang_item'] = 'الحقول التي تم تعديلها';
-$lang['main_group'] = 'مجموعة رئيسية';
+$lang['main_group'] = 'قسم رئيسي';
 $lang['kb_group_add_edit_is_main'] = 'هل هي قسم رئيسي ( من اجل عرضه في الحقول المخصصة )';

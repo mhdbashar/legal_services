@@ -71,7 +71,7 @@ class Regular_durations extends AdminController
    //******************************************
     public function delete_duration($id)
     {
-        print_r("hello");
+
         if (!has_permission('legal_services', '', 'delete')) {
             access_denied('legal_services');
         }

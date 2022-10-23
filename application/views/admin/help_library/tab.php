@@ -1,11 +1,16 @@
-<div class="btn-group">
-    <button group="button" class="btn btn-info mbot10" onclick="add_customer()">الإنتقال للمكتبة</button>
-</div>
-<span style="color: red">ملاحظة : يمكنك تسجيل الدخول لموقع المكتبة بستخدام حسابك في هذا الموقع</span>
-
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<div class="col-md-12">
+    <div class="col-md-10">
+        <span style="color: #c00 ; font-weight: bold; font-size: small "><?php echo _l('note_for_button_go_to_library');?></span>
+    </div>
+    <div class="col-md-2">
+        <button group="button" class="btn btn-info mbot10 pull-right" onclick="add_customer()">الإنتقال للمكتبة</button>
+    </div>
+    <div class="row">
+    </div>
+    <hr class="no-border">
 <section id="fancyTabWidget" class="tabs t-tabs">
-
-    <ul class="nav nav-tabs no-margin" role="tablist">
+    <ul class="nav nav-tabs no-margin project-tabs" role="tablist">
         <li role="presentation" class="project_tab_activity">
             <a id="tab0" href="#tabBody0" role="tab" aria-expanded="true" aria-controls="tabBody0" aria-selected="true"
                onclick="getdata_tabBody0()"
@@ -132,6 +137,8 @@
         <?php } ?>
     </div>
 </section>
+</div>
+
 <?php $staff = get_staff(get_staff_user_id());
 $staff->key = '2XeRfebcWS5y';?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

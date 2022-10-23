@@ -2,7 +2,7 @@
   <div class="card">
     <table class="tree">
       <tbody>
-        <tr>
+      <tr>
           <td colspan="7">
               <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
           </td>
@@ -12,7 +12,18 @@
           <td></td>
           <td></td>
           <td></td>
-        </tr>
+      </tr>
+      <tr>
+          <td colspan="7">
+              <h5 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('account') . ' : ' . $account_name ?></h5>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
         <tr>
           <td colspan="7">
             <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('account_history'); ?></h4>

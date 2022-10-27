@@ -175,7 +175,7 @@ class Sessions_merge_fields extends App_merge_fields
 
         $fields['{session_comment}'] = '';
         $fields['{session_related}'] = '';
-        $fields['{project_name}'] = '';
+        $fields['{service_name}'] = '';
 
         if ($task->rel_type == 'project') {
             $this->ci->db->select('name, clientid');
@@ -183,7 +183,7 @@ class Sessions_merge_fields extends App_merge_fields
             $this->ci->db->where('id', $task->rel_id);
             $project = $this->ci->db->get()->row();
             if ($project) {
-                $fields['{project_name}'] = $project->name;
+                $fields['{service_name}'] = $project->name;
             }
         }
 

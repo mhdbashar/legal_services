@@ -9,7 +9,7 @@ class Projects_merge_fields extends App_merge_fields
         return [
                 [
                     'name'      => _l('project_name'),
-                    'key'       => '{project_name}',
+                    'key'       => '{service_name}',
                     'available' => [
                         'project',
                     ],
@@ -160,7 +160,7 @@ class Projects_merge_fields extends App_merge_fields
         }
         $fields = [];
 
-        $fields['{project_name}']           = '';
+        $fields['{service_name}']           = '';
         $fields['{project_deadline}']       = '';
         $fields['{project_start_date}']     = '';
         $fields['{project_description}']    = '';
@@ -176,7 +176,7 @@ class Projects_merge_fields extends App_merge_fields
 
         $this->ci->db->where('id', $project_id);
         $project = $this->ci->db->get(db_prefix().$serv_table)->row();
-        $fields['{project_name}']        = $project->name;
+        $fields['{service_name}']        = $project->name;
         $fields['{project_deadline}']    = _d($project->deadline);
         $fields['{project_start_date}']  = _d($project->start_date);
         $fields['{project_description}'] = $project->description;

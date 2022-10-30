@@ -132,58 +132,41 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <?php
-//                                            $opponent_id = (isset($meta['opponent_id']) ? explode(',',$meta['opponent_id']) : array());
-                                            for($i=0; $i<10; $i++) : ?>
-                                                <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
-                                                    <div class="col-md-10">
-                                                        <div class="form-group select-placeholder">
-                                                            <label for="opponent_id_<?php echo $i; ?>"
-                                                                   class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
-                                                            <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
-                                                                    class="ajax-search opponent" <?php echo ($i==0?'required':''); ?>
-                                                                    data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                                <?php
-//                                                                $selected = (isset($opponent_id[$i]) ? $opponent_id[$i] : '');
-//                                                                if ($selected != '') {
-//                                                                    $rel_data = get_relation_data('opponents', $selected);
-//                                                                    $rel_val = get_relation_values($rel_data, 'opponents');
-//                                                                    echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-//                                                                }
-                                                                ?>
-                                                            </select>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <?php for($i=0; $i<10; $i++) : ?>
+                                                        <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
+                                                            <div class="col-md-10">
+                                                                <div class="form-group select-placeholder">
+                                                                    <label for="opponent_id_<?php echo $i; ?>"
+                                                                           class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
+                                                                    <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
+                                                                            class="ajax-search opponent" <?php echo ($i==0?'required':''); ?>
+                                                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    <?php endfor; ?>
+                                                    <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
+                                                    <div class="row opponent_lawyer">
+                                                        <div class="col-md-10">
+                                                            <div class="form-group select-placeholder">
+                                                                <label for="opponent_lawyer_id"
+                                                                       class="control-label"><?php echo _l('opponent_lawyer'); ?></label>
+                                                                <select id="opponent_lawyer_id" name="opponent_lawyer_id" data-live-search="true" data-width="100%"
+                                                                        class="ajax-search"
+                                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                                                    </div>
-                                                </div>
-
-                                            <?php endfor; ?>
-                                            <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
-                                            <div class="row opponent_lawyer">
-                                                <div class="col-md-10">
-                                                    <div class="form-group select-placeholder">
-                                                        <label for="opponent_lawyer_id"
-                                                               class="control-label"><?php echo _l('opponent_lawyer'); ?></label>
-                                                        <select id="opponent_lawyer_id" name="opponent_lawyer_id" data-live-search="true" data-width="100%"
-                                                                class="ajax-search"
-                                                                data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-<!--                                                            --><?php //$opponent_lawyer_id = (isset($meta['opponent_lawyer_id']) ? $meta['opponent_lawyer_id'] : ''); ?>
-                                                            <?php
-//                                                            $selected = (isset($opponent_lawyer_id) ? $opponent_lawyer_id : '');
-//                                                            if ($selected != '') {
-//                                                                $rel_data = get_relation_data('opponents', $selected);
-//                                                                $rel_val = get_relation_values($rel_data, 'opponents');
-//                                                                echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-//                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -335,7 +318,7 @@
                                             ?>
                                             <?php echo render_input('project_rate_per_hour','project_rate_percent','','number',$input_disable); ?>
                                         </div>
-                                        <?php echo render_input('disputes_total','disputes_total','','number'); ?>
+                                        <?php echo render_input('disputes_total','disputes_total','','number',['min'=>1]); ?>
                                     </div>
                                 </div>
                             </div>

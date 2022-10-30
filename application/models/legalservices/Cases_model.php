@@ -3185,6 +3185,7 @@ class Cases_model extends App_Model
             $oppnents = $_new_data['opponent_id'];
             unset($_new_data['opponent_id']);
             unset($_new_data['case_status']);
+            unset($_new_data['billing_type']);
         }else {
             $service_table = db_prefix() . 'my_other_services';
             $settings_table = db_prefix() . 'oservice_settings';

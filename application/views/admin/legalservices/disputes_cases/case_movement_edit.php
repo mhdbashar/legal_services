@@ -89,7 +89,7 @@
                             <div id="client_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_client_info">
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-10">
                                             <div class="form-group select-placeholder">
                                                 <label for="clientid"
                                                        class="control-label"><?php echo _l('project_customer'); ?></label>
@@ -113,7 +113,7 @@
                                             <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                         </div>
                                         <?php } ?>
-                                        <div class="col-md-12">
+                                        <div class="col-md-10">
                                             <div class="form-group">
                                                 <label for="representative"><?php echo _l('customer_description'); ?></label>
                                                 <select id="representative" name="representative" class="form-control custom_select_arrow"
@@ -126,84 +126,59 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                    <?php for($i=0; $i<10; $i++) { ?>
+                                                    <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
+                                                        <div class="col-md-10">
+                                                            <div class="form-group select-placeholder">
+                                                                <label for="opponent_id_<?php echo $i; ?>"
+                                                                       class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
+                                                                <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
+                                                                        class="ajax-search opponent" <?php echo ($i==0?'required':''); ?>
+                                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                                    <?php if(isset($case_opponents)) {
+                                                                        $selected = (isset($case_opponents[$i]) ? $case_opponents[$i] : '');
+                                                                        if ($selected != '') {
+                                                                            echo '<option value="' . $selected['userid'] . '" selected>' . $selected['company'] . '</option>';
+                                                                        }
+                                                                    }?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                                        </div>
+                                                    </div>
 
-                                        <!--                                        <div class="col-md-5">-->
-<!--                                            <div class="form-group select-placeholder">-->
-<!--                                                <label for="opponent_id"-->
-<!--                                                       class="control-label">--><?php //echo _l('opponent'); ?><!--</label>-->
-<!--                                                <select id="opponent_id" name="opponent_id" data-live-search="true" data-width="100%"-->
-<!--                                                        class="ajax-search"-->
-<!--                                                        data-none-selected-text="--><?php //echo _l('dropdown_non_selected_tex'); ?><!--">-->
-<!--                                                    --><?php
-//                                                    $selected = (isset($case) ? $case->opponent_id : '');
-//                                                    if($selected == ''){
-//                                                        $selected = (isset($case) ? $case->opponent_id : '');
-//                                                    }
-//                                                    if ($selected != '') {
-//                                                        $rel_data = get_relation_data('opponents', $selected);
-//                                                        $rel_val = get_relation_values($rel_data, 'opponents');
-//                                                        echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-//                                                    }
-//                                                    ?>
-<!--                                                </select>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        --><?php //if (has_permission('opponents', '', 'create')) { ?>
-<!--                                        <div class="col-md-1">-->
-<!--                                            <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>-->
-<!--                                        </div>-->
-<!--                                        --><?php //} ?>
-                                        <?php for($i=0; $i<10; $i++) { ?>
-                                            <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
-                                                <div class="col-md-10">
-                                                    <div class="form-group select-placeholder">
-                                                        <label for="opponent_id_<?php echo $i; ?>"
-                                                               class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
-                                                        <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
-                                                                class="ajax-search opponent" <?php echo ($i==0?'required':''); ?>
-                                                                data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                            <?php if(isset($case_opponents)) {
-                                                                $selected = (isset($case_opponents[$i]) ? $case_opponents[$i] : '');
+                                                <?php } ?>
+                                                <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
+                                                <div class="row opponent_lawyer">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group select-placeholder">
+                                                            <label for="opponent_lawyer_id"
+                                                                   class="control-label"><?php echo _l('opponent_lawyer'); ?></label>
+                                                            <select id="opponent_lawyer_id" name="opponent_lawyer_id" data-live-search="true" data-width="100%"
+                                                                    class="ajax-search"
+                                                                    data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                                <?php $opponent_lawyer_id = (isset($case) ? $case->opponent_lawyer_id : ''); ?>
+                                                                <?php
+                                                                $selected = (isset($opponent_lawyer_id) ? $opponent_lawyer_id : '');
                                                                 if ($selected != '') {
-                                                                    echo '<option value="' . $selected['userid'] . '" selected>' . $selected['company'] . '</option>';
+                                                                    $rel_data = get_relation_data('opponents', $selected);
+                                                                    $rel_val = get_relation_values($rel_data, 'opponents');
+                                                                    echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
                                                                 }
-                                                            }?>
-                                                        </select>
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                                                </div>
-                                            </div>
-
-                                        <?php } ?>
-                                        <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
-                                        <div class="row opponent_lawyer">
-                                            <div class="col-md-10">
-                                                <div class="form-group select-placeholder">
-                                                    <label for="opponent_lawyer_id"
-                                                           class="control-label"><?php echo _l('opponent_lawyer'); ?></label>
-                                                    <select id="opponent_lawyer_id" name="opponent_lawyer_id" data-live-search="true" data-width="100%"
-                                                            class="ajax-search"
-                                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <?php $opponent_lawyer_id = (isset($case) ? $case->opponent_lawyer_id : ''); ?>
-                                                        <?php
-                                                        $selected = (isset($opponent_lawyer_id) ? $opponent_lawyer_id : '');
-                                                        if ($selected != '') {
-                                                            $rel_data = get_relation_data('opponents', $selected);
-                                                            $rel_val = get_relation_values($rel_data, 'opponents');
-                                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <a href="#" data-toggle="modal" data-target="#add-opponent-lawyer" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +385,7 @@
                                         <?php echo render_input('project_rate_per_hour','project_rate_percent',$value,'number',$input_disable); ?>
                                     </div>
                                     <?php $value = (isset($case) ? $case->disputes_total : ''); ?>
-                                    <?php echo render_input('disputes_total','disputes_total',$value,'number'); ?>
+                                    <?php echo render_input('disputes_total','disputes_total',$value,'number',['min'=>1]); ?>
                                 </div>
                             </div>
                         </div>

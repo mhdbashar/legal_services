@@ -341,7 +341,9 @@ class Migration_Version_521 extends CI_Migration
 (22, 'قضايا التنفيذ', 'kdaya_altnfith', 'Dispute_', 1, 1, 1, 0, '2021-07-27 10:27:07');            ");
         }
 
-
+        if(!file_exists('uploads/disputes_cases')){
+            mkdir('uploads/disputes_cases');
+        }
     }
 }
     

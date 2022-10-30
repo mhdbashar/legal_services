@@ -3250,7 +3250,7 @@ class Disputes_cases_model extends App_Model
             unset($_new_data['previous_case_id']);
             unset($_new_data['opponent_lawyer_id']);
             unset($_new_data['disputes_total']);
-
+            unset($_new_data['is_invoiced']);
         }
 
         unset($_new_data['id']);

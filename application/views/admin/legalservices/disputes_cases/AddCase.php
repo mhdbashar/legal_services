@@ -142,7 +142,7 @@
                                                             <label for="opponent_id_<?php echo $i; ?>"
                                                                    class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
                                                             <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
-                                                                    class="ajax-search opponent"
+                                                                    class="ajax-search opponent" <?php echo ($i==0?'required':''); ?>
                                                                     data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                                 <?php
 //                                                                $selected = (isset($opponent_id[$i]) ? $opponent_id[$i] : '');
@@ -1302,7 +1302,7 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            //opponent_id: 'required',
+            opponent_id_0: 'required',
             //representative: 'required',
             //cat_id: 'required',
             //subcat_id: 'required',

@@ -972,12 +972,21 @@ class Cases_model extends App_Model
         return false;
     }
 
+
     public function get_oservices_project_members($id)
     {
         $this->db->select('email,oservice_id,staff_id');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
         $this->db->where('oservice_id', $id);
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
+    }
+
+    public function get_disputes_cases_members($id)
+    {
+        $this->db->select('email,project_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_disputes_cases_members.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_disputes_cases_members')->result_array();
     }
 
     public function add_edit_members($data, $ServID, $id)
@@ -1105,6 +1114,67 @@ class Cases_model extends App_Model
 
         return false;
     }
+
+    public function add_disputes_cases_members($data, $ServID, $id)
+    {
+        $affectedRows = 0;
+        if (isset($data['project_members'])) {
+            $project_members = $data['project_members'];
+        }
+        $new_project_members_to_receive_email = [];
+        $this->db->select('name,clientid');
+        $this->db->where('id', $id);
+        $project      = $this->db->get(db_prefix() . 'my_disputes_cases')->row();
+        $project_name = $project->name;
+        $client_id    = $project->clientid;
+        if (isset($project_members)) {
+            $notifiedUsers = [];
+            foreach ($project_members as $staff_id) {
+                if (empty($staff_id)) {
+                    continue;
+                }
+                $this->db->insert(db_prefix() . 'my_disputes_cases_members', [
+                    'project_id' => $id,
+                    'staff_id'   => $staff_id,
+                ]);
+                if ($this->db->affected_rows() > 0) {
+                    if ($staff_id != get_staff_user_id()) {
+                        $notified = add_notification([
+                            'fromuserid'      => get_staff_user_id(),
+                            'description'     => 'not_staff_added_as_project_member',
+                            'link'            => 'Disputes_cases/view/' .$ServID.'/' .$id,
+                            'touserid'        => $staff_id,
+                            'additional_data' => serialize([
+                                $project_name,
+                            ]),
+                        ]);
+                        array_push($new_project_members_to_receive_email, $staff_id);
+                        if ($notifiedUsers) {
+                            array_push($notifiedUsers, $staff_id);
+                        }
+                    }
+                    $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                    $affectedRows++;
+                }
+            }
+            pusher_trigger_notification($notifiedUsers);
+        }
+
+        if (count($new_project_members_to_receive_email) > 0) {
+            $all_members = $this->get_disputes_cases_members($id);
+            foreach ($all_members as $data) {
+                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
+                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id, $ServID);
+                }
+            }
+        }
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
 
     public function add_edit_judges($data, $id)
     {
@@ -3002,7 +3072,7 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'inner');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'left');
         $father_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
@@ -3022,8 +3092,23 @@ class Cases_model extends App_Model
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_disputes_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 22', 'inner');
+        $disputes_cases = $this->db->get(db_prefix() . 'my_link_services')->result();
+        foreach ($disputes_cases as $key => $case) {
+            $disputes_cases[$key]->l_service_id = "1";
+        }
+
+        // $father_linked_services = [
+        //         ...$father_linked_services,
+        //         ...$cases
+        // ];
+        $father_linked_services = array_merge($father_linked_services, $disputes_cases);
+
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'inner');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'left');
         $child_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
@@ -3039,6 +3124,13 @@ class Cases_model extends App_Model
         //         ...$father_linked_services,
         //         ...$child_linked_services
         // ];
+
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=22 AND '.db_prefix() . 'my_disputes_cases.deleted = 0', 'inner');
+        $child_linked_services = array_merge($child_linked_services, $this->db->get(db_prefix() . 'my_link_services')->result());
+
         return $linked_services = array_merge($father_linked_services, $child_linked_services);
     }
 
@@ -3083,7 +3175,17 @@ class Cases_model extends App_Model
             $upload_folder = 'cases';
             $files_table = db_prefix() . 'case_files';
             $files_id = 'project_id';
-        } else {
+        } elseif ($ServID2 == 22){
+            $service_table = db_prefix() . 'my_disputes_cases';
+            $settings_table = db_prefix() . 'my_disputes_case_settings';
+            $setting_id = 'case_id';
+            $upload_folder = 'disputes_cases';
+            $files_table = db_prefix() . 'my_disputes_case_files';
+            $files_id = 'project_id';
+            $oppnents = $_new_data['opponent_id'];
+            unset($_new_data['opponent_id']);
+            unset($_new_data['case_status']);
+        }else {
             $service_table = db_prefix() . 'my_other_services';
             $settings_table = db_prefix() . 'oservice_settings';
             $setting_id = 'oservice_id';
@@ -3303,11 +3405,15 @@ class Cases_model extends App_Model
                 foreach ($members as $member) {
                     array_push($_members, $member['staff_id']);
                 }
-
                 if($ServID2 == 1){
                     $this->add_edit_members([
                     'project_members' => $_members,
                     ], $ServID,$id);
+                }elseif($ServID2 == 22){
+                    $this->add_disputes_cases_members([
+                        'project_members' => $_members,
+                    ],$ServID, $id);
+
                 }else{
                     $this->add_edit_oservices_members([
                     'project_members' => $_members,
@@ -3326,6 +3432,24 @@ class Cases_model extends App_Model
                         'fieldto' => $slug,
                         'value'   => $value,
                     ]);
+                }
+            }
+
+            if ($ServID2 == 22){
+                if(isset($oppnents)){
+                    $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
+                        'case_id'  => $id,
+                        'opponent_id' => $oppnents,
+                    ]);
+                }
+                $cases_judges = $this->get_case_judges($project_id);
+                if (isset($cases_judges)) {
+                    foreach ($cases_judges as $case_judge) {
+                        $this->db->insert(db_prefix() . 'my_disputes_cases_judges', [
+                            'case_id'  => $id,
+                            'judge_id' => $case_judge['judge_id'],
+                        ]);
+                    }
                 }
             }
 

@@ -3,12 +3,11 @@
 <div class="modal fade" id="linked_services" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <?php echo form_open(admin_url('legalservices/disputes_cases/link/'.$ServID.'/'.(isset($project) ? $project->id : '')),array('id'=>'link_form','data-link-url'=>admin_url('legalservices/disputes_cases/link/'))); ?>
-
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
-                    <?php echo _l('linked_services'); ?><?php echo $ServID;?>
+                    <?php echo _l('linked_services'); ?>
                 </h4>
             </div>
             <div class="modal-body">
@@ -17,17 +16,19 @@
                         <div class="copy-project-tasks-status-wrapper">
                             <p class="bold"><?php echo _l('father_linked_services'); ?></p>
                                 <div>
-                                    <?php if( is_object($father_linked_services)): ?>
+                                    <?php if(is_object($father_linked_services)){ ?>
                                         <?php
-                                        if($father_linked_services->to_service_id == 1)
+                                        if($father_linked_services->l_service_id == 1)
                                             $to = 'Case';
+                                        elseif ($father_linked_services->l_service_id == 22)
+                                            $to = 'Disputes_cases';
                                         else
                                             $to = 'SOther';
                                         ?>
                                         <a href="<?php echo admin_url($to.'/view/'.$father_linked_services->l_service_id.'/'.$father_linked_services->rel_id) ?>">
                                             <?php echo $father_linked_services->name ?>
                                         </a>
-                                    <?php endif;?>
+                                    <?php }?>
                                 </div>
                             <hr />
                         </div>
@@ -38,6 +39,8 @@
                                       <?php
                                         if($child_linked_service->to_service_id == 1)
                                           $to = 'Case';
+                                        elseif ($child_linked_service->to_service_id == 22)
+                                            $to = 'Disputes_cases';
                                         else
                                           $to = 'SOther';
                                       ?>

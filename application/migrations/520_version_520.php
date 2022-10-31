@@ -343,7 +343,7 @@ class Migration_Version_520 extends CI_Migration
 
         $services = $this->db->order_by('id', 'ASC')->get('my_basic_services')->result();
         foreach ($services as $service){
-            $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
+            $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>5]);
             if($service->id == 1)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>1]);
             if($service->id == 2)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>3]);
             if($service->id == 3)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>4]);

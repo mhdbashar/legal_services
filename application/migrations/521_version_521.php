@@ -10,7 +10,7 @@ class Migration_Version_521 extends CI_Migration
     }
     public function up()
     {
-        //nour
+
         // Add tblregular_durations table
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblregular_durations` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -34,5 +34,9 @@ class Migration_Version_521 extends CI_Migration
         if (!$this->db->field_exists('deadline_notified', db_prefix() . 'my_cases')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `deadline_notified` int(11) NOT NULL DEFAULT 0');
         }
+        if (!$this->db->field_exists('regular_header', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `regular_header` tinyint(1) NOT NULL DEFAULT 0');
+        }
+
     }
 }

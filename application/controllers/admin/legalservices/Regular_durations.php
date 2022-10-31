@@ -9,7 +9,7 @@ class Regular_durations extends AdminController
         parent::__construct();
         $this->load->model('legalservices/regular_duration_model','duration');
     }
-
+//************ index **************
     public function index()
     {
         if (!has_permission('legal_services', '', 'create') ) {
@@ -19,7 +19,7 @@ class Regular_durations extends AdminController
         $data['title']  = _l('regular_durations');
         $this->load->view('admin/legalservices/regular_duration/view',$data);
     }
-
+//************* add *****************
     public function add()
     {
         if (!has_permission('legal_services', '', 'create')) {
@@ -31,16 +31,12 @@ class Regular_durations extends AdminController
             $added = $this->duration->add_new_duration($data);
             if ($added) {
                 set_alert('success', _l('added_successfully', _l('regular_duration')));
-              //  send_mail_template('regular_duration_deadline_notification', "hibakharma@gmail.com", 2,  "123");
-
-
                 redirect(admin_url("legalservices/regular_durations"));
-
             }
         }
         $this->load->view('admin/legalservices/regular_duration/add');
     }
-
+//*************** edit_duration *******************
     public function edit_duration($id)
     {
 
@@ -68,7 +64,7 @@ class Regular_durations extends AdminController
         }
         }
 
-   //******************************************
+//******************* delete_duration ***********************
     public function delete_duration($id)
     {
 
@@ -86,7 +82,7 @@ class Regular_durations extends AdminController
         }
         redirect(admin_url('legalservices/regular_durations'));
     }
-    //*********tab***************************
+//********* tab ***************************
     public function add_duration_cases($ServID)
     {
         if (!has_permission('legal_services', '', 'create')) {

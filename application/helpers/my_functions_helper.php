@@ -176,7 +176,7 @@ function my_module_menu_item_collapsible()
         ]);
     }
 
-    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $services = $CI->db->order_by('numbering', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
@@ -346,7 +346,7 @@ function my_custom_setup_menu_items()
     if (has_permission('case_status', '', 'create')) {
         $CI->app_menu->add_setup_children_item('1', [
             'slug' => 'child-to-custom-menu-item9', // Required ID/slug UNIQUE for the child menu
-            'name' => _l("projects_statuses"), // The name if the item
+            'name' => _l("disputes_cases_statuses"), // The name if the item
             'href' => admin_url('legalservices/disputes_cases/index_case_statuses'), // URL of the item
             'position' => 9, // The menu position
         ]);

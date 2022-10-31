@@ -16,6 +16,7 @@
                         <h4 class="no-margin">
                             <?php echo _l('edit').' '._l('Case'); ?>
                         </h4>
+                        <div class="col-md-12" id="required"></div>
                         <hr class="hr-panel-heading" />
                         <?php
                         $disable_type_edit = '';
@@ -1386,19 +1387,6 @@
             name: 'required',
             clientid: 'required',
             opponent_id_0: 'required',
-            //representative: 'required',
-            //cat_id: 'required',
-            //subcat_id: 'required',
-            //court_id: 'required',
-            //jud_num: 'required',
-            //billing_type: 'required',
-            //case_status:'required',
-            //rate_per_hour: 'required',
-            //members : 'required',
-            //start_date: 'required',
-            //case_result: 'required',
-            //case_status: 'required',
-            // description: 'required',
             start_date:'required',
             billing_type:'required',
             disputes_total:'required',
@@ -1454,6 +1442,14 @@
             $('select[name="billing_type"]').prop('disabled',false);
             $('#available_features,#available_features option').prop('disabled',false);
             $('input[name="project_rate_per_hour"]').prop('disabled',false);
+            if($('#clientid').val() == '' || $('#opponent_id_0').val() == '' || $('#billing_type').val() == '' || $('#disputes_total').val() <= 0) {
+                $('#required').append(`<hr class="hr-panel-heading"/>`);
+                $('#required').append(`<h4 style="color: red">يجب إدخال الحقول (
+                اسم <?php echo _l('opponent')?>
+                 + <?php echo _l('project_billing_type')?> + <?php echo _l('disputes_total')?> )
+
+                ليتم حفظ القضية                                        </h4>`);
+            }
         });
 
         var progress_input = $('input[name="progress"]');

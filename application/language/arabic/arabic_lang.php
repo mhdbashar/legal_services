@@ -3423,13 +3423,13 @@ $lang['project_setting_upload_on_sessions'] = "تحميل المرفقات عل�
 $lang['project_setting_comment_on_sessions'] = "التعليق على جلسات الخدمة";
 
 //disputes cases new
-$lang['disputes_cases'] = "قضايا التنفيذ";//disputes_cases
+$lang['disputes_cases'] = "قضايا التنفيذ و التحصيل";//disputes_cases
 $lang['project_address1'] = 'العنوان السطر 1';
 $lang['project_address2'] = 'العنوان السطر 2';
 $lang['project_addressed_to'] = 'موجهة الى';
 $lang['project_notes'] = 'ملاحظات';
-$lang['disputes_cases_statuses'] = 'حالات قضايا التنفيذ';//
-$lang['disputes_cases_status'] = 'حالة قضية التنفيذ';//
+$lang['disputes_cases_statuses'] = 'حالات قضايا التنفيذ و التحصيل';//
+$lang['disputes_cases_status'] = 'حالة قضية التنفيذ و التحصيل';//
 $lang['status_name'] = 'اسم الحالة';
 $lang['project_contacts'] = 'شهود المشروع';
 $lang['project_contacts_types'] = 'شاهد 1 , شاهد 2 , شاهد 3 , شاهد 4 , شاهد 5 , شاهد 6';
@@ -3437,15 +3437,15 @@ $lang['project_billing_type_1'] = 'سعر الصرف الثابت';
 $lang['project_billing_type_10'] = 'سعر ثابت + النسبة المئوية ٪';
 $lang['project_billing_type_11'] = 'نسبه مئويه ٪';
 $lang['project_rate_percent'] = 'النسبة المئوية٪';
-$lang['disputes_cases_invoices'] = 'فواتير قضايا التنفيذ';//disputes_cases_invoices
+$lang['disputes_cases_invoices'] = 'فواتير قضايا التنفيذ و التحصيل';//disputes_cases_invoices
 $lang['disputes_total'] = 'مجموع المطالبات';
 $lang['opponent_lawyer'] = 'المحامي الخصم';
 $lang['disputes_reminder'] = 'تذكير المنازعات';//disputes_cases_reminder
 $lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';
 $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعادة إرسال المنازعات تلقائيا فاتورة تذكير المتأخرة قبل / بعد أيام';
-$lang['invoice_disputes_case'] = 'فوترة النزاع';
+$lang['invoice_disputes_case'] = 'فوترة قضية التنفيذ و التحصيل';
 $lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية للقضية';
-$lang['disputes_invoice_item'] = 'رسوم فاتورة النزاع';
+$lang['disputes_invoice_item'] = 'رسوم فاتورة قضية التنفيذ و التحصيل';
 $lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
 $lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
 

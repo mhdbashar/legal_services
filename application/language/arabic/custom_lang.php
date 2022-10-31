@@ -1,5 +1,6 @@
 <?php
 
+$lang['finger_timekeeper'] = 'مراقب الدوام';
 $lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';

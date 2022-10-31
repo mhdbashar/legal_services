@@ -343,14 +343,11 @@ class Migration_Version_520 extends CI_Migration
 
         $services = $this->db->order_by('id', 'ASC')->get('my_basic_services')->result();
         foreach ($services as $service){
-            $service->id == 1 ? $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>1])
-                : $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
-            $service->id == 2 ? $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>3])
-                : $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
-            $service->id == 3 ? $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>4])
-                : $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
-            $service->id == 22 ? $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>2])
-                : $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
+            $this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>15]);
+            if($service->id == 1)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>1]);
+            if($service->id == 2)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>3]);
+            if($service->id == 3)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>4]);
+            if($service->id == 22)$this->db->where('id', $service->id)->update('my_basic_services', ['numbering'=>2]);
         }
 
         if(!file_exists('uploads/disputes_cases')){

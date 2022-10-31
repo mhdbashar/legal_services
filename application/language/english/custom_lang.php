@@ -1,5 +1,6 @@
 <?php
 
+$lang['finger_timekeeper'] = 'Timekeeper';
 $lang['case_files'] = 'Case files';
 $lang['commercial_register'] = 'Commercial Register';
 $lang['district_name'] = 'District name';

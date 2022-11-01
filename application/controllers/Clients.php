@@ -43,6 +43,7 @@ class Clients extends ClientsController
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
         $this->load->model('legalservices/Imported_services_model', 'imported');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
         hooks()->do_action('after_clients_area_init', $this);
     }
 
@@ -677,6 +678,8 @@ class Clients extends ClientsController
         }
         if($ServID == 1) {
             $data['project_statuses'] = $this->case->get_project_statuses();
+        }elseif ($ServID == 22){
+            $data['project_statuses'] = $this->Dcase->get_project_statuses();
         }else{
             $data['project_statuses'] = $this->other->get_project_statuses();
         }
@@ -701,6 +704,9 @@ class Clients extends ClientsController
         if($ServID == 1){
             $data['slug']     = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['projects'] = $this->case->get('', $where);
+        }elseif ($ServID == 22){
+            $data['slug']     = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['projects'] = $this->Dcase->get('', $where);
         }else{
             $data['slug']     = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['projects'] = $this->other->get($ServID, '', $where);
@@ -1097,7 +1103,11 @@ class Clients extends ClientsController
             $project = $this->case->get($id, [
                 'clientid' => get_client_user_id(),
             ]);
-        } else {
+        }elseif ($ServID == 22){
+            $project = $this->Dcase->get($id, [
+                'clientid' => get_client_user_id(),
+            ]);
+        }else {
             $project = $this->other->get($ServID, $id, [
                 'clientid' => get_client_user_id(),
             ]);
@@ -1299,14 +1309,18 @@ class Clients extends ClientsController
                 
                     if ($ServID == 1) {
                         echo json_encode($this->case->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
-                    } else {
+                    } elseif ($ServID == 22){
+                        echo json_encode($this->Dcase->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
+                    }else {
                         echo json_encode($this->other->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
                     }
                     die;
                 case 'new_discussion_comment':
                     if ($ServID == 1) {
                         echo json_encode($this->case->add_discussion_comment($ServID, $this->input->post(), $this->input->post('discussion_id'), $this->input->post('discussion_type')));
-                    } else {
+                    }elseif ($ServID == 22){
+                        echo json_encode($this->Dcase->add_discussion_comment($ServID, $this->input->post(), $this->input->post('discussion_id'), $this->input->post('discussion_type')));
+                    }else {
                         echo json_encode($this->other->add_discussion_comment($ServID, $this->input->post(), $this->input->post('discussion_id'), $this->input->post('discussion_type')));
                     }
                     die;
@@ -1315,7 +1329,9 @@ class Clients extends ClientsController
                 case 'update_discussion_comment':
                     if ($ServID == 1) {
                         echo json_encode($this->case->update_discussion_comment($this->input->post(), $this->input->post('discussion_id')));
-                    } else {
+                    }elseif ($ServID == 22){
+                        echo json_encode($this->Dcase->update_discussion_comment($this->input->post(), $this->input->post('discussion_id')));
+                    }else {
                         echo json_encode($this->other->update_discussion_comment($this->input->post(), $this->input->post('discussion_id')));
                     }
                     die;
@@ -1324,7 +1340,9 @@ class Clients extends ClientsController
                 case 'delete_discussion_comment':
                     if ($ServID == 1) {
                         echo json_encode($this->case->delete_discussion_comment($this->input->post('id')));
-                    } else {
+                    }elseif ($ServID == 22){
+                        echo json_encode($this->Dcase->delete_discussion_comment($this->input->post('id')));
+                    }else {
                         echo json_encode($this->other->delete_discussion_comment($this->input->post('id')));
                     }
                     die;
@@ -1335,7 +1353,9 @@ class Clients extends ClientsController
                     unset($discussion_data['action']);
                     if ($ServID == 1) {
                         $success = $this->case->add_discussion($discussion_data, $ServID);
-                    } else {
+                    }elseif ($ServID == 22){
+                        $success = $this->Dcase->add_discussion($discussion_data, $ServID);
+                    }else {
                         $success = $this->other->add_discussion($discussion_data, $ServID);
                     }
                     if ($success) {
@@ -1347,7 +1367,9 @@ class Clients extends ClientsController
                 case 'upload_file':
                     if ($ServID == 1) {
                         handle_case_file_uploads($ServID, $id);
-                    } else {
+                    }elseif ($ServID == 22){
+                        handle_disputes_case_file_uploads($ServID, $id);
+                    }else {
                         handle_oservice_file_uploads($ServID, $id);
                     }
                     die;
@@ -1363,7 +1385,9 @@ class Clients extends ClientsController
                     $data['contact_id']          = get_contact_user_id();
                     if ($ServID == 1) {
                         $this->case->add_external_file($data);
-                    } else {
+                    } elseif ($ServID == 22){
+                        $this->Dcase->add_external_file($data);
+                    }else {
                         $this->other->add_external_file($data);
                     }
                     die;
@@ -1374,7 +1398,9 @@ class Clients extends ClientsController
                     $file_data['current_user_is_admin']             = false;
                     if ($ServID == 1) {
                         $file_data['file']                          = $this->case->get_file($this->input->post('id'), $this->input->post('project_id'));
-                    } else {
+                    }elseif ($ServID == 22){
+                        $file_data['file']                          = $this->Dcase->get_file($this->input->post('id'), $this->input->post('project_id'));
+                    }else {
                         $file_data['file']                          = $this->other->get_file($this->input->post('id'), $this->input->post('project_id'));
                     }
                     $file_data['ServID'] = $ServID;
@@ -1393,7 +1419,9 @@ class Clients extends ClientsController
                     unset($file_data['action']);
                     if ($ServID == 1) {
                         $this->case->update_file_data($file_data);
-                    } else {
+                    }elseif ($ServID == 22){
+                        $this->Dcase->update_file_data($file_data);
+                    }else {
                         $this->other->update_file_data($file_data);
                     }
 
@@ -1464,14 +1492,18 @@ class Clients extends ClientsController
         }
         if ($ServID == 1) {
             $data['project_status'] = get_case_status_by_id($data['project']->status);
-        } else {
+        } elseif ($ServID == 22){
+            $data['project_status'] = get_disputes_case_status_by_id($data['project']->status);
+        }else {
             $data['project_status'] = get_oservice_status_by_id($data['project']->status);
         }
         if ($group != 'edit_task' && $group != 'edit_session') {
             if ($group == 'project_overview') {
                 if ($ServID == 1) {
                     $percent = $this->case->calc_progress($id, $slug);
-                } else {
+                }elseif ($ServID == 22){
+                    $percent = $this->Dcase->calc_progress($id, $slug);
+                }else {
                     $percent = $this->other->calc_progress($slug, $id);
                 }
                 @$data['percent'] = $percent / 100;
@@ -1527,7 +1559,9 @@ class Clients extends ClientsController
                 }
                 if ($ServID == 1) {
                     $data['milestones'] = $this->case->get_milestones($slug, $id);
-                } else {
+                }elseif ($ServID == 22){
+                    $data['milestones'] = $this->Dcase->get_milestones($slug, $id);
+                }else {
                     $data['milestones'] = $this->other->get_milestones($slug, $id);
                 }
             
@@ -1540,12 +1574,19 @@ class Clients extends ClientsController
                     $data['courts']         = $this->sessions_model->get_court();
                     $data['milestones'] = $this->case->get_milestones($slug, $id);
                     $data['judges']      = $this->sessions_model->get_judges();
+                }elseif ($ServID == 22){
+                    $data['default_courts'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+                    $data['courts']         = $this->sessions_model->get_court();
+                    $data['milestones'] = $this->Dcase->get_milestones($slug, $id);
+                    $data['judges']      = $this->sessions_model->get_judges();
                 }else{
                     $data['milestones'] = $this->other->get_milestones($slug, $id);
                 }
             } elseif ($group == 'project_gantt') {
                 if ($ServID == 1) {
                     $data['gantt_data'] = $this->case->get_gantt_data($slug, $id);
+                } elseif ($ServID == 22){
+                    $data['gantt_data'] = $this->Dcase->get_gantt_data($slug, $id);
                 } else {
                     $data['gantt_data'] = $this->other->get_gantt_data($slug, $id);
                 }
@@ -1557,7 +1598,14 @@ class Clients extends ClientsController
                     // $data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
                     $data['judges']      = $this->sessions_model->get_judges();
                     $data['courts']      = $this->sessions_model->get_court();
-                } else {
+                } elseif ($ServID == 22){
+                    $data['service_id']  = $ServID;
+                    $data['rel_id']      = $id;
+                    $data['project_tasks']  = $this->Dcase->get_CaseSession($id);
+                    // $data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                    $data['judges']      = $this->sessions_model->get_judges();
+                    $data['courts']      = $this->sessions_model->get_court();
+                }else {
                     $data['gantt_data'] = $this->other->get_gantt_data($slug, $id);
                 }
             } elseif ($group == 'project_discussions') {
@@ -1565,27 +1613,35 @@ class Clients extends ClientsController
                     $data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
                     if ($ServID == 1) {
                         $data['discussion'] = $this->case->get_discussion($this->input->get('discussion_id'), $id);
-                    } else {
+                    } elseif ($ServID == 22){
+                        $data['discussion'] = $this->Dcase->get_discussion($this->input->get('discussion_id'), $id);
+                    }else {
                         $data['discussion'] = $this->other->get_discussion($this->input->get('discussion_id'), $id);
                     }
                     $data['current_user_is_admin']             = false;
                 }
                 if ($ServID == 1) {
                     $data['discussions'] = $this->case->get_discussions($id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['discussions'] = $this->Dcase->get_discussions($id);
+                }else {
                     $data['discussions'] = $this->other->get_discussions($id);
                 }
             } elseif ($group == 'project_files') {
                 if ($ServID == 1) {
                     $data['files'] = $this->case->get_files($id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['files'] = $this->Dcase->get_files($id);
+                }else {
                     $data['files'] = $this->other->get_files($id);
                 }
             } elseif ($group == 'project_tasks') {
                 $data['tasks_statuses'] = $this->tasks_model->get_statuses();
                 if ($ServID == 1) {
                     $data['project_tasks']  = $this->case->get_tasks($id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['project_tasks']  = $this->Dcase->get_tasks($id);
+                }else {
                     $data['project_tasks']  = $this->other->get_tasks($ServID, $id);
                 }
             } elseif ($group == 'project_contracts') {
@@ -1600,13 +1656,17 @@ class Clients extends ClientsController
             } elseif ($group == 'project_activity') {
                 if ($ServID == 1) {
                     $data['activity'] = $this->case->get_activity($id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['activity'] = $this->Dcase->get_activity($id);
+                }else {
                     $data['activity'] = $this->other->get_activity($id);
                 }
             } elseif ($group == 'project_milestones') {
                 if ($ServID == 1) {
                     $data['milestones'] = $this->case->get_milestones($slug, $id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['milestones'] = $this->Dcase->get_milestones($slug, $id);
+                }else {
                     $data['milestones'] = $this->other->get_milestones($slug, $id);
                 }
             } elseif ($group == 'project_invoices') {
@@ -1652,7 +1712,9 @@ class Clients extends ClientsController
             } elseif ($group == 'project_timesheets') {
                 if ($ServID == 1) {
                     $data['timesheets'] = $this->case->get_timesheets($id);
-                } else {
+                } elseif ($ServID == 22){
+                    $data['timesheets'] = $this->Dcase->get_timesheets($id);
+                }else {
                     $data['timesheets'] = $this->other->get_timesheets($ServID, $id);
                 }
             } elseif ($group == 'procuration') {
@@ -1682,7 +1744,9 @@ class Clients extends ClientsController
         } elseif ($group == 'edit_task') {
             if ($ServID == 1) {
                 $data['milestones'] = $this->case->get_milestones($slug, $id);
-            } else {
+            } elseif ($ServID == 22){
+                $data['milestones'] = $this->Dcase->get_milestones($slug, $id);
+            }else {
                 $data['milestones'] = $this->other->get_milestones($slug, $id);
             }
             $data['task']       = $this->tasks_model->get($this->input->get('taskid'), [
@@ -1699,6 +1763,11 @@ class Clients extends ClientsController
                 $data['courts']         = $this->sessions_model->get_court();
                 $data['default_courts'] = get_default_value_id_by_table_name('my_courts', 'c_id');
                 $data['milestones'] = $this->case->get_milestones($slug, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+            }elseif ($ServID == 22){
+                $data['courts']         = $this->sessions_model->get_court();
+                $data['default_courts'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+                $data['milestones'] = $this->Dcase->get_milestones($slug, $id);
                 $data['judges']      = $this->sessions_model->get_judges();
             }else{
                 $data['milestones'] = $this->other->get_milestones($slug, $id);
@@ -1718,7 +1787,10 @@ class Clients extends ClientsController
         if ($ServID == 1) {
             $data['currency'] = $this->case->get_currency($id);
             $data['members']  = $this->case->get_project_members($id);
-        } else {
+        }elseif ($ServID == 22){
+            $data['currency'] = $this->Dcase->get_currency($id);
+            $data['members']  = $this->Dcase->get_project_members($id);
+        }else {
             $data['currency'] = $this->other->get_currency($id);
             $data['members']  = $this->other->get_project_members($id);
         }
@@ -1929,7 +2001,13 @@ class Clients extends ClientsController
                         $this->case->remove_file($id);
                         set_alert('success', _l('deleted', _l('file')));
                     }
-                } else {
+                } elseif ($ServID == 22){
+                    $file = $this->Dcase->get_file($id);
+                    if ($file->contact_id == get_contact_user_id()) {
+                        $this->Dcase->remove_file($id);
+                        set_alert('success', _l('deleted', _l('file')));
+                    }
+                }else {
                     $this->load->model('legalservices/Other_services_model', 'other');
                     $file = $this->other->get_file($id);
                     if ($file->contact_id == get_contact_user_id()) {

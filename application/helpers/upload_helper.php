@@ -1246,6 +1246,12 @@ function get_upload_path_by_type($type)
             $path = ISERVICE_ATTACHMENTS_FOLDER;
 
         break;
+
+        case 'disputes_case';
+            $path = 'uploads/disputes_cases/';
+
+            break;
+
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

@@ -88,6 +88,8 @@
                                 $ServID = $this->legal->get_service_id_by_slug($slug);
                                 if($ServID == 1){
                                     $service_name = get_case_name_by_id($invoice->rel_sid);
+                                }elseif ($ServID == 22){
+                                    $service_name = get_disputes_case_name_by_id($invoice->rel_sid);
                                 }else{
                                     $service_name = get_oservice_name_by_id($invoice->rel_sid);
                                 }

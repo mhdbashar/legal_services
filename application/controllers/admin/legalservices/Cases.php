@@ -296,6 +296,10 @@ class Cases extends AdminController
             $data['currency'] = $this->case->get_currency($id);
 
             $linked_services = $this->case->get_linked_services($ServID, $id);
+//            echo '<pre>';echo print_r($linked_services);
+//            echo $ServID;echo $id;
+//            exit();
+
             $father_linked_services = [];
             $child_linked_services = [];
             foreach ($linked_services as $linked_service) {
@@ -977,10 +981,12 @@ class Cases extends AdminController
             $id = $this->case->link($ServID, $project_id, $this->input->post(), $ServID2);
             if ($id) {
                 set_alert('success', _l('project_linked_successfully'));
-                if ($ServID2 != 1)
-                    redirect(admin_url('SOther/view/' . $ServID2 . '/' . $id));
-                else
+                if($ServID2 == 1)
                     redirect(admin_url('Case/view/' . $ServID2 . '/' . $id));
+                elseif ($ServID2 == 22)
+                    redirect(admin_url('Disputes_cases/edit/' . $ServID2 . '/' . $id));
+                else
+                    redirect(admin_url('SOther/view/' . $ServID2 . '/' . $id));
             } else {
                 set_alert('danger', _l('failed_to_link_project'));
                 redirect(admin_url('Case/view/' . $ServID . '/' . $project_id));

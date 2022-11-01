@@ -489,7 +489,7 @@ class Disputes_invoices_model extends App_Model
                 }
 
             }
-            hooks()->do_action('after_invoice_added', $insert_id);
+//            hooks()->do_action('after_invoice_added', $insert_id);
 
             return $insert_id;
         }
@@ -955,7 +955,7 @@ class Disputes_invoices_model extends App_Model
             if ($save_and_send === true) {
                 $this->send_invoice_to_client($insert_id, '', true, '', true);
             }
-            hooks()->do_action('after_invoice_added', $insert_id);
+//            hooks()->do_action('after_invoice_added', $insert_id);
 
             return $insert_id;
         }

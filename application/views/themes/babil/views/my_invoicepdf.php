@@ -72,7 +72,8 @@ $response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
 
 //if($invoice->qr_code != null || $invoice->qr_code != ''){
 $qrCodePath = $response;
-$organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
+if(get_option('saudi_vat'))
+    $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
 //}
 
 // Bill to

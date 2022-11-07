@@ -7,7 +7,8 @@
           <h4 class="no-margin font-bold"><?php echo _l($title); ?></h4>
           <hr />
           <div>
-            <a href="#" class="btn btn-info add-new-account mbot15"><?php echo _l('add'); ?></a>
+            <a href="#" class="btn btn-info add-new-account mbot15 <?php if(!has_permission('accounting_chart_of_accounts', '', 'create')){echo 'hide';} ?>"><?php echo _l('add'); ?></a>
+            <a href="<?php echo admin_url('accounting/accounts_import'); ?>" class="btn btn-success mbot15 <?php if(!has_permission('accounting_chart_of_accounts', '', 'create')){echo 'hide';} ?>"><?php echo _l('import_account'); ?></a>
           </div>
           <div class="row">
             <div class="col-md-3">

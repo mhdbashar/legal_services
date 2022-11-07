@@ -517,17 +517,7 @@ if (!$CI->db->field_exists('route_point_id', db_prefix() . 'check_in_out')) {
   $CI->db->query('ALTER TABLE `'.db_prefix() . "check_in_out`
     ADD COLUMN `route_point_id` int(11);");            
 }
-if (!$CI->db->table_exists(db_prefix() . 'timesheets_go_bussiness_advance_payment')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_go_bussiness_advance_payment` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `requisition_leave` int(11) NOT NULL,
-    `used_to` varchar(200) NUll,
-    `amoun_of_money` varchar(200) NUll,
-    `request_date` DATE NULL,
-    `advance_payment_reason` TEXT NULL,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
-}
+
 if ($CI->db->field_exists('days_off' ,db_prefix() . 'timesheets_day_off')) {
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_day_off`
     MODIFY `days_off` float NULL  DEFAULT 0'

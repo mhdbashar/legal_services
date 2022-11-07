@@ -1,20 +1,43 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('profit_and_loss_year_to_date_comparison'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th rowspan="2"></th>
-          <th colspan="2" class="text-center th_total"><?php echo _l('total'); ?></th>
-        </tr>
-        <tr class="tr_header">
-          <th class="th_total_2"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></th>
-          <th class="th_total_2"><?php echo _d(date('Y-01-01')).' - '. _d(date('Y-03-t')); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="3">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('profit_and_loss_year_to_date_comparison'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="border-top">
+          <td></td>
+          <td colspan="2" class="text-center th_total text-bold"><?php echo _l('total'); ?></td>
+          <td></td>
+        </tr>
+        <tr class="border-bottom">
+          <td></td>
+          <td class="th_total_2 text-bold"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></td>
+          <td class="th_total_2 text-bold"><?php echo _d($data_report['last_from_date']).' - '. _d($data_report['last_to_date']); ?></td>
+        </tr>
         <?php
           $row_index = 0;
           $parent_index = 0;

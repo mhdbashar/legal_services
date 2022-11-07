@@ -24,6 +24,8 @@ function format_task_status($status, $text = false, $clean = false)
 
     $style = '';
     $class = '';
+    if(!isset($status['color']))
+        $status['color'] = '#03A9F4';
     if ($text == false) {
         $style = 'border: 1px solid ' . $status['color'] . ';color:' . $status['color'] . ';';
         $class = 'label';

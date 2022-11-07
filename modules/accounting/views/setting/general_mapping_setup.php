@@ -24,6 +24,10 @@
 
   $acc_active_payment_mode_mapping = get_option('acc_active_payment_mode_mapping');
   $acc_active_expense_category_mapping = get_option('acc_active_expense_category_mapping');
+
+  $acc_credit_note_automatic_conversion = get_option('acc_credit_note_automatic_conversion');
+  $acc_credit_note_payment_account = get_option('acc_credit_note_payment_account');
+  $acc_credit_note_deposit_to = get_option('acc_credit_note_deposit_to');
  ?>
  
 <?php echo form_open(admin_url('accounting/update_automatic_conversion'),array('id'=>'general-settings-form')); ?>
@@ -65,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="row <?php if($acc_payment_automatic_conversion == 0){echo 'hide';} ?>" id="div_payment_automatic_conversion">
+        <div class="row">
           <div class="row">
             <div class="col-md-12">
               <div class="col-md-6">
@@ -83,11 +87,13 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <?php echo render_select('acc_payment_payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',$acc_payment_payment_account,array(),array(),'','',false); ?>
-          </div>
-          <div class="col-md-6">
-            <?php echo render_select('acc_payment_deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',$acc_payment_deposit_to,array(),array(),'','',false); ?>
+          <div class="<?php if($acc_payment_automatic_conversion == 0){echo 'hide';} ?>" id="div_payment_automatic_conversion">
+            <div class="col-md-6">
+              <?php echo render_select('acc_payment_payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',$acc_payment_payment_account,array(),array(),'','',false); ?>
+            </div>
+            <div class="col-md-6">
+              <?php echo render_select('acc_payment_deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',$acc_payment_deposit_to,array(),array(),'','',false); ?>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-12">
@@ -106,11 +112,38 @@
               </div>
             </div>
           </div>
+          <div class="<?php if($acc_payment_expense_automatic_conversion == 0){echo 'hide';} ?>" id="div_payment_expense_automatic_conversion">
+            <div class="col-md-6">
+              <?php echo render_select('acc_expense_payment_payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',$acc_expense_payment_payment_account,array(),array(),'','',false); ?>
+            </div>
+            <div class="col-md-6">
+              <?php echo render_select('acc_expense_payment_deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',$acc_expense_payment_deposit_to,array(),array(),'','',false); ?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div_content">
+        <div class="row">
           <div class="col-md-6">
-            <?php echo render_select('acc_expense_payment_payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',$acc_expense_payment_payment_account,array(),array(),'','',false); ?>
+            <div class="row">
+              <div class="col-md-6 border-right">
+                <h5 class="title mbot5"><?php echo _l('credit_note') ?></h5>
+              </div>
+              <div class="col-md-6 mtop5">
+                  <div class="onoffswitch">
+                      <input type="checkbox" id="acc_credit_note_automatic_conversion" data-perm-id="3" class="onoffswitch-checkbox" <?php if($acc_credit_note_automatic_conversion == '1'){echo 'checked';} ?>  value="1" name="acc_credit_note_automatic_conversion">
+                      <label class="onoffswitch-label" for="acc_credit_note_automatic_conversion"></label>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row <?php if($acc_credit_note_automatic_conversion == 0){echo 'hide';} ?>" id="div_credit_note_automatic_conversion">
+          <div class="col-md-6">
+            <?php echo render_select('acc_credit_note_payment_account',$accounts,array('id','name', 'account_type_name'),'payment_account',$acc_credit_note_payment_account,array(),array(),'','',false); ?>
           </div>
           <div class="col-md-6">
-            <?php echo render_select('acc_expense_payment_deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',$acc_expense_payment_deposit_to,array(),array(),'','',false); ?>
+            <?php echo render_select('acc_credit_note_deposit_to',$accounts,array('id','name', 'account_type_name'),'deposit_to',$acc_credit_note_deposit_to,array(),array(),'','',false); ?>
           </div>
         </div>
       </div>
@@ -429,7 +462,7 @@
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><?php echo _l('tax_mapping_setup')?></h4>
+            <h4 class="modal-title"><?php echo _l('expense_category_mapping_setup')?></h4>
          </div>
          <?php echo form_open_multipart(admin_url('accounting/expense_category_mapping'),array('id'=>'expense-category-mapping-form'));?>
          <?php echo form_hidden('id'); ?>

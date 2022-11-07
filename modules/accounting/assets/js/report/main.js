@@ -8,38 +8,83 @@
     	}, filter_form_handler);
 
 	$('#filter-form').submit();
+
+  $('select[name="reconcile_account"]').on('change',function(){
+    $('input[name="hidden_reconcile_account"]').val($(this).val());
+    $.post(admin_url + 'accounting/reconcile_account_change/'+$(this).val()).done(function(response) {
+      response = JSON.parse(response);
+      $('select[name="reconcile"]').html(response);
+      $('select[name="reconcile"]').selectpicker('refresh');
+      $('input[name="hidden_reconcile"]').val($('select[name="reconcile"]').val());
+    });
+  });
 })(jQuery);
+
 
 function printDiv() 
 {
 	"use strict";
+    var element = document.getElementById('accordion');
+    var opt = {
+      margin:       0.5,
+      filename:     $('input[name="type"]').val()+'.pdf',
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
 
-  	var divToPrint=document.getElementById('DivIdToPrint');
+    // Old monolithic-style usage:
+    html2pdf(element, opt);
+}
 
-  	var newWin=window.open('','Print-Window');
+function printDiv2() 
+{
+  "use strict";
+    var element = document.getElementById('accordion');
+    var opt = {
+      margin:       0.5,
+      filename:     $('input[name="type"]').val()+'.pdf',
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
 
-  	newWin.document.open();
-
-  	newWin.document.write('<html><body onload="window.print()"><link href="'+site_url+'modules/accounting/assets/css/report.css" rel="stylesheet" type="text/css"><link href="'+site_url+'/modules/accounting/assets/plugins/treegrid/css/jquery.treegrid.css?v=100" rel="stylesheet" type="text/css">'+divToPrint.innerHTML+'</body></html>');
-
-  	newWin.document.close();
-
-  //	setTimeout(function(){newWin.close();},10);
+    // Old monolithic-style usage:
+    html2pdf(element, opt);
 }
 
 function printExcel(){
 	"use strict";
-
-	let file = new Blob([$('#DivIdToPrint').html()], {type:"application/vnd.ms-excel"});
-	let url = URL.createObjectURL(file);
-	let a = $("<a />", {
-	href: url,
-	download: "accounting_report.xls"}).appendTo("body").get(0).click();
-	e.preventDefault();
+   $(".tree").tableHTMLExport({
+      type:'csv',
+      filename:$('input[name="type"]').val()+'.csv',
+    });
 }
 
 function filter_form_handler(form) {
 	"use strict";
+    if($('select[name="display_rows_by"]').val() != undefined){
+      if($('select[name="display_rows_by"]').val() == $('select[name="display_columns_by"]').val()){
+        alert('Warning: Row and column headings must be different.');
+        return false;
+      }
+    }
+
+    if($('input[name="type"]').val() == 'custom_summary_report'){
+      if($('select[name="page_type"]').val() == 'vertical'){
+        $('#DivIdToPrint').addClass('page');
+        $('#DivIdToPrint').removeClass('page-size2');
+
+        $('#export_to_pdf_btn').attr('onclick', 'printDiv(); return false;');
+      }
+
+      if($('select[name="page_type"]').val() == 'horizontal'){
+        $('#DivIdToPrint').removeClass('page');
+        $('#DivIdToPrint').addClass('page-size2');
+        $('#export_to_pdf_btn').attr('onclick', 'printDiv2(); return false;');
+      }
+    }
+
     var formURL = form.action;
     var formData = new FormData($(form)[0]);
     //show box loading

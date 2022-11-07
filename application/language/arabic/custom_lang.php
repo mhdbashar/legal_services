@@ -1,5 +1,6 @@
 <?php
 
+$lang['saudi_vat'] = 'خاضع لنظام الضريبة السعودي';
 $lang['finger_timekeeper'] = 'مراقب الدوام';
 $lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';

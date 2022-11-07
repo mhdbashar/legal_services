@@ -385,7 +385,7 @@ class Invoices extends AdminController
 
             $data['invoice']        = $invoice;
             $data['edit']           = true;
-            if($this->invoices_model->is_draft($id))
+            if($this->invoices_model->is_draft($id) || !get_option('saudi_vat'))
                 $data['edit']           = false;
             $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
 

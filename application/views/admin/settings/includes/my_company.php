@@ -40,12 +40,19 @@
     <?php echo render_input('settings[invoice_company_phonenumber]','settings_sales_phonenumber',get_option('invoice_company_phonenumber')); ?>
     <hr />
     <?php
-    $readonly = [];
+        $readonly = [];
         if(!get_option('saudi_vat')){
             $readonly = ['readonly' => 'true'];
-            render_yes_no_option('saudi_vat','saudi_vat');
-        }
     ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <?php render_yes_no_option('saudi_vat','saudi_vat', _l('saudi_warning')); ?>
+                </div>
+                <div class="col-md-6 text-danger">
+                    <?= _l('saudi_warning') ?>
+                </div>
+            </div>
+    <?php } ?>
     <?php echo render_input('settings[company_vat]','company_vat_number',get_option('company_vat'), 'text', $readonly); ?>
     <hr />
 

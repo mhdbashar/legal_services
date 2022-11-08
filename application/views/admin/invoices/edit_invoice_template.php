@@ -224,7 +224,7 @@
                   echo $prefix;
                   ?>
                   </span>
-                        <input type="text" name="number" readonly class="form-control" value="<?php echo ($_is_draft) ? 'DRAFT' : $_invoice_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>" <?php echo ($_is_draft) ? 'disabled' : '' ?>>
+                        <input type="text" name="number" <?php echo get_option('saudi_vat') ? 'readonly': ''?> class="form-control" value="<?php echo ($_is_draft) ? 'DRAFT' : $_invoice_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>" <?php echo ($_is_draft) ? 'disabled' : '' ?>>
                         <?php if($format == 3) { ?>
                             <span class="input-group-addon">
                      <span id="prefix_year" class="format-n-yy"><?php echo $yy; ?></span>

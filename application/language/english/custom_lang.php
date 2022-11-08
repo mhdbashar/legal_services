@@ -1,5 +1,7 @@
 <?php
 
+$lang['saudi_warning'] = 'You can\'t change this mode again';
+$lang['saudi_vat'] = 'Saudi vat';
 $lang['finger_timekeeper'] = 'Timekeeper';
 $lang['case_files'] = 'Case files';
 $lang['commercial_register'] = 'Commercial Register';

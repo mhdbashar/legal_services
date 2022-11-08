@@ -4078,3 +4078,23 @@ $lang['migration_lang_14'] = "This window will reload automaticaly in 10 seconds
 $lang['migration_lang_15'] = "Your database is up to date";
 
 $lang['tax_invoice_pdf_heading'] = "Tax Invoice";
+
+$lang['regular_duration'] = "Regular Duration";
+$lang['regular_durations'] = "Regular Durations";
+$lang['number_of_days'] = "Number Of Days";
+$lang['name'] = "Name";
+$lang['new_regular_duration'] = "New Regular Duration";
+$lang['categories'] = "Categories";
+$lang['sub_categories'] = "Sub Categories";
+$lang['edit_regular_duration'] = "Edit Regular Duration";
+$lang['sub_category'] = "Sub category";
+$lang['regular_duration_begin_date'] = "Regular Duration Begin Date";
+$lang['regular_durations_reminder_notification_before_help'] = "Regular Duration reminder notification before (days)";
+$lang['not_case_deadline_reminder'] = "Case deadline reminder";
+$lang['email_template_regular_durations_fields_heading'] = "Regular Duration Reminder";
+$lang['Regular duration Reminder'] = "Regular duration Reminder";
+$lang['remember that'] = "remember that";
+$lang['which started at'] = "which started at";
+$lang['will end at '] = "will end at ";
+
+

@@ -43,3 +43,9 @@ $route['admin/Case/view/(:num)/(:num)'] = 'admin/legalservices/cases/view/$1/$2'
 $route['admin/Case/add/(:num)'] = 'admin/legalservices/cases/add/$1';
 $route['admin/Case/edit/(:num)/(:num)'] = 'admin/legalservices/cases/edit/$1/$2';
 $route['admin/Case/delete/(:num)/(:num)'] = 'admin/legalservices/cases/delete/$1/$2';
+
+//Disputes_cases
+$route['admin/Disputes_cases/view/(:num)/(:num)'] = 'admin/legalservices/disputes_cases/view/$1/$2';
+$route['admin/Disputes_cases/add/(:num)'] = 'admin/legalservices/disputes_cases/add/$1';
+$route['admin/Disputes_cases/edit/(:num)/(:num)'] = 'admin/legalservices/disputes_cases/edit/$1/$2';
+$route['admin/Disputes_cases/delete/(:num)/(:num)'] = 'admin/legalservices/disputes_cases/delete/$1/$2';

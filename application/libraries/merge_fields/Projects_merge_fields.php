@@ -9,35 +9,35 @@ class Projects_merge_fields extends App_merge_fields
         return [
                 [
                     'name'      => _l('project_name'),
-                    'key'       => '{project_name}',
+                    'key'       => '{service_name}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
                     'name'      => _l('project_description'),
-                    'key'       => '{project_description}',
+                    'key'       => '{service_description}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
                     'name'      => _l('project_start_date'),
-                    'key'       => '{project_start_date}',
+                    'key'       => '{service_start_date}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
                     'name'      => _l('project_deadline'),
-                    'key'       => '{project_deadline}',
+                    'key'       => '{service_deadline}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
                     'name'      => _l('project_link'),
-                    'key'       => '{project_link}',
+                    'key'       => '{service_link}',
                     'available' => [
                         'project',
                     ],
@@ -150,6 +150,12 @@ class Projects_merge_fields extends App_merge_fields
                 $files_table = 'case_files';
                 $comm_table  = 'casediscussioncomments';
                 $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
+            }elseif ($additional_data['ServID'] == 22){
+                $serv_table  = 'my_disputes_cases';
+                $dis_table   = 'my_disputes_casediscussions';
+                $files_table = 'my_disputes_case_files';
+                $comm_table  = 'my_disputes_casediscussioncomments';
+                $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
             }else{
                 $serv_table  = 'my_other_services';
                 $dis_table   = 'oservicediscussions';
@@ -160,11 +166,11 @@ class Projects_merge_fields extends App_merge_fields
         }
         $fields = [];
 
-        $fields['{project_name}']           = '';
-        $fields['{project_deadline}']       = '';
-        $fields['{project_start_date}']     = '';
-        $fields['{project_description}']    = '';
-        $fields['{project_link}']           = '';
+        $fields['{service_name}']           = '';
+        $fields['{service_deadline}']       = '';
+        $fields['{service_start_date}']     = '';
+        $fields['{service_description}']    = '';
+        $fields['{service_link}']           = '';
         $fields['{discussion_link}']        = '';
         $fields['{discussion_creator}']     = '';
         $fields['{comment_creator}']        = '';
@@ -176,10 +182,10 @@ class Projects_merge_fields extends App_merge_fields
 
         $this->ci->db->where('id', $project_id);
         $project = $this->ci->db->get(db_prefix().$serv_table)->row();
-        $fields['{project_name}']        = $project->name;
-        $fields['{project_deadline}']    = _d($project->deadline);
-        $fields['{project_start_date}']  = _d($project->start_date);
-        $fields['{project_description}'] = $project->description;
+        $fields['{service_name}']        = $project->name;
+        $fields['{service_deadline}']    = _d($project->deadline);
+        $fields['{service_start_date}']  = _d($project->start_date);
+        $fields['{service_description}'] = $project->description;
 
         $custom_fields = get_custom_fields($custom_fields_var);
         foreach ($custom_fields as $field) {
@@ -220,7 +226,7 @@ class Projects_merge_fields extends App_merge_fields
         }
         if (isset($additional_data['customer_template'])) {
 
-            $fields['{project_link}'] = site_url('clients/project/' . $project_id);
+            $fields['{service_link}'] = site_url('clients/project/' . $project_id);
 
             if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
                 $fields['{discussion_link}'] = site_url('clients/project/' . $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
@@ -231,7 +237,7 @@ class Projects_merge_fields extends App_merge_fields
 
             if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
                 if ($additional_data['ServID'] == 1) {
-                    $fields['{project_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
+                    $fields['{service_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
 
                     if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
                         $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id . '/'. $additional_data['ServID'] . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
@@ -240,7 +246,7 @@ class Projects_merge_fields extends App_merge_fields
                         $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id  . '/'. $additional_data['ServID'] . '?group=project_files&file_id=' . $additional_data['discussion_id']);
                     }
                 }else{
-                    $fields['{project_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
+                    $fields['{service_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
 
                     if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
                         $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id . '/'. $additional_data['ServID'] . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
@@ -252,7 +258,7 @@ class Projects_merge_fields extends App_merge_fields
             }
 
         } else {
-            $fields['{project_link}'] = admin_url('projects/view/' . $project_id);
+            $fields['{service_link}'] = admin_url('projects/view/' . $project_id);
             if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
                 $fields['{discussion_link}'] = admin_url('projects/view/' . $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
             } else {
@@ -264,7 +270,7 @@ class Projects_merge_fields extends App_merge_fields
 
             if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
                 if($additional_data['ServID'] == 1){
-                    $fields['{project_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id);
+                    $fields['{service_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id);
                     if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
                         $fields['{discussion_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
                     } else {
@@ -274,7 +280,7 @@ class Projects_merge_fields extends App_merge_fields
                         }
                     }
                 }else{
-                    $fields['{project_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id);
+                    $fields['{service_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id);
                     if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
                         $fields['{discussion_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
                     } else {

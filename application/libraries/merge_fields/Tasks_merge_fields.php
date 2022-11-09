@@ -127,7 +127,7 @@ class Tasks_merge_fields extends App_merge_fields
 
         $fields['{task_comment}'] = '';
         $fields['{task_related}'] = '';
-        $fields['{project_name}'] = '';
+        $fields['{service_name}'] = '';
 
         if ($task->rel_type == 'project') {
             $this->ci->db->select('name, clientid');
@@ -135,7 +135,7 @@ class Tasks_merge_fields extends App_merge_fields
             $this->ci->db->where('id', $task->rel_id);
             $project = $this->ci->db->get()->row();
             if ($project) {
-                $fields['{project_name}'] = $project->name;
+                $fields['{service_name}'] = $project->name;
             }
         }
 

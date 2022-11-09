@@ -1412,6 +1412,9 @@ class Session_discussions_model extends App_Model
             if ($ServID == 1) {
                 $members = $this->get_case_members($id);
                 $link = 'Case/view/' .$ServID.'/' .$id;
+            }elseif ($ServID == 22){
+                $members = $this->get_disputes_case_members($id);
+                $link = 'Disputes_cases/view/' .$ServID.'/' .$id;
             } else {
                 $members = $this->get_oservice_members($id);
                 $link = 'SOther/view/' .$ServID.'/' .$id;
@@ -1634,6 +1637,15 @@ class Session_discussions_model extends App_Model
         $this->db->where('project_id', $id);
 
         return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
+
+    public function get_disputes_case_members($id)
+    {
+        $this->db->select('email,project_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_disputes_cases.staff_id');
+        $this->db->where('project_id', $id);
+
+        return $this->db->get(db_prefix() . 'my_members_disputes_cases')->result_array();
     }
 
     public function get_oservice_members($id)

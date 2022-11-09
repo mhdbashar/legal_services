@@ -176,7 +176,7 @@ function my_module_menu_item_collapsible()
         ]);
     }
 
-    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $services = $CI->db->order_by('numbering', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
@@ -343,6 +343,15 @@ function my_custom_setup_menu_items()
         ]);
     }
 
+    if (has_permission('case_status', '', 'create')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item9', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("disputes_cases_statuses"), // The name if the item
+            'href' => admin_url('legalservices/disputes_cases/index_case_statuses'), // URL of the item
+            'position' => 9, // The menu position
+        ]);
+    }
+
     if (has_permission('procurations', '', 'create')) {
         $CI->app_menu->add_setup_menu_item('2', [
             'name' => _l("procurations"), // The name if the item
@@ -371,6 +380,14 @@ function my_custom_setup_menu_items()
             'href' => admin_url('procuration/type'), // URL of the item
             'position' => 3, // The menu position
         ]);
+
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("regular_duration"), // The name if the item
+            'href' => admin_url('legalservices/regular_durations'), // URL of the item
+            'position' => 9, // The menu position
+        ]);
+
     }
 
 }
@@ -571,6 +588,9 @@ function get_cat_name_by_id($id)
     return false;
 }
 
+
+
+
 function convert_to_tags($string)
 {
     // $string_after_replace = preg_replace("/(?!.[.=$'€%-])\p{P}/u", "", $string);
@@ -709,7 +729,7 @@ function format_dispute_invoice_number($id)
     $CI = & get_instance();
 
     $CI->db->select('date,number,prefix,number_format,status')
-        ->from(db_prefix() . 'my_project_invoices')
+        ->from(db_prefix() . 'my_disputes_cases_invoices')
         ->where('id', $id);
 
     $invoice = $CI->db->get()->row();
@@ -793,6 +813,31 @@ function get_courts_by_country_city($country,$city)
     $CI->db->where('is_default', 0);
     return $CI->db->get(db_prefix() . 'my_courts')->result();
 }
+//****************************************
+function get_dur_number_of_days_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('number_of_days');
+    $CI->db->where('id', $id);
+    $dur_number_of_days = $CI->db->get(db_prefix() . 'regular_durations')->row();
+    if ( $dur_number_of_days) {
+        return  $dur_number_of_days->number_of_days;
+    }
+    return false;
+}
+//**************************************
+function get_dur_name_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $duration_name = $CI->db->get(db_prefix() . 'regular_durations')->row();
+    if ($duration_name) {
+        return $duration_name->name;
+    }
+    return false;
+}
+//*************************************
 
 function get_case_by_id($case_id){
     $CI = & get_instance();

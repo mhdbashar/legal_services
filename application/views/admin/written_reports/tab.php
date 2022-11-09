@@ -8,7 +8,7 @@
         <?php echo render_datetime_input('available_until','auto_close_edit_written_reports_after'); ?>
     </div>
     <div class="col-md-12">
-        <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
+        <?php echo render_input('rel_id','',$ServID == 1 || $ServID == 22 ? $id : $project_id,'hidden'); ?>
         <?php echo render_input('rel_type','',$slug,'hidden'); ?>
         <?php echo render_textarea('report','','',array(),array(),'','tinymce'); ?>
         <button type="submit" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('save'); ?></button>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-2">
                         <?php if (has_permission('written_reports', '', 'delete')) { ?>
-                            <?php $rel_id = $ServID == 1 ? $id : $project_id; ?>
+                            <?php $rel_id = $ServID == 1 || $ServID == 22 ? $id : $project_id; ?>
                             <a href="<?php echo admin_url("written_reports/delete/".$ServID.'/'.$rel_id.'/'.$report['id']); ?>" class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-title="<?php echo _l('delete'); ?>"><i class="fa fa-trash"></i></a>
                         <?php } ?>
                         <?php if (has_permission('written_reports', '', 'send_to_customer')) { ?>
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
+                <?php echo render_input('rel_id','',$ServID == 1 || $ServID == 22 ? $id : $project_id,'hidden'); ?>
                 <?php if (has_permission('written_reports', '', 'edit')) { ?>
                 <?php if($editable):
                 echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>

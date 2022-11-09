@@ -63,6 +63,9 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/regular_duration_rem';
 
     
+    $fields[] = 'merge_fields/dispute_case_merge_fields';
+
+
     return $fields;
 }
 

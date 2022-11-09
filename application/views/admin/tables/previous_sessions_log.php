@@ -43,6 +43,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
 
         if($ServID == 1){
             $table_rel = 'my_cases';
+        }elseif ($ServID == 22){
+            $table_rel = 'my_disputes_cases';
         }else{
             $table_rel = 'my_other_services';
         }

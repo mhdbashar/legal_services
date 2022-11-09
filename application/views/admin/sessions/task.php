@@ -284,11 +284,13 @@
                                         </option>
                                         <?php
                                         foreach ($legal_services as $service):
-                                            if($service->id == 1):
+                                            if($service->id == 1) {
                                                 $val = $service->is_module == 0 ? $service->slug : 'project';
-                                            else:
-                                                $val = $service->is_module == 0 ? "session_".$service->slug : 'project';
-                                            endif
+                                            }elseif ($service->id == 22){
+                                                $val = $service->is_module == 0 ? $service->slug : 'project';
+                                            }else{
+                                                $val = $service->is_module == 0 ? "session_" . $service->slug : 'project';
+                                            }
                                             ?>
                                             <option value="<?php echo $val; ?>"
                                                 <?php if(isset($task) || $this->input->get('rel_type')){

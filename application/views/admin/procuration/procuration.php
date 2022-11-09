@@ -6,27 +6,38 @@ if ( get_option('wathq_api_key') )
     $attr['readonly'] = 'readonly';
 
   if(!is_numeric($id)){
-    $id = null;
-    $procuration = null;
-    $start_date = '';
-    $end_date = '';
-    $NO = '';
-    $come_from = '';
-    $client = '';
-    $status = '';
     $selected_cases = [];
-    if(is_numeric($case_r)){
-      $code = $this->case->get($case_r)->code;
-      $selected_cases[] = ['id' => $case_r, 'code' => $code];
-    }
-    $type = '';
+    $selected_disputes_cases = [];
+      if(is_numeric($case_r)&& $id == 'no_id'){
+          $code = $this->case->get($case_r)->code;
+          $selected_cases[] = ['id' => $case_r, 'code' => $code];
+          $is_case = true;
+          $is_disputes_case = false;
+      }elseif (is_numeric($case_r)&& $id == 'd_case'){
+          $code = $this->Dcase->get($case_r)->code;
+          $selected_disputes_cases[] = ['id' => $case_r, 'code' => $code];
+          $is_disputes_case = true;
+          $is_case = false;
+      }
+
+      $id = null;
+      $procuration = null;
+      $start_date = '';
+      $end_date = '';
+      $NO = '';
+      $come_from = '';
+      $client = '';
+      $status = '';
+
+      $type = '';
     $case = '';
     $principalId = '';
     $agentId = '';
     $description = '';
     $name = '';
   }else{
-    $selected_cases = $procuration->cases;
+      $selected_cases = $procuration->cases;
+    $selected_disputes_cases = $procuration->disputes_cases;
     $start_date = $procuration->start_date;
     $end_date = $procuration->end_date;
     $NO = $procuration->NO;
@@ -185,13 +196,38 @@ if ( get_option('wathq_api_key') )
                                 // echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                
                             ?>
-                            <div class="form-group">
+                              <?php if($is_case){?>
+
+                              <div class="form-group">
                                 <label class="control-label" for="cases[]"><?php echo _l('cases'); ?></label>
                                 <?php $data = get_relation_data('client_cases',$client); ?>
                                 <select data-live-search="true" multiple="true" id="city" name="cases[]" class="form-control custom_select_arrow">
 
                                 </select>
                             </div>
+                              <?php } ?>
+
+                              <?php
+                                  $selected = array();
+                                  if($selected_disputes_cases != ''){
+                                      foreach($selected_disputes_cases as $row){
+                                          array_push($selected,$row['id']);
+                                      }
+                                  }
+                                  $disputes_cases = [];
+                                  // echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+
+                                  ?>
+                                <?php if($is_disputes_case){?>
+                                <div class="form-group">
+                                  <label class="control-label" for="disputes_cases[]"><?php echo _l('disputes_cases'); ?></label>
+                                  <?php $data = get_relation_data('client_disputes_cases',$client); ?>
+                                  <select data-live-search="true" multiple="true" id="disputes_cases" name="disputes_cases[]" class="form-control custom_select_arrow">
+
+                                  </select>
+                              </div>
+                                <?php } ?>
+
               <?php if(!get_option('wathq_api_key')){ ?>
               <div class="form-group">
                   <label class="control-label" for="file"><?php echo _l('file'); ?></label>
@@ -252,10 +288,16 @@ if ( get_option('wathq_api_key') )
 <script>
   var clientid = '<?php echo $client ?>';
   var selected_cases = [];
+  var selected_disputes_cases = [];
+
   <?php foreach ($selected_cases as $case) { ?>
     selected_cases.push('<?php echo $case["id"] ?>');
   <?php } ?>
-$(document).on('change','#clientid',function () {
+  <?php foreach ($selected_disputes_cases as $case) { ?>
+  selected_disputes_cases.push('<?php echo $case["id"] ?>');
+  <?php } ?>
+
+  $(document).on('change','#clientid',function () {
     $.get(admin_url +'procuration/build_dropdown_cases/' + $(this).val(), function(response) {
         if (response.success == true) {
           console.log(response)
@@ -274,6 +316,27 @@ $(document).on('change','#clientid',function () {
         }
     }, 'json');
 });
+
+  $(document).on('change','#clientid',function () {
+      $.get(admin_url +'procuration/build_dropdown_disputes_cases/' + $(this).val(), function(response) {
+          if (response.success == true) {
+              console.log(response)
+              $('#disputes_cases').empty();
+              for(let i = 0; i < response.data.length; i++) {
+                  let key = response.data[i].key;
+                  let value = response.data[i].value;
+                  $('#disputes_cases').append($('<option>', {
+                      value: key,
+                      text: value
+                  }));
+                  $('#disputes_cases').selectpicker('refresh');
+              }
+          } else {
+              alert_float('danger', response.message);
+          }
+      }, 'json');
+  });
+
   $(function() {
     $.get(admin_url +'procuration/build_dropdown_cases/' + clientid, function(response) {
         if (response.success == true) {
@@ -295,7 +358,29 @@ $(document).on('change','#clientid',function () {
             alert_float('danger', response.message);
         }
     }, 'json');
-    // $("#clientid").change(function () {
+
+      $.get(admin_url +'procuration/build_dropdown_disputes_cases/' + clientid, function(response) {
+          if (response.success == true) {
+              $('#disputes_cases').empty();
+              for(let i = 0; i < response.data.length; i++) {
+                  let key = response.data[i].key;
+                  let value = response.data[i].value;
+                  let selected = false;
+                  if(selected_disputes_cases.includes(key))
+                      selected = true;
+                  $('#disputes_cases').append($('<option>', {
+                      value: key,
+                      text: value,
+                      selected
+                  }));
+                  $('#disputes_cases').selectpicker('refresh');
+              }
+          } else {
+              alert_float('danger', response.message);
+          }
+      }, 'json');
+
+      // $("#clientid").change(function () {
     //     $.ajax({
     //         url: "<?php //echo admin_url('procuration/build_dropdown_cases'); ?>",
     //         data: {select: $(this).val()},

@@ -7,6 +7,9 @@ if(isset($rel_type)){
     if($ServID == 1){
         $route = 'Case';
         $ServID = $ServID.'/';
+    }elseif ($ServID == 22){
+        $route = 'Disputes_cases';
+        $ServID = $ServID.'/';
     }else{
         $route = 'SOther';
         $ServID = $ServID.'/';

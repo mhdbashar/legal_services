@@ -57,7 +57,13 @@ class Phases extends AdminController
 
         public function handle_phases($ServID,$project_id)
         {
-            $url = $ServID == 1 ? 'Case' : 'SOther';
+            if($ServID == 1){
+                $url = 'Case';
+            }elseif ($ServID == 22){
+                $url = 'Disputes_cases';
+            }else{
+                $url = 'SOther';
+            }
             if ($this->input->post()) {
                 $data = $this->input->post();
                 $added = $this->phase->handle_phase_data($ServID, $project_id, $data);

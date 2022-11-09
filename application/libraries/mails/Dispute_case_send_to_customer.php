@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dispute_send_to_client   extends App_mail_template
+class Dispute_case_send_to_customer extends App_mail_template
 {
     protected $for = 'customer';
 
@@ -10,9 +10,9 @@ class Dispute_send_to_client   extends App_mail_template
 
     protected $contact;
 
-    public $slug = 'dispute-send-to-client';
+    public $slug = 'invoice-send-to-client';
 
-    public $rel_type = 'dispute';
+    public $rel_type = 'invoice';
 
     public function __construct($invoice, $contact, $cc = '')
     {
@@ -41,6 +41,6 @@ class Dispute_send_to_client   extends App_mail_template
         $this->to($this->contact->email)
         ->set_rel_id($this->invoice->id)
         ->set_merge_fields('client_merge_fields', $this->invoice->clientid, $this->contact->id)
-        ->set_merge_fields('invoice_merge_fields', $this->invoice->id);
+        ->set_merge_fields('dispute_case_merge_fields', $this->invoice->id);
     }
 }

@@ -32,5 +32,6 @@ class Procuration_deadline_reminder_to_staff extends App_mail_template
         ->set_staff_id($this->staffid)
         ->set_merge_fields('staff_merge_fields', $this->staffid)
         ->set_merge_fields('tasks_merge_fields', $this->task_id);
+
     }
 }

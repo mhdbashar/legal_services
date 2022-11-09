@@ -21,6 +21,8 @@
                                         <?php
                                           if($father_linked_services->l_service_id == 1)
                                             $to = 'Case';
+                                          elseif ($father_linked_services->l_service_id == 22)
+                                              $to = 'Disputes_cases';
                                           else
                                             $to = 'SOther';
                                         ?>
@@ -38,6 +40,8 @@
                                       <?php
                                         if($child_linked_service->to_service_id == 1)
                                           $to = 'Case';
+                                        elseif ($child_linked_service->to_service_id == 22)
+                                            $to = 'Disputes_cases';
                                         else
                                           $to = 'SOther';
                                       ?>

@@ -65,7 +65,7 @@ class Contract_merge_fields extends App_merge_fields
                 ],
                 [
                     'name'      => 'Project name',
-                    'key'       => '{project_name}',
+                    'key'       => '{service_name}',
                     'available' => [
                         'contract',
                     ],
@@ -101,7 +101,7 @@ class Contract_merge_fields extends App_merge_fields
         $fields['{contract_contract_value}'] = app_format_money($contract->contract_value, $currency);
 
         $fields['{contract_link}']      = site_url('contract/' . $contract->id . '/' . $contract->hash);
-        $fields['{project_name}']       = get_project_name_by_id($contract->project_id);
+        $fields['{service_name}']       = get_project_name_by_id($contract->project_id);
         $fields['{contract_short_url}'] = get_contract_shortlink($contract);
 
         $custom_fields = get_custom_fields('contracts');

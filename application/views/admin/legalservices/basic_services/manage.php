@@ -7,18 +7,34 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <?php if(has_permission('projects','','create')){ ?>
-                                <?php $route = $ServID == 1 ?  admin_url("Case/add/$ServID") : admin_url("SOther/add/$ServID") ?>
+                            <?php if(has_permission('projects','','create')){
+                                if($ServID == 1) $route = admin_url("Case/add/$ServID");
+                                elseif($ServID == 22) $route = admin_url("Disputes_cases/add/$ServID");
+                                else $route = admin_url("SOther/add/$ServID");?>
                                 <a href="<?php echo $route; ?>" class="btn btn-info mright5 test pull-left display-block">
                                     <?php echo _l('permission_create').' '.$service->name; ?>
                                 </a>
                             <?php }
+                            $TableStaff = 'my_members_services';
+                            $TableService = 'my_other_services';
+                            $field = 'oservice_id';
+                            $class = '.table-my_other_services';
+                            $render_class = 'my_other_services';
+                            if($ServID == 1){
+                                $TableStaff = 'my_members_cases';
+                                $TableService = 'my_cases';
+                                $field = 'project_id';
+                                $class = '.table-cases';
+                                $render_class = 'cases';
 
-                            $TableStaff = $ServID == 1 ? 'my_members_cases' : 'my_members_services';
-                            $TableService = $ServID == 1 ? 'my_cases' : 'my_other_services';
-                            $field = $ServID == 1 ? 'project_id' : 'oservice_id';
-                            $class = $ServID == 1 ? '.table-cases' : '.table-my_other_services';
-                            $render_class = $ServID == 1 ? 'cases' : 'my_other_services';
+                            }
+                            if($ServID == 22){
+                                $TableStaff = 'my_members_cases';
+                                $TableService ='my_disputes_cases';
+                                $field = 'project_id';
+                                $class = '.table-cases';
+                                $render_class ='cases';
+                            }
 
                             ?>
 
@@ -80,8 +96,14 @@
                                     ?>
                                     <div class="col-md-2 col-xs-6 border-right">
                                         <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; ?>
-                                        <?php $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
-                                              $where .= (' AND '.db_prefix().$TableService.'.deleted = 0'); ?>
+                                        <?php if($ServID==1){
+                                            $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                            $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        } ?>
+                                        <?php if($ServID==22){
+                                            $where .= ($ServID == 22 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                            $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        } ?>
                                         <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
                                             <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">
@@ -102,7 +124,13 @@
                         <hr class="hr-panel-heading" />
                             <?php
                             $table_data = array();
-                            $TitleText = $ServID == 1 ? 'CaseTitle' : 'cf_translate_input_link_title';
+                            if($ServID == 1){
+                                $TitleText = 'CaseTitle';
+                            }elseif ($ServID == 22){
+                                $TitleText = 'CaseTitle';
+                            }else{
+                                $TitleText = 'cf_translate_input_link_title';
+                            }
                             $_table_data = array(
                                 array(
                                     'name' => _l('the_number_sign'),
@@ -138,6 +166,7 @@
                             }
 
                             $table_data = hooks()->apply_filters('services_table_columns', $table_data);
+
                             render_datatable($table_data,$render_class);
                             ?>
                         </div>

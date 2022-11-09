@@ -449,7 +449,7 @@ DROP  `filetype` ;");
         ('staff', 'staff-password-reseted', 'english', 'Password Reset - Confirmation', 'Your password has been changed', '<strong>You have changed your password.<br /></strong><br /> Please, keep it in your records so you don''t forget it.<br /> <br /> Your email address for login is: {staff_email}<br /> If this wasnt you, please contact us.<br /><br />{email_signature}', '{companyname} | CRM', '', 0, 1, 0);");
 
         $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
-('project', 'assigned-to-project', 'english', 'New Project Created (Sent to Customer Contacts)', 'New Project Created', '<p>Hello&nbsp;{contact_firstname}</p>\r\n<p>New project is assigned to your company.<br />Project Name:&nbsp;{project_name}</p>\r\n<p>You can view the project on the following link:{project_link}</p>\r\n<p>We are looking forward hearing from you.</p>\r\n<p>{email_signature}</p>', '{companyname} | CRM', NULL, 0, 1, 0);");
+('project', 'assigned-to-project', 'english', 'New Project Created (Sent to Customer Contacts)', 'New Project Created', '<p>Hello&nbsp;{contact_firstname}</p>\r\n<p>New project is assigned to your company.<br />Project Name:&nbsp;{service_name}</p>\r\n<p>You can view the project on the following link:{service_link}</p>\r\n<p>We are looking forward hearing from you.</p>\r\n<p>{email_signature}</p>', '{companyname} | CRM', NULL, 0, 1, 0);");
 
           update_option('update_info_message', '<div class="col-md-12">
             <div class="alert alert-success bold">

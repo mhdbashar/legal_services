@@ -27,7 +27,7 @@
                         ?>
                         <div class="copy-project-tasks-status-wrapper">
                             <p class="bold"><?php echo _l('LegalService'); ?></p>
-                            <?php foreach($services as $service){if($service['id'] == $ServID)continue;?>
+                            <?php foreach($services as $service){?>
                                 <div class="radio radio-primary">
                                     <input type="radio" name="service_id" value="<?php echo $service['id']; ?>" id="cp_task_status_<?php echo $service['id']; ?>"<?php if($service['id'] == '1'){echo ' checked';} ?>>
                                     <label for="cp_task_status_<?php echo $service['id']; ?>"><?php echo $service['name']; ?></label>

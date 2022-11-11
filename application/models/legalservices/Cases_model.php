@@ -3182,7 +3182,7 @@ class Cases_model extends App_Model
             $upload_folder = 'disputes_cases';
             $files_table = db_prefix() . 'my_disputes_case_files';
             $files_id = 'project_id';
-            $oppnents = $_new_data['opponent_id'];
+            $opponents = $_new_data['opponent_id'];
             unset($_new_data['opponent_id']);
             unset($_new_data['case_status']);
             unset($_new_data['billing_type']);
@@ -3209,6 +3209,10 @@ class Cases_model extends App_Model
             unset($_new_data['file_number_case']);
             unset($_new_data['file_number_court']);
             unset($_new_data['previous_case_id']);
+            unset($_new_data['duration_id']);
+            unset($_new_data['regular_duration_begin_date']);
+            unset($_new_data['deadline_notified']);
+            unset($_new_data['regular_header']);
         }
 
         unset($_new_data['id']);
@@ -3442,10 +3446,10 @@ class Cases_model extends App_Model
             }
 
             if ($ServID2 == 22){
-                if(isset($oppnents)){
+                if(isset($opponents)){
                     $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
                         'case_id'  => $id,
-                        'opponent_id' => $oppnents,
+                        'opponent_id' => $opponents,
                     ]);
                 }
                 $cases_judges = $this->get_case_judges($project_id);

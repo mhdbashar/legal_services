@@ -990,7 +990,7 @@ class Disputes_cases extends AdminController
             if ($id) {
                 set_alert('success', _l('project_linked_successfully'));
                 if ($ServID2 == 1)
-                    redirect(admin_url('Case/view/1/' . $id));
+                    redirect(admin_url('Case/edit/1/' . $id));
                 elseif ($ServID2 == 22)
                     redirect(admin_url('Disputes_cases/view/22/' . $id));
                 else

@@ -17,11 +17,17 @@
                         <?php 
                           $this->db->where('show_on_sidebar', 1);
                           $services = $this->db->get(db_prefix() . 'my_basic_services')->result_array();
-                          // var_dump($services);
+                        $child_linked_services = $this->db->get_where(db_prefix() . 'my_link_services',['service_id'=>$ServID,'rel_id'=>(isset($project) ? $project->id : '')])->result();
+                        foreach ($child_linked_services as $child_linked_service){
+                            foreach ($services as $key=>$service){
+                                if($child_linked_service->to_service_id == $service['id'])unset($services[$key]);
+                            }
+                        }
+                        // var_dump($services);
                         ?>
                         <div class="copy-project-tasks-status-wrapper">
                             <p class="bold"><?php echo _l('LegalService'); ?></p>
-                            <?php foreach($services as $service){ ?>
+                            <?php foreach($services as $service){if($service['id'] == $ServID)continue;?>
                                 <div class="radio radio-primary">
                                     <input type="radio" name="service_id" value="<?php echo $service['id']; ?>" id="cp_task_status_<?php echo $service['id']; ?>"<?php if($service['id'] == '1'){echo ' checked';} ?>>
                                     <label for="cp_task_status_<?php echo $service['id']; ?>"><?php echo $service['name']; ?></label>

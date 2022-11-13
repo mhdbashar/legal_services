@@ -3,13 +3,26 @@ $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
+$time_format = get_option('time_format');
+$format = '';
+$time = '24';
+
+if ($time_format === '24') {
+    $format = '"%H:%i"';
+    $time_type = 'text';
+} else {
+    $time = '12';
+    $format = '"%h:%i %p"';
+    $time_type = 'time';
+}
+
 $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
     db_prefix() . 'tasks.status as status',
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
-    'time',
+    'TIME_FORMAT(time, ' . $format . ') as time',
     'court_name',
     'startdate',
     'customer_report',
@@ -142,7 +155,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputName;
    // $row[] = $aRow['judge'];
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
-    $row[] = $aRow['court_name'];
+    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
 //    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border: 1px solid #989898">لايوجد</span>';
@@ -195,10 +208,17 @@ foreach ($rResult as $aRow) {
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="col-md-6">                                       
-                                        <label for="next_session_time'.$aRow['id'].'" class="control-label">'. _l('next_session_time').'</label>                                           
-                                        <input type="text" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" style="display: block;width: 100%;">                                                                               
-                                    </div>                      
+                                    <div class="col-md-6">
+                                        <div class="form-group" app-field-wrapper="time">
+                                            <label for="next_session_time'.$aRow['id'].'" class="control-label">'. _l('next_session_time').'</label><br>
+                                            <div class="input-group time">
+                                                <input type="'.$time_type.'" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" autocomplete="off" aria-invalid="false">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-clock-o clock-icon"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="row">
@@ -225,9 +245,9 @@ foreach ($rResult as $aRow) {
                     </div>
                 </div>
                 <script type="text/javascript">
-                 init_datepicker();            
-                 load_time_picker(' . $aRow['id'] . ');
-                </script>';
+                 init_datepicker();';
+                if($time_format === '24') $stc .= 'load_time_picker('.$aRow['id'].');';
+                $stc .= '</script>';
     elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0):
         $stc = '<a href="#/" onclick="send_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
         $stc .= '<i class="fa fa-envelope-o"></i>  </br> '._l('send');

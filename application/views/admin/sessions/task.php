@@ -157,6 +157,63 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option value=""></option>
+                                        <option value="customer"
+                                            <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
+                                            <?php echo _l('client'); ?>
+                                        </option>
+                                        <?php
+                                        foreach ($legal_services as $service):
+                                            if($service->id == 1):
+                                                $val = $service->is_module == 0 ? $service->slug : 'project';
+                                            else:
+                                                $val = $service->is_module == 0 ? "session_".$service->slug : 'project';
+                                            endif
+                                            ?>
+                                            <option value="<?php echo $val; ?>"
+                                                <?php if(isset($task) || $this->input->get('rel_type')){
+                                                    if($service->is_module == 0){
+                                                        if($rel_type == $service->slug){
+                                                            echo 'selected';
+                                                        }
+                                                    }else{
+                                                        if($rel_type == 'project'){
+                                                            echo 'selected';
+                                                        }
+                                                    }
+                                                } ?>><?php echo $service->name; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                        <?php
+                                        hooks()->do_action('task_modal_rel_type_select', ['task' => (isset($task) ? $task : 0), 'rel_type' => $rel_type]);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                                    <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                    <div id="rel_id_select">
+                                        <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                            <?php if($rel_id != '' && $rel_type != ''){
+                                                $rel_data = get_relation_data($rel_type,$rel_id);
+                                                $rel_val = get_relation_values($rel_data,$rel_type);
+                                                if(!$rel_data){
+                                                    echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
+                                                }else{
+                                                    echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                                }
+                                            } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <?php
                                     if(isset($task)){
                                         if ($task->rel_type == '') {
@@ -228,6 +285,15 @@
                                         if ($rel_type == 'kd-y') {
                                             $data = (isset($case) ? get_relation_data('myjudicial', $case->court_id) : array());
                                             $j_value = (isset($case->jud_num) ? $case->jud_num : '');
+                                            $cat_value = (isset($case->cat_id) ? $case->cat_id : '');
+                                            $subcat_value = (isset($case->subcat_id) ? $case->subcat_id : '');
+                                            $childsubcat_value = (isset($case->childsubcat_id) ? $case->childsubcat_id : '');
+                                            $file_number_court_value = (isset($case->file_number_court) ? $case->file_number_court : '');
+                                            if(isset($case)){
+                                                $cats = get_relation_data('mycategory', $rel_type == 'kd-y'?1:'');
+                                                $subcats = (isset($case->subcat_id) ? get_subcategory_by_category_id($case->cat_id) : []);
+//                                                $childsubcats = (isset($case->childsubcat_id) ? get_subcategory_by_category_id($case->subcat_id) : []);
+                                            }
                                         } elseif ($rel_type != '') {
                                             $data = (isset($serv->court_id) ? get_relation_data('myjudicial', $serv->court_id) : array());
                                             $j_value = (isset($serv->jud_num) ? $serv->jud_num : '');
@@ -246,7 +312,41 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
+                                                    <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected disabled></option>
+                                                        <?php if(isset($cats)){foreach ($cats as $row){ ?>
+                                                            <option value="<?php echo $row->id; ?>" <?php echo $cat_value == $row->id ? 'selected' : '';?> ><?php echo $row->name; ?></option>
+                                                        <?php }} ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
+                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <?php if(isset($subcats)){foreach ($subcats as $row) { ?>
+                                                        <option value="<?php echo $row->id; ?>" <?php echo $subcat_value == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
+                                                        <?php } } ?>
+                                                        <option selected disabled></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div id="childsubcat"></div>
+                                            <div class="col-md-6">
+                                                <?php echo render_input('file_number_court', 'file_number_in_court', isset($file_number_court_value)?$file_number_court_value:'', 'number'); ?>
+                                            </div>
+                                        </div>
+
+
+                            <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="judge_id" class="control-label"><?php echo _l('judge'); ?></label>
@@ -269,63 +369,6 @@
                                         <option value="جلسة خبراء" <?php echo $value == 'جلسة خبراء' ? 'selected' : ''; ?>>جلسة خبراء</option>
                                         <option value="جلسة الحكم" <?php echo $value == 'جلسة الحكم' ? 'selected' : ''; ?>>جلسة الحكم</option>
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
-                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option value=""></option>
-                                        <option value="customer"
-                                            <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
-                                            <?php echo _l('client'); ?>
-                                        </option>
-                                        <?php
-                                        foreach ($legal_services as $service):
-                                            if($service->id == 1):
-                                                $val = $service->is_module == 0 ? $service->slug : 'project';
-                                            else:
-                                                $val = $service->is_module == 0 ? "session_".$service->slug : 'project';
-                                            endif
-                                            ?>
-                                            <option value="<?php echo $val; ?>"
-                                                <?php if(isset($task) || $this->input->get('rel_type')){
-                                                    if($service->is_module == 0){
-                                                        if($rel_type == $service->slug){
-                                                            echo 'selected';
-                                                        }
-                                                    }else{
-                                                        if($rel_type == 'project'){
-                                                            echo 'selected';
-                                                        }
-                                                    }
-                                                } ?>><?php echo $service->name; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                        <?php
-                                        hooks()->do_action('task_modal_rel_type_select', ['task' => (isset($task) ? $task : 0), 'rel_type' => $rel_type]);
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
-                                    <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
-                                    <div id="rel_id_select">
-                                        <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                            <?php if($rel_id != '' && $rel_type != ''){
-                                                $rel_data = get_relation_data($rel_type,$rel_id);
-                                                $rel_val = get_relation_values($rel_data,$rel_type);
-                                                if(!$rel_data){
-                                                    echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
-                                                }else{
-                                                    echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                                                }
-                                            } ?>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -441,11 +484,15 @@
                         </div>
                         <?php $rel_id_custom_field = (isset($task) ? $task->id : false); ?>
                         <?php echo render_custom_fields('sessions',$rel_id_custom_field); ?>
+
+                        <?php echo render_input('session_link', 'session_link', isset($task)?$task->session_link:'', 'link'); ?>
+
                         <hr />
                         <p class="bold"><?php echo _l('session_info'); ?></p>
                         <?php
                         //onclick and onfocus used for convert ticket to task too
                         echo render_textarea('session_information','',(isset($task) ? $task->session_information : ''),array('rows'=>3,'placeholder'=>_l('session_info'),'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($task) || isset($task) && $task->session_information == '' ? 'init_editor(\'.tinymce-task\', {height:10, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?>
+
                     </div>
                 </div>
             </div>
@@ -468,7 +515,6 @@
         $(function(){
 
             $( "body" ).off( "change", "#rel_id" );
-
             var inner_popover_template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>';
 
             $('#_task_modal .task-menu-options .trigger').popover({
@@ -543,9 +589,41 @@
                                 $('#court_id').selectpicker('refresh');
                             });
                             if(response.jud != ''){
+                                $('#dept').html('');
                                 $.each(response.jud, function (key, value) {
                                     $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
                                 });}
+                            if(response.file_number_court != ''){
+                              $('#file_number_court').val(response.file_number_court);
+                            }
+                            if(response.cat != ''){
+                                $('#cat_id').empty();
+                                $.each(response.cat, function (key, value) {
+                                    $('#cat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
+                                });}
+                            if(response.subcat != ''){
+                                $('#subcat_id').html('');
+                                $.each(response.subcat, function (key, value) {
+                                    $('#subcat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
+                                });}
+                            if(response.childsubcat != ''){
+                                $('#childsubcat').html('');
+                                $('#childsubcat').html(`
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                                        <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        </select>
+                                    </div>
+                                </div>
+                                `);
+                        $('#childsubcat_id').append('<option value=""></option>');
+                        $.each(response.childsubcat, function (key, value) {
+                            $('#childsubcat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
+                        });}
+
+
                         }
                     });
 
@@ -673,7 +751,21 @@
             return false;
         }
         function GetCourtJad() {
+            //$('#dept').html('');
+            //id = $('#court_id').val();
+            //$.ajax({
+            //    url: '<?php //echo admin_url("judicialByCourt/"); ?>//' + id,
+            //    success: function (data) {
+            //        response = JSON.parse(data);
+            //        $.each(response, function (key, value) {
+            //            $('#dept').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
+            //        });
+            //    }
+            //});
             $('#dept').html('');
+            $('#cat_id').empty();
+            $('#subcat_id').html('');
+            $('#childsubcat').html('');
             id = $('#court_id').val();
             $.ajax({
                 url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
@@ -684,6 +776,25 @@
                     });
                 }
             });
+            $.ajax({
+                url: "<?php echo admin_url('legalservices/Courts/build_dropdown_court_category'); ?>",
+                data: {c_id: $("#court_id").val()},
+                type: "POST",
+                success: function (data) {
+                    $('#cat_id').append($('<option>', {
+                        value: '',
+                        text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                    }));
+                    response = JSON.parse(data);
+                    $.each(response, function (key, value) {
+                        $('#cat_id').append($('<option>', {
+                            value: value['id'],
+                            text: value['name']
+                        }));
+                    });
+                }
+            });
+
         }
 
         //hide task-hours when change state task_billable by baraa
@@ -696,5 +807,87 @@
                 }
             });
         });
+
+        function GetSubCat() {
+            $('#subcat_id').html('');
+            $('#childsubcat').html('');
+            id = $('#cat_id').val();
+            $.ajax({
+                url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
+                success: function (data) {
+                    response = JSON.parse(data);
+                    $('#subcat_id').append('<option value=""></option>');
+                    $.each(response, function (key, value) {
+                        $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    });
+                }
+            });
+        }
+
+        $("#subcat_id").change(function () {
+            $('#childsubcat').html('');
+            id = $('#subcat_id').val();
+            $.ajax({
+                url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
+                success: function (data) {
+                    response = JSON.parse(data);
+                    if(response.length != 0) {
+                        $('#childsubcat').html(`
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                        <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                        </select>
+                    </div>
+                </div>
+                `);
+                        $('#childsubcat_id').append('<option value=""></option>');
+                        $.each(response, function (key, value) {
+                            $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                        });
+                    }
+                    else {
+                        $('#childsubcat').html('');
+                    }
+                }
+            });
+        });
+
+        $("#subcat_id").ready(function () {
+            $('#childsubcat').html('');
+            id = $('#subcat_id').val();
+            <?php $value = (isset($case) ? $case->childsubcat_id : ''); ?>
+            var childsubcat_id = "<?php echo $value; ?>";
+            $.ajax({
+                url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
+                success: function (data) {
+                    // if(data != null){
+                    response = JSON.parse(data);
+                    if(response.length != 0) {
+                        $('#childsubcat').html(`
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
+                                <select class="form-control custom_select_arrow" id="childsubcat_id" name="childsubcat_id"
+                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                </select>
+                            </div>
+                        </div>
+                        `);
+                        $('#childsubcat_id').append('<option value=""></option>');
+                        $.each(response, function (key, value) {
+                            if(value['id'] == childsubcat_id){
+                                var select = 'selected';
+                            }
+                            $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select +'>' + value['name'] + '</option>');
+                        });
+                    }else {
+                        $('#childsubcat').html('');
+                    }
+                }
+            });
+        });
+
 
     </script>

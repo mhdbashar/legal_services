@@ -738,12 +738,8 @@ class Sessions extends AdminController
                     ]);
                     die;
                 }
-
                 $id      = $this->sessions_model->add($data);
                 $task = $this->sessions_model->get($id);
-
-
-
                 $_id     = false;
                 $success = false;
                 $message = '';
@@ -802,21 +798,8 @@ class Sessions extends AdminController
                     'message' => $message,
                     'id'      => $id,
                 ]);
-
-
-
-
                 die;
-
-
-
             }
-
-
-
-
-
-
             die;
         }
 
@@ -2075,6 +2058,25 @@ class Sessions extends AdminController
                         $j->selected = (isset($case->jud_num) && $case->jud_num == $j->j_id ? 'selected' : '');
                     }
                 }
+                $cats = get_category_by_court_id($case->court_id);
+                if($cats){
+                    foreach ($cats as $cat){
+                        $cat->selected = (isset($case->cat_id) && $case->cat_id == $cat->id ? 'selected' : '');
+                    }
+                }
+                $sub_cats = get_subcategory_by_category_id($case->cat_id);
+                if($sub_cats){
+                    foreach ($sub_cats as $sub_cat){
+                        $sub_cat->selected = (isset($case->subcat_id) && $case->subcat_id == $sub_cat->id ? 'selected' : '');
+                    }
+                }
+                $child_subcats = get_subcategory_by_category_id($case->subcat_id);
+                if($child_subcats){
+                    foreach ($child_subcats as $child_subcat){
+                        $child_subcat->selected = (isset($case->childsubcat_id) && $case->childsubcat_id == $child_subcat->id ? 'selected' : '');
+                    }
+                }
+                $file_number_court = isset($case->file_number_court) ? $case->file_number_court : '';
             }
         } elseif ($data['rel_type'] == 'customer') {
             $customer = get_customer_by_id($data['rel_id']);
@@ -2099,6 +2101,10 @@ class Sessions extends AdminController
             echo json_encode([
                 'courts' => $courts,
                 'jud'   => $jud > 0 ? $jud : '',
+                'cat'   => $cats > 0 ? $cats : '',
+                'subcat'   => $sub_cats > 0 ? $sub_cats : '',
+                'childsubcat'   => $child_subcats > 0 ? $child_subcats : '',
+                'file_number_court'   => $file_number_court > 0 ? $file_number_court : '',
             ]);
         }else{
             $all_courts = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));

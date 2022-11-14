@@ -223,9 +223,13 @@ foreach ($rResult as $aRow) {
                                     </div>
                                 </div>
                                 <br>
-
-                                  '.render_input("session_link", "session_link", "", "link").'
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="bold">'._l('next_session_link').'</p>
+                                        <input type="link" name="session_link" id="session_link" class="form-control" style="width: 100%">
+                                    </div>
+                                </div> 
+                                <br>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="bold">'._l('Court_decision').'</p>

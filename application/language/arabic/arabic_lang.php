@@ -3452,6 +3452,8 @@ $lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
 $lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
 $lang['sessions_reminder_notification_before'] = 'تذكير الموعد النهائي للجلسة قبل (ساعات)';
 $lang['sessions_reminder_notification_before_help'] = 'إشعار قبل موعد الجلسة بالساعات';
+$lang['next_session_link'] = 'رابط الجلسة القادمة';
+
 
 
 

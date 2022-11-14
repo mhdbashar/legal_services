@@ -2574,6 +2574,21 @@ class Cron_model extends App_Model
     {
         $auto_reminder = get_option('sessions_reminder_notification_before');
 
+        $this->db->where('status !=', 5);
+        $this->db->where('deadline_notified', 0);
+        $this->db->where('is_session', 1);
+
+
+        $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+
+        foreach ($tasks as $task) {
+
+        }
+
+        pusher_trigger_notification($notifiedUsers);
 
     }
 

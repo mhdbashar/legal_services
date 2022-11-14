@@ -3879,4 +3879,5 @@ $lang['disputes_percent_fees'] = 'Disputes Percent Fees';
 $lang['disputes_invoice_item'] = 'Disputes Invoice';
 $lang['sessions_reminder_notification_before'] = 'Remind The Session Deadline Before (hours)';
 $lang['sessions_reminder_notification_before_help'] = 'Notification Hours Before The Session';
+$lang['next_session_link'] = 'Next Session Link';
 

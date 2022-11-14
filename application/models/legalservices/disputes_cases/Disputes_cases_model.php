@@ -3214,15 +3214,18 @@ class Disputes_cases_model extends App_Model
         }
 
         if($ServID2 == 1) {
-//            $service_table = db_prefix() . 'my_cases';
-//            $settings_table = db_prefix() . 'case_settings';
-//            $setting_id = 'case_id';
-//            $upload_folder = 'cases';
-//            $files_table = db_prefix() . 'case_files';
-//            $files_id = 'project_id';
-//            unset($_new_data['opponent_lawyer_id']);
-//            unset($_new_data['disputes_total']);
-//            unset($_new_data['case_status']);
+            $service_table = db_prefix() . 'my_cases';
+            $settings_table = db_prefix() . 'case_settings';
+            $setting_id = 'case_id';
+            $upload_folder = 'cases';
+            $files_table = db_prefix() . 'case_files';
+            $files_id = 'project_id';
+            $opponents = $this->get_case_opponents($project_id);
+            if(isset($opponents)) $_new_data['opponent_id'] = $opponents[0]['opponent_id'];
+            unset($_new_data['opponent_lawyer_id']);
+            unset($_new_data['disputes_total']);
+            unset($_new_data['case_status']);
+            unset($_new_data['is_invoiced']);
         } elseif ($ServID2 == 22){
             $service_table = db_prefix() . 'my_disputes_cases';
             $settings_table = db_prefix() . 'my_disputes_case_settings';
@@ -3319,6 +3322,7 @@ class Disputes_cases_model extends App_Model
                     'value' => $setting['value'],
                 ]);
             }
+
             $added_tasks = [];
             $tasks       = $this->get_tasks($project_id);
             if (isset($data['tasks'])) {
@@ -3373,6 +3377,7 @@ class Disputes_cases_model extends App_Model
                     }
                 }
             }
+
             if (isset($data['milestones'])) {
                 $milestones        = $this->get_milestones($slug, $project_id);
                 $_added_milestones = [];
@@ -3413,6 +3418,7 @@ class Disputes_cases_model extends App_Model
                         $_added_milestones[]           = $_added_milestone_data;
                     }
                 }
+
                 if (isset($data['tasks'])) {
                     if (count($added_tasks) > 0) {
                         // Original project tasks
@@ -3447,6 +3453,7 @@ class Disputes_cases_model extends App_Model
                     }
                 }
             }
+
             if (isset($data['members'])) {
                 $members  = $this->get_project_members($project_id);
                 $_members = [];
@@ -3468,7 +3475,36 @@ class Disputes_cases_model extends App_Model
                         'project_members' => $_members,
                     ],$ServID, $id);
                 }
+            }
 
+            if ($ServID2 == 22){
+                $opponents = $this->get_case_opponents($project_id);
+                if(isset($opponents)){
+                    $data_opponents = [];
+                    foreach ($opponents as $opponent){
+                        $data_opponents['opponents'][] = $opponent['opponent_id'];
+                    }
+                    $this->add_edit_opponents($data_opponents,$id);
+                }
+                $cases_judges = $this->get_case_judges($project_id);
+                if (isset($cases_judges)) {
+                    foreach ($cases_judges as $case_judge) {
+                        $this->db->insert(db_prefix() . 'my_disputes_cases_judges', [
+                            'case_id'  => $id,
+                            'judge_id' => $case_judge['judge_id'],
+                        ]);
+                    }
+                }
+            }elseif($ServID2 == 1){
+                $cases_judges = $this->get_case_judges($project_id);
+                if (isset($cases_judges)) {
+                    foreach ($cases_judges as $case_judge) {
+                        $this->db->insert(db_prefix() . 'my_cases_judges', [
+                            'case_id'  => $id,
+                            'judge_id' => $case_judge['judge_id'],
+                        ]);
+                    }
+                }
             }
 
             $custom_fields = get_custom_fields($slug);

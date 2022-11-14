@@ -19,9 +19,9 @@
                                 <div>
                                     <?php if( is_object($father_linked_services)): ?>
                                         <?php
-                                        if($father_linked_services->to_service_id == 1)
+                                        if($father_linked_services->l_service_id == 1)
                                             $to = 'Case';
-                                        elseif ($father_linked_services->to_service_id == 22)
+                                        elseif ($father_linked_services->l_service_id == 22)
                                             $to = 'Disputes_cases';
                                         else
                                             $to = 'SOther';

@@ -1,5 +1,7 @@
 <?php
 
+$lang['saudi_warning'] = 'في حال تم تغيير الوضع الى نعم لن يمكنك تغيير هذا الخيار مرة اخرى';
+$lang['saudi_vat'] = 'خاضع لنظام الضريبة السعودي';
 $lang['finger_timekeeper'] = 'مراقب الدوام';
 $lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
@@ -898,8 +900,8 @@ $lang['Customer_report'] = "تقرير العميل";
 $lang['Send_to_customer'] = "إرسال للعميل";
 $lang['session_date'] = "تاريخ الجلسة";
 $lang['session_time'] = "وقت الجلسة";
-$lang['Waiting_sessions'] = "جلسات بالانتظار";
-$lang['Previous_Sessions'] = "جلسات سابقة";
+$lang['Waiting_sessions'] = "جلسات قادمة";
+$lang['Previous_Sessions'] = "جلسات منتهية";
 $lang['add_new_session'] = "إضافة جلسة";
 $lang['session_info'] = "وقائع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
@@ -1136,3 +1138,22 @@ $lang['migration_lang_14'] = "ستتم إعادة تحميل هذه النافذ
 $lang['migration_lang_15'] = "تم تحديث قاعدة البيانات الخاصة بك";
 
 $lang['tax_invoice_pdf_heading'] = "فاتورة ضريبية";
+$lang['regular_duration'] = "المدة النظامية";
+$lang['regular_durations'] = "المدد النظامية";
+$lang['number_of_days'] = "عدد الأيام";
+$lang['name'] = "الاسم";
+$lang['new_regular_duration'] = "إنشاء مدة نظامية جديدة";
+$lang['categories'] = "التصنيفات الرئيسية";
+$lang['sub_categories'] = "التصنيفات الفرعية";
+$lang['edit_regular_duration'] = "تحرير مدة زمنية نظامية";
+$lang['regular_duration_begin_date'] = "تاريخ بداية المدة الزمنية النظامية";
+$lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
+$lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
+$lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
+$lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة النظامية";
+$lang['remember that'] = "تذكر أن المدة النظامية";
+$lang['which started at'] = "والتي بدأت بتاريخ ";
+$lang['will end at'] = "ستنتهي بتاريخ ";
+
+
+

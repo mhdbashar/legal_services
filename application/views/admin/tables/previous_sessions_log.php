@@ -56,6 +56,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
 
         if($ServID == 1){
             $table_rel = 'my_cases';
+        }elseif ($ServID == 22){
+            $table_rel = 'my_disputes_cases';
         }else{
             $table_rel = 'my_other_services';
         }
@@ -221,6 +223,9 @@ foreach ($rResult as $aRow) {
                                     </div>
                                 </div>
                                 <br>
+
+                                  '.render_input("session_link", "session_link", "", "link").'
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="bold">'._l('Court_decision').'</p>

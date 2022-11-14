@@ -688,7 +688,7 @@ class Sessions extends AdminController
         //Remove service option from rel_type dropdown if not link with session
         $data['legal_services'] = $this->legal->get_all_services();
         foreach ($data['legal_services'] as $service => $object):
-            if($object->id != 1):
+            if($object->id != 1 && $object->id != 22):
                 $count = check_service_if_link_with_seesion($object->id);
                 if($count == 0):
                     unset($data['legal_services'][$service]);

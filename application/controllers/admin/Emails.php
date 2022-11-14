@@ -13,6 +13,7 @@ class Emails extends AdminController
     /* List all email templates */
     public function index()
     {
+
         if (!has_permission('email_templates', '', 'view')) {
             access_denied('email_templates');
         }
@@ -148,6 +149,24 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+
+
+
+
+        $data['regular_duration'] = $this->emails_model->get([
+            'type'     => 'regular_duration',
+            'language' => $lang,
+        ]);
+
+
+
+
+
+
+
+
+
+
         $data['title'] = _l('email_templates');
 
         $data['hasPermissionEdit'] = has_permission('email_templates', '', 'edit');
@@ -207,7 +226,8 @@ class Emails extends AdminController
         $data['template'] = $this->emails_model->get_email_template_by_id($id);
         $title            = $data['template']->name;
         $data['title']    = $title;
-        $this->load->view('admin/emails/template', $data);
+           $this->load->view('admin/emails/template', $data);
+
     }
 
     public function enable_by_type($type)

@@ -722,9 +722,9 @@ class Sessions_model extends App_Model
             $session['file_number_court'] = $data['file_number_court'];
             unset($data['file_number_court']);
         }
-        if (isset($data['file_number_court'])) {
-            $session['file_number_court'] = $data['file_number_court'];
-            unset($data['file_number_court']);
+        if (isset($data['session_link'])) {
+            $session['session_link'] = $data['session_link'];
+            unset($data['session_link']);
         }
         $session_info = true;
         //End Block For Legal Services Session

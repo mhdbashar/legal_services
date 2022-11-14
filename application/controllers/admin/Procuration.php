@@ -12,6 +12,7 @@ class Procuration extends AdminController
         $this->load->model('procurations_model');
         $this->load->model('Staff_model');
         $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
     }
 
     /* List all Procuration */
@@ -60,7 +61,27 @@ class Procuration extends AdminController
         die();
     }
 
-    public function all(){
+    public function build_dropdown_disputes_cases($select=0) {
+        if ($select != 0) {
+            $this->db->where('clientid', $select);
+        }
+        $cases = $this->db->get(db_prefix() . 'my_disputes_cases')->result_array();
+        $data = [];
+        foreach ($cases as $case) {
+            $_array = [];
+            $_array['key'] = $case['id'];
+            $_array['value'] = $case['name'];
+            $data[] = $_array;
+        }
+        // return $data;
+
+        echo json_encode(['success'=>true,'data'=>$data]);
+        die();
+    }
+
+
+
+        public function all(){
         if (!has_permission('procurations', '', 'view') && !is_admin()) {
             access_denied('Procurations');
         }
@@ -170,7 +191,10 @@ class Procuration extends AdminController
             if(is_numeric($request)){
                 $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
             }
-            if(is_numeric($case)){
+            if(is_numeric($case) && $id=='d_case'){
+                $redirect = admin_url('Disputes_cases/view/22/' . $case) . '?group=procuration';
+            }
+            elseif(is_numeric($case) && $id=='no_id'){
                 $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
             }
             
@@ -205,8 +229,14 @@ class Procuration extends AdminController
         $data['states'] = $this->procurationstate_model->get();
         $data['types'] = $this->procurationtype_model->get();
         $data['cases'] = $this->case->get();
-        if(is_numeric($request)){
+        $data['disputes_cases'] = $this->Dcase->get();
+        $data['is_case'] = true;
+        $data['is_disputes_case'] = true;
+        if(is_numeric($request) && $id == 'no_id'){
             $data['cases'] = $this->case->get('', ['clientid' => $request]);
+        }
+        elseif (is_numeric($request) && $id=='d_case'){
+            $data['disputes_cases'] = $this->Dcase->get('', ['clientid' => $request]);
         }
         $data['id'] = $id;
         $data['title'] = $title;

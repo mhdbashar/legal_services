@@ -28,6 +28,7 @@ class Staff_merge_fields extends App_merge_fields
                         'contract-expiration-to-staff',
                         'contract-signed-to-staff',
                         'contract-comment-to-admin',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
             [
@@ -51,6 +52,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-expiration-to-staff',
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
                 ],
             ],
             [
@@ -74,6 +76,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-expiration-to-staff',
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
                 ],
             ],
             [
@@ -97,6 +100,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-expiration-to-staff',
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
                 ],
             ],
             [
@@ -120,6 +124,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-expiration-to-staff',
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
                 ],
             ],
                 [
@@ -133,6 +138,7 @@ class Staff_merge_fields extends App_merge_fields
                         'new-project-file-uploaded-to-staff',
                         'new-project-discussion-comment-to-staff',
                         'staff-added-as-project-member',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -149,6 +155,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'staff-forgot-password',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -159,6 +166,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -169,6 +177,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -179,6 +188,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -189,6 +199,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -198,6 +209,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'two-factor-authentication',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -207,6 +219,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'new-staff-created',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
             ];

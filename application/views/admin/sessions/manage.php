@@ -216,6 +216,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
         next_session_date = $('#next_session_date'+task_id).val();
         next_session_time = $('#next_session_time'+task_id).val();
         court_decision    = $('#edit_court_decision'+task_id).val();
+        session_link      = $('#session_link'+task_id).val();
         send_mail_to_opponent    = $('#send_mail_to_opponent'+task_id).prop("checked");
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
@@ -227,6 +228,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                     next_session_time : next_session_time,
                     court_decision : court_decision,
                     send_mail_to_opponent : send_mail_to_opponent,
+                    session_link :session_link,
                 },
                 type: "POST",
                 success: function (data) {
@@ -236,6 +238,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                         $('#next_session_date'+task_id).val('');
                         $('#next_session_time'+task_id).val('');
                         $('#edit_court_decision'+task_id).val('');
+                        $('#session_link'+task_id).val('');
                         $("#send_mail_to_opponent"+task_id).prop('checked', false);
                         reload_tasks_tables();
                     }else if (data == 'error_client'){

@@ -443,6 +443,7 @@ echo form_hidden('project_percent',$percent);
         next_session_date = $('#next_session_date'+task_id).val();
         next_session_time = $('#next_session_time'+task_id).val();
         court_decision    = $('#edit_court_decision'+task_id).val();
+        session_link      = $('#session_link'+task_id).val();
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
@@ -452,6 +453,7 @@ echo form_hidden('project_percent',$percent);
                     next_session_date : next_session_date,
                     next_session_time : next_session_time,
                     court_decision : court_decision,
+                    session_link :session_link,
                 },
                 type: "POST",
                 success: function (data) {
@@ -461,6 +463,7 @@ echo form_hidden('project_percent',$percent);
                         $('#next_session_date'+task_id).val('');
                         $('#next_session_time'+task_id).val('');
                         $('#edit_court_decision'+task_id).val('');
+                        $('#session_link'+task_id).val('');
                         reload_tasks_tables();
                     }else if (data == 2){
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');

@@ -36,13 +36,13 @@
                   <?php
                      $path = 'uploads/disputes_cases/' .$file->project_id.'/'.$file->file_name;
                      if(is_image($path)){ ?>
-                  <img src="<?php echo base_url('uploads/cases/'.$file->project_id.'/'.$file->file_name); ?>" class="img img-responsive">
+                  <img src="<?php echo base_url('uploads/disputes_cases/'.$file->project_id.'/'.$file->file_name); ?>" class="img img-responsive">
                   <?php } else if(!empty($file->external) && !empty($file->thumbnail_link) && $file->external == 'dropbox'){ ?>
                   <img src="<?php echo optimize_dropbox_thumbnail($file->thumbnail_link); ?>" class="img img-responsive">
                   <?php } else if(strpos($file->filetype,'pdf') !== false && empty($file->external)){ ?>
-                     <iframe src="<?php echo base_url('uploads/cases/'.$file->project_id.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
+                     <iframe src="<?php echo base_url('uploads/disputes_cases/'.$file->project_id.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
                  <?php } else if(strpos($file->filetype,'docs') !== false || strpos($file->filetype,'doc') !== false || strpos($file->filetype,'docx') !== false && empty($file->external)){ ?>
-                     <iframe src="<?php echo 'https://docs.google.com/viewer?url=' . base_url('uploads/cases/'.$file->project_id.'/'.$file->file_name) . '&embedded=true'; ?>" height="100%" width="100%" frameborder="0"></iframe>
+                     <iframe src="<?php echo 'https://docs.google.com/viewer?url=' . base_url('uploads/disputes_cases/'.$file->project_id.'/'.$file->file_name) . '&embedded=true'; ?>" height="100%" width="100%" frameborder="0"></iframe>
                  <?php } else if(is_html5_video($path)) { ?>
                   <video width="100%" height="100%" src="<?php echo site_url('download/preview_video?path='.protected_file_url_by_path($path).'&type='.$file->filetype); ?>" controls>
                      Your browser does not support the video tag.
@@ -51,7 +51,7 @@
                      echo $previewMarkdown;
                   } else {
                      if(empty($file->external)) {
-                        echo '<a href="'.site_url('uploads/cases/'.$file->project_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
+                        echo '<a href="'.site_url('uploads/disputes_cases/'.$file->project_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
                      } else {
                         echo '<a href="'.$file->external_link.'" target="_blank">'.$file->file_name.'</a>';
                      }

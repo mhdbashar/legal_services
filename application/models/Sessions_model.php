@@ -999,6 +999,26 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+        if (isset($data['cat_id'])) {
+            $session['cat_id'] = $data['cat_id'];
+            unset($data['cat_id']);
+        }
+        if (isset($data['subcat_id'])) {
+            $session['subcat_id'] = $data['subcat_id'];
+            unset($data['subcat_id']);
+        }
+        if (isset($data['childsubcat_id'])) {
+            $session['childsubcat_id'] = $data['childsubcat_id'];
+            unset($data['childsubcat_id']);
+        }
+        if (isset($data['file_number_court'])) {
+            $session['file_number_court'] = $data['file_number_court'];
+            unset($data['file_number_court']);
+        }
+        if (isset($data['session_link'])) {
+            $session['session_link'] = $data['session_link'];
+            unset($data['session_link']);
+        }
         //End Block For Legal Services Session
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);

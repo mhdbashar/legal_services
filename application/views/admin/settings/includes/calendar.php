@@ -15,11 +15,11 @@
       <label for="settings[default_view_calendar]"><?php echo _l('default_view'); ?></label>
       <br />
       <select class="selectpicker" data-width="100%" name="settings[default_view_calendar]" id="default_view_calendar">
-        <option value="month"<?php if(get_option('default_view_calendar') == 'month'){echo ' selected';} ?>><?php echo _l('month'); ?></option>
-        <option value="basicWeek""<?php if(get_option('default_view_calendar') == 'basicWeek'){echo ' selected';} ?>><?php echo _l('week'); ?></option>
-        <option value="basicDay""<?php if(get_option('default_view_calendar') == 'basicDay'){echo ' selected';} ?>><?php echo _l('day'); ?></option>
-        <option value="agendaWeek""<?php if(get_option('default_view_calendar') == 'agendaWeek'){echo ' selected';} ?>><?php echo _l('agenda'); ?> <?php echo _l('week'); ?></option>
-        <option value="agendaDay""<?php if(get_option('default_view_calendar') == 'agendaDay'){echo ' selected';} ?>><?php echo _l('agenda'); ?> <?php echo _l('day'); ?></option>
+        <option value="dayGridMonth"<?php if(get_option('default_view_calendar') == 'dayGridMonth'){echo ' selected';} ?>><?php echo _l('month'); ?></option>
+        <option value="dayGridWeek"<?php if(get_option('default_view_calendar') == 'dayGridWeek'){echo ' selected';} ?>><?php echo _l('week'); ?></option>
+        <option value="dayGridDay"<?php if(get_option('default_view_calendar') == 'dayGridDay'){echo ' selected';} ?>><?php echo _l('day'); ?></option>
+        <option value="timeGridWeek"<?php if(get_option('default_view_calendar') == 'timeGridWeek'){echo ' selected';} ?>><?php echo _l('agenda'); ?> <?php echo _l('week'); ?></option>
+        <option value="timeGridDay"<?php if(get_option('default_view_calendar') == 'timeGridDay'){echo ' selected';} ?>><?php echo _l('agenda'); ?> <?php echo _l('day'); ?></option>
       </select>
     </div>
     <hr />
@@ -57,6 +57,8 @@
          <?php render_yes_no_option('show_proposal_reminders_on_calendar','show_proposal_reminders_on_calendar'); ?>
          <hr />
          <?php render_yes_no_option('show_expense_reminders_on_calendar','calendar_expense_reminder'); ?>
+         <hr />
+         <?php render_yes_no_option('show_task_reminders_on_calendar','show_task_reminders_on_calendar'); ?>
          <hr />
          <?php render_yes_no_option('show_credit_note_reminders_on_calendar','show_credit_note_reminders_on_calendar'); ?>
        </div>

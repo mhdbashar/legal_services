@@ -12,6 +12,9 @@ class Payu_money_gateway extends App_gateway
 
     public function __construct()
     {
+        //Disable payment gateway
+        return false;
+
         /**
         * Call App_gateway __construct function
         */
@@ -118,6 +121,7 @@ class Payu_money_gateway extends App_gateway
         } else {
             $retHashSeq = $salt . '|' . $status . '|||||||||||' . $email . '|' . $firstname . '|' . $productinfo . '|' . $amount . '|' . $txnid . '|' . $key;
         }
+
         $hash = hash('sha512', $retHashSeq);
 
         if ($hash != $posted_hash) {

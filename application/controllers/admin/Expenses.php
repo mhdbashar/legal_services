@@ -8,6 +8,7 @@ class Expenses extends AdminController
     {
         parent::__construct();
         $this->load->model('expenses_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function index($id = '')
@@ -23,10 +24,12 @@ class Expenses extends AdminController
             access_denied('expenses');
         }
 
-        $data['expenseid']  = $id;
-        $data['categories'] = $this->expenses_model->get_category();
-        $data['years']      = $this->expenses_model->get_expenses_years();
-        $data['title']      = _l('expenses');
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+        $data['expenseid']     = $id;
+        $data['categories']    = $this->expenses_model->get_category();
+        $data['years']         = $this->expenses_model->get_expenses_years();
+        $data['title']         = _l('expenses');
 
         $this->load->view('admin/expenses/manage', $data);
     }
@@ -37,8 +40,39 @@ class Expenses extends AdminController
             ajax_access_denied();
         }
 
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('expenses', [
             'clientid' => $clientid,
+            'data'     => $data,
+        ]);
+    }
+
+    public function table_case($clientid = '')
+    {
+        if (!has_permission('expenses', '', 'view') && !has_permission('expenses', '', 'view_own')) {
+            ajax_access_denied();
+        }
+
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+        $this->app->get_table_data('case-expenses', [
+            'clientid' => $clientid,
+            'data'     => $data,
+        ]);
+    }
+
+    public function table_oservice($clientid = '')
+    {
+        if (!has_permission('expenses', '', 'view') && !has_permission('expenses', '', 'view_own')) {
+            ajax_access_denied();
+        }
+
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+        $this->app->get_table_data('oservice-expenses', [
+            'clientid' => $clientid,
+            'data'     => $data,
         ]);
     }
 
@@ -109,10 +143,58 @@ class Expenses extends AdminController
         $data['payment_modes'] = $this->payment_modes_model->get('', [
             'invoices_only !=' => 1,
         ]);
-        $data['bodyclass']  = 'expense';
-        $data['currencies'] = $this->currencies_model->get();
-        $data['title']      = $title;
+        $data['bodyclass']      = 'expense';
+        $data['currencies']     = $this->currencies_model->get();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
+        $data['title']          = $title;
         $this->load->view('admin/expenses/expense', $data);
+    }
+
+    public function bulk_action()
+    {
+        hooks()->do_action('before_do_bulk_action_for_expenses');
+        $total_deleted = 0;
+        $total_updated = 0;
+
+        if ($this->input->post()) {
+            $ids         = $this->input->post('ids');
+            $amount      = $this->input->post('amount');
+            $date        = $this->input->post('date');
+            $category    = $this->input->post('category');
+            $paymentmode = $this->input->post('paymentmode');
+
+            if (is_array($ids)) {
+                foreach ($ids as $id) {
+                    if ($this->input->post('mass_delete')) {
+                        if (staff_can('delete', 'expenses')) {
+                            if ($this->expenses_model->delete($id)) {
+                                $total_deleted++;
+                            }
+                        }
+                    } else {
+                        if (staff_can('edit', 'expenses')) {
+                            $this->db->where('id', $id);
+                            $this->db->update('expenses', array_filter([
+                                'paymentmode' => $paymentmode ?: null,
+                                'category'    => $category ?: null,
+                                'date'        => $date ? to_sql_date($date) : null,
+                                'amount'      => $amount ?: null,
+                            ]));
+
+                            if ($this->db->affected_rows() > 0) {
+                                $total_updated++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($total_updated > 0) {
+                set_alert('success', _l('updated_successfully', _l('expenses')));
+            } elseif ($this->input->post('mass_delete')) {
+                set_alert('success', _l('total_expenses_deleted', $total_deleted));
+            }
+        }
     }
 
     public function get_expenses_total()
@@ -136,6 +218,20 @@ class Expenses extends AdminController
         }
     }
 
+    // Not used at this time
+    public function pdf($id)
+    {
+        $expense = $this->expenses_model->get($id);
+
+        if (!has_permission('expenses', '', 'view') && $expense->addedfrom != get_staff_user_id()) {
+            access_denied();
+        }
+
+        $pdf = app_pdf('expense', LIBSPATH . 'pdf/Expense_pdf', $expense);
+        // Output PDF to user
+        $pdf->output('#' . slug_it($expense->category_name) . '_' . _d($expense->date) . '.pdf', 'I');
+    }
+
     public function delete($id)
     {
         if (!has_permission('expenses', '', 'delete')) {
@@ -145,6 +241,10 @@ class Expenses extends AdminController
             redirect(admin_url('expenses/list_expenses'));
         }
         $response = $this->expenses_model->delete($id);
+        if($this->app_modules->is_active('accounting')){
+            $this->load->model('accounting/accounting_model');
+            $this->accounting_model->delete_convert($id,'expense');
+        }
         if ($response === true) {
             set_alert('success', _l('deleted', _l('expense')));
         } else {
@@ -311,7 +411,7 @@ class Expenses extends AdminController
     {
         $this->db->where('rel_id', $id);
         $this->db->where('rel_type', 'expense');
-        $file = $this->db->get(db_prefix().'files')->row();
+        $file = $this->db->get(db_prefix() . 'files')->row();
 
         if ($file->staffid == get_staff_user_id() || is_admin()) {
             $success = $this->expenses_model->delete_expense_attachment($id);

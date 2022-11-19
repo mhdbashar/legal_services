@@ -11,18 +11,18 @@
    <?php  echo '<p class="no-margin">'._l('task_is_billed','<a href="'.admin_url('invoices/list_invoices/'.$task->invoice_id).'" target="_blank" class="color-white">'.format_invoice_number($task->invoice_id)). '</a></p>'; ?>
    <?php } ?>
    <?php if($task->is_public == 0){ ?>
-   <small class="no-margin color-white">
+   <p class="no-margin color-white">
    <?php echo _l('task_is_private'); ?>
-   <?php if(has_permission('tasks','','edit')) { ?> -
-   <a href="#" class="color-white text-has-action"onclick="make_task_public(<?php echo $task->id; ?>); return false;">
-   <?php echo _l('task_view_make_public'); ?>
-   </a>
-   <?php } ?>
-   </small>
-   <br />
+      <?php if(has_permission('tasks','','edit')) { ?> -
+         <a href="#" class="color-white text-has-action" onclick="make_task_public(<?php echo $task->id; ?>); return false;">
+            <?php echo _l('task_view_make_public'); ?>
+         </a>
+      <?php } ?>
+   </p>
    <?php } ?>
 </div>
 <div class="modal-body">
+   <input id="taskid" type="hidden" value="<?php echo $task->id?>">
    <div class="row">
       <div class="col-md-8 task-single-col-left">
          <?php if(total_rows(db_prefix().'taskstimers',array('end_time'=>NULL,'staff_id !='=>get_staff_user_id(),'task_id'=>$task->id)) > 0){
@@ -273,6 +273,7 @@
             <hr />
          </div>
          <div class="clearfix"></div>
+         <?php hooks()->do_action('before_task_description_section', $task); ?>
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
          <?php if(has_permission('tasks','','edit')){ ?><a href="#" onclick="edit_task_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>
@@ -459,12 +460,16 @@
                        $comments .= '<span class="pull-right mright5"><a href="#" onclick="edit_task_comment(' . $comment['id'] . '); return false;"><i class="fa fa-pencil-square-o"></i></span></a>';
                     }
                   }
-                  $comments .= '<div class="media-body">';
+
+                  $comments .= '<div class="media-body comment-wrapper">';
+                  $comments .= '<div class="mleft40">';
+
                   if($comment['staffid'] != 0){
                    $comments .= '<a href="' . admin_url('profile/' . $comment['staffid']) . '" target="_blank">' . $comment['staff_full_name'] . '</a> <br />';
                   } elseif($comment['contact_id'] != 0) {
                    $comments .= '<span class="label label-info mtop5 mbot5 inline-block">'._l('is_customer_indicator').'</span><br /><a href="' . admin_url('clients/client/'.get_user_id_by_contact_id($comment['contact_id']) .'?contactid='.$comment['contact_id'] ) . '" class="pull-left" target="_blank">' . get_contact_full_name($comment['contact_id']) . '</a> <br />';
                   }
+
                   $comments .= '<div data-edit-comment="'.$comment['id'].'" class="hide edit-task-comment"><textarea rows="5" id="task_comment_'.$comment['id'].'" class="ays-ignore form-control">'.str_replace('[task_attachment]', '', $comment['content']).'</textarea>
                   <div class="clearfix mtop20"></div>
                   <button type="button" class="btn btn-info pull-right" onclick="save_edited_comment('.$comment['id'].','.$task->id.')">'._l('submit').'</button>
@@ -473,7 +478,7 @@
                   if($comment['file_id'] != 0){
                   $comment['content'] = str_replace('[task_attachment]','<div class="clearfix"></div>'.$attachments_data[$comment['file_id']],$comment['content']);
                   // Replace lightbox to prevent loading the image twice
-                  $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment"',$comment['content']);
+                  $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment-'.$comment['id'].'"',$comment['content']);
                   } else if(count($comment['attachments']) > 0 && isset($comments_attachments[$comment['id']])) {
                    $comment_attachments_html = '';
                    foreach($comments_attachments[$comment['id']] as $comment_attachment) {
@@ -481,7 +486,7 @@
                    }
                    $comment['content'] = str_replace('[task_attachment]','<div class="clearfix"></div>'.$comment_attachments_html,$comment['content']);
                    // Replace lightbox to prevent loading the image twice
-                   $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-comment-files"',$comment['content']);
+                   $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-comment-files-'.$comment['id'].'"',$comment['content']);
                    $comment['content'] .='<div class="clearfix"></div>';
                    $comment['content'] .='<div class="text-center download-all">
                    <hr class="hr-10" />
@@ -492,8 +497,9 @@
                   $comments .= '<div class="comment-content mtop10">'.app_happy_text(check_for_links($comment['content'])) . '</div>';
                   $comments .= '</div>';
                   if ($i >= 0 && $i != $len - 1) {
-                  $comments .= '<hr class="task-info-separator" />';
+                     $comments .= '<hr class="task-info-separator" />';
                   }
+                  $comments .= '</div>';
                   $comments .= '</div>';
                   $i++;
                   }
@@ -670,7 +676,7 @@
                <?php } ?>
             </h5>
          </div>
-         <?php if((has_permission('tasks','','create') || has_permission('tasks','','edit'))){ ?>
+         <?php if($task->current_user_is_creator || has_permission('tasks','','edit')){ ?>
          <div class="task-info task-info-hourly-rate">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-clock-o"></i>
                <?php echo _l('task_hourly_rate'); ?>: <?php if($task->rel_type == 'project' && $task->project_data->billing_type == 2){
@@ -692,7 +698,8 @@
          </div>
          <?php if($task->billable == 1
             && $task->billed == 0
-            && ($task->rel_type != 'project' || ($task->rel_type == 'project' && $task->project_data->billing_type != 1))) { ?>
+            && ($task->rel_type != 'project' || ($task->rel_type == 'project' && $task->project_data->billing_type != 1))
+            && staff_can('create', 'invoices')) { ?>
          <div class="task-info task-billable-amount">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
                <?php echo _l('billable_amount'); ?>:
@@ -818,7 +825,8 @@
          <hr class="task-info-separator" />
          <div class="clearfix"></div>
          <h4 class="task-info-heading font-normal font-medium-xs"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo _l('task_single_assignees'); ?></h4>
-         <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+         <?php if(staff_can('edit','tasks') ||
+               ($task->current_user_is_creator && staff_can('create','tasks'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-assignees" data-live-search="true" title='<?php echo _l('task_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -842,7 +850,8 @@
                $_assignees = '';
                foreach ($task->assignees as $assignee) {
                 $_remove_assigne = '';
-                if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) {
                   $_remove_assigne = ' <a href="#" class="remove-task-user text-danger" onclick="remove_assignee(' . $assignee['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                }
                $_assignees .= '
@@ -864,7 +873,8 @@
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <?php echo _l('task_single_followers'); ?>
          </h4>
-         <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+         <?php if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-followers" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -884,7 +894,8 @@
                $_followers        = '';
                foreach ($task->followers as $follower) {
                  $_remove_follower = '';
-                 if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                 if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) {
                    $_remove_follower = ' <a href="#" class="remove-task-user text-danger" onclick="remove_follower(' . $follower['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                 }
                 $_followers .= '

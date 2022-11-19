@@ -50,6 +50,12 @@
       <div class="col-md-7">
          <table class="table no-margin project-overview-table">
             <tbody>
+              <tr class="project-overview-id">
+                  <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
+                  <td>
+                      <?php echo $project->id; ?>
+                  </td>
+              </tr>
               <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('project_customer'); ?></td>
                   <td>
@@ -58,7 +64,7 @@
                       </a>
                   </td>
               </tr>
-               <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
+               <?php if(has_permission('projects','','edit')){ ?>
                <tr class="project-overview-billing">
                   <td class="bold"><?php echo _l('project_billing_type'); ?></td>
                   <td>
@@ -74,7 +80,7 @@
                     ?>
                  </td>
                  <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                  echo '<tr>';
+                  echo '<tr class="project-overview-amount">';
                   if($project->billing_type == 1){
                     echo '<td class="bold">'._l('project_total_cost').'</td>';
                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
@@ -141,6 +147,7 @@
    <div class="project-progress relative mtop15" data-value="<?php echo $percent_circle; ?>" data-size="150" data-thickness="22" data-reverse="true">
       <strong class="project-percent"></strong>
    </div>
+   <?php hooks()->do_action('admin_area_after_project_progress') ?>
 </div>
 </div>
 <?php $tags = get_tags_in($project->id,'project'); ?>
@@ -163,7 +170,7 @@
 </div>
 <div class="team-members project-overview-team-members">
    <hr class="hr-panel-heading project-area-separation" />
-   <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+   <?php if(has_permission('projects','','edit')){ ?>
    <div class="inline-block pull-right mright10 project-member-settings" data-toggle="tooltip" data-title="<?php echo _l('add_edit_members'); ?>">
       <a href="#" data-toggle="modal" class="pull-right" data-target="#add-edit-members"><i class="fa fa-cog"></i></a>
    </div>
@@ -184,7 +191,7 @@
          </a>
       </div>
       <div class="media-body">
-         <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+         <?php if(has_permission('projects','','edit')){ ?>
          <a href="<?php echo admin_url('projects/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>
@@ -204,7 +211,8 @@
            <div class="project-overview-open-tasks">
             <div class="col-md-9">
                <p class="text-uppercase bold text-dark font-medium">
-                  <?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?> <?php echo _l('project_open_tasks'); ?>
+                  <span dir="ltr"><?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?></span>
+                  <?php echo _l('project_open_tasks'); ?>
                </p>
                <p class="text-muted bold"><?php echo $tasks_not_completed_progress; ?>%</p>
             </div>
@@ -225,7 +233,8 @@
       <div class="row">
          <div class="col-md-9">
             <p class="text-uppercase bold text-dark font-medium">
-               <?php echo $project_days_left; ?> / <?php echo $project_total_days; ?> <?php echo _l('project_days_left'); ?>
+               <span dir="ltr"><?php echo $project_days_left; ?> / <?php echo $project_total_days; ?></span>
+               <?php echo _l('project_days_left'); ?>
             </p>
             <p class="text-muted bold"><?php echo $project_time_left_percent; ?>%</p>
          </div>

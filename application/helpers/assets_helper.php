@@ -52,7 +52,7 @@ function _init_admin_assets()
     add_jquery_validation_js_assets();
 
     if (get_option('pusher_realtime_notifications') == 1) {
-        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/4.1/pusher.min.js');
+        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0/pusher.min.js');
     }
 
     add_dropbox_js_assets();
@@ -71,8 +71,8 @@ function _init_admin_assets()
     add_favicon_link_asset();
 
     $CI->app_css->add('reset-css', 'assets/css/reset.min.css');
-    $CI->app_css->add('roboto-css', 'assets/plugins/roboto/roboto.css');
-    $CI->app_css->add('vendor-css', 'assets/builds/vendor-admin.css');
+    $CI->app_css->add('roboto-css', 'assets/plugins/roboto/roboto.css', 'admin', ['reset-css']);
+    $CI->app_css->add('vendor-css', 'assets/builds/vendor-admin.css', 'admin', ['reset-css']);
 
     if (is_rtl()) {
         $CI->app_css->add('bootstrap-rtl-css', 'assets/plugins/bootstrap-arabic/css/bootstrap-arabic.min.css');
@@ -88,23 +88,18 @@ function _init_admin_assets()
 }
 
 
-function add_calendar_assets($group = 'admin', $tryGcal = true)
+function add_calendar_assets($group = 'admin')
 {
-
     $locale = $GLOBALS['locale'];
     $CI     = &get_instance();
 
-    $CI->app_scripts->add('full-calendar-js', 'assets/plugins/fullcalendar/fullcalendar.min.js', $group);
+    $CI->app_scripts->add('fullcalendar-js', 'assets/plugins/fullcalendar/lib/main.min.js', $group);
 
-    if ($tryGcal && get_option('google_api_key') != '') {
-        $CI->app_scripts->add('full-calendar-gcal-js', 'assets/plugins/fullcalendar/gcal.min.js', $group);
+    if ($locale != 'en' && file_exists(FCPATH . 'assets/plugins/fullcalendar/lib/locales/' . $locale . '.js')) {
+        $CI->app_scripts->add('fullcalendar-lang-js', 'assets/plugins/fullcalendar/lib/locales/' . $locale . '.js', $group);
     }
 
-    if ($locale != 'en' && file_exists(FCPATH . 'assets/plugins/fullcalendar/locale/' . $locale . '.js')) {
-        $CI->app_scripts->add('full-calendar-lang-js', 'assets/plugins/fullcalendar/locale/' . $locale . '.js', $group);
-    }
-
-    $CI->app_css->add('full-calendar-css', 'assets/plugins/fullcalendar/fullcalendar.min.css', $group);
+    $CI->app_css->add('fullcalendar-css', 'assets/plugins/fullcalendar/lib/main.min.css', $group);
 }
 
 function add_moment_js_assets($group = 'admin')
@@ -121,6 +116,14 @@ function add_favicon_link_asset($group = 'admin')
         'version'    => false,
         'attributes' => [
             'rel'  => 'shortcut icon',
+            'type' => false,
+        ],
+        ], $group);
+        get_instance()->app_css->add('favicon-apple-touch-icon', [
+        'path'       => 'uploads/company/' . $favIcon,
+        'version'    => false,
+        'attributes' => [
+            'rel'  => 'apple-touch-icon”',
             'type' => false,
         ],
         ], $group);

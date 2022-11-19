@@ -20,6 +20,7 @@
               <?php echo render_datetime_input('start','utility_calendar_new_event_start_date',_dt($event->start)); ?>
               <div class="clearfix mtop15"></div>
               <?php echo render_datetime_input('end','utility_calendar_new_event_end_date',_dt($event->end)); ?>
+              <?php if(is_email_template_active('event-notification-to-staff')){ ?>
               <div class="form-group">
                <div class="row">
                 <div class="col-md-12">
@@ -41,6 +42,7 @@
                </div>
              </div>
            </div>
+            <?php } ?>
            <hr />
            <p class="bold"><?php echo _l('event_color'); ?></p>
            <?php

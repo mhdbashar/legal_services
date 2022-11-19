@@ -1,6 +1,46 @@
 <?php
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+
 defined('BASEPATH') or exit('No direct script access allowed');
+
+/**
+ * Get invoice short_url
+ * @since  Version 2.7.3
+ * @param  object $invoice
+ * @return string Url
+ */
+function get_invoice_shortlink($invoice)
+{
+    $long_url = site_url("invoice/{$invoice->id}/{$invoice->hash}");
+    if (!get_option('bitly_access_token')) {
+        return $long_url;
+    }
+
+    // Check if invoice has short link, if yes return short link
+    if (!empty($invoice->short_link)) {
+        return $invoice->short_link;
+    }
+
+    // Create short link and return the newly created short link
+    $short_link = app_generate_short_link([
+        'long_url' => $long_url,
+        'title'    => format_invoice_number($invoice->id),
+    ]);
+
+    if ($short_link) {
+        $CI = &get_instance();
+        $CI->db->where('id', $invoice->id);
+        $CI->db->update(db_prefix() . 'invoices', [
+            'short_link' => $short_link,
+        ]);
+
+        return $short_link;
+    }
+
+    return $long_url;
+}
 
 /**
  * Get invoice total left for paying if not payments found the original total from the invoice will be returned
@@ -11,11 +51,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function get_invoice_total_left_to_pay($id, $invoice_total = null)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
 
     if ($invoice_total === null) {
         $CI->db->select('total')
-        ->where('id', $id);
+            ->where('id', $id);
         $invoice_total = $CI->db->get(db_prefix() . 'invoices')->row()->total;
     }
 
@@ -61,6 +101,18 @@ function is_invoices_email_overdue_notice_enabled()
 }
 
 /**
+ * Check if invoice email template for due notices is enabled
+ *
+ * @since  2.8.0
+ *
+ * @return boolean
+ */
+function is_invoices_email_due_notice_enabled()
+{
+    return total_rows(db_prefix() . 'emailtemplates', ['slug' => 'invoice-due-notice', 'active' => 1]) > 0;
+}
+
+/**
  * Check if there are sources for sending invoice overdue notices
  * Will be either email or SMS
  * @return boolean
@@ -71,6 +123,19 @@ function is_invoices_overdue_reminders_enabled()
 }
 
 /**
+ * Check if there are sources for sending invoice due notices
+ * Will be either email or SMS
+ *
+ * @since  2.8.0
+ *
+ * @return boolean
+ */
+function is_invoices_due_reminders_enabled()
+{
+    return is_invoices_email_due_notice_enabled() || is_sms_trigger_active(SMS_TRIGGER_INVOICE_DUE);
+}
+
+/**
  * Check invoice restrictions - hash, clientid
  * @since  Version 1.0.1
  * @param  mixed $id   invoice id
@@ -78,7 +143,7 @@ function is_invoices_overdue_reminders_enabled()
  */
 function check_invoice_restrictions($id, $hash)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->load->model('invoices_model');
     if (!$hash || !$id) {
         show_404();
@@ -173,6 +238,34 @@ function get_invoice_status_label($status)
 }
 
 /**
+ * Check whether the given invoice is overdue
+ *
+ * @since 2.7.1
+ *
+ * @param  Object|array  $invoice
+ *
+ * @return boolean
+ */
+function is_invoice_overdue($invoice)
+{
+    if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    $invoice = (object) $invoice;
+
+    if (!$invoice->duedate) {
+        return false;
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_OVERDUE) {
+        return true;
+    }
+
+    return $invoice->status == Invoices_model::STATUS_PARTIALLY && get_total_days_overdue($invoice->duedate) > 0;
+}
+
+/**
  * Function used in invoice PDF, this function will return RGBa color for PDF dcouments
  * @param  mixed $status_id current invoice status id
  * @return string
@@ -197,7 +290,7 @@ function invoice_status_color_pdf($status_id)
         $statusColor = '114, 123, 144';
     }
 
-    return $statusColor;
+    return hooks()->apply_filters('invoice_status_pdf_color', $statusColor, $status_id);
 }
 
 /**
@@ -208,7 +301,7 @@ function invoice_status_color_pdf($status_id)
  */
 function update_invoice_status($id, $force_update = false, $prevent_logging = false)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
 
     $CI->load->model('invoices_model');
     $invoice = $CI->invoices_model->get($id);
@@ -216,13 +309,14 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
     $original_status = $invoice->status;
 
     if (($original_status == Invoices_model::STATUS_DRAFT && $force_update == false)
-        || ($original_status == Invoices_model::STATUS_CANCELLED && $force_update == false)) {
+        || ($original_status == Invoices_model::STATUS_CANCELLED && $force_update == false)
+    ) {
         return false;
     }
 
     $CI->db->select('amount')
-    ->where('invoiceid', $id)
-    ->order_by(db_prefix() . 'invoicepaymentrecords.id', 'asc');
+        ->where('invoiceid', $id)
+        ->order_by(db_prefix() . 'invoicepaymentrecords.id', 'asc');
     $payments = $CI->db->get(db_prefix() . 'invoicepaymentrecords')->result_array();
 
     if (!class_exists('credit_notes_model')) {
@@ -250,10 +344,11 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
             $totalPayments = array_sum($totalPayments);
 
             if ((function_exists('bccomp')
-                ?  bccomp($invoice->total, $totalPayments, get_decimal_places()) === 0
-                || bccomp($invoice->total, $totalPayments, get_decimal_places()) === -1
-                : number_format(($invoice->total - $totalPayments), get_decimal_places(), '.', '') == '0')
-                || $totalPayments > $invoice->total) {
+                    ?  bccomp($invoice->total, $totalPayments, get_decimal_places()) === 0
+                    || bccomp($invoice->total, $totalPayments, get_decimal_places()) === -1
+                    : number_format(($invoice->total - $totalPayments), get_decimal_places(), '.', '') == '0')
+                || $totalPayments > $invoice->total
+            ) {
                 // Paid status
                 $status = Invoices_model::STATUS_PAID;
             } elseif ($totalPayments == 0) {
@@ -293,6 +388,7 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
 
     if ($CI->db->affected_rows() > 0) {
         hooks()->do_action('invoice_status_changed', ['invoice_id' => $id, 'status' => $status]);
+
         if ($prevent_logging == true) {
             return $status;
         }
@@ -322,7 +418,7 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
  */
 function is_last_invoice($id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('id')->from(db_prefix() . 'invoices')->order_by('id', 'desc')->limit(1);
     $query           = $CI->db->get();
     $last_invoice_id = $query->row()->id;
@@ -340,15 +436,27 @@ function is_last_invoice($id)
  */
 function format_invoice_number($id)
 {
-    $CI = & get_instance();
-    $CI->db->select('date,number,prefix,number_format')->from(db_prefix() . 'invoices')->where('id', $id);
+    $CI = &get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'invoices')
+        ->where('id', $id);
+
     $invoice = $CI->db->get()->row();
 
     if (!$invoice) {
         return '';
     }
 
-    $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
 
     return hooks()->apply_filters('format_invoice_number', $number, [
         'id'      => $id,
@@ -363,7 +471,7 @@ function format_invoice_number($id)
  */
 function get_invoice_item_taxes($itemid)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->where('itemid', $itemid);
     $CI->db->where('rel_type', 'invoice');
     $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
@@ -384,7 +492,7 @@ function get_invoice_item_taxes($itemid)
  */
 function is_payment_mode_allowed_for_invoice($id, $invoiceid)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('' . db_prefix() . 'currencies.name as currency_name,allowed_payment_modes')->from(db_prefix() . 'invoices')->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency', 'left')->where(db_prefix() . 'invoices.id', $invoiceid);
     $invoice       = $CI->db->get()->row();
     $allowed_modes = $invoice->allowed_payment_modes;
@@ -427,7 +535,7 @@ function is_payment_mode_allowed_for_invoice($id, $invoiceid)
  */
 function found_invoice_mode($modes, $invoiceid, $offline = true, $show_on_pdf = false)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('' . db_prefix() . 'currencies.name as currency_name,allowed_payment_modes')->from(db_prefix() . 'invoices')->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency', 'left')->where(db_prefix() . 'invoices.id', $invoiceid);
     $invoice = $CI->db->get()->row();
     if (!is_null($invoice->allowed_payment_modes)) {
@@ -550,7 +658,10 @@ function load_invoices_total_template()
 
     $data['invoices_years'] = $CI->invoices_model->get_invoices_years();
 
-    if (count($data['invoices_years']) >= 1 && $data['invoices_years'][0]['year'] != date('Y')) {
+    if (
+        count($data['invoices_years']) >= 1
+        && !\app\services\utilities\Arr::inMultidimensional($data['invoices_years'], 'year', date('Y'))
+    ) {
         array_unshift($data['invoices_years'], ['year' => date('Y')]);
     }
 
@@ -562,17 +673,18 @@ function load_invoices_total_template()
 
 function get_invoices_where_sql_for_staff($staff_id)
 {
+    $CI                                 = &get_instance();
     $has_permission_view_own            = has_permission('invoices', '', 'view_own');
     $allow_staff_view_invoices_assigned = get_option('allow_staff_view_invoices_assigned');
     $whereUser                          = '';
     if ($has_permission_view_own) {
-        $whereUser = '((' . db_prefix() . 'invoices.addedfrom=' . $staff_id . ' AND ' . db_prefix() . 'invoices.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "invoices" AND capability="view_own"))';
+        $whereUser = '((' . db_prefix() . 'invoices.addedfrom=' . $CI->db->escape_str($staff_id) . ' AND ' . db_prefix() . 'invoices.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "invoices" AND capability="view_own"))';
         if ($allow_staff_view_invoices_assigned == 1) {
-            $whereUser .= ' OR sale_agent=' . $staff_id;
+            $whereUser .= ' OR sale_agent=' . $CI->db->escape_str($staff_id);
         }
         $whereUser .= ')';
     } else {
-        $whereUser .= 'sale_agent=' . $staff_id;
+        $whereUser .= 'sale_agent=' . $CI->db->escape_str($staff_id);
     }
 
     return $whereUser;
@@ -600,9 +712,86 @@ function user_can_view_invoice($id, $staff_id = false)
     $invoice = $CI->db->get()->row();
 
     if ((has_permission('invoices', $staff_id, 'view_own') && $invoice->addedfrom == $staff_id)
-            || ($invoice->sale_agent == $staff_id && get_option('allow_staff_view_invoices_assigned') == '1')) {
+        || ($invoice->sale_agent == $staff_id && get_option('allow_staff_view_invoices_assigned') == '1')
+    ) {
         return true;
     }
 
     return false;
 }
+
+/*
+ * QR Encoding Functions
+ */
+
+function __getLength($value) {
+    return strlen($value);
+}
+
+function __toHex($value) {
+    return pack("H*", sprintf("%02X", $value));
+}
+
+function __toString($__tag, $__value, $__length) {
+    $value = (string) $__value;
+    return __toHex($__tag) . __toHex($__length) . $value;
+}
+
+function __getTLV($dataToEncode) {
+    $__TLVS = '';
+    for ($i = 0; $i < count($dataToEncode); $i++) {
+        $__tag = $dataToEncode[$i][0];
+        $__value = $dataToEncode[$i][1];
+        $__length = __getLength($__value);
+        $__TLVS .= __toString($__tag, $__value, $__length);
+    }
+
+    return $__TLVS;
+}
+//
+//function handle_qr_file_uploads($id)
+//{
+//    $CI = & get_instance();
+//    $CI->db->where('id', $id);
+//    $invoice = $CI->db->get(db_prefix() . 'invoices')->row();
+//
+//    $qr_code_name = ($id).".jpg";
+//
+//    $company_name = get_option('invoice_company_name');
+//    $company_vat = get_option('company_vat');
+//    $created_date = date('Y-m-d H:i:s');
+//    $total_tax = $invoice->total_tax;
+//    $total = $invoice->total;
+//
+//    $data = urlencode("
+//    "._l('settings_sales_company_name').': '.$company_name."
+//    "._l('company_vat_number').': '.$company_vat."
+//    "._l('date').': '.$created_date."
+//    "._l('expenses_report_total_tax').': '.$total_tax."
+//    "._l('invoice_total').': '.$total."
+//    ");
+//
+//    $response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+//    $image_data=file_get_contents($response);
+//    $encoded_image=base64_encode($image_data);
+//    // Obtain the original content (usually binary data)
+//    $bin = base64_decode($encoded_image);
+//    // Load GD resource from binary data
+//    $im = imageCreateFromString($bin);
+//    // Make sure that the GD library was able to load the image
+//    // This is important, because you should not miss corrupted or unsupported images
+//    if (!$im) {
+//        die('Base64 value is not a valid image');
+//    }
+//    // Specify the location where you want to save the image
+//    $path = get_upload_path_by_type('invoice') . 'QRs/'.$qr_code_name;
+//    // Save the GD resource as PNG in the best possible quality (no compression)
+//    // This will strip any metadata or invalid contents (including, the PHP backdoor)
+//    // To block any possible exploits, consider increasing the compression level
+//    imagepng($im, $path, 0);
+//
+//    $CI->db->where('id', $id);
+//    $CI->db->update('tblinvoices', [
+//        'qr_code' => $qr_code_name
+//    ]);
+//}

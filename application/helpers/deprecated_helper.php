@@ -193,6 +193,18 @@ function format_seconds($seconds)
 /**
  * @deprecated
  */
+function can_logged_in_contact_change_language()
+{
+    if (!isset($GLOBALS['contact'])) {
+        return false;
+    }
+
+    return $GLOBALS['contact']->is_primary == '1' && get_option('disable_language') == 0;
+}
+
+/**
+ * @deprecated
+ */
 function add_encryption_key_old()
 {
     $CI          = & get_instance();
@@ -1011,7 +1023,7 @@ function check_missing_language_strings($language)
         }
     }
     if (isset($keys_missing)) {
-        echo '<br />--<br />Language keys missing please create <a href="https://help.perfexcrm.com/overwrite-translation-text/" target="_blank">custom_lang.php</a> and add the keys listed above.';
+        echo '<br />--<br />Language keys missing please create <a href="https://help.babil.net.sa/overwrite-translation-text/" target="_blank">custom_lang.php</a> and add the keys listed above.';
         echo '<br /> Here is how you should add the keys (You can just copy paste this text above and add your translations)<br /><br />';
         foreach ($missing_keys as $key) {
             echo '$lang[\'' . $key . '\'] = \'Add your translation\';<br />';
@@ -1197,4 +1209,61 @@ function get_permission_conditions()
             'delete'   => true,
         ],
     ]);
+}
+
+/**
+ * Replace google drive links with actual a tag
+ * @param  string $text
+ * @return string
+ */
+function handle_google_drive_links_in_text($text)
+{
+    _deprecated_function('logActivity', '2.7.3');
+
+    $pattern = '#\bhttps?://drive.google.com[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#';
+    preg_match_all($pattern, $text, $matchGoogleDriveLinks);
+
+    if (isset($matchGoogleDriveLinks[0]) && is_array($matchGoogleDriveLinks[0])) {
+        foreach ($matchGoogleDriveLinks[0] as $driveLink) {
+            $link = '<a href="' . $driveLink . '">' . $driveLink . '</a>';
+            $text = str_replace($driveLink, $link, $text);
+            $text = str_replace('<' . $link . '>', $link, $text);
+        }
+    }
+
+    return $text;
+}
+
+hooks()->add_filter('get_option', '_check_deprecated_calendar_view_name_option', 10, 2);
+hooks()->add_filter('get_option', '_check_removed_number_padding_option_name', 10, 2);
+
+function _check_deprecated_calendar_view_name_option($value, $name)
+{
+    if ($name === 'default_view_calendar' &&
+            is_client_logged_in() &&
+            get_option('_v283_update_clients_theme') !== 'babil' &&
+            active_clients_theme() !== 'babil') {
+        $CalendarV5toV3ViewNamesMap = [
+            'dayGridMonth' => 'month',
+            'dayGridWeek'  => 'basicWeek',
+            'dayGridDay'   => 'basicDay',
+            'timeGridWeek' => 'agendaWeek',
+            'timeGridDay'  => 'agendaDay',
+        ];
+
+        if (array_key_exists($value, $CalendarV5toV3ViewNamesMap)) {
+            return $CalendarV5toV3ViewNamesMap[$value];
+        }
+    }
+
+    return $value;
+}
+
+function _check_removed_number_padding_option_name($value, $name)
+{
+    if ($name === 'number_padding_invoice_and_estimate') {
+        return get_option('number_padding_prefixes');
+    }
+
+    return $value;
 }

@@ -22,9 +22,21 @@ class App_tabs
         return $this;
     }
 
+    public function add_opponent_profile_tab($slug, $tab)
+    {
+        $this->add($slug, $tab, 'opponent_profile');
+
+        return $this;
+    }
+
     public function get_customer_profile_tabs()
     {
         return $this->get('customer_profile');
+    }
+
+    public function get_opponent_profile_tabs()
+    {
+        return $this->get('opponent_profile');
     }
 
     public function add_project_tab($slug, $tab)
@@ -114,6 +126,7 @@ class App_tabs
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
 
         foreach ($tabs as $parent => $item) {
+            $tabs[$parent]['badge'] = isset($tabs[$parent]['badge']) ? $tabs[$parent]['badge'] : [];
             $tabs[$parent]['children'] = $this->get_child($parent, $group);
         }
 
@@ -127,6 +140,10 @@ class App_tabs
     public function get_child($parent_slug, $group)
     {
         $children = isset($this->child[$group][$parent_slug]) ? $this->child[$group][$parent_slug] : [];
+
+        foreach ($children as $key => $item) {
+            $children[$key]['badge'] = isset($children[$key]['badge']) ? $children[$key]['badge'] : [];
+        }
 
         $children = hooks()->apply_filters("{$group}_tabs_child_items", $children, $parent_slug);
 

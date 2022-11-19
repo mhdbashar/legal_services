@@ -76,7 +76,7 @@ class Reports_model extends App_Model
             $_where['YEAR(date)'] = $year;
             if (count($where) > 0) {
                 foreach ($where as $key => $val) {
-                    $_where[$key] = $val;
+                    $_where[$key] = $this->db->escape_str($val);
                 }
             }
             array_push($chart['labels'], $category['name']);
@@ -268,8 +268,10 @@ class Reports_model extends App_Model
                 ],
             ],
         ];
+
         foreach ($staff as $member) {
             array_push($chart['labels'], $member['firstname'] . ' ' . $member['lastname']);
+
             if (!isset($to_date) && !isset($from_date)) {
                 $this->db->where('CASE WHEN assigned=0 THEN addedfrom=' . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END
                     AND status=1', '', false);
@@ -279,17 +281,17 @@ class Reports_model extends App_Model
                     'addedfrom' => $member['staffid'],
                 ]);
 
-                $this->db->where('CASE WHEN assigned=0 THEN addedfrom=' . $member['staffid'] . ' ELSE assigned=' . get_staff_user_id() . ' END
+                $this->db->where('CASE WHEN assigned=0 THEN addedfrom=' . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END
                     AND lost=1', '', false);
                 $total_rows_lost = $this->db->count_all_results(db_prefix() . 'leads');
             } else {
-                $sql                  = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(last_status_change) BETWEEN '" . $from_date . "' AND '" . $to_date . "' AND status = 1 AND CASE WHEN assigned=0 THEN addedfrom=" . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END';
+                $sql                  = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(last_status_change) BETWEEN '" . $this->db->escape_str($from_date) . "' AND '" . $this->db->escape_str($to_date) . "' AND status = 1 AND CASE WHEN assigned=0 THEN addedfrom=" . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END';
                 $total_rows_converted = $this->db->query($sql)->row()->total;
 
-                $sql                = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(dateadded) BETWEEN '" . $from_date . "' AND '" . $to_date . "' AND addedfrom=" . $member['staffid'] . '';
+                $sql                = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(dateadded) BETWEEN '" . $this->db->escape_str($from_date) . "' AND '" . $this->db->escape_str($to_date) . "' AND addedfrom=" . $member['staffid'] . '';
                 $total_rows_created = $this->db->query($sql)->row()->total;
 
-                $sql = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(last_status_change) BETWEEN '" . $from_date . "' AND '" . $to_date . "' AND lost = 1 AND CASE WHEN assigned=0 THEN addedfrom=" . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END';
+                $sql = 'SELECT COUNT(' . db_prefix() . 'leads.id) as total FROM ' . db_prefix() . "leads WHERE DATE(last_status_change) BETWEEN '" . $this->db->escape_str($from_date) . "' AND '" . $this->db->escape_str($to_date) . "' AND lost = 1 AND CASE WHEN assigned=0 THEN addedfrom=" . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END';
 
                 $total_rows_lost = $this->db->query($sql)->row()->total;
             }
@@ -379,7 +381,7 @@ class Reports_model extends App_Model
         $this->db->from(db_prefix() . 'invoicepaymentrecords');
         $this->db->join(db_prefix() . 'invoices', db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid');
         $this->db->where(db_prefix() . 'invoices.clientid IN (select customer_id FROM ' . db_prefix() . 'customer_groups)');
-        $this->db->where(db_prefix().'invoices.status !=', 5);
+        $this->db->where(db_prefix() . 'invoices.status !=', 5);
         $by_currency = $this->input->post('report_currency');
         if ($by_currency) {
             $this->db->where('currency', $by_currency);
@@ -536,15 +538,18 @@ class Reports_model extends App_Model
         $this->db->where('YEAR(' . db_prefix() . 'invoicepaymentrecords.date)', $year);
         $this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid');
         $by_currency = $this->input->post('report_currency');
+
         if ($by_currency) {
             $this->db->where('currency', $by_currency);
         }
+
         $payments       = $this->db->get()->result_array();
         $data           = [];
         $data['months'] = [];
         $data['temp']   = [];
         $data['total']  = [];
         $data['labels'] = [];
+
         foreach ($payments as $payment) {
             $month   = date('m', strtotime($payment['date']));
             $dateObj = DateTime::createFromFormat('!m', $month);
@@ -553,24 +558,29 @@ class Reports_model extends App_Model
                 $data['months'][$month] = $month;
             }
         }
+
         usort($data['months'], function ($a, $b) {
             $month1 = date_parse($a);
             $month2 = date_parse($b);
 
             return $month1['month'] - $month2['month'];
         });
+
         foreach ($data['months'] as $month) {
             foreach ($payments as $payment) {
-                $_month  = date('m', strtotime($payment['date']));
-                $dateObj = DateTime::createFromFormat('!m', $_month);
-                $_month  = $dateObj->format('F');
+                $monthNumber = date('m', strtotime($payment['date']));
+                $dateObj     = DateTime::createFromFormat('!m', $monthNumber);
+                $_month      = $dateObj->format('F');
                 if ($month == $_month) {
                     $data['temp'][$month][] = $payment['amount'];
                 }
             }
+
             array_push($data['labels'], _l($month) . ' - ' . $year);
-            $data['total'][] = array_sum($data['temp'][$month]);
+
+            $data['total'][] = array_sum($data['temp'][$month]) - $this->calculate_refunded_amount($year, $monthNumber, $by_currency);
         }
+
         $chart = [
             'labels'   => $data['labels'],
             'datasets' => [
@@ -596,5 +606,25 @@ class Reports_model extends App_Model
     public function get_distinct_customer_invoices_years()
     {
         return $this->db->query('SELECT DISTINCT(YEAR(date)) as year FROM ' . db_prefix() . 'invoices WHERE clientid=' . get_client_user_id())->result_array();
+    }
+
+    protected function calculate_refunded_amount($year, $month, $currency)
+    {
+        $sql = 'SELECT
+        SUM(' . db_prefix() . 'creditnote_refunds.amount) as refunds_amount
+        FROM ' . db_prefix() . 'creditnote_refunds
+        WHERE YEAR(refunded_on) = ' . $year . ' AND MONTH(refunded_on) = ' . $month;
+
+        if ($currency) {
+            $sql .= ' AND credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE currency=' . $currency . ')';
+        }
+
+        $refunds_amount = $this->db->query($sql)->row()->refunds_amount;
+
+        if ($refunds_amount === null) {
+            $refunds_amount = 0;
+        }
+
+        return $refunds_amount;
     }
 }

@@ -83,7 +83,12 @@ function render_custom_fields($belongs_to, $rel_id = false, $where = [], $items_
                         $tmpSlug             = explode('_', $field['slug'], 2);
                         if (isset($tmpSlug[1])) {
                             $CI->db->where('fieldto', $transfer_belongs_to);
-                            $CI->db->where('slug LIKE "' . $rel_id['belongs_to'] . '_' . $tmpSlug[1] . '%" AND type="' . $field['type'] . '" AND options="' . $field['options'] . '" AND active=1');
+                            $CI->db->group_start();
+                            $CI->db->like('slug', $rel_id['belongs_to'] . '_' . $tmpSlug[1], 'after');
+                            $CI->db->where('type', $field['type']);
+                            $CI->db->where('options', $field['options']);
+                            $CI->db->where('active', 1);
+                            $CI->db->group_end();
                             $cfTransfer = $CI->db->get(db_prefix() . 'customfields')->result_array();
 
                             // Don't make mistakes
@@ -95,6 +100,14 @@ function render_custom_fields($belongs_to, $rel_id = false, $where = [], $items_
                             }
                         }
                     }
+                }
+            } elseif ($field['default_value'] && $field['type'] != 'link') {
+                if (in_array($field['type'], ['date_picker_time', 'date_picker'])) {
+                    if ($timestamp = strtotime($field['default_value'])) {
+                        $value = $field['type'] == 'date_picker' ? date('Y-m-d', $timestamp) : date('Y-m-d H:i', $timestamp);
+                    }
+                } else {
+                    $value = $field['default_value'];
                 }
             }
 
@@ -204,8 +217,10 @@ function render_custom_fields($belongs_to, $rel_id = false, $where = [], $items_
 
                 foreach ($options as $option) {
                     $checked = '';
+
                     // Replace double quotes with single.
-                    $option = htmlentities($option);
+                    $option = str_replace('"', '\'', $option);
+
                     $option = trim($option);
                     foreach ($value as $v) {
                         $v = trim($v);
@@ -469,7 +484,8 @@ function handle_custom_fields_post($rel_id, $custom_fields, $is_cf_items = false
  */
 function get_items_custom_fields_for_table_html($rel_id, $rel_type)
 {
-    $whereSQL = 'id IN (SELECT fieldid FROM ' . db_prefix() . 'customfieldsvalues WHERE value != "" AND value IS NOT NULL AND fieldto="items" AND relid IN (SELECT id FROM ' . db_prefix() . 'itemable WHERE rel_type="' . $rel_type . '" AND rel_id="' . $rel_id . '") GROUP BY id HAVING COUNT(id) > 0)';
+    $CI       = &get_instance();
+    $whereSQL = 'id IN (SELECT fieldid FROM ' . db_prefix() . 'customfieldsvalues WHERE value != "" AND value IS NOT NULL AND fieldto="items" AND relid IN (SELECT id FROM ' . db_prefix() . 'itemable WHERE rel_type="' . $CI->db->escape_str($rel_type) . '" AND rel_id="' . $CI->db->escape_str($rel_id) . '") GROUP BY id HAVING COUNT(id) > 0)';
 
     $whereSQL = hooks()->apply_filters('items_custom_fields_for_table_sql', $whereSQL);
 

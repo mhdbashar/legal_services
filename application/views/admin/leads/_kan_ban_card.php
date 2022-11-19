@@ -21,6 +21,8 @@ if ($lead['status'] == $status['id']) { ?>
                </div>
                <div class="col-md-6 text-muted">
                   <small  class="text-dark"><?php echo _l('leads_canban_source', $lead['source_name']); ?></small>
+                  <?php $lead_value = $lead['lead_value'] != 0 ? app_format_money($lead['lead_value'], $base_currency->symbol) : ''; ?>
+                  <small  class="text-dark"><?php echo _l('leads_canban_lead_value', $lead_value ); ?></small>
                </div>
                <div class="col-md-6 text-right text-muted">
                   <?php if(is_date($lead['lastcontact']) && $lead['lastcontact'] != '0000-00-00 00:00:00'){ ?>
@@ -37,6 +39,7 @@ if ($lead['status'] == $status['id']) { ?>
                     </span>
                  </span>
               </small><br />
+              <?php hooks()->do_action('before_leads_kanban_card_icons', $lead); ?>
               <span class="mright5 mtop5 inline-block text-muted" data-toggle="tooltip" data-placement="left" data-title="<?php echo _l('leads_canban_notes',$lead['total_notes']); ?>">
                <i class="fa fa-sticky-note-o"></i> <?php echo $lead['total_notes']; ?>
             </span>
@@ -44,6 +47,7 @@ if ($lead['status'] == $status['id']) { ?>
                <i class="fa fa-paperclip"></i>
                <?php echo $lead['total_files']; ?>
             </span>
+            <?php hooks()->do_action('after_leads_kanban_card_icons', $lead); ?>
          </div>
          <?php if($lead['tags']){ ?>
          <div class="col-md-12">

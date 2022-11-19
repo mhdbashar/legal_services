@@ -1,5 +1,9 @@
 <?php
 
+use app\services\imap\Imap;
+use app\services\imap\ConnectionErrorException;
+use Ddeboer\Imap\Exception\MailboxDoesNotExistException;
+
 header('Content-Type: text/html; charset=utf-8');
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -9,6 +13,9 @@ class Leads extends AdminController
     {
         parent::__construct();
         $this->load->model('leads_model');
+        if($this->app_modules->is_active('branches')){
+            $this->load->model('branches/Branches_model', 'Branches_model');
+        }
     }
 
     /* List all leads */
@@ -54,7 +61,9 @@ class Leads extends AdminController
         if (!is_staff_member()) {
             ajax_access_denied();
         }
-        $data['statuses'] = $this->leads_model->get_status();
+        $data['statuses']      = $this->leads_model->get_status();
+        $data['base_currency'] = get_base_currency();
+        $data['summary'] = get_leads_summary();
         echo $this->load->view('admin/leads/kan-ban', $data, true);
     }
 
@@ -66,8 +75,28 @@ class Leads extends AdminController
         }
 
         if ($this->input->post()) {
+            $data = $this->input->post();
+            if($this->app_modules->is_active('branches')){
+
+                $branch_id = $this->input->post('branch_id');
+                
+                unset($data['branch_id']);
+            }
             if ($id == '') {
-                $id      = $this->leads_model->add($this->input->post());
+                $id      = $this->leads_model->add($data);
+                if($id){
+                    if($this->app_modules->is_active('branches')){
+                            if(is_numeric($branch_id)){
+                            $data = [
+                                'branch_id' => $branch_id, 
+                                'rel_type' => 'leads', 
+                                'rel_id' => $id
+                            ];
+                            $this->Branches_model->set_branch($data);
+                        }
+                    }
+                }
+                
                 $message = $id ? _l('added_successfully', _l('lead')) : '';
 
                 echo json_encode([
@@ -80,7 +109,16 @@ class Leads extends AdminController
                 $emailOriginal   = $this->db->select('email')->where('id', $id)->get(db_prefix() . 'leads')->row()->email;
                 $proposalWarning = false;
                 $message         = '';
-                $success         = $this->leads_model->update($this->input->post(), $id);
+                $success         = $this->leads_model->update($data, $id);
+
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('leads', $id, $branch_id);
+                    }
+                    else{
+                        $this->Branches_model->delete_branch('leads', $id);
+                    }
+                }
 
                 if ($success) {
                     $emailNow = $this->db->select('email')->where('id', $id)->get(db_prefix() . 'leads')->row()->email;
@@ -109,11 +147,12 @@ class Leads extends AdminController
 
     private function _get_lead_data($id = '')
     {
-        $reminder_data       = '';
-        $data['lead_locked'] = false;
-        $data['openEdit']    = $this->input->get('edit') ? true : false;
-        $data['members']     = $this->staff_model->get('', ['is_not_staff' => 0, 'active' => 1]);
-        $data['status_id']   = $this->input->get('status_id') ? $this->input->get('status_id') : get_option('leads_default_status');
+        $reminder_data         = '';
+        $data['lead_locked']   = false;
+        $data['openEdit']      = $this->input->get('edit') ? true : false;
+        $data['members']       = $this->staff_model->get('', ['is_not_staff' => 0, 'active' => 1]);
+        $data['status_id']     = $this->input->get('status_id') ? $this->input->get('status_id') : get_option('leads_default_status');
+        $data['base_currency'] = get_base_currency();
 
         if (is_numeric($id)) {
             $leadWhere = (has_permission('leads', '', 'view') ? [] : '(assigned = ' . get_staff_user_id() . ' OR addedfrom=' . get_staff_user_id() . ' OR is_public=1)');
@@ -152,6 +191,12 @@ class Leads extends AdminController
 
         $data['statuses'] = $this->leads_model->get_status();
         $data['sources']  = $this->leads_model->get_source();
+
+        if($this->app_modules->is_active('branches')) {
+            $data['branches'] = $this->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('leads', $id);
+            $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
+        }
 
         $data = hooks()->apply_filters('lead_view_data', $data);
 
@@ -214,8 +259,8 @@ class Leads extends AdminController
             redirect(admin_url('leads'));
         }
 
-        if (!is_lead_creator($id) && !has_permission('leads', '', 'delete')) {
-            access_denied('Delte Lead');
+        if (!has_permission('leads', '', 'delete')) {
+            access_denied('Delete Lead');
         }
 
         $response = $this->leads_model->delete($id);
@@ -226,6 +271,7 @@ class Leads extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting', _l('lead_lowercase')));
         }
+
         $ref = $_SERVER['HTTP_REFERER'];
 
         // if user access leads/inded/ID to prevent redirecting on the same url because will throw 404
@@ -334,6 +380,11 @@ class Leads extends AdminController
             $this->load->model('gdpr_model');
             $data['purposes'] = $this->gdpr_model->get_consent_purposes($id, 'lead');
         }
+        if($this->app_modules->is_active('branches')) {
+            $data['branches'] = $this->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('leads', $id);
+            $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
+        }
         $data['lead'] = $this->leads_model->get($id);
         $this->load->view('admin/leads/convert_to_customer', $data);
     }
@@ -356,6 +407,13 @@ class Leads extends AdminController
 
             $original_lead_email = $data['original_lead_email'];
             unset($data['original_lead_email']);
+
+            if($this->app_modules->is_active('branches')) {
+                if (isset($data['branch_id'])) {
+                    $branch_id = $this->Branches_model->get_branch('leads', $data['leadid']);
+                    unset($data['branch_id']);
+                }
+            }
 
             if (isset($data['transfer_notes'])) {
                 $notes = $this->misc_model->get_notes($data['leadid'], 'lead');
@@ -398,6 +456,12 @@ class Leads extends AdminController
             if ($id) {
                 $primary_contact_id = get_primary_contact_user_id($id);
 
+                if(isset($branch_id)){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                    }
+                }
+                
                 if (isset($notes)) {
                     foreach ($notes as $note) {
                         $this->db->insert(db_prefix() . 'notes', [
@@ -559,6 +623,15 @@ class Leads extends AdminController
                 set_alert('success', _l('lead_to_client_base_converted_success'));
 
                 if (is_gdpr() && get_option('gdpr_after_lead_converted_delete') == '1') {
+                    // When lead is deleted
+                    // move all proposals to the actual customer record
+                    $this->db->where('rel_id', $data['leadid']);
+                    $this->db->where('rel_type', 'lead');
+                    $this->db->update('proposals', [
+                        'rel_id'   => $id,
+                        'rel_type' => 'customer',
+                    ]);
+
                     $this->leads_model->delete($data['leadid']);
 
                     $this->db->where('userid', $id);
@@ -755,10 +828,14 @@ class Leads extends AdminController
 
         $db_fields = [];
         $fields    = [
+            'header',
+            'paragraph',
+            'file',
             'name',
             'title',
             'email',
             'phonenumber',
+            'lead_value',
             'company',
             'address',
             'city',
@@ -775,8 +852,8 @@ class Leads extends AdminController
 
         foreach ($fields as $f) {
             $_field_object = new stdClass();
-            $type          = 'text';
-            $subtype       = '';
+            $type = 'text';
+            $subtype = '';
             if ($f == 'email') {
                 $subtype = 'email';
             } elseif ($f == 'description' || $f == 'address') {
@@ -785,12 +862,21 @@ class Leads extends AdminController
                 $type = 'select';
             }
 
-            if ($f == 'name') {
+            if($f == 'header'){
+                $label = _l('lead_add_edit_header');
+            } elseif ($f == 'paragraph') {
+                $label = _l('lead_add_edit_paragraph');
+            } elseif ($f == 'file') {
+                $label = _l('lead_add_edit_file');
+            } elseif ($f == 'name') {
                 $label = _l('lead_add_edit_name');
             } elseif ($f == 'email') {
                 $label = _l('lead_add_edit_email');
             } elseif ($f == 'phonenumber') {
                 $label = _l('lead_add_edit_phonenumber');
+            } elseif ($f == 'lead_value') {
+                $label = _l('lead_add_edit_lead_value');
+                $type  = 'number';
             } else {
                 $label = _l('lead_' . $f);
             }
@@ -1044,6 +1130,31 @@ class Leads extends AdminController
         echo json_encode(['leadView' => $this->_get_lead_data($rel_id), 'id' => $rel_id]);
     }
 
+    public function email_integration_folders()
+    {
+       if (!is_admin()) {
+            ajax_access_denied('Leads Test Email Integration');
+        }
+
+        app_check_imap_open_function();
+
+        $imap = new Imap(
+           $this->input->post('email'),
+           $this->input->post('password', false),
+           $this->input->post('imap_server'),
+           $this->input->post('encryption')
+        );
+
+        try {
+            echo json_encode($imap->getSelectableFolders());
+        } catch (ConnectionErrorException $e) {
+            echo json_encode([
+                'alert_type' => 'warning',
+                'message'    => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function test_email_integration()
     {
         if (!is_admin()) {
@@ -1052,25 +1163,33 @@ class Leads extends AdminController
 
         app_check_imap_open_function(admin_url('leads/email_integration'));
 
-        require_once(APPPATH . 'third_party/php-imap/Imap.php');
+        $mail     = $this->leads_model->get_email_integration();
+        $password = $mail->password;
 
-        $mail = $this->leads_model->get_email_integration();
-        $ps   = $mail->password;
-        if (false == $this->encryption->decrypt($ps)) {
+        if (false == $this->encryption->decrypt($password)) {
             set_alert('danger', _l('failed_to_decrypt_password'));
             redirect(admin_url('leads/email_integration'));
         }
-        $mailbox    = $mail->imap_server;
-        $username   = $mail->email;
-        $password   = $this->encryption->decrypt($ps);
-        $encryption = $mail->encryption;
-        // open connection
-        $imap = new Imap($mailbox, $username, $password, $encryption);
 
-        if ($imap->isConnected() === false) {
-            set_alert('danger', _l('lead_email_connection_not_ok') . '<br /><b>' . $imap->getError() . '</b>');
-        } else {
-            set_alert('success', _l('lead_email_connection_ok'));
+        $imap = new Imap(
+           $mail->email,
+           $this->encryption->decrypt($password),
+           $mail->imap_server,
+           $mail->encryption
+        );
+
+        try {
+            $connection = $imap->testConnection();
+
+            try {
+                $connection->getMailbox($mail->folder);
+                set_alert('success', _l('lead_email_connection_ok'));
+            } catch (MailboxDoesNotExistException $e) {
+                set_alert('danger', str_replace(["\n", 'Mailbox'], ['<br />', 'Folder'], addslashes($e->getMessage())));
+            }
+        } catch (ConnectionErrorException $e) {
+            $error = str_replace("\n", '<br />', addslashes($e->getMessage()));
+            set_alert('danger', _l('lead_email_connection_not_ok') . '<br /><br /><b>' . $error . '</b>');
         }
 
         redirect(admin_url('leads/email_integration'));
@@ -1107,15 +1226,16 @@ class Leads extends AdminController
             'is_not_staff' => 0,
         ]);
 
-        $data['title']     = _l('leads_email_integration');
-        $data['mail']      = $this->leads_model->get_email_integration();
+        $data['title']      = _l('leads_email_integration');
+        $data['mail']       = $this->leads_model->get_email_integration();
+
         $data['bodyclass'] = 'leads-email-integration';
         $this->load->view('admin/leads/email_integration', $data);
     }
 
     public function change_status_color()
     {
-        if ($this->input->post()) {
+        if ($this->input->post() && is_admin()) {
             $this->leads_model->change_status_color($this->input->post());
         }
     }
@@ -1256,5 +1376,29 @@ class Leads extends AdminController
         if ($this->input->post('mass_delete')) {
             set_alert('success', _l('total_leads_deleted', $total_deleted));
         }
+    }
+
+    public function download_files($lead_id)
+    {
+        if (!is_staff_member() || !$this->leads_model->staff_can_access_lead($lead_id)) {
+            ajax_access_denied();
+        }
+
+        $files = $this->leads_model->get_lead_attachments($lead_id);
+
+        if (count($files) == 0) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $path = get_upload_path_by_type('lead') . $lead_id;
+
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download('files.zip');
+        $this->zip->clear_data();
     }
 }

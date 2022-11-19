@@ -19,13 +19,13 @@ elFinder.prototype.commands.sort = function() {
 			self.variants.push('|');
 			self.variants.push([
 				'stick',
-				(fm.sortStickFolders? '<span class="ui-icon ui-icon-check"/>' : '') + '&nbsp;' + fm.i18n('sortFoldersFirst')
+				(fm.sortStickFolders? '<span class="ui-icon ui-icon-check"></span>' : '') + '&nbsp;' + fm.i18n('sortFoldersFirst')
 			]);
-			if (fm.ui.tree) {
+			if (fm.ui.tree && fm.options.sortAlsoTreeview !== null) {
 				self.variants.push('|');
 				self.variants.push([
 					'tree',
-					(fm.sortAlsoTreeview? '<span class="ui-icon ui-icon-check"/>' : '') + '&nbsp;' + fm.i18n('sortAlsoTreeview')
+					(fm.sortAlsoTreeview? '<span class="ui-icon ui-icon-check"></span>' : '') + '&nbsp;' + fm.i18n('sortAlsoTreeview')
 				]);
 			}
 			updateContextmenu();
@@ -43,11 +43,11 @@ elFinder.prototype.commands.sort = function() {
 						arr;
 					if (name === (i18Name.stick || (i18Name.stick = fm.i18n('sortFoldersFirst')))) {
 						if (fm.sortStickFolders) {
-							tgt.prepend('<span class="ui-icon ui-icon-check"/>');
+							tgt.prepend('<span class="ui-icon ui-icon-check"></span>');
 						}
 					} else if (name === (i18Name.tree || (i18Name.tree = fm.i18n('sortAlsoTreeview')))) {
 						if (fm.sortAlsoTreeview) {
-							tgt.prepend('<span class="ui-icon ui-icon-check"/>');
+							tgt.prepend('<span class="ui-icon ui-icon-check"></span>');
 						}
 					} else if (name === (i18Name[fm.sortType] || (i18Name[fm.sortType] = fm.i18n('sort' + fm.sortType)))) {
 						arr = fm.sortOrder === 'asc'? 'n' : 's';
@@ -70,10 +70,10 @@ elFinder.prototype.commands.sort = function() {
 	fm.bind('sortchange', setVar)
 	.bind('sorterupdate', function() {
 		setVar();
-		fm.getUI('toolbar').find('.elfiner-button-sort .elfinder-button-menu .elfinder-button-menu-item').each(function() {
+		fm.getUI().children('.elfinder-button-sort-menu').children('.elfinder-button-menu-item').each(function() {
 			var tgt = $(this),
 				rel = tgt.attr('rel');
-			tgt.toggle(! rel || fm.sorters[rel]);
+			tgt.toggle(!!(! rel || fm.sorters[rel]));
 		});
 	})
 	.bind('cwdrender', function() {
@@ -90,7 +90,7 @@ elFinder.prototype.commands.sort = function() {
 					if (current) {
 						td.addClass('ui-state-active');
 						arr = fm.sortOrder == 'asc' ? 'n' : 's';
-						$('<span class="ui-icon ui-icon-triangle-1-'+arr+'"/>').appendTo(td);
+						$('<span class="ui-icon ui-icon-triangle-1-'+arr+'"></span>').appendTo(td);
 					}
 					$(td).on('click', function(e){
 						if (! $(this).data('dragging')) {

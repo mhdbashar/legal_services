@@ -6,8 +6,10 @@ class App_modules
 {
     /**
      * @since  2.3.4
+     *
      * There is function add_module_support($module_name, $feature) so modules can hook support
      * Check the function add_module_support for more info
+     *
      * @var array
      */
     private static $supports = [];
@@ -592,10 +594,13 @@ class App_modules
     {
         /**
         * Modules path
+        *
         * APP_MODULES_PATH constant is defined in application/config/constants.php
+        *
         * @var array
         */
-        $modules       = directory_map(APP_MODULES_PATH, 1);
+        $modules = directory_map(APP_MODULES_PATH, 1);
+
         $valid_modules = [];
 
         if ($modules) {

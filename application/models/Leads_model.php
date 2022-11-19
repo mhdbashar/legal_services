@@ -40,6 +40,23 @@ class Leads_model extends App_Model
         return $this->db->get(db_prefix() . 'leads')->result_array();
     }
 
+    /**
+     * Get lead by given email
+     *
+     * @since 2.8.0
+     *
+     * @param  string $email
+     *
+     * @return \strClass|null
+     */
+    public function get_lead_by_email($email)
+    {
+        $this->db->where('email', $email);
+        $this->db->limit(1);
+
+        return $this->db->get('leads')->row();
+    }
+
     public function do_kanban_query($status, $search = '', $page = 1, $sort = [], $count = false)
     {
         $limit                          = get_option('leads_kanban_limit');
@@ -47,7 +64,7 @@ class Leads_model extends App_Model
         $default_leads_kanban_sort_type = get_option('default_leads_kanban_sort_type');
         $has_permission_view            = has_permission('leads', '', 'view');
 
-        $this->db->select(db_prefix() . 'leads.title, ' . db_prefix() . 'leads.website, ' . db_prefix() . 'leads.address, ' . db_prefix() . 'leads.city, ' . db_prefix() . 'leads.state, ' . db_prefix() . 'leads.country, ' . db_prefix() . 'leads.zip, ' . db_prefix() . 'leads.name as lead_name,' . db_prefix() . 'leads_sources.name as source_name,' . db_prefix() . 'leads.id as id,' . db_prefix() . 'leads.assigned,' . db_prefix() . 'leads.email,' . db_prefix() . 'leads.phonenumber,' . db_prefix() . 'leads.company,' . db_prefix() . 'leads.dateadded,' . db_prefix() . 'leads.status,' . db_prefix() . 'leads.lastcontact,(SELECT COUNT(*) FROM ' . db_prefix() . 'clients WHERE leadid=' . db_prefix() . 'leads.id) as is_lead_client, (SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_files, (SELECT COUNT(id) FROM ' . db_prefix() . 'notes WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_notes,(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'leads.id and rel_type="lead" ORDER by tag_order ASC) as tags');
+        $this->db->select(db_prefix() . 'leads.title, ' . db_prefix() . 'leads.website, ' . db_prefix() . 'leads.lead_value, ' . db_prefix() . 'leads.address, ' . db_prefix() . 'leads.city, ' . db_prefix() . 'leads.state, ' . db_prefix() . 'leads.country, ' . db_prefix() . 'leads.zip, ' . db_prefix() . 'leads.name as lead_name,' . db_prefix() . 'leads_sources.name as source_name,' . db_prefix() . 'leads.id as id,' . db_prefix() . 'leads.assigned,' . db_prefix() . 'leads.email,' . db_prefix() . 'leads.phonenumber,' . db_prefix() . 'leads.company,' . db_prefix() . 'leads.dateadded,' . db_prefix() . 'leads.status,' . db_prefix() . 'leads.lastcontact,(SELECT COUNT(*) FROM ' . db_prefix() . 'clients WHERE leadid=' . db_prefix() . 'leads.id) as is_lead_client, (SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_files, (SELECT COUNT(id) FROM ' . db_prefix() . 'notes WHERE rel_id=' . db_prefix() . 'leads.id AND rel_type="lead") as total_notes,(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'leads.id and rel_type="lead" ORDER by tag_order ASC) as tags');
         $this->db->from(db_prefix() . 'leads');
         $this->db->join(db_prefix() . 'leads_sources', db_prefix() . 'leads_sources.id=' . db_prefix() . 'leads.source');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'leads.assigned', 'left');
@@ -57,11 +74,11 @@ class Leads_model extends App_Model
         }
         if ($search != '') {
             if (!startsWith($search, '#')) {
-                $this->db->where('(' . db_prefix() . 'leads.name LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads_sources.name LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.email LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.phonenumber LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.company LIKE "%' . $search . '%" OR CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) LIKE "%' . $search . '%")');
+                $this->db->where('(' . db_prefix() . 'leads.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads_sources.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.email LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.phonenumber LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.company LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
             } else {
                 $this->db->where(db_prefix() . 'leads.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'lead\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -387,6 +404,11 @@ class Leads_model extends App_Model
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'taggables');
 
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type="leads"']);
+                $this->db->delete('tblbranches_services');
+            }
+            
             $this->load->model('proposals_model');
             $this->db->where('rel_id', $id);
             $this->db->where('rel_type', 'lead');
@@ -908,7 +930,9 @@ class Leads_model extends App_Model
             return true;
         }
 
-        if (total_rows(db_prefix() . 'leads', 'id="' . $id . '" AND (assigned=' . $staff_id . ' OR is_public=1 OR addedfrom=' . $staff_id . ')') > 0) {
+        $CI = &get_instance();
+
+        if (total_rows(db_prefix() . 'leads', 'id="' . $CI->db->escape_str($id) . '" AND (assigned=' . $CI->db->escape_str($staff_id) . ' OR is_public=1 OR addedfrom=' . $CI->db->escape_str($staff_id) . ')') > 0) {
             return true;
         }
 

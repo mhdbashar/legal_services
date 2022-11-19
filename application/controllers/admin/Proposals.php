@@ -9,6 +9,7 @@ class Proposals extends AdminController
         parent::__construct();
         $this->load->model('proposals_model');
         $this->load->model('currencies_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     public function index($proposal_id = '')
@@ -57,9 +58,11 @@ class Proposals extends AdminController
 
     public function table()
     {
-        if (!has_permission('proposals', '', 'view')
+        if (
+            !has_permission('proposals', '', 'view')
             && !has_permission('proposals', '', 'view_own')
-            && get_option('allow_staff_view_proposals_assigned') == 0) {
+            && get_option('allow_staff_view_proposals_assigned') == 0
+        ) {
             ajax_access_denied();
         }
 
@@ -107,7 +110,7 @@ class Proposals extends AdminController
 
             $address = trim($this->input->post('address'));
             $address = nl2br($address);
-            $this->db->update(db_prefix().'proposals', [
+            $this->db->update(db_prefix() . 'proposals', [
                 'phone'   => $this->input->post('phone'),
                 'zip'     => $this->input->post('zip'),
                 'country' => $this->input->post('country'),
@@ -178,7 +181,7 @@ class Proposals extends AdminController
         $data['taxes'] = $this->taxes_model->get();
         $this->load->model('invoice_items_model');
         $data['ajaxItems'] = false;
-        if (total_rows(db_prefix().'items') <= ajax_on_total_items()) {
+        if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
             $data['items']     = [];
@@ -229,7 +232,7 @@ class Proposals extends AdminController
     {
         if (is_admin()) {
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'proposals', get_acceptance_info_array(true));
+            $this->db->update(db_prefix() . 'proposals', get_acceptance_info_array(true));
         }
 
         redirect(admin_url('proposals/list_proposals/' . $id));
@@ -309,7 +312,7 @@ class Proposals extends AdminController
         $data['members']               = $this->staff_model->get('', ['active' => 1]);
         $data['proposal_merge_fields'] = $merge_fields;
         $data['proposal']              = $proposal;
-        $data['totalNotes']            = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'proposal']);
+        $data['totalNotes']            = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'proposal']);
         if ($to_return == false) {
             $this->load->view('admin/proposals/proposals_preview_template', $data);
         } else {
@@ -344,7 +347,7 @@ class Proposals extends AdminController
             if ($estimate_id) {
                 set_alert('success', _l('proposal_converted_to_estimate_success'));
                 $this->db->where('id', $id);
-                $this->db->update(db_prefix().'proposals', [
+                $this->db->update(db_prefix() . 'proposals', [
                     'estimate_id' => $estimate_id,
                     'status'      => 3,
                 ]);
@@ -375,7 +378,7 @@ class Proposals extends AdminController
             if ($invoice_id) {
                 set_alert('success', _l('proposal_converted_to_invoice_success'));
                 $this->db->where('id', $id);
-                $this->db->update(db_prefix().'proposals', [
+                $this->db->update(db_prefix() . 'proposals', [
                     'invoice_id' => $invoice_id,
                     'status'     => 3,
                 ]);
@@ -405,7 +408,7 @@ class Proposals extends AdminController
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $this->load->model('invoice_items_model');
         $data['ajaxItems'] = false;
-        if (total_rows(db_prefix().'items') <= ajax_on_total_items()) {
+        if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
             $data['items']     = [];
@@ -420,7 +423,7 @@ class Proposals extends AdminController
 
         if ($data['proposal']->rel_type == 'lead') {
             $this->db->where('leadid', $data['proposal']->rel_id);
-            $data['customer_id'] = $this->db->get(db_prefix().'clients')->row()->userid;
+            $data['customer_id'] = $this->db->get(db_prefix() . 'clients')->row()->userid;
         } else {
             $data['customer_id'] = $data['proposal']->rel_id;
         }
@@ -439,7 +442,7 @@ class Proposals extends AdminController
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $this->load->model('invoice_items_model');
         $data['ajaxItems'] = false;
-        if (total_rows(db_prefix().'items') <= ajax_on_total_items()) {
+        if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
             $data['items']     = [];
@@ -455,7 +458,7 @@ class Proposals extends AdminController
         $data['estimate_statuses'] = $this->estimates_model->get_statuses();
         if ($data['proposal']->rel_type == 'lead') {
             $this->db->where('leadid', $data['proposal']->rel_id);
-            $data['customer_id'] = $this->db->get(db_prefix().'clients')->row()->userid;
+            $data['customer_id'] = $this->db->get(db_prefix() . 'clients')->row()->userid;
         } else {
             $data['customer_id'] = $data['proposal']->rel_id;
         }
@@ -464,7 +467,7 @@ class Proposals extends AdminController
             'belongs_to' => 'proposal',
             'rel_id'     => $id,
         ];
-
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $this->load->view('admin/proposals/estimate_convert_template', $data);
     }
 
@@ -613,7 +616,7 @@ class Proposals extends AdminController
     public function remove_comment($id)
     {
         $this->db->where('id', $id);
-        $comment = $this->db->get(db_prefix().'proposal_comments')->row();
+        $comment = $this->db->get(db_prefix() . 'proposal_comments')->row();
         if ($comment) {
             if ($comment->staffid != get_staff_user_id() && !is_admin()) {
                 echo json_encode([
@@ -645,8 +648,8 @@ class Proposals extends AdminController
         $message = '';
 
         $this->db->where('id', $this->input->post('proposal_id'));
-        $this->db->update(db_prefix().'proposals', [
-            'content' => $this->input->post('content', false),
+        $this->db->update(db_prefix() . 'proposals', [
+            'content' => html_purify($this->input->post('content', false)),
         ]);
 
         $success = $this->db->affected_rows() > 0;

@@ -4,44 +4,77 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Subscription extends ClientsController
 {
-    public function index($hash)
+    public function __construct()
     {
+        parent::__construct();
+
         $this->load->model('subscriptions_model');
         $this->load->library('stripe_subscriptions');
+        $this->load->library('stripe_core');
+    }
+
+    public function index($hash)
+    {
         $subscription = $this->subscriptions_model->get_by_hash($hash);
 
         if (!$subscription) {
             show_404();
         }
 
-        $language = load_client_language($subscription->clientid);
-        $data['locale'] = get_locale_key($language);
+        $language               = load_client_language($subscription->clientid);
+        $data['locale']         = get_locale_key($language);
+        $data['publishableKey'] = $this->stripe_subscriptions->get_publishable_key();
+        $plan                   = $this->stripe_subscriptions->get_plan($subscription->stripe_plan_id);
 
-        $data['stripe_customer'] = false;
-        if (!empty($subscription->stripe_customer_id)) {
-            $data['stripe_customer'] = $this->stripe_subscriptions->get_customer_with_default_source($subscription->stripe_customer_id);
+        check_stripe_subscription_environment($subscription);
+
+        if (!empty($subscription->stripe_subscription_id) && !empty($data['publishableKey'])) {
+            $data['stripeSubscription'] = $this->stripe_subscriptions->get_subscription([
+                'id'     => $subscription->stripe_subscription_id,
+                'expand' => ['latest_invoice'],
+            ]);
+
+            if ($this->input->get('complete')) {
+                redirect($data['stripeSubscription']->latest_invoice->hosted_invoice_url);
+            }
         }
 
-        $plan = $this->stripe_subscriptions->get_plan($subscription->stripe_plan_id);
+        $upcomingInvoice                    = new stdClass();
+        $upcomingInvoice->default_tax_rates = null;
+        $upcomingInvoice->total             = $plan->amount * $subscription->quantity;
+        $upcomingInvoice->subtotal          = $upcomingInvoice->total;
+        $total                              = $upcomingInvoice->total;
 
-        $upcomingInvoice           = new stdClass();
-        $upcomingInvoice->total    = $plan->amount * $subscription->quantity;
-        $upcomingInvoice->subtotal = $upcomingInvoice->total;
+        if (!empty($subscription->tax_percent) || !empty($subscription->tax_percent_2)) {
+            $totalTax                           = 0;
+            $upcomingInvoice->default_tax_rates = [];
+            if (!empty($subscription->tax_percent)) {
+                $tax1                                 = new stdClass();
+                $tax1->percentage                     = $subscription->tax_percent;
+                $tax1->display_name                   = $subscription->tax_name;
+                $upcomingInvoice->default_tax_rates[] = $tax1;
+                $totalTax += $upcomingInvoice->total * ($subscription->tax_percent / 100);
+            }
 
-        if (!empty($subscription->tax_percent)) {
-            $totalTax = $upcomingInvoice->total * ($subscription->tax_percent / 100);
+            if (!empty($subscription->tax_percent_2)) {
+                $tax2                                 = new stdClass();
+                $tax2->percentage                     = $subscription->tax_percent_2;
+                $tax2->display_name                   = $subscription->tax_name_2;
+                $upcomingInvoice->default_tax_rates[] = $tax2;
+                $totalTax += $upcomingInvoice->total * ($subscription->tax_percent_2 / 100);
+            }
+
             $upcomingInvoice->total += $totalTax;
         }
 
-        $data['total']                = $upcomingInvoice->total;
-        $upcomingInvoice->tax_percent = $subscription->tax_percent;
-        $product                      = $this->stripe_subscriptions->get_product($plan->product);
+        $data['total'] = $upcomingInvoice->total;
+        $product       = $this->stripe_subscriptions->get_product($plan->product);
 
         $upcomingInvoice->lines       = new stdClass();
         $upcomingInvoice->lines->data = [];
 
         $upcomingInvoice->lines->data[] = [
-            'description' => $product->name . ' (' . app_format_money(strcasecmp($plan->currency, 'JPY') == 0 ? $plan->amount : $plan->amount / 100, strtoupper($subscription->currency_name)) . ' / ' . $plan->interval . ')',
+            'description' => $this->lineProductDescription($product, $plan, $subscription->currency_name),
             'amount'      => $plan->amount * $subscription->quantity,
             'quantity'    => $subscription->quantity,
         ];
@@ -50,12 +83,12 @@ class Subscription extends ClientsController
         $this->disableSubMenu();
         $data['child_invoices'] = $this->subscriptions_model->get_child_invoices($subscription->id);
         $data['invoice']        = subscription_invoice_preview_data($subscription, $upcomingInvoice);
-        $this->app_scripts->theme('sticky-js','assets/plugins/sticky/sticky.js');
-        $data['plan']           = $plan;
-        $data['subscription']   = $subscription;
-        $data['title']          = $subscription->name;
-        $data['hash']           = $hash;
-        $data['bodyclass']      = 'subscriptionhtml';
+        $this->app_scripts->theme('sticky-js', 'assets/plugins/sticky/sticky.js');
+        $data['plan']         = $plan;
+        $data['subscription'] = $subscription;
+        $data['title']        = $subscription->name;
+        $data['hash']         = $hash;
+        $data['bodyclass']    = 'subscriptionhtml';
         $this->data($data);
         $this->view('subscriptionhtml');
         $this->layout();
@@ -63,52 +96,133 @@ class Subscription extends ClientsController
 
     public function subscribe($subscription_hash)
     {
-        $this->load->model('subscriptions_model');
-        $this->load->library('stripe_subscriptions');
-
         $subscription = $this->subscriptions_model->get_by_hash($subscription_hash);
 
         if (!$subscription) {
             show_404();
         }
 
-        $email = $this->input->post('stripeEmail');
+        $stripe_customer_id                    = $subscription->stripe_customer_id;
+        $cancelUrl                             = site_url('subscription/' . $subscription_hash);
+        $customerExistsButWithoutPaymentMethod = false;
+        if (!empty($stripe_customer_id)) {
+            // Check if the stripe customer actually have default payment method
+            // Perhaps the stripe_id is saved via regular invoice payments where
+            // the payment method is not stored
 
-        $stripe_customer_id = $subscription->stripe_customer_id;
-        $source             = $this->input->post('stripeToken');
-        if (empty($stripe_customer_id)) {
-            try {
-                $customer = $this->stripe_subscriptions->create_customer([
-                    'email'       => $email,
-                    'source'      => $source,
-                    'description' => $subscription->company,
-                ]);
+            $customer = $this->stripe_core->get_customer($stripe_customer_id);
 
-                $stripe_customer_id = $customer->id;
-
-                $this->db->where('userid', $subscription->clientid);
-                $this->db->update(db_prefix().'clients', [
-                    'stripe_id' => $stripe_customer_id,
-                ]);
-            } catch (Exception $e) {
-                echo $e->getMessage();
+            if (!empty($customer->invoice_settings->default_payment_method)) {
+                $this->create_subscription($subscription, $stripe_customer_id);
+            } else {
+                $customerExistsButWithoutPaymentMethod = true;
             }
-        } elseif (!empty($stripe_customer_id)) {
-            // Perhaps had source and it's deleted
-            $customer = $this->stripe_subscriptions->get_customer($stripe_customer_id);
-            if (empty($customer->default_source)) {
-                $customer->source = $source;
-                $customer->save();
+        }
+
+        $sessionData = [
+            'payment_method_types' => ['card'],
+            'mode'                 => 'setup',
+            'success_url'          => site_url('subscription/complete_setup/' . $subscription->hash . '?session_id={CHECKOUT_SESSION_ID}'),
+            'cancel_url'           => $cancelUrl,
+        ];
+
+        if ($customerExistsButWithoutPaymentMethod) {
+            $sessionData['client_reference_id'] = $stripe_customer_id;
+        }
+
+        if (is_client_logged_in()) {
+            $contact = $this->clients_model->get_contact(get_contact_user_id());
+            if ($contact->email) {
+                $sessionData['customer_email'] = $contact->email;
             }
         }
 
         try {
+            $session = $this->stripe_core->create_session($sessionData);
+        } catch (Exception $e) {
+            set_alert('warning', $e->getMessage());
+
+            redirect($cancelUrl);
+        }
+
+        redirect_to_stripe_checkout($session->id);
+    }
+
+    /**
+     * After collection payments for future subscriptions
+     *
+     * @return mixed
+     */
+    public function complete_setup($hash)
+    {
+        $subscription = $this->subscriptions_model->get_by_hash($hash);
+
+        if (!$subscription) {
+            show_404();
+        }
+
+        try {
+            $session = $this->stripe_core->retrieve_session([
+                'id'     => $this->input->get('session_id'),
+                'expand' => ['setup_intent.payment_method'],
+            ]);
+
+            $payment_method = $session->setup_intent->payment_method;
+
+            $customerPayload = [
+                    'email'       => $payment_method->billing_details->email,
+                    'name'        => $payment_method->billing_details->name,
+                    'description' => $subscription->company,
+            ];
+
+            if ($session->client_reference_id) {
+                $customer = $this->stripe_core->get_customer($session->client_reference_id);
+                // Update the existing customer with the new provided email and name
+                // this can happen if customer previously paid only invoice and it was saved in database
+                // but without payment method, now becase above client_reference_id is passed
+                // so we can determine here the customer
+                $customer = $this->stripe_core->update_customer($session->client_reference_id, $customerPayload);
+            } else {
+                $customer = $this->stripe_subscriptions->create_customer($customerPayload);
+            }
+
+            $payment_method->attach(['customer' => $customer->id]);
+
+            $this->stripe_core->update_customer($customer->id, [
+                'invoice_settings' => [
+                    'default_payment_method' => $payment_method->id,
+                  ],
+              ]);
+
+            $this->create_subscription($subscription, $customer->id);
+        } catch (Exception $e) {
+            set_alert('warning', $e->getMessage());
+        }
+
+        redirect(site_url('subscription/' . $hash));
+    }
+
+    protected function create_subscription($subscription, $customer_id)
+    {
+        try {
             $params = [];
 
-            $params['tax_percent'] = $subscription->tax_percent;
+            if (!empty($subscription->stripe_tax_id) || !empty($subscription->stripe_tax_id_2)) {
+                $params['default_tax_rates'] = [];
+                if (!empty($subscription->stripe_tax_id)) {
+                    $params['default_tax_rates'][] = $subscription->stripe_tax_id;
+                }
+
+                if (!empty($subscription->stripe_tax_id_2)) {
+                    $params['default_tax_rates'][] = $subscription->stripe_tax_id_2;
+                }
+            }
 
             $params['metadata'] = [
                 'pcrm-subscription-hash' => $subscription->hash,
+                // Indicated the the customer was on session,
+                // see requires action event
+                'customer-on-session' => true,
             ];
 
             $params['items'] = [
@@ -117,56 +231,85 @@ class Subscription extends ClientsController
                 ],
             ];
 
-            $future                 = false;
-            $updateFirstBillingDate = false;
+            $params['expand'] = ['latest_invoice.payment_intent'];
+
             if (!empty($subscription->date)) {
-                $anchor = strtotime($subscription->date);
-
-                if ($subscription->date <= date('Y-m-d')) {
-                    $anchor                 = false;
-                    $updateFirstBillingDate = date('Y-m-d');
-                }
-
-                if ($anchor) {
-                    $params['billing_cycle_anchor'] = $anchor;
-                    $params['prorate']              = false;
-                    $future                         = true;
+                if ($subscription->date > date('Y-m-d')) {
+                    // is future
+                    $params['billing_cycle_anchor'] = strtotime($subscription->date);
+                    // https://stripe.com/docs/billing/subscriptions/billing-cycle#new-subscriptions
+                    $params['prorate'] = false;
                 }
             }
+
+            $params['off_session'] = true;
 
             if ($subscription->quantity > 1) {
                 $params['items'][0]['quantity'] = $subscription->quantity;
             }
 
-            $stripeSubscription = $this->stripe_subscriptions->subscribe($stripe_customer_id, $params);
+            $stripeSubscription = $this->stripe_subscriptions->subscribe($customer_id, $params);
 
-            $update = [
-                'stripe_subscription_id' => $stripeSubscription->id,
-                'date_subscribed'        => date('Y-m-d H:i:s'),
-            ];
+            // https://stripe.com/docs/billing/subscriptions/payment#signup-3b
+            if ($stripeSubscription->status === 'incomplete') {
+                if ($stripeSubscription->latest_invoice->payment_intent->status === 'requires_action') {
+                    $this->subscriptions_model->update($subscription->id, [
+                        'status'                 => $stripeSubscription->status,
+                        'stripe_subscription_id' => $stripeSubscription->id,
+                    ]);
 
-            if ($future) {
-                $update['status'] = 'future';
-                if ($anchor) {
-                    $update['next_billing_cycle'] = $anchor;
+                    redirect($stripeSubscription->latest_invoice->hosted_invoice_url);
                 }
+            } elseif ($stripeSubscription->status === 'active') {
+                // In case the webhook is slower, update the stripe_subscription_id so the user won't see
+                // the subscribe button again
+                $this->subscriptions_model->update($subscription->id, ['stripe_subscription_id' => $stripeSubscription->id]);
+                set_alert('success', _l('customer_successfully_subscribed_to_subscription', $subscription->name));
             }
-
-            if ($updateFirstBillingDate) {
-                $update['date'] = $updateFirstBillingDate;
-            }
-
-            $this->subscriptions_model->update($subscription->id, $update);
-
-            send_email_customer_subscribed_to_subscription_to_staff($subscription);
-
-            hooks()->do_action('customer_subscribed_to_subscription', $subscription);
-
-            set_alert('success', _l('customer_successfully_subscribed_to_subscription', $subscription->name));
         } catch (Exception $e) {
             set_alert('warning', $e->getMessage());
         }
 
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(site_url('subscription/' . $subscription->hash));
+    }
+
+    /**
+     * After stripe checkout succcess
+     * Used only to display success message to the customer
+     *
+     * @param  string $invoice_id   The invoice id the payment is made to
+     * @param  strgin $invoice_hash invoice hash
+     *
+     * @return mixed
+     */
+    public function success($hash)
+    {
+        $subscription = $this->subscriptions_model->get_by_hash($hash);
+
+        set_alert('success', _l('customer_successfully_subscribed_to_subscription', $subscription->name));
+
+        send_email_customer_subscribed_to_subscription_to_staff($subscription);
+
+        redirect(site_url('subscription/' . $hash));
+    }
+
+    protected function lineProductDescription($product, $plan, $currency)
+    {
+        $intervals = ['day', 'week', 'month', 'year'];
+        $interval  = $plan->interval;
+
+        foreach ($intervals as $stripeInterval) {
+            if ($plan->interval === $stripeInterval && $plan->interval_count === 1) {
+                $interval = _l($stripeInterval);
+            } elseif ($plan->interval === $stripeInterval && $plan->interval_count > 1) {
+                $interval = _l('frequency_every', $plan->interval_count . ' ' . _l($stripeInterval . 's'));
+            }
+        }
+
+        $productName = (!empty($plan->nickname) ? $plan->nickname : $product->name);
+
+        return $productName . ' (' . app_format_money(strcasecmp($plan->currency, 'JPY') == 0 ?
+                $plan->amount :
+                $plan->amount / 100, strtoupper($currency)) . ' / ' . $interval . ')';
     }
 }

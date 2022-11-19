@@ -8,6 +8,7 @@ class Contracts extends AdminController
     {
         parent::__construct();
         $this->load->model('contracts_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* List all contracts */
@@ -19,10 +20,15 @@ class Contracts extends AdminController
             access_denied('contracts');
         }
 
-        $data['chart_types']        = json_encode($this->contracts_model->get_contracts_types_chart_data());
-        $data['chart_types_values'] = json_encode($this->contracts_model->get_contracts_types_values_chart_data());
-        $data['contract_types']     = $this->contracts_model->get_contract_types();
-        $data['years']              = $this->contracts_model->get_contracts_years();
+        $data['expiring']               = $this->contracts_model->get_contracts_about_to_expire(get_staff_user_id());
+        $data['count_active']           = count_active_contracts();
+        $data['count_expired']          = count_expired_contracts();
+        $data['count_recently_created'] = count_recently_created_contracts();
+        $data['count_trash']            = count_trash_contracts();
+        $data['chart_types']            = json_encode($this->contracts_model->get_contracts_types_chart_data());
+        $data['chart_types_values']     = json_encode($this->contracts_model->get_contracts_types_values_chart_data());
+        $data['contract_types']         = $this->contracts_model->get_contract_types();
+        $data['years']                  = $this->contracts_model->get_contracts_years();
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['title']         = _l('contracts');
@@ -34,9 +40,23 @@ class Contracts extends AdminController
         if (!has_permission('contracts', '', 'view') && !has_permission('contracts', '', 'view_own')) {
             ajax_access_denied();
         }
-
         $this->app->get_table_data('contracts', [
             'clientid' => $clientid,
+        ]);
+    }
+
+    public function table_services($clientid = '',$rel_sid='', $rel_stype = '')
+    {
+        if (!has_permission('contracts', '', 'view') && !has_permission('contracts', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('contracts', [
+            'clientid'  => $clientid,
+            'rel_sid'   => $rel_sid,
+            'rel_stype' => $rel_stype,
         ]);
     }
 
@@ -69,7 +89,7 @@ class Contracts extends AdminController
         } else {
             $data['contract']                 = $this->contracts_model->get($id, [], true);
             $data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
-            $data['totalNotes']               = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
+            $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
             if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
                 blank_page(_l('contract_not_found'));
             }
@@ -88,6 +108,7 @@ class Contracts extends AdminController
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['types']         = $this->contracts_model->get_contract_types();
+        $data['legal_services'] = $this->legal->get_all_services([], true);
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $this->load->view('admin/contracts/contract', $data);
@@ -97,6 +118,28 @@ class Contracts extends AdminController
     {
         $name = $this->input->get('name');
         echo $this->load->view('admin/contracts/templates/' . $name, [], true);
+    }
+
+    public function mark_as_signed($id)
+    {
+        if (!staff_can('edit', 'contracts')) {
+            access_denied('mark contract as signed');
+        }
+
+        $this->contracts_model->mark_as_signed($id);
+
+        redirect(admin_url('contracts/contract/' . $id));
+    }
+
+    public function unmark_as_signed($id)
+    {
+        if (!staff_can('edit', 'contracts')) {
+            access_denied('mark contract as signed');
+        }
+
+        $this->contracts_model->unmark_as_signed($id);
+
+        redirect(admin_url('contracts/contract/' . $id));
     }
 
     public function pdf($id)
@@ -172,7 +215,7 @@ class Contracts extends AdminController
 
     public function save_contract_data()
     {
-        if (!has_permission('contracts', '', 'edit') && !has_permission('contracts', '', 'create')) {
+        if (!has_permission('contracts', '', 'edit')) {
             header('HTTP/1.0 400 Bad error');
             echo json_encode([
                 'success' => false,
@@ -185,8 +228,8 @@ class Contracts extends AdminController
         $message = '';
 
         $this->db->where('id', $this->input->post('contract_id'));
-        $this->db->update(db_prefix().'contracts', [
-                'content' => $this->input->post('content', false),
+        $this->db->update(db_prefix() . 'contracts', [
+                'content' => html_purify($this->input->post('content', false)),
         ]);
 
         $success = $this->db->affected_rows() > 0;
@@ -226,7 +269,7 @@ class Contracts extends AdminController
     public function remove_comment($id)
     {
         $this->db->where('id', $id);
-        $comment = $this->db->get(db_prefix().'contract_comments')->row();
+        $comment = $this->db->get(db_prefix() . 'contract_comments')->row();
         if ($comment) {
             if ($comment->staffid != get_staff_user_id() && !is_admin()) {
                 echo json_encode([

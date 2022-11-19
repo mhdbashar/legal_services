@@ -53,4 +53,8 @@
     $('input[name="adjustment"]').val('<?php echo $proposal->adjustment; ?>');
     $('input[name="show_quantity_as"][value="<?php echo $proposal->show_quantity_as; ?>"]').prop('checked',true).change();
     $('#convert_to_invoice #clientid').change();
+    // Trigger item select width fix
+    $('#convert_to_invoice').on('shown.bs.modal', function(){
+        $('#item_select').trigger('change')
+    })
 </script>

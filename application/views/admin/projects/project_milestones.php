@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php if(has_permission('projects','','create')){ ?>
+<?php if(staff_can('create_milestones', 'projects')){ ?>
    <a href="#" class="btn btn-info" onclick="new_milestone();return false;"><?php echo _l('new_milestone'); ?></a>
 <?php } ?>
 <a href="#" class="btn btn-default" onclick="milestones_switch_view(); return false;"><i class="fa fa-th-list"></i></a>
@@ -33,5 +33,6 @@
    <?php render_datatable(array(
       _l('milestone_name'),
       _l('milestone_due_date'),
+      _l('milestone_description'),
    ),'milestones'); ?>
 </div>

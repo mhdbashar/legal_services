@@ -23,10 +23,12 @@ class Expenses_model extends App_Model
         $this->db->join(db_prefix() . 'taxes', '' . db_prefix() . 'taxes.id = ' . db_prefix() . 'expenses.tax', 'left');
         $this->db->join('' . db_prefix() . 'taxes as ' . db_prefix() . 'taxes_2', '' . db_prefix() . 'taxes_2.id = ' . db_prefix() . 'expenses.tax2', 'left');
         $this->db->join(db_prefix() . 'expenses_categories', '' . db_prefix() . 'expenses_categories.id = ' . db_prefix() . 'expenses.category');
+        $this->db->where(db_prefix() . 'expenses.deleted', 0);
         $this->db->where($where);
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'expenses.id', $id);
+            $this->db->where(db_prefix() . 'expenses.deleted', 0);
             $expense = $this->db->get()->row();
             if ($expense) {
                 $expense->attachment            = '';
@@ -47,6 +49,114 @@ class Expenses_model extends App_Model
                 $expense->currency_data = get_currency($expense->currency);
                 if ($expense->project_id != 0) {
                     $expense->project_data = $this->projects_model->get($expense->project_id);
+                }
+
+                if (is_null($expense->payment_mode_name)) {
+                    // is online payment mode
+                    $this->load->model('payment_modes_model');
+                    $payment_gateways = $this->payment_modes_model->get_payment_gateways(true);
+                    foreach ($payment_gateways as $gateway) {
+                        if ($expense->paymentmode == $gateway['id']) {
+                            $expense->payment_mode_name = $gateway['name'];
+                        }
+                    }
+                }
+            }
+
+            return $expense;
+        }
+        $this->db->order_by('date', 'desc');
+
+        return $this->db->get()->result_array();
+    }
+
+    public function get_for_case($id = '', $where = [])
+    {
+        $this->db->select('*,' . db_prefix() . 'expenses.id as id,' . db_prefix() . 'expenses_categories.name as category_name,' . db_prefix() . 'payment_modes.name as payment_mode_name,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as taxrate,' . db_prefix() . 'taxes_2.name as tax_name2, ' . db_prefix() . 'taxes_2.taxrate as taxrate2, ' . db_prefix() . 'expenses.id as expenseid,' . db_prefix() . 'expenses.addedfrom as addedfrom, recurring_from');
+        $this->db->from(db_prefix() . 'expenses');
+        $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'expenses.clientid', 'left');
+        $this->db->join(db_prefix() . 'payment_modes', '' . db_prefix() . 'payment_modes.id = ' . db_prefix() . 'expenses.paymentmode', 'left');
+        $this->db->join(db_prefix() . 'taxes', '' . db_prefix() . 'taxes.id = ' . db_prefix() . 'expenses.tax', 'left');
+        $this->db->join('' . db_prefix() . 'taxes as ' . db_prefix() . 'taxes_2', '' . db_prefix() . 'taxes_2.id = ' . db_prefix() . 'expenses.tax2', 'left');
+        $this->db->join(db_prefix() . 'expenses_categories', '' . db_prefix() . 'expenses_categories.id = ' . db_prefix() . 'expenses.category');
+        $this->db->where($where);
+        if (is_numeric($id)) {
+            $this->db->where(db_prefix() . 'expenses.id', $id);
+            $expense = $this->db->get()->row();
+            if ($expense) {
+                $expense->attachment            = '';
+                $expense->filetype              = '';
+                $expense->attachment_added_from = 0;
+
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'expense');
+                $file = $this->db->get(db_prefix() . 'files')->row();
+
+                if ($file) {
+                    $expense->attachment            = $file->file_name;
+                    $expense->filetype              = $file->filetype;
+                    $expense->attachment_added_from = $file->staffid;
+                }
+
+                $this->load->model('legalservices/Cases_model', 'case');
+                $expense->currency_data = get_currency($expense->currency);
+
+                if ($expense->project_id != 0) {
+                    $expense->project_data = $this->case->get($expense->project_id);
+                }
+
+                if (is_null($expense->payment_mode_name)) {
+                    // is online payment mode
+                    $this->load->model('payment_modes_model');
+                    $payment_gateways = $this->payment_modes_model->get_payment_gateways(true);
+                    foreach ($payment_gateways as $gateway) {
+                        if ($expense->paymentmode == $gateway['id']) {
+                            $expense->payment_mode_name = $gateway['name'];
+                        }
+                    }
+                }
+            }
+
+            return $expense;
+        }
+        $this->db->order_by('date', 'desc');
+
+        return $this->db->get()->result_array();
+    }
+
+    public function get_for_oservice($ServID, $id = '', $where = [])
+    {
+        $this->db->select('*,' . db_prefix() . 'expenses.id as id,' . db_prefix() . 'expenses_categories.name as category_name,' . db_prefix() . 'payment_modes.name as payment_mode_name,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as taxrate,' . db_prefix() . 'taxes_2.name as tax_name2, ' . db_prefix() . 'taxes_2.taxrate as taxrate2, ' . db_prefix() . 'expenses.id as expenseid,' . db_prefix() . 'expenses.addedfrom as addedfrom, recurring_from');
+        $this->db->from(db_prefix() . 'expenses');
+        $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'expenses.clientid', 'left');
+        $this->db->join(db_prefix() . 'payment_modes', '' . db_prefix() . 'payment_modes.id = ' . db_prefix() . 'expenses.paymentmode', 'left');
+        $this->db->join(db_prefix() . 'taxes', '' . db_prefix() . 'taxes.id = ' . db_prefix() . 'expenses.tax', 'left');
+        $this->db->join('' . db_prefix() . 'taxes as ' . db_prefix() . 'taxes_2', '' . db_prefix() . 'taxes_2.id = ' . db_prefix() . 'expenses.tax2', 'left');
+        $this->db->join(db_prefix() . 'expenses_categories', '' . db_prefix() . 'expenses_categories.id = ' . db_prefix() . 'expenses.category');
+        $this->db->where($where);
+        if (is_numeric($id)) {
+            $this->db->where(db_prefix() . 'expenses.id', $id);
+            $expense = $this->db->get()->row();
+            if ($expense) {
+                $expense->attachment            = '';
+                $expense->filetype              = '';
+                $expense->attachment_added_from = 0;
+
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'expense');
+                $file = $this->db->get(db_prefix() . 'files')->row();
+
+                if ($file) {
+                    $expense->attachment            = $file->file_name;
+                    $expense->filetype              = $file->filetype;
+                    $expense->attachment_added_from = $file->staffid;
+                }
+
+                $this->load->model('legalservices/Other_services_model', 'other');
+                $expense->currency_data = get_currency($expense->currency);
+
+                if ($expense->project_id != 0) {
+                    $expense->project_data = $this->other->get($ServID, $expense->project_id);
                 }
 
                 if (is_null($expense->payment_mode_name)) {
@@ -152,6 +262,164 @@ class Expenses_model extends App_Model
         return false;
     }
 
+    public function add_for_case($data)
+    {
+        $data['date'] = to_sql_date($data['date']);
+        $data['note'] = nl2br($data['note']);
+        if (isset($data['billable'])) {
+            $data['billable'] = 1;
+        } else {
+            $data['billable'] = 0;
+        }
+        if (isset($data['create_invoice_billable'])) {
+            $data['create_invoice_billable'] = 1;
+        } else {
+            $data['create_invoice_billable'] = 0;
+        }
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            unset($data['custom_fields']);
+        }
+        if (isset($data['send_invoice_to_customer'])) {
+            $data['send_invoice_to_customer'] = 1;
+        } else {
+            $data['send_invoice_to_customer'] = 0;
+        }
+
+        if (isset($data['repeat_every']) && $data['repeat_every'] != '') {
+            $data['recurring'] = 1;
+            if ($data['repeat_every'] == 'custom') {
+                $data['repeat_every']     = $data['repeat_every_custom'];
+                $data['recurring_type']   = $data['repeat_type_custom'];
+                $data['custom_recurring'] = 1;
+            } else {
+                $_temp                    = explode('-', $data['repeat_every']);
+                $data['recurring_type']   = $_temp[1];
+                $data['repeat_every']     = $_temp[0];
+                $data['custom_recurring'] = 0;
+            }
+        } else {
+            $data['recurring'] = 0;
+        }
+        unset($data['repeat_type_custom']);
+        unset($data['repeat_every_custom']);
+
+        if ((isset($data['project_id']) && $data['project_id'] == '') || !isset($data['project_id'])) {
+            $data['project_id'] = 0;
+        }
+        $data['addedfrom'] = get_staff_user_id();
+        $data['dateadded'] = date('Y-m-d H:i:s');
+        $this->db->insert(db_prefix() . 'expenses', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            if (isset($custom_fields)) {
+                handle_custom_fields_post($insert_id, $custom_fields);
+            }
+            if (isset($data['project_id']) && !empty($data['project_id'])) {
+                $this->load->model('legalservices/Cases_model', 'case');
+                $project_settings = $this->case->get_case_settings($data['project_id']);
+                $visible_activity = 0;
+                foreach ($project_settings as $s) {
+                    if ($s['name'] == 'view_finance_overview') {
+                        if ($s['value'] == 1) {
+                            $visible_activity = 1;
+
+                            break;
+                        }
+                    }
+                }
+                $expense                  = $this->get_for_case($insert_id);
+                $activity_additional_data = $expense->name . '<br />';
+                $activity_additional_data .= app_format_money($expense->amount, $expense->currency_data->name);
+                $this->case->log_activity($data['project_id'], 'project_activity_recorded_expense', $activity_additional_data, $visible_activity);
+            }
+            log_activity('New Expense Added [' . $insert_id . ']');
+
+            return $insert_id;
+        }
+
+        return false;
+    }
+
+    public function add_for_oservice($ServID, $data)
+    {
+        $data['date'] = to_sql_date($data['date']);
+        $data['note'] = nl2br($data['note']);
+        if (isset($data['billable'])) {
+            $data['billable'] = 1;
+        } else {
+            $data['billable'] = 0;
+        }
+        if (isset($data['create_invoice_billable'])) {
+            $data['create_invoice_billable'] = 1;
+        } else {
+            $data['create_invoice_billable'] = 0;
+        }
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            unset($data['custom_fields']);
+        }
+        if (isset($data['send_invoice_to_customer'])) {
+            $data['send_invoice_to_customer'] = 1;
+        } else {
+            $data['send_invoice_to_customer'] = 0;
+        }
+
+        if (isset($data['repeat_every']) && $data['repeat_every'] != '') {
+            $data['recurring'] = 1;
+            if ($data['repeat_every'] == 'custom') {
+                $data['repeat_every']     = $data['repeat_every_custom'];
+                $data['recurring_type']   = $data['repeat_type_custom'];
+                $data['custom_recurring'] = 1;
+            } else {
+                $_temp                    = explode('-', $data['repeat_every']);
+                $data['recurring_type']   = $_temp[1];
+                $data['repeat_every']     = $_temp[0];
+                $data['custom_recurring'] = 0;
+            }
+        } else {
+            $data['recurring'] = 0;
+        }
+        unset($data['repeat_type_custom']);
+        unset($data['repeat_every_custom']);
+
+        if ((isset($data['project_id']) && $data['project_id'] == '') || !isset($data['project_id'])) {
+            $data['project_id'] = 0;
+        }
+        $data['addedfrom'] = get_staff_user_id();
+        $data['dateadded'] = date('Y-m-d H:i:s');
+        $this->db->insert(db_prefix() . 'expenses', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            if (isset($custom_fields)) {
+                handle_custom_fields_post($insert_id, $custom_fields);
+            }
+            if (isset($data['project_id']) && !empty($data['project_id'])) {
+                $this->load->model('legalservices/Other_services_model', 'other');
+                $project_settings = $this->other->get_project_settings($data['project_id']);
+                $visible_activity = 0;
+                foreach ($project_settings as $s) {
+                    if ($s['name'] == 'view_finance_overview') {
+                        if ($s['value'] == 1) {
+                            $visible_activity = 1;
+
+                            break;
+                        }
+                    }
+                }
+                $expense                  = $this->get_for_oservice($ServID, $insert_id);
+                $activity_additional_data = $expense->name . '<br />';
+                $activity_additional_data .= app_format_money($expense->amount, $expense->currency_data->name);
+                $this->other->log_activity($data['project_id'], 'project_activity_recorded_expense', $activity_additional_data, $visible_activity);
+            }
+            log_activity('New Expense Added [' . $insert_id . ']');
+
+            return $insert_id;
+        }
+
+        return false;
+    }
+
     public function get_child_expenses($id)
     {
         $this->db->select('id');
@@ -209,7 +477,9 @@ class Expenses_model extends App_Model
             $this->db->where('currency', $currencyid);
 
             if (isset($data['years']) && count($data['years']) > 0) {
-                $this->db->where('YEAR(date) IN (' . implode(', ', $data['years']) . ')');
+                $this->db->where('YEAR(date) IN (' . implode(', ', array_map(function ($year) {
+                    return get_instance()->db->escape_str($year);
+                }, $data['years'])) . ')');
             } else {
                 $this->db->where('YEAR(date) = ' . date('Y'));
             }
@@ -498,7 +768,13 @@ class Expenses_model extends App_Model
         $new_invoice_data['discount_total']   = 0;
         $new_invoice_data['sale_agent']       = 0;
         $new_invoice_data['adjustment']       = 0;
-        $new_invoice_data['project_id']       = $expense->project_id;
+        if($expense->project_id == 0){
+            $new_invoice_data['project_id']       = null;
+        }else{
+            $new_invoice_data['project_id']       = $expense->project_id;
+        }
+        $new_invoice_data['rel_sid']          = $expense->rel_sid;
+        $new_invoice_data['rel_stype']        = $expense->rel_stype;
 
         $new_invoice_data['subtotal'] = $expense->amount;
         $total                        = $expense->amount;
@@ -570,6 +846,7 @@ class Expenses_model extends App_Model
             $tax_data = get_tax_by_id($expense->tax2);
             array_push($new_invoice_data['newitems'][1]['taxname'], $tax_data->name . '|' . $tax_data->taxrate);
         }
+
         $new_invoice_data['newitems'][1]['rate']  = $expense->amount;
         $new_invoice_data['newitems'][1]['order'] = 1;
         $this->load->model('invoices_model');
@@ -589,7 +866,13 @@ class Expenses_model extends App_Model
                     $tmpSlug = explode('_', $field['slug'], 2);
                     if (isset($tmpSlug[1])) {
                         $this->db->where('fieldto', 'invoice');
-                        $this->db->where('slug LIKE "invoice_' . $tmpSlug[1] . '%" AND type="' . $field['type'] . '" AND options="' . $field['options'] . '" AND active=1');
+                        $this->db->group_start();
+                        $this->db->like('slug', 'invoice_' . $tmpSlug[1], 'after');
+                        $this->db->where('type', $field['type']);
+                        $this->db->where('options', $field['options']);
+                        $this->db->where('active', 1);
+                        $this->db->group_end();
+
                         $cfTransfer = $this->db->get(db_prefix() . 'customfields')->result_array();
 
                         // Don't make mistakes

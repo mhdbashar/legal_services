@@ -89,7 +89,15 @@ class App_number_to_word
     {
         $this->original_val = $in_val;
         $this->val          = $in_val;
-        $this->currency0    = _l('num_word_' . mb_strtoupper($in_currency0, 'UTF-8'));
+
+        $this->dec_value = null;
+        $this->dec_word  = null;
+        $this->val_array = null;
+        $this->val_word  = null;
+        $this->num_value = null;
+        $this->num_word  = null;
+
+        $this->currency0 = _l('num_word_' . mb_strtoupper($in_currency0, 'UTF-8'));
 
         if (strtolower($in_currency0) == 'inr') {
             $final_val = $this->convert_indian($in_val);

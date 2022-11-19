@@ -64,6 +64,8 @@
       <hr />
       <?php render_yes_no_option('remove_tax_name_from_item_table','remove_tax_name_from_item_table','remove_tax_name_from_item_table_help'); ?>
       <hr />
+      <?php render_yes_no_option('items_table_amounts_exclude_currency_symbol','items_table_amounts_exclude_currency_symbol'); ?>
+      <hr />
       <?php
       $default_tax = unserialize(get_option('default_tax'));
       ?>
@@ -117,6 +119,8 @@
       <?php render_yes_no_option('show_credits_applied_on_invoice','show_credits_applied_on_invoice'); ?>
       <hr />
       <?php render_yes_no_option('show_amount_due_on_invoice','show_amount_due_on_invoice'); ?>
+      <hr />
+      <?php render_yes_no_option('attach_invoice_to_payment_receipt_email', 'attach_invoice_to_payment_receipt_email'); ?>
       <hr />
       <div class="form-group">
          <label for="invoice_number_format" class="control-label clearfix"><?php echo _l('settings_sales_invoice_number_format'); ?></label>

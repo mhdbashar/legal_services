@@ -99,17 +99,18 @@ function get_leads_summary()
     $statuses[] = [
         'lost'  => true,
         'name'  => _l('lost_leads'),
-        'color' => '',
+        'color' => '#fc2d42',
     ];
 
-    $statuses[] = [
+/*    $statuses[] = [
         'junk'  => true,
         'name'  => _l('junk_leads'),
         'color' => '',
-    ];
+    ];*/
 
     foreach ($statuses as $status) {
         $sql .= ' SELECT COUNT(*) as total';
+        $sql .= ',SUM(lead_value) as value';
         $sql .= ' FROM ' . db_prefix() . 'leads';
 
         if (isset($status['lost'])) {
@@ -144,6 +145,7 @@ function get_leads_summary()
         }
 
         $statuses[$key]['total'] = $result[$key]->total;
+        $statuses[$key]['value'] = $result[$key]->value;
     }
 
     return $statuses;

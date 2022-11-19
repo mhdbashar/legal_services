@@ -8,6 +8,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 	return this.each(function() {
 		var result = false,
 			fm     = cmd.fm,
+			disabled = fm.res('class', 'disabled'),
 			isopts = cmd.options.incsearch || { enable: false },
 			sTypes = cmd.options.searchTypes,
 			id     = function(name){return fm.namespace + fm.escape(name);},
@@ -19,6 +20,15 @@ $.fn.elfindersearchbutton = function(cmd) {
 				.on('click', function(e) {
 					e.stopPropagation();
 				}),
+			getMenuOffset = function() {
+				var fmNode = fm.getUI(),
+					baseOffset = fmNode.offset(),
+					buttonOffset = button.offset();
+				return {
+					top : buttonOffset.top - baseOffset.top,
+					maxHeight : fmNode.height() - 40
+				};
+			},
 			search = function() {
 				input.data('inctm') && clearTimeout(input.data('inctm'));
 				var val = $.trim(input.val()),
@@ -65,11 +75,13 @@ $.fn.elfindersearchbutton = function(cmd) {
 			incVal = '',
 			input  = $('<input type="text" size="42"/>')
 				.on('focus', function() {
+					// close other menus
+					!button.hasClass('ui-state-active') && fm.getUI().click();
 					inFocus = true;
 					incVal = '';
 					button.addClass('ui-state-active');
 					fm.trigger('uiresize');
-					opts && opts.slideDown(function() {
+					opts && opts.css(getMenuOffset()).slideDown(function() {
 						// Care for on browser window re-active
 						button.addClass('ui-state-active');
 						fm.toFront(opts);
@@ -125,7 +137,10 @@ $.fn.elfindersearchbutton = function(cmd) {
 						input.data('inctm', setTimeout(function() {
 							var val = input.val();
 							if (val.length === 0 || val.length >= isopts.minlen) {
-								(incVal !== val) && fm.trigger('incsearchstart', { query: val });
+								(incVal !== val) && fm.trigger('incsearchstart', {
+									query: val,
+									type: typeSet? typeSet.children('input:checked').val() : 'searchName'
+								});
 								incVal = val;
 								if (val === '' && fm.searchStatus.state > 1 && fm.searchStatus.query) {
 									input.val(fm.searchStatus.query).trigger('select');
@@ -156,7 +171,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 			}
 		}
 		
-		$('<span class="ui-icon ui-icon-search" title="'+cmd.title+'"/>')
+		$('<span class="ui-icon ui-icon-search" title="'+cmd.title+'"></span>')
 			.appendTo(button)
 			.on('mousedown', function(e) {
 				e.stopPropagation();
@@ -168,7 +183,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 				}
 			});
 		
-		$('<span class="ui-icon ui-icon-close"/>')
+		$('<span class="ui-icon ui-icon-close"></span>')
 			.appendTo(button)
 			.on('mousedown', function(e) {
 				e.stopPropagation();
@@ -204,15 +219,15 @@ $.fn.elfindersearchbutton = function(cmd) {
 				});
 			})
 			.one('open', function() {
-				opts = (fm.api < 2.1)? null : $('<div class="ui-front ui-widget ui-widget-content elfinder-button-search-menu ui-corner-all"/>')
+				opts = (fm.api < 2.1)? null : $('<div class="ui-front ui-widget ui-widget-content elfinder-button-menu elfinder-button-search-menu ui-corner-all"></div>')
 					.append(
-						$('<div class="buttonset"/>')
+						$('<div class="buttonset"></div>')
 							.append(
 								$('<input id="'+id('SearchFromCwd')+'" name="serchfrom" type="radio" checked="checked"/><label for="'+id('SearchFromCwd')+'">'+fm.i18n('btnCwd')+'</label>'),
 								$('<input id="'+id('SearchFromVol')+'" name="serchfrom" type="radio"/><label for="'+id('SearchFromVol')+'">'+fm.i18n('btnVolume')+'</label>'),
 								$('<input id="'+id('SearchFromAll')+'" name="serchfrom" type="radio"/><label for="'+id('SearchFromAll')+'">'+fm.i18n('btnAll')+'</label>')
 							),
-						$('<div class="buttonset elfinder-search-type"/>')
+						$('<div class="buttonset elfinder-search-type"></div>')
 							.append(
 								$('<input id="'+id('SearchName')+'" name="serchcol" type="radio" checked="checked" value="SearchName"/><label for="'+id('SearchName')+'">'+fm.i18n('btnFileName')+'</label>')
 							)
@@ -296,7 +311,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 					var code = e.originalEvent.keyCode,
 						next = function() {
 							var sel = fm.selected(),
-								key = $.ui.keyCode[(!sel.length || $('#'+fm.cwdHash2Id(sel[0])).next('[id]').length)? 'RIGHT' : 'HOME'];
+								key = $.ui.keyCode[(!sel.length || fm.cwdHash2Elm(sel[0]).next('[id]').length)? 'RIGHT' : 'HOME'];
 							$(document).trigger($.Event('keydown', { keyCode: key, ctrlKey : false, shiftKey : false, altKey : false, metaKey : false }));
 						},
 						val;

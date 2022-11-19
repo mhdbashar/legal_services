@@ -77,13 +77,6 @@ class Settings_model extends App_Model
             $name               = $hook_data['name'];
             $val                = $hook_data['value'];
 
-            // Check if the option exists
-            $this->db->where('name', $name);
-            $exists = $this->db->count_all_results(db_prefix() . 'options');
-            if ($exists == 0) {
-                continue;
-            }
-
             if ($name == 'default_contact_permissions') {
                 $val = serialize($val);
             } elseif ($name == 'lead_unique_validation') {
@@ -101,6 +94,11 @@ class Settings_model extends App_Model
                 }
             } elseif ($name == 'email_signature') {
                 $val = html_entity_decode($val);
+
+                if ($val == strip_tags($val)) {
+                    // not contains HTML, add break lines
+                    $val = nl2br_save_html($val);
+                }
             } elseif ($name == 'email_header' || $name == 'email_footer') {
                 $val = html_entity_decode($val);
             } elseif ($name == 'default_tax') {
@@ -108,7 +106,7 @@ class Settings_model extends App_Model
                     return $value !== '';
                 });
                 $val = serialize($val);
-            } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
+            } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'invoice_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
                 $val = strip_tags($val);
                 $val = nl2br($val);
             } elseif (in_array($name, $this->encrypted_fields)) {
@@ -127,12 +125,7 @@ class Settings_model extends App_Model
                 }
             }
 
-            $this->db->where('name', $name);
-            $this->db->update(db_prefix() . 'options', [
-                    'value' => $val,
-                ]);
-
-            if ($this->db->affected_rows() > 0) {
+            if (update_option($name, $val)) {
                 $affectedRows++;
                 if ($name == 'save_last_order_for_tables') {
                     $this->db->query('DELETE FROM ' . db_prefix() . 'user_meta where meta_key like "%-table-last-order"');

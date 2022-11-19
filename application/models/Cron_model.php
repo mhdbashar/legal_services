@@ -1,5 +1,12 @@
 <?php
 
+use app\services\imap\Imap;
+use Ddeboer\Imap\SearchExpression;
+use Ddeboer\Imap\Search\Flag\Unseen;
+use app\services\imap\ConnectionErrorException;
+use Ddeboer\Imap\Exception\UnexpectedEncodingException;
+use Ddeboer\Imap\Exception\MessageDoesNotExistException;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 define('CRON', true);
@@ -14,9 +21,9 @@ class Cron_model extends App_Model
     {
         if (!defined('APP_DISABLE_CRON_LOCK') || defined('APP_DISABLE_CRON_LOCK') && !APP_DISABLE_CRON_LOCK) {
             register_shutdown_function([$this, '__destruct']);
-            $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
+          //  $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
 
-            if (!$f) {
+            //if (!$f) {
                 $this->lock_handle = fopen(TEMP_FOLDER . 'pcrm-cron-lock', 'w+');
                 // Again? Disable the lock
                 if (!$this->lock_handle && !defined('APP_DISABLE_CRON_LOCK')) {
@@ -24,14 +31,19 @@ class Cron_model extends App_Model
                     // Used in method can_cron_run
                     define('APP_DISABLE_CRON_LOCK', true);
                 }
-            } else {
-                $this->lock_handle = $f;
-            }
+           // } else {
+             //   $this->lock_handle = $f;
+           //}
         }
 
         parent::__construct();
         $this->load->model('emails_model');
         $this->load->model('staff_model');
+        $this->load->model('legalservices/LegalServicesModel' , 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
+        $this->load->model('legalservices/Other_services_model', 'other');
+        $this->load->model('tasks_model');
+        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
     }
 
     public function run($manually = false)
@@ -54,18 +66,31 @@ class Cron_model extends App_Model
             $this->staff_reminders();
             $this->events();
             $this->tasks_reminders();
+            $this->procurations_reminders();
+            $this->regular_durations_reminders();
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();
+            $this->invoice_due();
             $this->estimate_expiration();
             $this->contracts_expiration_check();
             $this->autoclose_tickets();
             $this->recurring_invoices();
             $this->recurring_expenses();
+            $this->send_message_telegram();
 
             $this->auto_import_imap_tickets();
             $this->check_leads_email_integration();
             $this->delete_activity_log();
+            $this->send_scheduled_emails();
+            $this->delete_twocheckout_logs();
+
+            $this->legal_services_recycle_bin_reminders();
+            $this->empty_legal_services_recycle_bin();
+
+            $this->send_lawyer_daily_agenda();
+            $this->recurring_disputes_cases_invoices();
+            //$this->fix_and_separate_names();
 
             /**
              * Finally send any emails in the email queue - if enabled and any
@@ -90,6 +115,17 @@ class Cron_model extends App_Model
             // For all cases try to release the lock after everything is finished
             $this->lockHandle();
         }
+    }
+
+    private function delete_twocheckout_logs()
+    {
+        $older_than_days = hooks()->apply_filters('delete_two_checkout_log_older_than_days', 40);
+
+        if ($older_than_days == 0 || empty($older_than_days)) {
+            return;
+        }
+
+        $this->db->query('DELETE FROM ' . db_prefix() . 'twocheckout_log WHERE created_at < DATE_SUB(NOW(), INTERVAL ' . $this->db->escape_str($older_than_days) . ' DAY);');
     }
 
     private function events()
@@ -154,14 +190,14 @@ class Cron_model extends App_Model
 
                     if ($eventNotifications) {
                         $notified = add_notification([
-                                'description'     => 'not_event_public',
-                                'touserid'        => $member['staffid'],
-                                'fromcompany'     => true,
-                                'link'            => 'utilities/calendar?eventid=' . $event['eventid'],
-                                'additional_data' => serialize([
-                                    $event['title'],
-                                ]),
-                            ]);
+                            'description'     => 'not_event_public',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => true,
+                            'link'            => 'utilities/calendar?eventid=' . $event['eventid'],
+                            'additional_data' => serialize([
+                                $event['title'],
+                            ]),
+                        ]);
                         send_mail_template('staff_event_notification', array_to_object($event), array_to_object($member));
 
                         array_push($notificationNotifiedUsers, $member['staffid']);
@@ -216,6 +252,11 @@ class Cron_model extends App_Model
                     'status' => 5,
                 ]);
                 if ($this->db->affected_rows() > 0) {
+                    hooks()->do_action('after_ticket_status_changed', [
+                        'id'     => $ticket['ticketid'],
+                        'status' => 5,
+                    ]);
+
                     $isContact = false;
                     if ($ticket['userid'] != 0 && $ticket['contactid'] != 0) {
                         $email     = $this->clients_model->get_contact($ticket['contactid'])->email;
@@ -240,12 +281,7 @@ class Cron_model extends App_Model
     {
         $contracts_auto_operations_hour = get_option('contracts_auto_operations_hour');
 
-        if ($contracts_auto_operations_hour == '') {
-            $contracts_auto_operations_hour = 9;
-        }
-        $contracts_auto_operations_hour = intval($contracts_auto_operations_hour);
-        $hour_now                       = date('G');
-        if ($hour_now != $contracts_auto_operations_hour && $this->manually === false) {
+        if (!$this->shouldRunAutomations($contracts_auto_operations_hour)) {
             return;
         }
 
@@ -277,7 +313,7 @@ class Cron_model extends App_Model
                                 'description'     => 'not_contract_expiry_reminder',
                                 'touserid'        => $member['staffid'],
                                 'fromcompany'     => 1,
-                                'fromuserid'      => null,
+                                'fromuserid'      => 0,
                                 'link'            => 'contracts/contract/' . $contract['id'],
                                 'additional_data' => serialize([
                                     $contract['subject'],
@@ -315,6 +351,12 @@ class Cron_model extends App_Model
 
     public function recurring_tasks()
     {
+        $tasks_reminder_notification_hour = get_option('tasks_reminder_notification_hour');
+
+        if (!$this->shouldRunAutomations($tasks_reminder_notification_hour)) {
+            return;
+        }
+
         $this->db->select('id,addedfrom,recurring_type,repeat_every,last_recurring_date,startdate,duedate');
         $this->db->where('recurring', 1);
         $this->db->where('(cycles != total_cycles OR cycles=0)');
@@ -395,13 +437,7 @@ class Cron_model extends App_Model
     {
         $expenses_hour_auto_operations = get_option('expenses_auto_operations_hour');
 
-        if ($expenses_hour_auto_operations == '') {
-            $expenses_hour_auto_operations = 9;
-        }
-
-        $expenses_hour_auto_operations = intval($expenses_hour_auto_operations);
-        $hour_now                      = date('G');
-        if ($hour_now != $expenses_hour_auto_operations && $this->manually === false) {
+        if (!$this->shouldRunAutomations($expenses_hour_auto_operations)) {
             return;
         }
 
@@ -563,17 +599,88 @@ class Cron_model extends App_Model
         }
     }
 
+    //abd aljawad
+
+
+    public function send_message_telegram()
+    {
+//         $this->load->model('Misc_model');
+//         $this->load->model('Tasks_model');
+//         $this->load->helper('telegram_helper');
+//         // creator = added_from
+//         // staff = added_to
+//         // date = date(Y-m-d)
+//         // time = time
+//         // where ( rel_type ) == task
+//         $reminders = $this->misc_model->get_reminders();
+
+//         $test=$this->db->get(db_prefix() . 'tasks')->result_array();
+
+
+
+//         foreach ($reminders as $reminder)
+//         {
+
+
+
+
+//             $date = $reminder['date'];
+//             $createDate = new DateTime($date);
+//             $time_after_edit=$createDate->format('Y-m-d');
+//             if ($reminder['rel_type'] != 'task')
+//                 continue;
+//             $task_id = ($reminder['rel_id']);
+
+//             $result=$this->db->query("SELECT is_session FROM tbltasks where id= ".$reminder['rel_id'])->row();
+// //            echo '<pre>';print_r($result->is_session);'<br>';
+
+
+
+
+
+//             if( strtotime(date("H:i"))-strtotime($reminder['time']) > 0 && strtotime(date("H:i")) - strtotime($reminder['time']) < 300 && strtotime(date('Y-m-d'))==strtotime($reminder['date'])) {
+//                 if ($result->is_session == 0 ) {
+//                     $staff = $reminder['staff'];
+//                     $staff = get_staff_full_name($staff);
+//                     $creator = get_staff_full_name($reminder['creator']);
+//                     $hours = $reminder['time'];
+//                     $date = $time_after_edit;
+//                     $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+//                     $link1 = "<a href= '$link' >click here</a>";
+//                     $userName = $creator;
+
+//                     $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
+
+//                     send_message_telegram(urlencode($txt));
+//                 }
+
+//                 if($result->is_session==1) {
+
+//                     $this->load->helper('telegram_helper');
+//                     $userName = get_staff_full_name($reminder['creator']);
+//                     $staff = $reminder['staff'];
+//                     $staff=get_staff_full_name($staff);
+//                     $date = $time_after_edit;
+//                     $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+//                     $hours = $reminder['time'];
+//                     $link1 = "<a href= '$link' >click here</a>";
+//                     $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName ."\n"."تم تعيين التذكير الى: ".$staff."\n"." تم تعيين تاريخ التذكير : " . $date."\n". " تم تعيين التوقيت : " . $hours  .  "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+//                     send_message_telegram(urlencode($txt));
+
+//                 }
+//             }
+
+//         }
+
+
+
+    }
+
     private function recurring_invoices()
     {
         $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
 
-        if ($invoice_hour_auto_operations == '') {
-            $invoice_hour_auto_operations = 9;
-        }
-
-        $invoice_hour_auto_operations = intval($invoice_hour_auto_operations);
-        $hour_now                     = date('G');
-        if ($hour_now != $invoice_hour_auto_operations && $this->manually === false) {
+        if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
             return;
         }
 
@@ -781,8 +888,57 @@ class Cron_model extends App_Model
         }
     }
 
+    private function send_scheduled_emails()
+    {
+        $this->db->where('scheduled_at <=', date('Y-m-d H:i:s'));
+        $emails = $this->db->get('scheduled_emails')->result_array();
+
+        $this->load->model('invoices_model');
+        $this->load->model('estimates_model');
+
+        foreach ($emails as $email) {
+            $type = $email['rel_type'];
+
+            $GLOBALS['scheduled_email_contacts'] = explode(',', $email['contacts']);
+
+            switch ($type) {
+                case 'invoice':
+                    $this->invoices_model->send_invoice_to_client(
+                        $email['rel_id'],
+                        $email['template'],
+                        $email['attach_pdf'],
+                        $email['cc']
+                    );
+
+                    break;
+                case 'estimate':
+                    $this->estimates_model->send_estimate_to_client(
+                        $email['rel_id'],
+                        $email['template'],
+                        $email['attach_pdf'],
+                        $email['cc']
+                    );
+
+                    break;
+            }
+
+            $this->db->where('id', $email['id']);
+            $this->db->delete('scheduled_emails');
+        }
+
+        if (isset($GLOBALS['scheduled_email_contacts'])) {
+            unset($GLOBALS['scheduled_email_contacts']);
+        }
+    }
+
     private function tasks_reminders()
     {
+        $tasks_reminder_notification_hour = get_option('tasks_reminder_notification_hour');
+
+        if (!$this->shouldRunAutomations($tasks_reminder_notification_hour)) {
+            return;
+        }
+
         $reminder_before = get_option('tasks_reminder_notification_before');
         $this->db->where('status !=', 5);
         $this->db->where('duedate IS NOT NULL');
@@ -816,7 +972,7 @@ class Cron_model extends App_Model
                                 'description'     => 'not_task_deadline_reminder',
                                 'touserid'        => $member['assigneeid'],
                                 'fromcompany'     => 1,
-                                'fromuserid'      => null,
+                                'fromuserid'      => 0,
                                 'link'            => '#taskid=' . $task['id'],
                                 'additional_data' => serialize([
                                     $task['name'],
@@ -842,16 +998,149 @@ class Cron_model extends App_Model
         pusher_trigger_notification($notifiedUsers);
     }
 
+    private function procurations_reminders()
+    {
+        $reminder_before = get_option('procurations_reminder_notification_before');
+
+        // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
+
+        $this->db->where('end_date IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+
+        $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+        foreach ($procurations as $procuration) {
+            if (date('Y-m-d', strtotime($procuration['end_date'])) >= date('Y-m-d')) {
+                $end_date = new DateTime($procuration['end_date']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the procuration it too short
+                $start_date              = strtotime($procuration['start_date']);
+                $end_date                 = strtotime($procuration['end_date']);
+                $start_and_end_date_diff = $end_date - $start_date;
+                $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
+
+                if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                    $this->db->where('admin', 1);
+                    $assignees = $this->staff_model->get();
+
+                    foreach ($assignees as $member) {
+                        $row = $this->db->get(db_prefix() . 'staff')->row();
+                        if ($row) {
+                            $notified = add_notification([
+                                'description'     => 'not_procuration_deadline_reminder',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => null,
+                                'link'            => 'procuration/procurationcu/null/' . $procuration['id'],
+
+                            ]);
+
+                            if ($notified) {
+                                array_push($notifiedUsers, $member['staffid']);
+                            }
+
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+
+
+                            $this->db->where('id', $procuration['id']);
+                            $this->db->update(db_prefix() . 'procurations', [
+                                'deadline_notified' => 1,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
+    //*************************
+    private function regular_durations_reminders()
+    {
+        $reminder_before = get_option('regular_durations_reminder_notification_before');
+        $this->db->where('duration_id IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+        $notifiedUsers = [];
+        foreach ($cases as $case) {
+            $days=get_dur_number_of_days_by_id($case['duration_id']);
+            $duration_date=$case['regular_duration_begin_date'];
+            $end_date_case  = strtotime($duration_date . " +".$days."days");
+            $end_date_case = date('Y-m-d',$end_date_case);
+
+
+            if($end_date_case < $now)
+            {
+                $this->db->where('id', $case['id']);
+                $this->db->update(db_prefix() . 'my_cases', [
+                    'regular_header' => 0,
+                ]);
+            }
+
+
+            if ($duration_date >= date('Y-m-d')) {
+                $end_date = new DateTime($end_date_case);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the regular duration it too short
+                $end_date          = strtotime($end_date_case);
+                $start_date         = strtotime($duration_date);
+                $start_and_end_date_diff = $end_date - $start_date;
+                $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
+                // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                $this->db->where('project_id', $case['id']);
+                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                foreach ($assignees as $member) {
+                    $this->db->where('staffid',$member->staff_id);
+                    $row = $this->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_case_deadline_reminder',
+                            'touserid'        => $member->staff_id,
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'legalservices/cases/view/1/' . $case['id'],
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member->staff_id);
+                        }
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['id']);
+                        $this->db->where('id', $case['id']);
+                        $this->db->update(db_prefix() . 'my_cases', [
+                            'deadline_notified' => 1,'regular_header' => 1,
+                        ]);
+                    }
+                }
+                //  }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
+
+
+    //*************************
+
     private function staff_reminders()
     {
+
+
         $this->db->select('' . db_prefix() . 'reminders.*, email, phonenumber');
         $this->db->join(db_prefix() . 'staff', '' . db_prefix() . 'staff.staffid=' . db_prefix() . 'reminders.staff');
         $this->db->where('isnotified', 0);
         $reminders     = $this->db->get(db_prefix() . 'reminders')->result_array();
         $notifiedUsers = [];
+        $this->load->helper('telegram_helper');
 
         foreach ($reminders as $reminder) {
-            if (date('Y-m-d H:i:s') >= $reminder['date']) {
+            if (date('Y-m-d H:i:s') >=$reminder['date']) {
+
                 $this->db->where('id', $reminder['id']);
                 $this->db->update(db_prefix() . 'reminders', [
                     'isnotified' => 1,
@@ -873,8 +1162,53 @@ class Cron_model extends App_Model
                     ]),
                 ]);
 
+
+                $date = $reminder['date'];
+                $createDate = new DateTime($date);
+                $time_after_edit = $createDate->format('Y-m-d');
+                if ($reminder['rel_type'] != 'task')
+                    continue;
+                $task_id = ($reminder['rel_id']);
+
+                $result = $this->db->query("SELECT is_session FROM tbltasks where id= " . $reminder['rel_id'])->row();
+                if($this->app_modules->is_active('telegram_chat'))
+                {
+                    if ($result->is_session == 0) {
+                        $staff = $reminder['staff'];
+                        $staff = get_staff_full_name($staff);
+                        $creator = get_staff_full_name($reminder['creator']);
+                        $hours = $reminder['time'];
+                        $date = $time_after_edit;
+                        $link = APP_BASE_URL . 'admin/tasks/view/' . $task_id;
+                        $link1 = "<a href= '$link' >click here</a>";
+                        $userName = $creator;
+
+                        $txt = " تذكير &#128227\n" . "تم انشاء تذكير في المهمات من قبل:" . $userName . "\n" . "تم تعيين التذكير الى: " . "$staff" . " \n تم تعيين تاريخ التذكير : " . $date . "\n تم تعيين التوقيت :" . $hours . "\n اضغط على هذا الرابط : " . $link1 . "\n Done!";
+
+                        send_message_telegram(urlencode($txt));
+                    }
+
+                    if ($result->is_session == 1) {
+
+                        $this->load->helper('telegram_helper');
+                        $userName = get_staff_full_name($reminder['creator']);
+                        $staff = $reminder['staff'];
+                        $staff = get_staff_full_name($staff);
+                        $date = $time_after_edit;
+                        $link = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task_id;
+                        $hours = $reminder['time'];
+                        $link1 = "<a href= '$link' >click here</a>";
+                        $txt = " تذكير &#128227\n" . "تم انشاء تذكير في الجلسات من قبل: " . $userName . "\n" . "تم تعيين التذكير الى: " . $staff . "\n" . " تم تعيين تاريخ التذكير : " . $date . "\n" . " تم تعيين التوقيت : " . $hours . "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+                        send_message_telegram(urlencode($txt));
+
+                    }}
+
+
                 if ($notified) {
                     array_push($notifiedUsers, $reminder['staff']);
+
+
+
                 }
 
                 $template = mail_template('staff_reminder', $reminder['email'], $reminder['staff'], $reminder);
@@ -887,39 +1221,43 @@ class Cron_model extends App_Model
             }
         }
 
+
         pusher_trigger_notification($notifiedUsers);
+
+
     }
 
     private function invoice_overdue()
     {
         $invoice_auto_operations_hour = get_option('invoice_auto_operations_hour');
-        if ($invoice_auto_operations_hour == '') {
-            $invoice_auto_operations_hour = 9;
-        }
 
-        $invoice_auto_operations_hour = intval($invoice_auto_operations_hour);
-        $hour_now                     = date('G');
-        if ($hour_now != $invoice_auto_operations_hour && $this->manually === false) {
+        if (!$this->shouldRunAutomations($invoice_auto_operations_hour)) {
             return;
         }
 
         $this->load->model('invoices_model');
         $this->db->select('id,date,status,last_overdue_reminder,duedate,cancel_overdue_reminders');
         $this->db->from(db_prefix() . 'invoices');
-        $this->db->where('(duedate != "" AND duedate IS NOT NULL)'); // We dont need invoices with no duedate
-        $this->db->where('status !=', 2); // We dont need paid status
-        $this->db->where('status !=', 5); // We dont need cancelled status
-        $this->db->where('status !=', 6); // We dont need draft status
+        $this->db->where('duedate IS NOT NULL'); // We dont need invoices with no duedate
+        $this->db->where('status !=', Invoices_model::STATUS_PAID); // We dont need paid status
+        $this->db->where('status !=', Invoices_model::STATUS_CANCELLED); // We dont need cancelled status
+        $this->db->where('status !=', Invoices_model::STATUS_DRAFT); // We dont need draft status
         $invoices = $this->db->get()->result_array();
 
         $now = time();
         foreach ($invoices as $invoice) {
+            if (empty($invoice['duedate'])) {
+                continue;
+            }
+
             $statusid = update_invoice_status($invoice['id']);
 
             if ($invoice['cancel_overdue_reminders'] == 0 && is_invoices_overdue_reminders_enabled()) {
-                if ($invoice['status'] == Invoices_model::STATUS_OVERDUE
+                if (
+                    $invoice['status'] == Invoices_model::STATUS_OVERDUE
                     || $statusid == Invoices_model::STATUS_OVERDUE
-                    || $invoice['status'] == Invoices_model::STATUS_PARTIALLY) {
+                    || $invoice['status'] == Invoices_model::STATUS_PARTIALLY
+                ) {
                     if ($invoice['status'] == Invoices_model::STATUS_PARTIALLY) {
                         // Invoice is with status partialy paid and its not due
                         if (date('Y-m-d') <= date('Y-m-d', strtotime($invoice['duedate']))) {
@@ -950,17 +1288,58 @@ class Cron_model extends App_Model
         }
     }
 
+    private function invoice_due()
+    {
+        if (!$this->shouldRunAutomations(get_option('invoice_auto_operations_hour'))) {
+            return;
+        }
+
+        $reminder_before = get_option('invoice_due_notice_before');
+        $resend_days     = get_option('invoice_due_notice_resend_after');
+
+        $this->load->model('invoices_model');
+
+        $this->db->select('id,date,status,last_due_reminder,duedate');
+        $this->db->from(db_prefix() . 'invoices');
+        // We dont need invoices with no duedate and where the duedate is less the current date
+        // e.q. is already overdue and partially paid invoice
+        $this->db->where('(duedate IS NOT NULL and duedate != "" and duedate > "' . date('Y-m-d') . '")')
+            ->where_in('status', [Invoices_model::STATUS_UNPAID, Invoices_model::STATUS_PARTIALLY])
+            ->where('cancel_overdue_reminders', 0);
+
+        $invoices = $this->db->get()->result_array();
+
+        foreach ($invoices as $invoice) {
+
+            if(empty($invoice['duedate'])) {
+                continue;
+            }
+
+            if (!$invoice['last_due_reminder']) {
+                $due_date               = new DateTime($invoice['duedate']);
+                $diff                   = $due_date->diff(new DateTime(date('Y-m-d')))->format('%a');
+                $date_and_due_date_diff = floor((strtotime($invoice['duedate']) - strtotime($invoice['date'])) / (60 * 60 * 24));
+
+                if ($diff <= $reminder_before && $date_and_due_date_diff > $reminder_before) {
+                    $this->invoices_model->send_invoice_due_notice($invoice['id']);
+                }
+            } else {
+                if ($resend_days != 0) { // If resend_days from options is 0 means that the admin dont want to resend the mails.
+                    $datediff  = time() - strtotime($invoice['last_due_reminder']);
+                    $days_diff = floor($datediff / (60 * 60 * 24));
+                    if ($days_diff >= $resend_days) {
+                        $this->invoices_model->send_invoice_due_notice($invoice['id']);
+                    }
+                }
+            }
+        }
+    }
+
     public function proposals()
     {
         $proposals_auto_operations_hour = get_option('proposals_auto_operations_hour');
 
-        if ($proposals_auto_operations_hour == '') {
-            $proposals_auto_operations_hour = 9;
-        }
-
-        $proposals_auto_operations_hour = intval($proposals_auto_operations_hour);
-        $hour_now                       = date('G');
-        if ($hour_now != $proposals_auto_operations_hour && $this->manually === false) {
+        if (!$this->shouldRunAutomations($proposals_auto_operations_hour)) {
             return;
         }
 
@@ -974,9 +1353,11 @@ class Cron_model extends App_Model
         $now       = new DateTime(date('Y-m-d'));
 
         foreach ($proposals as $proposal) {
-            if ($proposal['open_till'] != null
+            if (
+                $proposal['open_till'] != null
                 && date('Y-m-d') < $proposal['open_till']
-                && is_proposals_expiry_reminders_enabled()) {
+                && is_proposals_expiry_reminders_enabled()
+            ) {
                 $reminder_before        = get_option('send_proposal_expiry_reminder_before');
                 $open_till              = new DateTime($proposal['open_till']);
                 $diff                   = $open_till->diff($now)->format('%a');
@@ -996,12 +1377,7 @@ class Cron_model extends App_Model
     {
         $estimates_auto_operations_hour = get_option('estimates_auto_operations_hour');
 
-        if ($estimates_auto_operations_hour == '') {
-            $estimates_auto_operations_hour = 9;
-        }
-        $estimates_auto_operations_hour = intval($estimates_auto_operations_hour);
-        $hour_now                       = date('G');
-        if ($hour_now != $estimates_auto_operations_hour && $this->manually === false) {
+        if (!$this->shouldRunAutomations($estimates_auto_operations_hour)) {
             return;
         }
 
@@ -1049,11 +1425,12 @@ class Cron_model extends App_Model
         $this->load->model('leads_model');
         $mail = $this->leads_model->get_email_integration();
 
+        if(!is_object($mail)){
+            return false;
+        }
         if ($mail->active == 0) {
             return false;
         }
-
-        require_once(APPPATH . 'third_party/php-imap/Imap.php');
 
         if (empty($mail->last_run) || (time() > $mail->last_run + ($mail->check_every * 60))) {
             $this->load->model('spam_filters_model');
@@ -1062,79 +1439,108 @@ class Cron_model extends App_Model
             $this->db->update(db_prefix() . 'leads_email_integration', [
                 'last_run' => time(),
             ]);
-            $ps = $this->encryption->decrypt($mail->password);
-            if (!$ps) {
-                if (ENVIRONMENT !== 'production') {
-                    log_activity('Failed to decrypt email integration password', null);
-                }
+
+            $password = $this->encryption->decrypt($mail->password);
+
+            if (!$password) {
+                log_activity('Failed to decrypt email integration password, navigateo to Setup->Leads->Email Integration and re-add the password.');
 
                 return false;
             }
-            $mailbox    = $mail->imap_server;
-            $username   = $mail->email;
-            $password   = $ps;
-            $encryption = $mail->encryption;
-            // open connection
-            $imap = new Imap($mailbox, $username, $password, $encryption);
-            if ($imap->isConnected() === false) {
+
+            $imap = new Imap(
+                $mail->email,
+                $password,
+                $mail->imap_server,
+                $mail->encryption
+            );
+
+            try {
+                $connection = $imap->testConnection();
+            } catch (ConnectionErrorException $e) {
                 return false;
             }
-            if ($mail->folder == '') {
-                $mail->folder = 'INBOX';
+
+            if (empty($mail->folder)) {
+                $mail->folder = stripos($mail->imap_server, 'outlook') !== false
+                || stripos($mail->imap_server, 'microsoft')
+                || stripos($mail->imap_server, 'office365') !== false ? 'Inbox' : 'INBOX';
             }
-            $imap->selectFolder($mail->folder);
+
+            $mailbox = $connection->getMailbox($mail->folder);
+
             if ($mail->only_loop_on_unseen_emails == 1) {
-                $emails = $imap->getUnreadMessages();
+                $search = new SearchExpression();
+                $search->addCondition(new Unseen);
+
+                $messages = $mailbox->getMessages($search);
             } else {
-                $emails = $imap->getMessages();
+                $messages = $mailbox->getMessages();
             }
 
             include_once(APPPATH . 'third_party/simple_html_dom.php');
 
-            foreach ($emails as $email) {
-                $html                    = str_get_html($email['body']);
-                $lead_form_fields        = [];
+            foreach ($messages as $message) {
+                $body = $message->getBodyHtml() ?? $message->getBodyText();
+                $html = str_get_html($body);
+
+                $formFields              = [];
                 $lead_form_custom_fields = [];
                 if ($html) {
                     foreach ($html->find('[id^="field_"],[id^="custom_field_"]') as $data) {
                         if (isset($data->plaintext)) {
-                            $value = trim($data->plaintext);
-                            $value = strip_tags($value);
+                            $value = strip_tags(trim($data->plaintext));
                             if ($value && isset($data->attr['id']) && !empty($data->attr['id'])) {
-                                $lead_form_fields[$data->attr['id']] = $this->security->xss_clean($value);
+                                $formFields[$data->attr['id']] = $this->security->xss_clean($value);
                             }
                         }
                     }
                 }
 
-                foreach ($lead_form_fields as $key => $val) {
+                foreach ($formFields as $key => $val) {
                     $field = (strpos($key, 'custom_field_') !== false ? strafter($key, 'custom_field_') : strafter($key, 'field_'));
 
                     if (strpos($key, 'custom_field_') !== false) {
                         $lead_form_custom_fields[$field] = $val;
                     } elseif ($this->db->field_exists($field, db_prefix() . 'leads')) {
-                        $lead_form_fields[$field] = $val;
+                        $formFields[$field] = $val;
                     }
 
-                    unset($lead_form_fields[$key]);
+                    unset($formFields[$key]);
                 }
 
-                $from    = $email['from'];
-                $replyTo = $imap->getReplyToAddresses($email['uid']);
+                $fromAddress = null;
+                $fromName    = null;
+
+                if ($message->getFrom()) {
+                    $fromAddress = $message->getFrom()->getAddress();
+                    $fromName    = $message->getFrom()->getName();
+                }
+
+                $replyTo = $message->getReplyTo();
+
                 if (count($replyTo) === 1) {
-                    $from = $replyTo[0];
+                    $fromAddress = $replyTo[0]->getAddress();
+                    $fromName    = $replyTo[0]->getName() ?? $fromName;
                 }
-                $fromname = preg_replace('/(.*)<(.*)>/', '\\1', $from);
-                $fromname = trim(str_replace('"', '', $fromname));
 
-                $fromemail = isset($lead_form_fields['email']) ? $lead_form_fields['email'] : trim(preg_replace('/(.*)<(.*)>/', '\\2', $from));
+                $fromAddress = $formFields['email'] ?? $fromAddress;
+                $fromName    = $formFields['name'] ?? $fromName;
 
-                $email['subject'] = trim($email['subject']);
+                /**
+                 * Check the the fromAddress is null, perhaps invalid address?
+                 * @see https://github.com/ddeboer/imap/issues/370
+                 */
+                if (is_null($fromAddress)) {
+                    $message->markAsSeen();
 
-                $mailstatus = $this->spam_filters_model->check($fromemail, $email['subject'], $email['body'], 'leads');
+                    continue;
+                }
+
+                $mailstatus = $this->spam_filters_model->check($fromAddress, $message->getSubject(), $body, 'leads');
 
                 if ($mailstatus) {
-                    $imap->setUnseenMessage($email['uid']);
+                    $message->markAsSeen();
                     log_activity('Lead Email Integration Blocked Email by Spam Filters [' . $mailstatus . ']');
 
                     continue;
@@ -1142,19 +1548,15 @@ class Cron_model extends App_Model
 
                 $body = hooks()->apply_filters(
                     'leads_email_integration_email_body_for_database',
-                    $this->prepare_imap_email_body_html($email['body'])
+                    $this->prepare_imap_email_body_html($body)
                 );
 
                 // Okey everything good now let make some statements
                 // Check if this email exists in customers table first
                 $this->db->select('id,userid');
-                $this->db->where('email', $fromemail);
+                $this->db->where('email', $fromAddress);
                 $contact = $this->db->get(db_prefix() . 'contacts')->row();
                 if ($contact) {
-
-                    // Set message to seen to in the next time we dont need to loop over this message
-                    $imap->setUnseenMessage($email['uid']);
-
                     if ($mail->create_task_if_customer == '1') {
                         load_admin_language($mail->responsible);
 
@@ -1163,14 +1565,14 @@ class Cron_model extends App_Model
                         load_admin_language();
 
                         $task_data = [
-                                        'name'        => $fromname . ' - ' . $fromemail,
-                                        'priority'    => get_option('default_task_priority'),
-                                        'dateadded'   => date('Y-m-d H:i:s'),
-                                        'startdate'   => date('Y-m-d'),
-                                        'addedfrom'   => $mail->responsible,
-                                        'status'      => 1,
-                                        'description' => $body,
-                                        ];
+                            'name'        => $fromName . ' - ' . $fromAddress,
+                            'priority'    => get_option('default_task_priority'),
+                            'dateadded'   => date('Y-m-d H:i:s'),
+                            'startdate'   => date('Y-m-d'),
+                            'addedfrom'   => $mail->responsible,
+                            'status'      => 1,
+                            'description' => $body,
+                        ];
 
                         $task_data = hooks()->apply_filters('before_add_task', $task_data);
                         $this->db->insert(db_prefix() . 'tasks', $task_data);
@@ -1178,93 +1580,106 @@ class Cron_model extends App_Model
                         $task_id = $this->db->insert_id();
                         if ($task_id) {
                             $assignee_data = [
-                                            'taskid'   => $task_id,
-                                            'assignee' => $mail->responsible,
-                                            ];
+                                'taskid'   => $task_id,
+                                'assignee' => $mail->responsible,
+                            ];
 
                             $this->tasks_model->add_task_assignees($assignee_data, true);
-                            $this->_check_lead_email_integration_attachments($email, false, $imap, $task_id);
+                            $this->handleLeadsEmailIntegrationAttachments($message, false, $task_id);
                             hooks()->do_action('after_add_task', $task_id);
                         }
-                    }
 
+                        if ($mail->delete_after_import == 1) {
+                            $message->delete();
+                            $connection->expunge();
+                        } else {
+                            $message->markAsSeen();
+                        }
+                    } else {
+                        $message->markAsSeen();
+                    }
                     // Exists no need to do anything
                     continue;
                 }
                 // Not exists its okey.
                 // Now we need to check the leads table
-                $this->db->where('email', $fromemail);
+                $this->db->where('email', $fromAddress);
                 $lead = $this->db->get(db_prefix() . 'leads')->row();
 
-                $lead = hooks()->apply_filters('leads_email_integration_lead_check', $lead, $email);
+                $lead = hooks()->apply_filters('leads_email_integration_lead_check', $lead, $message);
 
                 if ($lead) {
                     // Check if the lead uid is the same with the email uid
-                    if ($lead->email_integration_uid == $email['uid']) {
+                    if ($lead->email_integration_uid == $message->getNumber()) {
+                        $message->markAsSeen();
                         // Set message to seen to in the next time we dont need to loop over this message
-                        $imap->setUnseenMessage($email['uid']);
 
                         continue;
                     }
                     // Check if this uid exists in the emails data log table
-                    $this->db->where('emailid', $email['uid']);
+                    $this->db->where('emailid', $message->getNumber());
                     $exists_in_emails = $this->db->count_all_results(db_prefix() . 'lead_integration_emails');
                     if ($exists_in_emails > 0) {
                         // Set message to seen to in the next time we dont need to loop over this message
-                        $imap->setUnseenMessage($email['uid']);
+                        $message->markAsSeen();
 
                         continue;
                     }
                     // We dont need the junk leads
                     if ($lead->junk == 1) {
                         // Set message to seen to in the next time we dont need to loop over this message
-                        $imap->setUnseenMessage($email['uid']);
+                        $message->markAsSeen();
 
                         continue;
                     }
                     // More the one time email from this lead, insert into the lead emails log table
                     $this->db->insert(db_prefix() . 'lead_integration_emails', [
-                            'leadid'    => $lead->id,
-                            'subject'   => $email['subject'],
-                            'body'      => $body,
-                            'dateadded' => date('Y-m-d H:i:s'),
-                            'emailid'   => $email['uid'],
-                        ]);
+                        'leadid'    => $lead->id,
+                        'subject'   => $message->getSubject(),
+                        'body'      => $body,
+                        'dateadded' => date('Y-m-d H:i:s'),
+                        'emailid'   => $message->getNumber(),
+                    ]);
+
                     $inserted_email_id = $this->db->insert_id();
-                    // Set message to seen to in the next time we dont need to loop over this message
-                    $imap->setUnseenMessage($email['uid']);
+                    if ($mail->delete_after_import == 1) {
+                        $message->delete();
+                        $connection->expunge();
+                    } else {
+                        $message->markAsSeen();
+                    }
                     $this->_notification_lead_email_integration('not_received_one_or_more_messages_lead', $mail, $lead->id);
-                    $this->_check_lead_email_integration_attachments($email, $lead->id, $imap);
+                    $this->handleLeadsEmailIntegrationAttachments($message, $lead->id);
                     hooks()->do_action('existing_lead_email_inserted_from_email_integration', [
-                            'email'    => $email,
-                            'lead'     => $lead,
-                            'email_id' => $inserted_email_id,
-                        ]);
+                        'email'    => $message,
+                        'lead'     => $lead,
+                        'email_id' => $inserted_email_id,
+                    ]);
                     // Exists not need to do anything except to add the email
                     continue;
                 }
 
                 // Lets insert into the leads table
                 $lead_data = [
-                        'name'                               => $fromname,
-                        'assigned'                           => $mail->responsible,
-                        'dateadded'                          => date('Y-m-d H:i:s'),
-                        'status'                             => $mail->lead_status,
-                        'source'                             => $mail->lead_source,
-                        'addedfrom'                          => 0,
-                        'email'                              => $fromemail,
-                        'is_imported_from_email_integration' => 1,
-                        'email_integration_uid'              => $email['uid'],
-                        'lastcontact'                        => null,
-                        'is_public'                          => $mail->mark_public,
-                    ];
+                    'name'                               => $fromName,
+                    'assigned'                           => $mail->responsible,
+                    'dateadded'                          => date('Y-m-d H:i:s'),
+                    'status'                             => $mail->lead_status,
+                    'source'                             => $mail->lead_source,
+                    'addedfrom'                          => 0,
+                    'email'                              => $fromAddress,
+                    'is_imported_from_email_integration' => 1,
+                    'email_integration_uid'              => $message->getNumber(),
+                    'lastcontact'                        => null,
+                    'is_public'                          => $mail->mark_public,
+                ];
 
                 $lead_data = hooks()->apply_filters('before_insert_lead_from_email_integration', $lead_data);
 
                 $this->db->insert(db_prefix() . 'leads', $lead_data);
                 $insert_id = $this->db->insert_id();
                 if ($insert_id) {
-                    foreach ($lead_form_fields as $field => $value) {
+                    foreach ($formFields as $field => $value) {
                         if ($field == 'country') {
                             if ($value == '') {
                                 $value = 0;
@@ -1287,37 +1702,38 @@ class Cron_model extends App_Model
 
                         $this->db->where('id', $insert_id);
                         $this->db->update(db_prefix() . 'leads', [
-                                $field => $value,
-                            ]);
+                            $field => $value,
+                        ]);
                     }
 
                     foreach ($lead_form_custom_fields as $cf_id => $value) {
                         $this->db->insert(db_prefix() . 'customfieldsvalues', [
-                                'relid'   => $insert_id,
-                                'fieldto' => 'leads',
-                                'fieldid' => $cf_id,
-                                'value'   => $value,
-                            ]);
+                            'relid'   => $insert_id,
+                            'fieldto' => 'leads',
+                            'fieldid' => $cf_id,
+                            'value'   => $value,
+                        ]);
                     }
 
                     $this->db->insert(db_prefix() . 'lead_integration_emails', [
-                            'leadid'    => $insert_id,
-                            'subject'   => $email['subject'],
-                            'body'      => $body,
-                            'dateadded' => date('Y-m-d H:i:s'),
-                            'emailid'   => $email['uid'],
-                        ]);
+                        'leadid'    => $insert_id,
+                        'subject'   => $message->getSubject(),
+                        'body'      => $body,
+                        'dateadded' => date('Y-m-d H:i:s'),
+                        'emailid'   => $message->getNumber(),
+                    ]);
 
                     if ($mail->delete_after_import == 1) {
-                        $imap->deleteMessage($email['uid']);
+                        $message->delete();
+                        $connection->expunge();
                     } else {
-                        $imap->setUnseenMessage($email['uid']);
+                        $message->markAsSeen();
                     }
 
                     // Set message to seen to in the next time we dont need to loop over this message
                     $this->_notification_lead_email_integration('not_received_lead_imported_email_integration', $mail, $insert_id);
                     $this->leads_model->log_lead_activity($insert_id, 'not_received_lead_imported_email_integration', true);
-                    $this->_check_lead_email_integration_attachments($email, $insert_id, $imap);
+                    $this->handleLeadsEmailIntegrationAttachments($message, $insert_id);
                     $this->leads_model->lead_assigned_member_notification($insert_id, $mail->responsible, true);
 
                     hooks()->do_action('lead_created', $insert_id);
@@ -1330,122 +1746,165 @@ class Cron_model extends App_Model
 
     public function auto_import_imap_tickets()
     {
-        $this->db->select('host,encryption,password,email,delete_after_import,imap_username')->from(db_prefix() . 'departments')->where('host !=', '')->where('password !=', '')->where('email !=', '');
-        $dep_emails = $this->db->get()->result_array();
-        foreach ($dep_emails as $e) {
-            $password = $this->encryption->decrypt($e['password']);
+        $this->db->select('host,encryption,password,email,delete_after_import,imap_username,folder')
+            ->from(db_prefix() . 'departments')
+            ->where('host !=', '')
+            ->where('password !=', '')
+            ->where('email !=', '');
+
+        $departments = $this->db->get()->result_array();
+
+        foreach ($departments as $dept) {
+            if (empty($dept['password'])) {
+                continue;
+            }
+
+            $password = $this->encryption->decrypt($dept['password']);
+
             if (!$password) {
-                log_activity('Failed to decrypt department password', null);
+                log_activity('Failed to decrypt department password, navigate to Setup->Support->Departments and re-add the password for ' . $dept['email'] . ' department');
 
                 continue;
             }
-            require_once(APPPATH . 'third_party/php-imap/Imap.php');
-            $mailbox  = $e['host'];
-            $username = $e['email'];
-            if (!empty($e['imap_username'])) {
-                $username = $e['imap_username'];
-            }
-            $password   = $password;
-            $encryption = $e['encryption'];
-            // open connection
-            $imap = new Imap($mailbox, $username, $password, $encryption);
-            if ($imap->isConnected() === false) {
-                log_activity('Failed to connect to IMAP auto importing tickets from departments.', null);
+
+            $imap = new Imap(
+                !empty($dept['imap_username']) ? $dept['imap_username'] : $dept['email'],
+                $password,
+                $dept['host'],
+                $dept['encryption']
+            );
+
+            try {
+                $connection = $imap->testConnection();
+            } catch (ConnectionErrorException $e) {
+                log_activity('Failed to connect to IMAP auto importing tickets for department ' . $dept['email'] . '.');
 
                 continue;
             }
-            $imap->selectFolder('INBOX');
-            $emails = $imap->getUnreadMessages();
+
+            $mailbox = $connection->getMailbox(
+                empty($dept['folder']) ? 'INBOX' : $dept['folder']
+            );
+
+            $search = new SearchExpression();
+            $search->addCondition(new Unseen);
+
+            $messages = $mailbox->getMessages($search);
             $this->load->model('tickets_model');
 
-            foreach ($emails as $email) {
-                // Check if empty body
-                if (isset($email['body']) && $email['body'] == '' || !isset($email['body'])) {
-                    $email['body'] = 'No message found';
-                }
-
-                $plainTextBody = $imap->getPlainTextBody($email['uid']);
-                $plainTextBody = trim($plainTextBody);
-
-                if (!empty($plainTextBody)) {
-                    $email['body'] = $plainTextBody;
-                }
-
-                $email['body'] = handle_google_drive_links_in_text($email['body']);
-
-                if (class_exists('EmailReplyParser\EmailReplyParser')
-                    && get_option('ticket_import_reply_only') === '1'
-                    && (mb_substr_count($email['subject'], 'FWD:') == 0 && mb_substr_count($email['subject'], 'FW:') == 0)) {
-                    $parsedBody = \EmailReplyParser\EmailReplyParser::parseReply($email['body']);
-                    $parsedBody = trim($parsedBody);
-                    // For some emails this is causing an issue and not returning the email, instead is returning empty string
-                    // In this case, only use parsed email reply if not empty
-                    if (!empty($parsedBody)) {
-                        $email['body'] = $parsedBody;
+            foreach ($messages as $message) {
+                try {
+                    $body = $message->getBodyHtml() ?? $message->getBodyText();
+                    // Some mail clients for the text/plain part add only Not set
+                    // this is bad practice instead of leaving the text/pain part empty
+                    // In this case, if it's Not set, we will use the HTML of the message
+                    if ($body == 'Not set') {
+                        $body = $message->getBodyHtml();
                     }
-                }
 
-                $email['body']       = $this->prepare_imap_email_body_html($email['body']);
-                $data['attachments'] = [];
-
-                if (isset($email['attachments'])) {
-                    foreach ($email['attachments'] as $key => $at) {
-                        $_at_name = $email['attachments'][$key]['name'];
-                        // Rename the name to filename the model expects filename not name
-                        unset($email['attachments'][$key]['name']);
-                        $email['attachments'][$key]['filename'] = $_at_name;
-                        $_attachment                            = $imap->getAttachment($email['uid'], $key);
-                        $email['attachments'][$key]['data']     = $_attachment['content'];
+                    if (empty($body)) {
+                        $body = 'No message found';
                     }
-                    // Add the attchments to data
-                    $data['attachments'] = $email['attachments'];
-                } else {
-                    // No attachments
+
+                    if (
+                        class_exists('EmailReplyParser\EmailReplyParser')
+                        && get_option('ticket_import_reply_only') === '1'
+                        && (mb_substr_count($message->getSubject(), 'FWD:') == 0 && mb_substr_count($message->getSubject(), 'FW:') == 0)
+                    ) {
+                        $parsedBody = \EmailReplyParser\EmailReplyParser::parseReply(
+                            $this->prepare_imap_email_body_html($body)
+                        );
+
+                        $parsedBody = trim($parsedBody);
+
+                        // For some emails this is causing an issue and not returning the email, instead is returning empty string
+                        // In this case, only use parsed email reply if not empty
+                        if (! empty($parsedBody)) {
+                            $body = $parsedBody;
+                        }
+                    }
+
+                    $body                = $this->prepare_imap_email_body_html($body);
                     $data['attachments'] = [];
-                }
 
-                $data['subject'] = $email['subject'];
-                $data['body']    = $email['body'];
-
-                $data['to'] = [];
-
-                // To is the department name
-                $data['to'][] = $e['email'];
-
-                // Check for CC
-                if (isset($email['cc'])) {
-                    foreach ($email['cc'] as $cc) {
-                        $data['to'][] = trim(preg_replace('/(.*)<(.*)>/', '\\2', $cc));
+                    foreach ($message->getAttachments() as $attachment) {
+                        $data['attachments'][] = [
+                            'filename' => $attachment->getFilename(),
+                            'data'     => $attachment->getDecodedContent(),
+                        ];
                     }
-                }
 
-                $data['to'] = implode(',', $data['to']);
+                    $data['subject'] = $message->getSubject();
+                    $data['body']    = $body;
 
-                if (hooks()->apply_filters('imap_fetch_from_email_by_reply_to_header', 'true') == 'true') {
-                    $replyTo = $imap->getReplyToAddresses($email['uid']);
+                    $data['to'] = [];
+                    // To is the department name
+                    $data['to'][] = $dept['email'];
 
-                    if (count($replyTo) === 1) {
-                        $email['from'] = $replyTo[0];
+                    // Check for CC
+                    if (count($message->getCc()) > 0) {
+                        foreach ($message->getCc() as $recipient) {
+                            $data['to'][] = $recipient->getAddress();
+                        }
                     }
-                }
 
-                $data['email']    = preg_replace('/(.*)<(.*)>/', '\\2', $email['from']);
-                $data['fromname'] = preg_replace('/(.*)<(.*)>/', '\\1', $email['from']);
-                $data['fromname'] = trim(str_replace('"', '', $data['fromname']));
+                    $data['to']  = implode(',', $data['to']);
+                    $fromAddress = null;
+                    $fromName    = null;
 
-                $data = hooks()->apply_filters('imap_auto_import_ticket_data', $data, $email);
-
-                $status = $this->tickets_model->insert_piped_ticket($data);
-
-                if ($status == 'Ticket Imported Successfully' || $status == 'Ticket Reply Imported Successfully') {
-                    if ($e['delete_after_import'] == 0) {
-                        $imap->setUnseenMessage($email['uid']);
-                    } else {
-                        $imap->deleteMessage($email['uid']);
+                    if ($message->getFrom()) {
+                        $fromAddress = $message->getFrom()->getAddress();
+                        $fromName    = $message->getFrom()->getName();
                     }
-                } else {
-                    // Set unseen message in all cases to prevent looping throught the message again
-                    $imap->setUnseenMessage($email['uid']);
+
+                    if (hooks()->apply_filters('imap_fetch_from_email_by_reply_to_header', true)) {
+                        $replyTo = $message->getReplyTo();
+
+                        if (count($replyTo) === 1) {
+                            $fromAddress = $replyTo[0]->getAddress();
+                            $fromName    = $replyTo[0]->getName() ?? $fromName;
+                        }
+                    }
+
+                    /**
+                     * Check the the fromAddress is null, perhaps invalid address?
+                     * @see https://github.com/ddeboer/imap/issues/370
+                     */
+                    if (is_null($fromAddress)) {
+                        $message->markAsSeen();
+
+                        continue;
+                    }
+
+                    $data['email']    = $fromAddress;
+                    $data['fromname'] = $fromName;
+
+                    $data = hooks()->apply_filters('imap_auto_import_ticket_data', $data, $message);
+
+                    try {
+                        $status = $this->tickets_model->insert_piped_ticket($data);
+
+                        if ($status == 'Ticket Imported Successfully' || $status == 'Ticket Reply Imported Successfully') {
+                            if ($dept['delete_after_import'] == 0) {
+                                $message->markAsSeen();
+                            } else {
+                                $message->delete();
+                                $connection->expunge();
+                            }
+                        } else {
+                            // Set unseen message in all cases to prevent looping throught the message again
+                            $message->markAsSeen();
+                        }
+                    } catch (\Exception $e) {
+                        // Set unseen message in all cases to prevent looping throught the message again
+                        $message->markAsSeen();
+                    }
+                } catch (MessageDoesNotExistException $e) {
+                    continue;
+                } catch (UnexpectedEncodingException $e) {
+                    $message->markAsSeen();
+
+                    continue;
                 }
             }
         }
@@ -1459,8 +1918,8 @@ class Cron_model extends App_Model
             return;
         }
 
-        $this->db->query('DELETE FROM ' . db_prefix() . 'activity_log WHERE date < DATE_SUB(NOW(), INTERVAL ' . $older_then_months . ' MONTH);');
-        $this->db->query('DELETE FROM ' . db_prefix() . 'tickets_pipe_log WHERE date < DATE_SUB(NOW(), INTERVAL ' . $older_then_months . ' MONTH);');
+        $this->db->query('DELETE FROM ' . db_prefix() . 'activity_log WHERE date < DATE_SUB(NOW(), INTERVAL ' . $this->db->escape_str($older_then_months) . ' MONTH);');
+        $this->db->query('DELETE FROM ' . db_prefix() . 'tickets_pipe_log WHERE date < DATE_SUB(NOW(), INTERVAL ' . $this->db->escape_str($older_then_months) . ' MONTH);');
     }
 
     private function _maybe_fix_duplicate_tasks_assignees_and_followers()
@@ -1512,7 +1971,7 @@ class Cron_model extends App_Model
                     'description' => $description,
                     'touserid'    => $member['staffid'],
                     'fromcompany' => 1,
-                    'fromuserid'  => null,
+                    'fromuserid'  => 0,
                     'link'        => '#leadid=' . $leadid,
                 ]);
                 if ($notified) {
@@ -1523,42 +1982,38 @@ class Cron_model extends App_Model
         }
     }
 
-    private function _check_lead_email_integration_attachments($email, $leadid, &$imap, $task_id = false)
+    private function handleLeadsEmailIntegrationAttachments($message, $leadid, $task_id = false)
     {
-        // Check for any attachments
-        if (isset($email['attachments'])) {
-            foreach ($email['attachments'] as $key => $attachment) {
-                $email_attachment = $imap->getAttachment($email['uid'], $key);
-                if ($task_id != false) {
-                    $path = get_upload_path_by_type('task') . $task_id . '/';
-                } else {
-                    $path = get_upload_path_by_type('lead') . $leadid . '/';
-                }
-                $file_name = unique_filename($path, $attachment['name']);
-                if (!file_exists($path)) {
-                    mkdir($path, 0755);
-                    $fp = fopen($path . 'index.html', 'w');
-                    if ($fp) {
-                        fclose($fp);
-                    }
-                }
-                $path = $path . $file_name;
-                $fp   = fopen($path, 'w+');
-                if (fwrite($fp, $email_attachment['content'])) {
-                    $db_attachment   = [];
-                    $db_attachment[] = [
+        foreach ($message->getAttachments() as $attachment) {
+            $path = $task_id ?
+                get_upload_path_by_type('task') . $task_id . '/' :
+                get_upload_path_by_type('lead') . $leadid . '/';
+
+            if (!file_exists($path)) {
+                mkdir($path, 0755);
+                file_put_contents($path . 'index.html', '');
+            }
+
+            $file_name = unique_filename($path, $attachment->getFilename());
+            $path      = $path . $file_name;
+
+            if (file_put_contents(
+                $path,
+                $attachment->getDecodedContent()
+            )) {
+                $attachment_id = $this->misc_model->add_attachment_to_database(
+                    ($task_id ? $task_id : $leadid),
+                    ($task_id ? 'task' : 'lead'),
+                    [[
                         'file_name' => $file_name,
-                        'filetype'  => get_mime_by_extension($attachment['name']),
+                        'filetype'  => get_mime_by_extension($attachment->getFilename()),
                         'staffid'   => 0,
-                    ];
+                    ]]
+                );
 
-                    $attachment_id = $this->misc_model->add_attachment_to_database(($task_id ? $task_id : $leadid), ($task_id ? 'task' : 'lead'), $db_attachment);
-
-                    if ($attachment_id && $task_id === false) {
-                        $this->leads_model->log_lead_activity($leadid, 'not_lead_imported_attachment', true);
-                    }
+                if ($attachment_id && $task_id === false) {
+                    $this->leads_model->log_lead_activity($leadid, 'not_lead_imported_attachment', true);
                 }
-                fclose($fp);
             }
         }
     }
@@ -1584,7 +2039,7 @@ class Cron_model extends App_Model
         }
 
         return ($this->lock_handle && flock($this->lock_handle, LOCK_EX | LOCK_NB))
-        || (defined('APP_DISABLE_CRON_LOCK') && APP_DISABLE_CRON_LOCK);
+            || (defined('APP_DISABLE_CRON_LOCK') && APP_DISABLE_CRON_LOCK);
     }
 
     private function prepare_imap_email_body_html($body)
@@ -1604,4 +2059,515 @@ class Cron_model extends App_Model
 
         return $body;
     }
+
+    public function legal_services_recycle_bin_reminders()
+    {
+        $empty_date    = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
+        $reminder_date = date('Y-m-d', strtotime($empty_date. ' - '.get_option('automatically_reminders_before_empty_recycle_bin_days').' days'));
+
+        $this->db->where('deleted =', 1);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->num_rows();
+
+        $this->db->where('deleted =', 1);
+        $oservices = $this->db->get(db_prefix() . 'my_other_services')->num_rows();
+
+        $notifiedUsers = [];
+
+        if($cases > 0 || $oservices > 0){
+            if(date('Y-m-d') == $reminder_date){
+                $notified = add_notification([
+                    'fromcompany'     => true,
+                    'touserid'        => get_staff_user_id(),
+                    'description'     => 'ConfirmEmptyLegalServicesRecycleBin',
+                    'link'            => 'legalservices/legal_services/confirm_empty_recycle_bin',
+                ]);
+
+                if ($notified) {
+                    array_push($notifiedUsers, get_staff_user_id());
+                }
+
+                pusher_trigger_notification($notifiedUsers);
+
+            }
+        }
+    }
+
+    public function empty_legal_services_recycle_bin()
+    {
+        $empty_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
+
+        if(date('Y-m-d') == $empty_date){
+            //For Cases
+            $this->db->where('deleted =', 2);
+            $cases          = $this->db->get(db_prefix() . 'my_cases');
+            $cases_num_rows = $cases->num_rows();
+            $cases_result   = $cases->result();
+
+            //For Other Services
+            $this->db->where('deleted =', 2);
+            $oservices          = $this->db->get(db_prefix() . 'my_other_services');
+            $oservices_num_rows = $oservices->num_rows();
+            $oservices_result   = $oservices->result();
+
+            if($cases_num_rows > 0){
+                foreach ($cases_result as $row){
+
+                    $this->db->where(array('id' => $row->id , 'deleted' => 2));
+                    $this->db->delete(db_prefix() . 'my_cases');
+
+                    $slug = $this->legal->get_service_by_id(1)->row()->slug;
+
+                    if ($this->db->affected_rows() > 0) {
+
+                        // Delete the my_members_cases
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_cases');
+
+                        // Delete the case_movement
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_movement');
+
+                        // Delete the my_cases_movement_judges
+                        $this->db->where('case_mov_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+
+                        // Delete the my_members_movement_cases
+                        $this->db->where('case_mov_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_movement_cases');
+
+                        // Delete the my_cases_judges
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_cases_judges');
+
+                        // Delete the case_notes
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_notes');
+
+                        // Delete the written_reports
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'written_reports');
+
+                        // Delete the milestones
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the contracts
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'contracts');
+
+                        // Delete the custom field values
+                        $this->db->where('relid', $row->id);
+                        $this->db->where('fieldto', $slug);
+                        $this->db->delete('customfieldsvalues');
+
+                        // Delete the taggables
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'taggables');
+
+                        // Delete the case discussions
+                        $this->db->where('project_id', $row->id);
+                        $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
+                        foreach ($discussions as $discussion) {
+                            $discussion_comments = $this->case->get_discussion_comments($discussion['id'], 'regular');
+                            foreach ($discussion_comments as $comment) {
+                                $this->case->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+                            }
+                            // Delete the case discussion comments
+                            $this->db->where('discussion_id', $discussion['id']);
+                            $this->db->delete(db_prefix() . 'casediscussioncomments');
+                        }
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'casediscussions');
+
+                        // Delete the phases
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $phases = $this->db->get(db_prefix() . 'my_phase_data')->result_array();
+                        foreach ($phases as $phase) {
+                            // Delete the phases customfieldsvalues
+                            $this->db->where('relid', $phase['id']);
+                            $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                            $this->db->delete('customfieldsvalues');
+                        }
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'my_phase_data');
+
+                        // Delete the files
+                        $files = $this->case->get_files($row->id);
+                        foreach ($files as $file) {
+                            $this->case->remove_file($file['id']);
+                        }
+
+                        // Delete the tasks & sessions
+                        $tasks = $this->case->get_tasks($row->id);
+                        foreach ($tasks as $task) {
+                            $this->tasks_model->delete_task($task['id'], false);
+                        }
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tasks');
+
+                        // Delete the case_settings
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_settings');
+
+                        // Delete the case_activity
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_activity');
+
+                        // Delete the expenses
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'expenses');
+
+                        // Delete the invoices
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'invoices');
+
+                        // Delete the creditnotes
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'creditnotes');
+
+                        // Delete the estimates
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'estimates');
+
+                        // Delete the tickets
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tickets');
+
+                        // Delete the pinned_cases
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'pinned_cases');
+
+                        // Delete the irac_method
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $this->db->delete(db_prefix() . 'irac_method');
+
+                        // Delete the legal procedures lists
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+                        foreach ($lists as $list):
+                            $this->procedures->delete_list($list['id']);
+                        endforeach;
+
+                        //Delete services tags
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+                        foreach ($tags as $tag) {
+                            $this->db->where('id', $tag['id']);
+                            $this->db->delete(db_prefix() . 'my_services_tags');
+                        }
+
+                        log_activity('Case Deleted [CaseID: ' . $row->id . ']');
+                    }
+                    return true;
+                }
+            }
+
+            if ($oservices_num_rows > 0){
+                foreach ($oservices_result as $row) {
+
+                    $this->db->where(array('id' => $row->id, 'service_id' => $row->service_id, 'deleted' => 2));
+                    $this->db->delete(db_prefix() . 'my_other_services');
+
+                    $service_row = $this->legal->get_service_by_id($row->service_id)->row();
+                    $slug        = $service_row->slug;
+                    $ServiceName = $service_row->name;
+
+                    if ($this->db->affected_rows() > 0) {
+
+                        // Delete the my_members_services
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_services');
+
+                        // Delete the oservice_notes
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_notes');
+
+                        // Delete the written_reports
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'written_reports');
+
+                        // Delete the milestones
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the contracts
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'contracts');
+
+                        // Delete the custom field values
+                        $this->db->where('relid', $row->id);
+                        $this->db->where('fieldto', $slug);
+                        $this->db->delete('customfieldsvalues');
+
+                        // Delete the taggables
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'taggables');
+
+                        // Delete the oservice discussions
+                        $this->db->where('oservice_id', $row->id);
+                        $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
+                        foreach ($discussions as $discussion) {
+                            $discussion_comments = $this->other->get_discussion_comments($discussion['id'], 'regular');
+                            foreach ($discussion_comments as $comment) {
+                                $this->other->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+                            }
+                            // Delete the oservice discussion comments
+                            $this->db->where('discussion_id', $discussion['id']);
+                            $this->db->delete(db_prefix() . 'oservicediscussioncomments');
+                        }
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservicediscussions');
+
+                        // Delete the phases
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $phases = $this->db->get(db_prefix() . 'my_phase_data')->result_array();
+                        foreach ($phases as $phase) {
+                            // Delete the phases customfieldsvalues
+                            $this->db->where('relid', $phase['id']);
+                            $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                            $this->db->delete('customfieldsvalues');
+                        }
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'my_phase_data');
+
+                        // Delete the files
+                        $files = $this->other->get_files($row->id);
+                        foreach ($files as $file) {
+                            $this->other->remove_file($file['id']);
+                        }
+
+                        // Delete the tasks & sessions
+                        $tasks = $this->other->get_tasks($row->service_id, $row->id);
+                        foreach ($tasks as $task) {
+                            $this->tasks_model->delete_task($task['id'], false);
+                        }
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tasks');
+
+                        // Delete the oservice_settings
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_settings');
+
+                        // Delete the oservice_activity
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_activity');
+
+                        // Delete the expenses
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'expenses');
+
+                        // Delete the invoices
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'invoices');
+
+                        // Delete the creditnotes
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'creditnotes');
+
+                        // Delete the estimates
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'estimates');
+
+                        // Delete the tickets
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tickets');
+
+                        // Delete the pinned_oservices
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'pinned_oservices');
+
+                        // Delete the legal_procedures_lists
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+                        foreach ($lists as $list):
+                            $this->procedures->delete_list($list['id']);
+                        endforeach;
+
+                        //Delete services tags
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+                        foreach ($tags as $tag) {
+                            $this->db->where('id', $tag['id']);
+                            $this->db->delete(db_prefix() . 'my_services_tags');
+                        }
+
+                        log_activity($ServiceName.' Deleted [ServiceID: ' . $row->id . ']');
+                    }
+                    return true;
+                }
+            }
+
+            log_activity('Empty Legal Services Recycle Bin');
+        }
+        return false;
+    }
+
+    public function send_lawyer_daily_agenda()
+    {
+        $this->load->model('staff_model');
+        $daily_agenda_hour = get_option('automatically_send_lawyer_daily_agenda');
+
+        if (!$this->shouldRunAutomations($daily_agenda_hour)) {
+            return;
+        }
+
+        if ($daily_agenda_hour == '') {
+            $daily_agenda_hour = 7;
+        }
+        $hour_now = date('H:i');
+        $hour_now = strtotime($hour_now);
+        $daily_agenda_hour = strtotime($daily_agenda_hour);
+
+        if ($hour_now > $daily_agenda_hour && $this->manually === false) {
+            return;
+        }
+        $last_check = get_option('daily_agenda_last_check');
+        if($last_check == date('Y-m-d'))
+            return;
+        //if($daily_agenda_hour == date('G')){
+        $staffs = $this->staff_model->get();
+        foreach ($staffs as $staff){
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 0));
+            $this->db->where('duedate IS NOT NULL');
+
+            $this->db->where('status !=', 5);
+            $tasks = $this->db->get(db_prefix() . 'tasks');
+            $tasks_data = $tasks->result_array();
+            $tasks_count = $tasks->num_rows();
+
+            $this->db->where( array('addedfrom' => $staff['staffid'], 'deleted' => 0, 'is_session' => 1));
+            $this->db->where('duedate IS NOT NULL');
+            $this->db->where('status !=', 5);
+            $sessions = $this->db->get(db_prefix() . 'tasks');
+            $sessions_data = $sessions->result_array();
+            $sessions_count = $sessions->num_rows();
+
+            $member_email = $staff['email'];
+            $member_lang = $staff['default_language'];
+            $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
+
+        }
+        update_option('daily_agenda_last_check', date('Y-m-d'));
+        //}
+    }
+
+    public function sent_agenda_email($tasks_count, $sessions_count, $to_email, $member_lang)
+    {
+        $this->load->config('email');
+        // Simulate fake template to be parsed
+        $template           = new StdClass();
+        if($member_lang == 'arabic'){
+            $date = (date('Y-m-d'));
+            $template->message  = get_option('email_header') . '<div style="padding: 20px;text-align: right; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);  -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>اجندتك اليومية لتاريخ '.$date.'</h2><h4>مهام اليوم <i style="color: #0078d4;"><br />'.$tasks_count.'</i> <br /> جلسات اليوم <i style="color: #0078d4;"><br />'.$sessions_count.'</i> <br /></h4></div>' . get_option('email_footer');
+            $template->subject  = 'اجندتك اليومية';
+        }else{
+            $template->message  = get_option('email_header') . '<div style="padding: 20px;text-align: left; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);  -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>Your daily agenda for '.date('l, d F Y').'</h2><h4>Today\'s Tasks <i style="color: #0078d4;"><br />'.$tasks_count.'</i> <br /> Today\'s Sessions <i style="color: #0078d4;"><br />'.$sessions_count.'</i> <br /></h4></div>' . get_option('email_footer');
+            $template->subject  = 'Your daily agenda';
+        }
+        $template->fromname = get_option('companyname') != '' ? get_option('companyname') : 'TEST';
+        $template = parse_email_template($template);
+        $this->email->set_newline(config_item('newline'));
+        $this->email->set_crlf(config_item('crlf'));
+        $this->email->from(get_option('smtp_email'), $template->fromname);
+        $this->email->to($to_email);
+        $systemBCC = get_option('bcc_emails');
+        if ($systemBCC != '') {
+            $this->email->bcc($systemBCC);
+        }
+        $this->email->subject($template->subject);
+        $this->email->message($template->message);
+        if ($this->email->send(true)) {
+            log_activity('Daily agenda has been sent by system.');
+        } else {
+            log_activity('Failed send daily agenda by system.');
+        }
+    }
+
+    private function shouldRunAutomations($auto_operation_hour)
+    {
+        if ($auto_operation_hour == '') {
+            $auto_operation_hour = 9;
+        }
+
+        $auto_operation_hour = intval($auto_operation_hour);
+        $hour_now            = date('G');
+        if ($hour_now != $auto_operation_hour && $this->manually === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function fix_and_separate_names()
+    {
+        $_fix_staffs_and_contacts_names = get_option('_fix_staffs_and_contacts_names');
+        if(!$_fix_staffs_and_contacts_names)
+        {
+            // Contacts
+            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            foreach ($contacts as $contact) {
+                $parts = split_name($contact['firstname']);
+                if($parts){
+                    $this->db->where('id', $contact['id']);
+                    $this->db->update(db_prefix() . 'contacts', [
+                        'firstname' => $parts['firstname'],
+                        'fathername' => $parts['fathername'],
+                        'grandfathername' => $parts['grandfathername'],
+                        'lastname' => $parts['lastname']
+                    ]);
+                }
+            }
+            // Staffs
+            $staffs = $this->db->get(db_prefix() . 'staff')->result_array();
+            foreach ($staffs as $staff) {
+                $parts = split_name($staff['firstname']);
+                if($parts){
+                    $this->db->where('staffid', $staff['staffid']);
+                    $this->db->update(db_prefix() . 'staff', [
+                        'firstname' => $parts['firstname'],
+                        'second_name' => $parts['second_name'],
+                        'third_name' => $parts['third_name'],
+                        'lastname' => $parts['lastname']
+                    ]);
+                }
+            }
+
+            update_option('_fix_staffs_and_contacts_names', true);
+        }
+    }
+
+    private function recurring_disputes_cases_invoices()
+    {
+        $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
+        if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
+            return;
+        }
+        $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
+        $this->db->select('id,duedate,clientid');
+        $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
+        $this->db->where('sent', 0);
+        $this->db->where('status !=', 2);
+        $invoices = $this->db->get()->result_array();
+        foreach ($invoices as $invoice) {
+            if(date('Y-m-d') == $invoice['duedate']){
+                $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
+                if($send){
+                    continue;
+                }
+            }
+        }
+    }
+
 }

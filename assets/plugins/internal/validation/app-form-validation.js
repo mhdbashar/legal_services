@@ -1,9 +1,9 @@
 /*!
  * Internal App Plugin for validation that extends jQuery Validation plugin.
  *
- * https://perfexcrm.com/
+ * https://babil.net.sa/
  *
- * Copyright (c) 2019 Marjan Stojanov
+ * Copyright (c) 2019 Babil Team
  */
 
 if (typeof($.validator) == 'undefined') {
@@ -97,9 +97,8 @@ if (typeof($.validator) == 'undefined') {
         self.validateCustomFields = function($form) {
 
             $.each($form.find($.fn.appFormValidator.internal_options.required_custom_fields_selector), function() {
-
                 // for custom fields in tr.main, do not validate those
-                if (!$(this).parents('tr.main').length) {
+                if (!$(this).parents('tr.main').length && !$(this).hasClass('do-not-validate')) {
 
                     $(this).rules("add", { required: true });
                     if ($.fn.appFormValidator.internal_options.on_required_add_symbol) {

@@ -20,6 +20,7 @@ if (is_gdpr() && $consentLeads == '1') {
 $aColumns = array_merge($aColumns, ['company',
     db_prefix() . 'leads.email as email',
     db_prefix() . 'leads.phonenumber as phonenumber',
+    'lead_value',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'leads.id and rel_type="lead" ORDER by tag_order ASC LIMIT 1) as tags',
     'firstname as assigned_firstname',
     db_prefix() . 'leads_status.name as status_name',
@@ -62,7 +63,7 @@ if ($this->ci->input->post('custom_view')) {
     } elseif ($filter == 'public') {
         array_push($where, 'AND is_public = 1');
     } elseif (startsWith($filter, 'consent_')) {
-        array_push($where, 'AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' AND lead_id=' . db_prefix() . 'leads.id))');
+        array_push($where, 'AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' AND lead_id=' . db_prefix() . 'leads.id))');
     }
 }
 
@@ -71,17 +72,17 @@ if (!$filter || ($filter && $filter != 'lost' && $filter != 'junk')) {
 }
 
 if (has_permission('leads', '', 'view') && $this->ci->input->post('assigned')) {
-    array_push($where, 'AND assigned =' . $this->ci->input->post('assigned'));
+    array_push($where, 'AND assigned =' . $this->ci->db->escape_str($this->ci->input->post('assigned')));
 }
 
 if ($this->ci->input->post('status')
     && count($this->ci->input->post('status')) > 0
     && ($filter != 'lost' && $filter != 'junk')) {
-    array_push($where, 'AND status IN (' . implode(',', $this->ci->input->post('status')) . ')');
+    array_push($where, 'AND status IN (' . implode(',', $this->ci->db->escape_str($this->ci->input->post('status'))) . ')');
 }
 
 if ($this->ci->input->post('source')) {
-    array_push($where, 'AND source =' . $this->ci->input->post('source'));
+    array_push($where, 'AND source =' . $this->ci->db->escape_str($this->ci->input->post('source')));
 }
 
 if (!has_permission('leads', '', 'view')) {
@@ -158,6 +159,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = ($aRow['phonenumber'] != '' ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
 
+    $base_currency = get_base_currency();
+    $row[] = ($aRow['lead_value'] != 0 ? app_format_money($aRow['lead_value'],$base_currency->symbol) : '');
+
     $row[] .= render_tags($aRow['tags']);
 
     $assignedOutput = '';
@@ -181,7 +185,7 @@ foreach ($rResult as $aRow) {
             $outputStatus = '<span class="label label-warning inline-block">' . _l('lead_junk') . '</span>';
         }
     } else {
-        $outputStatus = '<span class="inline-block label label-' . (empty($aRow['color']) ? 'default': '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
+        $outputStatus = '<span class="inline-block lead-status-'.$aRow['status'].' label label-' . (empty($aRow['color']) ? 'default': '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
         if (!$locked) {
             $outputStatus .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
             $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="tableLeadsStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';

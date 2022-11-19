@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="widget" id="widget-<?php echo basename(__FILE__,".php"); ?>" data-name="<?php echo _l('user_widget'); ?>">
+<div class="widget" id="widget-<?php echo create_widget_id(); ?>" data-name="<?php echo _l('user_widget'); ?>">
    <div class="panel_s user-data">
       <div class="panel-body home-activity">
          <div class="widget-dragger"></div>
@@ -56,6 +56,7 @@
                      </a>
                   </li>
                   <?php } ?>
+                  <?php hooks()->do_action('after_user_data_widget_tabs'); ?>
                </ul>
                <hr class="hr-panel-heading hr-user-data-tabs" />
                <div class="tab-content">
@@ -145,6 +146,7 @@
                      </div>
                   </div>
                   <?php } ?>
+                  <?php hooks()->do_action('after_user_data_widge_tabs_content'); ?>
                </div>
             </div>
          </div>

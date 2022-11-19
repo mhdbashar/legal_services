@@ -137,13 +137,13 @@ foreach ($rResult as $aRow) {
     $row[] = $amount;
 
 
-    $row[] = _d($aRow['date']);
+    $row[] = ($aRow['date']);
 
-    $row[] = _d($aRow['open_till']);
+    $row[] = ($aRow['open_till']);
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _d($aRow['datecreated']);
+    $row[] = ($aRow['datecreated']);
 
     $row[] = format_proposal_status($aRow['status']);
 

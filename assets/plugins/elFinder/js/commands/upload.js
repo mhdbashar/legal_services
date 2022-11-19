@@ -66,7 +66,7 @@ elFinder.prototype.commands.upload = function() {
 								newItem.trigger('scrolltoview');
 							} else {
 								if (targetDir.hash !== cwdHash) {
-									node = $('<div/>').append(
+									node = $('<div></div>').append(
 										$('<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all elfinder-tabstop"><span class="ui-button-text">'+fm.i18n('cmdopendir')+'</span></button>')
 										.on('mouseenter mouseleave', function(e) { 
 											$(this).toggleClass('ui-state-hover', e.type == 'mouseenter');
@@ -106,7 +106,7 @@ elFinder.prototype.commands.upload = function() {
 					return $();
 				}
 				
-				return $('<div class="elfinder-upload-dirselect elfinder-tabstop" title="' + fm.i18n('folders') + '"/>')
+				return $('<div class="elfinder-upload-dirselect elfinder-tabstop" title="' + fm.i18n('folders') + '"></div>')
 				.on('click', function(e) {
 					e.stopPropagation();
 					e.preventDefault();
@@ -144,7 +144,7 @@ elFinder.prototype.commands.upload = function() {
 						prevNode: base,
 						fitHeight: true
 					});
-				}).append('<span class="elfinder-button-icon elfinder-button-icon-dir" />');
+				}).append('<span class="elfinder-button-icon elfinder-button-icon-dir" ></span>');
 			},
 			inputButton = function(type, caption) {
 				var button,
@@ -166,16 +166,16 @@ elFinder.prototype.commands.upload = function() {
 					.on('dragover', function(e) {
 						e.originalEvent.dataTransfer.dropEffect = 'copy';
 					}),
-					form = $('<form/>').append(input);
+					form = $('<form></form>').append(input).on('click', function(e) {
+						e.stopPropagation();
+					});
 
 				return $('<div class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only elfinder-tabstop elfinder-focus"><span class="ui-button-text">'+fm.i18n(caption)+'</span></div>')
 					.append(form)
 					.on('click', function(e) {
-						if (e.target === this) {
-							e.stopPropagation();
-							e.preventDefault();
-							input.trigger('click');
-						}
+						e.stopPropagation();
+						e.preventDefault();
+						input.trigger('click');
 					})
 					.on('mouseenter mouseleave', function(e) {
 						$(this).toggleClass(hover, e.type === 'mouseenter');
@@ -300,7 +300,7 @@ elFinder.prototype.commands.upload = function() {
 			});
 		};
 		
-		dialog = $('<div class="elfinder-upload-dialog-wrapper"/>')
+		dialog = $('<div class="elfinder-upload-dialog-wrapper"></div>')
 			.append(inputButton('multiple', 'selectForUpload'));
 		
 		if (! fm.UA.Mobile && (function(input) {
@@ -309,11 +309,12 @@ elFinder.prototype.commands.upload = function() {
 		}
 		
 		if (targetDir.dirs) {
-			if (targetDir.hash === cwdHash || $('#'+fm.navHash2Id(targetDir.hash)).hasClass('elfinder-subtree-loaded')) {
+			
+			if (targetDir.hash === cwdHash || fm.navHash2Elm(targetDir.hash).hasClass('elfinder-subtree-loaded')) {
 				getSelector().appendTo(dialog);
 			} else {
-				spinner = $('<div class="elfinder-upload-dirselect" title="' + fm.i18n('nowLoading') + '"/>')
-					.append('<span class="elfinder-button-icon elfinder-button-icon-spinner" />')
+				spinner = $('<div class="elfinder-upload-dirselect" title="' + fm.i18n('nowLoading') + '"></div>')
+					.append('<span class="elfinder-button-icon elfinder-button-icon-spinner" ></span>')
 					.appendTo(dialog);
 				fm.request({cmd : 'tree', target : targetDir.hash})
 					.done(function() { 
@@ -391,11 +392,12 @@ elFinder.prototype.commands.upload = function() {
 			
 		}
 		
-		uidialog = fm.dialog(dialog, {
+		uidialog = this.fmDialog(dialog, {
 			title          : this.title + '<span class="elfinder-upload-target">' + (targetDir? ' - ' + fm.escape(targetDir.i18 || targetDir.name) : '') + '</span>',
 			modal          : true,
 			resizable      : false,
 			destroyOnClose : true,
+			propagationEvents : ['mousemove', 'mouseup', 'click'],
 			close          : function() {
 				var cm = fm.getUI('contextmenu');
 				if (cm.is(':visible')) {

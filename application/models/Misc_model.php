@@ -1,5 +1,7 @@
 <?php
 
+use app\services\utilities\Arr;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Misc_model extends App_Model
@@ -99,7 +101,7 @@ class Misc_model extends App_Model
         }
 
         // Clear the duplicates
-        $taxes = array_map('unserialize', array_unique(array_map('serialize', $taxes)));
+        $taxes = Arr::uniqueByKey($taxes, 'name');
 
         $select = '<select class="selectpicker display-block tax" data-width="100%" name="' . $name . '" multiple data-none-selected-text="' . _l('no_tax') . '">';
 
@@ -288,9 +290,15 @@ class Misc_model extends App_Model
         $data['rel_type']    = $rel_type;
         $data['rel_id']      = $rel_id;
         $data['description'] = nl2br($data['description']);
+
+        $data = hooks()->apply_filters('create_note_data', $data, $rel_type, $rel_id);
+
         $this->db->insert(db_prefix() . 'notes', $data);
         $insert_id = $this->db->insert_id();
+
         if ($insert_id) {
+            hooks()->do_action('note_created', $insert_id, $data);
+
             return $insert_id;
         }
 
@@ -299,13 +307,19 @@ class Misc_model extends App_Model
 
     public function edit_note($data, $id)
     {
-        hooks()->do_action('before_update_note', ['data' => $data, 'id' => $id]);
+        hooks()->do_action('before_update_note', [
+            'data' => $data,
+            'id'   => $id,
+        ]);
 
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'notes', [
+        $this->db->update(db_prefix() . 'notes', $data = [
             'description' => nl2br($data['description']),
         ]);
+
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('note_updated', $id, $data);
+
             return true;
         }
 
@@ -326,12 +340,16 @@ class Misc_model extends App_Model
 
         $this->db->where('id', $note_id);
         $note = $this->db->get(db_prefix() . 'notes')->row();
+
         if ($note->addedfrom != get_staff_user_id() && !is_admin()) {
             return false;
         }
+
         $this->db->where('id', $note_id);
         $this->db->delete(db_prefix() . 'notes');
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('note_deleted', $note_id, $note);
+
             return true;
         }
 
@@ -546,20 +564,21 @@ class Misc_model extends App_Model
                 $this->db->where(db_prefix() . 'clients.userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
             }
 
-            $this->db->where('(company LIKE "%' . $q . '%"
-                OR vat LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $q . '%"
-                OR city LIKE "%' . $q . '%"
-                OR zip LIKE "%' . $q . '%"
-                OR state LIKE "%' . $q . '%"
-                OR zip LIKE "%' . $q . '%"
-                OR address LIKE "%' . $q . '%"
-                OR email LIKE "%' . $q . '%"
-                OR CONCAT(firstname, \' \', lastname) LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'countries.short_name LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'countries.long_name LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'countries.numcode LIKE "%' . $q . '%"
+            $this->db->where('(company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR CONCAT(firstname, \' \', lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR CONCAT(lastname, \' \', firstname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'countries.short_name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'countries.long_name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'countries.numcode LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
             $this->db->limit($limit);
@@ -663,11 +682,11 @@ class Misc_model extends App_Model
             } //!$tasks
         } //!$is_admin
         if (!startsWith($q, '#')) {
-            $this->db->where('(name LIKE "%' . $q . '%" OR description LIKE "%' . $q . '%")');
+            $this->db->where('(name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
         } else {
             $this->db->where('id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($q, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'task\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
         }
@@ -706,11 +725,11 @@ class Misc_model extends App_Model
                 $this->db->where('invoiceid IN (select id from ' . db_prefix() . 'invoices where ' . $noPermissionQuery . ')');
             }
 
-            $this->db->where('(' . db_prefix() . 'invoicepaymentrecords.id LIKE "' . $q . '"
-                OR paymentmode LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'payment_modes.name LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'invoicepaymentrecords.note LIKE "%' . $q . '%"
-                OR number LIKE "' . $q . '"
+            $this->db->where('(' . db_prefix() . 'invoicepaymentrecords.id LIKE "' . $this->db->escape_like_str($q) . '"
+                OR paymentmode LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'payment_modes.name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'invoicepaymentrecords.note LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR number LIKE "' . $this->db->escape_like_str($q) . ' ESCAPE \'!\'"
                 )');
 
             $this->db->order_by(db_prefix() . 'invoicepaymentrecords.date', 'ASC');
@@ -741,7 +760,7 @@ class Misc_model extends App_Model
             $noPermissionQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
             $this->db->select()->from(db_prefix() . 'itemable');
             $this->db->where('rel_type', 'invoice');
-            $this->db->where('(description LIKE "%' . $q . '%" OR long_description LIKE "%' . $q . '%")');
+            $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR long_description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
 
             if (!$has_permission_view_invoices) {
                 $this->db->where('rel_id IN (select id from ' . db_prefix() . 'invoices where ' . $noPermissionQuery . ')');
@@ -768,7 +787,7 @@ class Misc_model extends App_Model
             if (!$has_permission_view_estimates) {
                 $this->db->where('rel_id IN (select id from ' . db_prefix() . 'estimates where ' . $noPermissionQuery . ')');
             }
-            $this->db->where('(description LIKE "%' . $q . '%" OR long_description LIKE "%' . $q . '%")');
+            $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR long_description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
             $this->db->order_by('description', 'ASC');
             $result[] = [
                 'result'         => $this->db->get()->result_array(),
@@ -816,15 +835,15 @@ class Misc_model extends App_Model
 
             $this->db->where('(
                 ' . db_prefix() . 'proposals.id LIKE "' . $q . '%"
-                OR ' . db_prefix() . 'proposals.subject LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.content LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.proposal_to LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.zip LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.state LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.city LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.address LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.email LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'proposals.phone LIKE "%' . $q . '%"
+                OR ' . db_prefix() . 'proposals.subject LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.content LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.proposal_to LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'proposals.phone LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
             $this->db->order_by(db_prefix() . 'proposals.id', 'desc');
@@ -857,20 +876,20 @@ class Misc_model extends App_Model
             }
 
             if (!startsWith($q, '#')) {
-                $this->db->where('(name LIKE "%' . $q . '%"
-                    OR title LIKE "%' . $q . '%"
-                    OR company LIKE "%' . $q . '%"
-                    OR zip LIKE "%' . $q . '%"
-                    OR city LIKE "%' . $q . '%"
-                    OR state LIKE "%' . $q . '%"
-                    OR address LIKE "%' . $q . '%"
-                    OR email LIKE "%' . $q . '%"
-                    OR phonenumber LIKE "%' . $q . '%"
+                $this->db->where('(name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR title LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                     )');
             } else {
                 $this->db->where('id IN
                     (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                    (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($q, '#') . '")
+                    (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
                     AND ' . db_prefix() . 'taggables.rel_type=\'lead\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                     ');
             }
@@ -927,18 +946,19 @@ class Misc_model extends App_Model
             if (!startsWith($q, '#')) {
                 $this->db->where('(
                     ticketid LIKE "' . $q . '%"
-                    OR subject LIKE "%' . $q . '%"
-                    OR message LIKE "%' . $q . '%"
-                    OR ' . db_prefix() . 'contacts.email LIKE "%' . $q . '%"
-                    OR CONCAT(firstname, \' \', lastname) LIKE "%' . $q . '%"
-                    OR company LIKE "%' . $q . '%"
-                    OR vat LIKE "%' . $q . '%"
-                    OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $q . '%"
-                    OR ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
-                    OR city LIKE "%' . $q . '%"
-                    OR state LIKE "%' . $q . '%"
-                    OR address LIKE "%' . $q . '%"
-                    OR ' . db_prefix() . 'departments.name LIKE "%' . $q . '%"
+                    OR subject LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR message LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR ' . db_prefix() . 'contacts.email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR CONCAT(firstname, \' \', lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR CONCAT(lastname, \' \', firstname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                    OR ' . db_prefix() . 'departments.name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                     )');
 
                 if ($where != '') {
@@ -947,7 +967,7 @@ class Misc_model extends App_Model
             } else {
                 $this->db->where('ticketid IN
                     (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                    (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($q, '#') . '")
+                    (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
                     AND ' . db_prefix() . 'taggables.rel_type=\'ticket\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                     ');
             }
@@ -979,13 +999,14 @@ class Misc_model extends App_Model
             $this->db->from(db_prefix() . 'contacts');
 
             $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid=' . db_prefix() . 'contacts.userid', 'left');
-            $this->db->where('(firstname LIKE "%' . $q . '%"
-                OR lastname LIKE "%' . $q . '%"
-                OR email LIKE "%' . $q . '%"
-                OR CONCAT(firstname, \' \', lastname) LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'contacts.title LIKE "%' . $q . '%"
-                OR company LIKE "%' . $q . '%"
+            $this->db->where('(firstname LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR lastname LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR CONCAT(firstname, \' \', lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR CONCAT(lastname, \' \', firstname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'contacts.title LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
             if ($where != '') {
@@ -1018,6 +1039,7 @@ class Misc_model extends App_Model
             $this->db->like('firstname', $q);
             $this->db->or_like('lastname', $q);
             $this->db->or_like("CONCAT(firstname, ' ', lastname)", $q, false);
+            $this->db->or_like("CONCAT(lastname, ' ', firstname)", $q, false);
             $this->db->or_like('facebook', $q);
             $this->db->or_like('linkedin', $q);
             $this->db->or_like('phonenumber', $q);
@@ -1051,7 +1073,8 @@ class Misc_model extends App_Model
                 $this->db->where(db_prefix() . 'contracts.addedfrom', get_staff_user_id());
             }
 
-            $this->db->where('(description LIKE "%' . $q . '%" OR subject LIKE "%' . $q . '%")');
+            $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR subject LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
+            $this->db->where('type_id', 0);
 
             if ($limit != 0) {
                 $this->db->limit($limit);
@@ -1083,21 +1106,21 @@ class Misc_model extends App_Model
             $this->db->where($where);
         }
         if (!startsWith($q, '#')) {
-            $this->db->where('(company LIKE "%' . $q . '%"
-                OR description LIKE "%' . $q . '%"
-                OR name LIKE "%' . $q . '%"
-                OR vat LIKE "%' . $q . '%"
-                OR phonenumber LIKE "%' . $q . '%"
-                OR city LIKE "%' . $q . '%"
-                OR zip LIKE "%' . $q . '%"
-                OR state LIKE "%' . $q . '%"
-                OR zip LIKE "%' . $q . '%"
-                OR address LIKE "%' . $q . '%"
+            $this->db->where('(company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
         } else {
             $this->db->where('id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($q, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'project\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
         }
@@ -1131,8 +1154,8 @@ class Misc_model extends App_Model
                 $q = trim($q);
                 $q = ltrim($q, '0');
             }
-            $invoice_fields = prefixed_table_fields_array(db_prefix() . 'invoices');
-            $clients_fields = prefixed_table_fields_array(db_prefix() . 'clients');
+            $invoice_fields    = prefixed_table_fields_array(db_prefix() . 'invoices');
+            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
             $noPermissionQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
             // Invoices
             $this->db->select(implode(',', $invoice_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'invoices.id as invoiceid,' . get_sql_select_client_company());
@@ -1146,64 +1169,66 @@ class Misc_model extends App_Model
             }
             if (!startsWith($q, '#')) {
                 $this->db->where('(
-                ' . db_prefix() . 'invoices.number LIKE "' . $q . '"
+                ' . db_prefix() . 'invoices.number LIKE "' . $this->db->escape_like_str($q) . '"
                 OR
-                ' . db_prefix() . 'clients.company LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.clientnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.clientnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.vat LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.address LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.adminnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.adminnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                CONCAT(firstname,\' \',lastname) LIKE "%' . $q . '%"
+                CONCAT(firstname,\' \',lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.billing_street LIKE "%' . $q . '%"
+                CONCAT(lastname,\' \',firstname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'invoices.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'invoices.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
             } else {
                 $this->db->where(db_prefix() . 'invoices.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($q, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'invoice\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -1254,59 +1279,61 @@ class Misc_model extends App_Model
             }
 
             $this->db->where('(
-                ' . db_prefix() . 'creditnotes.number LIKE "' . $q . '"
+                ' . db_prefix() . 'creditnotes.number LIKE "' . $this->db->escape_like_str($q) . '"
                 OR
-                ' . db_prefix() . 'clients.company LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.clientnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.clientnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.vat LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.address LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.adminnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.adminnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                CONCAT(firstname,\' \',lastname) LIKE "%' . $q . '%"
+                CONCAT(firstname,\' \',lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.billing_street LIKE "%' . $q . '%"
+                CONCAT(lastname,\' \',firstname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'creditnotes.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'creditnotes.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
 
@@ -1342,8 +1369,8 @@ class Misc_model extends App_Model
                 $q = ltrim($q, '0');
             }
             // Estimates
-            $estimates_fields = prefixed_table_fields_array(db_prefix() . 'estimates');
-            $clients_fields   = prefixed_table_fields_array(db_prefix() . 'clients');
+            $estimates_fields  = prefixed_table_fields_array(db_prefix() . 'estimates');
+            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
             $noPermissionQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
 
             $this->db->select(implode(',', $estimates_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'estimates.id as estimateid,' . get_sql_select_client_company());
@@ -1357,57 +1384,57 @@ class Misc_model extends App_Model
             }
 
             $this->db->where('(
-                ' . db_prefix() . 'estimates.number LIKE "' . $q . '"
+                ' . db_prefix() . 'estimates.number LIKE "' . $this->db->escape_like_str($q) . '"
                 OR
-                ' . db_prefix() . 'clients.company LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.clientnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.clientnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.vat LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                address LIKE "%' . $q . '%"
+                address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.adminnote LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.adminnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.billing_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'estimates.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'estimates.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 OR
-                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $q . '%"
+                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
             $this->db->order_by('number,YEAR(date)', 'desc');
@@ -1433,7 +1460,7 @@ class Misc_model extends App_Model
 
         if ($has_permission_expenses_view || $has_permission_expenses_view_own) {
             // Expenses
-            $this->db->select('*,' . db_prefix() . 'expenses.amount as amount,' . db_prefix() . 'expenses_categories.name as category_name,' . db_prefix() . 'payment_modes.name as payment_mode_name,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'expenses.id as expenseid,'.db_prefix().'currencies.name as currency_name');
+            $this->db->select('*,' . db_prefix() . 'expenses.amount as amount,' . db_prefix() . 'expenses_categories.name as category_name,' . db_prefix() . 'payment_modes.name as payment_mode_name,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'expenses.id as expenseid,' . db_prefix() . 'currencies.name as currency_name');
             $this->db->from(db_prefix() . 'expenses');
             $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'expenses.clientid', 'left');
             $this->db->join(db_prefix() . 'payment_modes', db_prefix() . 'payment_modes.id = ' . db_prefix() . 'expenses.paymentmode', 'left');
@@ -1444,18 +1471,18 @@ class Misc_model extends App_Model
                 $this->db->where(db_prefix() . 'expenses.addedfrom', get_staff_user_id());
             }
 
-            $this->db->where('(company LIKE "%' . $q . '%"
-                OR paymentmode LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'payment_modes.name LIKE "%' . $q . '%"
-                OR vat LIKE "%' . $q . '%"
-                OR phonenumber LIKE "%' . $q . '%"
-                OR city LIKE "%' . $q . '%"
-                OR zip LIKE "%' . $q . '%"
-                OR address LIKE "%' . $q . '%"
-                OR state LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'expenses_categories.name LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'expenses.note LIKE "%' . $q . '%"
-                OR ' . db_prefix() . 'expenses.expense_name LIKE "%' . $q . '%"
+            $this->db->where('(company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR paymentmode LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'payment_modes.name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'expenses_categories.name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'expenses.note LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR ' . db_prefix() . 'expenses.expense_name LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
                 )');
 
             if ($limit != 0) {

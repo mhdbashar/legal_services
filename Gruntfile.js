@@ -26,8 +26,8 @@ module.exports = function(grunt) {
                     'assets/plugins/internal/highlight/highlight.min.js': ['assets/plugins/internal/highlight/highlight.js'],
                     'assets/plugins/internal/hotkeys/hotkeys.min.js': ['assets/plugins/internal/hotkeys/hotkeys.js'],
                     'assets/plugins/internal/desktop-notifications/notifications.min.js': ['assets/plugins/internal/desktop-notifications/notifications.js'],
-                    'assets/themes/perfex/js/clients.min.js': ['assets/themes/perfex/js/clients.js'],
-                    'assets/themes/perfex/js/global.min.js': ['assets/themes/perfex/js/global.js'],
+                    'assets/themes/babil/js/clients.min.js': ['assets/themes/babil/js/clients.js'],
+                    'assets/themes/babil/js/global.min.js': ['assets/themes/babil/js/global.js'],
                     'assets/js/main.min.js': ['assets/js/main.js'],
                     'assets/js/map.min.js': ['assets/js/map.js'],
                     'assets/js/projects.min.js': ['assets/js/projects.js'],
@@ -43,8 +43,8 @@ module.exports = function(grunt) {
         cssmin: {
             target: {
                 files: [{
-                        src: ['assets/themes/perfex/css/style.css'],
-                        dest: 'assets/themes/perfex/css/style.min.css',
+                        src: ['assets/themes/babil/css/style.css'],
+                        dest: 'assets/themes/babil/css/style.min.css',
                         ext: '.min.css'
                     },
                     {
@@ -60,6 +60,11 @@ module.exports = function(grunt) {
                     {
                         src: ['assets/css/style.css'],
                         dest: 'assets/css/style.min.css',
+                        ext: '.min.css'
+                    },
+                    {
+                        src: ['assets/css/reset.css'],
+                        dest: 'assets/css/reset.min.css',
                         ext: '.min.css'
                     },
                     {
@@ -81,8 +86,8 @@ module.exports = function(grunt) {
                 src: [
                     'assets/css/*.css',
                     '!assets/css/*.min.css',
-                    'assets/themes/perfex/css/*.css',
-                    '!assets/themes/perfex/css/*.min.css',
+                    'assets/themes/babil/css/*.css',
+                    '!assets/themes/babil/css/*.min.css',
                 ]
             }
         },
@@ -90,7 +95,7 @@ module.exports = function(grunt) {
             moment: {
                 src: [
                     'assets/plugins/moment/moment-with-locales.min.js',
-                    'assets/plugins/moment-timezone/moment-timezone-with-data-2012-2022.min.js',
+                    'assets/plugins/moment-timezone/moment-timezone-with-data-10-year-range.min.js',
                 ],
                 dest: 'assets/builds/moment.min.js',
             },
@@ -273,8 +278,8 @@ module.exports = function(grunt) {
                     'assets/js/map.min.js': 'assets/js/map.min.js',
                     'assets/js/projects.min.js': 'assets/js/projects.min.js',
                     'assets/js/tickets.min.js': 'assets/js/tickets.min.js',
-                    'assets/themes/perfex/js/clients.min.js': 'assets/themes/perfex/js/clients.min.js',
-                    'assets/themes/perfex/js/global.min.js': 'assets/themes/perfex/js/global.min.js',
+                    'assets/themes/babil/js/clients.min.js': 'assets/themes/babil/js/clients.min.js',
+                    'assets/themes/babil/js/global.min.js': 'assets/themes/babil/js/global.min.js',
                 }
             }
         },

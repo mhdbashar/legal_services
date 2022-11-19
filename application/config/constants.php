@@ -106,12 +106,16 @@ define('ADMIN_URI', DEFINED('CUSTOM_ADMIN_URL') ? CUSTOM_ADMIN_URL : ADMIN_URL);
 /**
  * CRM server update url
  */
-define('UPDATE_URL', 'https://www.perfexcrm.com/perfex_updates/index.php');
+// define('UPDATE_URL', 'https://www.babil.net.sa/babil_updates/index.php');
+define('UPDATE_URL', '##');
+
 
 /**
  * Get latest version info
  */
-define('UPDATE_INFO_URL', 'https://www.perfexcrm.com/perfex_updates/update_info.php');
+// define('UPDATE_INFO_URL', 'https://www.babil.net.sa/babil_updates/update_info.php');
+define('UPDATE_INFO_URL', '##');
+
 
 /**
  * Do not send sms to data eq. invoices, estimates older then X days.
@@ -158,6 +162,10 @@ define('NEWSFEED_FOLDER', FCPATH . 'uploads/newsfeed' . '/');
  */
 define('CONTRACTS_UPLOADS_FOLDER', FCPATH . 'uploads/contracts' . '/');
 /**
+ * HR Contracts attachments
+ */
+define('HR_CONTRACTS_UPLOADS_FOLDER', FCPATH . 'uploads/hr_contracts' . '/');
+/**
  * Tasks attachments
  */
 define('TASKS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/tasks' . '/');
@@ -177,6 +185,22 @@ define('PROPOSAL_ATTACHMENTS_FOLDER', FCPATH . 'uploads/proposals' . '/');
  * Expenses receipts
  */
 define('EXPENSE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/expenses' . '/');
+///////////////////////
+// Ahmad Zaher Khrezaty
+/**
+ * Procurations receipts
+ */
+define('PROCURATION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/procurations' . '/');
+/**
+ * Procurations receipts
+ */
+define('HR_DOCUMENT_ATTACHMENTS_FOLDER', FCPATH . 'uploads/hr/document' . '/');
+///////////////////////
+// waseem abdallah
+/**
+ * Transaction receipts
+ */
+define('TRANSACTION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/transactions' . '/');
 /**
  * Lead attachments
  */
@@ -190,6 +214,14 @@ define('PROJECT_ATTACHMENTS_FOLDER', FCPATH . 'uploads/projects' . '/');
  */
 define('PROJECT_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions' . '/');
 /**
+ * Project discussions attachments
+ */
+define('CASE_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions/cases' . '/');
+/**
+ * Project discussions attachments
+ */
+define('OSERVICE_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions/oservices' . '/');
+/**
  * Credit notes attachment folder
  */
 define('CREDIT_NOTES_ATTACHMENTS_FOLDER', FCPATH . 'uploads/credit_notes' . '/');
@@ -201,3 +233,21 @@ define('APP_MODULES_PATH', FCPATH . 'modules/');
  * Helper libraries path
  */
 define('LIBSPATH', APPPATH . 'libraries/');
+/**
+ * Case attachments
+ */
+define('CASES_FOLDER', FCPATH . 'uploads/cases' . '/');
+/**
+ * Case files attachments
+ */
+define('CASE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cases' . '/');
+/**
+ * Case files attachments
+ */
+define('OSERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/oservices' . '/');
+
+define('ISERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/imported_services' . '/');
+/**
+ * LIBRARY URL
+ */
+define('APP_LIBRARY_URL', 'http://babillib.babillawnet.com/');

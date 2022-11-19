@@ -205,9 +205,13 @@ function can_change_ticket_status_in_clients_area($status = null)
  */
 function get_ticket_form_accepted_mimes()
 {
-    $ticket_allowed_extensions  = get_option('ticket_attachments_file_extensions');
-    $_ticket_allowed_extensions = explode(',', $ticket_allowed_extensions);
-    $all_form_ext               = $ticket_allowed_extensions;
+    $ticket_allowed_extensions = get_option('ticket_attachments_file_extensions');
+
+    $_ticket_allowed_extensions = array_map(function ($ext) {
+        return trim($ext);
+    }, explode(',', $ticket_allowed_extensions));
+
+    $all_form_ext = str_replace([' '], '', $ticket_allowed_extensions);
 
     if (is_array($_ticket_allowed_extensions)) {
         foreach ($_ticket_allowed_extensions as $ext) {
@@ -224,63 +228,113 @@ function ticket_message_save_as_predefined_reply_javascript()
         return false;
     } ?>
     <div class="modal fade" id="savePredefinedReplyFromMessageModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo _l('predefined_replies_dt_name'); ?></h4>
-      </div>
-      <div class="modal-body">
-        <?php echo render_input('name', 'predefined_reply_add_edit_name'); ?>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-        <button type="button" class="btn btn-info" id="saveTicketMessagePredefinedReply"><?php echo _l('submit'); ?></button>
-      </div>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><?php echo _l('predefined_replies_dt_name'); ?></h4>
+        </div>
+        <div class="modal-body">
+            <?php echo render_input('name', 'predefined_reply_add_edit_name'); ?>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+            <button type="button" class="btn btn-info" id="saveTicketMessagePredefinedReply"><?php echo _l('submit'); ?></button>
+        </div>
     </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-    <script>
-        $(function(){
-            var editorMessage = tinymce.get('message');
-            if(typeof(editorMessage) != 'undefined') {
-                editorMessage.on('change',function(){
-                    if(editorMessage.getContent().trim() != '') {
-                        if($('#savePredefinedReplyFromMessage').length == 0){
-                            $('[app-field-wrapper="message"] [role="menubar"] .mce-container-body:first').append("<a id=\"savePredefinedReplyFromMessage\" data-toggle=\"modal\" data-target=\"#savePredefinedReplyFromMessageModal\" class=\"save_predefined_reply_from_message pointer\" href=\"#\"><?php echo _l('save_message_as_predefined_reply'); ?></a>");
-                            }
+<script>
+    $(function(){
+        var editorMessage = tinymce.get('message');
+        if(typeof(editorMessage) != 'undefined') {
+            editorMessage.on('change',function(){
+                if(editorMessage.getContent().trim() != '') {
+                    if($('#savePredefinedReplyFromMessage').length == 0){
+                        $('[app-field-wrapper="message"] [role="menubar"] .mce-container-body:first').append("<a id=\"savePredefinedReplyFromMessage\" data-toggle=\"modal\" data-target=\"#savePredefinedReplyFromMessageModal\" class=\"save_predefined_reply_from_message pointer\" href=\"#\"><?php echo _l('save_message_as_predefined_reply'); ?></a>");
+                    }
                             // For open is handled on contact select
                             if($('#single-ticket-form').length > 0) {
                                 var contactIDSelect = $('#contactid');
                                 if(contactIDSelect.data('no-contact') == undefined && contactIDSelect.data('ticket-emails') == '0') {
-                                   show_ticket_no_contact_email_warning($('input[name="userid"]').val(), contactIDSelect.val());
-                                } else {
-                                   clear_ticket_no_contact_email_warning();
-                                }
-                            }
-                    } else {
+                                 show_ticket_no_contact_email_warning($('input[name="userid"]').val(), contactIDSelect.val());
+                             } else {
+                                 clear_ticket_no_contact_email_warning();
+                             }
+                         }
+                     } else {
                         $('#savePredefinedReplyFromMessage').remove();
                         clear_ticket_no_contact_email_warning();
                     }
                 });
-            }
-            $('body').on('click','#saveTicketMessagePredefinedReply',function(e){
-                e.preventDefault();
-                var data = {}
-                data.message = editorMessage.getContent();
-                data.name = $('#savePredefinedReplyFromMessageModal #name').val();
-                data.ticket_area = true;
-                $.post(admin_url+'tickets/predefined_reply',data).done(function(response){
-                    response = JSON.parse(response);
-                    if(response.success == true) {
-                        var predefined_reply_select = $('#insert_predefined_reply');
-                        predefined_reply_select.find('option:first').after('<option value="'+response.id+'">'+data.name+'</option>');
-                        predefined_reply_select.selectpicker('refresh');
-                    }
-                    $('#savePredefinedReplyFromMessageModal').modal('hide');
-                });
+        }
+        $('body').on('click','#saveTicketMessagePredefinedReply',function(e){
+            e.preventDefault();
+            var data = {}
+            data.message = editorMessage.getContent();
+            data.name = $('#savePredefinedReplyFromMessageModal #name').val();
+            data.ticket_area = true;
+            $.post(admin_url+'tickets/predefined_reply',data).done(function(response){
+                response = JSON.parse(response);
+                if(response.success == true) {
+                    var predefined_reply_select = $('#insert_predefined_reply');
+                    predefined_reply_select.find('option:first').after('<option value="'+response.id+'">'+data.name+'</option>');
+                    predefined_reply_select.selectpicker('refresh');
+                }
+                $('#savePredefinedReplyFromMessageModal').modal('hide');
             });
         });
+    });
+</script>
+<?php
+}
+
+function get_ticket_public_url($ticket)
+{
+    if (is_array($ticket)) {
+        $ticket = array_to_object($ticket);
+    }
+
+    $CI = &get_instance();
+
+    if (!$ticket->ticketkey) {
+        $CI->db->where('ticketid', $ticket->ticketid);
+        $CI->db->update('tickets', ['ticketkey' => $key = app_generate_hash()]);
+    } else {
+        $key = $ticket->ticketkey;
+    }
+
+    return site_url('forms/tickets/' . $key);
+}
+
+function ticket_public_form_customers_footer() {
+    // Create new listeners for the public_form
+    // removes the one from clients.js (if loaded) and using new ones
+    ?>
+    <style>
+        .single-ticket-project-area { display: none !important; }
+    </style>
+    <script>
+        $(function(){
+            setTimeout(function() {
+                $('#ticket-reply').appFormValidator();
+
+                $('.toggle-change-ticket-status').off('click');
+                $('.toggle-change-ticket-status').on('click', function() {
+                    $('.ticket-status,.ticket-status-inline').toggleClass('hide');
+                });
+
+                $('#ticket_status_single').off('change');
+                $('#ticket_status_single').on('change', function() {
+                    data = {};
+                    data.status_id = $(this).val();
+                    data.ticket_id = $('input[name="ticket_id"]').val();
+                    $.post(site_url + 'clients/change_ticket_status/', data).done(function() {
+                        window.location.reload();
+                    });
+                });
+            }, 2000)
+        })
     </script>
     <?php
 }

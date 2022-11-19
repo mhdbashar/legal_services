@@ -23,7 +23,7 @@ $join = [
 
 $where = [];
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'clients.userid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'clients.userid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('payments', '', 'view')) {
@@ -100,7 +100,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['amount'], $aRow['currency_name']);
 
-    $row[] = _d($aRow['date']);
+    $row[] = ($aRow['date']);
 
     $row['DT_RowClass'] = 'has-row-options';
 

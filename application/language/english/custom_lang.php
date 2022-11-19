@@ -4086,7 +4086,7 @@ $lang['categories'] = "Categories";
 $lang['sub_categories'] = "Sub Categories";
 $lang['edit_regular_duration'] = "Edit Regular Duration";
 $lang['sub_category'] = "Sub category";
-$lang['regular_duration_begin_date'] = "Regular Duration Begin Date";
+$lang['regular_duration_begin_date1'] = "First Regular Duration Begin Date";
 $lang['regular_durations_reminder_notification_before_help'] = "Regular Duration reminder notification before (days)";
 $lang['not_case_deadline_reminder'] = "Case deadline reminder";
 $lang['email_template_regular_durations_fields_heading'] = "Regular Duration Reminder";
@@ -4094,5 +4094,8 @@ $lang['Regular duration Reminder'] = "Regular duration Reminder";
 $lang['remember that'] = "remember that";
 $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
+$lang['regular_duration1'] = "First regular duration";
+$lang['regular_duration2'] = "Second regular duration";
+$lang['regular_duration_begin_date2'] = "Second Regular Duration Begin Date";
 
 

@@ -118,12 +118,20 @@ class Regular_durations extends AdminController
     {
             $this->duration->dur_alert_close_model($case_id);
     }
+
+//*************close alert2*******************
+    public  function dur_alert_close2($case_id)
+    {
+        $this->duration->dur_alert_close_model2($case_id);
+    }
  //************clear duration notified****************
     public  function clear_dur_notified($case_id)
     {
         $this->duration->clear_dur_notified_model($case_id);
     }
 //***********************
+
+
 
 
 }

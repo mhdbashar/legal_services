@@ -1144,7 +1144,7 @@ $lang['new_regular_duration'] = "إنشاء مدة نظامية جديدة";
 $lang['categories'] = "التصنيفات الرئيسية";
 $lang['sub_categories'] = "التصنيفات الفرعية";
 $lang['edit_regular_duration'] = "تحرير مدة زمنية نظامية";
-$lang['regular_duration_begin_date'] = "تاريخ بداية المدة الزمنية النظامية";
+$lang['regular_duration_begin_date1'] = "تاريخ بداية المدة الزمنية النظامية الأولى";
 $lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
 $lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
 $lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
@@ -1152,6 +1152,12 @@ $lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة ال�
 $lang['remember that'] = "تذكر أن المدة النظامية";
 $lang['which started at'] = "والتي بدأت بتاريخ ";
 $lang['will end at'] = "ستنتهي بتاريخ ";
+$lang['regular_duration1'] = "المدة النظامية الأولى";
+$lang['regular_duration2'] = "المدة النظامية الثانية";
+$lang['regular_duration_begin_date2'] = "تاريخ بداية المدة الزمنية النظامية الثانية";
+
+
+
 
 
 

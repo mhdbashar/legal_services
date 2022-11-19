@@ -68,6 +68,7 @@ class Cron_model extends App_Model
             $this->tasks_reminders();
             $this->procurations_reminders();
             $this->regular_durations_reminders();
+            $this->regular_durations_reminders2();
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();
@@ -1115,6 +1116,76 @@ class Cron_model extends App_Model
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'my_cases', [
                             'deadline_notified' => 1,'regular_header' => 1,
+                        ]);
+                    }
+                }
+                //  }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
+
+
+    //*************************
+    //*************************
+    private function regular_durations_reminders2()
+    {
+        $reminder_before = get_option('regular_durations_reminder_notification_before');
+        $this->db->where('duration_id2 IS NOT NULL');
+        $this->db->where('deadline_notified2', 0);
+        $cases2 = $this->db->get(db_prefix() . 'my_cases')->result_array();
+        $now2   = new DateTime(date('Y-m-d'));
+        $notifiedUsers2 = [];
+        foreach ($cases2 as $case2) {
+            $days2=get_dur_number_of_days_by_id($case2['duration_id2']);
+            $duration_date2=$case2['regular_duration_begin_date2'];
+            $end_date_case2  = strtotime($duration_date2 . " +".$days2."days");
+            $end_date_case2 = date('Y-m-d',$end_date_case2);
+
+
+            if($end_date_case2 < $now2)
+            {
+                $this->db->where('id', $case2['id']);
+                $this->db->update(db_prefix() . 'my_cases', [
+                    'regular_header2' => 0,
+                ]);
+            }
+
+
+            if ($end_date_case2 > date('Y-m-d')) {
+                $end_date2 = new DateTime($end_date_case2);
+                $diff2    = $end_date2->diff($now2)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the regular duration it too short
+                $end_date2          = strtotime($end_date_case2);
+                $start_date2         = strtotime($duration_date2);
+                $start_and_end_date_diff2 = $end_date2 - $start_date2;
+                $start_and_end_date_diff2 = floor($start_and_end_date_diff2 / (60 * 60 * 24));
+                // if ($diff2 <= $reminder_before && $start_and_end_date_diff2 > $reminder_before) {
+                $this->db->where('project_id', $case2['id']);
+                $assignees2 = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                foreach ($assignees2 as $member) {
+                    $this->db->where('staffid',$member->staff_id);
+                    $row2 = $this->db->get(db_prefix() . 'staff')->row();
+                    if ($row2) {
+                        $notified = add_notification([
+                            'description'     => 'not_case_deadline_reminder',
+                            'touserid'        => $member->staff_id,
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'legalservices/cases/view/1/' . $case2['id'],
+
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member->staff_id);
+                        }
+                        send_mail_template('regular_duration_deadline_notification', $row2->email,$member->staff_id,$case2['id']);
+                        $this->db->where('id', $case2['id']);
+                        $this->db->update(db_prefix() . 'my_cases', [
+                            'deadline_notified2' => 1,'regular_header2' => 1,
                         ]);
                     }
                 }

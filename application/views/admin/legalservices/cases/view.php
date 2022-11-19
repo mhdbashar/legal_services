@@ -123,6 +123,12 @@
                         $duration_date=$project->regular_duration_begin_date;
                         $end_date_case  = strtotime($duration_date . " +".$days."days");
                         $end_date_case = date('Y-m-d',$end_date_case);
+                        //******************
+                    $days2=get_dur_number_of_days_by_id($project->duration_id2);
+                    $dur_name2=get_dur_name_by_id($project->duration_id2);
+                    $duration_date2=$project->regular_duration_begin_date2;
+                    $end_date_case2  = strtotime($duration_date2 . " +".$days2."days");
+                    $end_date_case2 = date('Y-m-d',$end_date_case2);
 
                         if( $project->regular_header == 1)
                         {
@@ -157,6 +163,51 @@
                         <?php // } ?>
 
                     <?php } ?>
+
+
+
+               <?php if( $project->regular_header2 == 1)
+                {
+                if($end_date_case2 < date('Y-m-d'))
+                {
+
+                $this->db->where('id', $project->id);
+                $this->db->update(db_prefix() . 'my_cases', [
+                'regular_header2' => 0,
+                ]);
+                }
+
+                if($project->dur_alert_close2 < date('Y-m-d')){ ?>
+                <div  id="alert_dur_div2" class="alert alert-warning" font-medium="">
+                    <button type="button"  id="close_alert_button2" class="close" data-dismiss="modal" aria-label="Close"  >
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                    <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
+                    <hr class="hr-10">
+                    <?php echo _l('remember that') ?> <b><?php echo $dur_name2 ?></b>
+                    <?php echo _l('which started at') ?>
+                    <b> <?php echo $duration_date2 ?> </b>
+                    <?php echo _l('will end at') ?><b><?php echo $end_date_case2 ;?></b>
+                </div>
+
+                <?php } ?>
+
+
+                <?php // if(has_permission('tasks','','create')) {?>
+
+                <?php // } ?>
+
+                <?php } ?>
+
+
+
+
+
+
+
+
+
 
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
@@ -568,6 +619,22 @@ echo form_hidden('project_percent',$percent);
         });
 
     });
+
+    $("#close_alert_button2").click(function ()
+    {
+        var id = '<?php echo $project->id;?>';
+
+
+        $('#alert_dur_div2').hide();
+        $.ajax({
+            url: '<?php echo admin_url('legalservices/Regular_durations/dur_alert_close2/'); ?>'  + id,
+
+
+        });
+
+    });
+
+
 </script>
 </body>
 </html>

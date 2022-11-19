@@ -65,6 +65,30 @@ class Regular_duration_model extends App_Model
         }
         return false;
     }
+ //***********************
+    public  function dur_alert_close_model($case_id)
+    {
+         $this->db->where('id',$case_id);
+         $this->db->update(db_prefix() . 'my_cases', ['dur_alert_close' => date('Y-m-d')]);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('duration Updated [DurationID:]');
+            return true;
+        }
+    }
+
+    //***************************
+    public  function clear_dur_notified_model($case_id)
+    {
+        $this->db->where('id',$case_id);
+        $this->db->update(db_prefix() . 'my_cases', ['deadline_notified' => 0 , 'dur_alert_close' => 2022-11-01 , 'regular_header' => 0]);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('duration Updated [DurationID:]');
+            return true;
+        }
+    }
+
+
+
 
 
 

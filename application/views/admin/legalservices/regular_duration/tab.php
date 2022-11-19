@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label class="control-label"><?php echo _l("regular_duration") ; ?></label>
-                <select id="duration_id"  name="duration_id" class="form-control custom_select_arrow">
+                <select id="duration_id"  name="duration_id" class="form-control custom_select_arrow" >
                     <option value="<?php echo $case_info->duration_id; ?>" "selected" ><?php echo  get_dur_name_by_id($case_info->duration_id); ?></option>
 
                     <?php foreach($durations as $duration){
@@ -21,11 +21,11 @@
                             continue;
 
                         }
-                         if($duration['court_id']==0 && $duration['categories']==0 && $duration['sub_categories'] == 0 ||
-                             $duration['court_id']== $case_info->court_id && $duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id ||
-                             $duration['court_id']== $case_info->court_id && $duration['categories']==0 && $duration['sub_categories']==0 && $case_info->cat_id ==0 && $case_info->subcat_id ==0
-                         ){?>
-                             <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
+                        if($duration['court_id']==0 && $duration['categories']==0 && $duration['sub_categories'] == 0 ||
+                            $duration['court_id']== $case_info->court_id && $duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id ||
+                            $duration['court_id']== $case_info->court_id && $duration['categories']==0 && $duration['sub_categories']==0 && $case_info->cat_id ==0 && $case_info->subcat_id ==0
+                        ){?>
+                            <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
 
                         <?php } ?>
 
@@ -40,7 +40,7 @@
         </div>
 
     </div>
-    <button type="submit" id="save" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('save'); ?></button>
+    <button type="submit" id="save" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info" onclick="clear_dur_notified()"><?php echo _l('save'); ?></button>
     <?php echo form_close(); ?>
 <?php } ?>
 <?php init_tail(); ?>
@@ -49,7 +49,21 @@
         _validate_form($('#written-reports-form'),{duration_id:'required',regular_duration_begin_date:'required'});
     });
 
-  </script>
+
+    $("#save").click(function ()
+    {
+        var id = '<?php echo $project->id;?>';
+
+        $.ajax({
+            url: '<?php echo admin_url('legalservices/Regular_durations/clear_dur_notified/'); ?>'  + id,
+
+
+        });
+
+    });
+
+
+</script>
 
 </body>
 </html>

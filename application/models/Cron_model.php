@@ -1082,7 +1082,7 @@ class Cron_model extends App_Model
             }
 
 
-            if ($duration_date >= date('Y-m-d')) {
+            if ($end_date_case > date('Y-m-d')) {
                 $end_date = new DateTime($end_date_case);
                 $diff    = $end_date->diff($now)->format('%a');
                 // Check if difference between start date and end_date is the same like the reminder before
@@ -1104,6 +1104,7 @@ class Cron_model extends App_Model
                             'fromcompany'     => 1,
                             'fromuserid'      => null,
                             'link'            => 'legalservices/cases/view/1/' . $case['id'],
+
 
                         ]);
 

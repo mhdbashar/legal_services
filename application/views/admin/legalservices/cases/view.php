@@ -124,7 +124,8 @@
                         $end_date_case  = strtotime($duration_date . " +".$days."days");
                         $end_date_case = date('Y-m-d',$end_date_case);
 
-                        if( $project->regular_header == 1){
+                        if( $project->regular_header == 1)
+                        {
                           if($end_date_case < date('Y-m-d'))
                            {
 
@@ -132,18 +133,25 @@
                             $this->db->update(db_prefix() . 'my_cases', [
                             'regular_header' => 0,
                              ]);
-                           }
-                         else { ?>
-                             <div class="alert alert-warning" font-medium="">
+                            }
+
+                              if($project->dur_alert_close < date('Y-m-d')){ ?>
+                                     <div  id="alert_dur_div" class="alert alert-warning" font-medium="">
+                                 <button type="button"  id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
+                                     <span aria-hidden="true">×</span>
+                                 </button>
+
                                  <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
                                  <hr class="hr-10">
-                                 <?php echo _l('remember that') ?> <b><?php echo $dur_name ?></b>
-                                 <?php echo _l('which started at') ?>
-                                 <b> <?php echo $duration_date ?> </b>
-                                 <?php echo _l('will end at') ?><b><?php echo $end_date_case ;?></b>
-                             </div>
+                                <?php echo _l('remember that') ?> <b><?php echo $dur_name ?></b>
+                                <?php echo _l('which started at') ?>
+                                <b> <?php echo $duration_date ?> </b>
+                              <?php echo _l('will end at') ?><b><?php echo $end_date_case ;?></b>
+                               </div>
 
-                         <?php } ?>
+                              <?php } ?>
+
+
                           <?php // if(has_permission('tasks','','create')) {?>
 
                         <?php // } ?>
@@ -501,7 +509,8 @@ echo form_hidden('project_percent',$percent);
         }
     }
 
-    $("#add_task_timesheet").click(function () {
+    $("#add_task_timesheet").click(function ()
+    {
         name = $('#task_name_timesheet').val();
         startdate = $('#task_startdate_timesheet').val();
         rel_id = <?php echo $project->id; ?>;
@@ -540,6 +549,24 @@ echo form_hidden('project_percent',$percent);
         var milestone_id = $(this).parents('.milestone-column').data('col-status-id');
         new_task(admin_url + 'tasks/task?rel_type=<?php echo $service->slug; ?>&rel_id=' + project_id + '&milestone_id=' + milestone_id);
         $('body [data-toggle="popover"]').popover('hide');
+    });
+
+
+
+</script>
+<script>
+    $("#close_alert_button").click(function ()
+    {
+        var id = '<?php echo $project->id;?>';
+
+
+        $('#alert_dur_div').hide();
+        $.ajax({
+            url: '<?php echo admin_url('legalservices/Regular_durations/dur_alert_close/'); ?>'  + id,
+
+
+        });
+
     });
 </script>
 </body>

@@ -1165,13 +1165,13 @@ class Cron_model extends App_Model
                 // if ($diff2 <= $reminder_before && $start_and_end_date_diff2 > $reminder_before) {
                 $this->db->where('project_id', $case2['id']);
                 $assignees2 = $this->db->get(db_prefix() . 'my_members_cases')->result();
-                foreach ($assignees2 as $member) {
-                    $this->db->where('staffid',$member->staff_id);
+                foreach ($assignees2 as $member2) {
+                    $this->db->where('staffid',$member2->staff_id);
                     $row2 = $this->db->get(db_prefix() . 'staff')->row();
                     if ($row2) {
                         $notified = add_notification([
                             'description'     => 'not_case_deadline_reminder',
-                            'touserid'        => $member->staff_id,
+                            'touserid'        => $member2->staff_id,
                             'fromcompany'     => 1,
                             'fromuserid'      => null,
                             'link'            => 'legalservices/cases/view/1/' . $case2['id'],
@@ -1180,7 +1180,7 @@ class Cron_model extends App_Model
                         ]);
 
                         if ($notified) {
-                            array_push($notifiedUsers, $member->staff_id);
+                            array_push($notifiedUsers, $member2->staff_id);
                         }
                         send_mail_template('regular_duration_deadline_notification', $row2->email,$member->staff_id,$case2['id']);
                         $this->db->where('id', $case2['id']);

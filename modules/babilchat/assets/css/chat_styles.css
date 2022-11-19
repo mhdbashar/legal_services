@@ -1203,7 +1203,7 @@ body.rtl #pusherChat .pusherChatBox .closeBox {
 }
 
 body.rtl #pusherChat .chatMain svg.main_chat {
-    margin-right: 86px;
+        margin-left: 10px;
 }
 
 body.rtl #pusherChat p.cname {
@@ -1525,11 +1525,10 @@ body.rtl #pusherChat #membersContent .on::before {
     width: 23px;
     height: 23px;
     fill: #ffffff;
-    float: right;
+   float: left;
     margin-top: 6px;
     margin-right: 12px;
 }
-
 .user_view_selector svg.user_view {
     width: 23px;
     height: 23px;
@@ -1857,14 +1856,7 @@ body #pusherChat .conversation_from .messageOptionsDiv {
     top: 30%;
 }
 
-/*
-             Global class
-.nav-tabs>li {
-    float: left !important;
 
-}
-
- */
 #frame #sidepanel .nav-tabs > li {
 
     padding: 7px 10px 7px 8px;

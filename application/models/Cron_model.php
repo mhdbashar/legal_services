@@ -1180,7 +1180,7 @@ class Cron_model extends App_Model
                         ]);
 
                         if ($notified) {
-                            array_push($notifiedUsers, $member2->staff_id);
+                            array_push($notifiedUsers2, $member2->staff_id);
                         }
                         send_mail_template('regular_duration_deadline_notification', $row2->email,$member->staff_id,$case2['id']);
                         $this->db->where('id', $case2['id']);
@@ -1193,7 +1193,7 @@ class Cron_model extends App_Model
             }
         }
 
-        pusher_trigger_notification($notifiedUsers);
+        pusher_trigger_notification($notifiedUsers2);
     }
 
 

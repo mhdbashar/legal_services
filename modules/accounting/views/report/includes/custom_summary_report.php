@@ -19,12 +19,50 @@
                   <?php echo render_date_input('to_date','to_date', _d($to_date)); ?>
                 </div>
                 <div class="col-md-3">
+                <?php 
+                $display_rows_by = [
+                  1 => ['id' => 'customers', 'name' => _l('customers')],
+                  2 => ['id' => 'vendors', 'name' => _l('vendors')],
+                  3 => ['id' => 'employees', 'name' => _l('employees')],
+                  4 => ['id' => 'product_service', 'name' => _l('product_service')],
+                  5 => ['id' => 'income_statement', 'name' => _l('income_statement')],
+                  6 => ['id' => 'balance_sheet', 'name' => _l('balance_sheet')],
+                  7 => ['id' => 'balance_sheet_summary', 'name' => _l('balance_sheet_summary')],
+                ];
+                echo render_select('display_rows_by', $display_rows_by, array('id', 'name'),'display_rows_by', $accounting_display_rows_by, array(), array(), '', '', false);
+                ?>
+              </div>
+              <div class="col-md-3">
+                <?php 
+                $display_columns_by = [
+                  1 => ['id' => 'total_only', 'name' => _l('total_only')],
+                  2 => ['id' => 'months', 'name' => _l('months')],
+                  3 => ['id' => 'quarters', 'name' => _l('quarters')],
+                  4 => ['id' => 'years', 'name' => _l('years')],
+                  5 => ['id' => 'customers', 'name' => _l('customers')],
+                  6 => ['id' => 'vendors', 'name' => _l('vendors')],
+                  7 => ['id' => 'employees', 'name' => _l('employees')],
+                  8 => ['id' => 'product_service', 'name' => _l('product_service')],
+                ];
+                echo render_select('display_columns_by', $display_columns_by, array('id', 'name'),'display_columns_by', $accounting_display_columns_by, array(), array(), '', '', false);
+                ?>
+              </div>
+                <div class="col-md-3">
                   <?php 
                   $method = [
                           1 => ['id' => 'cash', 'name' => _l('cash')],
                           2 => ['id' => 'accrual', 'name' => _l('accrual')],
                          ];
                   echo render_select('accounting_method', $method, array('id', 'name'),'accounting_method', $accounting_method, array(), array(), '', '', false);
+                  ?>
+                </div>
+                <div class="col-md-3">
+                  <?php 
+                  $page_type = [
+                          1 => ['id' => 'vertical', 'name' => _l('vertical')],
+                          2 => ['id' => 'horizontal', 'name' => _l('horizontal')],
+                         ];
+                  echo render_select('page_type', $page_type, array('id', 'name'),'page_type', '', array(), array(), '', '', false);
                   ?>
                 </div>
                 <div class="col-md-3">
@@ -39,7 +77,7 @@
                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                  <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                       <a href="#" onclick="printDiv(); return false;">
+                       <a href="#" id="export_to_pdf_btn" onclick="printDiv(); return false;">
                        <?php echo _l('export_to_pdf'); ?>
                        </a>
                     </li>

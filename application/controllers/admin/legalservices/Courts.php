@@ -48,7 +48,18 @@ class Courts extends AdminController
             access_denied('courts');
         }
         $data = $this->input->post();
-        echo $this->court->add_court_new($data);
+        if(isset($data['cat_id'])) {
+            $cat = json_decode($data['cat_id']);
+            unset($data['cat_id']);
+        }else
+            $cat = [];
+        $added = $this->court->add_court_new($data);
+        if ($added) {
+            foreach ($cat as $id){
+                $this->db->insert(db_prefix() . 'my_courts_categories' , ['c_id' => "$added" , 'cat_id' => $id] );
+            }
+            echo $added;
+        }
     }
 	
 	public function add_new_court()
@@ -57,12 +68,21 @@ class Courts extends AdminController
             access_denied('courts');
         }
         if ($this->input->post()) {        	
-            $data = $this->input->post();                              
+            $data = $this->input->post();
+            if(isset($data['cat_id'])) {
+                $cat = $data['cat_id'];
+                unset($data['cat_id']);
+            }else
+                $cat = [];
             $added = $this->court->add_court_new($data);
             if ($added) {
+                foreach ($cat as $id) {
+                    $this->db->insert(db_prefix() . 'my_courts_categories', ['c_id' => "$added", 'cat_id' => $id]);
+                }
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url('courts'));
-            }         
+            }
+
         }    			
         $data['title']  = _l('NewCourt');	
         $this->load->view('admin/legalservices/courts/add_courts',$data);
@@ -109,11 +129,21 @@ class Courts extends AdminController
             redirect(admin_url('courts'));
         }			        
 		if ($this->input->post()) {        	
-            $data = $this->input->post();                              
+            $data = $this->input->post();
+            if(isset($data['cat_id'])) {
+                $cat = $data['cat_id'];
+                unset($data['cat_id']);
+            }else
+                $cat = [];
             $success = $this->court->update_court_data($id,$data);
+            $this->db->where('c_id', $id);
+            $this->db->delete(db_prefix() . 'my_courts_categories');
+            foreach ($cat as $cat_id) {
+                $this->db->insert(db_prefix() . 'my_courts_categories', ['c_id' => "$id", 'cat_id' => $cat_id]);
+            }
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('Court')));
-				redirect(admin_url('courts'));                
+				redirect(admin_url('courts'));
             }else {
             	set_alert('warning', _l('problem_updating', _l('Court')));
 				redirect(admin_url('courts'));
@@ -158,6 +188,8 @@ class Courts extends AdminController
         }
         $response = $this->court->delete_court($id);
         if ($response == true) {
+            $this->db->where('c_id', $id);
+            $this->db->delete(db_prefix() . 'my_courts_categories');
             set_alert('success', _l('deleted', _l('Court')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('Court')));
@@ -181,5 +213,95 @@ class Courts extends AdminController
         }
         redirect(admin_url("judicial_control/$c_id"));
     }
-	
+    public function build_dropdown_category_by_country() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        if($categories != 0) {
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            foreach ($categories as $category) {
+                $output .= '<div class="checkbox checkbox-primary">' .
+                    '<input type="checkbox" id="cat_' . $category['id'] . '" name="cat_id[]" value="' . $category['id'] . '">' .
+                    '<label for="cat_' . $category['id'] . '">' . $category['name'] . '</label>' .
+                    '</div>';
+            }
+            $output .= '</div>';
+        }else{
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            $output .= '</div>';
+        }
+        echo $output;
+    }
+    public function build_dropdown_edit_category() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $category = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        $this->db->where('c_id', $data['c_id']);
+        $courts_cat = $this->db->get(db_prefix() . 'my_courts_categories')->result_array();
+        $output = '<div class="form-group">';
+        $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+        foreach($category as $cat){
+            $output .= '<div class="checkbox checkbox-primary">';
+            $checked = '';
+            foreach($courts_cat as $court){
+                if($court['cat_id'] == $cat['id']) {
+                    $checked = ' checked';
+                }
+            }
+            $output .=
+                '<input type="checkbox" id="cat_' . $cat['id'] . '" name="cat_id[]" value="' . $cat['id'] . '"'.$checked.'>' .
+                '<label for="cat_' . $cat['id'] . '">' . $cat['name'] . '</label>' .
+                '</div>';
+        }
+        $output .= '</div>';
+        echo $output;
+    }
+    public function build_dropdown_court_category() {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->db->where('c_id', $data['c_id']);
+            $c_cat = $this->db->get(db_prefix() . 'my_courts_categories')->result_array();
+            $category = [];
+            foreach ($c_cat as $cat) {
+                $this->db->where('id', $cat['cat_id']);
+                $category[] = $this->db->get(db_prefix() . 'my_categories')->row();
+            }
+            echo json_encode($category);
+            die();
+        }
+
+    }
+    public function build_dropdown_category_for_modal_case() {
+        $data = $this->input->post();
+        $this->db->where('parent_id', 0);
+        $this->db->where('country', $data['country']);
+        $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
+        if($categories != 0) {
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            foreach ($categories as $category) {
+                $output .= '<div class="checkbox checkbox-primary">' .
+                    '<input type="checkbox" id="cat_' . $category['id'] . '" name="modal_cat_id" value="' . $category['id'] . '">' .
+                    '<label for="cat_' . $category['id'] . '">' . $category['name'] . '</label>' .
+                    '</div>';
+            }
+            $output .= '</div>';
+        }else{
+            $output = '<div class="form-group">';
+            $output .= '<label for="cat_id">' . _l('Categories') . '</label>';
+            $output .= '</div>';
+        }
+        echo $output;
+    }
+    public function build_dropdown_courts() {
+        $data = $this->input->post();
+        $corts = $this->court->get_courts_by_country_city($data)->result_array();
+        echo json_encode($corts);
+        die();
+    }
+
 }

@@ -296,7 +296,7 @@ body #frame #no_messages {
 #frame .history_slider {
     float: left;
     position: absolute;
-    left: 6px;
+    right: 6px;
 }
 
 #frame #sidepanel #contacts {
@@ -3897,4 +3897,17 @@ body .staffList::-webkit-scrollbar {
 body .staffList::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     border: 1px solid #b7bec5;
+}
+#frame #sidepanel #profile .wrap #status-options ul li {
+    padding: 15px 11px 30px 43px;
+
+}
+.rtl #frame #sidepanel #profile .wrap p {
+    float: right;
+    margin-right: 16px;
+    font-weight: 500;
+}
+#forwardToModal ul.groupsList li button {
+
+    float: left !important;
 }

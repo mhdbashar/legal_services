@@ -158,7 +158,7 @@ class Invoice_merge_fields extends App_merge_fields
                 ],
                 [
                     'name'      => 'Project name',
-                    'key'       => '{project_name}',
+                    'key'       => '{service_name}',
                     'available' => [
                         'invoice',
                         'dispute'

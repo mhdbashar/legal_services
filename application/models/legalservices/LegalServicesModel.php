@@ -48,10 +48,13 @@ class LegalServicesModel extends App_Model
 
     public function CheckExistRelatedServices($ServID,$CatID)
     {
-        if($ServID == 1)
-        return $this->db->get_where('my_cases', array('cat_id' => $CatID))->num_rows();
-        else
-        return $this->db->get_where('my_other_services', array('cat_id' => $CatID))->num_rows();
+        if($ServID == 1) {
+            return $this->db->get_where('my_cases', array('cat_id' => $CatID))->num_rows();
+        }elseif ($ServID == 22){
+            return $this->db->get_where('my_disputes_cases', array('cat_id' => $CatID))->num_rows();
+        }else {
+            return $this->db->get_where('my_other_services', array('cat_id' => $CatID))->num_rows();
+        }
     }
 
     public function ActivePrimary($ServID)

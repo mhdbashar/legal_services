@@ -40,6 +40,10 @@
         <a href="#daily_agenda" aria-controls="daily_agenda" role="tab"
            data-toggle="tab"><?php echo _l('daily_agenda'); ?></a>
     </li>
+    <li role="presentation">
+        <a href="#regular_durations" aria-controls="regular_durations" role="tab"
+           data-toggle="tab"><?php echo _l('regular_durations'); ?></a>
+    </li>
     </li>
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 </ul>
@@ -151,6 +155,11 @@
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
            data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
         <?php echo render_input('settings[procurations_reminder_notification_before]', 'procurations_reminder_notification_before', get_option('procurations_reminder_notification_before'), 'number'); ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="regular_durations">
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
+           data-title="<?php echo _l('regular_durations_reminder_notification_before_help'); ?>"></i>
+        <?php echo render_input('settings[regular_durations_reminder_notification_before]', 'regular_durations_reminder_notification_before_help', get_option('regular_durations_reminder_notification_before'), 'number'); ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="contracts">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"

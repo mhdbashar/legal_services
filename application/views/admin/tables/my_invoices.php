@@ -154,7 +154,7 @@ foreach ($rResult as $aRow) {
     $numberOutput .= '<div class="row-options">';
 
     $numberOutput .= '<a href="' . site_url('invoice/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
-    if (has_permission('invoices', '', 'edit') && $this->ci->invoices_model->is_draft($aRow['id'])) {
+    if (has_permission('invoices', '', 'edit') && ($this->ci->invoices_model->is_draft($aRow['id']) || !get_option('saudi_vat'))) {
         $numberOutput .= ' | <a href="' . admin_url('invoices/invoice/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
     $numberOutput .= '</div>';
@@ -193,6 +193,8 @@ foreach ($rResult as $aRow) {
             $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
             if($ServID == 1){
                 $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+            }elseif ($ServID == 22){
+                $row[] = '<a href="' . admin_url('Disputes_cases/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_disputes_case_name_by_id($aRow['rel_sid']) . '</a>';
             }else{
                 $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
             }

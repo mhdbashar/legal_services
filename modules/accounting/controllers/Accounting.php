@@ -8,6 +8,7 @@ class Accounting extends AdminController
     {
         parent::__construct();
         $this->load->model('accounting_model');
+//        hooks()->do_action('accounting_init');
         if(get_option('acc_add_default_account') == 0){
             $this->accounting_model->add_default_account();
         }
@@ -38,7 +39,7 @@ class Accounting extends AdminController
         
 
         $data['group'] = $this->input->get('group');
-        $data['tab'][] = 'banking';
+        //$data['tab'][] = 'banking';
         $data['tab'][] = 'sales';
         $data['tab'][] = 'expenses';
         if(acc_get_status_modules('hr_payroll')){
@@ -747,6 +748,7 @@ class Accounting extends AdminController
         $data['tab'][] = 'banking_rules';
         $data['tab'][] = 'mapping_setup';
         $data['tab'][] = 'account_type_details';
+        $data['tab'][] = 'plaid_environment';
         
         $data['tab_2'] = $this->input->get('tab');
         if ($data['group'] == '') {
@@ -986,7 +988,7 @@ class Accounting extends AdminController
                 $row[] = $_data;
                 
                 $options = '';
-                if(in_array($aRow['account_type_id'], $array_history)){
+                if(true){
                     $options = icon_btn(admin_url('accounting/rp_account_history?account='.$aRow['id']), 'history', 'btn-default', [
                         'title' => _l('account_history'),
                     ]);
@@ -1299,10 +1301,9 @@ class Accounting extends AdminController
                 $deposit_to = get_option('acc_invoice_deposit_to');
 
                 $html .= '<h4>'._l('list_of_items').'</h4>';
-
                 foreach ($invoice->items as $value) {
                     $item = $this->accounting_model->get_item_by_name($value['description']);
-                    $item_id = 0;
+                    $item_id = '-1';
                     if(isset($item->id)){
                         $item_id = $item->id;
                     }
@@ -1310,9 +1311,8 @@ class Accounting extends AdminController
 
                     $this->db->where('rel_id', $id);
                     $this->db->where('rel_type', $type);
-                    $this->db->where('item', $item_id);
+                    $this->db->where('(itemable_id = '.$value['id'].' or item = '.$item_id.')');
                     $account_history = $this->db->get(db_prefix(). 'acc_account_history')->result_array();
-                    
                     foreach ($account_history as $key => $val) {
                         if($val['debit'] > 0){
                             $debit = $val['account'];
@@ -1328,12 +1328,12 @@ class Accounting extends AdminController
                         <div class="div_content">
                         <h5>'.$value['description'].'</h5>
                         <div class="row">
-                                '.form_hidden('item_amount['.$item_id.']', $value['qty'] * $value['rate']).'
+                                '.form_hidden('item_amount['.$value['id'].']', $value['qty'] * $value['rate']).'
                               <div class="col-md-6"> '.
-                                render_select('payment_account['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'payment_account',$credit,array(),array(),'','',false) .'
+                                render_select('payment_account['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'payment_account',$credit,array(),array(),'','',false) .'
                               </div>
                               <div class="col-md-6">
-                                '. render_select('deposit_to['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$debit,array(),array(),'','',false).'
+                                '. render_select('deposit_to['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$debit,array(),array(),'','',false).'
                               </div>
                           </div>
                         </div>';
@@ -1345,12 +1345,12 @@ class Accounting extends AdminController
                             <div class="div_content">
                                 <h5>'.$value['description'].'</h5>
                                 <div class="row">
-                                '.form_hidden('item_amount['.$item_id.']', $value['qty'] * $value['rate']).'
+                                '.form_hidden('item_amount['.$value['id'].']', $value['qty'] * $value['rate']).'
                                   <div class="col-md-6"> '.
-                                    render_select('payment_account['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'payment_account',$item_automatic->income_account,array(),array(),'','',false) .'
+                                    render_select('payment_account['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'payment_account',$item_automatic->income_account,array(),array(),'','',false) .'
                                   </div>
                                   <div class="col-md-6">
-                                    '. render_select('deposit_to['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$deposit_to,array(),array(),'','',false).'
+                                    '. render_select('deposit_to['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$deposit_to,array(),array(),'','',false).'
                                   </div>
                               </div>
                             </div>';
@@ -1360,12 +1360,12 @@ class Accounting extends AdminController
                             <div class="div_content">
                                 <h5>'.$value['description'].'</h5>
                                 <div class="row">
-                                '.form_hidden('item_amount['.$item_id.']', $value['qty'] * $value['rate']).'
+                                '.form_hidden('item_amount['.$value['id'].']', $value['qty'] * $value['rate']).'
                                   <div class="col-md-6"> '.
-                                    render_select('payment_account['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'payment_account',$payment_account,array(),array(),'','',false) .'
+                                    render_select('payment_account['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'payment_account',$payment_account,array(),array(),'','',false) .'
                                   </div>
                                   <div class="col-md-6">
-                                    '. render_select('deposit_to['.$item_id.']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$deposit_to,array(),array(),'','',false).'
+                                    '. render_select('deposit_to['.$value['id'].']',$accounts,array('id','name', 'account_type_name'),'deposit_to',$deposit_to,array(),array(),'','',false).'
                                   </div>
                               </div>
                             </div>';
@@ -2229,9 +2229,8 @@ class Accounting extends AdminController
 
         $this->db->where('rel_id', $id);
         $this->db->where('rel_type', $type);
-        $this->db->where('tax', 0);
+        $this->db->where('(tax = 0 or tax is null)');
         $account_history = $this->db->get(db_prefix(). 'acc_account_history')->result_array();
-        
         foreach ($account_history as $key => $value) {
             if($value['debit'] > 0){
                 $debit = $value['account'];
@@ -2572,7 +2571,7 @@ class Accounting extends AdminController
         $success = $this->accounting_model->delete_journal_entry($id);
         $message = '';
         if ($success) {
-            $message = _l('deleted');
+            $message = _l('deleted', _l('journal_entry'));
             set_alert('success', $message);
         } else {
             $message = _l('can_not_delete');
@@ -2672,6 +2671,8 @@ class Accounting extends AdminController
         $data['title'] = _l('custom_summary_report');
         $data['from_date'] = date('Y-01-01');
         $data['to_date'] = date('Y-m-d');
+        $data['accounting_display_rows_by'] = '';
+        $data['accounting_display_columns_by'] = '';
         $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/custom_summary_report', $data);
@@ -2838,7 +2839,7 @@ class Accounting extends AdminController
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
-        $data['accounts'] = $this->accounting_model->get_accounts('', 'find_in_set(account_type_id, "2,3,4,5,7,8,9,10")');
+        $data['accounts'] = $this->accounting_model->get_accounts();
         $this->load->view('report/includes/account_history', $data);
     }
     
@@ -3056,7 +3057,10 @@ class Accounting extends AdminController
                             $value_deposits     = isset($data[$row][$arr_header['deposits']]) ? $data[$row][$arr_header['deposits']] : '' ;
                             $value_payee    = isset($data[$row][$arr_header['payee']]) ? $data[$row][$arr_header['payee']] : '' ;
                             $value_description   = isset($data[$row][$arr_header['description']]) ? $data[$row][$arr_header['description']] : '' ;
-                            
+                            if(is_numeric($value_date)){
+                                $value_date = $this->accounting_model->convert_excel_date($value_date);
+                            }
+
                             $reg_day = '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/'; /*yyyy-mm-dd*/
 
                             if(is_null($value_date) != true){
@@ -3665,7 +3669,7 @@ class Accounting extends AdminController
         $success = $this->accounting_model->delete_rule($id);
         $message = '';
         if ($success) {
-            $message = _l('deleted');
+            $message = _l('deleted', _l('rule'));
             set_alert('success', $message);
         } else {
             $message = _l('can_not_delete');
@@ -3699,7 +3703,48 @@ class Accounting extends AdminController
                     $data['data_report'] = $this->accounting_model->get_data_balance_sheet_summary($data_filter);
                 break;
             case 'custom_summary_report':
-                    $data['data_report'] = $this->accounting_model->get_data_custom_summary_report($data_filter);
+                    switch ($data_filter['display_rows_by']) {
+                        case 'customers':
+                            $data_filter['type'] = 'custom_summary_report_by_customer';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_customer($data_filter);
+                            break;
+
+                        case 'vendors':
+                            $data_filter['type'] = 'custom_summary_report_by_vendors';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_vendors($data_filter);
+                            break;
+
+                        case 'employees':
+                            $data_filter['type'] = 'custom_summary_report_by_employees';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_employees($data_filter);
+                            break;
+
+                        case 'product_service':
+                            $data_filter['type'] = 'custom_summary_report_by_product_service';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_product_service($data_filter);
+                            break;
+
+                        case 'income_statement':
+                            $data_filter['type'] = 'custom_summary_report_by_income_statement';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_income_statement($data_filter);
+                            break;
+
+                        case 'balance_sheet':
+                            $data_filter['type'] = 'custom_summary_report_by_balance_sheet';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_balance_sheet($data_filter);
+                            break;
+
+                        case 'balance_sheet_summary':
+                            $data_filter['type'] = 'custom_summary_report_by_balance_sheet_summary';
+                            $data['data_report'] = $this->accounting_model->get_data_custom_summary_report_by_balance_sheet($data_filter);
+                            break;
+
+                        default:
+                            // code...
+                            break;
+                    }
+                    
+                    
                 break;
             case 'profit_and_loss_as_of_total_income':
                     $data['data_report'] = $this->accounting_model->get_data_profit_and_loss_as_of_total_income($data_filter);
@@ -3794,10 +3839,22 @@ class Accounting extends AdminController
             case 'profit_and_loss_budget_vs_actual':
                     $data['data_report'] = $this->accounting_model->get_data_profit_and_loss_budget_vs_actual($data_filter);
                 break;
+            case 'bank_reconciliation_summary':
+                    $data['data_report'] = $this->accounting_model->get_data_bank_reconciliation_summary($data_filter);
+                break;
+            case 'bank_reconciliation_detail':
+                    $data['data_report'] = $this->accounting_model->get_data_bank_reconciliation_detail($data_filter);
+                break;
             default:
                 break;
         }
-
+        $account_name = '';
+        $this->db->where('id', $this->input->post('account'));
+        $account = $this->db->get(db_prefix() . 'acc_accounts')->row();
+        if(is_object($account)){
+            $account_name = _l($account->key_name);
+        }
+        $data['account_name'] = $account_name;
         $this->load->view('report/details/'.$data_filter['type'], $data);
     }
 
@@ -3826,7 +3883,6 @@ class Accounting extends AdminController
             access_denied('accounting_setting');
         }
 
-        $data = $this->input->post();
         $success = $this->accounting_model->reset_data();
         if($success == true){
             $message = _l('reset_data_successfully');
@@ -6040,7 +6096,7 @@ class Accounting extends AdminController
                 '(select count(*) from ' . db_prefix() . 'acc_account_history where ' . db_prefix() . 'acc_account_history.rel_id = ' . db_prefix() . 'pur_invoice_payment.id and ' . db_prefix() . 'acc_account_history.rel_type = "purchase_payment") as count_account_historys'
             ];
             $where = [];
-            array_push($where, 'AND (' . db_prefix() . 'pur_invoices.pur_order is not null)');
+            //array_push($where, 'AND (' . db_prefix() . 'pur_invoices.pur_order is not null)');
             
             if ($this->input->post('status')) {
                 $status = $this->input->post('status');
@@ -6473,5 +6529,2611 @@ class Accounting extends AdminController
         $data['budgets'] = $this->accounting_model->get_budgets('', 'type = "profit_and_loss_accounts"');
         
         $this->load->view('report/includes/profit_and_loss_budget_vs_actual', $data);
+    }
+
+    /**
+     * delete budget
+     * @param  integer $id
+     * @return
+     */
+    public function delete_budget($id)
+    {
+        if (!has_permission('accounting_budget', '', 'delete')) {
+            access_denied('accounting_budget');
+        }
+        $success = $this->accounting_model->delete_budget($id);
+        $message = '';
+        if ($success) {
+            $message = _l('deleted', _l('budget'));
+        } else {
+            $message = _l('can_not_delete');
+        }
+
+        echo json_encode(['success' => $success, 'message' => $message]);
+        die();
+    }
+
+    /**
+     * { accounts import }
+     */
+    public function accounts_import(){
+        if (!has_permission('accounting_chart_of_accounts', '', 'create')) {
+            access_denied('chart_of_accounts');
+        }
+
+        $this->load->model('staff_model');
+        $data_staff = $this->staff_model->get(get_staff_user_id());
+
+        /*get language active*/
+        if ($data_staff) {
+            if ($data_staff->default_language != '') {
+                $data['active_language'] = $data_staff->default_language;
+
+            } else {
+
+                $data['active_language'] = get_option('active_language');
+            }
+
+        } else {
+            $data['active_language'] = get_option('active_language');
+        }
+        $data['title'] = _l('import_excel');
+
+        $this->load->view('chart_of_accounts/import_excel', $data);
+    }
+
+    /**
+     * import file xlsx banking
+     * @return json
+     */
+    public function import_file_xlsx_account() {
+        if (!class_exists('XLSXReader_fin')) {
+            require_once module_dir_path(ACCOUNTING_MODULE_NAME) . 'assets/plugins/XLSXReader/XLSXReader.php';
+        }
+        require_once module_dir_path(ACCOUNTING_MODULE_NAME) . 'assets/plugins/XLSXWriter/xlsxwriter.class.php';
+
+        $filename = '';
+        $account_types = $this->accounting_model->get_account_types();
+        if ($this->input->post()) {
+            if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+                $this->delete_error_file_day_before(1, ACCOUTING_IMPORT_ITEM_ERROR);
+
+                // Get the temp file path
+                $tmpFilePath = $_FILES['file_csv']['tmp_name'];
+                // Make sure we have a filepath
+                if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                    $rows = [];
+                    $arr_insert = [];
+
+                    $tmpDir = TEMP_FOLDER . '/' . time() . uniqid() . '/';
+
+                    if (!file_exists(TEMP_FOLDER)) {
+                        mkdir(TEMP_FOLDER, 0755);
+                    }
+
+                    if (!file_exists($tmpDir)) {
+                        mkdir($tmpDir, 0755);
+                    }
+
+                    // Setup our new file path
+                    $newFilePath = $tmpDir . $_FILES['file_csv']['name'];
+
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+
+                        $accounts = $this->accounting_model->get_accounts();
+
+                        $account_name = [];
+                        foreach($accounts as $account){
+                            $_name = '';
+                            if ($account['name'] == '') {
+                                $_name .= _l($account['key_name']);
+                            } else {
+                                $_name .= $account['name'];
+                            }
+                            $account_name[trim($_name)] = $account['id'];
+                        }
+
+
+                        //Writer file
+                        $writer_header = array(
+                            _l('type') => 'string',
+                            _l('sub_type') => 'string',
+                            _l('account_code') => 'string',
+                            _l('account_name') => 'string',
+                            _l('sub_account_of') => 'string',
+                            _l('error') => 'string',
+                        );
+
+                        $rowstyle[] = array('widths' => [10, 20, 30, 40]);
+
+                        $writer = new XLSXWriter();
+                        $writer->writeSheetHeader('Sheet1', $writer_header, $col_options = ['widths' => [40, 40, 40, 40, 50, 50]]);
+
+                        //Reader file
+                        $xlsx = new XLSXReader_fin($newFilePath);
+                        $sheetNames = $xlsx->getSheetNames();
+                        $data = $xlsx->getSheetData(array_shift($sheetNames));
+
+                        $arr_header = [];
+
+                        $arr_header['type'] = 0;
+                        $arr_header['sub_type'] = 1;
+                        $arr_header['account_code'] = 2;
+                        $arr_header['account_name'] = 3;
+                        $arr_header['sub_account_of'] = 4;
+
+                        $total_rows = 0;
+                        $total_row_false = 0;
+
+                        $check_arr = [];
+                        $check_arr_account_name = [];
+
+                        for($row_check = 1; $row_check < count($data); $row_check++){
+                            $sub_account_of = isset($data[$row_check][$arr_header['sub_account_of']]) ? $data[$row_check][$arr_header['sub_account_of']] : '';
+
+                            if((is_null($sub_account_of) == true || $sub_account_of == '') && isset($data[$row_check][$arr_header['account_name']])){
+                                $check_arr[] = $data[$row_check];
+                                $check_arr_account_name[] = $data[$row_check][$arr_header['account_name']];
+                            }
+                        }
+
+
+                        for ($row = 1; $row < count($data); $row++) {
+
+                            $total_rows++;
+
+                            $rd = array();
+                            $flag = 0;
+                            $flag2 = 0;
+
+                            $string_error = '';
+                            $flag_position_group;
+                            $flag_department = null;
+
+                            $value_type = isset($data[$row][$arr_header['type']]) ? $data[$row][$arr_header['type']] : '';
+                            $value_sub_type = isset($data[$row][$arr_header['sub_type']]) ? $data[$row][$arr_header['sub_type']] : '';
+                            $value_account_code = isset($data[$row][$arr_header['account_code']]) ? $data[$row][$arr_header['account_code']] : '';
+                            $value_account_name = isset($data[$row][$arr_header['account_name']]) ? $data[$row][$arr_header['account_name']] : '';
+                            $value_sub_account_of = isset($data[$row][$arr_header['sub_account_of']]) ? $data[$row][$arr_header['sub_account_of']] : '';
+
+                            $reg_day = '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/'; /*yyyy-mm-dd*/
+
+                            if (is_null($value_type) != true) {
+                                if(is_numeric($value_type)){
+                                    if(get_account_type_by_id($value_type) == false){
+                                        $string_error .= _l('type') .' '. _l('invalid').' ';
+                                        $flag = 1;
+                                    }else{
+                                        $value_type = get_account_type_by_id($value_type);
+                                    }
+                                }else{
+                                    if(get_account_type_by_name($value_type) == false){
+                                        $string_error .= _l('type') .' '. _l('invalid').' ';
+                                        $flag = 1;
+                                    }else{
+                                        $value_type = get_account_type_by_name($value_type);
+                                    }
+                                }
+                            }
+
+                            if (is_null($value_sub_type) != true) {
+                                if(is_numeric($value_sub_type)){
+                                    if(get_account_sub_type_by_id($value_sub_type) == false){
+                                        $string_error .= _l('sub_type') .' '. _l('invalid').' ';
+                                        $flag = 1;
+                                    }else{
+                                        $value_sub_type = get_account_sub_type_by_id($value_sub_type);
+                                    }
+                                }else{
+                                    if(get_account_sub_type_by_name($value_sub_type) == false){
+                                        $string_error .= _l('sub_type') .' '. _l('invalid').' ';
+                                        $flag = 1;
+                                    }else{
+                                        $value_sub_type = get_account_sub_type_by_name($value_sub_type);
+                                    }
+                                }
+                            }
+
+                            if (is_null($value_account_name) == true || $value_account_name == '') {
+                                $string_error .= _l('account_name') .' '. _l('not_yet_entered').' ';
+                                $flag = 1;
+                            }
+
+                            if (is_null($value_sub_account_of) == false && $value_sub_account_of != '') {
+                                if(!in_array($value_sub_account_of, $check_arr_account_name)){
+                                    if(is_numeric($value_sub_account_of)){
+                                        if(get_account_by_id($value_sub_account_of) == false){
+                                            $string_error .= _l('sub_account_of') .' '. _l('invalid').' ';
+                                            $flag = 1;
+                                        }else{
+                                            $value_sub_account_of = get_account_by_id($value_sub_account_of);
+                                        }
+                                    }else{
+                                        if(!array_key_exists($value_sub_account_of, $account_name)){
+                                            if($string_error != ''){
+                                                $string_error .= ', ';
+                                            }
+                                            $string_error .= _l('sub_account_of') .' '. _l('invalid');
+                                            $flag = 1;
+                                        }else{
+                                            $value_sub_account_of = $account_name[$value_sub_account_of];
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (($flag == 1) || $flag2 == 1) {
+                                //write error file
+                                $writer->writeSheetRow('Sheet1', [
+                                    $value_type,
+                                    $value_sub_type,
+                                    $value_account_code,
+                                    $value_account_name,
+                                    $value_sub_account_of,
+                                    $string_error,
+                                ]);
+
+                                // $numRow++;
+                                $total_row_false++;
+                            }
+
+                            if ($flag == 0 && $flag2 == 0) {
+
+                                $rd['account_type_id'] = $value_type;
+                                $rd['account_detail_type_id'] = $value_sub_type;
+                                $rd['number'] = $value_account_code;
+                                $rd['name'] = $value_account_name;
+                                $rd['parent_account'] = $value_sub_account_of;
+                                $rd['active'] = 1;
+
+                                $rows[] = $rd;
+                                array_push($arr_insert, $rd);
+
+                            }
+
+                        }
+
+                        //insert batch
+                        if (count($arr_insert) > 0) {
+                            $this->accounting_model->insert_batch_account($arr_insert);
+                        }
+
+                        $total_rows = $total_rows;
+                        $total_row_success = isset($rows) ? count($rows) : 0;
+                        $dataerror = '';
+                        $message = 'Not enought rows for importing';
+
+                        if ($total_row_false != 0) {
+                            $filename = 'Import_account_error_' . get_staff_user_id() . '_' . strtotime(date('Y-m-d H:i:s')) . '.xlsx';
+                            $writer->writeToFile(str_replace($filename, ACCOUTING_IMPORT_ITEM_ERROR . $filename, $filename));
+                        }
+
+                    }
+                }
+            }
+        }
+
+        if (file_exists($newFilePath)) {
+            @unlink($newFilePath);
+        }
+
+        echo json_encode([
+            'message' => $message,
+            'total_row_success' => $total_row_success,
+            'total_row_false' => $total_row_false,
+            'total_rows' => $total_rows,
+            'site_url' => site_url(),
+            'staff_id' => get_staff_user_id(),
+            'filename' => ACCOUTING_IMPORT_ITEM_ERROR . $filename,
+        ]);
+    }
+
+    /**
+     * { budget import }
+     */
+    public function budget_import(){
+        if (!has_permission('accounting_budget', '', 'create')) {
+            access_denied('accounting_budget');
+        }
+
+        $this->load->model('staff_model');
+        $data_staff = $this->staff_model->get(get_staff_user_id());
+
+        /*get language active*/
+        if ($data_staff) {
+            if ($data_staff->default_language != '') {
+                $data['active_language'] = $data_staff->default_language;
+
+            } else {
+
+                $data['active_language'] = get_option('active_language');
+            }
+
+        } else {
+            $data['active_language'] = get_option('active_language');
+        }
+        $data['title'] = _l('import_excel');
+
+        $this->load->view('budget/import_excel', $data);
+    }
+
+    /**
+     * import file xlsx banking
+     * @return json
+     */
+    public function import_file_xlsx_budget() {
+        if (!class_exists('XLSXReader_fin')) {
+            require_once module_dir_path(ACCOUNTING_MODULE_NAME) . 'assets/plugins/XLSXReader/XLSXReader.php';
+        }
+        require_once module_dir_path(ACCOUNTING_MODULE_NAME) . 'assets/plugins/XLSXWriter/xlsxwriter.class.php';
+
+        $filename = '';
+
+        if ($this->input->post()) {
+            $year = $this->input->post('year');
+            $type = $this->input->post('type');
+            $name = $year.' - '. _l($type);
+
+            $import_type = $this->input->post('import_type');
+
+            $accounts = $this->accounting_model->get_accounts();
+
+            $data_return = [];
+
+            $account_name = [];
+            foreach($accounts as $account){
+                $_name = '';
+                if ($account['name'] == '') {
+                    $_name .= _l($account['key_name']);
+                } else {
+                    $_name .= $account['name'];
+                }
+                $account_name[trim($_name)] = $account['id'];
+            }
+
+
+            $this->db->where('year', $year);
+            $this->db->where('type', $type);
+            $budget = $this->db->get(db_prefix() . 'acc_budgets')->row();
+
+            if($budget){
+                if($name != $budget->name){
+                    $this->db->where('id', $budget->id);
+                    $this->db->update(db_prefix() . 'acc_budgets', ['name' => $name]);
+                }
+
+                $budget_id = $budget->id;
+            }else{
+                $this->db->insert(db_prefix() . 'acc_budgets', ['name' => $name, 'year' => $year, 'type' => $type]);
+                $budget_id = $this->db->insert_id();
+            }
+
+            if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+                $this->delete_error_file_day_before(1, ACCOUTING_IMPORT_ITEM_ERROR);
+
+                // Get the temp file path
+                $tmpFilePath = $_FILES['file_csv']['tmp_name'];
+                // Make sure we have a filepath
+                if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                    $rows = [];
+                    $arr_insert = [];
+
+                    $tmpDir = TEMP_FOLDER . '/' . time() . uniqid() . '/';
+
+                    if (!file_exists(TEMP_FOLDER)) {
+                        mkdir(TEMP_FOLDER, 0755);
+                    }
+
+                    if (!file_exists($tmpDir)) {
+                        mkdir($tmpDir, 0755);
+                    }
+
+                    // Setup our new file path
+                    $newFilePath = $tmpDir . $_FILES['file_csv']['name'];
+
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                        //Writer file
+                        
+                        if($import_type == 'month'){
+                            $writer_header = array(
+                                _l('acc_account') => 'string',
+                                _l('acc_month_1') => 'string',
+                                _l('acc_month_2') => 'string',
+                                _l('acc_month_3') => 'string',
+                                _l('acc_month_4') => 'string',
+                                _l('acc_month_5') => 'string',
+                                _l('acc_month_6') => 'string',
+                                _l('acc_month_7') => 'string',
+                                _l('acc_month_8') => 'string',
+                                _l('acc_month_9') => 'string',
+                                _l('acc_month_10') => 'string',
+                                _l('acc_month_11') => 'string',
+                                _l('acc_month_12') => 'string',
+                                _l('error') => 'string',
+                            );
+                        }elseif ($import_type == 'quarter') {
+                            $writer_header = array(
+                                _l('acc_account') => 'string',
+                                _l('quarter').' 1' => 'string',
+                                _l('quarter').' 2' => 'string',
+                                _l('quarter').' 3' => 'string',
+                                _l('quarter').' 4' => 'string',
+                                _l('error') => 'string',
+                            );
+                        }else{
+                            $writer_header = array(
+                                _l('acc_account') => 'string',
+                                _l('acc_amount') => 'string',
+                                _l('error') => 'string',
+                            );
+                        }
+
+
+                        $rowstyle[] = array('widths' => [10, 20, 30, 40]);
+
+                        $writer = new XLSXWriter();
+                        $writer->writeSheetHeader('Sheet1', $writer_header, $col_options = ['widths' => [40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]]);
+
+                        //Reader file
+                        $xlsx = new XLSXReader_fin($newFilePath);
+                        $sheetNames = $xlsx->getSheetNames();
+                        $data = $xlsx->getSheetData($sheetNames[1]);
+
+                        $arr_header = [];
+
+                        if($import_type == 'month'){
+                            $arr_header['account'] = 0;
+                            $arr_header['month_1'] = 1;
+                            $arr_header['month_2'] = 2;
+                            $arr_header['month_3'] = 3;
+                            $arr_header['month_4'] = 4;
+                            $arr_header['month_5'] = 5;
+                            $arr_header['month_6'] = 6;
+                            $arr_header['month_7'] = 7;
+                            $arr_header['month_8'] = 8;
+                            $arr_header['month_9'] = 9;
+                            $arr_header['month_10'] = 10;
+                            $arr_header['month_11'] = 11;
+                            $arr_header['month_12'] = 12;
+                        }elseif ($import_type == 'quarter') {
+                            $arr_header['account'] = 0;
+                            $arr_header['quarter_1'] = 1;
+                            $arr_header['quarter_2'] = 2;
+                            $arr_header['quarter_3'] = 3;
+                            $arr_header['quarter_4'] = 4;
+                        }else{
+                            $arr_header['account'] = 0;
+                            $arr_header['amount'] = 1;
+                        }
+
+
+                        $total_rows = 0;
+                        $total_row_false = 0;
+
+                        for ($row = 1; $row < count($data); $row++) {
+
+                            $total_rows++;
+
+                            $rd = array();
+                            $flag = 0;
+                            $flag2 = 0;
+
+                            $string_error = '';
+
+
+                            if($import_type == 'month'){
+                                $value_account = isset($data[$row][$arr_header['account']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['account']])) : '';
+                                $value_month_1 = isset($data[$row][$arr_header['month_1']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_1']])) : '';
+                                $value_month_2 = isset($data[$row][$arr_header['month_2']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_2']])) : '';
+                                $value_month_3 = isset($data[$row][$arr_header['month_3']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_3']])) : '';
+                                $value_month_4 = isset($data[$row][$arr_header['month_4']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_4']])) : '';
+                                $value_month_5 = isset($data[$row][$arr_header['month_5']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_5']])) : '';
+                                $value_month_6 = isset($data[$row][$arr_header['month_6']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_6']])) : '';
+                                $value_month_7 = isset($data[$row][$arr_header['month_7']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_7']])) : '';
+                                $value_month_8 = isset($data[$row][$arr_header['month_8']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_8']])) : '';
+                                $value_month_9 = isset($data[$row][$arr_header['month_9']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_9']])) : '';
+                                $value_month_10 = isset($data[$row][$arr_header['month_10']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_10']])) : '';
+                                $value_month_11 = isset($data[$row][$arr_header['month_11']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_11']])) : '';
+                                $value_month_12 = isset($data[$row][$arr_header['month_12']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['month_12']])) : '';
+                            }elseif ($import_type == 'quarter') {
+                                $value_account = isset($data[$row][$arr_header['account']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['account']])) : '';
+                                $value_quarter_1 = isset($data[$row][$arr_header['quarter_1']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['quarter_1']])) : '';
+                                $value_quarter_2 = isset($data[$row][$arr_header['quarter_2']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['quarter_2']])) : '';
+                                $value_quarter_3 = isset($data[$row][$arr_header['quarter_3']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['quarter_3']])) : '';
+                                $value_quarter_4 = isset($data[$row][$arr_header['quarter_4']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['quarter_4']])) : '';
+                            }else{
+                                $value_account = isset($data[$row][$arr_header['account']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['account']])) : '';
+                                $value_amount = isset($data[$row][$arr_header['amount']]) ? trim(str_replace(' ',' ',$data[$row][$arr_header['amount']])) : '';
+                            }
+
+                        
+                            if(is_null($value_account) == true || $value_account == ''){
+                                if($string_error != ''){
+                                    $string_error .= ', ';
+                                }
+                                $string_error .= _l('acc_account') .' '. _l('not_yet_entered');
+                                $flag = 1;
+                            }else {
+                                if(is_numeric($value_account)){
+                                    if(get_account_by_id($value_account) == false){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_account') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }else{
+                                        $value_account = get_account_by_id($value_account);
+                                    }
+                                }else{
+                                    
+                                    if(!array_key_exists($value_account, $account_name)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_account') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }else{
+                                        $value_account = $account_name[$value_account];
+                                    }
+                                }
+                            }
+
+                            if($import_type == 'month'){
+                                if((is_null($value_month_1) || $value_month_1 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_1') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_1)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_1') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_2) || $value_month_2 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_2') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_2)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_2') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_3) || $value_month_3 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_3') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_3)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_3') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_4) || $value_month_4 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_4') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_4)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_4') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_5) || $value_month_5 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_5') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_5)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_5') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_6) || $value_month_6 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_6') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_6)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_6') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_7) || $value_month_7 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_7') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_7)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_7') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_8) || $value_month_8 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_8') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_8)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_8') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_9) || $value_month_9 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_9') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_9)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_9') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_10) || $value_month_10 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_10') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_10)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_10') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_11) || $value_month_11 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_11') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_11)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_11') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_month_12) || $value_month_12 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('acc_month_12') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_month_12)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('acc_month_12') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                            }elseif ($import_type == 'quarter') {
+                                if((is_null($value_quarter_1) || $value_quarter_1 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('quarter').' 1' .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_quarter_1)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('quarter').' 1' .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_quarter_2) || $value_quarter_2 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('quarter').' 2' .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_quarter_2)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('quarter').' 2' .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_quarter_3) || $value_quarter_3 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('quarter').' 3' .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_quarter_3)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('quarter').' 3' .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+
+                                if((is_null($value_quarter_4) || $value_quarter_4 == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('quarter').' 4' .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_quarter_4)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('quarter').' 4' .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+                            }else{
+                                if((is_null($value_amount) || $value_amount == '')){
+                                    if($string_error != ''){
+                                        $string_error .= ', ';
+                                    }
+                                    $string_error .= _l('amount') .' '. _l('not_yet_entered');
+                                    $flag = 1;
+                                }else{
+                                    if(!is_numeric($value_amount)){
+                                        if($string_error != ''){
+                                            $string_error .= ', ';
+                                        }
+                                        $string_error .= _l('amount') .' '. _l('invalid');
+                                        $flag = 1;
+                                    }
+                                }
+                            }
+
+                            if (($flag == 1) || $flag2 == 1) {
+                                //write error file
+                                if($import_type == 'month'){
+                                    $writer->writeSheetRow('Sheet1', [
+                                        $value_account,
+                                        $value_month_1,
+                                        $value_month_2,
+                                        $value_month_3,
+                                        $value_month_4,
+                                        $value_month_5,
+                                        $value_month_6,
+                                        $value_month_7,
+                                        $value_month_8,
+                                        $value_month_9,
+                                        $value_month_10,
+                                        $value_month_11,
+                                        $value_month_12,
+                                        $string_error,
+                                    ]);
+                                }elseif ($import_type == 'quarter') {
+                                    $writer->writeSheetRow('Sheet1', [
+                                        $value_account,
+                                        $value_quarter_1,
+                                        $value_quarter_2,
+                                        $value_quarter_3,
+                                        $value_quarter_4,
+                                        $string_error,
+                                    ]);
+                                }else{
+                                    $writer->writeSheetRow('Sheet1', [
+                                        $value_account,
+                                        $value_amount,
+                                        $string_error,
+                                    ]);
+                                }
+                                
+                                // $numRow++;
+                                $total_row_false++;
+                            }
+
+                            if ($flag == 0 && $flag2 == 0) {
+                                if($import_type == 'month'){
+                                    $rd['account'] = $value_account;
+                                    $rd['month_1'] = $value_month_1;
+                                    $rd['month_2'] = $value_month_2;
+                                    $rd['month_3'] = $value_month_3;
+                                    $rd['month_4'] = $value_month_4;
+                                    $rd['month_5'] = $value_month_5;
+                                    $rd['month_6'] = $value_month_6;
+                                    $rd['month_7'] = $value_month_7;
+                                    $rd['month_8'] = $value_month_8;
+                                    $rd['month_9'] = $value_month_9;
+                                    $rd['month_10'] = $value_month_10;
+                                    $rd['month_11'] = $value_month_11;
+                                    $rd['month_12'] = $value_month_12;
+                                }elseif ($import_type == 'quarter') {
+                                    $rd['account'] = $value_account;
+                                    $rd['quarter_1'] = $value_quarter_1;
+                                    $rd['quarter_2'] = $value_quarter_2;
+                                    $rd['quarter_3'] = $value_quarter_3;
+                                    $rd['quarter_4'] = $value_quarter_4;
+                                }else{
+                                    $rd['account'] = $value_account;
+                                    $rd['amount'] = $value_amount;
+                                }
+
+                                $rows[] = $rd;
+                                array_push($arr_insert, $rd);
+
+                            }
+
+                        }
+
+                        //insert batch
+                        if (count($arr_insert) > 0) {
+                            $this->accounting_model->insert_batch_budget($arr_insert, $budget_id, $import_type);
+                        }
+
+                        $total_rows = $total_rows;
+                        $total_row_success = isset($rows) ? count($rows) : 0;
+                        $dataerror = '';
+                        $message = 'Not enought rows for importing';
+
+                        if ($total_row_false != 0) {
+                            $filename = 'Import_budget_error_' . get_staff_user_id() . '_' . strtotime(date('Y-m-d H:i:s')) . '.xlsx';
+                            $writer->writeToFile(str_replace($filename, ACCOUTING_IMPORT_ITEM_ERROR . $filename, $filename));
+                        }
+
+                    }
+                }
+            }
+        }
+
+        if (file_exists($newFilePath)) {
+            @unlink($newFilePath);
+        }
+
+        echo json_encode([
+            'message' => $message,
+            'total_row_success' => $total_row_success,
+            'total_row_false' => $total_row_false,
+            'total_rows' => $total_rows,
+            'site_url' => site_url(),
+            'staff_id' => get_staff_user_id(),
+            'filename' => ACCOUTING_IMPORT_ITEM_ERROR . $filename,
+        ]);
+    }
+
+    /**
+     * update reset all data account detail type
+     */
+    public function reset_account_detail_types(){
+        if (!has_permission('accounting_setting', '', 'delete') && !is_admin() ) {
+            access_denied('accounting_setting');
+        }
+
+        $success = $this->accounting_model->reset_account_detail_types();
+        if($success == true){
+            $message = _l('reset_data_successfully');
+            set_alert('success', $message);
+        }
+        redirect(admin_url('accounting/setting?group=account_type_details'));
+    }
+
+    /**
+     * manage banking
+     * @return view
+     */
+    public function banking()
+    {
+        if (!has_permission('accounting_banking', '', 'view')) {
+            access_denied('banking');
+        }
+
+        $data          = [];
+        $this->load->model('currencies_model');
+        $data['currency'] = $this->currencies_model->get_base_currency();
+
+        $data['tab_2'] = $this->input->get('tab');
+
+        $data['group'] = $this->input->get('group');
+        $data['tab'][] = 'banking_register';
+        $data['tab'][] = 'posted_bank_transactions';
+        $data['tab'][] = 'reconcile_bank_account';
+      
+        if ($data['group'] == '') {
+            $data['group'] = 'banking_register';
+        }
+
+        $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+
+        if($data['group'] == 'reconcile_bank_account'){
+            $data['bank_account'] = $this->input->get('bank_account');
+            if($data['bank_account'] != ''){
+                $data['accounts'] = $this->accounting_model->get_accounts();
+                $data['account'] = $this->accounting_model->get_accounts($data['bank_account']);
+                $data['reconcile'] = $this->accounting_model->get_reconcile_by_account($data['bank_account']);
+                $data['reconcile_difference_info'] = $this->accounting_model->get_reconcile_difference_info($data['reconcile']->id);
+                $this->load->model('currencies_model');
+                $data['currency'] = $this->currencies_model->get_base_currency();
+                $data['title'] = _l('reconcile');
+                $data['account_adjust'] = $this->accounting_model->get_account_id_by_number('2110-000');
+            }else{
+                if ($this->input->post()) {
+                    if (!has_permission('accounting_reconcile', '', 'create')) {
+                        access_denied('accounting_reconcile');
+                    }
+                    $data = $this->input->post();
+                    if ($data['resume'] == 0) {
+                        unset($data['resume']);
+                        $success = $this->accounting_model->add_bank_reconcile($data);
+                    }
+                    redirect(admin_url('accounting/banking?group=reconcile_bank_account&bank_account=' . $data['account']));
+
+                }
+                $this->load->model('currencies_model');
+                $data['currency'] = $this->currencies_model->get_base_currency();
+
+                $data['title'] = _l('reconcile');
+                $data['beginning_balance'] = 0;
+                $data['resume'] = 0;
+                $data['approval'] = 0;
+
+                //get default company
+
+                $default_company='';
+                $hide_restored=' hide';
+
+                $closing_date = false;
+                
+                if(isset($data['bank_accounts'][0])){
+                    $check_reconcile_restored = $this->accounting_model->check_reconcile_restored($data['bank_accounts'][0]['id'], $default_company);
+                    if($check_reconcile_restored){
+                        $hide_restored='';
+                    }
+
+                    $reconcile = $this->accounting_model->get_reconcile_by_account($data['bank_accounts'][0]['id'], $default_company);
+
+
+                    if ($reconcile) {
+                        if(get_option('acc_close_the_books') == 1){
+                            $closing_date = (strtotime($reconcile->ending_balance) > strtotime(date('Y-m-d'))) ? true : false;
+                        }
+                        $data['beginning_balance'] = $reconcile->ending_balance;
+                        //if ($reconcile->finish == 0 || $reconcile->approval == 0) {
+                        if ($reconcile->finish == 0) {
+                            $data['resume'] = 1;
+                        }
+
+                        // if ($reconcile->finish == 1 && $reconcile->approval != 0 && $reconcile->approval != '') {
+                        //     $data['approval'] = 1;
+                        // }
+
+                    }
+                }
+                $data['accounts_to_select'] = $this->accounting_model->get_data_account_to_select();
+                $data['hide_restored'] = $closing_date == false ? $hide_restored : 'hide';
+            }
+        }
+
+        $data['_status'] = '';
+        if ($this->input->get('status')) {
+            $data['_status'] = [$this->input->get('status')];
+        }
+
+        $data['account_to_select'] = $this->accounting_model->get_data_account_to_select();
+        $data['title']        = _l($data['group']);
+        $data['tabs']['view'] = 'banking/' . $data['group'];
+        $this->load->view('banking/manage', $data);
+    }
+
+    /**
+     * banking table
+     * @return json
+     */
+    public function banking_register_table() {
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+
+            $select = [
+                'date',
+                //'number',
+                db_prefix().'pur_vendor.company as vendor_name',
+                'description',
+                'credit',
+                'debit',
+                // db_prefix() . 'acc_account_history.id as id',
+                'cleared',
+            ];
+            $where = [];
+
+            
+
+
+            $from_date = '';
+            $to_date = '';
+            if ($this->input->post('from_date')) {
+                $from_date = $this->input->post('from_date');
+                if (!$this->accounting_model->check_format_date($from_date)) {
+                    $from_date = to_sql_date($from_date);
+                }
+            }
+
+            if ($this->input->post('to_date')) {
+                $to_date = $this->input->post('to_date');
+                if (!$this->accounting_model->check_format_date($to_date)) {
+                    $to_date = to_sql_date($to_date);
+                }
+            }
+            
+            if ($this->input->post('bank_account')) {
+                $bank_account = $this->input->post('bank_account');
+                array_push($where, 'AND account ='. $bank_account);
+            }else{
+                array_push($where, 'AND account = "-1"');
+            }
+
+            if ($from_date != '' && $to_date != '') {
+                array_push($where, 'AND (date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            } elseif ($from_date != '') {
+                array_push($where, 'AND (date >= "' . $from_date . '")');
+            } elseif ($to_date != '') {
+                array_push($where, 'AND (date <= "' . $to_date . '")');
+            }
+
+            if ($this->input->post('status')) {
+                $status = $this->input->post('status');
+                $where_status = '';
+                foreach ($status as $key => $value) {
+                    if ($value == 'converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (cleared > 0)';
+                        } else {
+                            $where_status .= '(cleared > 0)';
+                        }
+                    }
+
+                    if ($value == 'has_not_been_converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (cleared = 0)';
+                        } else {
+                            $where_status .= '(cleared = 0)';
+                        }
+                    }
+                }
+
+                if ($where_status != '') {
+                    array_push($where, 'AND (' . $where_status . ')');
+                }
+            }
+
+            $aColumns = $select;
+            $sIndexColumn = 'id';
+            $sTable = db_prefix() . 'acc_account_history';
+            $join = [
+                'LEFT JOIN ' . db_prefix() . 'pur_vendor ON ' . db_prefix() . 'pur_vendor.userid = ' . db_prefix() . 'acc_account_history.vendor',
+            ];
+            $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['customer', 'rel_type', 'rel_id', 'account', 'vendor']);
+
+            $output = $result['output'];
+            $rResult = $result['rResult'];
+
+            $balance = 0;
+
+            foreach ($rResult as $aRow) {
+                $row = [];
+                
+                // $url = get_url_by_type_id($aRow['rel_type'], $aRow['rel_id']);
+
+                // $row[] = '<a href="'.$url.'" class="text-default-bl">'. _d($aRow['date']).'</a>';
+                $row[] = _d($aRow['date']);
+
+                //if($aRow['rel_type'] == 'check' || $aRow['rel_type'] == 'payment'){
+                // if($aRow['rel_type'] == 'check'){
+                //     $row[] = '#'.str_pad($aRow['number'], 4, '0', STR_PAD_LEFT);
+                // }else{
+                //     $row[] = '';
+                // }
+
+                $credit = 0;
+                $debit = 0;
+
+                if($aRow['customer'] != '' && $aRow['customer'] != 0){
+                    $row[] = get_company_name($aRow['customer']);
+                }else{
+                    $row[] = $aRow['vendor_name'];
+                }
+
+                $row[] = $aRow['description'];
+
+                if($aRow['credit'] != 0){
+                    $credit = $aRow['credit'];
+                    $row[] = app_format_money($aRow['credit'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+
+                if($aRow['debit'] != 0){
+                    $debit = $aRow['debit'];
+                    $row[] = app_format_money($aRow['debit'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+               
+
+
+              //   if($aRow['credit'] != 0){
+                    // $row[] = app_format_money($aRow['credit'], $currency->name);
+              //   }else{
+              //    $row[] = '';
+              //   }
+                
+              //   if($aRow['debit'] != 0){
+                    // $row[] = app_format_money($aRow['debit'], $currency->name);
+              //   }else{
+              //    $row[] = '';
+              //   }
+                
+                // $balance += round(($debit - $credit), 2);
+                // $row[] = app_format_money(round($balance, 2), $currency->name);
+
+                $status_name = _l('not_yet_match');
+                $label_class = 'default';
+
+                if ($aRow['cleared'] == 1) {
+                    $row[] = '<i class="fa fa-check-circle text-success fa-lg" aria-hidden="true"></i>';
+                }else{
+                    $row[] = '';
+                }
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    public function check_plaid_connect($bank_id = ''){
+        $success = false;
+        if($bank_id != ''){
+            $account_data = $this->accounting_model->get_account_bank_data($bank_id);
+            if(isset($account_data) && $account_data != NULL && $account_data[0]['plaid_status'] == 1){
+                $success = true;
+            }
+        }
+
+        echo json_encode($success);
+        die();
+    }
+
+    /**
+     * posted bank transactions table
+     * @return json
+     */
+    public function posted_bank_transactions_table() {
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+            
+            $select = [
+                'date',
+                //'check_number',
+                'payee',
+                'description',
+                'withdrawals',
+                'deposits',
+                // 'id',
+                'matched',
+            ];
+            $where = [];
+
+            $from_date = '';
+            $to_date = '';
+            if ($this->input->post('from_date')) {
+                $from_date = $this->input->post('from_date');
+                if (!$this->accounting_model->check_format_date($from_date)) {
+                    $from_date = to_sql_date($from_date);
+                }
+            }
+
+            if ($this->input->post('to_date')) {
+                $to_date = $this->input->post('to_date');
+                if (!$this->accounting_model->check_format_date($to_date)) {
+                    $to_date = to_sql_date($to_date);
+                }
+            }
+            
+            if ($this->input->post('bank_account')) {
+                $bank_account = $this->input->post('bank_account');
+                array_push($where, 'AND '.db_prefix().'acc_transaction_bankings.bank_id ='. $bank_account);
+            }else{
+                array_push($where, 'AND '.db_prefix().'acc_transaction_bankings.bank_id = "-1"');
+            }
+
+            if ($from_date != '' && $to_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date >= "' . $from_date . '" and ' . db_prefix() . 'acc_transaction_bankings.date <= "' . $to_date . '")');
+            } elseif ($from_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date >= "' . $from_date . '")');
+            } elseif ($to_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date <= "' . $to_date . '")');
+            }
+
+            $company_id = $this->input->post('company_id');
+            if ($company_id != '') {
+                array_push($where, 'AND id IN (SELECT rel_id FROM '. db_prefix() . 'acc_account_history where company = ' . $company_id.' and rel_type = "banking")');
+            }
+
+            if ($this->input->post('status')) {
+                $status = $this->input->post('status');
+                $where_status = '';
+                foreach ($status as $key => $value) {
+                    if ($value == 'converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (matched > 0)';
+                        } else {
+                            $where_status .= '(matched > 0)';
+                        }
+                    }
+
+                    if ($value == 'has_not_been_converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (matched = 0)';
+                        } else {
+                            $where_status .= '(matched = 0)';
+                        }
+                    }
+                }
+
+                if ($where_status != '') {
+                    array_push($where, 'AND (' . $where_status . ')');
+                }
+            }
+
+            $aColumns = $select;
+            $sIndexColumn = 'id';
+            $sTable = db_prefix() . 'acc_transaction_bankings';
+            $join = [];
+            $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['matched']);
+
+            $output = $result['output'];
+            $rResult = $result['rResult'];
+            $balance = 0;
+
+            foreach ($rResult as $aRow) {
+                $row = [];
+
+                $row[] = _d($aRow['date']);
+
+                //$row[] = $aRow['check_number'];
+
+                $row[] = $aRow['payee'];
+                $row[] = $aRow['description'];
+
+                $row[] = $aRow['withdrawals'] != 0 ? app_format_money($aRow['withdrawals'], $currency->name) : '';
+                $row[] = $aRow['deposits'] != 0 ? app_format_money($aRow['deposits'], $currency->name) : '';
+
+                // $balance += round(($aRow['withdrawals'] - $aRow['deposits']), 2);
+                // $row[] = app_format_money(round($balance, 2), $currency->name);
+
+                if ($aRow['matched'] == 1) {
+                    $row[] = '<i class="fa fa-check-circle text-success fa-lg" aria-hidden="true"></i>';
+                }else{
+                    $row[] = '';
+                }
+
+
+                //$row[] = '<span class="label label-' . $label_class . ' s-status payment-status-' . $aRow['id'] . '">' . $status_name . '</span>';
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+    
+    public function plaid_bank_new_transactions(){
+        $data['last_updated'] = '';
+        if(isset($_GET['id'])){
+            $transactions = $this->accounting_model->get_plaid_transaction($_GET['id']);
+            $data['transactions'] = $transactions;
+            $account_data = $this->accounting_model->get_account_bank_data($_GET['id']);
+            $data['account_data'] = $account_data;
+            $refresh_data = $this->accounting_model->get_last_refresh_data($_GET['id']);
+            $data['refresh_data'] = $refresh_data;
+            $data['last_updated'] = $this->accounting_model->get_date_last_updated($_GET['id']);
+        }
+        $data['title'] = _l('acc_plaid_transaction');
+        $data['status'] = '';
+        if ($this->input->get('status')) {
+            $data['status'] = [$this->input->get('status')];
+        }
+
+
+        $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+        $data['accounts'] = $this->accounting_model->get_accounts();
+        $data['account_to_select'] = $this->accounting_model->get_data_account_to_select();
+        $this->load->view('banking/plaid_new_transaction', $data);
+    }
+
+    //Create Plaid Link Token
+    public function create_plaid_token(){
+        $link_token = $this->accounting_model->get_plaid_link_token(); 
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(500)
+            ->set_output(json_encode(array(
+                    'link_token' => $link_token,
+            )));
+    }
+
+    /**
+     * update plaid environment
+     */
+    public function update_plaid_environment() {
+        if (!has_permission('accounting_setting', '', 'edit') && !is_admin()) {
+            access_denied('accounting_setting');
+        }
+        $data = $this->input->post();
+        $success = $this->accounting_model->update_plaid_environment($data);
+
+        if ($success == true) {
+            $message = _l('updated_successfully', _l('setting'));
+            set_alert('success', $message);
+        }
+
+        redirect(admin_url('accounting/setting?group=plaid_environment'));
+    }
+
+    public function update_plaid_bank_accounts(){ 
+        $public_token = $_GET['public_token'];  
+        $bank_id = $_GET['bankId'];
+
+        $accessToken = $this->accounting_model->get_access_token($public_token); 
+        $accounts = $this->accounting_model->plaid_get_account($accessToken); 
+
+        $accountId = $accounts[0]->account_id;
+        $accountName = $accounts[0]->name;
+
+        $this->db->where('id', $bank_id);
+        $this->db->update(db_prefix() . 'acc_accounts', [
+            'access_token' => $accessToken,
+            'account_id' => $accountId,
+            'plaid_status' => 1,
+            'plaid_account_name' => $accountName
+        ]);
+        
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(500)
+            ->set_output(json_encode(array(
+                    'error' => '',
+            )));
+    }
+
+    /**
+     * banking table
+     * @return json
+     */
+    public function import_banking_table() {
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+            
+            $select = [
+                'date',
+                //'check_number',
+                'payee',
+                'description',
+                'withdrawals',
+                'deposits',
+                'datecreated',
+            ];
+            $where = [];
+
+            $from_date = '';
+            $to_date = '';
+            if ($this->input->post('from_date')) {
+                $from_date = $this->input->post('from_date');
+                if (!$this->accounting_model->check_format_date($from_date)) {
+                    $from_date = to_sql_date($from_date);
+                }
+            }
+
+            if ($this->input->post('to_date')) {
+                $to_date = $this->input->post('to_date');
+                if (!$this->accounting_model->check_format_date($to_date)) {
+                    $to_date = to_sql_date($to_date);
+                }
+            }
+            
+            if ($this->input->post('bank_account')) {
+                $bank_account = $this->input->post('bank_account');
+                array_push($where, 'AND '.db_prefix().'acc_transaction_bankings.bank_id ='. $bank_account);
+            }else{
+                array_push($where, 'AND '.db_prefix().'acc_transaction_bankings.bank_id = "-1"');
+            }
+
+            if ($from_date != '' && $to_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date >= "' . $from_date . '" and ' . db_prefix() . 'acc_transaction_bankings.date <= "' . $to_date . '")');
+            } elseif ($from_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date >= "' . $from_date . '")');
+            } elseif ($to_date != '') {
+                array_push($where, 'AND (' . db_prefix() . 'acc_transaction_bankings.date <= "' . $to_date . '")');
+            }
+
+            if ($this->input->post('status')) {
+                $status = $this->input->post('status');
+                $where_status = '';
+                foreach ($status as $key => $value) {
+                    if ($value == 'converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (matched > 0)';
+                        } else {
+                            $where_status .= '(matched > 0)';
+                        }
+                    }
+
+                    if ($value == 'has_not_been_converted') {
+                        if ($where_status != '') {
+                            $where_status .= ' or (matched = 0)';
+                        } else {
+                            $where_status .= '(matched = 0)';
+                        }
+                    }
+                }
+
+                if ($where_status != '') {
+                    array_push($where, 'AND (' . $where_status . ')');
+                }
+            }
+            $aColumns = $select;
+            $sIndexColumn = 'id';
+            $sTable = db_prefix() . 'acc_transaction_bankings';
+            $join = [];
+            $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id']);
+
+            $output = $result['output'];
+            $rResult = $result['rResult'];
+
+            foreach ($rResult as $aRow) {
+                $row = [];
+
+                $row[] = _d($aRow['date']);
+
+                //$row[] = $aRow['check_number'];
+
+                $row[] = $aRow['payee'];
+                $row[] = $aRow['description'];
+
+                $row[] = app_format_money($aRow['withdrawals'], $currency->name);
+                $row[] = app_format_money($aRow['deposits'], $currency->name);
+
+                $row[] = _d($aRow['datecreated']);
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    public function update_plaid_transaction(){
+        if ($this->input->post()) { 
+            $bank_id = $_POST['bank_id'];
+            $end_date = date('Y-m-d');
+
+            $start_date = to_sql_date($_POST['from_date']);
+        
+            //Make Entry of Transaction Log
+            $logData = ['bank_id' => $_POST['bank_id'], 'last_updated' => date('Y-m-d'), 'addedFrom' => get_staff_user_id()];
+
+            $this->db->insert(db_prefix() . 'acc_plaid_transaction_logs', $logData);
+            
+            //Call Curl function to get Transaction
+            if($this->db->affected_rows() > 0){
+                $this->transactionData($start_date, $end_date, $_POST['bank_id']);
+                $transactions = $this->accounting_model->get_plaid_transaction($_POST['bank_id']);
+                $data['transactions'] = $transactions;
+                $data['bank_id'] = $_POST['bank_id'];
+                $data['title'] = _l('acc_plaid_transaction');
+                $data['status'] = '';
+                if ($this->input->get('status')) {
+                    $data['status'] = [$this->input->get('status')];
+                }
+
+                $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+
+                $data['accounts'] = $this->accounting_model->get_accounts();
+                $data['account_to_select'] = $this->accounting_model->get_data_account_to_select();
+                
+            }
+
+        }
+    }
+
+    public function update_plaid_status(){
+        if ($this->input->post()) { 
+            $bank_id = $_POST['bank_id'];   
+            
+            $this->db->where('id', $bank_id);
+            $this->db->update(db_prefix() . 'acc_accounts', [
+                'plaid_status' => 0
+            ]);
+
+            $this->db->where('bank_id', $bank_id);
+            $this->db->delete(db_prefix() . 'acc_transaction_bankings');
+
+            $this->db->where('bank_id', $bank_id);
+            $this->db->delete(db_prefix() . 'acc_plaid_transaction_logs');
+        }
+    }
+
+    public function transactionData($start_date, $end_date, $bank_id){
+        //Get the Paid Key and Secret Key and also access token
+        $accounts = $this->accounting_model->get_accounts($bank_id);
+        $transactions = $this->accounting_model->plaid_get_transactions(['access_token' => $accounts->access_token, 'start_date' => $start_date, 'end_date' => $end_date]);
+
+        if($transactions){
+           //Call the transaction Insert Function in Table
+           $success = $this->insertTransactionRecord($transactions, $bank_id);
+           if($success){
+                set_alert('success', _l('imported_successfully'));
+           }else{
+                set_alert('danger', _l('imported_fail'));
+           }
+        }else{
+            set_alert('warning', _l('no_transaction'));
+        }
+
+
+    }
+
+    public function insertTransactionRecord($datas, $bankId){
+        $i = 0;
+        foreach($datas as $data){
+            $amount = $data->amount;
+            $checkNumber = $data->check_number;
+            $date = $data->date;
+            $description = $data->original_description;
+            $payment_status = $data->pending;
+            $transaction_id = $data->transaction_id;
+            $payee = $data->payment_meta->payee;
+
+            if($payment_status == false){
+               $paymentData = [];
+               $paymentData['date'] = $date;
+               $paymentData['datecreated'] = date('Y-m-d H:i:s');
+               //$paymentData['check_number'] = $checkNumber;
+               $paymentData['status'] = 1;
+               $paymentData['transaction_id'] = $transaction_id;
+               $paymentData['withdrawals'] = $amount < 0 ? 0 : abs($amount);
+               $paymentData['deposits'] = $amount > 0 ? 0 : abs($amount);
+               $paymentData['addedFrom'] = get_staff_user_id();
+               $paymentData['description'] = $description;
+               $paymentData['payee'] = $payee;
+               $paymentData['bank_id'] = $bankId;
+               //$paymentData['bank_account'] = $bankId;
+
+
+               //Check if Transaction Id Already Exists or not
+               $this->db->where('transaction_id', $transaction_id);
+               $this->db->where('bank_id', $bankId);
+                $query = $this->db->get(db_prefix() . 'acc_transaction_bankings')->row();
+               
+                if(!$query){
+                    $this->db->insert(db_prefix() . 'acc_transaction_bankings', $paymentData);
+                    $id = $this->db->insert_id();
+                    if($id){
+                        $i++;
+                    }
+                }
+            }
+        }
+
+        if($i > 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * { match transactions }
+     *
+     * @param        $reconcile_id  The reconcile identifier
+     * @param        $account_id    The account identifier
+     */
+    public function match_transactions($reconcile_id, $account_id){
+
+        $success = $this->accounting_model->match_transactions($reconcile_id, $account_id);
+        $message = _l('match_fail');
+        if($success == 1){
+            $message = _l('matched_successfully');
+        }
+
+        echo json_encode([
+            'success' => $success,
+            'message' => $message
+        ]);
+        die;
+    }
+
+    /**
+     * { unmatch transactions }
+     *
+     * @param        $reconcile_id  The reconcile identifier
+     * @param        $account_id  The bank account identifier
+     */
+    public function unmatch_transactions($reconcile_id, $account_id){
+
+        $success = $this->accounting_model->unmatch_transactions($reconcile_id, $account_id);
+        $message = _l('unmatch_fail');
+        if($success == true){
+            $message = _l('unmatched_successfully');
+        }
+
+        echo json_encode([
+            'success' => $success,
+            'message' => $message
+        ]);
+        die;
+    }
+
+    /**
+     * { reconcile transactions table }
+     */
+    public function reconcile_transactions_table(){
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+            $purchase_module_status = acc_get_status_modules('purchase');
+             
+
+            $select = [
+                'date',
+                //'number',
+                //db_prefix().'acc_vendor.company as vendor_name',
+                'vendor',
+                'description',
+                'credit',
+                'debit',
+                'cleared',
+            ];
+            $where = [];
+
+            $from_date = '';
+            $to_date = '';
+
+            $bank_account = '';
+            if ($this->input->post('account')) {
+                $bank_account = $this->input->post('account');
+                array_push($where, 'AND account ='. $bank_account);
+            }
+
+            if($this->input->post('reconcile')){
+                $reconcile_id = $this->input->post('reconcile');
+
+                $reconcile = $this->accounting_model->get_reconcile($reconcile_id);
+                if($reconcile){
+                    $to_date = $reconcile->ending_date;
+                }
+
+                if($bank_account != ''){
+                    $recently_reconcile = $this->accounting_model->get_recently_reconcile_by_account($bank_account, $reconcile_id);
+                    if($recently_reconcile){
+                        $from_date = $recently_reconcile->ending_date;
+                    }
+                }
+
+                array_push($where, 'AND ('.db_prefix() . 'acc_account_history.reconcile ='. $reconcile_id.' or '.db_prefix() . 'acc_account_history.reconcile = 0)');
+
+            }
+
+            if ($from_date != '' && $to_date != '') {
+                array_push($where, 'AND (date > "' . $from_date . '" and date <= "' . $to_date . '")');
+            } elseif ($to_date != '' && $from_date == '') {
+                array_push($where, 'AND (date <= "' . $to_date . '")');
+            }
+
+            $aColumns = $select;
+            $sIndexColumn = 'id';
+            $sTable = db_prefix() . 'acc_account_history';
+            $join = [
+                // 'LEFT JOIN ' . db_prefix() . 'acc_vendor ON ' . db_prefix() . 'acc_vendor.userid = ' . db_prefix() . 'acc_account_history.vendor',
+                    ];
+            $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'acc_account_history.id as id', 'account', 'description', 'customer', 'rel_type', 'cleared']);
+
+            $output = $result['output'];
+            $rResult = $result['rResult'];
+
+            $balance = 0;
+
+            foreach ($rResult as $aRow) {
+                $row = [];
+                
+                $row[] = _d($aRow['date']);
+
+                // if($aRow['rel_type'] == 'check'){
+                //     $row[] = '#'.str_pad($aRow['number'], 4, '0', STR_PAD_LEFT);
+                // }else{
+                //     $row[] = '';
+                // }
+
+                if($aRow['vendor'] != 0){
+                    if($purchase_module_status){
+                        $row[] = get_vendor_company_name($purchase_order->vendor);
+                    }else{
+                        $row[] = '';
+                    }
+                }else{
+                    $row[] = '';
+                }
+
+                $row[] = $aRow['description'];
+
+
+                if($aRow['credit'] != 0){
+                    $row[] = app_format_money($aRow['credit'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+
+                if($aRow['debit'] != 0){
+                    $row[] = app_format_money($aRow['debit'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+
+                $status_name = _l('not_yet_match');
+                $label_class = 'default';
+
+                if ($aRow['cleared'] > 0) {
+                    $row[] = '<i class="fa fa-check-circle text-success fa-lg" aria-hidden="true"></i>';
+                }elseif($aRow['cleared'] == 0){
+                    $row[] = '';
+                }else{
+                    $row[] = '<i class="fa fa-times-circle text-danger fa-lg" aria-hidden="true"></i>';
+                }
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    /**
+     * { reconcile posted bank table }
+     */
+    public function reconcile_posted_bank_table(){
+        if ($this->input->is_ajax_request()) {
+            $this->load->model('currencies_model');
+
+            $currency = $this->currencies_model->get_base_currency();
+            
+            $select = [
+                'id',
+                'date',
+                'payee',
+                //'check_number',
+                'withdrawals',
+                'deposits',
+                'bank_id',
+            ];
+            $where = [];
+
+            $from_date = '';
+            $to_date = '';
+
+            $bank_account = '';
+            if ($this->input->post('account')) {
+                $bank_account = $this->input->post('account');
+                array_push($where, 'AND bank_id ='. $bank_account);
+            }
+
+            if($this->input->post('reconcile')){
+                $reconcile_id = $this->input->post('reconcile');
+                array_push($where, 'AND (reconcile = 0 or reconcile = '.$reconcile_id.')');
+
+                $reconcile = $this->accounting_model->get_reconcile($reconcile_id);
+
+
+                if($reconcile){
+                    $to_date = $reconcile->ending_date;
+                }
+
+
+                if($bank_account != ''){
+                    $recently_reconcile = $this->accounting_model->get_recently_reconcile_by_account($bank_account, $reconcile_id);
+                    if($recently_reconcile){
+                        $from_date = $recently_reconcile->ending_date;
+                    }
+                }
+            }
+
+            if ($from_date != '' && $to_date != '') {
+                array_push($where, 'AND (date > "' . $from_date . '" and date <= "' . $to_date . '")');
+            } elseif ($to_date != '' && $from_date == '') {
+                array_push($where, 'AND (date <= "' . $to_date . '")');
+            }
+
+
+            $aColumns = $select;
+            $sIndexColumn = 'id';
+            $sTable = db_prefix() . 'acc_transaction_bankings';
+            $join = [];
+            $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['description', 'datecreated', 'matched']);
+
+            $output = $result['output'];
+            $rResult = $result['rResult'];
+
+            $balance = 0;
+
+            foreach ($rResult as $aRow) {
+                $row = [];
+                
+                $row[] = _d($aRow['date']);
+
+                // if($aRow['check_number'] != 0){
+                //     $row[] = '#'.str_pad($aRow['check_number'], 4, '0', STR_PAD_LEFT);
+                // }else{
+                //     $row[] = '';
+                // }
+                
+                $row[] = $aRow['payee'];
+                $row[] = $aRow['description'];
+
+                if($aRow['withdrawals'] != 0){
+                    $row[] = app_format_money($aRow['withdrawals'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+
+                if($aRow['deposits'] != 0){
+                    $row[] = app_format_money($aRow['deposits'], $currency->name);
+                }else{
+                    $row[] = '';
+                }
+
+                $status_name = _l('not_yet_match');
+                $label_class = 'default';
+
+                if ($aRow['matched'] == 1) {
+                    $row[] = '<i class="fa fa-check-circle text-success fa-lg" aria-hidden="true"></i>';
+                }elseif($aRow['matched'] == 0){
+                    $row[] = '';
+                }else{
+                    $row[] = '<i class="fa fa-times-circle text-danger fa-lg" aria-hidden="true"></i>';
+                }
+
+                $output['aaData'][] = $row;
+            }
+
+            echo json_encode($output);
+            die();
+        }
+    }
+
+    public function get_transaction_uncleared(){
+        $data = $this->input->post();
+        $transaction_bankings = $this->accounting_model->get_transaction_uncleared($data['reconcile_id']);
+        $status = 0;
+        $html = '';
+
+        if(count($transaction_bankings) > 0){
+            foreach($transaction_bankings as $transaction){
+                if($transaction['adjusted'] == 1){
+                    $html .= '<tr><td>'._d($transaction['date']).'</td><td>'.$transaction['payee'].'</td><td>'.$transaction['description'].'</td><td>'.$transaction['withdrawals'].'</td><td>'.$transaction['deposits'].'</td><td><i class="fa fa-check-circle text-success fa-2x" aria-hidden="true"></i></td></tr>';
+                }else{
+                    $status = 1;
+                    $html .= '<tr><td>'._d($transaction['date']).'</td><td>'.$transaction['payee'].'</td><td>'.$transaction['description'].'</td><td>'.$transaction['withdrawals'].'</td><td>'.$transaction['deposits'].'</td><td><a href="#" class="btn btn-info" onclick="make_adjusting_entry('.$transaction['id'].'); return false;">'. _l('make_adjusting_entry').'</a><br><br><a href="#" class="btn btn-warning" onclick="leave_it_uncleared(this); return false;" data-id="'.$transaction['id'].'">'. _l('leave_it_uncleared').'</a></td></tr>';
+                }
+            }
+        }
+
+        echo json_encode([
+            'status' => $status,
+            'html' => $html,
+        ]);
+        die;
+    }
+
+    public function get_make_adjusting_entry(){
+        $this->load->model('currencies_model');
+        $purchase_module_status = acc_get_status_modules('purchase');
+
+        $currency = $this->currencies_model->get_base_currency();
+        $data = $this->input->post();
+
+        $transaction_banking = $this->accounting_model->get_transaction_banking($data['transaction_bank_id']);
+
+
+        $amount = app_format_money($transaction_banking->withdrawals, $currency->name);
+
+        if($transaction_banking->deposits > 0){
+            $amount = app_format_money(-$transaction_banking->deposits, $currency->name);
+        }
+
+        $transaction_uncleared = $this->accounting_model->get_bank_transaction_uncleared($data['reconcile_id']);
+        $tran_html = '';
+        $tran_withdrawals = 0;
+        $tran_deposits = 0;
+        foreach($transaction_uncleared as $key => $tran){
+            $payee = '';
+            if($purchase_module_status){
+                $payee = get_vendor_company_name($tran['vendor']);
+            }
+            $date = _d($tran['date']);
+            
+
+            $selected = '';
+
+            if($key < 1){
+                $selected = 'selected';
+            }
+
+            $name = 'Date: '.$date.' Payee: '.$payee;
+            if($tran['credit'] > 0){
+                $withdrawals = number_format($tran['credit'],2);
+                $name .= ' Withdrawals: '.$withdrawals;
+                if($key < 1){
+                    $tran_withdrawals = $withdrawals;
+                }
+            }else{
+                $deposits = number_format($tran['debit'],2);
+                $name .= ' Deposits: '.$deposits;
+                if($key < 1){
+                    $tran_deposits = $deposits;
+                }
+            }
+
+            $tran_html .= '<option value="'.$tran['id'].'" '.$selected.'>'.$name.'</option>';
+        }
+
+        echo json_encode([
+            'date' => date('m/d/Y', strtotime($transaction_banking->date)),
+            'amount' => $amount,
+            'payee' => $transaction_banking->payee ? $transaction_banking->payee : '',
+            'tran_html' => $tran_html,
+            'date_value' => _d($transaction_banking->date),
+            'tran_deposit' => $tran_deposits,
+            'tran_withdrawal' => $tran_withdrawals
+        ]);
+        die;
+    }
+
+    public function make_adjusting_entry_save(){
+        $data = $this->input->post();
+        
+        $success = $this->accounting_model->make_adjusting_entry_save($data);
+
+        echo json_encode([
+            'success' => $success,
+            'message' => _l('updated_successfully', _l('transaction'))
+        ]);
+        die;
+    }
+
+    public function leave_it_uncleared(){
+        $data = $this->input->post();
+        $success = $this->accounting_model->leave_it_uncleared($data['transaction_bank_id']);
+
+        echo json_encode([
+            'success' => $success,
+            'message' => _l('updated_successfully', _l('transaction'))
+        ]);
+        die;
+    }
+
+    public function check_complete_reconcile(){
+        $this->load->model('currencies_model');
+
+        $currency = $this->currencies_model->get_base_currency();
+        $data = $this->input->post();
+        $leave_uncleared = 0;
+        $transaction_bankings = $this->accounting_model->get_transaction_leave_uncleared($data['reconcile_id']);
+        $reconcile_difference_info = $this->accounting_model->get_reconcile_difference_info($data['reconcile_id']);
+
+        if(count($transaction_bankings) > 0){
+            $leave_uncleared = 1;
+        }
+
+
+        $difference_withdrawals = abs($reconcile_difference_info['banking_register_withdrawals'] - $reconcile_difference_info['posted_bank_withdrawals']);
+        $difference_deposits = abs($reconcile_difference_info['banking_register_deposits'] - $reconcile_difference_info['posted_bank_deposits']);
+
+        $html = '';
+        if($leave_uncleared == 1){
+            $html .= '
+            <table class="table table-checks-to-print scroll-responsive dataTable">
+                 <tbody>
+                 <tr>
+                    <td colspan="3">'. _l('you_are_reconciling_with_uncleared_transactions') .'</td>
+                  </tr>
+                  <tr>
+                    <td>'. _l('acc_banking_register') .'</td>
+                    <td>'.app_format_money($reconcile_difference_info['banking_register_withdrawals'], $currency->name).'</td>
+                    <td>'.app_format_money($reconcile_difference_info['banking_register_deposits'], $currency->name).'</td>
+                  </tr>
+                  <tr>
+                    <td>'. _l('posted_bank_transactions') .'</td>
+                    <td>'.app_format_money($reconcile_difference_info['posted_bank_withdrawals'], $currency->name).'</td>
+                    <td>'.app_format_money($reconcile_difference_info['posted_bank_deposits'], $currency->name).'</td>
+                  </tr>
+                  <tr>
+                    <td>'. _l('difference') .'</td>
+                    <td>'.app_format_money($difference_withdrawals, $currency->name).'</td>
+                    <td>'.app_format_money($difference_deposits, $currency->name).'</td>
+                  </tr>
+                  <tr>
+                    <td>'. _l('total_difference') .'</td>
+                    <td>'.app_format_money(($difference_withdrawals + $difference_deposits), $currency->name).'</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+            </table>';
+        }
+
+        echo json_encode([
+            'leave_uncleared' => $leave_uncleared,
+            'html' => $html,
+        ]);
+        die;
+
+    }
+
+    /**
+     *
+     *  add adjustment
+     *  @return view
+     */
+    public function bank_account_adjustment() {
+        if (!has_permission('accounting_reconcile', '', 'create')) {
+            access_denied('accounting');
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+
+            $message = '';
+            $success = $this->accounting_model->add_bank_account_adjustment($data);
+
+            if ($success === 'close_the_book') {
+                $message = _l('has_closed_the_book');
+            } elseif ($success) {
+                $message = _l('added_successfully', _l('adjustment'));
+            } else {
+                $message = _l('add_failure');
+            }
+
+            echo json_encode(['success' => $success, 'message' => $message]);
+            die();
+        }
+    }
+
+    /**
+     * finish reconcile bank account
+     * @return view
+     */
+    public function finish_reconcile_bank_account() {
+        if (!has_permission('accounting_reconcile', '', 'create') && !is_admin()) {
+            access_denied('accounting_reconcile');
+        }
+
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $message = '';
+            $success = $this->accounting_model->finish_reconcile_bank_account($data);
+
+            if ($success) {
+                $message = _l('added_successfully', _l('reconcile'));
+                set_alert('success', $message);
+            } else {
+                $message = _l('add_failure');
+                set_alert('warning', $message);
+            }
+        }
+
+        redirect(admin_url('accounting/banking?group=reconcile_bank_account'));
+    }
+
+    /**
+     * reconcile restored
+     * @param  [type] $account 
+     * @param  [type] $company 
+     * @return [type]          
+     */
+    public function reconcile_bank_account_restored($account) {
+        if ($this->input->is_ajax_request()) {
+            $success = false;
+            $message = _l('acc_restored_failure');
+            $hide_restored = true;
+            
+            $reconcile_restored = $this->accounting_model->reconcile_bank_account_restored($account);
+            if($reconcile_restored){
+                $success = true;
+                $message = _l('acc_restored_successfully');
+            }
+
+            $check_reconcile_restored = $this->accounting_model->check_reconcile_restored($account);
+            if($check_reconcile_restored){
+                $hide_restored = false;
+            }
+            
+            echo json_encode([
+                'success' => $success,
+                'hide_restored' => $hide_restored,
+                'message' => $message,
+            ]);
+            die();
+        }
+    }
+    
+    /**
+     * get info reconcile
+     * @param  integer $account
+     * @return json
+     */
+    public function get_info_reconcile_bank_account($account) {
+        $reconcile = $this->accounting_model->get_reconcile_by_account($account);
+        $beginning_balance = 0;
+        $resume_reconciling = false;
+        $approval_reconciling = false;
+        $hide_restored = true;
+
+        $edit_debits_for_period = 0;
+        $edit_credits_for_period = 0;
+        $edit_ending_date = '';
+        $edit_ending_balance = 0;
+        $edit_beginning_balance = 0;
+        $edit_reconcile_id = 0;
+
+        $check_reconcile_restored = $this->accounting_model->check_reconcile_restored($account);
+        if($check_reconcile_restored){
+            $hide_restored = false;
+        }
+        $closing_date = false;
+
+        if ($reconcile) {
+            if(get_option('acc_close_the_books') == 1){
+                $closing_date = (strtotime($reconcile->ending_balance) > strtotime(date('Y-m-d'))) ? true : false;
+            }
+            $beginning_balance = $reconcile->ending_balance;
+            if ($reconcile->finish == 0 || $reconcile->finish == null) {
+                $resume_reconciling = true;
+            }
+
+            // if ($reconcile->finish == 1 && ($reconcile->approval == 0 || $reconcile->approval == null)) {
+            //     $approval_reconciling = true;
+            // }
+
+            $edit_debits_for_period = $reconcile->debits_for_period;
+            $edit_credits_for_period = $reconcile->credits_for_period;
+            $edit_ending_date = _d($reconcile->ending_date);
+            $edit_ending_balance = $reconcile->ending_balance;
+            $edit_beginning_balance = $reconcile->beginning_balance;
+            $edit_reconcile_id = $reconcile->id;
+
+        }
+
+
+        echo json_encode(['beginning_balance' => $beginning_balance, 'resume_reconciling' => $resume_reconciling, 'hide_restored' => $hide_restored, 'closing_date' => $closing_date, 'edit_debits_for_period' => $edit_debits_for_period, 'edit_credits_for_period' => $edit_credits_for_period, 'edit_ending_date' => $edit_ending_date, 'edit_ending_balance' => $edit_ending_balance, 'edit_beginning_balance' => $edit_beginning_balance, 'edit_reconcile_id' => $edit_reconcile_id, 'approval_reconciling' => $approval_reconciling ]);
+        die();
+    }
+
+    /**
+     * report bank reconciliation summary
+     * @return view
+     */
+    public function rp_bank_reconciliation_summary() {
+        $this->load->model('currencies_model');
+        $data['title'] = _l('bank_reconciliation_summary');
+
+        $data['from_date'] = date('Y-m-d');
+        $data['to_date'] = date('Y-m-d');
+
+        $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+
+        $data['default_account'] = '';
+        if (isset($data['bank_accounts'][0])) {
+            $data['default_account'] = $data['bank_accounts'][0]['id'];
+        }
+
+        $data['reconcile'] = $this->accounting_model->get_reconcile('', 'account = "'.$data['default_account'].'"');
+        foreach($data['reconcile'] as $key => $reconcile){
+            $data['reconcile'][$key]['ending_date'] = date('m/d/Y', strtotime($reconcile['ending_date']));
+        }
+
+        $data['default_reconcile'] = '';
+        if (isset($data['reconcile'][0])) {
+            $data['default_reconcile'] = $data['reconcile'][0]['id'];
+        }
+
+        $data['currency'] = $this->currencies_model->get_base_currency();
+        $this->load->view('report/includes/bank_reconciliation_summary', $data);
+    }
+
+    /**
+     * report bank reconciliation summary
+     * @return view
+     */
+    public function rp_bank_reconciliation_detail() {
+        $this->load->model('currencies_model');
+        $data['title'] = _l('bank_reconciliation_detail');
+
+        $data['from_date'] = date('Y-m-d');
+        $data['to_date'] = date('Y-m-d');
+     
+        $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+
+        $data['default_account'] = '';
+        if (isset($data['bank_accounts'][0])) {
+            $data['default_account'] = $data['bank_accounts'][0]['id'];
+        }
+
+        $data['reconcile']= $this->accounting_model->get_reconcile('', 'account = "'.$data['default_account'].'"');
+
+        foreach($data['reconcile'] as $key => $reconcile){
+            $data['reconcile'][$key]['ending_date'] = date('m/d/Y', strtotime($reconcile['ending_date']));
+        }
+
+        $data['default_reconcile'] = '';
+        if (isset($data['reconcile'][0])) {
+            $data['default_reconcile'] = $data['reconcile'][0]['id'];
+        }
+
+        $data['currency'] = $this->currencies_model->get_base_currency();
+        $this->load->view('report/includes/bank_reconciliation_detail', $data);
+    }
+
+    /**
+     * { reconcile account change }
+     *
+     * @param      <string>  $type   The type
+     */
+     public function reconcile_account_change($account = ''){
+        $html = '';
+
+        $reconcile = $this->accounting_model->get_reconcile('', 'opening_balance = 0 and account = "'.$account.'"');
+
+        $html = ''; 
+        foreach($reconcile as $key => $value){
+            $selected = '';
+
+            if($key < 1){
+                $selected = 'selected';
+            }
+
+            $html .= '<option value="'.$value['id'].'" '.$selected.'>'._d($value['ending_date']).'</option>';
+        }
+
+        echo json_encode($html);
+
+     }
+
+     /**
+     * import xlsx banking
+     * @return view
+     */
+    public function import_xlsx_posted_bank_transactions() {
+        if (!has_permission('accounting_transaction', '', 'create')) {
+            access_denied('accounting_transaction');
+        }
+
+        $this->load->model('staff_model');
+        $data_staff = $this->staff_model->get(get_staff_user_id());
+
+        /*get language active*/
+        if ($data_staff) {
+            if ($data_staff->default_language != '') {
+                $data['active_language'] = $data_staff->default_language;
+
+            } else {
+
+                $data['active_language'] = get_option('active_language');
+            }
+
+        } else {
+            $data['active_language'] = get_option('active_language');
+        }
+        $data['title'] = _l('import_excel');
+        $data['bank_accounts'] = $this->accounting_model->get_accounts('', ['account_detail_type_id' => 14]);
+
+        $this->load->view('banking/import_banking', $data);
+    }
+
+    /**
+     * import file xlsx banking
+     * @return json
+     */
+    public function import_file_xlsx_posted_bank_transactions(){
+        if(!class_exists('XLSXReader_fin')){
+            require_once(module_dir_path(ACCOUNTING_MODULE_NAME).'assets/plugins/XLSXReader/XLSXReader.php');
+        }
+        require_once(module_dir_path(ACCOUNTING_MODULE_NAME).'assets/plugins/XLSXWriter/xlsxwriter.class.php');
+
+        $filename ='';
+        if($this->input->post()){
+            $data_filter = $this->input->post();
+            if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+                $this->delete_error_file_day_before(1, ACCOUTING_IMPORT_ITEM_ERROR);
+
+                // Get the temp file path
+                $tmpFilePath = $_FILES['file_csv']['tmp_name'];                
+                // Make sure we have a filepath
+                if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                    $rows          = [];
+                    $arr_insert          = [];
+
+                    $tmpDir = TEMP_FOLDER . '/' . time() . uniqid() . '/';
+
+                    if (!file_exists(TEMP_FOLDER)) {
+                        mkdir(TEMP_FOLDER, 0755);
+                    }
+
+                    if (!file_exists($tmpDir)) {
+                        mkdir($tmpDir, 0755);
+                    }
+
+                    // Setup our new file path
+                    $newFilePath = $tmpDir . $_FILES['file_csv']['name'];                    
+
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                        //Writer file
+                        $writer_header = array(
+                            _l('invoice_payments_table_date_heading').' (dd/mm/YYYY)'            =>'string',
+                            _l('withdrawals')     =>'string',
+                            _l('deposits')    =>'string',
+                            _l('payee')      =>'string',
+                            _l('description')     =>'string',
+                            _l('error')       =>'string',
+                        );
+
+                        $rowstyle[] =array('widths'=>[10,20,30,40]);
+
+                        $writer = new XLSXWriter();
+                        $writer->writeSheetHeader('Sheet1', $writer_header,  $col_options = ['widths'=>[40,40,40,40,50,50]]);
+
+                        //Reader file
+                        $xlsx = new XLSXReader_fin($newFilePath);
+                        $sheetNames = $xlsx->getSheetNames();
+                        $data = $xlsx->getSheetData($sheetNames[1]);
+
+                        $arr_header = [];
+
+                        $arr_header['date'] = 0;
+                        $arr_header['withdrawals'] = 1;
+                        $arr_header['deposits'] = 2;
+                        $arr_header['payee'] = 3;
+                        $arr_header['description'] = 4;
+
+                        $total_rows = 0;
+                        $total_row_false    = 0; 
+
+                        for ($row = 1; $row < count($data); $row++) {
+
+                            $total_rows++;
+
+                            $rd = array();
+                            $flag = 0;
+                            $flag2 = 0;
+
+                            $string_error ='';
+                            $flag_position_group;
+                            $flag_department = null;
+
+                            $value_date  = isset($data[$row][$arr_header['date']]) ? $data[$row][$arr_header['date']] : '' ;
+                            $value_withdrawals   = isset($data[$row][$arr_header['withdrawals']]) ? $data[$row][$arr_header['withdrawals']] : '' ;
+                            $value_deposits     = isset($data[$row][$arr_header['deposits']]) ? $data[$row][$arr_header['deposits']] : '' ;
+                            $value_payee    = isset($data[$row][$arr_header['payee']]) ? $data[$row][$arr_header['payee']] : '' ;
+                            $value_description   = isset($data[$row][$arr_header['description']]) ? $data[$row][$arr_header['description']] : '' ;
+                            
+                            $reg_day = '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/'; /*yyyy-mm-dd*/
+
+                            if(is_numeric($value_date)){
+                                $value_date = $this->accounting_model->convert_excel_date($value_date);
+                            }
+
+                            if(is_null($value_date) != true){
+                                if(preg_match($reg_day, $value_date, $match) != 1){
+                                    $string_error .=_l('invoice_payments_table_date_heading'). _l('invalid');
+                                    $flag = 1; 
+                                }
+                            }else{
+                                $string_error .= _l('invoice_payments_table_date_heading') . _l('not_yet_entered');
+                                $flag = 1;
+                            }
+
+                            if (is_null($value_withdrawals) == true) {
+                                $string_error .= _l('withdrawals') . _l('not_yet_entered');
+                                $flag = 1;
+                            }else{
+                                if(!is_numeric($value_withdrawals) && $value_deposits == ''){
+                                    $string_error .= _l('withdrawals') . _l('invalid');
+                                    $flag = 1;
+                                }
+                            }
+
+                            if (is_null($value_deposits) == true) {
+                                $string_error .= _l('deposits') . _l('not_yet_entered');
+                                $flag = 1;
+                            }else{
+                                if(!is_numeric($value_deposits) && $value_withdrawals == ''){
+                                    $string_error .= _l('deposits') . _l('invalid');
+                                    $flag = 1;
+                                }
+                            }
+
+                            if (is_null($value_payee) == true) {
+                                $string_error .= _l('payee') . _l('not_yet_entered');
+                                $flag = 1;
+                            }
+                            
+
+                            if(($flag == 1) || $flag2 == 1 ){
+                                //write error file
+                                $writer->writeSheetRow('Sheet1', [
+                                    $value_date,
+                                    $value_withdrawals,
+                                    $value_deposits,
+                                    $value_payee,
+                                    $value_description,
+                                    $string_error,
+                                ]);
+
+                                // $numRow++;
+                                $total_row_false++;
+                            }
+
+                            if($flag == 0 && $flag2 == 0){
+
+                                $rd['date']       = $value_date;
+                                $rd['withdrawals']         = $value_withdrawals;
+                                $rd['deposits']        = $value_deposits;
+                                $rd['payee']       = $value_payee;
+                                $rd['bank_id']       = $data_filter['bank_account'];
+                                $rd['description']               = $value_description;
+                                $rd['datecreated']               = date('Y-m-d H:i:s');
+                                $rd['addedfrom']               = get_staff_user_id();
+
+                                $rows[] = $rd;
+                                array_push($arr_insert, $rd);
+
+                            }
+
+                        }
+
+                        //insert batch
+                        if(count($arr_insert) > 0){
+                            $this->accounting_model->insert_batch_banking($arr_insert);
+                        }
+
+                        $total_rows = $total_rows;
+                        $total_row_success = isset($rows) ? count($rows) : 0;
+                        $dataerror = '';
+                        $message ='Not enought rows for importing';
+
+                        if($total_row_false != 0){
+                            $filename = 'Import_banking_error_'.get_staff_user_id().'_'.strtotime(date('Y-m-d H:i:s')).'.xlsx';
+                            $writer->writeToFile(str_replace($filename, ACCOUTING_IMPORT_ITEM_ERROR.$filename, $filename));
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+        if (file_exists($newFilePath)) {
+            @unlink($newFilePath);
+        }
+
+        echo json_encode([
+            'message'           => $message,
+            'total_row_success' => $total_row_success,
+            'total_row_false'   => $total_row_false,
+            'total_rows'        => $total_rows,
+            'site_url'          => site_url(),
+            'staff_id'          => get_staff_user_id(),
+            'filename'          => ACCOUTING_IMPORT_ITEM_ERROR.$filename,
+        ]);
+    }
+
+    public function update_bank_reconcile() {
+        if ($this->input->is_ajax_request()) {
+            $data = $this->input->get();
+
+            if(isset($data['csrf_token_name'])){
+                unset($data['csrf_token_name']);
+            }
+
+            $id = 0;
+            if(isset($data['reconcile_id'])){
+                $id = $data['reconcile_id'];
+                unset($data['reconcile_id']);
+            }
+
+            $success = false;
+            $message = _l('accounting_no_data_changes');
+            
+            $update_reconcile = $this->accounting_model->ajax_update_reconcile($data, $id);
+            if($update_reconcile){
+                $success = true;
+                $message = _l('saved_successfully');
+            }
+
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+            ]);
+            die();
+        }
     }
 }

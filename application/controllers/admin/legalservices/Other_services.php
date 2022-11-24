@@ -978,10 +978,12 @@ class Other_services extends AdminController
             $id = $this->other->link($ServID,$project_id, $this->input->post(), $ServID2);
             if ($id) {
                 set_alert('success', _l('project_linked_successfully'));
-                if($ServID2 != 1)
-                    redirect(admin_url('SOther/view/' .$ServID2.'/'. $id));
+                if($ServID2 == 1)
+                    redirect(admin_url('Case/view/' . $ServID2 . '/' . $id));
+                elseif ($ServID2 == 22)
+                    redirect(admin_url('Disputes_cases/edit/' . $ServID2 . '/' . $id));
                 else
-                    redirect(admin_url('Case/view/' .$ServID2.'/'. $id));
+                    redirect(admin_url('SOther/view/' . $ServID2 . '/' . $id));
             } else {
                 set_alert('danger', _l('failed_to_link_project'));
                 redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));

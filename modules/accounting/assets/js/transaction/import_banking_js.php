@@ -5,9 +5,9 @@
       appValidateForm($('#import_form'),{file_csv:{required:true,extension: "xlsx"},source:'required',status:'required'});
       // function 
 
-      if('<?php echo html_entity_decode($active_language) ?>' == 'vietnamese')
+      if('<?php echo html_entity_decode($active_language) ?>' == 'arabic')
       {
-        $( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/accounting/uploads/file_sample/Sample_import_banking_file_vi.xlsx" class="btn btn-primary" ><?php echo _l('download_sample') ?></a><hr>' );
+          $( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/accounting/uploads/file_sample/Sample_import_banking_file_ar.xlsx" class="btn btn-primary" ><?php echo _l('download_sample') ?></a><hr>' );
 
       }else{
         $( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/accounting/uploads/file_sample/Sample_import_banking_file_en.xlsx" class="btn btn-primary" ><?php echo _l('download_sample') ?></a><hr>' );

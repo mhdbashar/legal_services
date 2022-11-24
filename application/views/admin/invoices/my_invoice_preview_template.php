@@ -202,18 +202,18 @@
                            <a href="<?php echo admin_url('invoices/mark_as_sent/'.$invoice->id); ?>"><?php echo _l('invoice_mark_as_sent'); ?></a>
                         </li>
                         <?php } ?>
-                        <?php if(has_permission('invoices','','edit') || has_permission('invoices','','create')){ ?>
-<!--                        <li>-->
-<!--                           --><?php //if($invoice->status != Invoices_model::STATUS_CANCELLED
-//                              && $invoice->status != Invoices_model::STATUS_PAID
-//                              && $invoice->status != Invoices_model::STATUS_PARTIALLY
-//                               &&  $this->invoices_model->is_draft($invoice->id)
-//                           ){ ?>
-<!--                           <a href="--><?php //echo admin_url('invoices/mark_as_cancelled/'.$invoice->id); ?><!--">--><?php //echo _l('invoice_mark_as',_l('invoice_status_cancelled')); ?><!--</a>-->
-<!--                           --><?php //} else if($invoice->status == Invoices_model::STATUS_CANCELLED) { ?>
-<!--                           <a href="--><?php //echo admin_url('invoices/unmark_as_cancelled/'.$invoice->id); ?><!--">--><?php //echo _l('invoice_unmark_as',_l('invoice_status_cancelled')); ?><!--</a>-->
-<!--                           --><?php //} ?>
-<!--                        </li>-->
+                        <?php if(has_permission('invoices','','edit') || has_permission('invoices','','create') && !get_option('saudi_vat')){ ?>
+                        <li>
+                           <?php if($invoice->status != Invoices_model::STATUS_CANCELLED
+                              && $invoice->status != Invoices_model::STATUS_PAID
+                              && $invoice->status != Invoices_model::STATUS_PARTIALLY
+                               &&  $this->invoices_model->is_draft($invoice->id)
+                           ){ ?>
+                           <a href="<?php echo admin_url('invoices/mark_as_cancelled/'.$invoice->id); ?>"><?php echo _l('invoice_mark_as',_l('invoice_status_cancelled')); ?></a>
+                           <?php } else if($invoice->status == Invoices_model::STATUS_CANCELLED) { ?>
+                           <a href="<?php echo admin_url('invoices/unmark_as_cancelled/'.$invoice->id); ?>"><?php echo _l('invoice_unmark_as',_l('invoice_status_cancelled')); ?></a>
+                           <?php } ?>
+                        </li>
                         <?php } ?>
                         <?php if(!in_array($invoice->status, array(Invoices_model::STATUS_PAID, Invoices_model::STATUS_CANCELLED, Invoices_model::STATUS_DRAFT))
                            && has_permission('invoices','','edit')
@@ -227,13 +227,12 @@
                            <?php } ?>
                         </li>
                         <?php } ?>
-                        <?php
-                           if($this->invoices_model->is_draft($invoice->id)){ ?>
-                        <?php if(has_permission('invoices','','delete')){ ?>
-                        <li data-toggle="tooltip" data-title="<?php echo _l('delete_invoice_tooltip'); ?>">
-                           <a href="<?php echo admin_url('invoices/delete/'.$invoice->id); ?>" class="text-danger delete-text _delete"><?php echo _l('delete_invoice'); ?></a>
-                        </li>
-                        <?php } ?>
+                        <?php if($this->invoices_model->is_draft($invoice->id) || !get_option('saudi_vat')){ ?>
+                            <?php if(has_permission('invoices','','delete')){ ?>
+                                <li data-toggle="tooltip" data-title="<?php echo _l('delete_invoice_tooltip'); ?>">
+                                   <a href="<?php echo admin_url('invoices/delete/'.$invoice->id); ?>" class="text-danger delete-text _delete"><?php echo _l('delete_invoice'); ?></a>
+                                </li>
+                            <?php } ?>
                         <?php } ?>
                      </ul>
                   </div>
@@ -278,9 +277,9 @@
                            </td>
                            <td><?php echo _d($credit['date']); ?></td>
                            <td><?php echo app_format_money($credit['amount'], $invoice->currency_name) ?>
-<!--                              --><?php //if(has_permission('credit_notes','','delete')){ ?>
-<!--                              <a href="--><?php //echo admin_url('credit_notes/delete_invoice_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$invoice->id); ?><!--" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>-->
-<!--                              --><?php //} ?>
+                              <?php if(has_permission('credit_notes','','delete') && !get_option('saudi_vat')){ ?>
+                              <a href="<?php echo admin_url('credit_notes/delete_invoice_applied_credit/'.$credit['id'].'/'.$credit['credit_id'].'/'.$invoice->id); ?>" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>
+                              <?php } ?>
                            </td>
                         </tr>
                         <?php } ?>
@@ -388,8 +387,8 @@
                                  $_formatted_activity = $activity['full_name'] . ' - ' . $_formatted_activity;
                                  }
                                  echo $_formatted_activity;
-                                 if(is_admin()){
-                                 //echo '<a href="#" class="pull-right text-danger" onclick="delete_sale_activity('.$activity['id'].'); return false;"><i class="fa fa-remove"></i></a>';
+                                 if(is_admin() && !get_option('saudi_vat')){
+                                 echo '<a href="#" class="pull-right text-danger" onclick="delete_sale_activity('.$activity['id'].'); return false;"><i class="fa fa-remove"></i></a>';
                                  }
                                  ?>
                            </div>

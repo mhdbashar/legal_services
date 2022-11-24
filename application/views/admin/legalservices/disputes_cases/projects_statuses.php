@@ -8,8 +8,8 @@
             <div class="panel-body">
                <div class="_buttons">
                   <div class="_buttons">
-                     <a href="<?php echo admin_url('add_court') ?>" class="btn btn-info pull-left display-block">
-                     <?php echo _l('NewCourt'); ?>
+                     <a href="<?php echo admin_url('legalservices/disputes_cases/view_case_statuses') ?>" class="btn btn-info pull-left display-block">
+                     <?php echo _l('new_status'); ?>
                      </a>                 
                      <div class="clearfix"></div>
                      <hr class="hr-panel-heading" />
@@ -21,21 +21,15 @@
                         <th><?php echo _l('options'); ?></th>
                      </thead>
                      <tbody>
-                        <?php $i=1; foreach($courts as $court){
-                           if($court->is_default == 1)
-                              continue;
-                         ?>
+                        <?php $i=1; foreach($statuses as $status){ ?>
                         <tr>
                            <td><?php echo $i; ?></td>
                            <td>
-                              <?php echo $court->court_name; ?>
+                              <?php echo $status->status_name; ?>
                            </td>                      
                            <td>
-                              <a href="<?php echo admin_url("edit_court/$court->c_id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>                                     
-                              <a href="<?php echo admin_url("delete_court/$court->c_id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                              <a href="<?php echo admin_url("judicial_control/$court->c_id"); ?>" class="btn btn-info btn-icon">                               
-		                       <?php echo _l('Judicial'); ?>
-		                      </a>                                       
+                              <a href="<?php echo admin_url("legalservices/disputes_cases/view_case_statuses/$status->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                              <a href="<?php echo admin_url("legalservices/disputes_cases/delete_case_statuses/$status->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                            </td>
                         </tr>
                         <?php $i++; } ?>

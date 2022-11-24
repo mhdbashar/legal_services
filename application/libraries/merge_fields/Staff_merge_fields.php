@@ -29,31 +29,105 @@ class Staff_merge_fields extends App_merge_fields
                         'contract-signed-to-staff',
                         'contract-comment-to-admin',
                         'non-billed-tasks-reminder',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
-                // [
-                //     'name'      => 'Staff Lastname',
-                //     'key'       => '{staff_lastname}',
-                //     'available' => [
-                //         'staff',
-                //         'gdpr',
-                //     ],
-                //     'templates' => [
-                //         'task-status-change-to-staff',
-                //         'task-commented',
-                //         'task-deadline-notification',
-                //         'task-added-attachment',
-                //         'task-added-as-follower',
-                //         'task-assigned',
-                //         'new-project-discussion-created-to-staff',
-                //         'new-project-file-uploaded-to-staff',
-                //         'new-project-discussion-comment-to-staff',
-                //         'staff-added-as-project-member',
-                //         'contract-expiration-to-staff',
-                //         'contract-signed-to-staff',
-                //         'contract-comment-to-admin',
-                //     ],
-                // ],
+            [
+                'name'      => _l('firstname'),
+                'key'       => '{staff_firstname}',
+                'available' => [
+                    'staff',
+                    'gdpr',
+                ],
+                'templates' => [
+                    'task-status-change-to-staff',
+                    'task-commented',
+                    'task-deadline-notification',
+                    'task-added-attachment',
+                    'task-added-as-follower',
+                    'task-assigned',
+                    'new-project-discussion-created-to-staff',
+                    'new-project-file-uploaded-to-staff',
+                    'new-project-discussion-comment-to-staff',
+                    'staff-added-as-project-member',
+                    'contract-expiration-to-staff',
+                    'contract-signed-to-staff',
+                    'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
+                ],
+            ],
+            [
+                'name'      => _l('staff_add_edit_second_name'),
+                'key'       => '{staff_second_name}',
+                'available' => [
+                    'staff',
+                    'gdpr',
+                ],
+                'templates' => [
+                    'task-status-change-to-staff',
+                    'task-commented',
+                    'task-deadline-notification',
+                    'task-added-attachment',
+                    'task-added-as-follower',
+                    'task-assigned',
+                    'new-project-discussion-created-to-staff',
+                    'new-project-file-uploaded-to-staff',
+                    'new-project-discussion-comment-to-staff',
+                    'staff-added-as-project-member',
+                    'contract-expiration-to-staff',
+                    'contract-signed-to-staff',
+                    'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
+                ],
+            ],
+            [
+                'name'      => _l('staff_add_edit_third_name'),
+                'key'       => '{staff_third_name}',
+                'available' => [
+                    'staff',
+                    'gdpr',
+                ],
+                'templates' => [
+                    'task-status-change-to-staff',
+                    'task-commented',
+                    'task-deadline-notification',
+                    'task-added-attachment',
+                    'task-added-as-follower',
+                    'task-assigned',
+                    'new-project-discussion-created-to-staff',
+                    'new-project-file-uploaded-to-staff',
+                    'new-project-discussion-comment-to-staff',
+                    'staff-added-as-project-member',
+                    'contract-expiration-to-staff',
+                    'contract-signed-to-staff',
+                    'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
+                ],
+            ],
+            [
+                'name'      => _l('lastname'),
+                'key'       => '{staff_lastname}',
+                'available' => [
+                    'staff',
+                    'gdpr',
+                ],
+                'templates' => [
+                    'task-status-change-to-staff',
+                    'task-commented',
+                    'task-deadline-notification',
+                    'task-added-attachment',
+                    'task-added-as-follower',
+                    'task-assigned',
+                    'new-project-discussion-created-to-staff',
+                    'new-project-file-uploaded-to-staff',
+                    'new-project-discussion-comment-to-staff',
+                    'staff-added-as-project-member',
+                    'contract-expiration-to-staff',
+                    'contract-signed-to-staff',
+                    'contract-comment-to-admin',
+                    'regular-duration-deadline-notification',
+                ],
+            ],
                 [
                     'name'      => _l('staff_email'),
                     'key'       => '{staff_email}',
@@ -65,6 +139,7 @@ class Staff_merge_fields extends App_merge_fields
                         'new-project-file-uploaded-to-staff',
                         'new-project-discussion-comment-to-staff',
                         'staff-added-as-project-member',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -81,6 +156,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'staff-forgot-password',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -91,6 +167,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -101,6 +178,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -111,6 +189,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -121,6 +200,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'reminder-email-staff',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -130,6 +210,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'two-factor-authentication',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
                 [
@@ -139,6 +220,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                     'templates' => [
                         'new-staff-created',
+                        'regular-duration-deadline-notification',
                     ],
                 ],
             ];
@@ -159,6 +241,10 @@ class Staff_merge_fields extends App_merge_fields
 
         $fields['{password}']          = '';
         $fields['{staff_fullname}']   = '';
+        $fields['{staff_firstname}']   = '';
+        $fields['{staff_second_name}']   = '';
+        $fields['{staff_third_name}']   = '';
+        $fields['{staff_lastname}']   = '';
         // $fields['{staff_lastname}']    = '';
         $fields['{staff_email}']       = '';
         $fields['{staff_datecreated}'] = '';
@@ -175,7 +261,11 @@ class Staff_merge_fields extends App_merge_fields
             $fields['{two_factor_auth_code}'] = $staff->two_factor_auth_code;
         }
 
-        $fields['{staff_fullname}']   = $staff->firstname;
+        $fields['{staff_fullname}']   = $staff->firstname . ' ' . $staff->second_name . ' ' . $staff->third_name . ' ' . $staff->lastname;
+        $fields['{staff_firstname}']   = $staff->firstname;
+        $fields['{staff_second_name}']   = $staff->second_name;
+        $fields['{staff_third_name}']   = $staff->third_name;
+        $fields['{staff_lastname}']   = $staff->lastname;
         // $fields['{staff_lastname}']    = $staff->lastname;
         $fields['{staff_email}']       = $staff->email;
         $fields['{staff_datecreated}'] = $staff->datecreated;

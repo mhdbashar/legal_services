@@ -499,3 +499,19 @@ function is_staff_member($staff_id = '')
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
 }
+
+function add_staff_to_library($staff_id = ''){
+    $CI = & get_instance();
+    if($staff_id == ''){
+        $staff_id = get_staff_user_id();
+        $CI->db->where('staffid', $staff_id);
+        $CI->db->update(db_prefix() . 'staff', [
+            'add_to_library' => 1
+        ]);
+        return true;
+    }elseif (is_numeric($staff_id)){
+        $CI->db->where('staffid', $staff_id);
+        $staff = $CI->db->get()->row();
+        return $staff->add_to_library;
+    }
+}

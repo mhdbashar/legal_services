@@ -1595,7 +1595,9 @@ $lang['not_task_added_himself_as_follower'] = "أضاف نفسه كمتابع ف
 $lang['not_task_assigned_to_you'] = "عٌينت مهمة لك %s ...";
 $lang['not_session_assigned_to_you'] = "عٌينت جلسة لك %s ...";
 $lang['not_task_assigned_someone'] = "تم تعيين %s للمهمة %s ...";
+$lang['not_session_assigned_someone'] = "تم تعيين %s للجلسة %s ...";
 $lang['not_task_will_do_user'] = "سيؤدي المهمة %s ...";
+$lang['not_session_will_do_user'] = "سيؤدي الجلسة %s ...";
 $lang['not_task_new_attachment'] = "تم إضافة مرفق جديد";
 $lang['not_task_marked_as_complete'] = "تم وضع علامة على المهمة كمكتملة %s";
 $lang['not_task_unmarked_as_complete'] = "تم وضع علامة على المهمة كغير مكتملة %s";
@@ -1917,7 +1919,7 @@ $lang['invoice_project_stop_all_timers'] = "إيقاف جميع الموقتات
 $lang['invoice_project_stop_billable_timers_only'] = "أيقاف مؤقتات الفوترة فقط";
 $lang['project_tasks_total_timers_stopped'] = "تم إيقاف %s مؤقتات";
 $lang['project_invoice_timers_started'] = "تم العثور على مؤقتات تعمل على المهام القابلة للفوترة ، لا يمكن إنشاء الفاتورة. يرجى إيقاف المؤقت لإنشاء الفاتورة.";
-$lang['task_start_timer_only_assignee'] = "تحتاج إلى تعيين هذه المهمة لإحد الموظفين لبدء المؤقت!";
+$lang['task_start_timer_only_assignee'] = "يجب ان تكون تمت احالتك لهذه المهمة من أجل بدء المؤقت!";
 $lang['task_comments'] = "التعليقات";
 $lang['invoice_total_tax'] = "إجمالي الضريبة";
 $lang['estimates_total_tax'] = "إجمالي الضريبة";
@@ -2512,6 +2514,7 @@ $lang['estimate_not_found'] = "لم يتم العثور على عرض السعر
 $lang['expense_not_found'] = "لم يتم العثور على مصروف";
 $lang['proposal_not_found'] = "لم يتم العثور على العطاء";
 $lang['new_task_assigned_non_user'] = "تم تعيين مهمة جديدة لك - %s";
+$lang['new_session_assigned_non_user'] = "تم تعيين جلسة جديدة لك - %s";
 $lang['no_child_found'] = "No Child %s Found";
 $lang['company_vat_number'] = "الرقم الضريبي";
 $lang['not_lead_assigned_from_form'] = "تم تخصيص عميل محتمل جديد لك";
@@ -3454,6 +3457,15 @@ $lang['permission_create_milestones'] = "إضافة مراحل خطة العمل
 $lang['permission_edit_milestones'] = "تعديل مراحل خطة العمل";
 $lang['permission_delete_milestones'] = "حذف مراحل خطة العمل";
 $lang['custom_field_add_edit_default_value'] = "القيمة الإفتراضية";
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['add_child_sub_categories'] = "إضافة نوع الدعوى";
+$lang['category_description'] = "وصف التصنيف";
+$lang['child_sub_categories'] = "نوع الدعوى";
+$lang['_description'] = "الوصف";
+$lang['_email'] = "البريد الإلكتروني";
+
+
+
 $lang['project_setting_view_session_attachments'] = "عرض مرفقات  الجلسة";
 $lang['project_setting_view_session_checklist_items'] = "عرض عناصر قائمة المراجعة في الجلسة";
 $lang['project_setting_view_session_comments'] = "عرض تعليقات الجلسة";
@@ -3476,3 +3488,35 @@ $lang['project_setting_create_sessions'] = "إنشاء جلسة";
 $lang['project_setting_edit_sessions'] = "تحرير جلسة (فقط الجلسات التي تم إنشاؤها من جهة الاتصال)";
 $lang['project_setting_upload_on_sessions'] = "تحميل المرفقات على الجلسات";
 $lang['project_setting_comment_on_sessions'] = "التعليق على جلسات الخدمة";
+$lang['note_for_button_go_to_library'] = "ملاحظة : يمكنكم تسجيل الدخول المباشر لموقع المكتبة بإستخدام نفس معلومات حسابك في النظام، ويمكن لكم التعديل على محتوى المكتبة والمواد المدرجة فيها من خلال زر التعديل الموجود أسفل كل محتوى قانوني، وعند الرغبة في إضافة أقسام جديدة إلى المكتبة يرجى التواصل معنا.
+<br>ملاحظة 2 : نبذل قصارى جهدنا لإرفاد المكتبة القانونية بالمواد اللازمة والمفيدة لجميع المستخدمين، بالرغم من ذلك فإن شبكة بابل لتقنية نظم المعلومات غير مسؤولة عن المواد المنشورة في المكتبة أو محتواها.";
+
+//disputes cases new
+$lang['disputes_cases'] = "قضايا التنفيذ و التحصيل";//disputes_cases
+$lang['project_address1'] = 'العنوان السطر 1';
+$lang['project_address2'] = 'العنوان السطر 2';
+$lang['project_addressed_to'] = 'موجهة الى';
+$lang['project_notes'] = 'ملاحظات';
+$lang['disputes_cases_statuses'] = 'حالات قضايا التنفيذ و التحصيل';//
+$lang['disputes_cases_status'] = 'حالة قضية التنفيذ و التحصيل';//
+$lang['status_name'] = 'اسم الحالة';
+$lang['project_contacts'] = 'شهود المشروع';
+$lang['project_contacts_types'] = 'شاهد 1 , شاهد 2 , شاهد 3 , شاهد 4 , شاهد 5 , شاهد 6';
+$lang['project_billing_type_1'] = 'سعر الصرف الثابت';
+$lang['project_billing_type_10'] = 'سعر ثابت + النسبة المئوية ٪';
+$lang['project_billing_type_11'] = 'نسبه مئويه ٪';
+$lang['project_rate_percent'] = 'النسبة المئوية٪';
+$lang['disputes_cases_invoices'] = 'فواتير قضايا التنفيذ و التحصيل';//disputes_cases_invoices
+$lang['disputes_total'] = 'مجموع المطالبات';
+$lang['opponent_lawyer'] = 'المحامي الخصم';
+$lang['disputes_reminder'] = 'تذكير المنازعات';//disputes_cases_reminder
+$lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';
+$lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعادة إرسال المنازعات تلقائيا فاتورة تذكير المتأخرة قبل / بعد أيام';
+$lang['invoice_disputes_case'] = 'فوترة قضية التنفيذ و التحصيل';
+$lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية للقضية';
+$lang['disputes_invoice_item'] = 'رسوم فاتورة قضية التنفيذ و التحصيل';
+$lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
+$lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
+
+
+

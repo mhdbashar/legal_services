@@ -13,7 +13,6 @@ var fnServerParams;
       "from_date": '[name="from_date"]',
       "to_date": '[name="to_date"]',
     };
-	"use strict";
   appValidateForm($('#convert-form'), {
       
       },convert_form_handler);

@@ -185,7 +185,7 @@ class Legal_procedures extends AdminController
             $data['contract']                 = $this->procedures->get_contract($id, ['type_id' => 2], true);
             //$data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
-            if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
+            if (!$data['contract'] || (!has_permission('legal_procedures', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
                 blank_page(_l('procedure_not_found'));
             }
 

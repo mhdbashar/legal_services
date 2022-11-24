@@ -167,6 +167,8 @@ foreach ($rResult as $aRow) {
         $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
         if($ServID == 1){
             $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+        }elseif ($ServID == 22){
+            $row[] = '<a href="' . admin_url('Disputes_cases/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_disputes_case_name_by_id($aRow['rel_sid']) . '</a>';
         }else{
             $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
         }

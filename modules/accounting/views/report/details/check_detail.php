@@ -1,19 +1,48 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('cheque_detail'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th><?php echo _l('invoice_payments_table_date_heading'); ?></th>
-          <th><?php echo _l('transaction_type'); ?></th>
-          <th><?php echo _l('customer'); ?></th>
-          <th><?php echo _l('description'); ?></th>
-          <th><?php echo _l('acc_amount'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+            <td colspan="5">
+                <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('cheque_detail'); ?></h4>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="tr_header">
+            <td class="text-bold"><?php echo _l('invoice_payments_table_date_heading'); ?></td>
+            <td class="text-bold"><?php echo _l('transaction_type'); ?></td>
+            <td class="text-bold"><?php echo _l('customer'); ?></td>
+            <td class="text-bold"><?php echo _l('description'); ?></td>
+            <td class="text-bold"><?php echo _l('acc_amount'); ?></td>
+          </tr>
         <?php
           $row_index = 1;
           $total = 0;
@@ -28,7 +57,6 @@
 
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>

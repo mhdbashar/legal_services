@@ -16,9 +16,10 @@ $dimensions = $pdf->getPageDimensions();
 
 $info_right_column = '';
 $info_left_column  = '';
+$invoice_title = get_option('saudi_vat') ? _l('tax_invoice_pdf_heading') : _l('invoice');
 
 $info_right_column .= '<div align="'.$attr_align.'">';
-$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('tax_invoice_pdf_heading') . '</span><br />';
+$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . $invoice_title . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $invoice_number . '</b>';
 
 if (get_option('show_status_on_pdf_ei') == 1) {
@@ -46,6 +47,7 @@ $pdf->ln(10);
 
 $organization_info = '<div style="color:#424242;">';
 
+//$organization_info .= format_organization_info();
 $organization_info .= format_invoice_info();
 
 $organization_info .= '</div>';
@@ -69,7 +71,8 @@ $data = base64_encode($_tlv);
 $response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
 
 //if($invoice->qr_code != null || $invoice->qr_code != ''){
-    $qrCodePath = $response;
+$qrCodePath = $response;
+if(get_option('saudi_vat'))
     $organization_info .= '<br><img width="150px" src="'.$qrCodePath.'">';
 //}
 
@@ -188,11 +191,11 @@ if (count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') ==
     <tr>
         <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_total_paid') . '</strong></td>
         <td align="'.$table_td.'" width="15%">-' . app_format_money(sum_from_table(db_prefix().'invoicepaymentrecords', [
-        'field' => 'amount',
-        'where' => [
-            'invoiceid' => $invoice->id,
-        ],
-    ]), $invoice->currency_name) . '</td>
+            'field' => 'amount',
+            'where' => [
+                'invoiceid' => $invoice->id,
+            ],
+        ]), $invoice->currency_name) . '</td>
     </tr>';
 }
 
@@ -295,3 +298,4 @@ if (!empty($invoice->terms)) {
     $pdf->Ln(2);
     $pdf->writeHTMLCell('', '', '', '', $invoice->terms, 0, 1, false, true, $align, true);
 }
+

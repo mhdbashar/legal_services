@@ -1,5 +1,9 @@
 <?php
 
+$lang['saudi_warning'] = 'في حال تم تغيير الوضع الى نعم لن يمكنك تغيير هذا الخيار مرة اخرى';
+$lang['saudi_vat'] = 'خاضع لنظام الضريبة السعودي';
+$lang['finger_timekeeper'] = 'مراقب الدوام';
+$lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
 $lang['building_number'] = 'رقم المبنى';
@@ -484,7 +488,7 @@ $lang['ticket_public_url'] = "الرابط العام للتذكرة";
 $lang['department'] = "القسم";
 $lang['department_email'] = "بريد القسم";
 $lang['date_opened'] = "تاريخ فتح التذكرة";
-$lang['session_start_timer_only_assignee'] = "تحتاج إلى تعيين هذه الجلسة لإحد الموظفين لبدء المؤقت!";
+$lang['session_start_timer_only_assignee'] = "يجب ان تكون تمت احالتك لهذه الجلسة من أجل بدء المؤقت!";
 $lang['session_no_checklist_items_found'] = "عناصر قائمة التحقق غير موجودة لهذه الجلسة";
 $lang['ticket_subject'] = "موضوع التذكرة";
 $lang['ticket_message'] = "رسالة التذكرة";
@@ -495,7 +499,7 @@ $lang['back_to_sessions_list'] = "العودة إلى قائمة الجلسات"
 $lang['ticket_status'] = "حالة التذكرة";
 $lang['ticket_priority'] = "أولوية التذكرة";
 $lang['ticket_service'] = "تذكرة خدمة";
-$lang['staff_fullname'] = "اسم الموظف";
+$lang['staff_fullname'] = "الاسم الكامل";
 $lang['staff_email'] = "البريد الالكتروني";
 $lang['staff_datecreated'] = "تاريخ إنشاء الموظف";
 $lang['reset_password_url'] = "رابط إعادة تعيين كلمة المرور";
@@ -1059,7 +1063,9 @@ $lang['legal_authority'] = "الاستناد القانوني / النص الن�
 $lang['analysis'] = "التحليل";
 $lang['IRAC_result'] = "النتيجة";
 $lang['IRAC_method'] = "طريقة IRAC";
-$lang['help_library'] = "الموارد والمكتبة المساعدة";
+$lang['help_library'] = "الموارد والمكتبة <span style='color:red;font-size:10px;' >تشغيل تجريبي</span>";
+
+
 $lang['soon'] = "قريباً";
 $lang['legal_procedures_management'] = "إدارة الإجراءات القانونية";
 $lang['legal_procedures'] = "الإجراءات القانونية";
@@ -1132,3 +1138,22 @@ $lang['migration_lang_14'] = "ستتم إعادة تحميل هذه النافذ
 $lang['migration_lang_15'] = "تم تحديث قاعدة البيانات الخاصة بك";
 
 $lang['tax_invoice_pdf_heading'] = "فاتورة ضريبية";
+$lang['regular_duration'] = "المدة النظامية";
+$lang['regular_durations'] = "المدد النظامية";
+$lang['number_of_days'] = "عدد الأيام";
+$lang['name'] = "الاسم";
+$lang['new_regular_duration'] = "إنشاء مدة نظامية جديدة";
+$lang['categories'] = "التصنيفات الرئيسية";
+$lang['sub_categories'] = "التصنيفات الفرعية";
+$lang['edit_regular_duration'] = "تحرير مدة زمنية نظامية";
+$lang['regular_duration_begin_date'] = "تاريخ بداية المدة الزمنية النظامية";
+$lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
+$lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
+$lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
+$lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة النظامية";
+$lang['remember that'] = "تذكر أن المدة النظامية";
+$lang['which started at'] = "والتي بدأت بتاريخ ";
+$lang['will end at'] = "ستنتهي بتاريخ ";
+
+
+

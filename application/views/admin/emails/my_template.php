@@ -9,6 +9,7 @@
                         <h4 class="no-margin">
                             <?php echo $title; ?>
                         </h4>
+                        <?php //print_r("heloooooooooooooooo");exit();?>
                         <hr class="hr-panel-heading" />
                         <?php echo form_open($this->uri->uri_string()); ?>
                         <div class="row">

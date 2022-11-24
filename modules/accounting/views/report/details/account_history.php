@@ -1,29 +1,77 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('account_history'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th><?php echo _l('invoice_payments_table_date_heading'); ?></th>
-          <th><?php echo _l('transaction_type'); ?></th>
-          <th><?php echo _l('split'); ?></th>
-          <th><?php echo _l('description'); ?></th>
-          <?php if($data_report['account_type'] == 3){ ?>
-            <th class="total_amount"><?php echo _l('payment'); ?></th>
-            <th class="total_amount"><?php echo _l('deposit'); ?></th>
-          <?php }elseif($data_report['account_type'] == 7 || $data_report['account_type'] == 1){ ?>
-            <th class="total_amount"><?php echo _l('charge'); ?></th>
-            <th class="total_amount"><?php echo _l('payment'); ?></th>
-          <?php }else{ ?>
-            <th class="total_amount"><?php echo _l('decrease'); ?></th>
-            <th class="total_amount"><?php echo _l('increase'); ?></th>
-          <?php } ?>
-          <th class="total_amount"><?php echo _l('balance'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+      <tr>
+          <td colspan="7">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td colspan="7">
+              <h5 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('account') . ' : ' . $account_name ?></h5>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+        <tr>
+          <td colspan="7">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('account_history'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td class="text-bold"><?php echo _l('invoice_payments_table_date_heading'); ?></td>
+          <td class="text-bold"><?php echo _l('transaction_type'); ?></td>
+          <td class="text-bold"><?php echo _l('split'); ?></td>
+          <td class="text-bold"><?php echo _l('description'); ?></td>
+          <?php if($data_report['account_type'] == 3){ ?>
+            <td class="total_amount text-bold"><?php echo _l('payment'); ?></td>
+            <td class="total_amount text-bold"><?php echo _l('deposit'); ?></td>
+          <?php }elseif($data_report['account_type'] == 7 || $data_report['account_type'] == 1){ ?>
+            <td class="total_amount text-bold"><?php echo _l('charge'); ?></td>
+            <td class="total_amount text-bold"><?php echo _l('payment'); ?></td>
+          <?php }else{ ?>
+            <td class="total_amount text-bold"><?php echo _l('decrease'); ?></td>
+            <td class="total_amount text-bold"><?php echo _l('increase'); ?></td>
+          <?php } ?>
+          <td class="total_amount text-bold"><?php echo _l('balance'); ?></td>
+        </tr>
         <?php
          $row_index = 0; 
          ?>

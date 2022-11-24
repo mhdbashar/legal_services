@@ -23,11 +23,11 @@ class Babil_sms_gateway extends AdminController
                 $message->msg = $message->message;
                 $message->date = $message->timestamp;
                 if(!$this->Babil_sms_gateway_model->is_set([
-                    'msg' => ($message->message),
-                    'created_at' => ($message->date),
-                    'sender' => ($message->phone)
-                ]) &&
-                in_array($message->phone, json_decode($this->app->get_option('sms_senders'))))
+                        'msg' => ($message->message),
+                        'created_at' => ($message->date),
+                        'sender' => ($message->phone)
+                    ]) &&
+                    in_array($message->phone, json_decode($this->app->get_option('sms_senders'))))
                     $data['messages'][] = $message;
 
             }

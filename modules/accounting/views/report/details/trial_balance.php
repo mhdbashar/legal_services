@@ -1,17 +1,38 @@
 <div id="accordion">
   <div class="card">
-    <h3 class="text-center"><?php echo get_option('companyname'); ?></h3>
-    <h4 class="text-center"><?php echo _l('trial_balance'); ?></h4>
-    <p class="text-center"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
     <table class="tree">
-      <thead>
-        <tr class="tr_header">
-          <th><?php echo _l('acc_account'); ?></th>
-          <th class="th_total"><?php echo _l('debit'); ?></th>
-          <th class="th_total"><?php echo _l('credit'); ?></th>
-        </tr>
-      </thead>
       <tbody>
+        <tr>
+          <td colspan="3">
+              <h3 class="text-center no-margin-top-20 no-margin-left-24"><?php echo get_option('companyname'); ?></h3>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <h4 class="text-center no-margin-top-20 no-margin-left-24"><?php echo _l('trial_balance'); ?></h4>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <p class="text-center no-margin-top-20 no-margin-left-24"><?php echo _d($data_report['from_date']) .' - '. _d($data_report['to_date']); ?></p>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="tr_header">
+          <td class="text-bold"><?php echo _l('acc_account'); ?></td>
+          <td class="th_total text-bold"><?php echo _l('debit'); ?></td>
+          <td class="th_total text-bold"><?php echo _l('credit'); ?></td>
+        </tr>
         <?php
           $row_index = 0;
           $parent_index = 0;

@@ -14,6 +14,22 @@
                         <div class="clearfix"></div>
                         <?php $value = (isset($category) ? $category->name : ''); ?>
                         <?php echo render_input('name','name',$value); ?>
+                        <?php
+                        $staff_language = get_staff_default_language(get_staff_user_id());
+                        if($staff_language == 'arabic'){
+                            $field = 'short_name_ar';
+                            $field_city = 'Name_ar';
+                        }else{
+                            $field = 'short_name';
+                            $field_city = 'Name_en';
+                        }
+                        ?>
+                        <?php $value = (isset($category) ? $category->country : ''); ?>
+                        <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$value); ?>
+                        <?php $value = (isset($category) ? $category->cat_description : ''); ?>
+                        <p class="bold"><?php echo _l('category_description'); ?></p>
+                        <?php echo render_textarea('cat_description', '', $value, array(), array(), '', 'tinymce'); ?>
+
                     </div>
                 </div>
             </div>
@@ -28,6 +44,8 @@
 <script>
     $(function(){
         _validate_form($('#category-form'),{name:'required'});
+        _validate_form($('#category-form'),{country:'required'});
+
     });
 </script>
 </body>

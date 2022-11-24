@@ -116,6 +116,40 @@
                         </div>
                     </div>
                 </div>
+
+                    <?php
+                        $days=get_dur_number_of_days_by_id($project->duration_id);
+                        $dur_name=get_dur_name_by_id($project->duration_id);
+                        $duration_date=$project->regular_duration_begin_date;
+                        $end_date_case  = strtotime($duration_date . " +".$days."days");
+                        $end_date_case = date('Y-m-d',$end_date_case);
+
+                        if( $project->regular_header == 1){
+                          if($end_date_case < date('Y-m-d'))
+                           {
+
+                            $this->db->where('id', $project->id);
+                            $this->db->update(db_prefix() . 'my_cases', [
+                            'regular_header' => 0,
+                             ]);
+                           }
+                         else { ?>
+                             <div class="alert alert-warning" font-medium="">
+                                 <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
+                                 <hr class="hr-10">
+                                 <?php echo _l('remember that') ?> <b><?php echo $dur_name ?></b>
+                                 <?php echo _l('which started at') ?>
+                                 <b> <?php echo $duration_date ?> </b>
+                                 <?php echo _l('will end at') ?><b><?php echo $end_date_case ;?></b>
+                             </div>
+
+                         <?php } ?>
+                          <?php // if(has_permission('tasks','','create')) {?>
+
+                        <?php // } ?>
+
+                    <?php } ?>
+
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>

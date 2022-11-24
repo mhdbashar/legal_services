@@ -1,115 +1,60 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<p><?php echo _l('regular_durations'); ?></p>
-<?php if (has_permission('legal_services', '', 'create')) { ?>
-    <hr />
-    <?php echo form_open(admin_url('legalservices/regular_durations/add_duration_cases/'.$ServID), array('id' => 'written-reports-form')); ?>
-    <?php
-    $durations = $this->db->get(db_prefix() . 'regular_durations')->result_array();
-    $this->db->where('id', $project->id);
-    $case_info= $this->db->get(db_prefix() . 'my_cases')->row();
-    ?>
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group">
-                <label class="control-label"><?php echo _l("regular_duration1") ; ?></label>
-                <select id="duration_id"  name="duration_id" class="form-control custom_select_arrow" >
-                    <option value="<?php echo $case_info->duration_id; ?>" "selected" ><?php echo  get_dur_name_by_id($case_info->duration_id); ?></option>
+            <div class="panel_s">
+                <div class="panel-body">
+                    <div class="_buttons">
+                        <a href=<?php echo admin_url('legalservices/regular_durations/add_duration_cases/'.$project->id)?> class="btn btn-info pull-left" ><?php echo _l('new_case_regular_duration'); ?></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr class="hr-panel-heading" />
+                    <div class="clearfix"></div>
+                    <div class="table-responsive"><table data-last-order-identifier="kb-articles" data-default-order="" class="table table-articles dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                            <tr class="has-row-options odd text-center"  role="row">
+                                <th class="sorting " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Article Name activate to sort column ascending"><?php echo _l("duration_name")?></th>
+                                <th class="sorting " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Article Name activate to sort column ascending"><?php echo _l("number_of_dayes")?></th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Group activate to sort column ascending"><?php echo _l("duration_start_date")?></th>
+                                <th class="sorting " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Article Name activate to sort column ascending"><?php echo _l('duration_end_date'); ?></th>
 
-                    <?php foreach($durations as $duration){
-                        if($duration['id']==$case_info->duration_id)
-                        {
-                            continue;
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $case_durations = get_case_durations_by_case_id($project->id);
+                            foreach($case_durations as $case_duration){ ?>
+                                <?php
+                               $duration= get_duration_by_id($case_duration['reg_id']);
+                               ?>
+                                <tr class="has-row-options odd text-center" >
+                                    <td><a  href="#" class="font-size-14"><b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b></a>
+                                        <div class="row-options">
 
-                        }
-                        if($duration['court_id']==0 && $duration['categories']==0 && $duration['sub_categories'] == 0 ||
-                            $duration['court_id']== $case_info->court_id && $duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id ||
-                            $duration['court_id']== $case_info->court_id && $duration['categories']==0 && $duration['sub_categories']==0 && $case_info->cat_id ==0 && $case_info->subcat_id ==0
-                        ){?>
-                            <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
+                                            <a href="<?php echo admin_url('legalservices/regular_durations/edit_case_duration/'.$case_duration['case_id'].'/'.$duration->id.'/'.$case_duration['id']); ?>"><?php echo _l("edit")?> </a>
+                                            | <a href="<?php echo admin_url('legalservices/regular_durations/delete_case_duration/'.$case_duration['id'].'/'.$case_duration['case_id']); ?>" class="_delete text-danger"><?php echo _l("delete")?> </a>
+                                        </div>
+                                    </td>
+                                    <td><?php echo $case_duration['days'] ; ?> </td>
+                                    <td><?php echo $case_duration['start_date']; ?> </td>
+                                    <td><?php echo $case_duration['end_date']; ?> </td>
 
-                        <?php } ?>
 
-                    <?php } ?>
-                </select>
+                                </tr>
+                            <?php } ?>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <?php echo render_date_input( 'regular_duration_begin_date','regular_duration_begin_date1',$case_info->regular_duration_begin_date , [], [],'',"regular_duration_begin_date"); ?>
-            <?php echo form_hidden('id',$project->id); ?>
-
-        </div>
-
-
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <label class="control-label"><?php echo _l("regular_duration2") ; ?></label>
-                <select id="duration_id"  name="duration_id2" class="form-control custom_select_arrow" >
-                    <option value="<?php echo $case_info->duration_id2; ?>" "selected" ><?php echo  get_dur_name_by_id($case_info->duration_id2); ?></option>
-
-                    <?php foreach($durations as $duration){
-                        if($duration['id']==$case_info->duration_id2)
-                        {
-                            continue;
-
-                        }
-                        if($duration['court_id']==0 && $duration['categories']==0 && $duration['sub_categories'] == 0 ||
-                            $duration['court_id']== $case_info->court_id && $duration['categories']==$case_info->cat_id && $duration['sub_categories']==$case_info->subcat_id ||
-                            $duration['court_id']== $case_info->court_id && $duration['categories']==0 && $duration['sub_categories']==0 && $case_info->cat_id ==0 && $case_info->subcat_id ==0
-                        ){?>
-                            <option value="<?php echo $duration['id']; ?>"> <?php echo $duration['name']; ?></option>
-
-                        <?php } ?>
-
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <?php echo render_date_input( 'regular_duration_begin_date2','regular_duration_begin_date2',$case_info->regular_duration_begin_date2 , [], [],'',"regular_duration_begin_date"); ?>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
-    <button type="submit" id="save" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info" onclick="clear_dur_notified()"><?php echo _l('save'); ?></button>
-    <?php echo form_close(); ?>
-<?php } ?>
-<?php init_tail(); ?>
+
+
 <script>
-    $(function(){
-        _validate_form($('#written-reports-form'),{duration_id:'required',regular_duration_begin_date:'required'});
-    });
-
-
-    $("#save").click(function ()
-    {
-        var id = '<?php echo $project->id;?>';
-
-        $.ajax({
-            url: '<?php echo admin_url('legalservices/Regular_durations/clear_dur_notified/'); ?>'  + id,
-
-
-        });
-
-    });
-
 
 </script>
-
 </body>
 </html>
-
-

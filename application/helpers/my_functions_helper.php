@@ -836,6 +836,37 @@ function get_case_by_id($case_id){
     $case = $CI->db->get(db_prefix() . 'my_cases')->row();
     return $case;
 }
+//*************************************
+function get_case_duration_by_id($id){
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    $case_duration = $CI->db->get(db_prefix() . 'cases_regular_durations')->row();
+    return $case_duration;
+}
+//*************************************
+function get_case_durations_by_case_id($case_id){
+    $CI = & get_instance();
+    $CI->db->where('case_id', $case_id);
+    $case_duration = $CI->db->get(db_prefix() . 'cases_regular_durations')->result_array();
+    return $case_duration;
+}
+//*************************************
+
+
+function get_durations(){
+    $CI = & get_instance();
+    $regular_durations=$CI->db->get_where(db_prefix() . 'regular_durations')->result();
+    return $regular_durations;
+}
+//*************************************
+
+function get_duration_by_id($duration_id){
+    $CI = & get_instance();
+    $CI->db->where('id', $duration_id);
+    $duration = $CI->db->get(db_prefix() . 'regular_durations')->row();
+    return $duration;
+}
+//*************************************
 
 function get_service_by_id($serv_id){
     $CI = & get_instance();

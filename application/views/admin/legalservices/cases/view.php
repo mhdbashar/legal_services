@@ -117,96 +117,41 @@
                     </div>
                 </div>
 
-                    <?php
-                        $days=get_dur_number_of_days_by_id($project->duration_id);
-                        $dur_name=get_dur_name_by_id($project->duration_id);
-                        $duration_date=$project->regular_duration_begin_date;
-                        $end_date_case  = strtotime($duration_date . " +".$days."days");
-                        $end_date_case = date('Y-m-d',$end_date_case);
-                        //******************
-                    $days2=get_dur_number_of_days_by_id($project->duration_id2);
-                    $dur_name2=get_dur_name_by_id($project->duration_id2);
-                    $duration_date2=$project->regular_duration_begin_date2;
-                    $end_date_case2  = strtotime($duration_date2 . " +".$days2."days");
-                    $end_date_case2 = date('Y-m-d',$end_date_case2);
-
-                        if( $project->regular_header == 1)
-                        {
-                          if($end_date_case < date('Y-m-d'))
-                           {
-
-                            $this->db->where('id', $project->id);
-                            $this->db->update(db_prefix() . 'my_cases', [
-                            'regular_header' => 0,
-                             ]);
-                            }
-
-                              if($project->dur_alert_close < date('Y-m-d')){ ?>
+                 <?php
+                            $case_durations = get_case_durations_by_case_id($project->id);
+                            foreach($case_durations as $case_duration){ ?>
+                                <?php
+                               $duration= get_duration_by_id($case_duration['reg_id']);
+                               if( $case_duration['regular_header'] == 1)
+                               {
+                                   if($case_duration['end_date'] < date('Y-m-d'))
+                                   {
+                                       $this->db->where('id',$case_duration['id'] );
+                                       $this->db->update(db_prefix() . 'cases_regular_durations', ['regular_header' => 0,]);
+                                   }
+                                   if($case_duration['dur_alert_close'] < date('Y-m-d'))
+                                   { ?>
                                      <div  id="alert_dur_div" class="alert alert-warning" font-medium="">
-                                 <button type="button"  id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
+                                    <button type="button"  id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
                                      <span aria-hidden="true">×</span>
-                                 </button>
+                                    </button>
+                                         <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4><hr class="hr-10">
+                                    <?php echo _l('remember that') ?> <b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b>
+                                    <?php echo _l('which started at') ?>
+                                    <b> <?php echo $case_duration['start_date']  ?> </b>
+                                    <?php echo _l('will end at') ?><b><?php echo $case_duration['end_date'] ;?></b>
+                                     </div>
 
-                                 <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
-                                 <hr class="hr-10">
-                                <?php echo _l('remember that') ?> <b><?php echo $dur_name ?></b>
-                                <?php echo _l('which started at') ?>
-                                <b> <?php echo $duration_date ?> </b>
-                              <?php echo _l('will end at') ?><b><?php echo $end_date_case ;?></b>
-                               </div>
+                                    <?php } ?>
+                        <?php } ?>
+                <?php } ?>
 
-                              <?php } ?>
+
 
 
                           <?php // if(has_permission('tasks','','create')) {?>
 
                         <?php // } ?>
-
-                    <?php } ?>
-
-
-
-               <?php if( $project->regular_header2 == 1)
-                {
-                if($end_date_case2 < date('Y-m-d'))
-                {
-
-                $this->db->where('id', $project->id);
-                $this->db->update(db_prefix() . 'my_cases', [
-                'regular_header2' => 0,
-                ]);
-                }
-
-                if($project->dur_alert_close2 < date('Y-m-d')){ ?>
-                <div  id="alert_dur_div2" class="alert alert-warning" font-medium="">
-                    <button type="button"  id="close_alert_button2" class="close" data-dismiss="modal" aria-label="Close"  >
-                        <span aria-hidden="true">×</span>
-                    </button>
-
-                    <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
-                    <hr class="hr-10">
-                    <?php echo _l('remember that') ?> <b><?php echo $dur_name2 ?></b>
-                    <?php echo _l('which started at') ?>
-                    <b> <?php echo $duration_date2 ?> </b>
-                    <?php echo _l('will end at') ?><b><?php echo $end_date_case2 ;?></b>
-                </div>
-
-                <?php } ?>
-
-
-                <?php // if(has_permission('tasks','','create')) {?>
-
-                <?php // } ?>
-
-                <?php } ?>
-
-
-
-
-
-
-
-
 
 
                 <div class="panel_s project-menu-panel">
@@ -608,26 +553,12 @@ echo form_hidden('project_percent',$percent);
 <script>
     $("#close_alert_button").click(function ()
     {
-        var id = '<?php echo $project->id;?>';
+        var id = '<?php echo $case_duration['id'];?>';
 
 
         $('#alert_dur_div').hide();
         $.ajax({
             url: '<?php echo admin_url('legalservices/Regular_durations/dur_alert_close/'); ?>'  + id,
-
-
-        });
-
-    });
-
-    $("#close_alert_button2").click(function ()
-    {
-        var id = '<?php echo $project->id;?>';
-
-
-        $('#alert_dur_div2').hide();
-        $.ajax({
-            url: '<?php echo admin_url('legalservices/Regular_durations/dur_alert_close2/'); ?>'  + id,
 
 
         });

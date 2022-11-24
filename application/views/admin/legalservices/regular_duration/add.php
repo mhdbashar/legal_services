@@ -44,7 +44,7 @@
                                                 <option selected disabled></option>
                                             </select>
                                         </div>
-                                        <?php echo form_hidden('project_id',$project->id); ?>
+
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">

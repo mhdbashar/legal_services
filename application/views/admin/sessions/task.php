@@ -552,25 +552,6 @@
 
             $('body').on('change','#rel_id',function(){
                 if($(this).val() != ''){
-                    if(_rel_type.val() == 'project'){
-                        $.get(admin_url + 'projects/get_rel_project_data/'+$(this).val()+'/'+taskid,function(project){
-                            $("select[name='milestone']").html(project.milestones);
-                            if(typeof(_milestone_selected_data) != 'undefined'){
-                                $("select[name='milestone']").val(_milestone_selected_data.id);
-                                $('input[name="duedate"]').val(_milestone_selected_data.due_date)
-                            }
-                            $("select[name='milestone']").selectpicker('refresh');
-
-                            $("#assignees").html(project.assignees);
-                            if(typeof(_current_member) != 'undefined'){
-                                $("#assignees").val(_current_member);
-                            }
-                            $("#assignees").selectpicker('refresh')
-                            if(project.billing_type == 3){
-                                $('.task-hours').addClass('project-task-hours');
-                            } else {
-                                $('.task-hours').removeClass('project-task-hours');
-                            }
                     $('#court_id').find('option').remove();
                     $('#court_id').selectpicker("refresh");
                     $('#dept').html('');
@@ -634,7 +615,7 @@
                     // } else {
                     //      // reset_task_duedate_input();
                     // }
-                })
+                }
             });
 
             <?php if(!isset($task) && $rel_id != ''){ ?>

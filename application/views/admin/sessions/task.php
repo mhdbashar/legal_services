@@ -634,7 +634,7 @@
                     // } else {
                     //      // reset_task_duedate_input();
                     // }
-                }
+                })
             });
 
             <?php if(!isset($task) && $rel_id != ''){ ?>

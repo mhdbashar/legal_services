@@ -124,9 +124,11 @@ class Migration_Version_520 extends CI_Migration
             'invoices-batch-payments',
             1
         );
+        // end
         if (!$this->db->field_exists('add_to_library', db_prefix() . 'staff')) {
             $this->db->query("ALTER TABLE `tblstaff` ADD `add_to_library` tinyint(1) NOT NULL DEFAULT '0'");
         }
+
 
         $this->db->query("CREATE TABLE IF NOT EXISTS `tbldisputes_case_activity` (
             `id` int(11) NOT NULL AUTO_INCREMENT,

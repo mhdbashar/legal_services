@@ -668,6 +668,17 @@ class Sessions_model extends App_Model
             unset($data['tags']);
         }
 
+        if (isset($data['assignees'])) {
+            $assignees = $data['assignees'];
+            unset($data['assignees']);
+        }
+
+        if (isset($data['followers'])) {
+            $followers = $data['followers'];
+            unset($data['followers']);
+        }
+
+
         //Start Block For Legal Services Session
         if (isset($data['session_number'])) {
             $session['session_number'] = $data['session_number'];
@@ -750,29 +761,42 @@ class Sessions_model extends App_Model
             }
 
             if ($clientRequest == false) {
-                $new_task_auto_assign_creator = (get_option('new_session_auto_assign_current_member') == '1' ? true : false);
 
-                if ( isset($data['rel_type'])
-                    && $data['rel_type'] == 'project'
-                    && !$this->projects_model->is_member($data['rel_id'])
-                    || !$withDefaultAssignee
-                ) {
-                    $new_task_auto_assign_creator = false;
+                if (isset($followers)) {
+                    foreach ($followers as $staff_id) {
+                        $this->add_task_followers([
+                            'taskid'   => $insert_id,
+                            'follower' => $staff_id,
+                        ]);
+                    }
                 }
 
-                if ($new_task_auto_assign_creator == true) {
-                    $this->db->insert(db_prefix() . 'task_assigned', [
-                        'taskid'        => $insert_id,
-                        'staffid'       => get_staff_user_id(),
-                        'assigned_from' => get_staff_user_id(),
-                    ]);
+                if (isset($assignees)) {
+                    foreach ($assignees as $staff_id) {
+                        $this->add_task_assignees([
+                            'taskid'   => $insert_id,
+                            'assignee' => $staff_id,
+                        ]);
+                    }
                 }
-                if (get_option('new_session_auto_follower_current_member') == '1') {
-                    $this->db->insert(db_prefix() . 'task_followers', [
-                        'taskid'  => $insert_id,
-                        'staffid' => get_staff_user_id(),
-                    ]);
-                }
+//                $new_task_auto_assign_creator = (get_option('new_session_auto_assign_current_member') == '1' ? true : false);
+//
+//                if ( isset($data['rel_type'])
+//                    && $data['rel_type'] == 'project'
+//                    && !$this->projects_model->is_member($data['rel_id'])
+//                    || !$withDefaultAssignee
+//                ) {
+//                    $new_task_auto_assign_creator = false;
+//                }
+//
+//                if ($new_task_auto_assign_creator == true) {
+//                    $this->db->insert(db_prefix() . 'task_assigned', [
+//                        'taskid'        => $insert_id,
+//                        'staffid'       => get_staff_user_id(),
+//                        'assigned_from' => get_staff_user_id(),
+//                    ]);
+//                }
+
 
                 if ($ticket_to_task && isset($data['rel_type']) && $data['rel_type'] == 'ticket') {
                     $ticket_attachments = $this->db->query('SELECT * FROM ' . db_prefix() . 'ticket_attachments WHERE ticketid=' . $this->db->escape_str($data['rel_id']) . ' OR (ticketid=' . $this->db->escape_str($data['rel_id']) . ' AND replyid IN (SELECT id FROM ' . db_prefix() . 'ticket_replies WHERE ticketid=' . $this->db->escape_str($data['rel_id']) . '))')->result_array();

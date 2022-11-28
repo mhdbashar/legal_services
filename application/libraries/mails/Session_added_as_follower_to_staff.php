@@ -23,7 +23,6 @@ class Session_added_as_follower_to_staff extends App_mail_template
         $this->staff_email = $staff_email;
         $this->follower_id = $follower_id;
         $this->task_id     = $task_id;
-        exit;
     }
 
     public function build()

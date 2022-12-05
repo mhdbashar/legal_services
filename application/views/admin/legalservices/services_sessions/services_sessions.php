@@ -31,6 +31,7 @@
                     'style' => 'min-width:150px',
                 ],
             ],
+            _l('session_link'),
             _l('session_assigned'),
             _l('Court'),
             //_l('session_info'),

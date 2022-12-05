@@ -3880,4 +3880,8 @@ $lang['disputes_invoice_item'] = 'Disputes Invoice';
 $lang['sessions_reminder_notification_before'] = 'Remind The Session Deadline Before (hours)';
 $lang['sessions_reminder_notification_before_help'] = 'Notification Hours Before The Session';
 $lang['next_session_link'] = 'Next Session Link';
+$lang['add_new_session_from_previous'] = 'Add An Upcoming Session';
+$lang['add_report_session'] = 'Add Report';
+
+
 

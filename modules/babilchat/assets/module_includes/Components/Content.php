@@ -1,3 +1,10 @@
+<style>
+.mright5{
+    display: block !important;
+}
+
+</style>
+
 <div class="content">
      <div id="sharedFiles">
           <i class="fa fa-times-circle-o" aria-hidden="true"></i>

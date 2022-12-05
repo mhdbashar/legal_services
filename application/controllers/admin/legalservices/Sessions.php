@@ -636,6 +636,7 @@ class Sessions extends AdminController
                     'id'      => $_id,
                     'message' => $message,
                 ]);
+                die;
             } else {
                 if (!has_permission('sessions', '', 'edit')) {
                     header('HTTP/1.0 400 Bad error');
@@ -656,7 +657,7 @@ class Sessions extends AdminController
                     'id'      => $id,
                 ]);
 
-
+                die;
             }
 
             die;
@@ -698,6 +699,7 @@ class Sessions extends AdminController
         $data['judges']         = $this->sessions_model->get_judges();
         $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
+
         $this->load->view('admin/sessions/task', $data);
     }
 
@@ -724,6 +726,7 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
+
             if (strpos($data['rel_type'], 'session') !== false) {
                 $data['rel_type'] = substr($data['rel_type'],8);
 
@@ -738,7 +741,23 @@ class Sessions extends AdminController
                     ]);
                     die;
                 }
-                $id      = $this->sessions_model->add($data);
+
+                $id = $this->sessions_model->add($data);
+                //add reminder
+                if(isset($data['time'])){
+                    $newdata['date'] = $data['startdate'] . ' ' . $data['time'] . ':00';
+                }
+                $time = strtotime($newdata['date']);
+                $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
+                $newdata['date'] = date('Y-m-d H:i:s', $time);
+                $newdata['time'] = date('H:i', $time);
+                $newdata['rel_type']= 'task';
+                $newdata['rel_id']= $id;
+                $newdata['staff'] = get_staff_user_id();
+                $newdata['notify_by_email'] = 1;
+                $newdata['description']= 'تذكير للجلسة '.$data['name'];
+                $this->misc_model->add_reminder($newdata, $id);
+
                 $task = $this->sessions_model->get($id);
                 $_id     = false;
                 $success = false;
@@ -777,6 +796,7 @@ class Sessions extends AdminController
                     'id'      => $_id,
                     'message' => $message,
                 ]);
+                die;
 
             } else {
                 if (!has_permission('sessions', '', 'edit')) {
@@ -992,6 +1012,7 @@ class Sessions extends AdminController
         $data1=$data;
         $staff= get_staff_full_name($data['staff']);
         if ($data) {
+
             //Merge date with time
             if(isset($data['time'])){
                 $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
@@ -1981,7 +2002,184 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-            echo $this->sessions_model->update_customer_report($id, $data);
+            $success = $this->sessions_model->update_customer_report($id, $data);
+            if($success) {
+                $this->db->where('id', $id);
+                $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id=' . db_prefix() . 'tasks.id');
+                $newdata = $this->db->get(db_prefix() . 'tasks')->row();
+                $newdata->time = $data['next_session_time'];
+                $newdata->startdate = $data['next_session_date'];
+                $newdata->session_link = isset($data['session_link']) ? $data['session_link'] : '';
+                $newdata->duedate = $data['next_session_date'];
+                $newdata = (array)$newdata;
+                $court_decision = $newdata['court_decision'];
+                unset($newdata['id'],$newdata['task_id'],$newdata['s_id'],$newdata['customer_report'],$newdata['next_session_date']);
+                unset($newdata['next_session_time'],$newdata['court_decision'],$newdata['repeat_every'],$newdata['send_to_customer']);
+                unset($newdata['session_status'],$newdata['is_notifid']);
+                $id = $this->sessions_model->add($newdata);
+                if ($id) {
+                    //add reminder
+                    $this->db->where('s_id', $id);
+                    $this->db->update(db_prefix() . 'my_session_info',['court_decision'=>$court_decision]);
+                    $name = $newdata['name'];
+                    $newdata=[];
+                    if(isset($data['next_session_time'])){
+                        $newdata['date'] = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
+                    }
+                    $time = strtotime($newdata['date']);
+                    $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
+                    $newdata['date'] = date('Y-m-d H:i:s', $time);
+                    $newdata['time'] = date('H:i', $time);
+                    $newdata['rel_type']= 'task';
+                    $newdata['rel_id']= $id;
+                    $newdata['staff'] = get_staff_user_id();
+                    $newdata['notify_by_email'] = 1;
+                    $newdata['description']= 'تذكير للجلسة '.$name;
+                    $this->misc_model->add_reminder($newdata, $id);
+
+                    $task = $this->sessions_model->get($id);
+                    $_id     = false;
+                    $success = false;
+                    $message = '';
+                    if ($id) {
+                        $success       = true;
+                        $_id           = $id;
+                        $message       = _l('added_successfully', _l('session'));
+                        $uploadedFiles = handle_task_attachments_array($id);
+                        if ($uploadedFiles && is_array($uploadedFiles)) {
+                            foreach ($uploadedFiles as $file) {
+                                $this->misc_model->add_attachment_to_database($id, 'task', [$file]);
+                            }
+                        }
+
+                    }
+                    if(sizeof($task->assignees)==1 && $task->current_user_is_assigned==1){
+                        $userName = $GLOBALS['current_user']->firstname .' ' .$GLOBALS['current_user']->lastname;
+                        if($this->app_modules->is_active('telegram_chat')) {
+                            //Telegram Chat
+                            $str = '&#9878  تم اضافة جلسة من قبل ' .$userName. "\n"."اسم المكلف بالجلسة :"."\n";
+                            foreach ($task->assignees as $assignee) {
+                                $str .= $assignee['full_name'] . "\n";
+                            }
+
+                            $this->load->helper('telegram_helper');
+                            $link1 = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task->id;
+                            $link = "<a href= '$link1' >click here</a>";
+                            $str1 = $str ."الموضوع: ".$task->name."\n"."تاريخ الجلسة: ".$task->startdate."\n"."وقت الجلسة:".$task->time. " \n رابط الجلسة: " . $link . "\nDone!";
+                            send_message_telegram(urlencode($str1));
+                            //Telegram Chat
+                        }
+                    }
+                    if ($success) {
+                        $message = _l('add_successfully', _l('session'));
+                        echo $message;
+                        die();
+                    }
+                }
+            }
+        }
+    }
+
+
+    public function add_report_session($id)
+    {
+        if(!$id){
+            set_alert('danger', _l('WrongEntry'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $success = $this->sessions_model->update_customer_report($id, $data);
+            if($success) {
+                if($data['next_session_time'] != '' && $data['next_session_date'] != '') {
+                    $this->db->where('id', $id);
+                    $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id=' . db_prefix() . 'tasks.id');
+                    $newdata = $this->db->get(db_prefix() . 'tasks')->row();
+                    $newdata->time = $data['next_session_time'];
+                    $newdata->startdate = $data['next_session_date'];
+                    $newdata->session_link = isset($data['session_link']) ? $data['session_link'] : '';
+                    $newdata->duedate = $data['next_session_date'];
+                    $newdata = (array)$newdata;
+//                    $court_decision = $newdata['court_decision'];
+                    unset($newdata['id']);
+                    unset($newdata['task_id']);
+                    unset($newdata['s_id']);
+                    unset($newdata['customer_report']);
+                    unset($newdata['next_session_date']);
+                    unset($newdata['next_session_time']);
+                    unset($newdata['court_decision']);
+                    unset($newdata['repeat_every']);
+                    unset($newdata['send_to_customer']);
+                    unset($newdata['session_status']);
+                    unset($newdata['is_notifid']);
+                    unset($newdata['is_public']);
+                    unset($newdata['billable']);
+                    unset($newdata['billed']);
+                    $id = $this->sessions_model->add($newdata);
+                    if ($id) {
+                        //add reminder
+//                        $this->db->where('s_id', $id);
+//                        $this->db->update(db_prefix() . 'my_session_info', ['court_decision' => $court_decision]);
+                        $name = $newdata['name'];
+                        $newdata = [];
+                        if (isset($data['next_session_time'])) {
+                            $newdata['date'] = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
+                        }
+                        $time = strtotime($newdata['date']);
+                        $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
+                        $newdata['date'] = date('Y-m-d H:i:s', $time);
+                        $newdata['time'] = date('H:i', $time);
+                        $newdata['rel_type'] = 'task';
+                        $newdata['rel_id'] = $id;
+                        $newdata['staff'] = get_staff_user_id();
+                        $newdata['notify_by_email'] = 1;
+                        $newdata['description'] = 'تذكير للجلسة ' . $name;
+                        $this->misc_model->add_reminder($newdata, $id);
+
+                        $task = $this->sessions_model->get($id);
+                        $_id = false;
+                        $success = false;
+                        $message = '';
+                        if ($id) {
+                            $success = true;
+                            $_id = $id;
+                            $message = _l('added_successfully', _l('session'));
+                            $uploadedFiles = handle_task_attachments_array($id);
+                            if ($uploadedFiles && is_array($uploadedFiles)) {
+                                foreach ($uploadedFiles as $file) {
+                                    $this->misc_model->add_attachment_to_database($id, 'task', [$file]);
+                                }
+                            }
+
+                        }
+                        if (sizeof($task->assignees) == 1 && $task->current_user_is_assigned == 1) {
+                            $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
+                            if ($this->app_modules->is_active('telegram_chat')) {
+                                //Telegram Chat
+                                $str = '&#9878  تم اضافة جلسة من قبل ' . $userName . "\n" . "اسم المكلف بالجلسة :" . "\n";
+                                foreach ($task->assignees as $assignee) {
+                                    $str .= $assignee['full_name'] . "\n";
+                                }
+
+                                $this->load->helper('telegram_helper');
+                                $link1 = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task->id;
+                                $link = "<a href= '$link1' >click here</a>";
+                                $str1 = $str . "الموضوع: " . $task->name . "\n" . "تاريخ الجلسة: " . $task->startdate . "\n" . "وقت الجلسة:" . $task->time . " \n رابط الجلسة: " . $link . "\nDone!";
+                                send_message_telegram(urlencode($str1));
+                                //Telegram Chat
+                            }
+                        }
+                        if ($success) {
+                            $message = _l('add_successfully', _l('session'));
+                            echo $message;
+                            die();
+                        }
+                    }
+                }else{
+                    echo $success;
+                    die();
+                }
+            }
         }
     }
 
@@ -2045,8 +2243,9 @@ class Sessions extends AdminController
 
     public function build_dropdown_courts_for_sessions() {
         $data = $this->input->post();
-        if ($data['rel_type'] == 'kd-y') {
-            $case = get_case_by_id($data['rel_id']);
+        if ($data['rel_type'] == 'kd-y' || $data['rel_type'] == 'kdaya_altnfith') {
+
+            $case = $data['rel_type'] == 'kd-y' ? get_case_by_id($data['rel_id']) : get_disputes_case($data['rel_id']);
             if ($case) {
                 $courts = get_courts_by_country_city($case->country, $case->city);
                 foreach ($courts as $court){
@@ -2121,6 +2320,105 @@ class Sessions extends AdminController
             ]);
         }
         die();
+    }
+
+    public function session_report($id)
+    {
+        if ($this->input->post('invoicepdf')) {
+            try {
+                $pdf = invoice_pdf($invoice);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+                die;
+            }
+
+            $invoice_number = format_invoice_number($invoice->id);
+            $companyname    = get_option('invoice_company_name');
+            if ($companyname != '') {
+                $invoice_number .= '-' . mb_strtoupper(slug_it($companyname), 'UTF-8');
+            }
+            $pdf->Output(mb_strtoupper(slug_it($invoice_number), 'UTF-8') . '.pdf', 'D');
+            die();
+        }
+
+        $data=[];
+        $session = $this->sessions_model->get_with_session_info($id);
+        $session->title         = _l('session_report');
+        $data['session'] = $session;
+        if($session->rel_type == 'kd-y'){
+            $case = get_case_by_id($session->rel_id);
+            $data['case'] = $case;
+        }
+
+//        $session = hooks()->apply_filters('before_client_view_invoice', $session);
+
+//        if (!is_client_logged_in()) {
+//            load_client_language($invoice->clientid);
+//        }
+
+        // Handle Invoice PDF generator
+//        if ($this->input->post('invoicepdf')) {
+//            try {
+//                $pdf = invoice_pdf($invoice);
+//            } catch (Exception $e) {
+//                echo $e->getMessage();
+//                die;
+//            }
+//
+//            $invoice_number = format_invoice_number($invoice->id);
+//            $companyname    = get_option('invoice_company_name');
+//            if ($companyname != '') {
+//                $invoice_number .= '-' . mb_strtoupper(slug_it($companyname), 'UTF-8');
+//            }
+//            $pdf->Output(mb_strtoupper(slug_it($invoice_number), 'UTF-8') . '.pdf', 'D');
+//            die();
+//        }
+
+        // Handle $_POST payment
+//        if ($this->input->post('make_payment')) {
+//            $this->load->model('payments_model');
+//            if (!$this->input->post('paymentmode')) {
+//                set_alert('warning', _l('invoice_html_payment_modes_not_selected'));
+//                redirect(site_url('invoice/' . $id . '/' . $hash));
+//            } elseif ((!$this->input->post('amount') || $this->input->post('amount') == 0) && get_option('allow_payment_amount_to_be_modified') == 1) {
+//                set_alert('warning', _l('invoice_html_amount_blank'));
+//                redirect(site_url('invoice/' . $id . '/' . $hash));
+//            }
+//            $this->payments_model->process_payment($this->input->post(), $id);
+//        }
+
+//        if ($this->input->post('paymentpdf')) {
+//            $payment = $this->payments_model->get($this->input->post('paymentpdf'));
+//            // Confirm that the payment is related to the invoice.
+//            if ($payment->invoiceid == $id) {
+//                $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
+//                $paymentpdf            = payment_pdf($payment);
+//                $paymentpdf->Output(mb_strtoupper(slug_it(_l('payment') . '-' . $payment->paymentid), 'UTF-8') . '.pdf', 'D');
+//                die;
+//            }
+//        }
+
+//        $this->app_scripts->theme('sticky-js', 'assets/plugins/sticky/sticky.js');
+//        $this->load->library('app_number_to_word', [
+//            'clientid' => $invoice->clientid,
+//        ], 'numberword');
+//        $this->load->model('payment_modes_model');
+//        $this->load->model('payments_model');
+//        $data['payments']      = $this->payments_model->get_invoice_payments($id);
+//        $data['payment_modes'] = $this->payment_modes_model->get();
+
+//        $this->disableNavigation();
+//        $this->disableSubMenu();
+//        $data['hash']      = $hash;
+//        $data['invoice']   = hooks()->apply_filters('invoice_html_pdf_data', $invoice);
+//        $data['bodyclass'] = 'viewinvoice';
+//        $this->data($data);
+//        $this->view('invoicehtml');
+//        add_views_tracking('invoice', $id);
+//        hooks()->do_action('invoice_html_viewed', $id);
+//        no_index_customers_area();
+//        $this->layout();
+        $this->load->view('themes/babil/views/session_report',$data);
     }
 
 }

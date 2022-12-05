@@ -558,7 +558,6 @@ class Sessions_model extends App_Model
             $ticket_to_task = true;
             unset($data['ticket_to_task']);
         }
-
         $data['is_session']            = 1;
         $data['startdate']             = to_sql_date($data['startdate']);
         $data['duedate']               = to_sql_date($data['duedate']);
@@ -2566,13 +2565,14 @@ class Sessions_model extends App_Model
         }
         $sent = $this->send_mail_next_action_session($id, $send_mail_to_opponent);
         if($sent == 1){
-            $data['next_session_date'] = to_sql_date($data['next_session_date']);
+            if(isset($data['next_session_date'])) $data['next_session_date'] = to_sql_date($data['next_session_date']);
             $this->db->where('task_id' , $id);
             $this->db->set('customer_report', 1);
             $this->db->update(db_prefix() .'my_session_info', $data);
             if ($this->db->affected_rows() > 0) {
                 log_activity(' Customer report added [ Session ID ' . $id . ']');
                 return true;
+
             }
         }else{
             return $sent;
@@ -2645,6 +2645,8 @@ class Sessions_model extends App_Model
         $service_id = $this->legal->get_service_id_by_slug($rel_type);
         if($service_id == 1){
             $client_id = get_client_id_by_case_id($rel_id);
+        }else if($service_id == 22){
+            $client_id = get_client_id_by_disputes_case_id($rel_id);
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
         }

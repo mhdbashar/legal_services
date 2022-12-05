@@ -26,9 +26,6 @@ class Migration_Version_522 extends CI_Migration
         if (!$this->db->field_exists('session_link', db_prefix() . 'my_session_info')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_session_info` ADD `session_link` varchar(255) NULL DEFAULT NULL');
         }
-        if (!$this->db->field_exists('is_notified', db_prefix() . 'my_session_info')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_session_info` ADD `is_notified` tinyint(1) NOT NULL DEFAULT "0"');
-        }
         if(!get_option('sessions_reminder_notification_before')) {
             add_option('sessions_reminder_notification_before', 1);
         }

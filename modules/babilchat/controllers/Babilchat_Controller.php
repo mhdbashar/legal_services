@@ -898,7 +898,7 @@ class Babilchat_Controller extends AdminController
         if ($this->input->post('group_name')) {
             $data = [];
 
-            $data['group_name'] = 'presence-' . slugifyGroupName($this->input->post('group_name'));
+            $data['group_name'] = 'presence-' . $this->input->post('group_name');
 
             $data['members'] = $this->input->post('members');
 

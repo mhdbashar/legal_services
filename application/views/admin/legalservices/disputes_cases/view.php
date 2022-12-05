@@ -577,7 +577,7 @@ echo form_hidden('project_percent',$percent);
                 type: "POST",
                 success: function (data) {
                     if(data){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        alert_float('success', '<?php echo _l('added_successfully');  ?>');
                         var $option = $('<option></option>')
                             .attr('value', data)
                             .text(name)

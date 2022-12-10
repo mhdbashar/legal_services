@@ -2590,9 +2590,12 @@ class Sessions_model extends App_Model
         if($service_id == 1){
             $client_id = get_client_id_by_case_id($rel_id);
             $opponent_id = get_opponent_id_by_case_id($rel_id);
+        }else if($service_id == 22){
+            $client_id = get_client_id_by_disputes_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
-            $opponent_id = '';
+            $opponent_id = 0;
         }
         $this->db->where('userid', $client_id);
         $contact_client = $this->db->get(db_prefix() . 'contacts')->row();

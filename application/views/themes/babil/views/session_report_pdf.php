@@ -33,22 +33,22 @@ $export_candidate='
     <div align="right">
             <h3 style="background-color: silver; text-align: center">معلومات القضية</h3>
                 <br />
-                ' . _l('رقم الدعوى') . ' : ' . $file_number_court . '<br />
+                ' . _l('file_number_in_court') . ' : ' . $file_number_court . '<br />
                 ' . _l('claimant') . ' ' . $client . '<br />
                 ' . _l('accused') . ' ' . $opponent . '<br />
                 ' . _l('Court') . ' : ' . $court . '
             <h3 style="background-color: silver;text-align: center">معلومات الجلسة</h3>
                 <br />
-                ' . _l('موضوع الجلسة') . ' : ' . $name . '<br />
-                ' . _l('نوع الجلسة') . ' : ' . _l('نوع الجلسة') . '<br />
-                ' . _l('تاريخ الجلسة') . ' : ' . $duedate . '<br />
-                ' . _l('وقت الجلسة') . ' : ' . $time . '<br />
-                ' .  _l('وقائع الجلسة') . ' :  ' . $session_information . '<br />
-                ' . _l('قرار المحكمة') . ' :  ' . $court_decision . '
+                ' . _l('subject') . ' : ' . $name . '<br />
+                ' . _l('session_type') . ' : ' . $type . '<br />
+                ' . _l('session_date') . ' : ' . $duedate . '<br />
+                ' . _l('session_time') . ' : ' . $time . '<br />
+                ' .  _l('session_info') . ' :  ' . $session_information . '<br />
+                ' . _l('court_decision') . ' :  ' . $court_decision . '
             <h3 style="background-color: silver;text-align: center">معلومات الجلسة القادمة</h3>
                 <br /> 
-                ' . _l('تاريخ الجلسة القادمة') . ' : ' . $next_session_date . '<br />
-                ' . _l('وقت الجلسة القادمة') . ' : ' . $next_session_time . '<br />
+                ' . _l('next_session_date') . ' : ' . $next_session_date . '<br />
+                ' . _l('next_session_time') . ' : ' . $next_session_time . '<br />
     </div>
 ';
 // Theese lines should aways at the end of the document left side. Dont indent these lines
@@ -58,58 +58,6 @@ $export_candidate
 </div>
 EOF;
 $pdf->writeHTML($html, true, false, true, false, 'L');
-
-//$tbltotal ='
-//<div>
-//<div class="mtop15 preview-top-wrapper">
-//    <div class="row">
-//        <div class="col-md-4">
-//            <div class="mbot30">
-//                <h3 class="text-center">'.get_option("companyname").'</h3>
-//            </div>
-//        </div>
-//        <div class="col-md-4">
-//            <div class="mbot30">
-//                <div class="" style="margin: 0px 155px 0px 0px">
-//                    '.get_dark_company_logo().'
-//                </div>
-//                <div class="mbot30">
-//                    <h3 class="text-center">'. _l("session_report").'
-//                    </h3>
-//                </div>
-//            </div>
-//        </div>
-//        <div class="col-md-4">
-//            <div class="mbot30">
-//                <h3 class="text-center">'.get_option("invoice_company_name").'</h3>
-//            </div>
-//        </div>
-//        <div class="clearfix"></div>
-//    </div>
-//</div>
-//<div class="clearfix"></div>
-//<div class="panel_s mtop20">
-//    <div class="panel-body">
-//        <div class="col-md-10 col-md-offset-1">
-//            <h3 class="text-center" style="background-color: silver">معلومات القضية</h3>
-//            <div class="col-md-12">
-//                <div class="col-md-6">
-//                </div>
-//            </div>
-//        </div>
-//    </div>
-//</div>
-//</div>
-//';
-//
-//
-//// Theese lines should aways at the end of the document left side. Dont indent these lines
-//$html = <<<EOF
-//<div style="width:680px !important">
-//$tbltotal
-//</div>
-//EOF;
-//$pdf->writeHTML($html, true, false, true, false, $align);
 
 
 

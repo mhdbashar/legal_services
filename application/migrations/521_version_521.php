@@ -12,7 +12,7 @@ class Migration_Version_521 extends CI_Migration
     {
         // Add saudi vat option for invoices and credit notes
         if(!get_option('saudi_vat'))
-            add_option('saudi_vat', 1);
+            add_option('saudi_vat', 0);
 
         // Add tblregular_durations table
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblregular_durations` (

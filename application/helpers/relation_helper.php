@@ -442,7 +442,7 @@ function get_relation_values($relation, $type)
             $id   = $relation->id;
             $name = $relation->name;
         }
-        $link = admin_url('sessions/index/'.$id);
+        $link = admin_url('legalservices/sessions/index/'.$id);
     }else {
         $CI->load->model('legalservices/LegalServicesModel', 'legal');
         $service_id = $CI->legal->get_service_id_by_slug($type);

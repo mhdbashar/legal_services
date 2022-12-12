@@ -751,7 +751,7 @@ class Sessions extends AdminController
                 $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
                 $newdata['date'] = date('Y-m-d H:i:s', $time);
                 $newdata['time'] = date('H:i', $time);
-                $newdata['rel_type']= 'task';
+                $newdata['rel_type']= 'session';
                 $newdata['rel_id']= $id;
                 $newdata['staff'] = get_staff_user_id();
                 $newdata['notify_by_email'] = 1;
@@ -1017,7 +1017,7 @@ class Sessions extends AdminController
             if(isset($data['time'])){
                 $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
             }
-
+            $data['rel_type'] = 'session';
             $success = $this->misc_model->add_reminder($data, $task_id);
             if ($success) {
                 $alert_type = 'success';
@@ -1036,7 +1036,9 @@ class Sessions extends AdminController
     {
         $reminder = $this->misc_model->get_reminders($id);
         if ($reminder && ($reminder->creator == get_staff_user_id() || is_admin()) && $reminder->isnotified == 0) {
-            $success = $this->misc_model->edit_reminder($this->input->post(), $id);
+            $data = $this->input->post();
+            $data['rel_type'] = 'session';
+            $success = $this->misc_model->edit_reminder($data, $id);
             echo json_encode([
                     'taskHtml'   => $this->get_task_data($reminder->rel_id, true),
                     'alert_type' => 'success',

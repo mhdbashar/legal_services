@@ -213,6 +213,11 @@ function get_relation_data($type, $rel_id = '', $extra = [])
     }elseif ($type == 'cases') {
         $CI->load->model('legalservices/Cases_model');
         $data = $CI->Cases_model->get();
+    } elseif ($type == 'sessions' || $type == 'session') {
+        $CI->load->model('sessions_model');
+        if ($rel_id != '') {
+            $data = $CI->sessions_model->get($rel_id);
+        }
     }else{
         $CI->load->model('legalservices/LegalServicesModel' , 'legal');
         if (strpos($type, 'session') !== false) {
@@ -429,6 +434,15 @@ function get_relation_values($relation, $type)
         $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
 
         $link = admin_url('projects/view/' . $id);
+    } elseif ($type == 'session' || $type == 'sessions') {
+        if (is_array($relation)) {
+            $id   = $relation['id'];
+            $name = $relation['name'];
+        } else {
+            $id   = $relation->id;
+            $name = $relation->name;
+        }
+        $link = admin_url('tasks/view/' . $id);
     }else {
         $CI->load->model('legalservices/LegalServicesModel', 'legal');
         $service_id = $CI->legal->get_service_id_by_slug($type);

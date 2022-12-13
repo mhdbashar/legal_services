@@ -186,12 +186,14 @@ foreach ($rResult as $aRow) {
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0) {
         $stc = '<a href="#" class="btn btn-info pull-left display-block" onclick="add_report_session_modal(' . $aRow['id'] . '); return false;">' . _l('add_new') . ' <i class="fa fa-plus"></i>  '. '</a>';
     }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0) {
-        $stc = '<a href="#/" onclick="send_report(' . $aRow['id'] . ')" class="btn btn-info pull-left display-block">';
-        $stc .= '<i class="fa fa-envelope-o"></i> ' . _l('send');
-        $stc .= '</a>';
+        $stc ='<div class="btn-group">
+                     <a href="#" class="btn btn-info pull-left display-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="caret"></span></a>
+                     <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="hidden-xs"><a href="#/" onclick="send_report(' . $aRow['id'] . ')">'._l('send').'</a></li>
+                        <li class="hidden-xs"><a href="' . admin_url('tasks/view/' . $aRow['id']) . '" onclick="init_session_modal(' . $aRow['id'] . '); return false;">'._l('edit').'</a></li>
+                     </ul>
+                  </div>';
     }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1) {
-//        $stc = '<a href="#/" id="print_btn' . $aRow['id'] . '" onclick="print_session_report(' . $aRow['id'] . ')" class="btn btn-info pull-left display-block">';
-//        $stc = '<a href="'.site_url('my_sessions/session_report/').$aRow['id'].'" id="print_btn' . $aRow['id'] . '"  class="btn btn-info pull-left display-block">';
         $stc ='<div class="btn-group">
                      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i> <span class="caret"></span></a>
                      <ul class="dropdown-menu dropdown-menu-right">
@@ -200,8 +202,6 @@ foreach ($rResult as $aRow) {
                         <li><a href="'.site_url('my_sessions/session_report/').$aRow['id'].'/1'.'">تحميل</a></li>
                      </ul>
                   </div>';
-//        $stc .= '<i class="fa fa-print"></i>  ' . _l('dt_button_print');
-//        $stc .= '</a>';
     }
 
 

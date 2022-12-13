@@ -2656,8 +2656,20 @@ class Sessions_model extends App_Model
         $this->db->where('userid', $client_id);
         $contact = $this->db->get(db_prefix() . 'contacts')->row();
         if(isset($contact)){
-            send_mail_template('send_report_session_to_customer', $contact, $service_data);
-            return true;
+            $template = mail_template('send_report_session_to_customer', $service_data, $contact);
+            set_mailing_constant();
+            $pdf    = session_report_pdf($this->get($id));
+            $attach = $pdf->Output($service_data->name . '.pdf', 'S');
+            $template->add_attachment([
+                'attachment' => $attach,
+                'filename'   => str_replace('/', '-', $service_data->name . '.pdf'),
+                'type'       => 'application/pdf',
+            ]);
+            if ($template->send()) {
+                return true;
+            }
+//            send_mail_template('send_report_session_to_customer', $contact, $service_data);
+//            return true;
         }
         return 2; // This customer doesn't have primary contact
     }

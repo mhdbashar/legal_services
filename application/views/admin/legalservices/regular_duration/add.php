@@ -2,32 +2,34 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
-        <?php echo form_open($this->uri->uri_string(),array('id'=>'regular_duration-form')); ?>
+        <?php echo form_open($this->uri->uri_string(), array('id' => 'regular_duration-form')); ?>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel_s">
                     <div class="panel-body">
                         <h4 class="no-margin">
-                            <?php echo _l("new_regular_duration") ; ?>
+                            <?php echo _l("new_regular_duration"); ?>
                         </h4>
-                        <hr class="hr-panel-heading" />
+                        <hr class="hr-panel-heading"/>
                         <div class="clearfix"></div>
-                        <?php echo render_input('name','name'); ?>
-                        <?php echo render_input('number_of_days','number_of_days'); ?>
+                        <?php echo render_input('name', 'name'); ?>
+                        <?php echo render_input('number_of_days', 'number_of_days'); ?>
 
                         <?php
-                       // $company_country = get_option('company_country');
-                      //  $this->db->where('parent_id', 0);
+                        // $company_country = get_option('company_country');
+                        //  $this->db->where('parent_id', 0);
                         //$this->db->where('country', $company_country);
-                       // $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
+                        // $categories = $this->db->get(db_prefix() . 'my_categories')->result_array();
 
                         ?>
 
                         <div class="form-group">
                             <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                            <select class="selectpicker custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select class="selectpicker custom_select_arrow" id="court_id" onchange="GetCourtJad()"
+                                    name="court_id" data-width="100%"
+                                    data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                 <option selected></option>
-                                <?php $data = get_courts_by_country_city(get_option('company_country'),get_option('company_city'));
+                                <?php $data = get_courts_by_country_city(get_option('company_country'), get_option('company_city'));
                                 foreach ($data as $row): ?>
                                     <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
                                 <?php endforeach; ?>
@@ -35,28 +37,32 @@
                         </div>
                         <div class="form-group">
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                            <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="categories"
-                                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                <option selected disabled></option>
-                                            </select>
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cat_id"
+                                               class="control-label"><?php echo _l('Categories'); ?></label>
+                                        <select class="form-control custom_select_arrow" id="cat_id"
+                                                onchange="GetSubCat()" name="categories"
+                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                            <option selected disabled></option>
+                                        </select>
+                                    </div>
 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                            <select class="form-control custom_select_arrow" id="subcat_id" name="sub_categories"
-                                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                <option selected disabled></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="childsubcat"></div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="subcat_id"
+                                               class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                        <select class="form-control custom_select_arrow" id="subcat_id"
+                                                name="sub_categories"
+                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                            <option selected disabled></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="childsubcat"></div>
+                            </div>
 
                         </div>
 
@@ -73,8 +79,8 @@
 </div>
 <?php init_tail(); ?>
 <script>
-    $(function(){
-        _validate_form($('#regular_duration-form'),{name:'required',number_of_days:'required'});
+    $(function () {
+        _validate_form($('#regular_duration-form'), {name: 'required', number_of_days: 'required'});
     });
 
     function GetCourtJad() {
@@ -105,7 +111,6 @@
     }
 
 
-
     function GetSubCat() {
         $('#subcat_id').html('');
         id = $('#cat_id').val();
@@ -128,7 +133,7 @@
                 url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
                 success: function (data) {
                     response = JSON.parse(data);
-                    if(response.length != 0) {
+                    if (response.length != 0) {
                         $('#childsubcat').html(`
                 <div class="col-md-6">
                     <div class="form-group">
@@ -143,8 +148,7 @@
                         $.each(response, function (key, value) {
                             $('#childsubcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                         });
-                    }
-                    else {
+                    } else {
                         $('#childsubcat').html('');
                     }
                 }

@@ -1857,10 +1857,14 @@ body #pusherChat .conversation_from .messageOptionsDiv {
     top: 30%;
 }
 
+/*
+             Global class
 .nav-tabs>li {
     float: left !important;
 
 }
+
+ */
 #frame #sidepanel .nav-tabs > li {
 
     padding: 7px 10px 7px 8px;

@@ -80,7 +80,7 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
                 </div>
             </div>
         </div>
-        <?php if(count($session->checklist_items) > 0){?>
+        <?php if(count($session->checklist_items) > 0){ ?>
             <div class="col-md-10 col-md-offset-1">
                 <h3 class="text-center" style="background-color: silver"><?php echo _l('add_checklist_item') ?></h3>
                 <div class="col-md-12">

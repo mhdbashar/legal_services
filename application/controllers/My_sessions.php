@@ -17,6 +17,7 @@ class My_sessions extends ClientsController
 
         $data=[];
         $session = $this->sessions_model->get_with_session_info($id);
+        $session->checklist_items = $this->sessions_model->get_checklist_items($id);
         $session->title         = _l('session_report');
         if($session->rel_type == 'kd-y'){
             $case = get_case_by_id($session->rel_id);
@@ -28,7 +29,6 @@ class My_sessions extends ClientsController
             $session->opponent_id = $case->opponent_id;
         }
         $data['session'] = $session;
-
         if ($this->input->post('invoicepdf') || $downlod == 1 ){
             try {
                 $pdf = session_report_pdf($session);
@@ -47,7 +47,6 @@ class My_sessions extends ClientsController
         }
 
         $this->app_scripts->theme('sticky-js', 'assets/plugins/sticky/sticky.js');
-
         $this->disableNavigation();
         $this->disableSubMenu();
         $this->data($data);

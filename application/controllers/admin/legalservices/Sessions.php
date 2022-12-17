@@ -2324,4 +2324,29 @@ class Sessions extends AdminController
         die();
     }
 
+    public function edite_court_decision($task_id)
+    {
+        if ($this->input->post()) {
+            $this->db->where('task_id', $task_id);
+            $success = $this->db->update(db_prefix() . 'my_session_info', ['court_decision' => $this->input->post('court_decision')]);
+            if ($success) {
+                $alert_type = 'success';
+                $message    = _l('reminder_added_successfully');
+                echo json_encode([
+                    'alert_type'   => $alert_type,
+                    'message' => $message,
+                ]);
+            }
+
+        }else{
+            echo json_encode([
+                'court_decision'   => $this->sessions_model->get_with_session_info($task_id)->court_decision,
+                'title' =>   _l('Customer_report'),
+                'court_decision_title'  =>   _l('Court_decision'),
+                'close' =>   _l('close'),
+                'submit'  => _l('submit'),
+                'edite' => true,
+            ]);
+        }
+    }
 }

@@ -81,6 +81,17 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
             </div>
         </div>
         <div class="col-md-10 col-md-offset-1">
+            <h3 class="text-center" style="background-color: silver"><?php echo _l('add_checklist_item') ?></h3>
+            <div class="col-md-12">
+                <?php if(count($session->checklist_items) > 0){
+                    foreach ($session->checklist_items as $list){?>
+                            <p style="font-weight: bold"> <?=$list['description'].' : '?>
+                                <b><?php echo $list['finished'] == 1 ? _l('task_checklist_item_completed_by',get_staff_full_name($list['finished_from'])) : ''?></b></p>
+                    <?php }
+                }?>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
             <h3 class="text-center" style="background-color: silver"><?php echo '' ?>معلومات الجلسة القادمة</h3>
             <div class="col-md-12">
                 <div class="col-md-6">

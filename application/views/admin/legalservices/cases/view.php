@@ -627,6 +627,60 @@ echo form_hidden('project_percent',$percent);
         }
     }
 
+    function edite_court_decision_modal(task_id) {
+        requestGetJSON('legalservices/sessions/edite_court_decision/' + task_id).done(function(response) {
+            if (response.edite === true ) {
+                var modal = document.getElementById("edite_court_decision_modal"+task_id);
+                if(!modal) {
+                    $("#wrapper").append(`
+                <div class="modal fade" id="edite_court_decision_modal${task_id}" tabindex="-1" role="dialog" aria-labelledby="edite_court_decision_modal" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <span class="add-title">${response.title}</span>
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="bold">${response.court_decision_title}</p>
+                                            <textarea type="text" class="form-control" id="val_court_decision${task_id}" name="court_decision" rows="4" placeholder="${response.court_decision_title}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">${response.close}</button>
+                                    <button type="button" onclick="edite_court_decision(${task_id})" class="btn btn-info">>${response.submit}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                }
+                $('#val_court_decision' + task_id).val(response.court_decision);
+                $('#edite_court_decision_modal' + task_id).modal('show');
+            }
+        });
+    }
+
+    function edite_court_decision(task_id) {
+        court_decision = $('#val_court_decision' + task_id).val();
+        $.ajax({
+            url: '<?php echo admin_url('legalservices/sessions/edite_court_decision/'); ?>' + task_id,
+            data: {
+                court_decision: court_decision,
+            },
+            type: "POST",
+            success: function (data) {
+                response = JSON.parse(data);
+                alert_float(`${response.alert_type}`, `${response.message}`);
+                $('#edite_court_decision_modal' + task_id).modal('hide');
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

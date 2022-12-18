@@ -1,10 +1,19 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+
 <div id="wrapper">
   <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="panel_s">
+        	<?php if((debits_can_be_applied_to_invoice($pur_invoice->payment_status) && $debits_available > 0)) { ?>
+			<div class="alert alert-warning mbot5">
+			   <?php echo app_format_money($debits_available, $vendor_currency->name).' '. _l('x_debits_available'); ?>
+			   <br />
+			   <a href="#" data-toggle="modal" data-target="#apply_debits"><?php echo _l('apply_debits'); ?></a>
+			</div>
+			<?php } ?>
+
           <div class="panel-body">
           	<div class="row">
              <div class="col-md-12">
@@ -12,6 +21,12 @@
  				<br>
              </div>
             </div>
+            	<?php 
+            		$base_currency = get_base_currency_pur();
+            		if($pur_invoice->currency != 0){
+            			$base_currency = pur_get_currency_by_id($pur_invoice->currency);
+            		}
+            	 ?>
             	<?php echo form_hidden('invoice_id', $pur_invoice->id) ?>
 	            <div class="horizontal-scrollable-tabs preview-tabs-top">
 	            <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
@@ -27,7 +42,14 @@
 	                     <a href="#payment_record" aria-controls="payment_record" role="tab" data-toggle="tab">
 	                     <?php echo _l('payment_record'); ?>
 	                     </a>
-	                  </li>   
+	                  </li>
+	                  <?php if(count($applied_debits) > 0) { ?>
+	                  <li role="presentation">
+	                     <a href="#invoice_applied_debits" aria-controls="invoice_applied_debits" role="tab" data-toggle="tab">
+	                     <?php echo _l('applied_debits'); ?> <span class="badge"><?php echo count($applied_debits); ?></span>
+	                     </a>
+	                  </li>
+	                  <?php } ?>   
 	                  <li role="presentation">
 	                     <a href="#tab_reminders" onclick="initDataTable('.table-reminders', admin_url + 'misc/get_reminders/' + <?php echo html_entity_decode($pur_invoice->id) ;?> + '/' + 'pur_invoice', undefined, undefined, undefined,[1,'asc']); return false;" aria-controls="tab_reminders" role="tab" data-toggle="tab">
 	                     <?php echo _l('pur_invoice_reminders'); ?>
@@ -139,33 +161,19 @@
 	         				<div class="col-md-6 pad_left_0 border-right">
 	         					<p><?php echo _l('contract').':'; ?><span class="pull-right bold"><a href="<?php echo admin_url('purchase/contract/'.$pur_invoice->contract); ?>" ><?php echo get_pur_contract_number($pur_invoice->contract); ?></a></span></p>
 	         				</div>
+
+	         				<div class="col-md-6  pad_right_0 ">
+	         					<p><?php echo _l('pur_due_date').':'; ?><span class="pull-right bold"><?php echo _d($pur_invoice->duedate); ?></span></p>
+	         				</div>
+	         				<div class="col-md-12 pad_left_0 pad_right_0">
+	         					<hr class="mtop5 mbot5">
+	         				</div>
+	         				<div class="col-md-6 pad_left_0  border-right">
+	         					<p><?php echo _l('purchase_order').':'; ?><span class="pull-right bold"><a href="<?php echo admin_url('purchase/purchase_order/'.$pur_invoice->pur_order); ?>" ><?php echo get_pur_order_subject($pur_invoice->pur_order); ?></a></span></p>
+	         					
+	         				</div>
 	         				<div class="col-md-6 pad_right_0">
-	         					<p><?php echo _l('invoice_amount').':'; ?><span class="pull-right bold"><?php echo app_format_money($pur_invoice->subtotal,''); ?></span></p>
-	         				</div>
-	         				<div class="col-md-12 pad_left_0 pad_right_0">
-	         					<hr class="mtop5 mbot5">
-	         				</div>
-
-	         				<div class="col-md-6 pad_left_0 border-right">
-	         					<p><?php echo _l('tax').':'; ?><span class="pull-right bold"><?php echo html_entity_decode($pur_invoice->tax_rate).'%'; ?></span></p>
-	         				</div>
-	         				<div class="col-md-6 pad_right_0">
-	         					<p><?php echo _l('tax_value').':'; ?><span class="pull-right bold"><?php echo app_format_money($pur_invoice->tax,''); ?></span></p>
-	         				</div>
-	         				<div class="col-md-12 pad_left_0 pad_right_0">
-	         					<hr class="mtop5 mbot5">
-	         				</div>
-
-	         				<div class="col-md-12 pad_left_0 pad_right_0 ">
-	         					<p><?php echo _l('total').':'; ?><span class="pull-right bold"><?php echo app_format_money($pur_invoice->total,''); ?></span></p>
-	         				</div>
-	         				
-	         				<div class="col-md-12 pad_left_0 pad_right_0">
-	         					<hr class="mtop5 mbot5">
-	         				</div>
-
-	         				<div class="col-md-12 pad_left_0 pad_right_0 ">
-	         					<p><span class="bold"><?php echo _l('adminnote').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->adminnote); ?></span></p>
+	         					<p><?php echo _l('invoice_amount').':'; ?><span class="pull-right bold"><?php echo app_format_money($pur_invoice->total,$base_currency->symbol); ?></span></p>
 	         				</div>
 
 	         			</div>
@@ -201,18 +209,131 @@
 	         					<hr class="mtop5 mbot5">
 	         				</div>
 
-	         				<div class="col-md-12 pad_left_0 pad_right_0 ">
-	         					<p><span class="bold"><?php echo _l('vendor_note').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->vendor_note); ?></span></p>
-	         				</div>
-	         				<div class="col-md-12 pad_left_0 pad_right_0">
-	         					<hr class="mtop5 mbot5">
-	         				</div>
-	         				<div class="col-md-12 pad_left_0 pad_right_0 ">
-	         					<p><span class="bold"><?php echo _l('terms').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->terms); ?></span></p>
-	         				</div>
-
-	         				
 	         			</div>
+
+	         			<div class="col-md-12 pad_left_0 pad_right_0">
+		         			<div class="table-responsive">
+	                           <table class="table items items-preview estimate-items-preview" data-type="estimate">
+	                              <thead>
+	                                 <tr>
+	          
+	                                    <th class="description" width="50%" align="left"><?php echo _l('items'); ?></th>
+	                                    <th align="right"><?php echo _l('purchase_quantity'); ?></th>
+	                                    <th align="right"><?php echo _l('purchase_unit_price'); ?></th>
+	                                    <th align="right"><?php echo _l('into_money'); ?></th>
+	                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
+	                                    <th align="right"><?php echo _l('tax'); ?></th>
+	                                    <?php } ?>
+	                                    <th align="right"><?php echo _l('sub_total'); ?></th>
+	                                    <th align="right"><?php echo _l('discount(%)'); ?></th>
+	                                    <th align="right"><?php echo _l('discount(money)'); ?></th>
+	                                    <th align="right"><?php echo _l('total'); ?></th>
+	                                 </tr>
+	                              </thead>
+	                              <tbody class="ui-sortable">
+
+	                                 <?php $item_discount = 0;
+	                                 if(count($invoice_detail) > 0){
+	                                    $count = 1;
+	                                    $t_mn = 0;
+	                                    
+	                                 foreach($invoice_detail as $es) { ?>
+	                                 <tr nobr="true" class="sortable">
+
+	                                    <td class="description" align="left;"><span><strong><?php 
+	                                    $item = get_item_hp($es['item_code']); 
+	                                    if(isset($item) && isset($item->commodity_code) && isset($item->description)){
+	                                       echo html_entity_decode($item->commodity_code.' - '.$item->description);
+	                                    }else{
+	                                       echo html_entity_decode($es['item_name']);
+	                                    }
+	                                    ?></strong><?php if($es['description'] != ''){ ?><br><span><?php echo html_entity_decode($es['description']); ?></span><?php } ?></td>
+	                                    <td align="right"  width="12%"><?php echo html_entity_decode($es['quantity']); ?></td>
+	                                    <td align="right"><?php echo app_format_money($es['unit_price'],$base_currency->symbol); ?></td>
+	                                    <td align="right"><?php echo app_format_money($es['into_money'],$base_currency->symbol); ?></td>
+	                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
+	                                    <td align="right"><?php echo app_format_money(($es['total'] - $es['into_money']),$base_currency->symbol); ?></td>
+	                                    <?php } ?>
+	                                    <td class="amount" align="right"><?php echo app_format_money($es['total'],$base_currency->symbol); ?></td>
+	                                    <td class="amount" width="12%" align="right"><?php echo ($es['discount_percent'].'%'); ?></td>
+	                                    <td class="amount" align="right"><?php echo app_format_money($es['discount_money'],$base_currency->symbol); ?></td>
+	                                    <td class="amount" align="right"><?php echo app_format_money($es['total_money'],$base_currency->symbol); ?></td>
+	                                 </tr>
+	                              <?php 
+	                              $t_mn += $es['total_money'];
+	                              $item_discount += $es['discount_money'];
+	                              $count++; } } ?>
+	                              </tbody>
+	                           </table>
+	                        </div>
+	                    </div>
+
+                        <div class="col-md-5 col-md-offset-7 pad_left_0 pad_right_0">
+	                        <table class="table text-right">
+	                           <tbody>
+	                              <tr id="inv_subtotal">
+	                                 <td><span class="bold"><?php echo _l('subtotal'); ?></span>
+	                                 </td>
+	                                 <td class="inv_subtotal">
+	                                    <?php echo app_format_money($pur_invoice->subtotal,$base_currency->symbol); ?>
+	                                 </td>
+	                              </tr>
+
+	                              <?php if($tax_data['preview_html'] != ''){
+	                                echo html_entity_decode($tax_data['preview_html']);
+	                              } ?>
+
+
+	                              <?php if(($pur_invoice->discount_total + $item_discount) > 0){ ?>
+	                              
+	                              <tr id="inv_discount_total">
+	                                 <td><span class="bold"><?php echo _l('discount_total(money)'); ?></span>
+	                                 </td>
+	                                 <td class="inv_discount_total">
+	                                    <?php echo '-'.app_format_money(($pur_invoice->discount_total + $item_discount), $base_currency->symbol); ?>
+	                                 </td>
+	                              </tr>
+	                              <?php } ?>
+
+	                              <?php if($pur_invoice->shipping_fee  > 0){ ?>
+	                              
+	                              <tr id="inv_discount_total">
+	                                 <td><span class="bold"><?php echo _l('pur_shipping_fee'); ?></span>
+	                                 </td>
+	                                 <td class="inv_discount_total">
+	                                    <?php echo app_format_money($pur_invoice->shipping_fee, $base_currency->symbol); ?>
+	                                 </td>
+	                              </tr>
+	                              <?php } ?>
+
+
+	                              <tr id="inv_total">
+	                                 <td><span class="bold"><?php echo _l('total'); ?></span>
+	                                 </td>
+	                                 <td class="inv_total bold">
+	                                    <?php echo app_format_money($pur_invoice->total, $base_currency->symbol); ?>
+	                                 </td>
+	                              </tr>
+	                           </tbody>
+	                        </table>
+	                     </div>
+
+
+	         			<div class="col-md-12 pad_left_0 pad_right_0 ">
+         					<p><span class="bold"><?php echo _l('adminnote').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->adminnote); ?></span></p>
+         				</div>
+         				<div class="col-md-12 pad_left_0 pad_right_0">
+         					<hr class="mtop5 mbot5">
+         				</div>
+	         			<div class="col-md-12 pad_left_0 pad_right_0 ">
+         					<p><span class="bold"><?php echo _l('vendor_note').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->vendor_note); ?></span></p>
+         				</div>
+         				<div class="col-md-12 pad_left_0 pad_right_0">
+         					<hr class="mtop5 mbot5">
+         				</div>
+         				<div class="col-md-12 pad_left_0 pad_right_0 ">
+         					<p><span class="bold"><?php echo _l('terms').': '; ?></span><span><?php echo html_entity_decode($pur_invoice->terms); ?></span></p>
+         				</div>
 	         		</div>
 	         		<div role="tabpanel" class="tab-pane" id="tab_reminders">
 		               <a href="#" data-toggle="modal" class="btn btn-info" data-target=".reminder-modal-pur_invoice-<?php echo html_entity_decode($pur_invoice->id); ?>"><i class="fa fa-bell-o"></i> <?php echo _l('estimate_set_reminder_title'); ?></a>
@@ -220,6 +341,19 @@
 		               <?php render_datatable(array( _l( 'reminder_description'), _l( 'reminder_date'), _l( 'reminder_staff'), _l( 'reminder_is_notified')), 'reminders'); ?>
 		               <?php $this->load->view('admin/includes/modals/reminder',array('id'=>$pur_invoice->id,'name'=>'pur_invoice','members'=>$members,'reminder_title'=>_l('estimate_set_reminder_title'))); ?>
 		            </div>
+
+		            <?php if($customer_custom_fields) { ?>
+		              <div role="tabpanel" class="tab-pane" id="custom_fields">
+		                <?php echo form_open(admin_url('purchase/update_customfield_invoice/'.$pur_invoice->id)); ?>
+		                 <?php $rel_id=( isset($pur_invoice) ? $pur_invoice->id : false); ?>
+		                 <?php echo render_custom_fields( 'pur_invoice',$rel_id); ?>
+
+		                <div class="bor_top_0" >
+		                   <button id="obgy_btn2" type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+		               </div>
+		                <?php echo form_close(); ?>
+		              </div>
+		             <?php } ?>
 
 		            <div role="tabpanel" class="tab-pane" id="discuss">
 		              <div class="row contract-comments mtop15">
@@ -263,17 +397,17 @@
 		                  <tbody>
 		                     <?php foreach($payment as $pay) { ?>
 		                        <tr>
-		                           <td><?php echo app_format_money($pay['amount'],''); ?></td>
+		                           <td><?php echo app_format_money($pay['amount'],$base_currency->symbol); ?></td>
 		                           <td><?php echo get_payment_mode_by_id($pay['paymentmode']); ?></td>
 		                           <td><?php echo html_entity_decode($pay['transactionid']); ?></td>
 		                           <td><?php echo _d($pay['date']); ?></td>
 		                           <td><?php echo get_status_approve($pay['approval_status']); ?></td>
 		                           <td>
-		                           	<?php if(has_permission('purchase','','edit') || is_admin()){ ?>
+		                           	<?php if(has_permission('purchase_invoices','','edit') || is_admin()){ ?>
 		                           		<a href="<?php echo admin_url('purchase/payment_invoice/'.$pay['id']); ?>" class="btn btn-default btn-icon" data-toggle="tooltip" data-placement="top" title="<?php echo _l('view'); ?>" ><i class="fa fa-eye "></i></a>
 		                           	<?php } ?>
 
-		                           	<?php if(has_permission('purchase','','delete') || is_admin()){ ?>
+		                           	<?php if(has_permission('purchase_invoices','','delete') || is_admin()){ ?>
 		                            <a href="<?php echo admin_url('purchase/delete_payment_pur_invoice/'.$pay['id'].'/'.$pur_invoice->id); ?>" class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-placement="top" title="<?php echo _l('delete'); ?>" ><i class="fa fa-remove"></i></a>
 		                        	<?php } ?>
 		                           </td>
@@ -282,7 +416,34 @@
 		                  </tbody>
 		               </table>
 		            </div>
-
+		            <?php if(count($applied_debits) > 0){ ?>
+		            <div class="tab-pane" role="tabpanel" id="invoice_applied_debits">
+		               <div class="table-responsive">
+		                  <table class="table table-bordered table-hover no-mtop">
+		                     <thead>
+		                        <th><span class="bold"><?php echo _l('debit_note'); ?> #</span></th>
+		                        <th><span class="bold"><?php echo _l('debit_date'); ?></span></th>
+		                        <th><span class="bold"><?php echo _l('debit_amount'); ?></span></th>
+		                     </thead>
+		                     <tbody>
+		                        <?php foreach($applied_debits as $debit) { ?>
+		                        <tr>
+		                           <td>
+		                              <a href="<?php echo admin_url('purchase/debit_notes/'.$debit['debit_id']); ?>"><?php echo format_debit_note_number($debit['debit_id']); ?></a>
+		                           </td>
+		                           <td><?php echo _d($debit['date']); ?></td>
+		                           <td><?php echo app_format_money($debit['amount'], $base_currency->symbol) ?>
+		                              <?php if(has_permission('purchase_debit_notes','','delete')){ ?>
+		                              <a href="<?php echo admin_url('purchase/delete_invoice_applied_debit/'.$debit['id'].'/'.$debit['debit_id'].'/'.$pur_invoice->id); ?>" class="pull-right text-danger _delete"><i class="fa fa-trash"></i></a>
+		                              <?php } ?>
+		                           </td>
+		                        </tr>
+		                        <?php } ?>
+		                     </tbody>
+		                  </table>
+		               </div>
+		            </div>
+		            <?php } ?>
                   	<div role="tabpanel" class="tab-pane" id="attachment">
                   		<?php echo form_open_multipart(admin_url('purchase/purchase_invoice_attachment/'.$pur_invoice->id),array('id'=>'partograph-attachments-upload')); ?>
 		            
@@ -371,7 +532,7 @@
                 <div class="row">
                     <div class="col-md-12">
                      <div id="additional"></div>
-                     <?php echo render_input('amount','amount',app_format_money(purinvoice_left_to_pay($pur_invoice->id),''),'text',array('data-type' => 'currency')); ?>
+                     <?php echo render_input('amount','amount',purinvoice_left_to_pay($pur_invoice->id),'number',array('max' => purinvoice_left_to_pay($pur_invoice->id))); ?>
                         <?php echo render_date_input('date','payment_edit_date'); ?>
                         <?php echo render_select('paymentmode',$payment_modes,array('id','name'),'payment_mode'); ?>
                         
@@ -389,6 +550,9 @@
             <?php echo form_close(); ?>
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+ 
 <?php init_tail(); ?>
+<?php $this->load->view('debit_notes/apply_invoice_debits'); ?>   
 </body>
 </html>

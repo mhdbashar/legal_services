@@ -1,682 +1,80 @@
 <script>
 var hot;
-  var taxes = [];
-  var taxes_val = [];
-  var old_row = [];
-  
+
 (function($) {
 "use strict";  
 
-appValidateForm($('#add_edit_pur_request-form'),{pur_rq_code:'required', pur_rq_name:'required', department:'required'});
-<?php if(isset($pur_request)){
- ?>
- taxes = <?php echo json_encode($taxes_data['taxes']); ?>;
+init_pr_currency();
+// Maybe items ajax search
+init_ajax_search('items','#item_select.ajax-search',undefined,admin_url+'purchase/pur_commodity_code_search');
 
-var dataObject = <?php echo html_entity_decode($pur_request_detail); ?>;
-var hotElement = document.querySelector('#example');
-    var hotElementContainer = hotElement.parentNode;
-    var hotSettings = {
-      data: dataObject,
-      columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-      licenseKey: 'non-commercial-and-evaluation',
-      stretchH: 'all',
-      width: '100%',
-      autoWrapRow: true,
-      rowHeights: 30,
-      columnHeaderHeight: 40,
-      minRows: 10,
-      maxRows: 22,
-      rowHeaders: true,
-      
-      colHeaders: [
-        '<?php echo ''; ?>',
-        '<?php echo ''; ?>',
-        '<?php echo _l('items'); ?>',
-        '<?php echo _l('pur_unit'); ?>',
-        '<?php echo _l('purchase_unit_price'); ?>',
-        '<?php echo _l('purchase_quantity'); ?>',
-        '<?php echo _l('subtotal_before_tax'); ?>',
-        '<?php echo _l('tax'); ?>',
-        '<?php echo _l('tax_value'); ?>',
-        '<?php echo _l('total'); ?>',
-        '<?php echo _l('inventory_quantity'); ?>'
-        
-      ],
-       columnSorting: {
-        indicator: true
-      },
-      autoColumnSize: {
-        samplingRatio: 23
-      },
-      dropdownMenu: true,
-      mergeCells: true,
-      contextMenu: true,
-      manualRowMove: true,
-      manualColumnMove: true,
-      multiColumnSorting: {
-        indicator: true
-      },
-      hiddenColumns: {
-        columns: [0,1,10],
-        indicators: true
-      },
-      filters: true,
-      manualRowResize: true,
-      manualColumnResize: true
-    };
+validate_purrequest_form();
+function validate_purrequest_form(selector) {
 
+    selector = typeof(selector) == 'undefined' ? '#add_edit_pur_request-form' : selector;
 
-hot = new Handsontable(hotElement, hotSettings);
-hot.addHook('afterChange', function(changes, src) {
-  if(changes !== null && changes !== undefined){
-    changes.forEach(([row, prop, oldValue, newValue]) => {
-      if(prop == 'item_code'){
-        if(is_Numeric(newValue) == true || is_Numeric(newValue) === true){
-          $.post(admin_url + 'purchase/items_change/'+newValue).done(function(response){
-            response = JSON.parse(response);
-
-            hot.setDataAtCell(row,3, response.value.unit_id);
-            hot.setDataAtCell(row,4, response.value.purchase_price);
-            hot.setDataAtCell(row,6, response.value.purchase_price*hot.getDataAtCell(row,5));
-            hot.setDataAtCell(row,10, response.value.inventory);
-          });
-        }
-      }else if(prop == 'quantity'){
-        hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,4));
-      }else if(prop == 'unit_price'){
-        hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,5));
-      }else if(prop == 'tax'){
-        if(newValue != ''){
-          var values_t = (newValue + "").split("|");
-        
-          if (values_t != "null"){
-            $.each(values_t, function(i,val){
-              if( old_row.indexOf(row) == -1){
-                if(taxes.indexOf(val) == -1 && val != '' && val != null && val != undefined){
-                  taxes.splice(row, 0, val);
-                  old_row.splice(row, 0, row);
-                }
-              }else{
-                if(taxes.indexOf(val) == -1 && val != '' && val != null && val != undefined){
-                  taxes[row] = val;
-
-                }else{
-                  taxes.splice(row, 1);
-                  old_row.splice(old_row.indexOf(row), 1);
-                }
-              }
-            });
-            
-          }
-          var tax_value;
-          $.post(admin_url + 'purchase/tax_change/'+newValue).done(function(response){
-            response = JSON.parse(response);
-            tax_value = (response.total_tax*parseFloat(hot.getDataAtCell(row,6)))/100;
-            hot.setDataAtCell(row,9, (response.total_tax*parseFloat(hot.getDataAtCell(row,6)))/100 + parseFloat(hot.getDataAtCell(row,6)));
-            hot.setDataAtCell(row,8, tax_value);
-
-            var html = '';
-
-            $.each(taxes, function(i, val){
-              taxes_val[i] = 0;
-              for (var row_index = 0; row_index <= 40; row_index++) {
-                if(parseFloat(hot.getDataAtCell(row_index, 8)) > 0 && hot.getDataAtCell(row_index, 7) === val){
-                  if(row_index != row){
-                    taxes_val[i] += parseFloat(hot.getDataAtCell(row_index, 8));
-                  }
-                }
-              }
-
-              if(val == newValue){
-                taxes_val[i]  = taxes_val[i] + tax_value;
-              }
-
-              if(taxes_val[i] == 0){
-                taxes_val[i] = parseFloat(tax_value);
-              }
-
-              html += '<tr class="tax-area"><td>'+get_tax_name_by_id(taxes[i])+'</td><td width="60%">'+numberWithCommas(taxes_val[i])+' <?php echo html_entity_decode($base_currency->name); ?></td></tr>';
-            });
-
-           $('#tax_area_body').html(html);
-          });
-        }
-      }else if(prop == 'total'){
-        var total_money = 0;
-        for (var row_index = 0; row_index <= 40; row_index++) {
-          if(parseFloat(hot.getDataAtCell(row_index, 9)) > 0){
-            total_money += (parseFloat(hot.getDataAtCell(row_index, 9)));
-          }
-        }
-        $('input[name="total_mn"]').val(numberWithCommas(total_money));
-      }else if(prop == 'into_money'){
-        var subtotal_mn = 0;
-        for (var row_index = 0; row_index <= 40; row_index++){
-          if(parseFloat(hot.getDataAtCell(row_index, 6)) > 0){
-            subtotal_mn += (parseFloat(hot.getDataAtCell(row_index, 6)));
-          }
-        }
-        $('input[name="subtotal"]').val(numberWithCommas(subtotal_mn));
-      }
-
+    appValidateForm($(selector), {
+        pur_rq_code:'required', pur_rq_name:'required', department:'required', currency:'required'
     });
-  }
-  });
-$('.save_detail').on('click', function() {
-  $('input[name="request_detail"]').val(JSON.stringify(hot.getData()));   
-});
-
-var checked = $('input[id="from_items"]:checked').length;
-if(checked <= 0){
-  hot.updateSettings({
-       columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_text',
-          
-          width: 150,
-          
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-      
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-         {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],  
-  });
-}else{
-  hot.updateSettings({
-    columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-         {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-  });
 }
 
-<?php }else{ ?>
-  var dataObject = [
-      
-    ];
-  var hotElement = document.querySelector('#example');
-    var hotElementContainer = hotElement.parentNode;
-    var hotSettings = {
-      data: dataObject,
-      columns: [
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 100,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          width: 100,
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },{
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-       
-      
-      ],
-      licenseKey: 'non-commercial-and-evaluation',
-      stretchH: 'all',
-      width: '100%',
-      autoWrapRow: true,
-      rowHeights: 30,
-      columnHeaderHeight: 40,
-      minRows: 10,
-      maxRows: 22,
-      rowHeaders: true,
-      
-      colHeaders: [
-        '<?php echo _l('items'); ?>',
-        '<?php echo _l('pur_unit'); ?>',
-        '<?php echo _l('purchase_unit_price'); ?>',
-        '<?php echo _l('purchase_quantity'); ?>',
-        '<?php echo _l('subtotal_before_tax'); ?>',
-        '<?php echo _l('tax'); ?>',
-        '<?php echo _l('tax_value'); ?>',
-        '<?php echo _l('total'); ?>',
-        '<?php echo _l('inventory_quantity'); ?>'
-        
-      ],
-       columnSorting: {
-        indicator: true
-      },
-      autoColumnSize: {
-        samplingRatio: 23
-      },
-      dropdownMenu: true,
-      mergeCells: true,
-      contextMenu: true,
-      manualRowMove: true,
-      manualColumnMove: true,
-      multiColumnSorting: {
-        indicator: true
-      },
-      hiddenColumns: {
-        columns: [8],
-        indicators: true
-      },
-      filters: true,
-      manualRowResize: true,
-      manualColumnResize: true
-    };
 
 
-hot = new Handsontable(hotElement, hotSettings);
-hot.addHook('afterChange', function(changes, src) {
-  if(changes !== null && changes !== undefined){
-    changes.forEach(([row, prop, oldValue, newValue]) => {
-      if(prop == 'item_code'){
-        if(is_Numeric(newValue) == true || is_Numeric(newValue) === true){
-          $.post(admin_url + 'purchase/items_change/'+newValue).done(function(response){
-            response = JSON.parse(response);
+// Add item to preview from the dropdown for invoices estimates
+$("body").on('change', 'select[name="item_select"]', function () {
+  var itemid = $(this).selectpicker('val');
+  if (itemid != '') {
+    pur_add_item_to_preview(itemid);
+  }
+});
 
-            hot.setDataAtCell(row,1, response.value.unit_id);
-            hot.setDataAtCell(row,2, response.value.purchase_price);
-            hot.setDataAtCell(row,4, response.value.purchase_price*hot.getDataAtCell(row,3));
-            hot.setDataAtCell(row,8, response.value.inventory);
-          });
-        }
-      }else if(prop == 'quantity'){
-        hot.setDataAtCell(row,4, newValue*hot.getDataAtCell(row,2));
-        hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,2));
-      }else if(prop == 'unit_price'){
-        hot.setDataAtCell(row,4, newValue*hot.getDataAtCell(row,3));
-        hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,3));
-      }else if(prop == 'tax'){
-        if(newValue != ''){
-          var values_t = (newValue + "").split("|");
-        
-          if (values_t != "null"){
-            $.each(values_t, function(i,val){
-              if( old_row.indexOf(row) == -1){
-                if(taxes.indexOf(val) == -1 && val != '' && val != null && val != undefined){
-                  taxes.splice(row, 0, val);
-                  old_row.splice(row, 0, row);
-                }
-              }else{
-                if(taxes.indexOf(val) == -1 && val != '' && val != null && val != undefined){
-                  taxes[row] = val;
+$("body").on('change', 'select.taxes', function () {
+  pur_calculate_total();
+});
 
-                }else{
-                  taxes.splice(row, 1);
-                  old_row.splice(old_row.indexOf(row), 1);
-                }
-              }
-            });
-            
-          }
+$("body").on('change', 'select[name="currency"]', function () {
 
-          var tax_value;
-          $.post(admin_url + 'purchase/tax_change/'+newValue).done(function(response){
-            response = JSON.parse(response);
-            tax_value = (response.total_tax*parseFloat(hot.getDataAtCell(row,4)))/100;
-            hot.setDataAtCell(row,7, (response.total_tax*parseFloat(hot.getDataAtCell(row,4)))/100 + parseFloat(hot.getDataAtCell(row,4)));
-            hot.setDataAtCell(row,6, tax_value);
+  var currency_id = $(this).val();
+  if(currency_id != ''){
+    $.post(admin_url + 'purchase/get_currency_rate/'+currency_id).done(function(response){
+      response = JSON.parse(response);
+      if(response.currency_rate != 1){
+        $('#currency_rate_div').removeClass('hide');
 
-            var html = '';
+        $('input[name="currency_rate"]').val(response.currency_rate).change();
 
-            $.each(taxes, function(i, val){
-              taxes_val[i] = 0;
-              for (var row_index = 0; row_index <= 40; row_index++) {
-                if(parseFloat(hot.getDataAtCell(row_index, 6)) > 0 && hot.getDataAtCell(row_index, 5) === val){
-                  if(row_index != row){
-                    taxes_val[i] += parseFloat(hot.getDataAtCell(row_index, 6));
-                  }
-                }
-              }
+        $('#convert_str').html(response.convert_str);
+        $('.th_currency').html(response.currency_name);
+      }else{
+        $('input[name="currency_rate"]').val(response.currency_rate).change();
+        $('#currency_rate_div').addClass('hide');
+        $('#convert_str').html(response.convert_str);
+        $('.th_currency').html(response.currency_name);
 
-              if(val == newValue){
-                taxes_val[i]  = taxes_val[i] + tax_value;
-              }
-
-              if(taxes_val[i] == 0){
-                taxes_val[i] = parseFloat(tax_value);
-              }
-
-              html += '<tr class="tax-area"><td>'+get_tax_name_by_id(taxes[i])+'</td><td width="60%">'+numberWithCommas(taxes_val[i])+' <?php echo html_entity_decode($base_currency->name); ?></td></tr>';
-            });
-
-            $('#tax_area_body').html(html);
-          });
-        }
-      }else if(prop == 'total'){
-        var total_money = 0;
-        for (var row_index = 0; row_index <= 40; row_index++) {
-          if(parseFloat(hot.getDataAtCell(row_index, 7)) > 0){
-            total_money += (parseFloat(hot.getDataAtCell(row_index, 7)));
-          }
-        }
-        $('input[name="total_mn"]').val(numberWithCommas(total_money));
-      }else if(prop == 'into_money'){
-        var subtotal_mn = 0;
-        for (var row_index = 0; row_index <= 40; row_index++){
-          if(parseFloat(hot.getDataAtCell(row_index, 4)) > 0){
-            subtotal_mn += (parseFloat(hot.getDataAtCell(row_index, 4)));
-          }
-        }
-        $('input[name="subtotal"]').val(numberWithCommas(subtotal_mn));
       }
 
     });
+  }else{
+    alert_float('warning', "<?php echo _l('please_select_currency'); ?>" )
   }
-  });
-  
-  /*hot.addHook('afterRemoveRow', function(removes, src) { 
-    console.log(removes);
-    
-  });
-*/  
-$('.save_detail').on('click', function() {
-  $('input[name="request_detail"]').val(JSON.stringify(hot.getData()));   
+
+  init_pr_currency();
 });
-<?php } ?>
+
+$("input[name='currency_rate']").on('change', function () { 
+    var currency_rate = $(this).val();
+    var rows = $('.table.has-calculations tbody tr.item');
+    $.each(rows, function () { 
+      var old_price = $(this).find('td.rate input[name="og_price"]').val();
+      var new_price = currency_rate*old_price;
+      $(this).find('td.rate input[type="number"]').val(accounting.toFixed(new_price, app.options.decimal_places)).change();
+
+    });
+});
+
 })(jQuery); 
+
+var lastAddedItemKey = null;
 
 function is_Numeric(num) {
   "use strict";
@@ -697,32 +95,12 @@ function get_tax_name_by_id(tax_id){
 
 function numberWithCommas(x) {
   "use strict";
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}   
+    x = x.toString().replace('.', "<?php echo get_option('decimal_separator'); ?>");
 
-function customDropdownRenderer(instance, td, row, col, prop, value, cellProperties) {
-  "use strict";  
-  var selectedId;
-  var optionsList = cellProperties.chosenOptions.data;
-  if(typeof optionsList === "undefined" || typeof optionsList.length === "undefined" || !optionsList.length) {
-      Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-      return td;
-  }
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo get_option('thousand_separator'); ?>");
+}  
 
-  var values = (value + "").split("|");
-  value = [];
-  for (var index = 0; index < optionsList.length; index++) {
 
-      if (values.indexOf(optionsList[index].id + "") > -1) {
-          selectedId = optionsList[index].id;
-          value.push(optionsList[index].label);
-      }
-  }
-  value = value.join(", ");
-
-  Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-  return td;
-}
 
 function department_change(invoker){
   "use strict";
@@ -735,354 +113,7 @@ function department_change(invoker){
   }
 }
 
-function from_list_items(){
-  "use strict";
-   var checked = $('input[id="from_items"]:checked').length;
-   <?php if(isset($pur_request)){ ?>
-    if(checked <= 0){
-    hot.updateSettings({
-            columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },    
-        {
-          data: 'item_code',
-         
-          
-          width: 150,
-          
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
 
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-          });
-   }else{
-      hot.updateSettings({
-        columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-          });
-   }
-   <?php }else{ ?> 
-   if(checked <= 0){
-    hot.updateSettings({
-            columns: [
-        {
-          data: 'item_code',
-         
-          
-          width: 150,
-          
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-          });
-   }else{
-      hot.updateSettings({
-        columns: [
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-          });
-   }
-
- <?php } ?>
-}
 
 /**
  * { coppy sale invoice }
@@ -1093,25 +124,426 @@ function coppy_sale_invoice(){
 
   if(sale_invoice != ''){
     $('input[id="from_items"]').prop("checked", false);
-    from_list_items();
+    $('#tax_area_body').html('');
 
-    hot.alter('remove_row',0,hot.countRows());
     $.post(admin_url + 'purchase/coppy_sale_invoice/'+sale_invoice).done(function(response){
-          response = JSON.parse(response);
-          hot.updateSettings({          
-        data: response.result,
-        });
+        response = JSON.parse(response);
 
-        taxes = response.taxes;
-        $('input[name="subtotal"]').val(numberWithCommas(response.subtotal));
-        $('input[name="total_mn"]').val(numberWithCommas(response.total));
-        $('#tax_area_body').html(response.tax_html);
+        if(response){
+          $('select[name="currency"]').val(response.currency).change();
+          $('input[name="currency_rate"]').val(response.currency_rate).change();
           
+          $('.invoice-item table.invoice-items-table.items tbody').html('');
+          $('.invoice-item table.invoice-items-table.items tbody').append(response.list_item);
+
+          setTimeout(function () {
+            pur_calculate_total();
+          }, 15);
+
+          init_selectpicker();
+          pur_reorder_items('.invoice-item');
+          pur_clear_item_preview_values('.invoice-item');
+          $('body').find('#items-warning').remove();
+          $("body").find('.dt-loader').remove();
+          $('#item_select').selectpicker('val', '');
+        }
+
     });
   }else{
     alert_float('warning', '<?php echo _l('please_chose_sale_invoice'); ?>');
   }
 
+}
+
+/**
+ * { coppy sale estimate }
+ */
+function coppy_sale_estimate(){
+  "use strict";
+  var sale_estimate = $('select[name="sale_estimate"]').val();
+
+  if(sale_estimate != ''){
+    $('input[id="from_items"]').prop("checked", false);
+    $('#tax_area_body').html('');
+
+    $.post(admin_url + 'purchase/coppy_sale_estimate/'+sale_estimate).done(function(response){
+        response = JSON.parse(response);
+
+        if(response){
+          $('select[name="currency"]').val(response.currency).change();
+          $('input[name="currency_rate"]').val(response.currency_rate).change();
+          
+          $('.invoice-item table.invoice-items-table.items tbody').html('');
+          $('.invoice-item table.invoice-items-table.items tbody').append(response.list_item);
+
+          setTimeout(function () {
+            pur_calculate_total();
+          }, 15);
+
+          init_selectpicker();
+          pur_reorder_items('.invoice-item');
+          pur_clear_item_preview_values('.invoice-item');
+          $('body').find('#items-warning').remove();
+          $("body").find('.dt-loader').remove();
+          $('#item_select').selectpicker('val', '');
+        }
+
+    });
+  }else{
+    alert_float('warning', '<?php echo _l('please_chose_sale_invoice'); ?>');
+  }
+
+}
+
+function pur_add_item_to_preview(id) {
+  "use strict";
+  var currency_rate = $('input[name="currency_rate"]').val();
+
+  requestGetJSON('purchase/get_item_by_id/' + id+'/'+ currency_rate).done(function (response) {
+    clear_item_preview_values();
+
+    $('.main input[name="item_code"]').val(response.itemid);
+    $('.main textarea[name="item_text"]').val(response.code_description);
+    $('.main input[name="unit_price"]').val(response.purchase_price);
+    $('.main input[name="unit_name"]').val(response.unit_name);
+    $('.main input[name="unit_id"]').val(response.unit_id);
+    $('.main input[name="quantity"]').val();
+
+    var taxSelectedArray = [];
+    if (response.taxname && response.taxrate) {
+      taxSelectedArray.push(response.taxname + '|' + response.taxrate);
+    }
+    if (response.taxname_2 && response.taxrate_2) {
+      taxSelectedArray.push(response.taxname_2 + '|' + response.taxrate_2);
+    }
+
+    $('.main select.taxes').selectpicker('val', taxSelectedArray);
+    $('.main input[name="unit"]').val(response.unit_name);
+
+    var $currency = $("body").find('.accounting-template select[name="currency"]');
+    var baseCurency = $currency.attr('data-base');
+    var selectedCurrency = $currency.find('option:selected').val();
+    var $rateInputPreview = $('.main input[name="rate"]');
+
+    if (baseCurency == selectedCurrency) {
+      $rateInputPreview.val(response.rate);
+    } else {
+      var itemCurrencyRate = response['rate_currency_' + selectedCurrency];
+      if (!itemCurrencyRate || parseFloat(itemCurrencyRate) === 0) {
+        $rateInputPreview.val(response.rate);
+      } else {
+        $rateInputPreview.val(itemCurrencyRate);
+      }
+    }
+
+    $(document).trigger({
+      type: "item-added-to-preview",
+      item: response,
+      item_type: 'item',
+    });
+  });
+}
+
+function tax_rate_by_id(tax_id){
+  "use strict";
+  var taxe_arr = <?php echo json_encode($taxes); ?>;
+  var tax_rate = 0;
+  $.each(taxe_arr, function(i, val){
+    if(val.id == tax_id){
+      tax_rate = val.taxrate;
+    }
+  });
+  return tax_rate;
+}
+
+function pur_get_item_row_template(name, item_code, item_text, unit_price, quantity, unit_name, into_money, item_key, tax_value, total, taxname, currency_rate, to_currency)  {
+  "use strict";
+
+  jQuery.ajaxSetup({
+    async: false
+  });
+
+  var d = $.post(admin_url + 'purchase/get_purchase_request_row_template', {
+    name: name,
+    item_text : item_text,
+    unit_price : unit_price,
+    quantity : quantity,
+    unit_name : unit_name,
+    into_money : into_money,
+    item_key : item_key,
+    tax_value : tax_value,
+    taxname : taxname,
+    total : total,
+    item_code : item_code,
+    currency_rate: currency_rate,
+    to_currency: to_currency
+  });
+  jQuery.ajaxSetup({
+    async: true
+  });
+  return d;
+}
+
+function pur_add_item_to_table(data, itemid) {
+  "use strict";
+
+  data = typeof (data) == 'undefined' || data == 'undefined' ? pur_get_item_preview_values() : data;
+
+  if (data.warehouse_id == "" || data.quantities == "" || data.commodity_code == "" ) {
+    if(data.warehouse_id == ""){
+      alert_float('warning', '<?php echo _l('please_select_a_warehouse') ?>');
+    }
+    return;
+  }
+  var currency_rate = $('input[name="currency_rate"]').val();
+  var to_currency = $('select[name="currency"]').val();
+  var table_row = '';
+  var item_key = lastAddedItemKey ? lastAddedItemKey += 1 : $("body").find('.invoice-items-table tbody .item').length + 1;
+  lastAddedItemKey = item_key;
+  $("body").append('<div class="dt-loader"></div>');
+  pur_get_item_row_template('newitems[' + item_key + ']', data.item_code, data.item_text,data.unit_price,data.quantity, data.unit_name,data.into_money, item_key, data.tax_value, data.total, data.taxname, currency_rate, to_currency).done(function(output){
+    table_row += output;
+
+    $('.invoice-item table.invoice-items-table.items tbody').append(table_row);
+
+    setTimeout(function () {
+      pur_calculate_total();
+    }, 15);
+    init_selectpicker();
+    init_datepicker();
+    pur_reorder_items('.invoice-item');
+    pur_clear_item_preview_values('.invoice-item');
+    $('body').find('#items-warning').remove();
+    $("body").find('.dt-loader').remove();
+        $('#item_select').selectpicker('val', '');
+
+    return true;
+  });
+  return false;
+}
+
+function pur_reorder_items(parent) {
+  "use strict";
+
+  var rows = $(parent + ' .table.has-calculations tbody tr.item');
+  var i = 1;
+  $.each(rows, function () {
+    $(this).find('input.order').val(i);
+    i++;
+  });
+}
+
+function pur_clear_item_preview_values(parent) {
+  "use strict";
+
+  var previewArea = $(parent + ' .main');
+  previewArea.find('input').val('');
+  previewArea.find('textarea').val('');
+  previewArea.find('select').val('').selectpicker('refresh');
+}
+
+function pur_get_item_preview_values() {
+  "use strict";
+
+  var response = {};
+  response.item_text = $('.invoice-item .main textarea[name="item_text"]').val();
+  response.item_code = $('.invoice-item .main input[name="item_code"]').val();
+  response.quantity = $('.invoice-item .main input[name="quantity"]').val();
+  response.unit_name = $('.invoice-item .main input[name="unit_name"]').val();
+  response.unit_id = $('.invoice-item .main input[name="unit_id"]').val();
+  response.unit_price = $('.invoice-item .main input[name="unit_price"]').val();
+  response.taxname = $('.main select.taxes').selectpicker('val');
+  response.tax_rate = $('.invoice-item .main input[name="tax_rate"]').val();
+  response.tax_value = $('.invoice-item .main input[name="tax_value"]').val();
+  response.into_money = $('.invoice-item .main input[name="into_money"]').val();
+  response.total = $('.invoice-item .main input[name="total"]').val();
+
+  return response;
+}
+
+
+function pur_calculate_total(){
+  "use strict";
+  if ($('body').hasClass('no-calculate-total')) {
+    return false;
+  }
+
+  var calculated_tax,
+    taxrate,
+    item_taxes,
+    row,
+    _amount,
+    _tax_name,
+    taxes = {},
+    taxes_rows = [],
+    subtotal = 0,
+    total = 0,
+    total_tax_money = 0,
+    quantity = 1,
+    total_discount_calculated = 0,
+    rows = $('.table.has-calculations tbody tr.item'),
+    subtotal_area = $('#subtotal'),
+    discount_area = $('#discount_area'),
+    adjustment = $('input[name="adjustment"]').val(),
+    // discount_percent = $('input[name="discount_percent"]').val(),
+    discount_percent = 'before_tax',
+    discount_fixed = $('input[name="discount_total"]').val(),
+    discount_total_type = $('.discount-total-type.selected'),
+    discount_type = $('select[name="discount_type"]').val();
+
+  $('.wh-tax-area').remove();
+
+    $.each(rows, function () {
+
+    quantity = $(this).find('[data-quantity]').val();
+    if (quantity === '') {
+      quantity = 1;
+      $(this).find('[data-quantity]').val(1);
+    }
+
+    _amount = accounting.toFixed($(this).find('td.rate input').val() * quantity, app.options.decimal_places);
+    _amount = parseFloat(_amount);
+    var tax_value = 0;
+    var row_total = _amount;
+
+    $(this).find('td.into_money input').val(_amount);
+
+    subtotal += _amount;
+    row = $(this);
+    item_taxes = $(this).find('select.taxes').val();
+
+    if (item_taxes) {
+      $.each(item_taxes, function (i, taxname) {
+        taxrate = row.find('select.taxes [value="' + taxname + '"]').data('taxrate');
+        calculated_tax = (_amount / 100 * taxrate);
+        if (!taxes.hasOwnProperty(taxname)) {
+          if (taxrate != 0) {
+            _tax_name = taxname.split('|');
+            var tax_row = '<tr class="wh-tax-area"><td>' + _tax_name[0] + '(' + taxrate + '%)</td><td id="tax_id_' + slugify(taxname) + '"></td></tr>';
+            $(subtotal_area).after(tax_row);
+            taxes[taxname] = calculated_tax;
+          }
+        } else {
+          // Increment total from this tax
+          taxes[taxname] = taxes[taxname] += calculated_tax;
+        }
+        
+        tax_value += calculated_tax;
+      });
+
+      row_total = row_total + tax_value;
+    }
+
+    $(this).find('td.tax_value input').val(tax_value);
+    $(this).find('td._total input').val(row_total);
+
+  });
+
+  // Discount by percent
+  if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-percent')) {
+    total_discount_calculated = (subtotal * discount_percent) / 100;
+  } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+    total_discount_calculated = discount_fixed;
+  }
+
+  $.each(taxes, function (taxname, total_tax) {
+    if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-percent')) {
+      total_tax_calculated = (total_tax * discount_percent) / 100;
+      total_tax = (total_tax - total_tax_calculated);
+    } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+      var t = (discount_fixed / subtotal) * 100;
+      total_tax = (total_tax - (total_tax * t) / 100);
+    }
+
+    total += total_tax;
+    total_tax_money += total_tax;
+    total_tax = format_money(total_tax);
+    $('#tax_id_' + slugify(taxname)).html(total_tax);
+  });
+
+  total = (total + subtotal);
+
+  // Discount by percent
+  if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'after_tax' && discount_total_type.hasClass('discount-type-percent')) {
+    total_discount_calculated = (total * discount_percent) / 100;
+  } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'after_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+    total_discount_calculated = discount_fixed;
+  }
+
+  total = total - total_discount_calculated;
+  adjustment = parseFloat(adjustment);
+
+  // Check if adjustment not empty
+  if (!isNaN(adjustment)) {
+    total = total + adjustment;
+  }
+
+  var discount_html = '-' + format_money(total_discount_calculated);
+    $('input[name="discount_total"]').val(accounting.toFixed(total_discount_calculated, app.options.decimal_places));
+
+  // Append, format to html and display
+  $('.discount-total').html(discount_html);
+  $('.adjustment').html(format_money(adjustment));
+  $('.wh-subtotal').html(format_money(subtotal) + hidden_input('total_goods_money', accounting.toFixed(subtotal, app.options.decimal_places)) + hidden_input('value_of_inventory', accounting.toFixed(subtotal, app.options.decimal_places)));
+
+  $('.inventory_value').remove();
+  
+  //var total_inventory_value = '<tr class="inventory_value"><td><span class="bold"><?php echo _l('value_of_inventory'); ?> :</span></td><td class="">'+format_money(subtotal)+'</td></tr>';
+  //$('#subtotal').after(total_inventory_value);
+
+  $('input[name="subtotal"]').val(format_money(subtotal, true));
+
+  $('.total_tax_value').remove();
+  var total_tax_value = '<tr class="total_tax_value"><td><span class="bold"><?php echo _l('total_tax_money'); ?> :</span></td><td class="">'+format_money(total_tax_money)+'</td></tr>';
+  $('#totalmoney').before(total_tax_value);
+
+  $('.wh-total').html(format_money(total) + hidden_input('total_tax_money', accounting.toFixed(total_tax_money, app.options.decimal_places)) + hidden_input('total_money', accounting.toFixed(total, app.options.decimal_places)));
+
+  $('input[name="total_mn"]').val(format_money(total, true));
+
+  $(document).trigger('purchase-request-total-calculated');
+
+}
+
+function pur_delete_item(row, itemid,parent) {
+  "use strict";
+
+  $(row).parents('tr').addClass('animated fadeOut', function () {
+    setTimeout(function () {
+      $(row).parents('tr').remove();
+      pur_calculate_total();
+    }, 50);
+  });
+  if (itemid && $('input[name="isedit"]').length > 0) {
+    $(parent+' #removed-items').append(hidden_input('removed_items[]', itemid));
+  }
+}
+
+// Set the currency for accounting
+function init_pr_currency(id, callback) {
+    var $accountingTemplate = $("body").find('.accounting-template');
+
+    if ($accountingTemplate.length || id) {
+        var selectedCurrencyId = !id ? $accountingTemplate.find('select[name="currency"]').val() : id;
+
+        requestGetJSON('misc/get_currency/' + selectedCurrencyId)
+            .done(function (currency) {
+                // Used for formatting money
+                accounting.settings.currency.decimal = currency.decimal_separator;
+                accounting.settings.currency.thousand = currency.thousand_separator;
+                accounting.settings.currency.symbol = currency.symbol;
+                accounting.settings.currency.format = currency.placement == 'after' ? '%v %s' : '%s%v';
+
+                console.log(currency.symbol);
+                $('.currency_span').html(currency.symbol);
+
+                pur_calculate_total();
+
+                if(callback) {
+                    callback();
+                }
+            });
+    }
 }
 
 </script>

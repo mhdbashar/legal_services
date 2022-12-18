@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$hasPermissionDelete = has_permission('purchase', '', 'delete');
+$hasPermissionDelete = has_permission('purchase_vendors', '', 'delete');
 
 $custom_fields = get_table_custom_fields('vendors');
 $this->ci->db->query("SET sql_mode = ''");

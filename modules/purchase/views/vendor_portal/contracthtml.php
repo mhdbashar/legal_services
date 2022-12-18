@@ -135,7 +135,7 @@
                   if($comment['staffid'] != 0){
                     $comment_html .= get_staff_full_name($comment['staffid']);
                   } else {
-                    $comment_html .= _l('pur_vendor');
+                    $comment_html .= get_vendor_company_name(get_vendor_user_id());
                   }
                   $comment_html .= '</b>';
                   $comment_html .= ' - <small class="mtop10 text-muted">' . time_ago($comment['dateadded']) . '</small>';

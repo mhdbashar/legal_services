@@ -1,29 +1,31 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php hooks()->do_action('app_admin_head'); ?>
 <div id="wrapper">
-	<div class="content">
-		<div class="row">
+  <div class="content">
+    <div class="row">
     <?php if($view == ''){ ?>
-			<?php
-			
-			if(isset($estimate)){
-				echo form_open(site_url('purchase/vendors_portal/quotation_form/'.$estimate->id),array('autocomplete'=>'off'));
-			}else{
-				echo form_open(site_url('purchase/vendors_portal/quotation_form'),array('autocomplete'=>'off'));
-			}
-			?>
+      <?php
+      
+      if(isset($estimate)){
+        echo form_open(site_url('purchase/vendors_portal/quotation_form/'.$estimate->id),array('autocomplete'=>'off', 'class'=>'_transaction_form'));
+      }else{
+        echo form_open(site_url('purchase/vendors_portal/quotation_form'),array('autocomplete'=>'off', 'class'=>'_transaction_form'));
+      }
+      ?>
     <?php } ?>
-			<div class="col-md-12">
-				<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+      <div class="col-md-12">
+        <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="panel_s accounting-template estimate">
    <div class="panel-body">
+    <?php $additional_discount = 0; ?>
+            <input type="hidden" name="additional_discount" value="<?php echo html_entity_decode($additional_discount); ?>">
 
       <div class="horizontal-scrollable-tabs preview-tabs-top">
           <div class="horizontal-tabs">
              <ul class="nav nav-tabs nav-tabs-horizontal mbot15" role="tablist">
                 <li role="presentation" class="<?php if($this->input->get('tab') != 'discussion'){echo 'active';} ?>">
                    <a href="#general_infor" aria-controls="general_infor" role="tab" data-toggle="tab">
-                   <?php echo _l('general_infor'); ?>
+                   <?php echo _l('pur_general_infor'); ?>
                    </a>
                 </li>
                 
@@ -97,7 +99,7 @@
                $isedit = isset($estimate) ? 'true' : 'false';
                $data_original_number = isset($estimate) ? $estimate->number : 'false';
                ?>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                  <label for="number"><?php echo _l('estimate_add_edit_number'); ?></label>
                  <div class="input-group">
@@ -123,7 +125,51 @@
                  </div>
               </div>
             </div>
-            <div class="col-md-6">
+            
+             <div class="col-md-12">
+                  <?php $value = (isset($estimate) ? _d($estimate->date) : _d(date('Y-m-d'))); ?>
+                  <?php echo render_date_input('date','estimate_add_edit_date',$value); ?>
+               </div>
+
+            <div class="col-md-12">
+              <label for="pur_request"><?php echo _l('pur_request'); ?></label>
+              <select name="pur_request" id="pur_request" onchange="coppy_pur_request(); return false;" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                <option value=""></option>
+                  <?php foreach($pur_request as $s) { ?>
+                  <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($estimate) && $estimate->pur_request != '' && $estimate->pur_request->id == $s['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($s['pur_rq_code'].' - '.$s['pur_rq_name']); ?></option>
+                    <?php } ?>
+              </select>
+            </div>
+            
+            <div class="clearfix mbot15"></div>
+
+         </div>
+
+         <div class="col-md-6 ">
+           <?php
+              $currency_attr = array('data-show-subtext'=>true);
+              $selected = '';
+              foreach($currencies as $currency){
+
+                if(isset($estimate) && $estimate->currency != 0){
+                  $selected = $estimate->currency;
+                }else{
+                  if($vendor_currency != 0 && !isset($estimate)){
+                    $selected = $vendor_currency;
+                  }else{
+                    if($currency['isdefault'] == 1){
+                      $selected = $currency['id'];
+                    }
+                  }
+                }
+              }
+
+              ?>
+           <?php echo render_select('currency', $currencies, array('id','name','symbol'), 'invoice_add_edit_currency', $selected, $currency_attr); ?>
+        </div>
+         <div class="col-md-6">
+               <div class="row">
+              <div class="col-md-12 form-group">
                    
 
                 <label for="buyer" class="control-label"><?php echo _l('buyer'); ?></label>
@@ -134,45 +180,6 @@
                    <?php } ?>
                  </select>
             </div>
-             <div class="col-md-12">
-                  <?php $value = (isset($estimate) ? _d($estimate->date) : _d(date('Y-m-d'))); ?>
-                  <?php echo render_date_input('date','estimate_add_edit_date',$value); ?>
-               </div>
-            
-            <div class="clearfix mbot15"></div>
-            <?php $rel_id = (isset($estimate) ? $estimate->id : false); ?>
-            <?php
-                  if(isset($custom_fields_rel_transfer)) {
-                      $rel_id = $custom_fields_rel_transfer;
-                  }
-             ?>
-            <?php echo render_custom_fields('estimate',$rel_id); ?>
-         </div>
-         <div class="col-md-6">
-               <div class="row">
-                  <div class="col-md-12">
-                     <?php
-
-                        //$currency_attr = array('disabled'=>true,'data-show-subtext'=>true);
-                      
-                        foreach($currencies as $currency){
-                          if($currency['isdefault'] == 1){
-                            $currency_attr['data-base'] = $currency['id'];
-                          }
-                          if(isset($estimate)){
-                            if($currency['id'] == $estimate->currency){
-                              $selected = $currency['id'];
-                            }
-                          } else{
-                           if($currency['isdefault'] == 1){
-                            $selected = $currency['id'];
-                          }
-                        }
-                        }
-                        
-                        ?>
-                     <?php echo render_select('currency', $currencies, array('id','name','symbol'), 'estimate_add_edit_currency', $selected); ?>
-                  </div>
                  
                <div class="col-md-12">
                   <?php
@@ -218,7 +225,7 @@
             if($comment['staffid'] != 0){
               $comment_html .= get_staff_full_name($comment['staffid']);
             } else {
-              $comment_html .= _l('pur_vendor');
+              $comment_html .= get_vendor_company_name(get_vendor_user_id());
             }
             $comment_html .= '</b>';
             $comment_html .= ' - <small class="mtop10 text-muted">' . time_ago($comment['dateadded']) . '</small>';
@@ -234,108 +241,117 @@
     <?php } ?>
   </div>
    </div>
-   <div class="panel-body mtop10">
-  <div class="row">
-   <div class="col-md-12">
-    <p class="bold p_style"><?php echo _l('estimate_detail'); ?></p>
-    <hr class="hr_style" />
-     <div id="example">
-     </div>
-     <?php echo form_hidden('estimate_detail'); ?>
-     <div class="col-md-6 col-md-offset-6">
-            <table class="table text-right">
-               <tbody>
-                  <tr id="subtotal">
-                     <td class="td_style"><span class="bold"><?php echo _l('subtotal'); ?></span>
-                     </td>
-                     <td width="65%" id="total_td">
-                      
-                       <div class="input-group" id="discount-total">
+   <div class="panel-body mtop10 invoice-item">
+      <div class="row">
+        <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="<?php echo _l('vendor_item_select_note'); ?>">
+          <?php $this->load->view('purchase/item_include/main_item_select'); ?>
 
-                              <input type="text" disabled="true" class="form-control text-right" name="total_mn" value="">
+        </div>
 
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name) ;?>
-                                   </span>
-                                   </a>
-                                   
-                                </div>
-                             </div>
 
-                          </div>
-                     </td>
-                  </tr>
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('estimate_discount'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
-                             <input type="number" value="<?php if(isset($estimate)){ echo app_format_money($estimate->discount_percent,''); } ?>" onchange="dc_percent_change(this); return false;" class="form-control pull-left input-percent text-right" min="0" max="100" name="dc_percent">
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   <span class="discount-type-selected">%</span>
-                                   </a>
-                                </div>
-                             </div>
-                          </div>
-                     </td>
-                  </tr>
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('estimate_discount'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
+             <?php
+              $estimate_currency = $base_currency;
+              if($vendor_currency != 0 && !isset($estimate)){
+                $estimate_currency = pur_get_currency_by_id($vendor_currency);
+              }
 
-                             <input type="text" value="<?php if(isset($estimate)){ echo app_format_money($estimate->discount_total,''); } ?>" class="form-control pull-left text-right" onchange="dc_total_change(this); return false;" data-type="currency" name="dc_total">
+              if(isset($estimate) && $estimate->currency != 0){
+                $estimate_currency = pur_get_currency_by_id($estimate->currency);
+              } 
 
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name) ;?>
-                                   </span>
-                                   </a>
-                                   
-                                </div>
-                             </div>
+              $from_currency = (isset($estimate) && $estimate->from_currency != null) ? $estimate->from_currency : $base_currency->id;
+              echo form_hidden('from_currency', $from_currency);
 
-                          </div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td class="td_style"><span class="bold"><?php echo _l('after_discount'); ?></span>
-                     </td>
-                     <td width="55%" id="total_td">
-                      
-                       <div class="input-group" id="discount-total">
+            ?>
+        <div class="col-md-8 <?php if($estimate_currency->id == $base_currency->id){ echo 'hide'; } ?>" id="currency_rate_div">
+          <div class="col-md-10 text-right">
+            
+            <p class="mtop10"><?php echo _l('currency_rate'); ?><span id="convert_str"><?php echo ' ('.$base_currency->name.' => '.$estimate_currency->name.'): ';  ?></span></p>
+          </div>
+          <div class="col-md-2 pull-right">
+            <?php $currency_rate = 1;
+              if(isset($estimate) && $estimate->currency != 0){
+                $currency_rate = pur_get_currency_rate($base_currency->name, $estimate_currency->name);
+              }else if(!isset($estimate) && $vendor_currency != 0){
+                $currency_rate = pur_get_currency_rate($base_currency->name, $estimate_currency->name);
+              }
+            echo render_input('currency_rate', '', $currency_rate, 'number', [], [], '', 'text-right'); 
+            ?>
+          </div>
+        </div>
 
-                             <input type="text" disabled="true" class="form-control text-right" name="after_discount" value="<?php if(isset($estimate)){ echo app_format_money($estimate->total,''); } ?>">
+      </div>
 
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   <a class="dropdown-toggle" href="#" id="dropdown_menu_tax_total_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name);?>
-                                   </span>
-                                   </a>
-                                   
-                                </div>
-                             </div>
-
-                          </div>
-                     </td>
-
-                  </tr>
-               </tbody>
+      <div class="row">
+       <div class="col-md-12">
+        <div class="table-responsive s_table ">
+            <table class="table invoice-items-table items table-main-invoice-edit has-calculations no-mtop">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th width="17%" align="left"><i class="fa fa-exclamation-circle" aria-hidden="true" data-toggle="tooltip" data-title="<?php echo _l('item_description_new_lines_notice'); ?>"></i> <?php echo _l('invoice_table_item_heading'); ?></th>
+                  <th width="10%" align="right"><?php echo _l('unit_price'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th width="7%" align="right" class="qty"><?php echo _l('quantity'); ?></th>
+                  <th width="10%" align="right"><?php echo _l('subtotal_before_tax'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th width="12%" align="right"><?php echo _l('invoice_table_tax_heading'); ?></th>
+                  <th width="10%" align="right"><?php echo _l('tax_value'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th width="10%" align="right"><?php echo _l('pur_subtotal_after_tax'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th width="7%" align="right"><?php echo _l('discount').'(%)'; ?></th>
+                  <th width="10%" align="right"><?php echo _l('discount'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th width="15%" align="right"><?php echo _l('total'); ?><span class="th_currency"><?php echo '('.$estimate_currency->name.')'; ?></span></th>
+                  <th align="center"><i class="fa fa-cog"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php echo $pur_quotation_row_template; ?>
+              </tbody>
             </table>
-         </div> 
-    </div>
+          </div>
+         <div class="col-md-8 col-md-offset-4">
+          <table class="table text-right">
+            <tbody>
+              <tr id="subtotal">
+                <td><span class="bold"><?php echo _l('subtotal'); ?> :</span>
+                  <?php echo form_hidden('total_mn', ''); ?>
+                </td>
+                <td class="wh-subtotal">
+                </td>
+              </tr>
+              <tr id="total_discount">
+                <td><span class="bold"><?php echo _l('total_discount'); ?> :</span>
+                  <?php echo form_hidden('dc_total', ''); ?>
+                </td>
+                <td class="wh-total_discount">
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                 <div class="row">
+                  <div class="col-md-9">
+                   <span class="bold"><?php echo _l('pur_shipping_fee'); ?></span>
+                 </div>
+                 <div class="col-md-3">
+                  <input type="number" onchange="pur_calculate_total()" data-toggle="tooltip" value="<?php if(isset($estimate)){ echo $estimate->shipping_fee; }else{ echo '0';} ?>" class="form-control pull-left text-right" name="shipping_fee">
+                </div>
+              </div>
+              </td>
+              <td class="shiping_fee">
+              </td>
+              </tr>
+              
+              <tr id="totalmoney">
+                <td><span class="bold"><?php echo _l('grand_total'); ?> :</span>
+                  <?php echo form_hidden('grand_total', ''); ?>
+                </td>
+                <td class="wh-total">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="removed-items"></div>
+        </div>
     </div>
    </div>
    <div class="row">
@@ -347,7 +363,7 @@
             <?php echo render_textarea('terms','terms_and_conditions',$value,array(),array(),'mtop15'); ?>
             <div class="btn-bottom-toolbar text-right">
               <?php if($view == ''){ ?>
-              <button type="submit" onclick="get_hs_data();" class="btn-tr btn btn-info mleft10 estimate-form-submit transaction-submit">
+              <button type="button" class="btn-tr btn btn-info mleft10 estimate-form-submit transaction-submit">
               <?php echo _l('submit'); ?>
               </button>
               <?php } ?>
@@ -358,13 +374,13 @@
    </div>
 </div>
 
-			</div>
+      </div>
        <?php if($view == ''){ ?>
-			<?php echo form_close(); ?>
+      <?php echo form_close(); ?>
     <?php } ?>
-			
-		</div>
-	</div>
+      
+    </div>
+  </div>
 </div>
 </div>
 <?php hooks()->do_action('app_admin_footer'); ?>

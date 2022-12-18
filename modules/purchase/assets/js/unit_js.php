@@ -84,14 +84,15 @@ setTimeout(function(){
               
               ],
 
-    colHeaders: true,
-    nestedHeaders: [{"1":"<?php echo _l('unit_code') ?>",
-                      "2":"<?php echo _l('unit_name') ?>",
-                      "3":"<?php echo _l('unit_symbol') ?>",
-                      "4":"<?php echo _l('order') ?>",
-                     "5":"<?php echo _l('display') ?>",
-                     "6":"<?php echo _l('note') ?>",
-                    }],
+    colHeaders: [
+        "<?php echo _l('unit_code') ?>",
+        "<?php echo _l('unit_name') ?>",
+        "<?php echo _l('unit_symbol') ?>",
+        "<?php echo _l('order') ?>",
+        "<?php echo _l('display') ?>",
+        "<?php echo _l('note') ?>",
+      ],
+
 
     data: [{"unit_code":"","unit_name":"","unit_symbol":"","order":"","display":"no","note":""}],
 
@@ -195,14 +196,14 @@ setTimeout(function(){
               
               ],
 
-        colHeaders: true,
-        nestedHeaders: [{"1":"<?php echo _l('unit_code') ?>",
-                      "2":"<?php echo _l('unit_name') ?>",
-                      "3":"<?php echo _l('unit_symbol') ?>",
-                      "4":"<?php echo _l('order') ?>",
-                     "5":"<?php echo _l('display') ?>",
-                     "6":"<?php echo _l('note') ?>",
-                    }],
+         colHeaders: [
+        "<?php echo _l('unit_code') ?>",
+        "<?php echo _l('unit_name') ?>",
+        "<?php echo _l('unit_symbol') ?>",
+        "<?php echo _l('order') ?>",
+        "<?php echo _l('display') ?>",
+        "<?php echo _l('note') ?>",
+      ],
 
         data: [{"unit_code":unit_code,"unit_name":unit_name,"unit_symbol":unit_symbol,"order":order,"display":display,"note":note}],
 

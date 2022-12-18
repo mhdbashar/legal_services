@@ -10,6 +10,7 @@ class purchase extends AdminController
     {
         parent::__construct();
         $this->load->model('purchase_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
         hooks()->do_action('purchase_init');        
     }
 
@@ -601,6 +602,10 @@ class purchase extends AdminController
         
         $data['taxes'] = $this->purchase_model->get_taxes();
         $data['projects'] = $this->projects_model->get();
+
+        $data['legal_services'] = $this->legal->get_all_services();
+        $data['rel_type']    = $this->input->get('rel_type');
+        $data['rel_id']    = $this->input->get('rel_id');
         $data['staffs'] = $this->staff_model->get();
     	$data['departments'] = $this->departments_model->get();
     	$data['units'] = $this->purchase_model->get_units();
@@ -1513,7 +1518,9 @@ class purchase extends AdminController
 
         $data['invoices'] = $this->purchase_model->get_invoice_for_pr();
         $data['pur_request'] = $this->purchase_model->get_pur_request_by_status(2);
-        $data['projects'] = $this->projects_model->get();
+        $data['legal_services'] = $this->legal->get_all_services();
+        $data['rel_type']    = $this->input->get('rel_type');
+        $data['rel_id']    = $this->input->get('rel_id');
         $data['ven'] = $this->input->get('vendor');
         $data['taxes'] = $this->purchase_model->get_taxes();
         $data['staff']             = $this->staff_model->get('', ['active' => 1]);

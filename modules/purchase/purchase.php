@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المشتريات
 Description:وحدة إدارة المشريات هي أداة لإدارة مشترياتك اليومية. مع الكثير من المميزات الضرورية التي تحتاجها أي شركة
-Version: 1.3.0
+Version: 1.3.1
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://www.babil.net.sa

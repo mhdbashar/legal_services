@@ -103,33 +103,14 @@ class Authentication_vendor extends App_Controller
     {
         $this->load->model('purchase/purchase_model');
         
-        if (get_option('company_is_required') == 1) {
-            $this->form_validation->set_rules('company', _l('client_company'), 'required');
-        }
-
-        if (is_gdpr() && get_option('gdpr_enable_terms_and_conditions') == 1) {
-            $this->form_validation->set_rules(
-                'accept_terms_and_conditions',
-                _l('terms_and_conditions'),
-                'required',
-                    ['required' => _l('terms_and_conditions_validation')]
-            );
-        }
-
+        $this->form_validation->set_rules('company', _l('client_company'), 'required');
         $this->form_validation->set_rules('firstname', _l('client_firstname'), 'required');
         $this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
         $this->form_validation->set_rules('email', _l('client_email'), 'trim|required|is_unique[' . db_prefix() . 'pur_contacts.email]|valid_email');
         $this->form_validation->set_rules('password', _l('clients_register_password'), 'required');
         $this->form_validation->set_rules('passwordr', _l('clients_register_password_repeat'), 'required|matches[password]');
 
-        if (get_option('use_recaptcha_customers_area') == 1
-            && get_option('recaptcha_secret_key') != ''
-            && get_option('recaptcha_site_key') != '') {
-            $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
-        }
-
         $custom_fields = get_custom_fields('vendors', [
-            'show_on_client_portal' => 1,
             'required'              => 1,
         ]);
 
@@ -169,6 +150,7 @@ class Authentication_vendor extends App_Controller
                       'zip'                 => $data['zip'],
                       'state'               => $data['state'],
                       'custom_fields'       => isset($data['custom_fields']) && is_array($data['custom_fields']) ? $data['custom_fields'] : [],
+                      'is_primary'          => 1
                 ],'', true);
 
                 if ($clientid) {

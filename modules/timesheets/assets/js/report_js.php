@@ -38,16 +38,17 @@
 	(function(){
 		"use strict";
 		init_datepicker();
-		report_from.on('change', function() {
+		var click_or_change = "<?php echo $this->app_modules->is_active('hijri') ? 'click' : 'change'  ?>";
+        $('#report-from').on(click_or_change, function() {
 			var val = $(this).val();
-			var report_to_val = report_to.val();
+			var report_to_val = $('#report-to').val();
 			if (val != '') {
-				report_to.attr('disabled', false);
+				$('#report-to').attr('disabled', false);
 				if (report_to_val != '') {
 					gen_reports();
 				}
 			} else {
-				report_to.attr('disabled', true);
+				$('#report-to').attr('disabled', true);
 			}
 		});
 
@@ -60,7 +61,7 @@
 
 		$('select[name="months-report"]').on('change', function() {
 			var val = $(this).val();
-			report_to.attr('disabled', true);
+			$('#report-to').attr('disabled', true);
 			report_to.val('');
 			report_from.val('');
 			if (val == 'custom') {
@@ -204,7 +205,7 @@
 		var data = {};
 		data.months_report = $('select[name="months-report"]').val();
 		data.report_from = report_from.val();
-		data.report_to = report_to.val();
+		data.report_to = $('#report-to').val();
 
 
 		$.post(admin_url + 'timesheets/report_by_working_hours', data).done(function(response) {
@@ -276,7 +277,7 @@
 		var data = {};
 		data.months_report = $('select[name="months-report"]').val();
 		data.report_from = report_from.val();
-		data.report_to = report_to.val();
+		data.report_to = $('#report-to').val();
 
 
 		$.post(admin_url + 'timesheets/report_of_leave', data).done(function(response) {
@@ -340,7 +341,7 @@
 		var data = {};
 		data.months_report = $('select[name="months-report"]').val();
 		data.report_from = report_from.val();
-		data.report_to = report_to.val();
+		data.report_to = $('#report-to').val();
 
 
 		$.post(admin_url + 'timesheets/leave_by_department', data).done(function(response) {
@@ -404,7 +405,7 @@
 		var data = {};
 		data.months_report = $('select[name="months-report"]').val();
 		data.report_from = report_from.val();
-		data.report_to = report_to.val();
+		data.report_to = $('#report-to').val();
 
 
 		$.post(admin_url + 'timesheets/ratio_check_in_out_by_workplace', data).done(function(response) {

@@ -8,11 +8,11 @@ $custom_fields = get_custom_fields('pur_order', [
 
 $aColumns = [
     'pur_order_number',
+    'vendor',
     'order_date',
     'type',
     'project',
     'department',
-    'vendor',
     'pur_order_name',
     'subtotal',
     'total_tax',
@@ -25,7 +25,7 @@ $aColumns = [
     'expense_convert',
     ];
 
-if(isset($vendor)){
+if(isset($vendor) || isset($project)){
     $aColumns = [
     'pur_order_number',
     'total',
@@ -60,6 +60,10 @@ $where = [];
 
 if(isset($vendor)){
     array_push($where, ' AND '.db_prefix().'pur_orders.vendor = '.$vendor);
+}
+
+if(isset($project)){
+    array_push($where, ' AND '.db_prefix().'pur_orders.project = '.$project);
 }
 
 if ($this->ci->input->post('from_date')
@@ -97,6 +101,10 @@ if ($this->ci->input->post('delivery_status')
     array_push($where, 'AND delivery_status IN (' . implode(',', $this->ci->input->post('delivery_status')) . ')');
 }
 
+if ($this->ci->input->post('purchase_request')
+    && count($this->ci->input->post('purchase_request')) > 0) {
+    array_push($where, 'AND pur_request IN (' . implode(',', $this->ci->input->post('purchase_request')) . ')');
+}
 
 $type = $this->ci->input->post('type');
 if (isset($type)) {
@@ -135,7 +143,7 @@ if (isset($tags_ft)) {
     }
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'pur_orders.id as id','company','pur_order_number','expense_convert',db_prefix().'projects.name as project_name',db_prefix().'departments.name as department_name']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'pur_orders.id as id','company','pur_order_number','expense_convert',db_prefix().'projects.name as project_name',db_prefix().'departments.name as department_name', 'currency']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -150,8 +158,13 @@ foreach ($rResult as $aRow) {
             $_data = $aRow[$aColumns[$i]];
         }
 
+        $base_currency = get_base_currency_pur();
+        if($aRow['currency'] != 0){
+            $base_currency = pur_get_currency_by_id($aRow['currency']);
+        }
+
         if($aColumns[$i] == 'total'){
-            $_data = app_format_money($aRow['total'], '');
+            $_data = app_format_money($aRow['total'], $base_currency->symbol);
         }elseif($aColumns[$i] == 'pur_order_number'){
 
             $numberOutput = '';
@@ -160,14 +173,14 @@ foreach ($rResult as $aRow) {
             
             $numberOutput .= '<div class="row-options">';
 
-            if (has_permission('purchase', '', 'view')) {
+            if (has_permission('purchase_orders', '', 'view')) {
                 $numberOutput .= ' <a href="' . admin_url('purchase/purchase_order/' . $aRow['id']) . '" onclick="init_pur_order(' . $aRow['id'] . '); return false;" >' . _l('view') . '</a>';
             }
-            if ((has_permission('purchase', '', 'edit') || is_admin()) && $aRow['approve_status'] != 2 ) {
+            if ((has_permission('purchase_orders', '', 'edit') || is_admin()) && $aRow['approve_status'] != 2 ) {
                 $numberOutput .= ' | <a href="' . admin_url('purchase/pur_order/' . $aRow['id']) . '">' . _l('edit') . '</a>';
             }
-            if (has_permission('purchase', '', 'delete') || is_admin()) {
-                $numberOutput .= ' | <a href="' . admin_url('purchase/delete_pur_order/' . $aRow['id']) . '" class="text-danger">' . _l('delete') . '</a>';
+            if (has_permission('purchase_orders', '', 'delete') || is_admin()) {
+                $numberOutput .= ' | <a href="' . admin_url('purchase/delete_pur_order/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
             }
             $numberOutput .= '</div>';
 
@@ -180,7 +193,7 @@ foreach ($rResult as $aRow) {
         }elseif($aColumns[$i] == 'approve_status'){
             $_data = get_status_approve($aRow['approve_status']);
         }elseif($aColumns[$i] == 'total_tax'){
-            $_data = app_format_money($aRow['total_tax'], '');
+            $_data = app_format_money($aRow['total_tax'], $base_currency->symbol);
         }elseif($aColumns[$i] == 'expense_convert'){
             if($aRow['expense_convert'] == 0){
              $_data = '<a href="javascript:void(0)" onclick="convert_expense('.$aRow['id'].','.$aRow['total'].'); return false;" class="btn btn-warning btn-icon">'._l('convert').'</a>';
@@ -194,7 +207,7 @@ foreach ($rResult as $aRow) {
         }elseif($aColumns[$i] == 'type'){
             $_data = _l($aRow['type']);
         }elseif($aColumns[$i] == 'subtotal'){
-            $_data = app_format_money($aRow['subtotal'],'');
+            $_data = app_format_money($aRow['subtotal'],$base_currency->symbol);
         }elseif($aColumns[$i] == 'project'){
             $_data = $aRow['project_name'];
         }elseif($aColumns[$i] == 'department'){
@@ -212,7 +225,7 @@ foreach ($rResult as $aRow) {
                 $delivery_status = '<span class="inline-block label label-warning" id="status_span_'.$aRow['id'].'" task-status-table="partially_delivered">'._l('partially_delivered');
             }
             
-            if(has_permission('purchase', '', 'edit') || is_admin()){
+            if(has_permission('purchase_orders', '', 'edit') || is_admin()){
                 $delivery_status .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
                 $delivery_status .= '<a href="#" class="dropdown-toggle text-dark" id="tablePurOderStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
                 $delivery_status .= '<span data-toggle="tooltip" title="' . _l('ticket_single_change_status') . '"><i class="fa fa-caret-down" aria-hidden="true"></i></span>';

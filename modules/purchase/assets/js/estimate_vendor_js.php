@@ -1,4 +1,81 @@
 <script>
+(function($) {
+  "use strict";
+    init_currency();
+    // Maybe items ajax search
+
+      init_ajax_search('items','#item_select.ajax-search',undefined,site_url+'purchase/vendors_portal/pur_commodity_code_search');
+
+
+    pur_calculate_total(); 
+
+
+$("body").on('change', 'select[name="item_select"]', function () {
+  var itemid = $(this).selectpicker('val');
+  if (itemid != '') {
+    pur_add_item_to_preview(itemid);
+  }
+});
+
+$("body").on('change', 'select.taxes', function () {
+  pur_calculate_total();
+});
+
+$("body").on('change', 'select[name="currency"]', function () {
+  var currency_id = $(this).val();
+  if(currency_id != ''){
+    $.post(site_url + 'purchase/vendors_portal/get_currency_rate/'+currency_id).done(function(response){
+      response = JSON.parse(response);
+      if(response.currency_rate != 1){
+        $('#currency_rate_div').removeClass('hide');
+
+        $('input[name="currency_rate"]').val(response.currency_rate).change();
+
+        $('#convert_str').html(response.convert_str);
+        $('.th_currency').html(response.currency_name);
+      }else{
+        $('input[name="currency_rate"]').val(response.currency_rate).change();
+        $('#currency_rate_div').addClass('hide');
+        $('#convert_str').html(response.convert_str);
+        $('.th_currency').html(response.currency_name);
+
+      }
+
+    });
+  }else{
+    alert_float('warning', "<?php echo _l('please_select_currency'); ?>" )
+  }
+
+  init_currency();
+});
+
+<?php $pr_id = $this->input->get('purchase_request');
+  if($pr_id != ''){ ?>
+$('select[name="pur_request"]').val("<?php echo html_entity_decode($pr_id); ?>").change();
+<?php } ?>
+
+$("input[name='currency_rate']").on('change', function () { 
+    var currency_rate = $(this).val();
+    var rows = $('.table.has-calculations tbody tr.item');
+    $.each(rows, function () { 
+      var old_price = $(this).find('td.rate input[name="og_price"]').val();
+      var new_price = currency_rate*old_price;
+      $(this).find('td.rate input[type="number"]').val(accounting.toFixed(new_price, 2)).change();
+
+    });
+});
+
+
+$("body").on('click', '.transaction-submit', function () { 
+  var that = $(this);
+  var form = that.parents('form._transaction_form');
+
+  form.submit();
+});
+
+})(jQuery);
+
+var lastAddedItemKey = null;
 
 function removeCommas(str) {
   "use strict";
@@ -25,433 +102,523 @@ function dc_total_change(invoker){
    $('input[name="after_discount"]').val(numberWithCommas(rs));
 }
 
-<?php if(!isset($estimate)){
- ?>	
 
-function numberWithCommas(x) {
+function coppy_pur_request(){
   "use strict";
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  var pur_request = $('select[name="pur_request"]').val();
+  if(pur_request != ''){
+     
+    $.post(site_url + 'purchase/vendors_portal/coppy_pur_request/'+pur_request).done(function(response){
+        response = JSON.parse(response);
+        if(response){
+          $('select[name="currency"]').val(response.currency).change();
+          $('input[name="currency_rate"]').val(response.currency_rate).change();
+
+          $('.invoice-item table.invoice-items-table.items tbody').html('');
+          $('.invoice-item table.invoice-items-table.items tbody').append(response.list_item);
+
+          setTimeout(function () {
+            pur_calculate_total();
+          }, 15);
+
+          init_selectpicker();
+          pur_reorder_items('.invoice-item');
+          pur_clear_item_preview_values('.invoice-item');
+          $('body').find('#items-warning').remove();
+          $("body").find('.dt-loader').remove();
+          $('#item_select').selectpicker('val', '');
+        }
+    });
+  }else{
+    alert_float('warning', '<?php echo _l('please_chose_pur_request'); ?>')
+  }
 }
 
-var dataObject = [
-      
-    ];
-  var hotElement = document.querySelector('#example');
-    var hotElementContainer = hotElement.parentNode;
-    var hotSettings = {
-      data: dataObject,
-      columns: [
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 50,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          multiSelect:true,
-          width: 50,
-          chosenOptions: {
-          	  multiple: true,
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'discount_%',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'discount_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          }
-        },
-        {
-          data: 'total_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          }
-      
-        }
-        
-      ],
-      licenseKey: 'non-commercial-and-evaluation',
-      stretchH: 'all',
-      width: '100%',
-      autoWrapRow: true,
-      rowHeights: 30,
-      columnHeaderHeight: 40,
-      minRows: 10,
-      maxRows: 22,
-      rowHeaders: true,
-      colWidths: [200,10,100,50,100,50,100,50,100,100],
-      colHeaders: [
-        '<?php echo _l('items'); ?>',
-        '<?php echo _l('pur_unit'); ?>',
-        '<?php echo _l('purchase_unit_price'); ?>',
-        '<?php echo _l('purchase_quantity'); ?>',
-        '<?php echo _l('subtotal_before_tax'); ?>',
-        '<?php echo _l('tax'); ?>',
-        '<?php echo _l('subtotal_after_tax'); ?>',
-        '<?php echo _l('discount(%)').'(%)'; ?>',
-        '<?php echo _l('discount(money)'); ?>',
-        '<?php echo _l('total'); ?>',
-      ],
-       columnSorting: {
-        indicator: true
-      },
-      autoColumnSize: {
-        samplingRatio: 23
-      },
-      dropdownMenu: true,
-      mergeCells: true,
-      contextMenu: true,
-      manualRowMove: true,
-      manualColumnMove: true,
-      multiColumnSorting: {
-        indicator: true
-      },
-      filters: true,
-      manualRowResize: true,
-      manualColumnResize: true
-    };
 
+function pur_calculate_total(from_discount_money){
+  "use strict";
+  if ($('body').hasClass('no-calculate-total')) {
+    return false;
+  }
 
-var hot = new Handsontable(hotElement, hotSettings);
-hot.addHook('afterChange', function(changes, src) {
-	if(changes !== null){
-	    changes.forEach(([row, prop, oldValue, newValue]) => {
-        if(newValue != ''){
-	      if(prop == 'item_code'){
-	        $.post(site_url + 'purchase/vendors_portal/items_change/'+newValue).done(function(response){
-	          response = JSON.parse(response);
+  var calculated_tax,
+    taxrate,
+    item_taxes,
+    row,
+    _amount,
+    _tax_name,
+    taxes = {},
+    taxes_rows = [],
+    subtotal = 0,
+    total = 0,
+    total_money = 0,
+    total_tax_money = 0,
+    quantity = 1,
+    total_discount_calculated = 0,
+    item_discount_percent = 0,
+    item_discount_money = 0,
+    item_discount_from_percent = 0,
+    item_discount = 0,
+    item_total_payment,
+    rows = $('.table.has-calculations tbody tr.item'),
+    subtotal_area = $('#subtotal'),
+    discount_area = $('#discount_area'),
+    adjustment = $('input[name="adjustment"]').val(),
+    // discount_percent = $('input[name="discount_percent"]').val(),
+    discount_percent = 'before_tax',
+    discount_fixed = $('input[name="discount_total"]').val(),
+    discount_total_type = $('.discount-total-type.selected'),
+    discount_type = $('select[name="discount_type"]').val(),
+    additional_discount = $('input[name="additional_discount"]').val();
 
-	          hot.setDataAtCell(row,1, response.value.unit_id);
-	          hot.setDataAtCell(row,2, response.value.purchase_price);
-	          hot.setDataAtCell(row,4, response.value.purchase_price*hot.getDataAtCell(row,3));
-	        });
-	      }else if(prop == 'quantity'){
-	        hot.setDataAtCell(row,4, newValue*hot.getDataAtCell(row,2));
-	        hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,2));
-          hot.setDataAtCell(row,9, newValue*hot.getDataAtCell(row,2));
-	      }else if(prop == 'unit_price'){
-          hot.setDataAtCell(row,4, newValue*hot.getDataAtCell(row,3));
-          hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,3));
-          hot.setDataAtCell(row,9, newValue*hot.getDataAtCell(row,3));
-        }else if(prop == 'tax'){
-	      	$.post(site_url + 'purchase/vendors_portal/tax_change/'+newValue).done(function(response){
-	          response = JSON.parse(response);
-	          hot.setDataAtCell(row,6, (response.total_tax*parseFloat(hot.getDataAtCell(row,4)))/100 + parseFloat(hot.getDataAtCell(row,4)));
-            hot.setDataAtCell(row,9, (response.total_tax*parseFloat(hot.getDataAtCell(row,4)))/100 + parseFloat(hot.getDataAtCell(row,4)));
-	      	});
-	      }else if(prop == 'discount_%'){
-          hot.setDataAtCell(row,8, (newValue*parseFloat(hot.getDataAtCell(row,6)))/100);
+  var shipping_fee = $('input[name="shipping_fee"]').val();
+  if(shipping_fee == ''){
+    shipping_fee = 0;
+    $('input[name="shipping_fee"]').val(0);
+  }
 
-        }else if(prop == 'discount_money'){
-           hot.setDataAtCell(row,9, (parseFloat(hot.getDataAtCell(row,6)) - newValue));
-        }else if(prop == 'total_money'){
-         var total_money = 0;
-          for (var row_index = 0; row_index <= 40; row_index++) {
-            if(parseFloat(hot.getDataAtCell(row_index, 9)) > 0){
-              total_money += (parseFloat(hot.getDataAtCell(row_index, 9)));
-            }
+  $('.wh-tax-area').remove();
+
+    $.each(rows, function () {
+
+    var item_tax = 0,
+        item_amount  = 0;
+
+    quantity = $(this).find('[data-quantity]').val();
+    if (quantity === '') {
+      quantity = 1;
+      $(this).find('[data-quantity]').val(1);
+    }
+    item_discount_percent = $(this).find('td.discount input').val();
+    item_discount_money = $(this).find('td.discount_money input').val();
+
+    if (isNaN(item_discount_percent) || item_discount_percent == '') {
+      item_discount_percent = 0;
+    }
+
+    if (isNaN(item_discount_money) || item_discount_money == '') {
+      item_discount_money = 0;
+    }
+
+    if(from_discount_money == 1 && item_discount_money > 0){
+      $(this).find('td.discount input').val('');
+    }
+
+    _amount = accounting.toFixed($(this).find('td.rate input').val() * quantity, app.options.decimal_places);
+    item_amount = _amount;
+    _amount = parseFloat(_amount);
+
+    $(this).find('td.into_money').html(format_money(_amount));
+    $(this).find('td._into_money input').val(_amount);
+
+    subtotal += _amount;
+    row = $(this);
+    item_taxes = $(this).find('select.taxes').val();
+
+    if (item_taxes) {
+      $.each(item_taxes, function (i, taxname) {
+        taxrate = row.find('select.taxes [value="' + taxname + '"]').data('taxrate');
+        calculated_tax = (_amount / 100 * taxrate);
+        item_tax += calculated_tax;
+        if (!taxes.hasOwnProperty(taxname)) {
+          if (taxrate != 0) {
+            _tax_name = taxname.split('|');
+            var tax_row = '<tr class="wh-tax-area"><td>' + _tax_name[0] + '(' + taxrate + '%)</td><td id="tax_id_' + slugify(taxname) + '"></td></tr>';
+            $(subtotal_area).after(tax_row);
+            taxes[taxname] = calculated_tax;
           }
-           $('input[name="total_mn"]').val(numberWithCommas(total_money));
+        } else {
+                    // Increment total from this tax
+                    taxes[taxname] = taxes[taxname] += calculated_tax;
+                }
+            });
+    }
+    var after_tax = _amount + item_tax;
+
+    $(this).find('td._total').html(format_money(after_tax));
+    $(this).find('td._total_after_tax input').val(after_tax);
+
+    $(this).find('td.tax_value input').val(item_tax);
+      //Discount of item
+      if( item_discount_percent > 0 && from_discount_money != 1){
+        item_discount_from_percent = (parseFloat(item_amount) + parseFloat(item_tax) ) * parseFloat(item_discount_percent) / 100;
+        if(item_discount_from_percent != item_discount_money){
+          item_discount_money = item_discount_from_percent;
         }
       }
 
-	    });
-	}
-  });
- function get_hs_data() {
- "use strict";
-  $('input[name="estimate_detail"]').val(JSON.stringify(hot.getData()));   
-}
-<?php } else{ ?>
-
-  function numberWithCommas(x) {
-    "use strict";
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
-	var dataObject = <?php echo html_entity_decode($estimate_detail); ?>;
-  var hotElement = document.querySelector('#example');
-    var hotElementContainer = hotElement.parentNode;
-    var hotSettings = {
-      data: dataObject,
-      columns: [
-      	{
-          data: 'id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_estimate',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          width: 50,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          multiSelect:true,
-          width: 50,
-          chosenOptions: {
-          	  multiple: true,
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'discount_%',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'discount_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          }
-        },
-        {
-          data: 'total_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          }
-      
-        }
-      
-      ],
-      licenseKey: 'non-commercial-and-evaluation',
-      stretchH: 'all',
-      width: '100%',
-      autoWrapRow: true,
-      rowHeights: 30,
-      columnHeaderHeight: 40,
-      minRows: 10,
-      maxRows: 22,
-      rowHeaders: true,
-      colWidths: [0,0,200,10,100,50,100,50,100,50,100,100],
-      colHeaders: [
-      	'',
-        '',
-        '<?php echo _l('items'); ?>',
-        '<?php echo _l('pur_unit'); ?>',
-        '<?php echo _l('purchase_unit_price'); ?>',
-        '<?php echo _l('purchase_quantity'); ?>',
-        '<?php echo _l('subtotal_before_tax'); ?>',
-        '<?php echo _l('tax'); ?>',
-        '<?php echo _l('subtotal_after_tax'); ?>',
-        '<?php echo _l('discount(%)').'(%)'; ?>',
-        '<?php echo _l('discount(money)'); ?>',
-        '<?php echo _l('total'); ?>',
-      ],
-       columnSorting: {
-        indicator: true
-      },
-      autoColumnSize: {
-        samplingRatio: 23
-      },
-      dropdownMenu: true,
-      mergeCells: true,
-      contextMenu: true,
-      manualRowMove: true,
-      manualColumnMove: true,
-      multiColumnSorting: {
-        indicator: true
-      },
-      hiddenColumns: {
-        columns: [0,1],
-        indicators: true
-      },
-      filters: true,
-      manualRowResize: true,
-      manualColumnResize: true
-    };
-
-
-var hot = new Handsontable(hotElement, hotSettings);
-hot.addHook('afterChange', function(changes, src) {
-	if(changes !== null){
-	    changes.forEach(([row, prop, oldValue, newValue]) => {
-        if(newValue != ''){
-	      if(prop == 'item_code'){
-	        $.post(site_url + 'purchase/vendors_portal/items_change/'+newValue).done(function(response){
-	          response = JSON.parse(response);
-
-	          hot.setDataAtCell(row,3, response.value.unit_id);
-	          hot.setDataAtCell(row,4, response.value.purchase_price);
-	          hot.setDataAtCell(row,6, response.value.purchase_price*hot.getDataAtCell(row,5));
-	        });
-	      }else if(prop == 'quantity'){
-	        hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,4));
-	        hot.setDataAtCell(row,8, newValue*hot.getDataAtCell(row,4));
-          hot.setDataAtCell(row,11, newValue*hot.getDataAtCell(row,4));
-	      }else if(prop == 'unit_price'){
-          hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,5));
-          hot.setDataAtCell(row,8, newValue*hot.getDataAtCell(row,5));
-          hot.setDataAtCell(row,11, newValue*hot.getDataAtCell(row,5));
-        }else if(prop == 'tax'){
-	      	$.post(site_url + 'purchase/vendors_portal/tax_change/'+newValue).done(function(response){
-	          response = JSON.parse(response);
-	          hot.setDataAtCell(row,8, (response.total_tax*parseFloat(hot.getDataAtCell(row,6)))/100 + parseFloat(hot.getDataAtCell(row,6)));
-            hot.setDataAtCell(row,11, (response.total_tax*parseFloat(hot.getDataAtCell(row,6)))/100 + parseFloat(hot.getDataAtCell(row,6)));
-	      	});
-	      }else if(prop == 'discount_%'){
-          hot.setDataAtCell(row,10, (newValue*parseFloat(hot.getDataAtCell(row,8)))/100);
-
-        }else if(prop == 'discount_money'){
-           hot.setDataAtCell(row,11, (parseFloat(hot.getDataAtCell(row,8)) - newValue));
-        }else if(prop == 'total_money'){
-         var total_money = 0;
-          for (var row_index = 0; row_index <= 40; row_index++) {
-            if(parseFloat(hot.getDataAtCell(row_index, 11)) > 0){
-              total_money += (parseFloat(hot.getDataAtCell(row_index, 11)));
-            }
-          }
-          $('input[name="total_mn"]').val(numberWithCommas(total_money));
-        }
+      if( item_discount_money > 0){
+        item_discount = parseFloat(item_discount_money);
       }
-	    });
-	}
+
+      item_total_payment = parseFloat(item_amount) + parseFloat(item_tax) - parseFloat(item_discount);
+
+      // Append value to item
+      total_discount_calculated += item_discount;
+      $(this).find('td.discount_money input').val(item_discount);
+      $(this).find('td.total_after_discount input').val(item_total_payment);
+
+      $(this).find('td.label_discount_money').html(format_money(item_discount));
+      $(this).find('td.label_total_after_discount').html(format_money(item_total_payment));
+
   });
-function get_hs_data() {
-  "use strict";
-  $('input[name="estimate_detail"]').val(JSON.stringify(hot.getData()));   
+
+  // Discount by percent
+  if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-percent')) {
+    total_discount_calculated = (subtotal * discount_percent) / 100;
+  } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+    total_discount_calculated = discount_fixed;
+  }
+
+  $.each(taxes, function (taxname, total_tax) {
+    if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-percent')) {
+      total_tax_calculated = (total_tax * discount_percent) / 100;
+      total_tax = (total_tax - total_tax_calculated);
+    } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+      var t = (discount_fixed / subtotal) * 100;
+      total_tax = (total_tax - (total_tax * t) / 100);
+    }
+
+    total += total_tax;
+    total_tax_money += total_tax;
+    total_tax = format_money(total_tax);
+    $('#tax_id_' + slugify(taxname)).html(total_tax);
+  });
+
+
+  total = (total + subtotal);
+  total_money = total;
+  // Discount by percent
+  if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'after_tax' && discount_total_type.hasClass('discount-type-percent')) {
+    total_discount_calculated = (total * discount_percent) / 100;
+  } else if ((discount_fixed !== '' && discount_fixed != 0) && discount_type == 'after_tax' && discount_total_type.hasClass('discount-type-fixed')) {
+    total_discount_calculated = discount_fixed;
+  }
+
+  total = total - total_discount_calculated - parseFloat(additional_discount);
+  adjustment = parseFloat(adjustment);
+
+  // Check if adjustment not empty
+  if (!isNaN(adjustment)) {
+    total = total + adjustment;
+  }
+
+  total+= parseFloat(shipping_fee);
+
+  var discount_html = '-' + format_money(parseFloat(total_discount_calculated)+ parseFloat(additional_discount));
+    $('input[name="discount_total"]').val(accounting.toFixed(total_discount_calculated, app.options.decimal_places));
+    
+  // Append, format to html and display
+  $('.shiping_fee').html(format_money(shipping_fee));
+  $('.wh-total_discount').html(discount_html + hidden_input('dc_total', accounting.toFixed(total_discount_calculated, app.options.decimal_places))  );
+  $('.adjustment').html(format_money(adjustment));
+  $('.wh-subtotal').html(format_money(subtotal) + hidden_input('total_mn', accounting.toFixed(subtotal, app.options.decimal_places)));
+  $('.wh-total').html(format_money(total) + hidden_input('grand_total', accounting.toFixed(total, app.options.decimal_places)));
+
+  $(document).trigger('purchase-quotation-total-calculated');
+
 }
 
-var total_money = 0;
-for (var row_index = 0; row_index <= 40; row_index++) {
-  if(parseFloat(hot.getDataAtCell(row_index, 11)) > 0){
-    total_money += (parseFloat(hot.getDataAtCell(row_index, 11)));
+
+function pur_add_item_to_preview(id) {
+  "use strict";
+  var currency_rate = $('input[name="currency_rate"]').val();
+  requestGetJSON('purchase/vendors_portal/get_item_by_id/' + id +'/'+ currency_rate).done(function (response) {
+    clear_item_preview_values();
+
+    $('.main input[name="item_code"]').val(response.itemid);
+    $('.main textarea[name="item_name"]').val(response.code_description);
+    $('.main input[name="unit_price"]').val(response.purchase_price);
+    $('.main input[name="unit_name"]').val(response.unit_name);
+    $('.main input[name="unit_id"]').val(response.unit_id);
+    $('.main input[name="quantity"]').val(1);
+
+    $('.selectpicker').selectpicker('refresh');
+
+
+    var taxSelectedArray = [];
+    if (response.taxname && response.taxrate) {
+      taxSelectedArray.push(response.taxname + '|' + response.taxrate);
+    }
+    if (response.taxname_2 && response.taxrate_2) {
+      taxSelectedArray.push(response.taxname_2 + '|' + response.taxrate_2);
+    }
+
+    $('.main select.taxes').selectpicker('val', taxSelectedArray);
+    $('.main input[name="unit"]').val(response.unit_name);
+
+    var $currency = $("body").find('.accounting-template select[name="currency"]');
+    var baseCurency = $currency.attr('data-base');
+    var selectedCurrency = $currency.find('option:selected').val();
+    var $rateInputPreview = $('.main input[name="rate"]');
+
+    if (baseCurency == selectedCurrency) {
+      $rateInputPreview.val(response.rate);
+    } else {
+      var itemCurrencyRate = response['rate_currency_' + selectedCurrency];
+      if (!itemCurrencyRate || parseFloat(itemCurrencyRate) === 0) {
+        $rateInputPreview.val(response.rate);
+      } else {
+        $rateInputPreview.val(itemCurrencyRate);
+      }
+    }
+
+    $(document).trigger({
+      type: "item-added-to-preview",
+      item: response,
+      item_type: 'item',
+    });
+  });
+}
+
+function pur_add_item_to_table(data, itemid) {
+  "use strict";
+
+  data = typeof (data) == 'undefined' || data == 'undefined' ? pur_get_item_preview_values() : data;
+
+  if (data.quantity == "" || data.item_code == "" ) {
+    
+    return;
+  }
+  var currency_rate = $('input[name="currency_rate"]').val();
+  var to_currency = $('select[name="currency"]').val();
+  var table_row = '';
+  var item_key = lastAddedItemKey ? lastAddedItemKey += 1 : $("body").find('.invoice-items-table tbody .item').length + 1;
+  lastAddedItemKey = item_key;
+  $("body").append('<div class="dt-loader"></div>');
+  pur_get_item_row_template('newitems[' + item_key + ']',data.item_name, data.quantity, data.unit_name, data.unit_price, data.taxname, data.item_code, data.unit_id, data.tax_rate, data.discount, itemid, currency_rate, to_currency).done(function(output){
+    table_row += output;
+
+    $('.invoice-item table.invoice-items-table.items tbody').append(table_row);
+
+    setTimeout(function () {
+      pur_calculate_total();
+    }, 15);
+    init_selectpicker();
+    init_datepicker();
+    pur_reorder_items('.invoice-item');
+    pur_clear_item_preview_values('.invoice-item');
+    $('body').find('#items-warning').remove();
+    $("body").find('.dt-loader').remove();
+        $('#item_select').selectpicker('val', '');
+
+    return true;
+  });
+  return false;
+}
+
+function pur_get_item_preview_values() {
+  "use strict";
+
+  var response = {};
+  response.item_name = $('.invoice-item .main textarea[name="item_name"]').val();
+  response.quantity = $('.invoice-item .main input[name="quantity"]').val();
+  response.unit_name = $('.invoice-item .main input[name="unit_name"]').val();
+  response.unit_price = $('.invoice-item .main input[name="unit_price"]').val();
+  response.taxname = $('.main select.taxes').selectpicker('val');
+  response.item_code = $('.invoice-item .main input[name="item_code"]').val();
+  response.unit_id = $('.invoice-item .main input[name="unit_id"]').val();
+  response.tax_rate = $('.invoice-item .main input[name="tax_rate"]').val();
+  response.discount = $('.invoice-item .main input[name="discount"]').val();
+
+
+  return response;
+}
+
+
+function pur_clear_item_preview_values(parent) {
+  "use strict";
+
+  var previewArea = $(parent + ' .main');
+  previewArea.find('input').val('');
+  previewArea.find('textarea').val('');
+  previewArea.find('select').val('').selectpicker('refresh');
+}
+
+function pur_reorder_items(parent) {
+  "use strict";
+
+  var rows = $(parent + ' .table.has-calculations tbody tr.item');
+  var i = 1;
+  $.each(rows, function () {
+    $(this).find('input.order').val(i);
+    i++;
+  });
+}
+
+function pur_delete_item(row, itemid,parent) {
+  "use strict";
+
+  $(row).parents('tr').addClass('animated fadeOut', function () {
+    setTimeout(function () {
+          }, 50);
+  });
+
+  $(row).parents('tr').remove();
+  pur_calculate_total();
+  if (itemid && $('input[name="isedit"]').length > 0) {
+    $(parent+' #removed-items').append(hidden_input('removed_items[]', itemid));
   }
 }
-$('input[name="total_mn"]').val(numberWithCommas(total_money));
 
-<?php } ?>
-
-
-function customDropdownRenderer(instance, td, row, col, prop, value, cellProperties) {
+function pur_get_item_row_template(name, item_name, quantity, unit_name, unit_price, taxname,  item_code, unit_id, tax_rate, discount, item_key, currency_rate, to_currency)  {
   "use strict";
-	  var selectedId;
-	  var optionsList = cellProperties.chosenOptions.data;
-	  
-	  if(typeof optionsList === "undefined" || typeof optionsList.length === "undefined" || !optionsList.length) {
-	      Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-	      return td;
-	  }
 
-	  var values = (value + "").split("|");
-	  value = [];
-	  for (var index = 0; index < optionsList.length; index++) {
+  jQuery.ajaxSetup({
+    async: false
+  });
 
-	      if (values.indexOf(optionsList[index].id + "") > -1) {
-	          selectedId = optionsList[index].id;
-	          value.push(optionsList[index].label);
-	      }
-	  }
-	  value = value.join(", ");
-
-	  Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-	  return td;
+  var d = $.post(site_url + 'purchase/vendors_portal/get_quotation_row_template', {
+    name: name,
+    item_name : item_name,
+    quantity : quantity,
+    unit_name : unit_name,
+    unit_price : unit_price,
+    taxname : taxname,
+    item_code : item_code,
+    unit_id : unit_id,
+    tax_rate : tax_rate,
+    discount : discount,
+    item_key : item_key,
+    currency_rate: currency_rate,
+    to_currency: to_currency
+  });
+  jQuery.ajaxSetup({
+    async: true
+  });
+  return d;
 }
 
+function init_currency(id, callback) {
+    var $accountingTemplate = $("body").find('.accounting-template');
+
+    if ($accountingTemplate.length || id) {
+        var selectedCurrencyId = !id ? $accountingTemplate.find('select[name="currency"]').val() : id;
+
+        requestGetJSON('purchase/vendors_portal/get_currency/' + selectedCurrencyId)
+            .done(function (currency) {
+                // Used for formatting money
+                accounting.settings.currency.decimal = currency.decimal_separator;
+                accounting.settings.currency.thousand = currency.thousand_separator;
+                accounting.settings.currency.symbol = currency.symbol;
+                accounting.settings.currency.format = currency.placement == 'after' ? '%v %s' : '%s%v';
+                pur_calculate_total();
+
+                if(callback) {
+                    callback();
+                }
+            });
+    }
+}
+
+function init_selectpicker() {
+    appSelectPicker();
+}
+
+function init_datepicker(element_date, element_time) {
+    appDatepicker({
+        element_date: element_date,
+        element_time: element_time,
+    });
+}
+
+function requestGetJSON(uri, params) {
+    params = typeof (params) == 'undefined' ? {} : params;
+    params.dataType = 'json';
+    return requestGet(uri, params);
+}
+
+function requestGet(uri, params) {
+    params = typeof (params) == 'undefined' ? {} : params;
+    var options = {
+        type: 'GET',
+        url: uri.indexOf(site_url) > -1 ? uri : site_url + uri
+    };
+    return $.ajax($.extend({}, options, params));
+}
+
+function init_ajax_search(type, selector, server_data, url) {
+    var ajaxSelector = $('body').find(selector);
+
+    if (ajaxSelector.length) {
+        var options = {
+            ajax: {
+                url: (typeof (url) == 'undefined' ? site_url + 'purchase/vendors_portal/get_relation_data' : url),
+                data: function () {
+                    var data = {};
+                    data.type = type;
+                    data.rel_id = '';
+                    data.q = '{{{q}}}';
+                    if (typeof (server_data) != 'undefined') {
+                        jQuery.extend(data, server_data);
+                    }
+                    return data;
+                }
+            },
+            locale: {
+                emptyTitle: app.lang.search_ajax_empty,
+                statusInitialized: app.lang.search_ajax_initialized,
+                statusSearching: app.lang.search_ajax_searching,
+                statusNoResults: app.lang.not_results_found,
+                searchPlaceholder: app.lang.search_ajax_placeholder,
+                currentlySelected: app.lang.currently_selected
+            },
+            requestDelay: 500,
+            cache: false,
+            preprocessData: function (processData) {
+                var bs_data = [];
+                var len = processData.length;
+                for (var i = 0; i < len; i++) {
+                    var tmp_data = {
+                        'value': processData[i].id,
+                        'text': processData[i].name,
+                    };
+                    if (processData[i].subtext) {
+                        tmp_data.data = {
+                            subtext: processData[i].subtext
+                        };
+                    }
+                    bs_data.push(tmp_data);
+                }
+                return bs_data;
+            },
+            preserveSelectedPosition: 'after',
+            preserveSelected: true
+        };
+        if (ajaxSelector.data('empty-title')) {
+            options.locale.emptyTitle = ajaxSelector.data('empty-title');
+        }
+        ajaxSelector.selectpicker().ajaxSelectPicker(options);
+    }
+}
+
+function format_money(total, excludeSymbol) {
+
+    if (typeof (excludeSymbol) != 'undefined' && excludeSymbol) {
+        return accounting.formatMoney(total, {
+            symbol: ''
+        });
+    }
+
+    return accounting.formatMoney(total);
+}
+
+function clear_item_preview_values(default_taxes) {
+
+    // Get the last taxes applied to be available for the next item
+    var last_taxes_applied = $('table.items tbody').find('tr:last-child').find('select').selectpicker('val');
+    var previewArea = $('.main');
+
+    previewArea.find('textarea').val(''); // includes cf
+    previewArea.find('td.custom_field input[type="checkbox"]').prop('checked', false); // cf
+    previewArea.find('td.custom_field input:not(:checkbox):not(:hidden)').val(''); // cf // not hidden for chkbox hidden helpers
+    previewArea.find('td.custom_field select').selectpicker('val', ''); // cf
+    previewArea.find('input[name="quantity"]').val(1);
+    previewArea.find('select.tax').selectpicker('val', last_taxes_applied);
+    previewArea.find('input[name="rate"]').val('');
+    previewArea.find('input[name="unit"]').val('');
+
+    $('input[name="task_id"]').val('');
+    $('input[name="expense_id"]').val('');
+}
 </script>

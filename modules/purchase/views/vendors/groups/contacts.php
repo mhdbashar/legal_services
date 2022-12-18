@@ -6,7 +6,7 @@
      [GDPR] The contact you removed has associated proposals using the email address of the contact and other personal information. You may want to re-check all proposals related to this customer and remove any personal data from proposals linked to this contact.
    </div>
 <?php } ?>
-<?php if((has_permission('customers','','create') || is_customer_admin($client->userid)) && $client->registration_confirmed == '1'){
+<?php if((has_permission('purchase_vendors','','create') || is_vendor_admin($client->userid)) && $client->registration_confirmed == '1'){
    $disable_new_contacts = false;
    if(is_empty_vendor_company($client->userid) && total_rows(db_prefix().'contacts',array('userid'=>$client->userid)) == 1){
       $disable_new_contacts = true;

@@ -240,6 +240,12 @@ function edit_commodity_item(invoker){
         $('#commodity_list-add-edit select[name="tax"]').val('').change();
       }
 
+      if($(invoker).data('tax2') != '0' && $(invoker).data('tax2') != ''){
+        $('#commodity_list-add-edit select[name="tax2"]').val($(invoker).data('tax2')).change();
+      }else{
+        $('#commodity_list-add-edit select[name="tax2"]').val('').change();
+      }
+
 
       $('#commodity_list-add-edit input[name="origin"]').val($(invoker).data('origin'));
       $('#commodity_list-add-edit input[name="rate"]').val($(invoker).data('rate'));
@@ -334,13 +340,45 @@ function purchase_delete_bulk_action(event) {
 
       if (confirm_delete()) {
           var mass_delete = $('#mass_delete').prop('checked');
+          var change_item_selling_price = $('#change_item_selling_price').prop('checked');
+          var change_item_purchase_price = $('#change_item_purchase_price').prop('checked');
+          var clone_items = $('#clone_items').prop('checked');
 
-          if(mass_delete == true){
+          var selling_price = $('input[name="selling_price"]').val();
+          var purchase_price = $('input[name="b_purchase_price"]').val();
+
+          if(mass_delete == true || ( change_item_selling_price == true && selling_price != '') || ( change_item_purchase_price == true && purchase_price != '') || clone_items == true){
               var ids = [];
               var data = {};
 
+              if(change_item_selling_price){
+                data.change_item_selling_price = true;
+                data.rel_type = 'change_item_selling_price';
+                data.selling_price = selling_price;
+                data.clone_items = false;
+                data.mass_delete = false;
+
+              }else if(change_item_purchase_price){
+               data.change_item_purchase_price = true;
+               data.rel_type = 'change_item_purchase_price';
+               data.purchase_price = purchase_price;
+               data.clone_items = false;
+               data.mass_delete = false;
+
+             }else if(clone_items){
+              data.mass_delete = false;
+              data.rel_type = 'commodity_list';
+              data.clone_items = true;
+              data.change_item_selling_price = false;
+              data.change_item_purchase_price = false;
+             }else{
               data.mass_delete = true;
               data.rel_type = 'commodity_list';
+              data.clone_items = false;
+              data.change_item_selling_price = false;
+              data.change_item_purchase_price = false;
+            }
+
 
               var rows = $('#table-table_item_list').find('tbody tr');
               $.each(rows, function() {
@@ -367,4 +405,74 @@ function purchase_delete_bulk_action(event) {
       }
 }
 
+  //update
+  $('input[id="mass_delete"]').on('click', function() {
+  "use strict";
+    
+    var mass_delete = $('input[id="mass_delete"]').is(":checked");
+
+
+    if(mass_delete){
+
+      $('input[id="change_item_selling_price"]').prop("checked", false);
+      $('input[name="selling_price"]').val('');
+
+      $('input[id="change_item_purchase_price"]').prop("checked", false);
+      $('input[name="purchase_price"]').val('');
+      $('input[id="clone_items"]').prop("checked", false);
+    }
+
+  });
+
+  $('input[id="change_item_selling_price"]').on('click', function() {
+  "use strict";
+    
+    var item_selling_price_checking = $('input[id="change_item_selling_price"]').is(":checked");
+
+
+    if(item_selling_price_checking){
+      $('input[id="mass_delete"]').prop("checked", false);
+
+      $('input[id="change_item_purchase_price"]').prop("checked", false);
+      $('input[name="purchase_price"]').val('');
+      $('input[id="clone_items"]').prop("checked", false);
+    }
+
+  });
+
+  $('input[id="change_item_purchase_price"]').on('click', function() {
+  "use strict";
+    
+    var item_selling_purchase_checking = $('input[id="change_item_purchase_price"]').is(":checked");
+
+    if(item_selling_purchase_checking){
+      $('input[id="mass_delete"]').prop("checked", false);
+
+      $('input[id="change_item_selling_price"]').prop("checked", false);
+      $('input[name="selling_price"]').val('');
+      $('input[id="clone_items"]').prop("checked", false);
+    }
+
+  });
+
+  
+//update
+  $('input[id="clone_items"]').on('click', function() {
+  "use strict";
+    
+    var clone_items = $('input[id="clone_items"]').is(":checked");
+
+
+    if(clone_items){
+
+      $('input[id="change_item_selling_price"]').prop("checked", false);
+      $('input[name="selling_price"]').val('');
+
+      $('input[id="change_item_purchase_price"]').prop("checked", false);
+      $('input[name="purchase_price"]').val('');
+
+      $('input[id="mass_delete"]').prop("checked", false);
+    }
+
+  });
 </script>

@@ -90,14 +90,14 @@ var sub_group_type_value = {};
                     
                     ],
 
-          colHeaders: true,
-          nestedHeaders: [{"1":"<?php echo _l('sub_group_code') ?>",
-                            "2":"<?php echo _l('sub_group_name') ?>",
-                            "3":"<?php echo _l('group_name') ?>",
-                            "4":"<?php echo _l('order') ?>",
-                           "5":"<?php echo _l('display') ?>",
-                           "6":"<?php echo _l('note') ?>",
-                          }],
+          colHeaders: [
+            "<?php echo _l('sub_group_code') ?>",
+            "<?php echo _l('sub_group_name') ?>",
+            "<?php echo _l('group_name') ?>",
+            "<?php echo _l('order') ?>",
+            "<?php echo _l('display') ?>",
+            "<?php echo _l('note') ?>",
+          ],
 
           data: [
           {"sub_group_code":"","name":"","group_id":"","order":"","display":"yes","note":""},
@@ -219,14 +219,14 @@ var sub_group_type_value = {};
               
               ],
 
-        colHeaders: true,
-        nestedHeaders: [{"1":"<?php echo _l('sub_group_code') ?>",
-                      "2":"<?php echo _l('sub_group_name') ?>",
-                      "3":"<?php echo _l('group_name') ?>",
-                      "4":"<?php echo _l('order') ?>",
-                      "5":"<?php echo _l('display') ?>",
-                      "6":"<?php echo _l('note') ?>",
-                      }],
+        colHeaders: [
+            "<?php echo _l('sub_group_code') ?>",
+            "<?php echo _l('sub_group_name') ?>",
+            "<?php echo _l('group_name') ?>",
+            "<?php echo _l('order') ?>",
+            "<?php echo _l('display') ?>",
+            "<?php echo _l('note') ?>",
+          ],
 
         data: [{"sub_group_code":sub_group_code,"name":name,"group_id":group_id,"order":order,"display":display,"note":note}],
 

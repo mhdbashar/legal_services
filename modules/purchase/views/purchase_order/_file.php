@@ -14,7 +14,7 @@
                   <?php
                      $path = PURCHASE_MODULE_UPLOAD_FOLDER.'/pur_order/'.$file->rel_id.'/'.$file->file_name;
                      if(is_image($path)){ ?>
-                  <img src="<?php echo base_url(PURCHASE_PATH.'pur_order/'.$file->rel_id.'/'.$file->file_name); ?>" class="img img-responsive img_style">
+                  <img src="<?php echo base_url(PURCHASE_PATH.'pur_order/'.$file->rel_id.'/'.$file->file_name); ?>" class="img img-responsive ">
                   <?php } else if(!empty($file->external) && !empty($file->thumbnail_link)){ ?>
                   <img src="<?php echo optimize_dropbox_thumbnail($file->thumbnail_link); ?>" class="img img-responsive">
                   <?php } else if(strpos($file->file_name,'.pdf') !== false && empty($file->external)){ ?>

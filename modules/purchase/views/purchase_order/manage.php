@@ -7,7 +7,7 @@
 				<div class="panel-body">
 	              	<div class="row">    
 	                    <div class="_buttons col-md-3">
-	                    	<?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+	                    	<?php if (has_permission('purchase_orders', '', 'create') || is_admin()) { ?>
 	                        <a href="<?php echo admin_url('purchase/pur_order'); ?>"class="btn btn-info pull-left mright10 display-block">
 	                            <?php echo _l('new_pur_order'); ?>
 	                        </a>
@@ -39,14 +39,16 @@
 	                    <div class="col-md-2">
 	                        <?php echo render_date_input('to_date',_l('to_date'),''); ?>
 	                    </div>
+
                        <div class=" col-md-2 form-group">
-                        <label for="item_filter"><?php echo _l('tags'); ?></label>
-                         <select name="item_filter[]" id="item_filter" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('leads_all'); ?>">
-                              <?php foreach($item_tags as $item_f) { ?>
-                               <option value="<?php echo html_entity_decode($item_f['rel_id']); ?>"><?php echo html_entity_decode($item_f['name']); ?></option>
-                               <?php } ?>
-                        </select>
-                       </div>
+                          <label for="pur_request"><?php echo _l('pur_request'); ?></label>
+                          <select name="pur_request[]" id="pur_request" class="selectpicker" onchange="coppy_pur_request(); return false;"  data-live-search="true" multiple="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                              <?php foreach($pur_request as $s) { ?>
+                              <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($pur_order) && $pur_order->pur_request != '' && $pur_order->pur_request == $s['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($s['pur_rq_code'].' - '.$s['pur_rq_name']); ?></option>
+                                <?php } ?>
+                          </select>
+                        </div>
+
 	                    <div class="col-md-3 form-group">
 	                        <?php 
 	                        $statuses = [0 => ['id' => '1', 'name' => _l('purchase_not_yet_approve')],
@@ -108,17 +110,17 @@
 	                    <?php echo form_hidden('pur_orderid',$pur_orderid); ?>
 	                    <?php $table_data = array(
                            _l('purchase_order'),
+                           _l('vendor'),
                            _l('order_date'),
                            _l('type'),
                            _l('project'),
                            _l('department'),
-                           _l('vendor'),
                            _l('po_description'),
                            _l('po_value'),
                            _l('tax_value'),
                            _l('po_value_included_tax'),
                            _l('tags'),
-                           _l('status'),
+                           _l('approval_status'),
                            _l('delivery_date'),
                            _l('delivery_status'),
                            _l('payment_status'),
@@ -160,6 +162,9 @@
             <?php echo render_input('expense_name','expense_name'); ?>
             <?php echo render_textarea('note','expense_add_edit_note','',array('rows'=>4),array()); ?>
             <?php echo render_select('clientid',$customers,array('userid','company'),'customer'); ?>
+
+            <?php echo render_select('project_id',$projects,array('id','name'),'project'); ?>
+
             <?php echo render_select('category',$expense_categories,array('id','name'),'expense_category'); ?>
             <?php echo render_date_input('date','expense_add_edit_date',_d(date('Y-m-d'))); ?>
             <?php echo render_input('amount','expense_add_edit_amount','','number'); ?>
@@ -224,54 +229,6 @@
    </div>
    <!-- /.modal-dialog -->
 </div>
-
-<div class="modal fade" id="send_po" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-      <?php echo form_open_multipart(admin_url('purchase/send_po'),array('id'=>'send_po-form')); ?>
-      <div class="modal-content modal_withd">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">
-                  <span><?php echo _l('send_a_po'); ?></span>
-              </h4>
-          </div>
-          <div class="modal-body">
-              <div id="additional_po"></div>
-              <div class="row">
-                <div class="col-md-12 form-group">
-                  <label for="vendor"><span class="text-danger">* </span><?php echo _l('vendor'); ?></label>
-                    <select name="vendor[]" id="vendor" class="selectpicker" required multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
-                        <?php foreach($vendors as $s) { ?>
-                        <option value="<?php echo html_entity_decode($s['userid']); ?>"><?php echo html_entity_decode($s['company']); ?></option>
-                          <?php } ?>
-                    </select>
-                    <br>
-                </div>     
-                
-                <div class="col-md-12">
-                  <label for="subject"><span class="text-danger">* </span><?php echo _l('subject'); ?></label>
-                  <?php echo render_input('subject','','','',array('required' => 'true')); ?>
-                </div>
-                <div class="col-md-12">
-                  <label for="attachment"><?php echo _l('attachment'); ?></label>
-                  <?php echo render_input('attachment','','','file'); ?>
-                </div>
-                <div class="col-md-12">
-                  <?php echo render_textarea('content','content','',array(),array(),'','tinymce') ?>
-                </div>     
-                <div id="type_care">
-                  
-                </div>        
-              </div>
-          </div>
-          <div class="modal-footer">
-              <button type=""class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-              <button id="sm_btn" type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
-          </div>
-      </div><!-- /.modal-content -->
-          <?php echo form_close(); ?>
-      </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
 
 
 <?php init_tail(); ?>

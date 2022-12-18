@@ -110,13 +110,13 @@ function get_vendor_company_name($userid, $prevent_empty_company = false)
 function get_status_approve($status){
     $result = '';
     if($status == 1){
-        $result = '<span class="label label-primary"> '._l('purchase_not_yet_approve').' </span>';
+        $result = '<span class="label label-primary"> '._l('purchase_draft').' </span>';
     }elseif($status == 2){
         $result = '<span class="label label-success"> '._l('purchase_approved').' </span>';
     }elseif($status == 3){
-        $result = '<span class="label label-warning"> '._l('purchase_reject').' </span>';
+        $result = '<span class="label label-warning"> '._l('pur_rejected').' </span>';
     }elseif($status == 4){
-        $result = '<span class="label label-danger"> '._l('close').' </span>';
+        $result = '<span class="label label-danger"> '._l('pur_canceled').' </span>';
     }
 
     return $result;
@@ -133,13 +133,13 @@ function get_status_approve($status){
 function get_status_approve_str($status){
     $result = '';
     if($status == 1){
-        $result = _l('purchase_not_yet_approve');
+        $result = _l('purchase_draft');
     }elseif($status == 2){
         $result = _l('purchase_approved');
     }elseif($status == 3){
-        $result = _l('purchase_reject');
+        $result = _l('pur_rejected');
     }elseif($status == 4){
-        $result = _l('close');
+        $result = _l('pur_canceled');
     }
 
     return $result;
@@ -211,6 +211,21 @@ function get_item_hp($id = ''){
 }
 
 /**
+ * Gets the item hp.
+ *
+ * @param      string  $id     The identifier
+ *
+ * @return     <type>  a item or list item.
+ */
+function get_item_hp2($id){
+    $CI           = & get_instance();
+    
+    $CI->db->where('id', $id);
+    return $CI->db->get(db_prefix().'items')->row();
+   
+}
+
+/**
  * Gets the status modules pur.
  *
  * @param      string   $module_name  The module name
@@ -235,8 +250,21 @@ function get_status_modules_pur($module_name){
  *
  * @return     <string>  ( string replace ',' )
  */
-function reformat_currency_pur($value)
+function reformat_currency_pur($value, $currency = 0)
 {
+    $CI             = &get_instance();
+    $CI->load->model('currencies_model');
+
+    $base_currency = $CI->currencies_model->get_base_currency();
+
+    if($currency != 0){
+        $base_currency = pur_get_currency_by_id($currency);
+    }
+
+    if($base_currency->decimal_separator == ','){
+        $new_val = str_replace('.', '', $value);
+        return str_replace(',','.', $new_val);
+    }
     return str_replace(',','', $value);
 }
 
@@ -425,6 +453,43 @@ function handle_purchase_order_file($id)
 }
 
 /**
+ * { handle purchase order file }
+ *
+ * @param      string   $id     The identifier
+ *
+ * @return     boolean  
+ */
+function handle_purchase_request_file($id)
+{
+    if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
+        hooks()->do_action('before_upload_contract_attachment', $id);
+        $path = PURCHASE_MODULE_UPLOAD_FOLDER .'/pur_request/'. $id . '/';
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = unique_filename($path, $_FILES['file']['name']);
+            $newFilePath = $path . $filename;
+            // Upload the file into the company uploads dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $CI           = & get_instance();
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                    ];
+                $CI->misc_model->add_attachment_to_database($id, 'pur_request', $attachment);
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
  * { purorder left to pay }
  *
  * @param      <type>   $id     The purchase order
@@ -505,9 +570,9 @@ function get_payment_mode_by_id($id){
 function handle_item_attachments($id)
 {
 
-    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _babil_upload_error($_FILES['file']['error']);
+        echo _perfex_upload_error($_FILES['file']['error']);
         die;
     }
     $path = PURCHASE_MODULE_ITEM_UPLOAD_FOLDER . $id . '/';
@@ -647,7 +712,7 @@ function handle_pur_vendor_attachments_upload($id, $customer_upload = false)
             $tmpFilePath = $_FILES['file']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_babil_upload_error($_FILES['file']['error'][$i])
+                if (_perfex_upload_error($_FILES['file']['error'][$i])
                     || !_upload_extension_allowed($_FILES['file']['name'][$i])) {
                     continue;
                 }
@@ -827,7 +892,7 @@ function get_pur_order_subject($pur_order){
     $po = $CI->db->get(db_prefix().'pur_orders')->row();
 
     if($po){
-        return $po->pur_order_number.' - '.$po->pur_order_name;
+        return $po->pur_order_number;
     }else{
         return '';
     }
@@ -1156,7 +1221,7 @@ function handle_pur_contract_file($id){
             $tmpFilePath = $_FILES['attachments']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_babil_upload_error($_FILES['attachments']['error'][$i])
+                if (_perfex_upload_error($_FILES['attachments']['error'][$i])
                     || !_upload_extension_allowed($_FILES['attachments']['name'][$i])) {
                     continue;
                 }
@@ -1399,6 +1464,10 @@ function purinvoice_left_to_pay($id)
     $CI->db->where('pur_invoice',$id);
     $CI->db->where('approval_status', 2);
     $payments = $CI->db->get(db_prefix().'pur_invoice_payment')->result_array();
+
+    $debits  = $CI->purchase_model->get_applied_invoice_debits($id);
+
+    $payments = array_merge($payments, $debits);
     
     
     $totalPayments = 0;
@@ -1497,7 +1566,7 @@ function handle_pur_invoice_file($id) {
             $tmpFilePath = $_FILES['attachments']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_babil_upload_error($_FILES['attachments']['error'][$i])
+                if (_perfex_upload_error($_FILES['attachments']['error'][$i])
                     || !_upload_extension_allowed($_FILES['attachments']['name'][$i])) {
                     continue;
                 }
@@ -1585,10 +1654,10 @@ if (!function_exists('add_purchase_email_templates')) {
      * @return void
      */
     function add_purchase_email_templates() {
-
         $CI = &get_instance();
-        $lang = get_staff_default_language();
-        $data['purchase_templates'] = $CI->emails_model->get(['type' => 'purchase_order', 'language' => $lang]);
+
+        $data['purchase_templates'] = $CI->emails_model->get(['type' => 'purchase_order', 'language' => 'english']);
+
         $CI->load->view('purchase/email_templates', $data);
     }
 }
@@ -1628,6 +1697,8 @@ function handle_po_logo()
         if (!empty($tmpFilePath) && $tmpFilePath != '') {
             _maybe_create_upload_path($path);
             $filename    = unique_filename($path, $_FILES['po_logo']['name']);
+            $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $filename = 'po_logo_'.time().'.'.$extension;
             $newFilePath = $path . $filename;
             // Upload the file into the company uploads dir
             if (move_uploaded_file($tmpFilePath, $newFilePath)) {
@@ -1650,7 +1721,7 @@ function handle_po_logo()
 /**
  * Gets the po logo.
  */
-function get_po_logo($width = 120, $class = ''){
+function get_po_logo($width = 120, $class = '', $type = 'pdf'){
     $CI           = & get_instance();
     $CI->db->where('rel_id', 0);
     $CI->db->where('rel_type','po_logo');
@@ -1658,12 +1729,15 @@ function get_po_logo($width = 120, $class = ''){
     
     $logoUrl                   = '';
     if(count($logo) > 0){
-        $logoUrl = base_url(PURCHASE_PATH .'po_logo/0/'.$logo[0]['file_name']);
+        $logoUrl = APP_MODULES_PATH. 'purchase/uploads/po_logo/0/'.$logo[0]['file_name'];
+        if($type != 'pdf'){
+            $logoUrl = base_url(PURCHASE_PATH .'po_logo/0/'.$logo[0]['file_name']);
+        }
     }
 
     $logoImage = '';
     if($logoUrl != ''){
-       $logoImage = '<img width="' . $width . 'px" src="' . $logoUrl . '" class="'.$class.'">';
+       $logoImage = '<img style="width:' . $width . 'px" src="' . $logoUrl . '" class="'.$class.'">';
     }
 
 
@@ -1698,10 +1772,10 @@ function total_inv_value_by_pur_order($pur_order){
  *
  * @return     string  The item identifier by description.
  */
-function get_item_id_by_des($des, $long_des){
+function get_item_id_by_des($des, $long_des = ''){
     $CI           = & get_instance();
     $CI->db->where('description', $des);
-    $CI->db->where('long_description', $long_des);
+   
     $item = $CI->db->get(db_prefix().'items')->row();
 
     if($item){
@@ -1720,6 +1794,8 @@ function purorder_inv_left_to_pay($pur_order){
     $CI->load->model('purchase/purchase_model');
     $list_payment = $CI->purchase_model->get_inv_payment_purchase_order($pur_order);
     $po = $CI->purchase_model->get_pur_order($pur_order);
+
+    $list_applied_debit = $CI->purchase_model->get_inv_debit_purchase_order($pur_order);
     $paid = 0;
     foreach($list_payment as $payment){
         if($payment['approval_status'] == 2){
@@ -1727,8 +1803,1038 @@ function purorder_inv_left_to_pay($pur_order){
         }
     }
 
+    foreach($list_applied_debit as $debit){
+        $paid += $debit['amount'];
+    }
+
     if($po){
         return $po->total - $paid;
     }
     return 0;
+}
+
+/**
+ * { row purcahse options exist }
+ *
+ * @param      <type>   $name   The name
+ *
+ * @return     integer  ( 1 or 0 )
+ */
+function row_purchase_tbl_options_exist($name) {
+    $CI = &get_instance();
+    $i = count($CI->db->query('Select * from ' . db_prefix() . 'options where name = ' . $name)->result_array());
+    if ($i == 0) {
+        return 0;
+    }
+    if ($i > 0) {
+        return 1;
+    }
+}
+
+/**
+ * Gets the base currency pur.
+ *
+ * @return       The base currency pur.
+ */
+function get_base_currency_pur(){
+    $CI           = & get_instance();
+    $CI->load->model('currencies_model');
+    $base_currency = $CI->currencies_model->get_base_currency();
+    return $base_currency;
+}
+
+/**
+ * Gets the arr vendors by pr.
+ *
+ * @param        $pur_request  The pur request
+ *
+ * @return     array   The arr vendors by pr.
+ */
+function get_arr_vendors_by_pr($pur_request){
+    $CI           = & get_instance();
+    $CI->load->model('purchase/purchase_model');
+
+    $CI->db->where('pur_request', $pur_request);
+    $quotes = $CI->db->get(db_prefix().'pur_estimates')->result_array();
+    $arr_vendor = [];
+    $arr_vendor_rs = [];
+    if(count($quotes) > 0){
+        foreach($quotes as $quote){
+            if(!in_array($quote['vendor'], $arr_vendor)){
+                $arr_vendor[] = $quote['vendor'];
+                $arr_vendor_rs[] = $CI->purchase_model->get_vendor($quote['vendor']);
+            }
+        }
+    }
+    return $arr_vendor_rs;
+}
+
+/**
+ * Gets the quotations by pur request.
+ */
+function get_quotations_by_pur_request($pur_request){
+    $CI           = & get_instance();
+
+    $CI->db->where('pur_request', $pur_request);
+    $quotes = $CI->db->get(db_prefix().'pur_estimates')->result_array();
+    return $quotes;
+}
+
+/**
+ * Gets the item detail in quote.
+ *
+ * @param        $item           The item
+ * @param        $pur_estimates  The pur estimates
+ */
+function get_item_detail_in_quote($item, $pur_estimates){
+    $CI           = & get_instance();
+    $CI->db->where('pur_estimate', $pur_estimates);
+    $CI->db->where('item_code', $item);
+    $item_row = $CI->db->get(db_prefix().'pur_estimate_detail')->row();
+    return $item_row;
+}
+
+/**
+ * Gets the purchase request item taxes.
+ *
+ * @param       $itemid  The itemid
+ *
+ * @return       The invoice item taxes.
+ */
+function get_debit_note_item_taxes($itemid)
+{
+    $CI = &get_instance();
+    $CI->db->where('itemid', $itemid);
+    $CI->db->where('rel_type', 'debit_note');
+    $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
+    $i     = 0;
+    foreach ($taxes as $tax) {
+        $taxes[$i]['taxname'] = $tax['taxname'] . '|' . $tax['taxrate'];
+        $i++;
+    }
+
+    return $taxes;
+}
+
+/**
+ * Function that format credit note number based on the prefix option and the credit note number
+ * @param  mixed $id credit note id
+ * @return string
+ */
+function format_debit_note_number($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('date,number,prefix,number_format')
+    ->from(db_prefix() . 'pur_debit_notes')
+    ->where('id', $id);
+    $debit_note = $CI->db->get()->row();
+
+    if (!$debit_note) {
+        return '';
+    }
+
+    $number = sales_number_format($debit_note->number, $debit_note->number_format, $debit_note->prefix, $debit_note->date);
+
+    return $number;
+}
+
+/**
+ * Format debit note status
+ * @param  mixed  $status credit note current status
+ * @param  boolean $text   to return text or with applied styles
+ * @return string
+ */
+function format_debit_note_status($status, $text = false)
+{
+    $CI = &get_instance();
+    if (!class_exists('purchase_model')) {
+        $CI->load->model('purchase/purchase_model');
+    }
+
+    $statuses    = $CI->purchase_model->get_debit_note_statuses();
+    $statusArray = false;
+    foreach ($statuses as $s) {
+        if ($s['id'] == $status) {
+            $statusArray = $s;
+
+            break;
+        }
+    }
+
+    if (!$statusArray) {
+        return $status;
+    }
+
+    if ($text) {
+        return $statusArray['name'];
+    }
+
+    $style = 'border: 1px solid ' . $statusArray['color'] . ';color:' . $statusArray['color'] . ';';
+    $class = 'label s-status';
+
+    return '<span class="' . $class . '" style="' . $style . '">' . $statusArray['name'] . '</span>';
+}
+
+/**
+     * Format vendor address info
+     * @param  object  $data        vendor object from database
+     * @param  string  $for         where this format will be used? Eq statement invoice etc
+     * @param  string  $type        billing/shipping
+     * @param  boolean $companyLink company link to be added on vendor company/name, this is used in admin area only
+     * @return string
+     */
+    function format_vendor_info($data, $for, $type, $companyLink = false)
+    {
+        $format   = get_option('customer_info_format');
+        $vendorId = '';
+
+        if ($for == 'statement') {
+            $vendorId = $data->userid;
+        } elseif ($type == 'billing') {
+            $vendorId = $data->vendorid;
+        }
+
+        $filterData = [
+            'data'         => $data,
+            'for'          => $for,
+            'type'         => $type,
+            'client_id'    => $vendorId,
+            'company_link' => $companyLink,
+        ];
+
+        $companyName = '';
+        if ($for == 'statement') {
+            $companyName = get_vendor_company_name($vendorId);
+        } elseif ($type == 'billing') {
+            $companyName = $data->vendor->company;
+        }
+
+        $acceptsPrimaryContactDisplay = ['debit_note'];
+
+        $street  = in_array($type, ['billing', 'shipping']) ? $data->{$type . '_street'} : '';
+        $city    = in_array($type, ['billing', 'shipping']) ? $data->{$type . '_city'} : '';
+        $state   = in_array($type, ['billing', 'shipping']) ? $data->{$type . '_state'} : '';
+        $zipCode = in_array($type, ['billing', 'shipping']) ? $data->{$type . '_zip'} : '';
+
+        $countryCode = '';
+        $countryName = '';
+
+        if ($country = in_array($type, ['billing', 'shipping']) ? get_country($data->{$type . '_country'}) : '') {
+            $countryCode = $country->iso2;
+            $countryName = $country->short_name;
+        }
+
+        $phone = '';
+        if ($for == 'statement' && isset($data->phonenumber)) {
+            $phone = $data->phonenumber;
+        } elseif ($type == 'billing' && isset($data->client->phonenumber)) {
+            $phone = $data->client->phonenumber;
+        }
+
+        $vat = '';
+        if ($for == 'statement' && isset($data->vat)) {
+            $vat = $data->vat;
+        } elseif ($type == 'billing' && isset($data->client->vat)) {
+            $vat = $data->client->vat;
+        }
+
+        if ($companyLink && (!isset($data->deleted_customer_name) ||
+            (isset($data->deleted_customer_name) &&
+                empty($data->deleted_customer_name)))) {
+            $companyName = '<a href="' . admin_url('purchase/vendor/' . $vendorId) . '" target="_blank"><b>' . $companyName . '</b></a>';
+        } elseif ($companyName != '') {
+            $companyName = '<b>' . $companyName . '</b>';
+        }
+
+        $format = _info_format_replace('company_name', $companyName, $format);
+        $format = _info_format_replace('customer_id', $vendorId, $format);
+        $format = _info_format_replace('street', $street, $format);
+        $format = _info_format_replace('city', $city, $format);
+        $format = _info_format_replace('state', $state, $format);
+        $format = _info_format_replace('zip_code', $zipCode, $format);
+        $format = _info_format_replace('country_code', $countryCode, $format);
+        $format = _info_format_replace('country_name', $countryName, $format);
+        $format = _info_format_replace('phone', $phone, $format);
+        $format = _info_format_replace('vat_number', $vat, $format);
+        $format = _info_format_replace('vat_number_with_label', $vat == '' ? '' : _l('client_vat_number') . ': ' . $vat, $format);
+
+
+        // Remove multiple white spaces
+        $format = preg_replace('/\s+/', ' ', $format);
+        $format = trim($format);
+
+        return hooks()->apply_filters('customer_info_text', $format, $filterData);
+    }
+
+/**
+ * Prepare general debit note pdf
+ * @param  object $debit_note Debit note as object with all necessary fields
+ * @return mixed object
+ */
+function debit_note_pdf($debit_note)
+{
+    return app_pdf('debit_note', module_dir_path(PURCHASE_MODULE_NAME, 'libraries/pdf/Debit_note_pdf'), $debit_note);
+}
+
+/**
+ * Return debit note status color RGBA for pdf
+ * @param  mixed $status_id current credit note status id
+ * @return string
+ */
+function debit_note_status_color_pdf($status_id)
+{
+    $statusColor = '';
+
+    if ($status_id == 1) {
+        $statusColor = '3, 169, 244';
+    } elseif ($status_id == 2) {
+        $statusColor = '132, 197, 41';
+    } else {
+        // Status VOID
+        $statusColor = '119, 119, 119';
+    }
+
+    return $statusColor;
+}
+
+/**
+ * Check if debit can be applied to invoice based on the invoice status
+ * @param  mixed $status_id invoice status id
+ * @return boolean
+ */
+function debits_can_be_applied_to_invoice($status)
+{
+    if(in_array($status, ["unpaid", "partially_paid"]) ){
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Prepare customer statement pdf
+ * @param  object $statement statement
+ * @return mixed
+ */
+function purchase_statement_pdf($statement)
+{
+    return app_pdf('vendor_statement', module_dir_path(PURCHASE_MODULE_NAME, 'libraries/pdf/Vendor_statement_pdf'), $statement);
+}
+
+/**
+ * purchase get staff id hr permissions
+ * @return [type] 
+ */
+function purchase_get_staff_id_permissions()
+{
+    $CI = & get_instance();
+    $array_staff_id = [];
+    $index=0;
+
+    $str_permissions ='';
+    foreach (list_purchase_permisstion() as $per_key =>  $per_value) {
+        if(strlen($str_permissions) > 0){
+            $str_permissions .= ",'".$per_value."'";
+        }else{
+            $str_permissions .= "'".$per_value."'";
+        }
+
+    }
+
+
+    $sql_where = "SELECT distinct staff_id FROM ".db_prefix()."staff_permissions
+    where feature IN (".$str_permissions.")
+    ";
+    
+    $staffs = $CI->db->query($sql_where)->result_array();
+
+    if(count($staffs)>0){
+        foreach ($staffs as $key => $value) {
+            $array_staff_id[$index] = $value['staff_id'];
+            $index++;
+        }
+    }
+    return $array_staff_id;
+}
+
+
+/**
+ * list purchase permisstion
+ * @return [type] 
+ */
+function list_purchase_permisstion()
+{
+    $hr_profile_permissions=[];
+    $hr_profile_permissions[]='purchase_items';
+    $hr_profile_permissions[]='purchase_vendors';
+    $hr_profile_permissions[]='purchase_vendor_items';
+    $hr_profile_permissions[]='purchase_request';
+    $hr_profile_permissions[]='purchase_quotations';
+    $hr_profile_permissions[]='purchase_orders';
+    $hr_profile_permissions[]='purchase_order_return';
+    $hr_profile_permissions[]='purchase_contracts';
+    $hr_profile_permissions[]='purchase_invoices';
+    $hr_profile_permissions[]='purchase_reports';
+    $hr_profile_permissions[]='purchase_debit_notes';
+
+    return $hr_profile_permissions;
+}
+
+/**
+ * purchase get staff id dont permissions
+ * @return [type] 
+ */
+function purchase_get_staff_id_dont_permissions()
+{
+    $CI = & get_instance();
+
+    $CI->db->where('admin != ', 1);
+
+    if(count(purchase_get_staff_id_permissions()) > 0){
+        $CI->db->where_not_in('staffid', purchase_get_staff_id_permissions());
+    }
+    return $CI->db->get(db_prefix().'staff')->result_array();
+    
+}
+
+function check_valid_number_with_setting($number){
+    $decimal_separator = get_option('decimal_separator');
+    $thousand_separator = get_option('thousand_separator');
+
+    $decimal_separator_index = strpos($number, $decimal_separator);
+    $thousand_separator_index = strpos($number, $thousand_separator);
+
+    if($decimal_separator_index == false || $thousand_separator_index == false){
+        return true;
+    }
+
+    if($decimal_separator_index <= $thousand_separator_index){
+        return false;
+    }
+
+    return true; 
+}
+
+function pur_convert_item_taxes($tax, $tax_rate, $tax_name)
+{
+    /*taxrate taxname
+    5.00    TAX5
+    id      rate        name
+    2|1 ; 6.00|10.00 ; TAX5|TAX10%*/
+    $CI           = & get_instance();
+    $taxes = [];
+    if($tax != null && strlen($tax) > 0){
+        $arr_tax_id = explode('|', $tax);
+        if($tax_name != null && strlen($tax_name) > 0){
+            $arr_tax_name = explode('|', $tax_name);
+            $arr_tax_rate = explode('|', $tax_rate);
+            foreach ($arr_tax_name as $key => $value) {
+                $taxes[]['taxname'] = $value . '|' .  $arr_tax_rate[$key];
+            }
+        }elseif($tax_rate != null && strlen($tax_rate) > 0){
+            $CI->load->model('purchase/purchase_model');
+            $arr_tax_id = explode('|', $tax);
+            $arr_tax_rate = explode('|', $tax_rate);
+            foreach ($arr_tax_id as $key => $value) {
+                $_tax_name = $CI->purchase_model->get_tax_name($value);
+                if(isset($arr_tax_rate[$key])){
+                    $taxes[]['taxname'] = $_tax_name . '|' .  $arr_tax_rate[$key];
+                }else{
+                    $taxes[]['taxname'] = $_tax_name . '|' .  $CI->warehouse_model->tax_rate_by_id($value);
+
+                }
+            }
+        }else{
+            $CI->load->model('purchase/purchase_model');
+            $arr_tax_id = explode('|', $tax);
+            $arr_tax_rate = explode('|', $tax_rate);
+            foreach ($arr_tax_id as $key => $value) {
+                $_tax_name = $CI->purchase_model->get_tax_name($value);
+                $_tax_rate = $CI->purchase_model->tax_rate_by_id($value);
+                $taxes[]['taxname'] = $_tax_name . '|' .  $_tax_rate;
+            } 
+        }
+
+    }
+
+    return $taxes;
+}
+
+/**
+ * pur get unit name
+ * @param  boolean $id 
+ * @return [type]      
+ */
+function pur_get_unit_name($id = false)
+{
+    $CI           = & get_instance();
+    if (is_numeric($id)) {
+        $CI->db->where('unit_type_id', $id);
+
+        $unit = $CI->db->get(db_prefix() . 'ware_unit_type')->row();
+        if($unit){
+            return $unit->unit_name;
+        }
+        return '';
+    }
+}
+
+/**
+ * wh get item variatiom
+ * @param  [type] $id 
+ * @return [type]     
+ */
+function pur_get_item_variatiom($id)
+{
+    $CI           = & get_instance();
+
+    $CI->db->where('id', $id);
+    $item_value = $CI->db->get(db_prefix() . 'items')->row();
+
+    $name = '';
+    if($item_value){
+        $CI->load->model('purchase/purchase_model');
+        $new_item_value = $CI->purchase_model->row_item_to_variation($item_value);
+
+        $name .= $item_value->commodity_code.'_'.$new_item_value->new_description;
+    }
+
+    return $name;
+}
+
+/**
+ * Function that return invoice item taxes based on passed item id
+ * @param  mixed $itemid
+ * @return array
+ */
+function pur_get_invoice_item_taxes($itemid)
+{
+    $CI = &get_instance();
+    $CI->db->where('itemid', $itemid);
+    $CI->db->where('rel_type', 'invoice');
+    $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
+    $i     = 0;
+ 
+
+    return $taxes;
+}
+
+/**
+ * { handle item password file }
+ *
+ * @param      string   $id     The identifier
+ *
+ * @return     boolean
+ */
+function handle_vendor_item_attachment($id) {
+
+    $path = PURCHASE_MODULE_UPLOAD_FOLDER . '/vendor_items/' . $id . '/';
+    $CI = &get_instance();
+    $totalUploaded = 0;
+
+    if (isset($_FILES['attachments']['name'])
+        && ($_FILES['attachments']['name'] != '' || is_array($_FILES['attachments']['name']) && count($_FILES['attachments']['name']) > 0)) {
+        if (!is_array($_FILES['attachments']['name'])) {
+            $_FILES['attachments']['name'] = [$_FILES['attachments']['name']];
+            $_FILES['attachments']['type'] = [$_FILES['attachments']['type']];
+            $_FILES['attachments']['tmp_name'] = [$_FILES['attachments']['tmp_name']];
+            $_FILES['attachments']['error'] = [$_FILES['attachments']['error']];
+            $_FILES['attachments']['size'] = [$_FILES['attachments']['size']];
+        }
+
+        _file_attachments_index_fix('attachments');
+        for ($i = 0; $i < count($_FILES['attachments']['name']); $i++) {
+
+            // Get the temp file path
+            $tmpFilePath = $_FILES['attachments']['tmp_name'][$i];
+            // Make sure we have a filepath
+            if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                if (_perfex_upload_error($_FILES['attachments']['error'][$i])
+                    || !_upload_extension_allowed($_FILES['attachments']['name'][$i])) {
+                    continue;
+                }
+
+                _maybe_create_upload_path($path);
+                $filename = unique_filename($path, $_FILES['attachments']['name'][$i]);
+                $newFilePath = $path . $filename;
+                // Upload the file into the temp dir
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $attachment = [];
+                    $attachment[] = [
+                        'file_name' => $filename,
+                        'filetype' => $_FILES['attachments']['type'][$i],
+                    ];
+
+                    $CI->misc_model->add_attachment_to_database($id, 'vendor_items', $attachment);
+                    $totalUploaded++;
+                }
+            }
+        }
+    }
+
+    return (bool) $totalUploaded;
+}
+
+/**
+ * { vendor item images }
+ *
+ * @param        $item_id  The item identifier
+ */
+function vendor_item_images($item_id){
+    $CI = &get_instance();
+
+    $CI->db->order_by('dateadded', 'desc');
+    $CI->db->where('rel_id', $item_id);
+    $CI->db->where('rel_type', 'vendor_items');
+
+    return $CI->db->get(db_prefix() . 'files')->result_array();
+}
+
+/**
+ * get tax rate
+ * @param  integer $id
+ * @return array or row
+ */
+function pur_get_tax_rate($id = false)
+{
+    $CI           = & get_instance();
+
+    if (is_numeric($id)) {
+        $CI->db->where('id', $id);
+
+        return $CI->db->get(db_prefix() . 'taxes')->row();
+    }
+    if ($id == false) {
+        return $CI->db->query('select * from tbltaxes')->result_array();
+    }
+
+}
+
+/**
+ * Purchase get currency name symbol
+ * @param  [type] $id     
+ * @param  string $column 
+ * @return [type]         
+ */
+function pur_get_currency_name_symbol($id, $column='')
+{
+    $CI   = & get_instance();
+    $currency_value='';
+
+    if($column == ''){
+        $column = 'name';
+    }
+
+    $CI->db->select($column);
+    $CI->db->from(db_prefix() . 'currencies');
+    $CI->db->where('id', $id);
+    $currency = $CI->db->get()->row();
+    if($currency){
+        $currency_value = $currency->$column;
+    }
+
+    return $currency_value;
+}
+
+/**
+ * get currency rate
+ * @param  [type] $from
+ * @param  [type] $to
+ * @return [type]           
+ */
+function pur_get_currency_rate($from, $to)
+{
+    $CI   = & get_instance();
+    if($from == $to){
+        return 1;
+    }
+
+    $amount_after_convertion = 1;
+
+    $CI->db->where('from_currency_name', strtoupper($from));
+    $CI->db->where('to_currency_name', strtoupper($to));
+    $currency_rates = $CI->db->get(db_prefix().'currency_rates')->row();
+    
+    if($currency_rates){
+        $amount_after_convertion = $currency_rates->to_currency_rate;
+    }
+
+    return $amount_after_convertion;
+}
+
+
+/**
+ * { pur get currency by id }
+ *
+ * @param        $id     The identifier
+ */
+function pur_get_currency_by_id($id){
+    $CI   = & get_instance();
+
+    $CI->db->where('id', $id);
+    return  $CI->db->get(db_prefix().'currencies')->row();
+}
+
+/**
+ * Gets the vendor currency.
+ *
+ * @param        $vendor_id  The vendor identifier
+ */
+function get_vendor_currency($vendor_id){
+    $CI   = & get_instance();
+
+    $CI->db->where('userid', $vendor_id);
+    $vendor = $CI->db->get(db_prefix().'pur_vendor')->row();
+
+    if($vendor){
+        return $vendor->default_currency;
+    }
+    return 0;
+}
+
+function get_invoice_currency_id($invoice_id){
+    $CI   = & get_instance();
+    $CI->db->where('id', $invoice_id);
+    $invoice = $CI->db->get(db_prefix().'pur_invoices')->row();
+    if($invoice){
+        return $invoice->currency;
+    }
+    return 0;
+}
+
+/**
+ * Client attachments
+ * @param  mixed $clientid Client ID to add attachments
+ * @return array  - Result values
+ */
+function handle_vendor_po_attachments_upload($id, $customer_upload = false, $purorder='')
+{
+    $path = PURCHASE_MODULE_UPLOAD_FOLDER .'/pur_order/'. $purorder . '/';
+    $CI            = & get_instance();
+    $totalUploaded = 0;
+
+    if (isset($_FILES['file']['name'])
+        && ($_FILES['file']['name'] != '' || is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
+        if (!is_array($_FILES['file']['name'])) {
+            $_FILES['file']['name']     = [$_FILES['file']['name']];
+            $_FILES['file']['type']     = [$_FILES['file']['type']];
+            $_FILES['file']['tmp_name'] = [$_FILES['file']['tmp_name']];
+            $_FILES['file']['error']    = [$_FILES['file']['error']];
+            $_FILES['file']['size']     = [$_FILES['file']['size']];
+        }
+
+        _file_attachments_index_fix('file');
+        for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
+
+            // Get the temp file path
+            $tmpFilePath = $_FILES['file']['tmp_name'][$i];
+            // Make sure we have a filepath
+            if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                if (_perfex_upload_error($_FILES['file']['error'][$i])
+                    || !_upload_extension_allowed($_FILES['file']['name'][$i])) {
+                    continue;
+                }
+
+                _maybe_create_upload_path($path);
+                $filename    = unique_filename($path, $_FILES['file']['name'][$i]);
+                $newFilePath = $path . $filename;
+                // Upload the file into the temp dir
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $attachment   = [];
+                    $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'][$i],
+                    ];
+
+                    if (is_image($newFilePath)) {
+                        create_img_thumb($newFilePath, $filename);
+                    }
+
+                    if ($customer_upload == true) {
+                        $attachment[0]['staffid']          = 0;
+                        $attachment[0]['contact_id']       = get_vendor_contact_user_id();
+                        $attachment['visible_to_customer'] = 1;
+                    }
+
+                    $CI->misc_model->add_attachment_to_database($purorder, 'pur_order', $attachment);
+                    $totalUploaded++;
+                }
+            }
+        }
+    }
+
+    return (bool) $totalUploaded;
+}
+
+/**
+ * wh check approval setting
+ * @param  integer $type 
+ * @return [type]       
+ */
+function pur_check_approval_setting($type)
+{   
+    $CI = &get_instance();
+    $CI->load->model('purchase/purchase_model');
+
+    $check_appr = $CI->purchase_model->get_approve_setting($type);
+
+    return $check_appr;
+}
+
+/**
+ * Gets the warehouse option.
+ *
+ * @param      <type>        $name   The name
+ *
+ * @return     array|string  The warehouse option.
+ */
+function get_purchase_option_v2($name)
+{
+    $CI = & get_instance();
+    $options = [];
+    $val  = '';
+    $name = trim($name);
+    
+
+    if (!isset($options[$name])) {
+        // is not auto loaded
+        $CI->db->select('value');
+        $CI->db->where('name', $name);
+        $row = $CI->db->get(db_prefix() . 'options')->row();
+        if ($row) {
+            $val = $row->value;
+        }
+    } else {
+        $val = $options[$name];
+    }
+
+    return $val;
+}
+
+/**
+ * get commodity name
+ * @param  integer $id
+ * @return array or row
+ */
+function pur_get_commodity_name($id = false)
+{
+    $CI           = & get_instance();
+
+    if (is_numeric($id)) {
+        $CI->db->where('id', $id);
+
+        return $CI->db->get(db_prefix() . 'items')->row();
+    }
+    if ($id == false) {
+        return $CI->db->query('select * from tblitems')->result_array();
+    }
+
+}
+
+/**
+ * wh render taxes html
+ * @param  [type] $item_tax 
+ * @param  [type] $width    
+ * @return [type]           
+ */
+function pur_render_taxes_html($item_tax, $width)
+{
+    $itemHTML = '';
+    $itemHTML .= '<td align="right" width="' . $width . '%">';
+
+    if(is_array($item_tax) && isset($item_tax)){
+        if (count($item_tax) > 0) {
+            foreach ($item_tax as $tax) {
+
+                $item_tax = '';
+                if ( get_option('remove_tax_name_from_item_table') == false || multiple_taxes_found_for_item($item_tax)) {
+                    $tmp      = explode('|', $tax['taxname']);
+                    $item_tax = $tmp[0] . ' ' . app_format_number($tmp[1]) . '%<br />';
+                } else {
+                    $item_tax .= app_format_number($tax['taxrate']) . '%';
+                }
+                $itemHTML .= $item_tax;
+            }
+        } else {
+            $itemHTML .=  app_format_number(0) . '%';
+        }
+    }
+    $itemHTML .= '</td>';
+
+    return $itemHTML;
+}
+
+/**
+ * Function that format task status for the final user
+ * @param  string  $id    status id
+ * @param  boolean $text
+ * @param  boolean $clean
+ * @return string
+ */
+function pur_format_approve_status($status, $text = false, $clean = false)
+{
+
+    $status_name = '';
+    if($status == 1){
+        $status_name = _l('purchase_draft');
+    }elseif($status == 2){
+        $status_name = _l('purchase_approved');
+    }elseif($status == 3){
+        $status_name = _l('pur_rejected');
+    }elseif($status == 4){
+        $status_name = _l('pur_canceled');
+    }
+
+    if ($clean == true) {
+        return $status_name;
+    }
+
+    $style = '';
+    $class = '';
+    if ($text == false) {
+        if($status == 1){
+            $class = 'label label-primary';
+        }elseif($status == 2){
+            $class = 'label label-success';
+        }elseif($status == 3){
+            $class = 'label label-warning';
+        }elseif($status == 4){
+            $class = 'label label-danger';
+        }
+    } else {
+        if($status == 1){
+            $class = 'label text-info';
+        }elseif($status == 2){
+            $class = 'label text-success';
+        }elseif($status == 3){
+            $class = 'label text-warning';
+        }elseif($status == 4){
+            $class = 'label text-danger';
+        }
+    }    
+
+    return '<span class="' . $class . '" >' . $status_name . '</span>';
+}
+
+
+/**
+ * Client attachments
+ * @param  mixed $clientid Client ID to add attachments
+ * @return array  - Result values
+ */
+function handle_vendor_pr_attachments_upload($id, $customer_upload = false, $purorder='')
+{
+    $path = PURCHASE_MODULE_UPLOAD_FOLDER .'/pur_request/'. $purorder . '/';
+    $CI            = & get_instance();
+    $totalUploaded = 0;
+
+    if (isset($_FILES['file']['name'])
+        && ($_FILES['file']['name'] != '' || is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
+        if (!is_array($_FILES['file']['name'])) {
+            $_FILES['file']['name']     = [$_FILES['file']['name']];
+            $_FILES['file']['type']     = [$_FILES['file']['type']];
+            $_FILES['file']['tmp_name'] = [$_FILES['file']['tmp_name']];
+            $_FILES['file']['error']    = [$_FILES['file']['error']];
+            $_FILES['file']['size']     = [$_FILES['file']['size']];
+        }
+
+        _file_attachments_index_fix('file');
+        for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
+
+            // Get the temp file path
+            $tmpFilePath = $_FILES['file']['tmp_name'][$i];
+            // Make sure we have a filepath
+            if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                if (_perfex_upload_error($_FILES['file']['error'][$i])
+                    || !_upload_extension_allowed($_FILES['file']['name'][$i])) {
+                    continue;
+                }
+
+                _maybe_create_upload_path($path);
+                $filename    = unique_filename($path, $_FILES['file']['name'][$i]);
+                $newFilePath = $path . $filename;
+                // Upload the file into the temp dir
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $attachment   = [];
+                    $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'][$i],
+                    ];
+
+                    if (is_image($newFilePath)) {
+                        create_img_thumb($newFilePath, $filename);
+                    }
+
+                    if ($customer_upload == true) {
+                        $attachment[0]['staffid']          = 0;
+                        $attachment[0]['contact_id']       = get_vendor_contact_user_id();
+                        $attachment['visible_to_customer'] = 1;
+                    }
+
+                    $CI->misc_model->add_attachment_to_database($purorder, 'pur_request', $attachment);
+                    $totalUploaded++;
+                }
+            }
+        }
+    }
+
+    return (bool) $totalUploaded;
+}
+
+/**
+ * Gets the total order return refunded.
+ *
+ * @param        $order_return  The order return
+ *
+ * @return     int     The total order return refunded.
+ */
+function get_total_order_return_refunded($order_return)
+{
+    $CI            = & get_instance();
+    $CI->db->where('order_return_id', $order_return);
+    $refunds = $CI->db->get(db_prefix().'wh_order_returns_refunds')->result_array();
+
+    $total_refunded = 0;
+    if(count($refunds) > 0){
+        foreach ($refunds as $key => $refund) {
+            $total_refunded += $refund['amount'];
+        }
+    }
+
+    return $total_refunded;
+}
+
+function get_order_return_remaining_refund($order_return){
+    $CI            = & get_instance();
+    $CI->load->model('purchase/purchase_model');
+
+    $order = $CI->purchase_model->get_order_return($order_return);
+
+    $vendor = $CI->purchase_model->get_vendor($order->company_id);
+
+    $remaining_refund = 0;
+    $total_refunded = get_total_order_return_refunded($order_return);
+
+    $remaining_refund = $order->total_after_discount - $total_refunded;
+
+    return $remaining_refund;
+
+}
+
+function get_object_comment($rel_id, $rel_type){
+    $CI            = & get_instance();
+    $table = '';
+    if($rel_type == 'pur_order'){
+        $table = db_prefix().'pur_orders';
+    }else if($rel_type == 'pur_quotation'){
+        $table = db_prefix().'pur_estimates';
+    }else if($rel_type == 'pur_contract'){
+        $table = db_prefix().'pur_contracts';
+    }else if($rel_type == 'pur_invoice'){
+        $table = db_prefix().'pur_invoices';
+    }
+
+    $CI->db->where('id', $rel_id);
+    $object = $CI->db->get($table)->row();
+
+    return $object;
 }

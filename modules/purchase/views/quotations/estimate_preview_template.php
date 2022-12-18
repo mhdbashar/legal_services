@@ -1,15 +1,22 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php echo form_hidden('_attachment_sale_id',$estimate->id); ?>
 <?php echo form_hidden('_attachment_sale_type','estimate'); ?>
+<?php 
+  $base_currency = get_base_currency_pur(); 
+  if($estimate->currency != 0){
+    $base_currency = pur_get_currency_by_id($estimate->currency);
+  }
+?>
+
 <div class="col-md-12 no-padding">
    <div class="panel_s">
       <div class="panel-body">
          <?php if($estimate->status == 1){ ?>
-           <div class="ribbon info"><span class="fontz9"><?php echo _l('purchase_not_yet_approve'); ?></span></div>
+           <div class="ribbon info"><span class="fontz9"><?php echo _l('purchase_draft'); ?></span></div>
        <?php }elseif($estimate->status == 2){ ?>
          <div class="ribbon success"><span><?php echo _l('purchase_approved'); ?></span></div>
        <?php }elseif($estimate->status == 3){ ?>  
-         <div class="ribbon danger"><span><?php echo _l('purchase_reject'); ?></span></div>
+         <div class="ribbon danger"><span><?php echo _l('pur_rejected'); ?></span></div>
        <?php } ?>
          <div class="horizontal-scrollable-tabs preview-tabs-top">
             <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
@@ -57,7 +64,7 @@
                <div class="pull-right _buttons">
               <?php if($estimate->status != 2){ ?>
               
-                  <?php if(has_permission('estimates','','edit')){ ?>
+                  <?php if(has_permission('purchase_quotations','','edit')){ ?>
                   <a href="<?php echo admin_url('purchase/estimate/'.$estimate->id); ?>" class="btn btn-default btn-with-tooltip" data-toggle="tooltip" title="<?php echo _l('edit_estimate_tooltip'); ?>" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>
                   <?php } ?>
                 <?php } ?>
@@ -78,20 +85,20 @@
 
                <select name="status" id="status" class="selectpicker pull-right mright10" onchange="change_status_pur_estimate(this,<?php echo html_entity_decode($estimate->id); ?>); return false;" data-live-search="true" data-width="35%" data-none-selected-text="<?php echo _l('pur_change_status_to'); ?>">
                  <option value=""></option>
-                 <option value="1" class="<?php if($estimate->status == 1) { echo 'hide';}?>"><?php echo _l('purchase_not_yet_approve'); ?></option>
+                 <option value="1" class="<?php if($estimate->status == 1) { echo 'hide';}?>"><?php echo _l('purchase_draft'); ?></option>
                  <option value="2" class="<?php if($estimate->status == 2) { echo 'hide';}?>"><?php echo _l('purchase_approved'); ?></option>
-                 <option value="3" class="<?php if($estimate->status == 3) { echo 'hide';}?>"><?php echo _l('purchase_reject'); ?></option>
+                 <option value="3" class="<?php if($estimate->status == 3) { echo 'hide';}?>"><?php echo _l('pur_rejected'); ?></option>
                </select>
                
                <div class="pull-right mright5">
                             <?php if($check_appr && $check_appr != false){
-                            if($estimate->status != 2 && ($check_approve_status == false || $check_approve_status == 'reject')){ ?>
+                            if($estimate->status == 1 && ($check_approve_status == false || $check_approve_status == 'reject')){ ?>
                         <a data-toggle="tooltip" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-success lead-top-btn lead-view" data-placement="top" href="#" onclick="send_request_approve(<?php echo html_entity_decode($estimate->id); ?>); return false;"><?php echo _l('send_request_approve_pur'); ?></a>
                       <?php } }
                         if(isset($check_approve_status['staffid'])){
                             ?>
                             <?php 
-                        if(in_array(get_staff_user_id(), $check_approve_status['staffid']) && !in_array(get_staff_user_id(), $get_staff_sign)){ ?>
+                        if(in_array(get_staff_user_id(), $check_approve_status['staffid']) && !in_array(get_staff_user_id(), $get_staff_sign) && $estimate->status == 1){ ?>
                             <div class="btn-group" >
                                    <a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo _l('approve'); ?><span class="caret"></span></a>
                                    <ul class="dropdown-menu dropdown-menu-right ul_style" >
@@ -144,8 +151,7 @@
                                     <?php
                                         $file_html = '';
                                         if(count($pur_estimate_attachments) > 0){
-                                            $file_html .= '<hr />
-                                                    <p class="bold text-muted">'._l('customer_attachments').'</p>';
+                                            $file_html .= '<hr />';
                                             foreach ($pur_estimate_attachments as $f) {
                                                 $href_url = site_url(PURCHASE_PATH.'pur_estimate/'.$f['rel_id'].'/'.$f['file_name']).'" download';
                                                                 if(!empty($f['external'])){
@@ -165,7 +171,7 @@
                                                 } 
                                                $file_html .= '</div></div>';
                                             }
-                                            $file_html .= '<hr />';
+
                                             echo html_entity_decode($file_html);
                                         }
                                      ?>
@@ -178,7 +184,7 @@
                <div id="estimate-preview">
                   <div class="row">
                      <div class="project-overview-right">
-                        <?php if(count($list_approve_status) > 0){ ?>
+                        <?php if(count($list_approve_status) > 0 ){ ?>
                           
                          <div class="row">
                            <div class="col-md-12 project-overview-expenses-finance">
@@ -285,7 +291,9 @@
                                     <th align="right"><?php echo _l('purchase_quantity'); ?></th>
                                     <th align="right"><?php echo _l('purchase_unit_price'); ?></th>
                                     <th align="right"><?php echo _l('into_money'); ?></th>
+                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
                                     <th align="right"><?php echo _l('tax'); ?></th>
+                                    <?php } ?>
                                     <th align="right"><?php echo _l('subtotal'); ?></th>
                                     <th align="right"><?php echo _l('discount(%)'); ?></th>
                                     <th align="right"><?php echo _l('discount(money)'); ?></th>
@@ -302,20 +310,22 @@
                                     <td class="dragger item_no ui-sortable-handle" align="center"><?php echo html_entity_decode($count); ?></td>
                                     <td class="description" align="left;"><span ><strong><?php 
                                     $item = get_item_hp($es['item_code']); 
-                                    if(isset($item)){
+                                    if(isset($item) && !is_array($item)){
                                        echo html_entity_decode($item->commodity_code.' - '.$item->description);
                                     }else{
-                                       echo '';
+                                       echo html_entity_decode($es['item_name']);
                                     }
                                     ?></strong></td>
                                     <td align="right"  width="12%"><?php echo html_entity_decode($es['quantity']); ?></td>
-                                    <td align="right"><?php echo app_format_money($es['unit_price'],''); ?></td>
-                                    <td align="right"><?php echo app_format_money($es['into_money'],''); ?></td>
-                                    <td align="right"><?php echo app_format_money(($es['total'] - $es['into_money']),''); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['total'],''); ?></td>
+                                    <td align="right"><?php echo app_format_money($es['unit_price'],$base_currency->symbol); ?></td>
+                                    <td align="right"><?php echo app_format_money($es['into_money'],$base_currency->symbol); ?></td>
+                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
+                                    <td align="right"><?php echo app_format_money(($es['total'] - $es['into_money']),$base_currency->symbol); ?></td>
+                                    <?php } ?>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['total'],$base_currency->symbol); ?></td>
                                     <td class="amount" width="12%" align="right"><?php echo html_entity_decode($es['discount_%'].'%'); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['discount_money'],''); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['total_money'],''); ?></td>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['discount_money'],$base_currency->symbol); ?></td>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['total_money'],$base_currency->symbol); ?></td>
                                  </tr>
                               <?php $t_mn += $es['total_money'];
                               $count++; } } ?>
@@ -326,34 +336,43 @@
                      <div class="col-md-5 col-md-offset-7">
                         <table class="table text-right">
                            <tbody>
-                              <?php if($estimate->discount_total > 0){ ?>
                               <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('subtotal'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo app_format_money($t_mn,''); ?>
+                                    <?php echo app_format_money($estimate->subtotal,$base_currency->symbol); ?>
                                  </td>
                               </tr>
-                              <tr id="subtotal">
-                                 <td><span class="bold"><?php echo _l('discount(%)').'(%)'; ?></span>
-                                 </td>
-                                 <td class="subtotal">
-                                    <?php echo app_format_money($estimate->discount_percent,'').' %'; ?>
-                                 </td>
-                              </tr>
+
+                              <?php if($tax_data['preview_html'] != ''){
+                                echo html_entity_decode($tax_data['preview_html']);
+                              } ?>
+
+                              <?php if($estimate->discount_total > 0){ ?>
+                              
                               <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('discount(money)'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo app_format_money($estimate->discount_total, ''); ?>
+                                    <?php echo '-'.app_format_money($estimate->discount_total, $base_currency->symbol); ?>
                                  </td>
                               </tr>
                               <?php } ?>
+
+                              <?php if($estimate->shipping_fee > 0){ ?>
+                                <tr id="subtotal">
+                                  <td><span class="bold"><?php echo _l('pur_shipping_fee'); ?></span></td>
+                                  <td class="subtotal">
+                                    <?php echo app_format_money($estimate->shipping_fee, $base_currency->symbol); ?>
+                                  </td>
+                                </tr>
+                              <?php } ?>
+                              
                               <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('total'); ?></span>
                                  </td>
-                                 <td class="subtotal">
-                                    <?php echo app_format_money($estimate->total, ''); ?>
+                                 <td class="subtotal bold">
+                                    <?php echo app_format_money($estimate->total, $base_currency->symbol); ?>
                                  </td>
                               </tr>
                            </tbody>
@@ -408,6 +427,52 @@
       </div><!-- /.modal-content -->
    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade" id="send_quotation" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+      <?php echo form_open_multipart(admin_url('purchase/send_quotation'),array('id'=>'send_quotation-form')); ?>
+      <div class="modal-content modal_withd">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">
+                  <span><?php echo _l('send_a_quote'); ?></span>
+              </h4>
+          </div>
+          <div class="modal-body">
+              <div id="additional_quo"></div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label for="send_to"><span class="text-danger">* </span><?php echo _l('send_to'); ?></label>
+                    <select name="send_to[]" id="send_to" class="selectpicker" required multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                        <?php foreach($vendor_contacts as $s) { ?>
+                        <option value="<?php echo html_entity_decode($s['email']); ?>" data-subtext="<?php echo html_entity_decode($s['firstname'].' '.$s['lastname']); ?>" selected><?php echo html_entity_decode($s['email']); ?></option>
+                          <?php } ?>
+                    </select>
+                    <br>
+                </div>     
+                <div class="col-md-12">
+                  <div class="checkbox checkbox-primary">
+                      <input type="checkbox" name="attach_pdf" id="attach_pdf" checked>
+                      <label for="attach_pdf"><?php echo _l('attach_purchase_quotation_pdf'); ?></label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                 <?php echo render_textarea('content','additional_content','',array('rows'=>6,'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($routing) || isset($routing) && $routing->description == '' ? 'routing_init_editor(\'.tinymce-task\', {height:200, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?> 
+                </div>     
+                <div id="type_care">
+                  
+                </div>        
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type=""class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+              <button id="sm_btn" type="submit" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('pur_send'); ?></button>
+          </div>
+      </div><!-- /.modal-content -->
+          <?php echo form_close(); ?>
+      </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <?php require 'modules/purchase/assets/js/estimate_preview_template_js.php';?>
 
 

@@ -17,8 +17,8 @@
                 echo render_select('group_items_filter', $commodity_groups, array('id','name'), 'group_item', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
               </div>
               <div class="col-md-3">
-                <?php 
-                echo render_select('items_filter', $items, array('id','commodity_code', 'description'), 'items', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
+                <label for="item_select"><?php echo _l('pur_item'); ?></label>
+                <?php $this->load->view('purchase/item_include/main_item_select'); ?>
               </div>
               
               <div class="clearfix"></div>

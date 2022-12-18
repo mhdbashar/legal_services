@@ -38,20 +38,21 @@ statistics_cost_of_purchase_orders;
      gen_reports();
    });
 
-   report_from.on('change', function() {
+   var click_or_change = "<?php echo $this->app_modules->is_active('hijri') ? 'click' : 'change'  ?>";
+        $('#report-from').on(click_or_change, function() {
      var val = $(this).val();
-     var report_to_val = report_to.val();
+     var report_to_val = $('#report-to').val();
      if (val != '') {
-       report_to.attr('disabled', false);
+         $('#report-to').attr('disabled', false);
        if (report_to_val != '') {
          gen_reports();
        }
      } else {
-       report_to.attr('disabled', true);
+       $('#report-to').attr('disabled', true);
      }
    });
 
-   report_to.on('change', function() {
+    $('#report-to').on('change', function() {
      var val = $(this).val();
      if (val != '') {
        gen_reports();
@@ -88,7 +89,7 @@ statistics_cost_of_purchase_orders;
 
    $('select[name="months-report"]').on('change', function() {
      var val = $(this).val();
-     report_to.attr('disabled', true);
+     $('#report-to').attr('disabled', true);
      report_to.val('');
      report_from.val('');
      if (val == 'custom') {

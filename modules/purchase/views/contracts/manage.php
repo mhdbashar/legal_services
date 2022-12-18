@@ -15,7 +15,7 @@
 		              	<div class="row">
 		              		<div class="col-md-12">    
 		                        <div class="_buttons">
-		                        	<?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+		                        	<?php if (has_permission('purchase_contracts', '', 'create') || is_admin()) { ?>
 			                        <a href="<?php echo admin_url('purchase/contract'); ?>"class="btn btn-info pull-left mright10 display-block">
 			                            <?php echo _l('new_pur_order'); ?>
 			                        </a>

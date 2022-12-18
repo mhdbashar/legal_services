@@ -23,11 +23,12 @@
                     ?>
                   </a>
                </li>
+               
                <li class="customers-nav-item-items">
-                  <a href="<?php echo site_url('purchase/vendors_portal/contracts'); ?>">
+                  <a href="<?php echo site_url('purchase/vendors_portal/purchase_request'); ?>">
                      <?php
                      
-                     echo _l('contracts');
+                     echo _l('purchase_request');
                     ?>
                   </a>
                </li>
@@ -39,16 +40,6 @@
                     ?>
                   </a>
                </li>
-         
-               <li class="customers-nav-item-items">
-                  <a href="<?php echo site_url('purchase/vendors_portal/invoices'); ?>">
-                     <?php
-                     
-                     echo _l('pur_invoices');
-                    ?>
-                  </a>
-               </li>
-              
                 <li class="customers-nav-item-items">
                   <a href="<?php echo site_url('purchase/vendors_portal/purchase_order'); ?>">
                      <?php
@@ -57,6 +48,31 @@
                     ?>
                   </a>
                </li>
+               <li class="customers-nav-item-items">
+                  <a href="<?php echo site_url('purchase/vendors_portal/contracts'); ?>">
+                     <?php
+                     
+                     echo _l('contracts');
+                    ?>
+                  </a>
+               </li>
+               <li class="customers-nav-item-items">
+                  <a href="<?php echo site_url('purchase/vendors_portal/invoices'); ?>">
+                     <?php
+                     
+                     echo _l('pur_invoices');
+                    ?>
+                  </a>
+               </li>
+
+               <li class="customers-nav-item-items">
+                  <a href="<?php echo site_url('purchase/vendors_portal/order_returns'); ?>">
+                     <?php
+                     
+                     echo _l('pur_order_returns');
+                    ?>
+                  </a>
+               </li> 
         <?php } ?>
         
           

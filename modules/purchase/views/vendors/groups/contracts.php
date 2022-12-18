@@ -3,7 +3,7 @@
       <h4 class="no-margin font-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i> <?php echo _l('contracts'); ?></h4>
       <hr />
   	</div>  
-    <?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+    <?php if (has_permission('purchase_contracts', '', 'create') || is_admin()) { ?>
       <a href="<?php echo admin_url('purchase/contract?vendor='.$client->userid); ?>"class="btn btn-info pull-left mright10 display-block">
         <i class="fa fa-plus"></i>&nbsp;<?php echo _l('new_pur_order'); ?>
       </a>

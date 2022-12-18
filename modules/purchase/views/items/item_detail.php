@@ -1,7 +1,7 @@
 <div class="col-md-12">
 <div class="panel_s">
   <div class="panel-body">
-    
+      <?php $base_currency = get_base_currency_pur(); ?>
       <div class="row col-md-12">
 
         <h4 class="h4-color"><?php echo _l('general_infor'); ?></h4>
@@ -15,8 +15,11 @@
               <?php foreach ($item_file as $key => $value) { ?>
                   <?php if(file_exists(PURCHASE_MODULE_ITEM_UPLOAD_FOLDER .$value["rel_id"].'/'.$value["file_name"])){ ?>
                         <a  class="images_w_table" href="<?php echo site_url('modules/purchase/uploads/item_img/'.$value["rel_id"].'/'.$value["file_name"]); ?>"><img class="images_w_table" src="<?php echo site_url('modules/purchase/uploads/item_img/'.$value["rel_id"].'/'.$value["file_name"]); ?>" alt="<?php echo html_entity_decode($value['file_name']) ?>"/></a>
-                    <?php }else{ ?>
+                    <?php }elseif(file_exists('modules/warehouse/uploads/item_img/' .$value["rel_id"].'/'.$value["file_name"])){ ?>
                        <a  class="images_w_table" href="<?php echo site_url('modules/warehouse/uploads/item_img/'.$value["rel_id"].'/'.$value["file_name"]); ?>"><img class="images_w_table" src="<?php echo site_url('modules/warehouse/uploads/item_img/'.$value["rel_id"].'/'.$value["file_name"]); ?>" alt="<?php echo html_entity_decode($value['file_name']) ?>"/></a>
+                    <?php }else{ ?>
+
+                      <a  class="images_w_table" href="<?php echo site_url('modules/manufacturing/uploads/products/'.$value["rel_id"].'/'.$value["file_name"]); ?>"><img class="images_w_table" src="<?php echo site_url('modules/manufacturing/uploads/products/'.$value["rel_id"].'/'.$value["file_name"]); ?>" alt="<?php echo html_entity_decode($value['file_name']) ?>"/></a>
                     <?php } ?>
             <?php } ?>
           <?php }else{ ?>
@@ -60,11 +63,11 @@
                  
                  <tr class="project-overview">
                     <td class="bold"><?php echo _l('rate'); ?></td>
-                    <td><?php echo app_format_money((float)$item->rate,'') ; ?></td>
+                    <td><?php echo app_format_money((float)$item->rate,$base_currency->symbol) ; ?></td>
                  </tr>
                  <tr class="project-overview">
                     <td class="bold"><?php echo _l('purchase_price'); ?></td>
-                    <td><?php echo app_format_money((float)$item->purchase_price,'') ; ?></td>
+                    <td><?php echo app_format_money((float)$item->purchase_price,$base_currency->symbol) ; ?></td>
                  </tr>
                  
                  <tr class="project-overview">
@@ -72,8 +75,12 @@
                     <td><?php echo html_entity_decode($item->unit_id) != '' && get_unit_type_item($item->unit_id) != null ? get_unit_type_item($item->unit_id)->unit_name : ''; ?></td>
                  </tr>
                  <tr class="project-overview">
-                    <td class="bold"><?php echo _l('tax'); ?></td>
+                    <td class="bold"><?php echo _l('tax_1'); ?></td>
                     <td><?php echo html_entity_decode($item->tax) != '' && get_tax_rate_item($item->tax) != null ? get_tax_rate_item($item->tax)->name : '';  ?></td>
+                 </tr> 
+                 <tr class="project-overview">
+                    <td class="bold"><?php echo _l('tax_2'); ?></td>
+                    <td><?php echo html_entity_decode($item->tax2) != '' && get_tax_rate_item($item->tax2) != null ? get_tax_rate_item($item->tax2)->name : '';  ?></td>
                  </tr> 
                 </tbody>
           </table>

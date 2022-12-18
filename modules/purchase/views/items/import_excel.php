@@ -14,7 +14,8 @@ $file_header[] = _l('commodity_group');
 $file_header[] = _l('sub_group');
 $file_header[] = _l('purchase_price');
 $file_header[] = _l('rate');
-$file_header[] = _l('tax');
+$file_header[] = _l('tax_1');
+$file_header[] = _l('tax_2');
  ?>
 
 <?php init_head(); ?>
@@ -34,6 +35,7 @@ $file_header[] = _l('tax');
               <li class="text-danger">1. <?php echo _l('file_xlsx_commodity'); ?></li>
               <li class="text-danger">2. <?php echo _l('file_xlsx_tax'); ?></li>
               <li class="text-danger">3. <?php echo _l('file_xlsx_format'); ?></li>
+              <li class="text-danger">4. <?php echo _l('file_xlsx_sale_price_note'); ?></li>
             </ul>
             <div class="table-responsive no-dt">
               <table class="table table-hover table-bordered">

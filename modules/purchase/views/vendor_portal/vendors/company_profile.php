@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-group company-profile-address-group">
                         <label for="address"><?php echo _l('clients_address'); ?></label>
-                        <textarea name="address" id="address" class="form-control" rows="4"><?php echo clear_textarea_breaks($client->address); ?></textarea>
+                        <textarea name="address" id="address" class="form-control" rows="7"><?php echo clear_textarea_breaks($client->address); ?></textarea>
                     </div>
                     <div class="form-group company-profile-zip-group">
                         <label for="zip"><?php echo _l('clients_zip'); ?></label>
@@ -95,6 +95,21 @@
             <?php echo render_custom_fields('vendors',$client->userid); ?>
         </div>
         <?php if( is_primary_contact_pur()){ ?>
+            <div class="col-md-12">
+                <h3 class="company-profile-billing-shipping-heading"><?php echo _l('pur_return_policies'); ?></h3>
+                <hr class="mbot15"/>
+            </div>
+            <div class="col-md-6">
+                <?php $return_within_day = ($client->return_within_day != null) ? $client->return_within_day : get_option('pur_return_request_within_x_day');
+                echo render_input('return_within_day','pur_return_request_within_x_day', $return_within_day , 'number', ['min' => 1]); ?>
+            </div>
+            <div class="col-md-6">
+                <?php echo render_input('return_order_fee','pur_fee_for_return_order',$client->return_order_fee, 'number'); ?>
+            </div>
+            <div class="col-md-12">
+                <?php echo render_textarea('return_policies', 'pur_return_policies_information', $client->return_policies, array(), array(), '', 'tinymce'); ?>  
+            </div>
+
             <div class="col-md-12">
                 <h3 class="company-profile-billing-shipping-heading"><?php echo _l('billing_shipping'); ?></h3>
                 <hr class="no-mbot"/>

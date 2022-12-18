@@ -4,11 +4,10 @@
  <div class="content">
     <div class="row">
   
-    <div class="panel_s col-md-12">
-    <div class="panel-body">
-    <div class="horizontal-scrollable-tabs">
-        <nav>
-            <ul class="nav nav-tabs m-bot-0" id="myTab" role="tablist">
+    
+    <div class="horizontal-scrollable-tabs  col-md-3">
+      
+           <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked customer-tabs" role="tablist">
             <?php
             $i = 0;
             foreach($tab as $groups){
@@ -19,12 +18,11 @@
               </li>
               <?php $i++; } ?>
             </ul>
-        </nav>
+       
       </div>
-    </div>  
-  </div>
+
  
-  <div class="col-md-12">
+  <div class="col-md-9">
     <div class="panel_s">
      <div class="panel-body">
 
@@ -43,8 +41,11 @@
 <?php init_tail(); ?>
 </body>
 </html>
+<?php require 'modules/purchase/assets/js/manage_setting_js.php';?>
 <?php if($group == 'commodity_group'){ ?>
 <?php require 'modules/purchase/assets/js/commodity_group_js.php';?>
 <?php }elseif ($group == 'sub_group') {
   require 'modules/purchase/assets/js/sub_group_js.php';
+}elseif($group == 'permissions'){
+  require('modules/purchase/assets/js/permissions_js.php');
 } ?>

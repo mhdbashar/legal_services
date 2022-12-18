@@ -18,6 +18,24 @@ $sTable       = db_prefix().'pur_request';
 $join         = [ 'LEFT JOIN '.db_prefix().'departments ON '.db_prefix().'departments.departmentid = '.db_prefix().'pur_request.department' ];
 $where = [];
 
+if ($this->ci->input->post('from_date')
+    && $this->ci->input->post('from_date') != '') {
+    array_push($where, 'AND request_date >= "'.$this->ci->input->post('from_date').'"');
+}
+
+if ($this->ci->input->post('to_date')
+    && $this->ci->input->post('to_date') != '') {
+    array_push($where, 'AND request_date <= "'.$this->ci->input->post('to_date').'"');
+}
+
+if ($this->ci->input->post('department')
+    && count($this->ci->input->post('department')) > 0) {
+    array_push($where, 'AND department IN (' . implode(',', $this->ci->input->post('department')) . ')');
+}
+
+if(isset($project)){
+    array_push($where, ' AND '.db_prefix().'pur_request.project = '.$project);
+}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id','name','pur_rq_code']);
 
@@ -40,7 +58,74 @@ foreach ($rResult as $aRow) {
         }elseif($aColumns[$i] == 'department'){
             $_data = $aRow['name'];
         }elseif ($aColumns[$i] == 'status') {
-            $_data = get_status_approve($aRow['status']);
+            
+            $approve_status = get_status_approve($aRow['status']);
+
+            if($aRow['status'] == 1){
+                $approve_status = '<span class="label label-primary" id="status_span_'.$aRow['id'].'"> '._l('purchase_draft');
+            }elseif($aRow['status'] == 2){
+                $approve_status = '<span class="label label-success" id="status_span_'.$aRow['id'].'"> '._l('purchase_approved');
+            }elseif($aRow['status'] == 3){
+                $approve_status = '<span class="label label-warning" id="status_span_'.$aRow['id'].'"> '._l('pur_rejected');
+            }elseif($aRow['status'] == 4){
+                $approve_status = '<span class="label label-danger" id="status_span_'.$aRow['id'].'"> '._l('pur_canceled');
+            }
+
+            if(is_admin()){
+                $approve_status .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
+                $approve_status .= '<a href="#" class="dropdown-toggle text-dark" id="tablePurOderStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+                $approve_status .= '<span data-toggle="tooltip" title="' . _l('ticket_single_change_status') . '"><i class="fa fa-caret-down" aria-hidden="true"></i></span>';
+                $approve_status .= '</a>';
+
+                $approve_status .= '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tablePurOderStatus-' . $aRow['id'] . '">';
+
+                if($aRow['status'] == 1){
+                   
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 2 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('purchase_approved') . '
+                              </a>
+                           </li>';
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 3 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('pur_rejected') . '
+                              </a>
+                           </li>';
+                }else if($aRow['status'] == 2){
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 1 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('purchase_draft') . '
+                              </a>
+                           </li>';
+                   
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 3 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('pur_rejected') . '
+                              </a>
+                           </li>';
+
+                }else if($aRow['status'] == 3) {
+                   
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 1 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('purchase_draft') . '
+                              </a>
+                           </li>';
+                    $approve_status .= '<li>
+                              <a href="#" onclick="change_pr_approve_status( 2 ,' . $aRow['id'] . '); return false;">
+                                 ' ._l('purchase_approved') . '
+                              </a>
+                           </li>';
+                }
+
+                $approve_status .= '</ul>';
+                $approve_status .= '</div>';
+            }
+
+            $approve_status .= '</span>';
+
+            $_data = $approve_status;
+
         }elseif($aColumns[$i] == 'pur_rq_name'){
             $name = '<a href="' . admin_url('purchase/view_pur_request/' . $aRow['id'] ).'">'.$aRow['pur_rq_name'] . '</a>';
 
@@ -48,11 +133,11 @@ foreach ($rResult as $aRow) {
 
             $name .= '<a href="' . admin_url('purchase/view_pur_request/' . $aRow['id'] ).'" >' . _l('view') . '</a>';
 
-            if ( (has_permission('recruitment', '', 'edit') || is_admin()) &&  $aRow['status'] != 2) {
+            if ( (has_permission('purchase_request', '', 'edit') || is_admin()) &&  $aRow['status'] != 2) {
                 $name .= ' | <a href="' . admin_url('purchase/pur_request/' . $aRow['id'] ).'" >' . _l('edit') . '</a>';
             }
 
-            if (has_permission('recruitment', '', 'delete') || is_admin()) {
+            if (has_permission('purchase_request', '', 'delete') || is_admin()) {
                 $name .= ' | <a href="' . admin_url('purchase/delete_pur_request/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
             }
 
@@ -72,6 +157,7 @@ foreach ($rResult as $aRow) {
 
                 $_data .= '<a href="#" onclick="send_request_quotation('.$aRow['id'].'); return false;" class="btn btn-success" ><i class="fa fa-envelope" data-toggle="tooltip" title="'. _l('request_quotation') .'"></i></a>';
 
+                $_data .= '<a href="#" onclick="share_request('.$aRow['id'].'); return false;" class="btn btn-primary mleft5" ><i class="fa fa-share-alt" data-toggle="tooltip" title="'. _l('share_request') .'"></i></a>';
             }else{
                 $_data = '';
             }

@@ -2,10 +2,10 @@
 
 <div class="col-md-12">
     <h4 class="bold well email-template-heading">
-        <?php echo _l('purchase_order'); ?>
+        <?php echo _l('purchase'); ?>
         <?php if ($hasPermissionEdit) { ?>
-            <a href="<?php echo admin_url('emails/disable_by_type/purchase'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
-            <a href="<?php echo admin_url('emails/enable_by_type/purchase'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+            <a href="<?php echo admin_url('emails/disable_by_type/purchase_order'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+            <a href="<?php echo admin_url('emails/enable_by_type/purchase_order'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
         <?php } ?>
 
     </h4>

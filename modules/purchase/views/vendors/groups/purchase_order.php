@@ -3,7 +3,7 @@
       <h4 class="no-margin font-bold"><i class="fa fa-cart-plus" aria-hidden="true"></i> <?php echo _l('purchase_order'); ?></h4>
       <hr />
   	</div> 
-    <?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+    <?php if (has_permission('purchase_orders', '', 'create') || is_admin()) { ?>
       <a href="<?php echo admin_url('purchase/pur_order?vendor='.$client->userid); ?>"class="btn btn-info pull-left mright10 display-block">
         <i class="fa fa-plus"></i>&nbsp;<?php echo _l('new_pur_order'); ?>
       </a>

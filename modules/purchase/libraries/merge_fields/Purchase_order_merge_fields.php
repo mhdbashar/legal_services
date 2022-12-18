@@ -11,49 +11,70 @@ class Purchase_order_merge_fields extends App_merge_fields
                 'name'      => 'PO number',
                 'key'       => '{po_number}',
                 'available' => [
-                    'purchase_order',
+                    
                 ],
-            ],
-            [
-                'name'      => 'Type',
-                'key'       => '{type}',
-                'available' => [
-                    'purchase_order',
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
             [
                 'name'      => 'Public link',
                 'key'       => '{public_link}',
                 'available' => [
-                    'purchase_order',
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
             [
                 'name'      => 'PO name',
                 'key'       => '{po_name}',
                 'available' => [
-                    'purchase_order',
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
             [
                 'name'      => 'PO tax value',
                 'key'       => '{po_tax_value}',
                 'available' => [
-                    'purchase_order',
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
             [
                 'name'      => 'PO subtotal',
                 'key'       => '{po_subtotal}',
                 'available' => [
-                    'purchase_order',
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
             [
                 'name'      => 'PO value',
                 'key'       => '{po_value}',
                 'available' => [
-                    'purchase_order',
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
+                ],
+            ],
+            [
+                'name'      => 'Additional content',
+                'key'       => '{additional_content}',
+                'available' => [
+                    
+                ],
+                'templates' => [
+                    'purchase-order-to-contact',
                 ],
             ],
         ];
@@ -64,8 +85,9 @@ class Purchase_order_merge_fields extends App_merge_fields
      * @param  mixed $teampassword 
      * @return array
      */
-    public function format($po_id)
+    public function format($data)
     {
+        $po_id = $data->po_id;
         $this->ci->load->model('purchase/purchase_model');
 
 
@@ -80,13 +102,13 @@ class Purchase_order_merge_fields extends App_merge_fields
             return $fields;
         }
 
-        $fields['{type}']                  =  _l($po->type) ;
         $fields['{public_link}']                  = site_url('purchase/vendors_portal/pur_order/' . $po->id.'/'.$po->hash);
         $fields['{po_name}']                  =  $po->pur_order_name;
         $fields['{po_number}']                  =  $po->pur_order_number;
         $fields['{po_value}']                   =  app_format_money($po->total, '');
         $fields['{po_tax_value}']                   =  app_format_money($po->total_tax, '');
         $fields['{po_subtotal}']                   =  app_format_money($po->subtotal, '');
+        $fields['{additional_content}'] = $data->content;
 
         return $fields;
     }

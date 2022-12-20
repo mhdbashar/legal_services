@@ -484,6 +484,7 @@ function acc_automatic_payment_conversion($data) {
 
 	}
 
+
 	return $payment_id;
 }
 

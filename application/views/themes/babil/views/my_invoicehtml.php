@@ -71,7 +71,7 @@
                   <?php echo format_invoice_info(); ?>
                </address>
             </div>
-            <div class="col-sm-6 text-right transaction-html-info-col-right">
+            <div class="col-sm-6 text-aligh-right transaction-html-info-col-right">
                <span class="bold invoice-html-bill-to"><?php echo _l('invoice_bill_to'); ?>:</span>
                <address class="invoice-html-customer-billing-info">
                   <?php echo format_customer_info($invoice, 'invoice', 'billing'); ?>

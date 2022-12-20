@@ -107,7 +107,7 @@ if(isset($invoice->scheduled_email) && $invoice->scheduled_email) { ?>
       <?php echo format_organization_info(); ?>
    </address>
 </div>
-<div class="col-sm-6 text-right">
+<div class="col-sm-6 text-aligh-right">
    <span class="bold"><?php echo _l('invoice_bill_to'); ?>:</span>
    <address>
       <?php echo format_customer_info($invoice, 'invoice', 'billing', true); ?>

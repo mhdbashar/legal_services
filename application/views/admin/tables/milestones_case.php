@@ -2,6 +2,7 @@
 $aColumns = [
     'name',
     'due_date',
+    'start_date',
 ];
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'milestones';
@@ -23,7 +24,7 @@ foreach ($rResult as $aRow) {
     $nameRow = $aRow['name'];
 
     if (staff_can('edit_milestones', 'projects')) {
-        $nameRow = '<a href="#" onclick="edit_milestone(this,' . $aRow['id'] . '); return false" data-name="' . $aRow['name'] . '" data-due_date="' . _d($aRow['due_date']) . '" data-order="' . $aRow['milestone_order'] . '" data-description="' . htmlspecialchars(clear_textarea_breaks($aRow['description'])) . '" data-description-visible-to-customer="' . $aRow['description_visible_to_customer'] . '">' . $nameRow . '</a>';
+        $nameRow = '<a href="#" onclick="edit_milestone(this,' . $aRow['id'] . '); return false" data-start_date="' . $aRow['start_date'] . '" data-name="' . $aRow['name'] . '" data-due_date="' . _d($aRow['due_date']) . '" data-order="' . $aRow['milestone_order'] . '" data-description="' . htmlspecialchars(clear_textarea_breaks($aRow['description'])) . '" data-description-visible-to-customer="' . $aRow['description_visible_to_customer'] . '">' . $nameRow . '</a>';
     }
 
     if (staff_can('delete_milestones', 'projects')) {
@@ -34,14 +35,16 @@ foreach ($rResult as $aRow) {
 
     $row[] = $nameRow;
 
+    $row[] = _d($aRow['start_date']);
+
     $dateRow = _d($aRow['due_date']);
 
     if (date('Y-m-d') > $aRow['due_date'] && total_rows(db_prefix() . 'tasks', [
-                'milestone' => $aRow['id'],
-                'status !=' => 5,
-                'rel_id' => $project_id,
-                'rel_type' => "$slug",
-                ]) > 0) {
+            'milestone' => $aRow['id'],
+            'status !=' => 5,
+            'rel_id' => $project_id,
+            'rel_type' => "$slug",
+        ]) > 0) {
         $dateRow .= ' <span class="label label-danger mleft5 inline-block">' . _l('project_milestone_duedate_passed') . '</span>';
     }
 

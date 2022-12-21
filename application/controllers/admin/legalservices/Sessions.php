@@ -2090,6 +2090,16 @@ class Sessions extends AdminController
             redirect($_SERVER['HTTP_REFERER']);
         }
         if ($this->input->post()) {
+            $session = $this->sessions_model->get($id);
+            if(count($session->assignees_ids) == 0){
+                $message = _l('error_assignees', _l('session'));
+                echo $message;
+                die();
+            }else{
+                foreach ($session->assignees_ids as $staff_id){
+                    send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
+                }
+            }
             $data = $this->input->post();
             $success = $this->sessions_model->update_customer_report($id, $data);
             if($success) {
@@ -2119,9 +2129,6 @@ class Sessions extends AdminController
                     unset($newdata['billed']);
                     $id = $this->sessions_model->add($newdata);
                     if ($id) {
-                        //add reminder
-//                        $this->db->where('s_id', $id);
-//                        $this->db->update(db_prefix() . 'my_session_info', ['court_decision' => $court_decision]);
                         $name = $newdata['name'];
                         $newdata = [];
                         if (isset($data['next_session_time'])) {
@@ -2138,44 +2145,27 @@ class Sessions extends AdminController
                         $newdata['description'] = 'تذكير للجلسة ' . $name;
                         $this->misc_model->add_reminder($newdata, $id);
 
-                        $task = $this->sessions_model->get($id);
-                        $_id = false;
-                        $success = false;
-                        $message = '';
-                        if ($id) {
-                            $success = true;
-                            $_id = $id;
-                            $message = _l('added_successfully', _l('session'));
-                            $uploadedFiles = handle_task_attachments_array($id);
-                            if ($uploadedFiles && is_array($uploadedFiles)) {
-                                foreach ($uploadedFiles as $file) {
-                                    $this->misc_model->add_attachment_to_database($id, 'task', [$file]);
-                                }
-                            }
-
-                        }
-                        if (sizeof($task->assignees) == 1 && $task->current_user_is_assigned == 1) {
-                            $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
-                            if ($this->app_modules->is_active('telegram_chat')) {
-                                //Telegram Chat
-                                $str = '&#9878  تم اضافة جلسة من قبل ' . $userName . "\n" . "اسم المكلف بالجلسة :" . "\n";
-                                foreach ($task->assignees as $assignee) {
-                                    $str .= $assignee['full_name'] . "\n";
-                                }
-
-                                $this->load->helper('telegram_helper');
-                                $link1 = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task->id;
-                                $link = "<a href= '$link1' >click here</a>";
-                                $str1 = $str . "الموضوع: " . $task->name . "\n" . "تاريخ الجلسة: " . $task->startdate . "\n" . "وقت الجلسة:" . $task->time . " \n رابط الجلسة: " . $link . "\nDone!";
-                                send_message_telegram(urlencode($str1));
-                                //Telegram Chat
-                            }
-                        }
-                        if ($success) {
-                            $message = _l('add_successfully', _l('session'));
-                            echo $message;
-                            die();
-                        }
+                        //                        $task = $this->sessions_model->get($id);
+//                        if (sizeof($task->assignees) == 1 && $task->current_user_is_assigned == 1) {
+//                            $userName = $GLOBALS['current_user']->firstname . ' ' . $GLOBALS['current_user']->lastname;
+//                            if ($this->app_modules->is_active('telegram_chat')) {
+//                                //Telegram Chat
+//                                $str = '&#9878  تم اضافة جلسة من قبل ' . $userName . "\n" . "اسم المكلف بالجلسة :" . "\n";
+//                                foreach ($task->assignees as $assignee) {
+//                                    $str .= $assignee['full_name'] . "\n";
+//                                }
+//
+//                                $this->load->helper('telegram_helper');
+//                                $link1 = APP_BASE_URL . 'admin/legalservices/sessions/index/' . $task->id;
+//                                $link = "<a href= '$link1' >click here</a>";
+//                                $str1 = $str . "الموضوع: " . $task->name . "\n" . "تاريخ الجلسة: " . $task->startdate . "\n" . "وقت الجلسة:" . $task->time . " \n رابط الجلسة: " . $link . "\nDone!";
+//                                send_message_telegram(urlencode($str1));
+//                                //Telegram Chat
+//                            }
+//                        }
+                        $message = _l('add_successfully', _l('session'));
+                        echo $message;
+                        die();
                     }
                 }else{
                     echo $success;

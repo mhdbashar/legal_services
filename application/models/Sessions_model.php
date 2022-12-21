@@ -2684,8 +2684,6 @@ class Sessions_model extends App_Model
                     $template->send();
                 }
             }
-
-//            send_mail_template('send_report_session_to_customer', $contact, $service_data);
             return true;
         }
         return 2; // This customer doesn't have primary contact

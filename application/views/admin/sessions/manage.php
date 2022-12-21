@@ -340,6 +340,8 @@ if ($time_format === '24') {
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                     } else if (data == 'error_opponent') {
                         alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
+                    } else if (data == 'error_assignees') {
+                        alert_float('danger', '<?php echo _l('no_primary_assignees'); ?>');
                     } else {
                         alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }

@@ -29,5 +29,10 @@ class Migration_Version_522 extends CI_Migration
         if(!get_option('sessions_reminder_notification_before')) {
             add_option('sessions_reminder_notification_before', 1);
         }
+        $emailtemplate = $this->db->get_where('tblemailtemplates', array('slug' => 'send_report_session_to_staff','type'=>'sessions','language'=>'arabic'))->num_rows();
+        if($emailtemplate == 0) {
+            $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
+              ('sessions', 'send_report_session_to_staff', 'arabic', 'تقرير جلسة مرسل الى الموظف المتابع', 'تقرير الجلسة', 'عربية:<br />{session_name} <br />{session_user_take_action}<br />{session_link}<br />{session_description}<br />{session_status}<br />{session_priority}<br />{session_startdate}<br />{session_duedate}<br />{session_related}<br />إرسال تقرير', '{companyname}', NULL, 0, 1, 0)");
+        }
     }
 }

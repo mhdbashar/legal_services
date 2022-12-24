@@ -33,6 +33,15 @@ class Migration_Version_522 extends CI_Migration
         if($emailtemplate == 0) {
             $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
               ('sessions', 'send_report_session_to_staff', 'arabic', 'تقرير جلسة مرسل الى الموظف المتابع', 'تقرير الجلسة', 'عربية:<br />{session_name} <br />{session_user_take_action}<br />{session_link}<br />{session_description}<br />{session_status}<br />{session_priority}<br />{session_startdate}<br />{session_duedate}<br />{session_related}<br />إرسال تقرير', '{companyname}', NULL, 0, 1, 0)");
+            //
+            $this->db->where('type','sessions');
+            $this->db->where('slug','sessions');
+            $this->db->where('language','sessions');
+            $this->db->set('name', 'تقرير الجلسة (مرسل إلى جهات اتصال العملاء)');
+            $this->db->update(db_prefix() . 'emailtemplates');
+            //
+
+
         }
     }
 }

@@ -1926,7 +1926,7 @@ class Sessions_model extends App_Model
             $this->db->where('rel_type', 'task');
             $this->db->delete(db_prefix() . 'taggables');
 
-            $this->db->where('rel_type', 'task');
+            $this->db->where('rel_type', 'session');
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'reminders');
 
@@ -2473,7 +2473,7 @@ class Sessions_model extends App_Model
     public function get_reminders($task_id)
     {
         $this->db->where('rel_id', $task_id);
-        $this->db->where('rel_type', 'task');
+        $this->db->where('rel_type', 'session');
         $this->db->order_by('isnotified,date', 'ASC');
 
         return $this->db->get(db_prefix() . 'reminders')->result_array();

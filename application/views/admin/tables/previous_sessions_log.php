@@ -188,11 +188,14 @@ foreach ($rResult as $aRow) {
     }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0) {
         $stc ='<div class="btn-group">
                      <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="caret"></span></a>
-                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="hidden-xs"><a href="#/" onclick="send_report(' . $aRow['id'] . ')">'._l('send').'</a></li>
-                        <li class="hidden-xs"><a href="#" onclick="edite_court_decision_modal(' . $aRow['id'] . '); return false">'._l('edit').'</a></li>
-                     </ul>
-                  </div>';
+                     <ul class="dropdown-menu dropdown-menu-right">';
+        if (has_permission('sessions', '', 'send_report')) {
+            $stc .= '<li class="hidden-xs"><a href="#/" onclick="send_report(' . $aRow['id'] . ')">' . _l('send') . '</a></li>';
+        }
+        if (has_permission('sessions', '', 'edite_report')) {
+            $stc .= '<li class="hidden-xs"><a href="#" onclick="edite_court_decision_modal(' . $aRow['id'] . '); return false">' . _l('edit') . '</a></li>';
+        }
+        $stc .= '</ul> </div>';
     }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1) {
         $stc ='<div class="btn-group">
                      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i> <span class="caret"></span></a>
@@ -203,8 +206,6 @@ foreach ($rResult as $aRow) {
                      </ul>
                   </div>';
     }
-
-
     $row[] = $stc;
 
     // Custom fields add values

@@ -3455,6 +3455,11 @@ $lang['sessions_reminder_notification_before_help'] = 'إشعار قبل موع�
 $lang['next_session_link'] = 'رابط الجلسة القادمة';
 $lang['add_new_session_from_previous'] = 'إضافة جلسة قادمة';
 $lang['add_report_session'] = 'إضافة تقرير';
+$lang['permission_edite_report'] = 'تعديل تقرير';
+$lang['permission_send_report'] = 'إرسال تقرير';
+$lang['no_primary_followers'] = 'لا يوجد متابع للجلسة';
+
+
 
 
 

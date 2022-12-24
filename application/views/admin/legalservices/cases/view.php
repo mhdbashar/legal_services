@@ -619,6 +619,8 @@ echo form_hidden('project_percent',$percent);
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                     } else if (data == 'error_opponent') {
                         alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
+                    } else if (data == 'error_followers') {
+                        alert_float('danger', '<?php echo _l('no_primary_followers'); ?>');
                     } else {
                         alert_float('danger', '<?php echo _l('Faild'); ?>');
                     }

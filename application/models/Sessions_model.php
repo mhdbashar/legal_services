@@ -2600,27 +2600,75 @@ class Sessions_model extends App_Model
             $client_id = get_client_id_by_oservice_id($rel_id);
             $opponent_id = 0;
         }
-        $this->db->where('userid', $client_id);
-        $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
-        if(!isset($contact_client)){
-            echo 'error_client'; // This customer doesn't have primary contact
-            return;
-        }
+
+
+//        $this->db->where('userid', $client_id);
+//        $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
+//        if(!isset($contact_client)){
+//            echo 'error_client'; // This customer doesn't have primary contact
+//            return;
+//        }
         if($send_mail_to_opponent == true){
+            $send_to     = [];
             $this->db->where('userid', $opponent_id);
-            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
-            if(!isset($contact_opponent)){
+            $this->db->where('active' , 1);
+            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            foreach ($contacts as $contact) {
+                array_push($send_to, $contact['id']);
+            }
+            if (count($send_to) > 0) {
+                foreach ($send_to as $contact_id) {
+                    if ($contact_id != '') {
+                        $contact = $this->clients_model->get_contact($contact_id);
+                        if (!$contact) {
+                            continue;
+                        }
+                        send_mail_template('reminder_for_next_session_action',$contact, $id);
+                    }
+                }
+            }else{
                 echo 'error_opponent'; // This opponent doesn't have primary contact
                 return;
-            }  else{
-                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
             }
+//            $this->db->where('userid', $opponent_id);
+//            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
+//            if(!isset($contact_opponent)){
+//                echo 'error_opponent'; // This opponent doesn't have primary contact
+//                return;
+//            }  else{
+//                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
+//            }
+
         }
 
-        if(isset($contact_client)){ // && isset($contact_opponent)
-            send_mail_template('reminder_for_next_session_action',$contact_client, $id);
-            return true;
+//        if(isset($contact_client)){ // && isset($contact_opponent)
+//            send_mail_template('reminder_for_next_session_action',$contact_client, $id);
+//            return true;
+//        }
+
+        $send_to     = [];
+        $this->db->where('userid', $client_id);
+        $this->db->where('active' , 1);
+        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+        foreach ($contacts as $contact) {
+            array_push($send_to, $contact['id']);
         }
+        if (count($send_to) > 0) {
+            foreach ($send_to as $contact_id) {
+                if ($contact_id != '') {
+                    $contact = $this->clients_model->get_contact($contact_id);
+                    if (!$contact) {
+                        continue;
+                    }
+                    send_mail_template('reminder_for_next_session_action',$contact, $id);
+                }
+            }
+            return true;
+        }else{
+            echo 'error_client'; // This opponent doesn't have primary contact
+            return;
+        }
+
         return false;
     }
 

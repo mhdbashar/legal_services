@@ -267,7 +267,7 @@ $(function() {
         if (data.follower !== '') {
             data.taskid = $(this).attr('data-task-id');
             $("body").append('<div class="dt-loader"></div>');
-            $.post(admin_url + 'legalservices/sessions/add_task_followers', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/add_session_followers', data).done(function(response) {
                 response = JSON.parse(response);
                 $("body").find('.dt-loader').remove();
                 _task_append_html(response.taskHtml);

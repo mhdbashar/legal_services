@@ -1339,17 +1339,16 @@ class Sessions extends AdminController
     }
 
     /* Add new task follower / ajax */
-    public function add_task_followers()
-    {
-        $task = $this->sessions_model->get($this->input->post('taskid'));
-        if (staff_can('edit', 'sessions') ||
-            ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
-            echo json_encode([
-                'success'  => $this->sessions_model->add_task_followers($this->input->post()),
-                'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
-            ]);
-        }
-    }
+//    public function add_task_followers()
+//    {
+//        $task = $this->sessions_model->get($this->input->post('taskid'));
+//        if (staff_can('edit', 'sessions') || staff_can('create', 'sessions')) {
+//            echo json_encode([
+//                'success'  => $this->sessions_model->add_task_followers($this->input->post()),
+//                'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
+//            ]);
+//        }
+//    }
 
     public function add_session_followers()
     {

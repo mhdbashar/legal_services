@@ -79,7 +79,7 @@ class Sessions_merge_fields extends App_merge_fields
             ],
             [
                 'name'      => _l('session_due_date'),
-                'key'       => '{session_duedate}',
+                'key'       => '{session_time}',
                 'available' => [
                     'sessions',
                 ],
@@ -144,8 +144,6 @@ class Sessions_merge_fields extends App_merge_fields
         $this->ci->db->where('task_id', $task_id);
         $session_info = $this->ci->db->get(db_prefix() .'my_session_info')->row();
 
-
-
         if(isset($task->rel_type) && $task->rel_type != null) {
             $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
         }
@@ -159,6 +157,8 @@ class Sessions_merge_fields extends App_merge_fields
             if(isset($service_id)) {
                 if ($service_id == 1) {
                     $fields['{session_link}'] = admin_url('Case/view/' . $service_id . '/' . $task->rel_id . '?group=CaseSession&sessionid=' . $task_id);
+                }elseif ($service_id == 22){
+                    $fields['{session_link}'] = admin_url('Disputes_cases/view/' . $service_id . '/' . $task->rel_id . '?group=CaseSession&sessionid=' . $task_id);
                 } else {
                     $fields['{session_link}'] = admin_url('SOther/view/' . $service_id . '/' . $task->rel_id . '?group=OserviceSession&sessionid=' . $task_id);
                 }
@@ -230,9 +230,18 @@ class Sessions_merge_fields extends App_merge_fields
         } elseif (is_client_logged_in() && $languageChanged) {
             load_client_language();
         }
+        $CI = &get_instance();
+        $CI->load->library('app_modules');
+        $task->duedate = $CI->app_modules->is_active('hijri') ? _d($task->duedate) . '  &  ' . to_hijri_date(_d($task->duedate)) : _d($task->duedate);
+        $session_info->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session_info->next_session_date) . '  &  ' . to_hijri_date(_d($session_info->next_session_date)) : _d($session_info->next_session_date);
+        $task->startdate = $CI->app_modules->is_active('hijri') ? _d($task->startdate) . '  &  ' . to_hijri_date(_d($task->startdate)) : _d($task->startdate);
 
-        $fields['{session_startdate}'] = _d($task->startdate);
-        $fields['{session_duedate}']   = _d($task->duedate);
+        $time_format = get_option('time_format');
+        $session_info->time = $time_format === '24' ? date('h:i', strtotime($session_info->time)) : date('h:i a', strtotime($session_info->time));
+        $session_info->next_session_time = $time_format === '24' ? date('h:i', strtotime($session_info->next_session_time)) : date('h:i a', strtotime($session_info->next_session_time));
+
+        $fields['{session_startdate}'] = $task->startdate;
+        $fields['{session_time}']   = $session_info->time;
         $fields['{comment_link}']   = '';
 
         $fields['{next_session_date}'] = $session_info->next_session_date;

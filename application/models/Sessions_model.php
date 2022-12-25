@@ -2628,7 +2628,7 @@ class Sessions_model extends App_Model
                         if (!$contact) {
                             continue;
                         }
-                        send_mail_template('reminder_for_next_session_action',$contact, $id);
+                        send_mail_template('reminder_for_next_session_action',$client_id,$contact, $id);
                     }
                 }
             }else{
@@ -2665,7 +2665,7 @@ class Sessions_model extends App_Model
                     if (!$contact) {
                         continue;
                     }
-                    send_mail_template('reminder_for_next_session_action',$contact, $id);
+                    send_mail_template('reminder_for_next_session_action',$client_id,$contact, $id);
                 }
             }
             return true;
@@ -2725,7 +2725,7 @@ class Sessions_model extends App_Model
                     if (!$contact) {
                         continue;
                     }
-                    $template = mail_template('send_report_session_to_customer', $contact,$service_data);
+                    $template = mail_template('send_report_session_to_customer',$client_id, $contact,$service_data);
                     set_mailing_constant();
                     $pdf    = session_report_pdf($this->get($id));
                     $attach = $pdf->Output($service_data->name . '.pdf', 'S');

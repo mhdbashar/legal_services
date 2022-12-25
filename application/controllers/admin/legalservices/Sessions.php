@@ -1357,6 +1357,7 @@ class Sessions extends AdminController
                 'success'  => $this->sessions_model->add_task_followers($this->input->post()),
                 'taskHtml' => $this->get_task_data_with_session($this->input->post('taskid'), true),
             ]);
+            die;
         }
     }
 

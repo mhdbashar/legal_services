@@ -30,6 +30,7 @@ class Staff_merge_fields extends App_merge_fields
                         'contract-comment-to-admin',
                         'regular-duration-deadline-notification',
                         'send_report_session_to_staff',
+                        'session-added-as-follower',
                     ],
                 ],
             [
@@ -55,6 +56,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
                     'send_report_session_to_staff',
+                    'session-added-as-follower',
                 ],
             ],
             [
@@ -80,6 +82,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
                     'send_report_session_to_staff',
+                    'session-added-as-follower',
                 ],
             ],
             [
@@ -105,6 +108,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
                     'send_report_session_to_staff',
+                    'session-added-as-follower',
                 ],
             ],
             [
@@ -130,6 +134,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
                     'send_report_session_to_staff',
+                    'session-added-as-follower',
                 ],
             ],
                 [

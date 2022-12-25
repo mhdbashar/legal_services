@@ -7,13 +7,13 @@ class Sessions_merge_fields extends App_merge_fields
     public function build()
     {
         return [
-            [
-                'name'      => _l('staff_contact_who_take_action_on_session'),
-                'key'       => '{session_user_take_action}',
-                'available' => [
-                    'sessions',
-                ],
-            ],
+//            [
+//                'name'      => _l('staff_contact_who_take_action_on_session'),
+//                'key'       => '{session_user_take_action}',
+//                'available' => [
+//                    'sessions',
+//                ],
+//            ],
             [
                 'name'      => _l('session_link'),
                 'key'       => '{session_link}',
@@ -63,13 +63,13 @@ class Sessions_merge_fields extends App_merge_fields
                     'session-commented-to-contacts',
                 ],
             ],
-            [
-                'name'      => _l('session_priority'),
-                'key'       => '{session_priority}',
-                'available' => [
-                    'sessions',
-                ],
-            ],
+//            [
+//                'name'      => _l('session_priority'),
+//                'key'       => '{session_priority}',
+//                'available' => [
+//                    'sessions',
+//                ],
+//            ],
             [
                 'name'      => _l('session_start_date'),
                 'key'       => '{session_startdate}',
@@ -167,11 +167,11 @@ class Sessions_merge_fields extends App_merge_fields
             $fields['{session_link}'] = site_url('clients/project/' . $task->rel_id . '?group=project_tasks&taskid=' . $task_id);
         }
 
-        if (is_client_logged_in()) {
-            $fields['{session_user_take_action}'] = get_contact_full_name(get_contact_user_id());
-        } else {
-            $fields['{session_user_take_action}'] = get_staff_full_name(get_staff_user_id());
-        }
+//        if (is_client_logged_in()) {
+//            $fields['{session_user_take_action}'] = get_contact_full_name(get_contact_user_id());
+//        } else {
+//            $fields['{session_user_take_action}'] = get_staff_full_name(get_staff_user_id());
+//        }
 
         $fields['{session_comment}'] = '';
         $fields['{session_related}'] = '';
@@ -218,7 +218,7 @@ class Sessions_merge_fields extends App_merge_fields
         }
 
         $fields['{session_status}']   = format_session_status($task->status, false, true);
-        $fields['{session_priority}'] = session_priority($task->priority);
+//        $fields['{session_priority}'] = session_priority($task->priority);
 
         $custom_fields = get_custom_fields('sessions');
         foreach ($custom_fields as $field) {

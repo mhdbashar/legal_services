@@ -24,6 +24,7 @@ class Reminder_for_next_session_action extends App_mail_template
 
     public function build()
     {
-        $this->to($this->contact->email)->set_merge_fields('sessions_merge_fields', $this->task_id);
+        $this->to($this->contact->email)->set_merge_fields('sessions_merge_fields', $this->task_id)
+            ->set_merge_fields('client_merge_fields', $this->contact->id);
     }
 }

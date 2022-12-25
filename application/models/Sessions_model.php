@@ -1278,11 +1278,11 @@ class Sessions_model extends App_Model
 
                 $member = $this->staff_model->get($data['follower']);
 
-                if(check_session_by_id($data['taskid'])){
+//                if(check_session_by_id($data['taskid'])){
                     send_mail_template('session_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
-                }else{
-                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
-                }
+//                }else{
+//                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+//                }
             }
 
             $description = 'not_task_added_someone_as_follower';
@@ -1300,6 +1300,11 @@ class Sessions_model extends App_Model
             }
 
             $this->_send_task_responsible_users_notification($description, $data['taskid'], $data['follower'], '', $additional_notification_data);
+
+            hooks()->do_action('task_follower_added', [
+                'staff_id' => $data['follower'],
+                'task_id'  => $data['taskid'],
+            ]);
 
             return true;
         }

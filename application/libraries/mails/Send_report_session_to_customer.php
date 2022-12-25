@@ -26,7 +26,7 @@ class Send_report_session_to_customer extends App_mail_template
     public function build()
     {
         $this->to($this->contact->email)
-            ->set_rel_id($this->task_id)
+            ->set_rel_id($this->session->id)
             ->set_merge_fields('sessions_merge_fields',$this->session->id)
             ->set_merge_fields('client_merge_fields',$this->contact->userid, $this->contact->id);
     }

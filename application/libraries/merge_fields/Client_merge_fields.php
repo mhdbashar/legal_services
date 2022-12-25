@@ -19,7 +19,6 @@ class Client_merge_fields extends App_merge_fields
                         'project',
                         'credit_note',
                         'subscriptions',
-                        'sessions',
                     ],
                           'templates' => [
                         'gdpr-removal-request',
@@ -29,8 +28,6 @@ class Client_merge_fields extends App_merge_fields
                            'task-added-attachment-to-contacts',
                            'task-commented-to-contacts',
                            'task-status-change-to-contacts',
-                          'send_report_session',
-                          'next_session_action',
                     ],
                 ],
             [
@@ -90,7 +87,6 @@ class Client_merge_fields extends App_merge_fields
                          'project',
                          'credit_note',
                          'subscriptions',
-                         'sessions',
                      ],
                            'templates' => [
                          'gdpr-removal-request',
@@ -100,8 +96,6 @@ class Client_merge_fields extends App_merge_fields
                             'task-added-attachment-to-contacts',
                             'task-commented-to-contacts',
                             'task-status-change-to-contacts',
-                               'send_report_session',
-                               'next_session_action',
                            ],
                  ],
                 [
@@ -484,8 +478,11 @@ class Client_merge_fields extends App_merge_fields
         $contact = $this->ci->db->get(db_prefix() . 'contacts')->row();
 
         if ($contact) {
-            $fields['{contact_fullname}']          = $contact->firstname;
-            //$fields['{contact_lastname}']           = $contact->lastname;
+            $fields['{contact_fullname}']          = $contact->firstname .' '.$contact->lastname;
+            $fields['{contact_firstname}']           = $contact->firstname;
+            $fields['{contact_lastname}']           = $contact->lastname;
+            $fields['{contact_fathername}']           = $contact->fathername;
+            $fields['{contact_grandfathername}']           = $contact->grandfathername;
             $fields['{contact_email}']              = $contact->email;
             $fields['{contact_phonenumber}']        = $contact->phonenumber;
             $fields['{contact_title}']              = $contact->title;

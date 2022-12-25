@@ -27,6 +27,6 @@ class Send_report_session_to_staff extends App_mail_template
     {
         $this->to($this->staff->email)
             ->set_merge_fields('sessions_merge_fields',$this->session->id)
-            ->set_merge_fields('staff_merge_fields', $this->staff['staffid']);
+            ->set_merge_fields('staff_merge_fields', $this->staff->staffid);
     }
 }

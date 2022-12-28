@@ -272,7 +272,8 @@ class Sessions_merge_fields extends App_merge_fields
         if(count($session_info->checklist_items) > 0){
             $i = 1;
             foreach ($session_info->checklist_items as $item){
-                $fields['{checklist_items}'] .= $i . '  ' .$item['description'].'<br>';
+                $fields['{checklist_items}'] .= $i . ' - ' .$item['description'].'<br>';
+                $i++;
             }
         }
         return hooks()->apply_filters('sessions_merge_fields', $fields, [

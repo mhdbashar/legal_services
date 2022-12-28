@@ -49,8 +49,9 @@ $export_candidate='
         $export_candidate .='<h3 style="background-color: silver;text-align: center">'._l('add_checklist_item').'</h3><br /><br />';
         $i = 1;
         foreach ($checklist_items as $list) {
-            $export_candidate .= $i. '  ' . $list['description'];
+            $export_candidate .= $i. ' - ' . $list['description'];
             $export_candidate .='<br />';
+            $i++;
         }
     }
 

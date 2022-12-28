@@ -2109,7 +2109,7 @@ class Sessions extends AdminController
             if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
                 $this->db->where('userid', $opponent_id);
                 $this->db->where('active' , 1);
-                $contacts = $this->db->get(db_prefix() . 'contacts')->count_all_results();
+                $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
                 if($contacts == 0){
                     echo 'error_opponent'; // This opponent doesn't have primary contact
                     die();
@@ -2120,7 +2120,7 @@ class Sessions extends AdminController
 
             $this->db->where('userid', $client_id);
             $this->db->where('active' , 1);
-            $contacts = $this->db->get(db_prefix() . 'contacts')->count_all_results();
+            $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
             if($contacts == 0) {
                 echo 'error_client'; // This client doesn't have primary contact
                 die();

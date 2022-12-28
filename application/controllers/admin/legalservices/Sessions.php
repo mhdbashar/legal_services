@@ -2322,22 +2322,22 @@ class Sessions extends AdminController
         $rel_id = $service_data->rel_id;
         $service_id = $this->legal->get_service_id_by_slug($rel_type);
         if($service_id == 1){
-            $client_id = get_client_id_by_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_case_id($rel_id);
+            $service_data->clientid = get_client_id_by_case_id($rel_id);
+            $service_data->opponent_id = get_opponent_id_by_case_id($rel_id);
         }else if($service_id == 22){
-            $client_id = get_client_id_by_disputes_case_id($rel_id);
+            $service_data->clientid = get_client_id_by_disputes_case_id($rel_id);
             $opponents = get_disputes_cases_opponents_by_case_id($rel_id);
             foreach ($opponents as $opponent){
-                if($opponent->opponent_id > 0) $opponent_id = $opponent->opponent_id;break;
+                if($opponent->opponent_id > 0) $service_data->opponent_id = $opponent->opponent_id;break;
             }
         }else{
-            $client_id = get_client_id_by_oservice_id($rel_id);
-            $opponent_id = 0;
+            $service_data->clientid = get_client_id_by_oservice_id($rel_id);
+            $service_data->opponent_id = 0;
         }
 
         if($service_data->is_send_opponent) {
             $send_to = [];
-            $this->db->where('userid', $opponent_id);
+            $this->db->where('userid', $service_data->opponent_id);
             $this->db->where('active', 1);
             $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
             foreach ($contacts as $contact) {
@@ -2366,7 +2366,7 @@ class Sessions extends AdminController
         }
 
         $send_to     = [];
-        $this->db->where('userid', $client_id);
+        $this->db->where('userid', $service_data->clientid);
         $this->db->where('active' , 1);
         $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
         foreach ($contacts as $contact) {

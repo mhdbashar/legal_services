@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('legalservices/sessions/services_sessions/' . $id), array('id' => 'task-form')); ?>
+<?php echo form_open_multipart(admin_url('legalservices/sessions/session/' . $id), array('id' => 'task-form')); ?>
 <div class="modal fade<?php if (isset($task)) {
     echo ' edit';
 } ?>" id="_task_modal" tabindex="-1" role="dialog"
@@ -676,6 +676,8 @@
                 startdate: 'required',
                 //judge_id: 'required',
                 //court_id: 'required',
+                rel_type: 'required',
+                rel_id: 'required',
                 time: 'required',
                 repeat_every_custom: {min: 1},
             }, session_form_handler);
@@ -1006,13 +1008,14 @@
             id = $('#subcat_id').val();
             <?php $value = (isset($case) ? $case->childsubcat_id : ''); ?>
             var childsubcat_id = "<?php echo $value; ?>";
-            $.ajax({
-                url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
-                success: function (data) {
-                    // if(data != null){
-                    response = JSON.parse(data);
-                    if (response.length != 0) {
-                        $('#childsubcat').html(`
+            if(id != null) {
+                $.ajax({
+                    url: '<?php echo admin_url("ChildCategory/1/"); ?>' + id,
+                    success: function (data) {
+                        // if(data != null){
+                        response = JSON.parse(data);
+                        if (response.length != 0) {
+                            $('#childsubcat').html(`
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
@@ -1022,18 +1025,19 @@
                             </div>
                         </div>
                         `);
-                        $('#childsubcat_id').append('<option value=""></option>');
-                        $.each(response, function (key, value) {
-                            if (value['id'] == childsubcat_id) {
-                                var select = 'selected';
-                            }
-                            $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select + '>' + value['name'] + '</option>');
-                        });
-                    } else {
-                        $('#childsubcat').html('');
+                            $('#childsubcat_id').append('<option value=""></option>');
+                            $.each(response, function (key, value) {
+                                if (value['id'] == childsubcat_id) {
+                                    var select = 'selected';
+                                }
+                                $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select + '>' + value['name'] + '</option>');
+                            });
+                        } else {
+                            $('#childsubcat').html('');
+                        }
                     }
-                }
-            });
+                });
+            }
         });
 
 

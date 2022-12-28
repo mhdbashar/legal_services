@@ -703,7 +703,7 @@ class Sessions extends AdminController
         $this->load->view('admin/sessions/task', $data);
     }
 
-    public function services_sessions($id = '')
+    public function session($id = '')
     {
         if (!has_permission('sessions', '', 'edit') && !has_permission('sessions', '', 'create')) {
             ajax_access_denied();
@@ -728,7 +728,6 @@ class Sessions extends AdminController
             $data                = $this->input->post();
             if (strpos($data['rel_type'], 'session') !== false) {
                 $data['rel_type'] = substr($data['rel_type'],8);
-
             }
             $data['description'] = $this->input->post('description', false);
             if ($id == '') {
@@ -743,20 +742,23 @@ class Sessions extends AdminController
 
                 $id = $this->sessions_model->add($data);
                 //add reminder
-                if(isset($data['time'])){
-                    $reminder['date'] = $data['startdate'] . ' ' . $data['time'] . ':00';
-                }
-                $time = strtotime($reminder['date']);
-                $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
-                $reminder['date'] = date('Y-m-d H:i:s', $time);
-                $reminder['time'] = date('H:i', $time);
-                $reminder['rel_type']= 'session';
-                $reminder['rel_id']= $id;
-                $reminder['staff'] = get_staff_user_id();
-                $reminder['notify_by_email'] = 1;
-                $reminder['description']= 'تذكير للجلسة '.$data['name'];
-                $this->misc_model->add_reminder($reminder, $id);
 
+                if(isset($data['time'])){
+                    $date = $data['startdate'] . ' ' . $data['time'] . ':00';
+                }
+                $time = strtotime($date);
+                $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
+                if($time > strtotime(date('Y-m-d H:i:s'))) {
+                    $reminder = [];
+                    $reminder['date'] = date('Y-m-d H:i:s', $time);
+                    $reminder['time'] = date('H:i', $time);
+                    $reminder['rel_type'] = 'session';
+                    $reminder['rel_id'] = $id;
+                    $reminder['staff'] = get_staff_user_id();
+                    $reminder['notify_by_email'] = 1;
+                    $reminder['description'] = 'تذكير للجلسة ' . $data['name'];
+                    $this->misc_model->add_reminder($reminder, $id);
+                }
                 $task = $this->sessions_model->get($id);
                 $_id     = false;
                 $success = false;
@@ -1011,7 +1013,6 @@ class Sessions extends AdminController
         $data1=$data;
         $staff= get_staff_full_name($data['staff']);
         if ($data) {
-
             //Merge date with time
             if(isset($data['time'])){
                 $data['date'] = $data['date'] . ' ' . $data['time'] . ':00';
@@ -2088,25 +2089,78 @@ class Sessions extends AdminController
             redirect($_SERVER['HTTP_REFERER']);
         }
         if ($this->input->post()) {
-            $followers = $this->sessions_model->get_task_followers($id);
-            if(count($followers) == 0){
-                $message = _l('error_followers', _l('session'));
-                echo $message;
+            $data = $this->input->post();
+            $this->db->where('id', $id);
+            $row = $this->db->get(db_prefix() .'tasks')->row();
+            $rel_type = $row->rel_type;
+            $rel_id = $row->rel_id;
+            $service_id = $this->legal->get_service_id_by_slug($rel_type);
+            if($service_id == 1){
+                $client_id = get_client_id_by_case_id($rel_id);
+                $opponent_id = get_opponent_id_by_case_id($rel_id);
+            }else if($service_id == 22){
+                $client_id = get_client_id_by_disputes_case_id($rel_id);
+                $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+            }else{
+                $client_id = get_client_id_by_oservice_id($rel_id);
+                $opponent_id = 0;
+            }
+
+            if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
+                $this->db->where('userid', $opponent_id);
+                $this->db->where('active' , 1);
+                $contacts = $this->db->get(db_prefix() . 'contacts')->count_all_results();
+                if($contacts == 0){
+                    echo 'error_opponent'; // This opponent doesn't have primary contact
+                    die();
+                }else{
+                    $data['is_send_opponent'] = 1;
+                }
+            }
+
+            $this->db->where('userid', $client_id);
+            $this->db->where('active' , 1);
+            $contacts = $this->db->get(db_prefix() . 'contacts')->count_all_results();
+            if($contacts == 0) {
+                echo 'error_client'; // This client doesn't have primary contact
                 die();
             }
-            $data = $this->input->post();
-            $success = $this->sessions_model->update_customer_report($id, $data);
+
+            $followers = $this->sessions_model->get_task_followers($id);
+            if(count($followers) == 0){
+                echo 'error_followers';
+                die();
+            }
+
+            if(isset($data['next_session_date']) && $data['next_session_date'] != '') {
+                $data['next_session_date'] = to_sql_date($data['next_session_date']);
+            }else{
+                unset($data['next_session_date'],$data['next_session_time']);
+            }
+
+            $success = $this->sessions_model->add_session_report($id, $data);
             if($success) {
                 $session = $this->sessions_model->get($id);
                 foreach ($session->followers_ids as $staff_id){
                     if (get_staff_user_id() != $staff_id) {
                         send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
+                        $notified = add_notification([
+                            'description'     => 'session_report_added',
+                            'touserid'        => $staff_id,
+                            'link'            => admin_url('legalservices/sessions/index/' . $id),
+                            'additional_data' => serialize([
+                                $session->name,
+                            ]),
+                        ]);
+                        if ($notified) {
+                            pusher_trigger_notification([$data['follower']]);
+                        }
                     }
                 }
-                if($data['next_session_time'] != '' && $data['next_session_date'] != '') {
+                if(isset($data['next_session_date'])  && isset($data['next_session_date'])) {
                     $newsession = [];
                     $newsession['time'] = $data['next_session_time'];
-                    $newsession['startdate'] = $data['next_session_date'];
+                    $newsession['startdate'] = to_sql_date($data['next_session_date']);
                     $newsession['session_link'] = isset($data['session_link']) ? $data['session_link'] : '';
                     $newsession['duedate'] = $data['next_session_date'];
                     $newsession['name'] = $session->name;
@@ -2125,19 +2179,21 @@ class Sessions extends AdminController
                     $newsession['session_information'] = $session->session_information;
                     $new_id = $this->sessions_model->add($newsession);
                     if ($new_id) {
-                        $reminder = [];
-                        $reminder['date'] = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
-                        $time = strtotime($reminder['date']);
+                        $this->send_next_session_to_customer($new_id);
+                        $date = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
+                        $time = strtotime($date);
                         $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
-                        $reminder['date'] = date('Y-m-d H:i:s', $time);
-                        $reminder['time'] = date('H:i', $time);
-                        $reminder['rel_type'] = 'session';
-                        $reminder['rel_id'] = $new_id;
-                        $reminder['staff'] = get_staff_user_id();
-                        $reminder['notify_by_email'] = 1;
-                        $reminder['description'] = 'تذكير للجلسة ' . $session->name;
-                        $this->misc_model->add_reminder($reminder, $new_id);
-
+                        if($time > strtotime(date('Y-m-d H:i:s'))) {
+                            $reminder = [];
+                            $reminder['date'] = date('Y-m-d H:i:s', $time);
+                            $reminder['time'] = date('H:i', $time);
+                            $reminder['rel_type'] = 'session';
+                            $reminder['rel_id'] = $new_id;
+                            $reminder['staff'] = get_staff_user_id();
+                            $reminder['notify_by_email'] = 1;
+                            $reminder['description'] = 'تذكير للجلسة ' . $session->name;
+                            $this->misc_model->add_reminder($reminder, $new_id);
+                        }
                         /////
 //                        $task = $this->sessions_model->get($id);
 //                        if (sizeof($task->assignees) == 1 && $task->current_user_is_assigned == 1) {
@@ -2157,8 +2213,10 @@ class Sessions extends AdminController
 //                                //Telegram Chat
 //                            }
 //                        }
-                        $message = _l('add_successfully', _l('session'));
-                        echo $message;
+                        echo 'add_successfully';
+                        die();
+                    }else{
+                        echo $success;
                         die();
                     }
                 }else{
@@ -2189,22 +2247,152 @@ class Sessions extends AdminController
         }
     }
 
-    public function send_report_to_customer($task_id)
+
+    public function send_next_session_to_customer($id)
     {
-        echo $this->sessions_model->update_send_to_customer($task_id);
+        $service_data = $this->sessions_model->get($id);
+        $rel_type = $service_data->rel_type;
+        $rel_id = $service_data->rel_id;
+        $service_id = $this->legal->get_service_id_by_slug($rel_type);
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_case_id($rel_id);
+        }else if($service_id == 22){
+            $client_id = get_client_id_by_disputes_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+            $opponent_id = 0;
+        }
+
+        if($service_data->is_send_opponent) {
+            $send_to = [];
+            $this->db->where('userid', $opponent_id);
+            $this->db->where('active', 1);
+            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            foreach ($contacts as $contact) {
+                array_push($send_to, $contact['id']);
+            }
+            if (count($send_to) > 0) {
+                foreach ($send_to as $contact_id) {
+                    if ($contact_id != '') {
+                        $contact = $this->clients_model->get_contact($contact_id);
+                        if (!$contact) {
+                            continue;
+                        }
+                        send_mail_template('Reminder_for_next_session_action', $contact, $id);
+                    }
+                }
+            }
+        }
+
+        $send_to     = [];
+        $this->db->where('userid', $client_id);
+        $this->db->where('active' , 1);
+        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+        foreach ($contacts as $contact) {
+            array_push($send_to, $contact['id']);
+        }
+        if (is_array($send_to) && count($send_to) > 0) {
+            foreach ($send_to as $contact_id) {
+                if ($contact_id != '') {
+                    $contact = $this->clients_model->get_contact($contact_id);
+                    if (!$contact) {
+                        continue;
+                    }
+                    send_mail_template('Reminder_for_next_session_action', $contact, $id);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
-    public function print_report($task_id)
+    public function send_report_to_customer($id)
     {
-        $response = array();
-        $response = $this->sessions_model->get_session_data($task_id);
-        $client_id = get_client_id_by_case_id($response->tbl1);
-        $opponent_id = get_opponent_id_by_case_id($response->tbl1);
-        $client_name = get_company_name($client_id);
-        $opponent_name = get_company_name($opponent_id);
-        $response->tbl2 = $client_name;
-        $response->tbl3 = $opponent_name;
-        echo json_encode($response);
+        $service_data = $this->sessions_model->get($id);
+        $rel_type = $service_data->rel_type;
+        $rel_id = $service_data->rel_id;
+        $service_id = $this->legal->get_service_id_by_slug($rel_type);
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_case_id($rel_id);
+        }else if($service_id == 22){
+            $client_id = get_client_id_by_disputes_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+            $opponent_id = 0;
+        }
+
+        if($service_data->is_send_opponent) {
+            $send_to = [];
+            $this->db->where('userid', $opponent_id);
+            $this->db->where('active', 1);
+            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            foreach ($contacts as $contact) {
+                array_push($send_to, $contact['id']);
+            }
+            if (count($send_to) > 0) {
+                foreach ($send_to as $contact_id) {
+                    if ($contact_id != '') {
+                        $contact = $this->clients_model->get_contact($contact_id);
+                        if (!$contact) {
+                            continue;
+                        }
+                        $template = mail_template('send_report_session_to_customer', $contact,$service_data);
+                        set_mailing_constant();
+                        $pdf    = session_report_pdf($this->get($id));
+                        $attach = $pdf->Output($service_data->name . '.pdf', 'S');
+                        $template->add_attachment([
+                            'attachment' => $attach,
+                            'filename'   => str_replace('/', '-', $service_data->name . '.pdf'),
+                            'type'       => 'application/pdf',
+                        ]);
+                        $template->send();
+                    }
+                }
+            }
+        }
+
+        $send_to     = [];
+        $this->db->where('userid', $client_id);
+        $this->db->where('active' , 1);
+        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+        foreach ($contacts as $contact) {
+            array_push($send_to, $contact['id']);
+        }
+        if (is_array($send_to) && count($send_to) > 0) {
+            foreach ($send_to as $contact_id) {
+                if ($contact_id != '') {
+                    $contact = $this->clients_model->get_contact($contact_id);
+                    if (!$contact) {
+                        continue;
+                    }
+                    $template = mail_template('send_report_session_to_customer', $contact,$service_data);
+                    set_mailing_constant();
+                    $pdf    = session_report_pdf($this->get($id));
+                    $attach = $pdf->Output($service_data->name . '.pdf', 'S');
+                    $template->add_attachment([
+                        'attachment' => $attach,
+                        'filename'   => str_replace('/', '-', $service_data->name . '.pdf'),
+                        'type'       => 'application/pdf',
+                    ]);
+                    $template->send();
+                }
+            }
+
+            $this->db->where(array('task_id' => $id));
+            $this->db->set(array('send_to_customer' => 1));
+            $this->db->update(db_prefix() .'my_session_info');
+            if ($this->db->affected_rows() > 0) {
+                log_activity(' Send Report To Customer [ Session ID ' . $id . ']');
+                echo true;
+            }
+        }else{
+            echo 'error_client';
+        }
+        echo false;
     }
 
     public function checklist_items_description($task_id)

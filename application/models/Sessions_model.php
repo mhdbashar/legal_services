@@ -2559,121 +2559,15 @@ class Sessions_model extends App_Model
         return $this->db->get('tblmy_judges')->result_array();
     }
 
-    public function update_customer_report($id, $data)
+    public function add_session_report($id, $data)
     {
-        if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
-            $send_mail_to_opponent = true;
-            unset($data['send_mail_to_opponent']);
-        }else{
-            $send_mail_to_opponent = false;
-            unset($data['send_mail_to_opponent']);
-        }
-        if(isset($data['next_session_date'])) $data['next_session_date'] = to_sql_date($data['next_session_date']);
         $this->db->where('task_id' , $id);
+        $data['customer_report'] = 1;
         $this->db->update(db_prefix() .'my_session_info', $data);
         if ($this->db->affected_rows() > 0) {
-            $sent = $this->send_mail_next_action_session($id, $send_mail_to_opponent);
-            if ($sent == 1) {
-                $this->db->where('task_id', $id);
-                $this->db->set('customer_report', 1);
-                $this->db->update(db_prefix() . 'my_session_info');
-                if ($this->db->affected_rows() > 0) {
-                    log_activity(' Customer report added [ Session ID ' . $id . ']');
-                    return true;
-                }
-            } else {
-                return $sent;
-            }
-        }
-        return false;
-    }
-
-    function send_mail_next_action_session($id, $send_mail_to_opponent)
-    {
-        $this->db->where('id', $id);
-        $row = $this->db->get(db_prefix() .'tasks')->row();
-        $rel_type = $row->rel_type;
-        $rel_id = $row->rel_id;
-        $service_id = $this->legal->get_service_id_by_slug($rel_type);
-        if($service_id == 1){
-            $client_id = get_client_id_by_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_case_id($rel_id);
-        }else if($service_id == 22){
-            $client_id = get_client_id_by_disputes_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
-        }else{
-            $client_id = get_client_id_by_oservice_id($rel_id);
-            $opponent_id = 0;
-        }
-
-
-//        $this->db->where('userid', $client_id);
-//        $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
-//        if(!isset($contact_client)){
-//            echo 'error_client'; // This customer doesn't have primary contact
-//            return;
-//        }
-        if($send_mail_to_opponent == true){
-            $send_to     = [];
-            $this->db->where('userid', $opponent_id);
-            $this->db->where('active' , 1);
-            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-            foreach ($contacts as $contact) {
-                array_push($send_to, $contact['id']);
-            }
-            if (count($send_to) > 0) {
-                foreach ($send_to as $contact_id) {
-                    if ($contact_id != '') {
-                        $contact = $this->clients_model->get_contact($contact_id);
-                        if (!$contact) {
-                            continue;
-                        }
-                        send_mail_template('reminder_for_next_session_action',$contact, $id);
-                    }
-                }
-            }else{
-                echo 'error_opponent'; // This opponent doesn't have primary contact
-                return;
-            }
-//            $this->db->where('userid', $opponent_id);
-//            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
-//            if(!isset($contact_opponent)){
-//                echo 'error_opponent'; // This opponent doesn't have primary contact
-//                return;
-//            }  else{
-//                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
-//            }
-
-        }
-
-//        if(isset($contact_client)){ // && isset($contact_opponent)
-//            send_mail_template('reminder_for_next_session_action',$contact_client, $id);
-//            return true;
-//        }
-
-        $send_to     = [];
-        $this->db->where('userid', $client_id);
-        $this->db->where('active' , 1);
-        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-        foreach ($contacts as $contact) {
-            array_push($send_to, $contact['id']);
-        }
-        if (count($send_to) > 0) {
-            foreach ($send_to as $contact_id) {
-                if ($contact_id != '') {
-                    $contact = $this->clients_model->get_contact($contact_id);
-                    if (!$contact) {
-                        continue;
-                    }
-                    send_mail_template('reminder_for_next_session_action',$contact, $id);
-                }
-            }
+            log_activity(' Customer report added [ Session ID ' . $id . ']');
             return true;
-        }else{
-            echo 'error_client'; // This opponent doesn't have primary contact
-            return;
         }
-
         return false;
     }
 
@@ -2693,53 +2587,6 @@ class Sessions_model extends App_Model
             return 2;
         }
         return false;
-    }
-
-    public function send_mail_to_client($id)
-    {
-        $this->db->where('id', $id);
-        $service_data = $this->db->get(db_prefix() .'tasks')->row();
-        $rel_type = $service_data->rel_type;
-        $rel_id = $service_data->rel_id;
-        $service_id = $this->legal->get_service_id_by_slug($rel_type);
-        if($service_id == 1){
-            $client_id = get_client_id_by_case_id($rel_id);
-        }else if($service_id == 22){
-            $client_id = get_client_id_by_disputes_case_id($rel_id);
-        }else{
-            $client_id = get_client_id_by_oservice_id($rel_id);
-        }
-
-        $emails_sent = [];
-        $send_to     = [];
-        $this->db->where('userid', $client_id);
-        $this->db->where('active' , 1);
-        $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-        foreach ($contacts as $contact) {
-            array_push($send_to, $contact['id']);
-        }
-        if (is_array($send_to) && count($send_to) > 0) {
-            foreach ($send_to as $contact_id) {
-                if ($contact_id != '') {
-                    $contact = $this->clients_model->get_contact($contact_id);
-                    if (!$contact) {
-                        continue;
-                    }
-                    $template = mail_template('send_report_session_to_customer', $contact,$service_data);
-                    set_mailing_constant();
-                    $pdf    = session_report_pdf($this->get($id));
-                    $attach = $pdf->Output($service_data->name . '.pdf', 'S');
-                    $template->add_attachment([
-                        'attachment' => $attach,
-                        'filename'   => str_replace('/', '-', $service_data->name . '.pdf'),
-                        'type'       => 'application/pdf',
-                    ]);
-                    $template->send();
-                }
-            }
-            return true;
-        }
-        return 2; // This customer doesn't have primary contact
     }
 
     public function get_session_data($task_id)

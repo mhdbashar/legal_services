@@ -47,10 +47,9 @@ $export_candidate='
                 ' . _l('court_decision') . ' :  ' . $court_decision ;
     if (count($checklist_items) > 0){
         $export_candidate .='<h3 style="background-color: silver;text-align: center">'._l('add_checklist_item').'</h3><br /><br />';
+        $i = 1;
         foreach ($checklist_items as $list) {
-            $export_candidate .= $list['finished'] == 1 ? get_staff_full_name($list['finished_from']): '.';
-            $export_candidate .= 'بواسطة أنجزت  ';
-            $export_candidate .= ' : ' . $list['description'];
+            $export_candidate .= $i. '  ' . $list['description'];
             $export_candidate .='<br />';
         }
     }

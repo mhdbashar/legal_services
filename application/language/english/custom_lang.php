@@ -4096,5 +4096,6 @@ $lang['Regular duration Reminder'] = "Regular duration Reminder";
 $lang['remember that'] = "remember that";
 $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
+$lang['session_report_added'] = 'added session report %s ...';
 
 

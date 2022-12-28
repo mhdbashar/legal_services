@@ -2118,7 +2118,6 @@ class Sessions extends AdminController
                     die();
                 }else{
                     $data['is_send_opponent'] = 1;
-                    unset($data['send_mail_to_opponent']);
                 }
             }
 
@@ -2142,6 +2141,7 @@ class Sessions extends AdminController
                 unset($data['next_session_date'],$data['next_session_time']);
             }
 
+            unset($data['send_mail_to_opponent']);
             $success = $this->sessions_model->add_session_report($id, $data);
             if($success) {
                 $session = $this->sessions_model->get($id);

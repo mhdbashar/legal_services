@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="clearfix"></div>
 <?php if(count($checklists) > 0){ ?>
+<?php $hide_completed_items = isset($hide_completed_items) ? $hide_completed_items : 0; ?>
     <h4 class="bold chk-heading th font-medium pull-left"><?php echo _l('task_checklist_items'); ?></h4>
     <div class="pull-right chk-toggle-buttons">
         <button class="btn btn-xs btn-default<?php echo $hide_completed_items == 1 ? ' hide': '' ?>"

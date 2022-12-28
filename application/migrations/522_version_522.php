@@ -38,7 +38,7 @@ class Migration_Version_522 extends CI_Migration
             $data = [
                 'type'=>'sessions', 'slug'=>'send_report_session_to_staff', 'language'=>'arabic', 'name'=>'مراجعة تقرير الجلسة (مرسل إلى فريق العمل)', 'subject'=>'تم إنشاء تقرير لجلسة', 'message'=>'', 'fromname'=>'', 'fromemail'=>'{companyname}', 'plaintext'=>'0', 'active'=>'1', 'order'=>'0',
             ];
-            $this->db->insert(db_prefix() . 'sessions_checklist_templates',$data);
+            $this->db->insert(db_prefix() . 'emailtemplates',$data);
             //
             $this->db->where('type','sessions');
             $this->db->where('slug','next_session_action');

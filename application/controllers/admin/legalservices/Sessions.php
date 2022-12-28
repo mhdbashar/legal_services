@@ -2343,7 +2343,7 @@ class Sessions extends AdminController
                         }
                         $template = mail_template('send_report_session_to_customer', $contact,$service_data);
                         set_mailing_constant();
-                        $pdf    = session_report_pdf($this->get($id));
+                        $pdf    = session_report_pdf($this->sessions_model->get($id));
                         $attach = $pdf->Output($service_data->name . '.pdf', 'S');
                         $template->add_attachment([
                             'attachment' => $attach,
@@ -2372,7 +2372,7 @@ class Sessions extends AdminController
                     }
                     $template = mail_template('send_report_session_to_customer', $contact,$service_data);
                     set_mailing_constant();
-                    $pdf    = session_report_pdf($this->get($id));
+                    $pdf    = session_report_pdf($this->sessions_model->get($id));
                     $attach = $pdf->Output($service_data->name . '.pdf', 'S');
                     $template->add_attachment([
                         'attachment' => $attach,

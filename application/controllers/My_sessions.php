@@ -16,18 +16,22 @@ class My_sessions extends ClientsController
 
 
         $data=[];
-        $session = $this->sessions_model->get_with_session_info($id);
-        $session->checklist_items = $this->sessions_model->get_checklist_items($id);
+        $session = $this->sessions_model->get($id);
         $session->title         = _l('session_report');
         if($session->rel_type == 'kd-y'){
-            $case = get_case_by_id($session->rel_id);
-            $session->clientid = $case->clientid;
-            $session->opponent_id = $case->opponent_id;
+            $session->clientid = get_client_id_by_case_id($session->rel_id);
+            $session->opponent_id = get_opponent_id_by_case_id($session->rel_id);
         }elseif ($session->rel_type == 'kdaya_altnfith'){
-            $case = get_disputes_case($session->rel_id);
-            $session->clientid = $case->clientid;
-            $session->opponent_id = $case->opponent_id;
+            $session->clientid = get_client_id_by_disputes_case_id($session->rel_id);
+            $opponents = get_disputes_cases_opponents_by_case_id($session->rel_id);
+            foreach ($opponents as $opponent){
+                if($opponent->opponent_id > 0) $session->opponent_id = $opponent->opponent_id;break;
+            }
+        }else{
+            $session->clientid = get_client_id_by_oservice_id($session->rel_id);
+            $session->opponent_id = 0;
         }
+
         $data['session'] = $session;
         if ($this->input->post('invoicepdf') || $downlod == 1 ){
             try {

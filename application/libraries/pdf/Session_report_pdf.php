@@ -17,11 +17,6 @@ class Session_report_pdf extends App_pdf
 
         parent::__construct();
 
-        if (!class_exists('Sessions_model', false)) {
-            $this->ci->load->model('sessions_model');
-
-        }
-
         $this->tag = $tag;
         $this->session = $session;
 

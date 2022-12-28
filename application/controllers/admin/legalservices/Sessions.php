@@ -2157,7 +2157,7 @@ class Sessions extends AdminController
                             ]),
                         ]);
                         if ($notified) {
-                            pusher_trigger_notification([$data['follower']]);
+                            pusher_trigger_notification([$staff_id]);
                         }
                     }
                 }
@@ -2183,7 +2183,7 @@ class Sessions extends AdminController
                     $newsession['session_information'] = $session->session_information;
                     $new_id = $this->sessions_model->add($newsession);
                     if ($new_id) {
-                        $this->send_next_session_to_customer($new_id);
+                        $this->send_next_session_to_customer($id);
                         $date = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
                         $time = strtotime($date);
                         $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);

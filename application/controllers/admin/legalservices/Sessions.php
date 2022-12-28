@@ -2100,7 +2100,10 @@ class Sessions extends AdminController
                 $opponent_id = get_opponent_id_by_case_id($rel_id);
             }else if($service_id == 22){
                 $client_id = get_client_id_by_disputes_case_id($rel_id);
-                $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+                $opponents = get_disputes_cases_opponents_by_case_id($rel_id);
+                foreach ($opponents as $opponent){
+                    if($opponent->opponent_id > 0) $opponent_id = $opponent->opponent_id;break;
+                }
             }else{
                 $client_id = get_client_id_by_oservice_id($rel_id);
                 $opponent_id = 0;
@@ -2260,7 +2263,10 @@ class Sessions extends AdminController
             $opponent_id = get_opponent_id_by_case_id($rel_id);
         }else if($service_id == 22){
             $client_id = get_client_id_by_disputes_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+            $opponents = get_disputes_cases_opponents_by_case_id($rel_id);
+            foreach ($opponents as $opponent){
+                if($opponent->opponent_id > 0) $opponent_id = $opponent->opponent_id;break;
+            }
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
             $opponent_id = 0;
@@ -2320,7 +2326,10 @@ class Sessions extends AdminController
             $opponent_id = get_opponent_id_by_case_id($rel_id);
         }else if($service_id == 22){
             $client_id = get_client_id_by_disputes_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_disputes_case_id($rel_id);
+            $opponents = get_disputes_cases_opponents_by_case_id($rel_id);
+            foreach ($opponents as $opponent){
+                if($opponent->opponent_id > 0) $opponent_id = $opponent->opponent_id;break;
+            }
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
             $opponent_id = 0;

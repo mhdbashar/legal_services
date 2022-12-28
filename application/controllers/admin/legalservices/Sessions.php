@@ -2115,6 +2115,7 @@ class Sessions extends AdminController
                     die();
                 }else{
                     $data['is_send_opponent'] = 1;
+                    unset($data['send_mail_to_opponent']);
                 }
             }
 

@@ -1971,7 +1971,7 @@ class Sessions extends AdminController
                                         $notification_data = [
                                         'description' => 'not_session_assigned_to_you',
                                         'touserid'    => $user_id,
-                                        'link'        => '#sessionid=' . $id,
+                                        'link'        => 'legalservices/sessions/index/' . $id,
                                         ];
 
                                         $notification_data['additional_data'] = serialize([

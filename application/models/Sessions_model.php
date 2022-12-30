@@ -1344,7 +1344,7 @@ class Sessions_model extends App_Model
                 $notification_data = [
                     'description' => ($cronOrIntegration == false ? 'not_session_assigned_to_you' : 'new_session_assigned_non_user'),
                     'touserid'    => $data['assignee'],
-                    'link'        => '#sessionid=' . $data['taskid'],
+                    'link'        => 'legalservices/sessions/index/' . $data['taskid'],
                 ];
 
                 $notification_data['additional_data'] = serialize([
@@ -1988,7 +1988,7 @@ class Sessions_model extends App_Model
             }
 
             if ($this->should_staff_receive_notification($member['staffid'], $taskid)) {
-                $link = '#sessionid=' . $taskid;
+                $link = 'legalservices/sessions/index/' . $taskid;
 
                 if ($comment_id) {
                     $link .= '#comment_' . $comment_id;

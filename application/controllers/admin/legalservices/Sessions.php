@@ -2151,7 +2151,7 @@ class Sessions extends AdminController
                         $notified = add_notification([
                             'description'     => 'session_report_added',
                             'touserid'        => $staff_id,
-                            'link'            => admin_url('legalservices/sessions/index/' . $id),
+                            'link'            => 'legalservices/sessions/index/' . $id,
                             'additional_data' => serialize([
                                 $session->name,
                             ]),
@@ -2183,7 +2183,6 @@ class Sessions extends AdminController
                     $newsession['session_information'] = $session->session_information;
                     $new_id = $this->sessions_model->add($newsession);
                     if ($new_id) {
-                        $this->send_next_session_to_customer($id);
                         $date = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
                         $time = strtotime($date);
                         $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);
@@ -2318,6 +2317,9 @@ class Sessions extends AdminController
     public function send_report_to_customer($id)
     {
         $service_data = $this->sessions_model->get($id);
+        if($service_data->next_session_date != ''){
+            $this->send_next_session_to_customer($id);
+        }
         $rel_type = $service_data->rel_type;
         $rel_id = $service_data->rel_id;
         $service_id = $this->legal->get_service_id_by_slug($rel_type);

@@ -3885,6 +3885,8 @@ $lang['add_report_session'] = 'Add Report';
 $lang['permission_edite_report'] = 'Edite Report';
 $lang['permission_send_report'] = 'Send Report';
 $lang['no_primary_followers'] = 'No Primary Follower';
+$lang['not_sessions_added_you_as_follower'] = 'added you as follower on session %s ...';
+
 
 
 

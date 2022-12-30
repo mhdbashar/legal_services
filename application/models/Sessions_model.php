@@ -1264,9 +1264,9 @@ class Sessions_model extends App_Model
 
             if (get_staff_user_id() != $data['follower']) {
                 $notified = add_notification([
-                    'description'     => 'not_task_added_you_as_follower',
+                    'description'     => 'not_sessions_added_you_as_follower',
                     'touserid'        => $data['follower'],
-                    'link'            => '#taskid=' . $data['taskid'],
+                    'link'            => 'legalservices/sessions/index/' . $data['taskid'],
                     'additional_data' => serialize([
                         $taskName,
                     ]),

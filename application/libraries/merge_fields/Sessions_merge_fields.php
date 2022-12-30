@@ -147,11 +147,6 @@ class Sessions_merge_fields extends App_merge_fields
         $fields = [];
         $session_info = $this->ci->sessions_model->get($task_id);
 
-//        $this->ci->db->where('id', $task_id);
-//        $task = $this->ci->db->get(db_prefix().'tasks')->row();
-//        $this->ci->db->where('task_id', $task_id);
-//        $session_info = $this->ci->db->get(db_prefix() .'my_session_info')->row();
-
         if(isset($session_info->rel_type) && $session_info->rel_type != null) {
             $service_id = $this->ci->legal->get_service_id_by_slug($session_info->rel_type);
         }

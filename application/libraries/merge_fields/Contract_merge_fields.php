@@ -97,6 +97,9 @@ class Contract_merge_fields extends App_merge_fields
             return $fields;
         }
 
+
+        $currency = get_base_currency();
+
         $CI = &get_instance();
         $CI->load->library('app_modules');
         if($CI->app_modules->is_active('hr')) {
@@ -108,8 +111,6 @@ class Contract_merge_fields extends App_merge_fields
         }else{
             $fields['{document_number}'] = '';
         }
-
-        $currency = get_base_currency();
 
         $fields['{contract_id}'] = $contract->id;
         $fields['{contract_subject}'] = $contract->subject;

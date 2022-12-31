@@ -107,7 +107,7 @@
                         </div>
                         <div class="form-group select-placeholder">
                             <label for="staff" class="control-label">
-                                <?php echo _l('sale_agent_string'); ?>
+                                <?php echo _l('company_representative'); ?>
                             </label>
                             <select name="staff" id="staff" class="form-control selectpicker" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-width="100%">
                                 <option value=""><?php echo _l('ticket_settings_none_assigned'); ?></option>

@@ -4100,5 +4100,6 @@ $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
 $lang['session_report_added'] = 'added session report %s ...';
 $lang['staff_document_number'] = "ٍStaff Document Number";
+$lang['company_representative'] = "The Company's Representative";
 
 

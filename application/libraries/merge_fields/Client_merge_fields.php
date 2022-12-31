@@ -430,7 +430,7 @@ class Client_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name' => _l('id_number'),
+                'name' => _l('client_id_number'),
                 'key' => '{client_id_number}',
                 'available' => [
                     'client',
@@ -445,7 +445,7 @@ class Client_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name' => _l('id_number'),
+                'name' => _l('contact_id_number'),
                 'key' => '{contact_id_number}',
                 'available' => [
                     'client',

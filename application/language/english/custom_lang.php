@@ -12,6 +12,8 @@ $lang['street_name'] = 'Street name';
 $lang['additional_number'] = 'Additional NO';
 $lang['unit_number'] = 'Unit NO';
 $lang['id_number'] = 'ID NO';
+$lang['contact_id_number'] = 'Contact ID NO';
+$lang['client_id_number'] = 'Client ID NO';
 
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
@@ -4097,5 +4099,6 @@ $lang['remember that'] = "remember that";
 $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
 $lang['session_report_added'] = 'added session report %s ...';
+$lang['staff_document_number'] = "ٍStaff Document Number";
 
 

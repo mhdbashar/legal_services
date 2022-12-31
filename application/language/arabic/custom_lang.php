@@ -12,6 +12,8 @@ $lang['street_name'] = 'اسم الشارع';
 $lang['additional_number'] = 'الرقم الاضافي';
 $lang['unit_number'] = 'رقم الوحدة';
 $lang['id_number'] = 'رقم الهوية';
+$lang['contact_id_number'] = 'رقم الهوية لجهة الاتصال';
+$lang['client_id_number'] = 'رقم الهوية للعميل';
 
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
@@ -1154,6 +1156,7 @@ $lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة ال�
 $lang['remember that'] = "تذكر أن المدة النظامية";
 $lang['which started at'] = "والتي بدأت بتاريخ ";
 $lang['will end at'] = "ستنتهي بتاريخ ";
+$lang['staff_document_number'] = "رقم الوثيقة الرسمية لمندوب المبيعات";
 
 
 

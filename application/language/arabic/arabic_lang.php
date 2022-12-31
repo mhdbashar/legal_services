@@ -3460,7 +3460,7 @@ $lang['permission_send_report'] = 'إرسال تقرير';
 $lang['no_primary_followers'] = 'لا يوجد متابع للجلسة';
 $lang['session_report_added'] = 'تمت إضافة تقرير للجلسة %s ...';
 $lang['not_sessions_added_you_as_follower'] = 'تمت أضافك كمتابع في الجلسة  %s ...';
-$lang['company_representative'] = "مندوب المبيعات";
+$lang['company_representative'] = "ممثل المنشأة";
 
 
 

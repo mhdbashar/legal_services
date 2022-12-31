@@ -101,7 +101,15 @@ class Contract_merge_fields extends App_merge_fields
         $fields['{contract_contract_value}'] = app_format_money($contract->contract_value, $currency);
 
         $fields['{contract_link}']      = site_url('contract/' . $contract->id . '/' . $contract->hash);
-        $fields['{service_name}']       = get_project_name_by_id($contract->project_id);
+
+        if($contract->rel_stype == 'kd-y'){
+            $fields['{service_name}']       = get_case_name_by_id($contract->rel_sid);
+        }else if($contract->rel_stype == 'kdaya_altnfith'){
+            $fields['{service_name}']       = get_disputes_case_name_by_id($contract->rel_sid);
+        }else{
+            $fields['{service_name}']       = get_project_name_by_id($contract->rel_sid);
+        }
+
         $fields['{contract_short_url}'] = get_contract_shortlink($contract);
 
         $custom_fields = get_custom_fields('contracts');

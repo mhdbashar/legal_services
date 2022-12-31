@@ -111,6 +111,13 @@ class Contracts extends AdminController
         $data['legal_services'] = $this->legal->get_all_services([], true);
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
+
+        $whereStaff                 = [];
+        if (get_option('access_tickets_to_none_staff_members') == 0) {
+            $whereStaff['is_not_staff'] = 0;
+        }
+        $data['staff']     = $this->staff_model->get('', $whereStaff);
+
         $this->load->view('admin/contracts/contract', $data);
     }
 

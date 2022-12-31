@@ -96,8 +96,18 @@ class Contract_merge_fields extends App_merge_fields
         if (!$contract) {
             return $fields;
         }
-        $this->ci->db->where('staff_id', $contract->staff);
-        $staff = $this->ci->db->get(db_prefix() . 'hr_immigration')->row();
+
+        $CI = &get_instance();
+        $CI->load->library('app_modules');
+        if($CI->app_modules->is_active('hr')) {
+            $this->ci->db->where('staff_id', $contract->staff);
+            $staff = $this->ci->db->get(db_prefix() . 'hr_immigration')->row();
+            if ($staff) {
+                $fields['{document_number}'] = $staff->document_number;
+            }
+        }else{
+            $fields['{document_number}'] = '';
+        }
 
         $currency = get_base_currency();
 
@@ -119,9 +129,6 @@ class Contract_merge_fields extends App_merge_fields
             $fields['{service_name}'] = get_project_name_by_id($contract->rel_sid);
         }
 
-        if ($staff) {
-            $fields['{document_number}'] = $staff->document_number;
-        }
 
         $fields['{contract_short_url}'] = get_contract_shortlink($contract);
 

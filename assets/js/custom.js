@@ -1184,7 +1184,7 @@ function init_previous_sessions_log_table(rel_id, rel_type, selector) {
         url += '?bulk_actions=true';
     }
 
-    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'desc']);
 }
 
 // Initing waiting_sessions_log tables
@@ -1209,7 +1209,7 @@ function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
         url += '?bulk_actions=true';
     }
 
-    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'desc']);
 }
 
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.

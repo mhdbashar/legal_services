@@ -2,8 +2,8 @@
 <?php
 $CI = &get_instance();
 $CI->load->library('app_modules');
-$session->startdate = $CI->app_modules->is_active('hijri') ? _d($session->startdate) . '  ||  ' . to_hijri_date(_d($session->startdate)) : _d($session->startdate);
-$session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session->next_session_date) . '  ||  ' . to_hijri_date(_d($session->next_session_date)) : _d($session->next_session_date);
+$session->startdate = $CI->app_modules->is_active('hijri') ? _d($session->startdate) . _l('correspond') . to_hijri_date(_d($session->startdate)) : _d($session->startdate);
+$session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session->next_session_date) . _l('correspond') . to_hijri_date(_d($session->next_session_date)) : _d($session->next_session_date);
 
 $time_format = get_option('time_format');
 $session->time = $time_format === '24' ? date('h:i', strtotime($session->time)) : date('h:i a', strtotime($session->time));

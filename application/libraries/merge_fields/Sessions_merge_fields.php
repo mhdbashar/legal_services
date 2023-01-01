@@ -7,13 +7,13 @@ class Sessions_merge_fields extends App_merge_fields
     public function build()
     {
         return [
-//            [
-//                'name'      => _l('staff_contact_who_take_action_on_session'),
-//                'key'       => '{session_user_take_action}',
-//                'available' => [
-//                    'sessions',
-//                ],
-//            ],
+            [
+                'name'      => _l('staff_contact_who_take_action_on_session'),
+                'key'       => '{session_user_take_action}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
             [
                 'name'      => _l('session_link'),
                 'key'       => '{session_link}',
@@ -170,11 +170,11 @@ class Sessions_merge_fields extends App_merge_fields
             $fields['{session_link}'] = site_url('clients/project/' . $session_info->rel_id . '?group=project_tasks&taskid=' . $task_id);
         }
 
-//        if (is_client_logged_in()) {
-//            $fields['{session_user_take_action}'] = get_contact_full_name(get_contact_user_id());
-//        } else {
-//            $fields['{session_user_take_action}'] = get_staff_full_name(get_staff_user_id());
-//        }
+        if (is_client_logged_in()) {
+            $fields['{session_user_take_action}'] = get_contact_full_name(get_contact_user_id());
+        } else {
+            $fields['{session_user_take_action}'] = get_staff_full_name(get_staff_user_id());
+        }
 
         $fields['{session_comment}'] = '';
         $fields['{session_related}'] = '';
@@ -253,14 +253,9 @@ class Sessions_merge_fields extends App_merge_fields
         $fields['{session_information}']   = $session_info->session_information;
         $fields['{court_decision}']   = $session_info->court_decision;
 
-        $this->ci->db->where('taskid', $task_id);
-        $this->ci->db->limit(1);
-        $this->ci->db->order_by('dateadded', 'desc');
-        $comment = $this->ci->db->get(db_prefix().'task_comments')->row();
-
-        if ($comment) {
-            $fields['{session_comment}'] = $comment->content;
-            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $comment->id;
+        if (count($session_info->comments) > 0) {
+            $fields['{session_comment}'] = $session_info->comments[0]->content;
+            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $session_info->comments[0]->id;
         }
 
         $fields['{checklist_items}'] = '';

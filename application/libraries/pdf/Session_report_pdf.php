@@ -27,9 +27,9 @@ class Session_report_pdf extends App_pdf
     {
         $CI = &get_instance();
         $CI->load->library('app_modules');
-        $this->session->duedate = $CI->app_modules->is_active('hijri') ? _d($this->session->duedate) . '  &  ' . to_hijri_date(_d($this->session->duedate)) : _d($this->session->duedate);
-        $this->session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($this->session->next_session_date) . '  &  ' . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
-        $this->session->startdate = $CI->app_modules->is_active('hijri') ? _d($this->session->startdate) . '  &  ' . to_hijri_date(_d($this->session->startdate)) : _d($this->session->startdate);
+        $this->session->duedate = $CI->app_modules->is_active('hijri') ? _d($this->session->duedate) . _l('correspond') . to_hijri_date(_d($this->session->duedate)) : _d($this->session->duedate);
+        $this->session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($this->session->next_session_date) . _l('correspond') . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
+        $this->session->startdate = $CI->app_modules->is_active('hijri') ? _d($this->session->startdate) . _l('correspond') . to_hijri_date(_d($this->session->startdate)) : _d($this->session->startdate);
 
         $time_format = get_option('time_format');
         $this->session->time = $time_format === '24' ? date('h:i', strtotime($this->session->time)) : date('h:i a', strtotime($this->session->time));

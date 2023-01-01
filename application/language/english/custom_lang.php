@@ -4101,5 +4101,6 @@ $lang['will end at '] = "will end at ";
 $lang['session_report_added'] = 'added session report %s ...';
 $lang['staff_document_number'] = "The Company's Representative Document Number";
 $lang['company_representative'] = "The Company's Representative";
+$lang['correspond'] = " <-> ";
 
 

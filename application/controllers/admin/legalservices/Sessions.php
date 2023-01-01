@@ -2183,6 +2183,20 @@ class Sessions extends AdminController
                     $newsession['session_information'] = $session->session_information;
                     $new_id = $this->sessions_model->add($newsession);
                     if ($new_id) {
+                        foreach ($session->followers_ids as $staff_id){
+                            if (get_staff_user_id() != $staff_id) {
+                                $add_follower['taskid'] = $new_id;
+                                $add_follower['follower'] = $staff_id;
+                                $this->sessions_model->add_task_followers($add_follower);
+                            }
+                        }
+                        if(count($session->assignees_ids) > 0){
+                            foreach ($session->assignees_ids as $staff_id) {
+                                $add_assignees['taskid'] = $new_id;
+                                $add_assignees['assignee'] = $staff_id;
+                                $this->sessions_model->add_task_assignees($add_assignees);
+                            }
+                        }
                         $date = $data['next_session_date'] . ' ' . $data['next_session_time'] . ':00';
                         $time = strtotime($date);
                         $time = strtotime('-' . get_option('sessions_reminder_notification_before') . ' hours', $time);

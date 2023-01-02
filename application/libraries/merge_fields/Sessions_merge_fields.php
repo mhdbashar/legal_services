@@ -254,8 +254,11 @@ class Sessions_merge_fields extends App_merge_fields
         $fields['{court_decision}']   = $session_info->court_decision;
 
         if (count($session_info->comments) > 0) {
-            $fields['{session_comment}'] = $session_info->comments[0]->content;
-            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $session_info->comments[0]->id;
+            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $session_info->comments[0]['id'];
+            $i = 1;
+            foreach ($session_info->comments as $comment){
+                $fields['{session_comment}'] .= $i .' - '.$comment['content'].'<br>';
+            }
         }
 
         $fields['{checklist_items}'] = '';

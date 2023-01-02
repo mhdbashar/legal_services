@@ -253,12 +253,13 @@ class Sessions_merge_fields extends App_merge_fields
         $fields['{session_information}']   = $session_info->session_information;
         $fields['{court_decision}']   = $session_info->court_decision;
 
-        if (count($session_info->comments) > 0) {
-            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $session_info->comments[0]['id'];
-            $i = 1;
-            foreach ($session_info->comments as $comment){
-                $fields['{session_comment}'] .= $i .' - '.$comment['content'].'<br>';
-            }
+        $this->ci->db->where('taskid', $task_id);
+        $this->ci->db->limit(1);
+        $this->ci->db->order_by('dateadded', 'desc');
+        $comment = $this->ci->db->get(db_prefix() . 'task_comments')->row();
+        if ($comment) {
+            $fields['{session_comment}'] = $comment->content;
+            $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $comment->id;
         }
 
         $fields['{checklist_items}'] = '';

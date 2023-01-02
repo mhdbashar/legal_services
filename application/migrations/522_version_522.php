@@ -96,7 +96,7 @@ class Migration_Version_522 extends CI_Migration
 </tr>
 <tr style="height: 17px;">
 <td style="width: 50%; height: 17px;">وقت الجلسة :</td>
-<td style="width: 25%; height: 17px;">{session_duedate}</td>
+<td style="width: 25%; height: 17px;">{session_time}</td>
 </tr>
 <tr style="height: 17px;">
 <td style="width: 50%; height: 17px;">وصف الجلسة :</td>

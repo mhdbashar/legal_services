@@ -235,9 +235,9 @@ class Sessions_merge_fields extends App_merge_fields
         }
         $CI = &get_instance();
         $CI->load->library('app_modules');
-        $session_info->duedate = $CI->app_modules->is_active('hijri') ? _d($session_info->duedate) . '  &  ' . to_hijri_date(_d($session_info->duedate)) : _d($session_info->duedate);
-        $session_info->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session_info->next_session_date) . '  &  ' . to_hijri_date(_d($session_info->next_session_date)) : _d($session_info->next_session_date);
-        $session_info->startdate = $CI->app_modules->is_active('hijri') ? _d($session_info->startdate) . '  &  ' . to_hijri_date(_d($session_info->startdate)) : _d($session_info->startdate);
+        $session_info->duedate = $CI->app_modules->is_active('hijri') ? _d($session_info->duedate) . _l('correspond') . to_hijri_date(_d($session_info->duedate)) : _d($session_info->duedate);
+        $session_info->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session_info->next_session_date) . _l('correspond') . to_hijri_date(_d($session_info->next_session_date)) : _d($session_info->next_session_date);
+        $session_info->startdate = $CI->app_modules->is_active('hijri') ? _d($session_info->startdate) . _l('correspond') . to_hijri_date(_d($session_info->startdate)) : _d($session_info->startdate);
 
         $time_format = get_option('time_format');
         $session_info->time = $time_format === '24' ? date('h:i', strtotime($session_info->time)) : date('h:i a', strtotime($session_info->time));

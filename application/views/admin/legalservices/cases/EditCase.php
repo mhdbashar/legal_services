@@ -439,7 +439,6 @@
                                         <div class="col-md-6">
                                             <?php $value = (isset($case) ? ($case->start_date) : (date('Y-m-d'))); ?>
                                             <?php echo render_date_input('start_date','project_start_date',$value); ?>
-                                            // UPDATE tblmy_cases SET start_date = '2022-10-29' WHERE start_date = '0000-00-00'
                                         </div>
                                         <div class="col-md-6">
                                             <?php $value = isset($case) ? ($case->deadline) : ''; ?>

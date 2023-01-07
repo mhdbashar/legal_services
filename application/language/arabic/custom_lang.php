@@ -12,6 +12,8 @@ $lang['street_name'] = 'اسم الشارع';
 $lang['additional_number'] = 'الرقم الاضافي';
 $lang['unit_number'] = 'رقم الوحدة';
 $lang['id_number'] = 'رقم الهوية';
+$lang['contact_id_number'] = 'رقم الهوية لجهة الاتصال';
+$lang['client_id_number'] = 'رقم الهوية للعميل';
 
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
@@ -900,8 +902,8 @@ $lang['Customer_report'] = "تقرير العميل";
 $lang['Send_to_customer'] = "إرسال للعميل";
 $lang['session_date'] = "تاريخ الجلسة";
 $lang['session_time'] = "وقت الجلسة";
-$lang['Waiting_sessions'] = "جلسات بالانتظار";
-$lang['Previous_Sessions'] = "جلسات سابقة";
+$lang['Waiting_sessions'] = "جلسات قادمة";
+$lang['Previous_Sessions'] = "جلسات منتهية";
 $lang['add_new_session'] = "إضافة جلسة";
 $lang['session_info'] = "وقائع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
@@ -1154,6 +1156,7 @@ $lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة ال�
 $lang['remember that'] = "تذكر أن المدة النظامية";
 $lang['which started at'] = "والتي بدأت بتاريخ ";
 $lang['will end at'] = "ستنتهي بتاريخ ";
+$lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل الشركة";
 
 
 

@@ -105,6 +105,20 @@
                                 <?php echo render_date_input('dateend','contract_end_date',$value); ?>
                             </div>
                         </div>
+                        <div class="form-group select-placeholder">
+                            <label for="staff" class="control-label">
+                                <?php echo _l('company_representative'); ?>
+                            </label>
+                            <select name="staff" id="staff" class="form-control selectpicker" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-width="100%">
+                                <option value=""><?php echo _l('ticket_settings_none_assigned'); ?></option>
+                                <?php $value = (isset($contract) ? $contract->staff : 0); ?>
+                                <?php foreach($staff as $member){ ?>
+                                    <option value="<?php echo $member['staffid']; ?>" <?php if($member['staffid'] == $value){echo 'selected';} ?>>
+                                        <?php echo $member['firstname'] . ' ' . $member['lastname'] ; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
                         <?php $value = (isset($contract) ? $contract->description : ''); ?>
                         <?php echo render_textarea('description','contract_description',$value,array('rows'=>10)); ?>
                         <?php $rel_id = (isset($contract) ? $contract->id : false); ?>

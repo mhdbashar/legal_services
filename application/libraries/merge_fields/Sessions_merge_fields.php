@@ -63,13 +63,13 @@ class Sessions_merge_fields extends App_merge_fields
                     'session-commented-to-contacts',
                 ],
             ],
-            [
-                'name'      => _l('session_priority'),
-                'key'       => '{session_priority}',
-                'available' => [
-                    'sessions',
-                ],
-            ],
+//            [
+//                'name'      => _l('session_priority'),
+//                'key'       => '{session_priority}',
+//                'available' => [
+//                    'sessions',
+//                ],
+//            ],
             [
                 'name'      => _l('session_start_date'),
                 'key'       => '{session_startdate}',
@@ -79,7 +79,7 @@ class Sessions_merge_fields extends App_merge_fields
             ],
             [
                 'name'      => _l('session_due_date'),
-                'key'       => '{session_duedate}',
+                'key'       => '{session_time}',
                 'available' => [
                     'sessions',
                 ],
@@ -126,6 +126,13 @@ class Sessions_merge_fields extends App_merge_fields
                     'sessions',
                 ],
             ],
+            [
+                'name'      => _l('add_checklist_item'),
+                'key'       => '{checklist_items}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
         ];
     }
 
@@ -138,18 +145,12 @@ class Sessions_merge_fields extends App_merge_fields
     public function format($task_id, $client_template = false)
     {
         $fields = [];
+        $session_info = $this->ci->sessions_model->get($task_id);
 
-        $this->ci->db->where('id', $task_id);
-        $task = $this->ci->db->get(db_prefix().'tasks')->row();
-        $this->ci->db->where('task_id', $task_id);
-        $session_info = $this->ci->db->get(db_prefix() .'my_session_info')->row();
-
-
-
-        if(isset($task->rel_type) && $task->rel_type != null) {
-            $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
+        if(isset($session_info->rel_type) && $session_info->rel_type != null) {
+            $service_id = $this->ci->legal->get_service_id_by_slug($session_info->rel_type);
         }
-        if (!$task || !$session_info) {
+        if (!$session_info) {
             return $fields;
         }
 
@@ -158,13 +159,15 @@ class Sessions_merge_fields extends App_merge_fields
         if ($client_template == false) {
             if(isset($service_id)) {
                 if ($service_id == 1) {
-                    $fields['{session_link}'] = admin_url('Case/view/' . $service_id . '/' . $task->rel_id . '?group=CaseSession&sessionid=' . $task_id);
+                    $fields['{session_link}'] = admin_url('Case/view/' . $service_id . '/' . $session_info->rel_id . '?group=CaseSession&sessionid=' . $task_id);
+                }elseif ($service_id == 22){
+                    $fields['{session_link}'] = admin_url('Disputes_cases/view/' . $service_id . '/' . $session_info->rel_id . '?group=CaseSession&sessionid=' . $task_id);
                 } else {
-                    $fields['{session_link}'] = admin_url('SOther/view/' . $service_id . '/' . $task->rel_id . '?group=OserviceSession&sessionid=' . $task_id);
+                    $fields['{session_link}'] = admin_url('SOther/view/' . $service_id . '/' . $session_info->rel_id . '?group=OserviceSession&sessionid=' . $task_id);
                 }
             }
         } else {
-            $fields['{session_link}'] = site_url('clients/project/' . $task->rel_id . '?group=project_tasks&taskid=' . $task_id);
+            $fields['{session_link}'] = site_url('clients/project/' . $session_info->rel_id . '?group=project_tasks&taskid=' . $task_id);
         }
 
         if (is_client_logged_in()) {
@@ -177,30 +180,30 @@ class Sessions_merge_fields extends App_merge_fields
         $fields['{session_related}'] = '';
         $fields['{service_name}'] = '';
 
-        if ($task->rel_type == 'project') {
+        if ($session_info->rel_type == 'project') {
             $this->ci->db->select('name, clientid');
             $this->ci->db->from(db_prefix().'projects');
-            $this->ci->db->where('id', $task->rel_id);
+            $this->ci->db->where('id', $session_info->rel_id);
             $project = $this->ci->db->get()->row();
             if ($project) {
                 $fields['{service_name}'] = $project->name;
             }
         }
 
-        if (!empty($task->rel_id)) {
-            $rel_data                 = get_relation_data($task->rel_type, $task->rel_id);
-            $rel_values               = get_relation_values($rel_data, $task->rel_type);
+        if (!empty($session_info->rel_id)) {
+            $rel_data                 = get_relation_data($session_info->rel_type, $session_info->rel_id);
+            $rel_values               = get_relation_values($rel_data, $session_info->rel_type);
             $fields['{session_related}'] = $rel_values['name'];
         }
 
-        $fields['{session_name}']        = $task->name;
-        $fields['{session_description}'] = $task->description;
+        $fields['{session_name}']        = $session_info->name;
+        $fields['{session_description}'] = $session_info->description;
 
         $languageChanged = false;
 
         // The tasks status may not be translated if the client language is not loaded
         if (!is_client_logged_in()
-            && $task->rel_type == 'project'
+            && $session_info->rel_type == 'project'
             && $project
             && isset($GLOBALS['SENDING_EMAIL_TEMPLATE_CLASS'])
             && !$GLOBALS['SENDING_EMAIL_TEMPLATE_CLASS']->get_staff_id() // email to client
@@ -217,8 +220,8 @@ class Sessions_merge_fields extends App_merge_fields
             }
         }
 
-        $fields['{session_status}']   = format_session_status($task->status, false, true);
-        $fields['{session_priority}'] = session_priority($task->priority);
+        $fields['{session_status}']   = format_session_status($session_info->status, false, true);
+//        $fields['{session_priority}'] = session_priority($task->priority);
 
         $custom_fields = get_custom_fields('sessions');
         foreach ($custom_fields as $field) {
@@ -230,9 +233,18 @@ class Sessions_merge_fields extends App_merge_fields
         } elseif (is_client_logged_in() && $languageChanged) {
             load_client_language();
         }
+        $CI = &get_instance();
+        $CI->load->library('app_modules');
+        $session_info->duedate = $CI->app_modules->is_active('hijri') ? _d($session_info->duedate) . _l('correspond') . to_hijri_date(_d($session_info->duedate)) : _d($session_info->duedate);
+        $session_info->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session_info->next_session_date) . _l('correspond') . to_hijri_date(_d($session_info->next_session_date)) : _d($session_info->next_session_date);
+        $session_info->startdate = $CI->app_modules->is_active('hijri') ? _d($session_info->startdate) . _l('correspond') . to_hijri_date(_d($session_info->startdate)) : _d($session_info->startdate);
 
-        $fields['{session_startdate}'] = _d($task->startdate);
-        $fields['{session_duedate}']   = _d($task->duedate);
+        $time_format = get_option('time_format');
+        $session_info->time = $time_format === '24' ? date('h:i', strtotime($session_info->time)) : date('h:i a', strtotime($session_info->time));
+        $session_info->next_session_time = $time_format === '24' ? date('h:i', strtotime($session_info->next_session_time)) : date('h:i a', strtotime($session_info->next_session_time));
+
+        $fields['{session_startdate}'] = $session_info->startdate;
+        $fields['{session_time}']   = $session_info->time;
         $fields['{comment_link}']   = '';
 
         $fields['{next_session_date}'] = $session_info->next_session_date;
@@ -244,16 +256,23 @@ class Sessions_merge_fields extends App_merge_fields
         $this->ci->db->where('taskid', $task_id);
         $this->ci->db->limit(1);
         $this->ci->db->order_by('dateadded', 'desc');
-        $comment = $this->ci->db->get(db_prefix().'task_comments')->row();
-
+        $comment = $this->ci->db->get(db_prefix() . 'task_comments')->row();
         if ($comment) {
             $fields['{session_comment}'] = $comment->content;
             $fields['{comment_link}'] = $fields['{session_link}'] . '#comment_' . $comment->id;
         }
 
+        $fields['{checklist_items}'] = '';
+        if(count($session_info->checklist_items) > 0){
+            $i = 1;
+            foreach ($session_info->checklist_items as $item){
+                $fields['{checklist_items}'] .= $i . ' - ' .$item['description'].'<br>';
+                $i++;
+            }
+        }
         return hooks()->apply_filters('sessions_merge_fields', $fields, [
             'id'              => $task_id,
-            'task'            => $task,
+            'task'            => $session_info,
             'client_template' => $client_template,
         ]);
     }

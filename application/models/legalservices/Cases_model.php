@@ -3242,6 +3242,9 @@ class Cases_model extends App_Model
         if ($id) {
             if(isset($data['files'])){
                 $files = $this->get_files($project_id);
+                if(!file_exists('uploads/'.$upload_folder)){
+                    mkdir(FCPATH.'uploads/'.$upload_folder, 0755);
+                }
                 if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
                         mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0755);
                 }

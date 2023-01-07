@@ -1369,8 +1369,8 @@ $lang['send_file_subject'] = "موضوع البريد الإلكتروني";
 $lang['send_file_email'] = "عنوان البريد الإلكتروني";
 $lang['send_file_message'] = "الرسالة";
 $lang['send_file'] = "إرسال ملف";
-$lang['add_checklist_item'] = "قائمة مرجعية";
-$lang['task_checklist_items'] = "قوائم مرجعية";
+$lang['add_checklist_item'] = "الطلبات والإجراءات";
+$lang['task_checklist_items'] = "قوائم الطلبات والإجراءات";
 $lang['default_pass_clients_import'] = "كلمة المرور الإفتراضية لكل المستخدمين";
 $lang['simulate_import'] = "محاكاة الاستيراد";
 $lang['import_upload_failed'] = "فشل التحميل";
@@ -1563,7 +1563,7 @@ $lang['not_invoice_sent_to_customer'] = "تم إرسال الفاتورة إلى
 $lang['not_invoice_sent_yes'] = "نعم";
 $lang['not_invoice_sent_not'] = "لا";
 $lang['not_action_taken_from_recurring_invoice'] = "الإجراءات التي اتخذت من الفواتير المتكررة";
-$lang['not_new_reminder_for'] = "إطار جديد لـ %s ";
+$lang['not_new_reminder_for'] = "إخطار جديد لـ %s ";
 $lang['not_received_one_or_more_messages_lead'] = "تلقى رسالة بريد إلكتروني أخرى من العميل المتوقع";
 $lang['not_received_lead_imported_email_integration'] = "العميل المتوقع المستورد من تكامل البريد الإلكتروني";
 $lang['not_lead_imported_attachment'] = "المرفقات المستوردة من البريد الإلكتروني";
@@ -3450,6 +3450,24 @@ $lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية 
 $lang['disputes_invoice_item'] = 'رسوم فاتورة قضية التنفيذ و التحصيل';
 $lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
 $lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
+$lang['sessions_reminder_notification_before'] = 'تذكير الموعد النهائي للجلسة قبل (ساعات)';
+$lang['sessions_reminder_notification_before_help'] = 'إشعار قبل موعد الجلسة بالساعات';
+$lang['next_session_link'] = 'رابط الجلسة القادمة';
+$lang['add_new_session_from_previous'] = 'إضافة جلسة قادمة';
+$lang['add_report_session'] = 'إضافة تقرير';
+$lang['permission_edite_report'] = 'تعديل تقرير';
+$lang['permission_send_report'] = 'إرسال تقرير';
+$lang['no_primary_followers'] = 'لا يوجد متابع للجلسة';
+$lang['session_report_added'] = 'تمت إضافة تقرير للجلسة %s ...';
+$lang['not_sessions_added_you_as_follower'] = 'تمت أضافك كمتابع في الجلسة  %s ...';
+$lang['company_representative'] = "ممثل المنشأة";
+$lang['correspond'] = " الموافق ";
+
+
+
+
+
+
 
 
 

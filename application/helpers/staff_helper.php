@@ -152,7 +152,7 @@ function get_available_staff_permissions($data = [])
         ],
         'sessions' => [
             'name'         => _l('sessions'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn,['send_report' => _l('permission_send_report'), 'edite_report' => _l('permission_edite_report')]),
             'help'        => [
                 'view'     => _l('help_sessions_permissions'),
                 'view_own' => _l('permission_sessions_based_on_assignee'),

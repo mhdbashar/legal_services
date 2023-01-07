@@ -2569,5 +2569,4 @@ class Cron_model extends App_Model
             }
         }
     }
-
 }

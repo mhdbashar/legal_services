@@ -3,13 +3,26 @@ $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
+$time_format = get_option('time_format');
+$format = '';
+$time = '24';
+
+if ($time_format === '24') {
+    $format = '"%H:%i"';
+    $time_type = 'text';
+} else {
+    $time = '12';
+    $format = '"%h:%i %p"';
+    $time_type = 'time';
+}
+
 $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
     db_prefix() . 'tasks.status as status',
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
-    'time',
+    'TIME_FORMAT(time, ' . $format . ') as time',
     'court_name',
     'startdate',
     'customer_report',
@@ -144,7 +157,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputName;
    // $row[] = $aRow['judge'];
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
-    $row[] = $aRow['court_name'];
+    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
 //    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border: 1px solid #989898">لايوجد</span>';
@@ -168,77 +181,31 @@ foreach ($rResult as $aRow) {
 
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 
-
-    // ~startdate
     $row[] = $aRow['time'];
-    if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):
-        $stc = '<a href="#" data-toggle="modal" data-target="#customer_report'.$aRow['id'].'" class="btn btn-info pull-left display-block">';
-        $stc .=  _l('add_new') . '<i class="fa fa-plus"></i>  ';
-        $stc .= '</a>';
-        $stc .= '<div class="modal fade" id="customer_report'.$aRow['id'].'" tabindex="-1" role="dialog" aria-labelledby="customer_report" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">
-                                    <span class="add-title">'._l('Customer_report').'</span>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" app-field-wrapper="date">
-                                            <label for="next_session_date'.$aRow['id'].'" class="control-label">'._l('next_session_date').'</label>
-                                            <div class="input-group date">
-                                                <input type="text" id="next_session_date'.$aRow['id'].'" name="next_session_date" class="form-control datepicker"  autocomplete="off" aria-invalid="false">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar calendar-icon"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6">                                       
-                                        <label for="next_session_time'.$aRow['id'].'" class="control-label">'. _l('next_session_time').'</label>                                           
-                                        <input type="text" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" style="display: block;width: 100%;">                                                                               
-                                    </div>                      
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="bold">'._l('Court_decision').'</p>
-                                        <textarea type="text" class="form-control" id="edit_court_decision'.$aRow['id'].'" name="edit_court_decision" rows="4" placeholder="'. _l('Court_decision').'"></textarea>
-                                    </div>
-                                </div> 
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                      <div class="checkbox checkbox-primary">
-                                            <input type="checkbox" name="send_mail_to_opponent" id="send_mail_to_opponent'.$aRow['id'].'">
-                                            <label for="send_mail_to_opponent'.$aRow['id'].'">'._l('send_mail_to_opponent').'</label>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close').'</button>
-                                <button type="button" onclick="edit_customer_report(' . $aRow['id'] . ')" class="btn btn-info">'. _l('submit').'</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                 init_datepicker();            
-                 load_time_picker(' . $aRow['id'] . ');
-                </script>';
-    elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0):
-        $stc = '<a href="#/" onclick="send_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
-        $stc .= '<i class="fa fa-envelope-o"></i>  </br> '._l('send');
-        $stc .= '</a>';
-    elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1):
-        $stc = '<a href="#/" id="print_btn'.$aRow['id'].'" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
-        $stc .= '<i class="fa fa-print"></i>  </br> '._l('dt_button_print');
-        $stc .= '</a>';
-    endif;
+
+    if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0) {
+        $stc = '<a href="#" class="btn btn-info pull-left display-block" onclick="add_report_session_modal(' . $aRow['id'] . '); return false;">' . _l('add_new') . ' <i class="fa fa-plus"></i>  '. '</a>';
+    }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0) {
+        $stc ='<div class="btn-group">
+                     <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="caret"></span></a>
+                     <ul class="dropdown-menu dropdown-menu-right">';
+        if (has_permission('sessions', '', 'send_report')) {
+            $stc .= '<li class="hidden-xs"><a href="#/" onclick="send_report(' . $aRow['id'] . ')">' . _l('send') . '</a></li>';
+        }
+        if (has_permission('sessions', '', 'edite_report')) {
+            $stc .= '<li class="hidden-xs"><a href="#" onclick="edite_court_decision_modal(' . $aRow['id'] . '); return false">' . _l('edit') . '</a></li>';
+        }
+        $stc .= '</ul> </div>';
+    }elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1) {
+        $stc ='<div class="btn-group">
+                     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i> <span class="caret"></span></a>
+                     <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="hidden-xs"><a href="'.site_url('my_sessions/session_report/').$aRow['id'].'">عرض PDF</a></li>
+                        <li class="hidden-xs"><a href="'.site_url('my_sessions/session_report/').$aRow['id'].'" target="_blank">عرض PDF في علامة تبويب جديدة</a></li>
+                        <li><a href="'.site_url('my_sessions/session_report/').$aRow['id'].'/1'.'">تحميل</a></li>
+                     </ul>
+                  </div>';
+    }
     $row[] = $stc;
 
     // Custom fields add values

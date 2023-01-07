@@ -25,6 +25,7 @@ $aColumns = [
     'send_to_customer',
     'startdate',
     'TIME_FORMAT(time, ' . $format . ') as time',
+    'session_link',
 ];
 
 $sIndexColumn = 'id';
@@ -109,6 +110,7 @@ foreach ($rResult as $aRow) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
     $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
@@ -148,6 +150,10 @@ foreach ($rResult as $aRow) {
     }
     $outputName .= '</div>';
     $row[] = $outputName;
+
+    $row[] = isset($aRow['session_link'])?'<a href="'.$aRow['session_link'].'" target="_blank">'.$aRow['session_link'].'</a>' : '';
+
+
     //$row[] = $aRow['judge'];
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');

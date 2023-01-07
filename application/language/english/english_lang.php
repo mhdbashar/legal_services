@@ -3877,4 +3877,17 @@ $lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'Automat
 $lang['invoice_disputes_case'] = 'Disputes Invoice';
 $lang['disputes_percent_fees'] = 'Disputes Percent Fees';
 $lang['disputes_invoice_item'] = 'Disputes Invoice';
+$lang['sessions_reminder_notification_before'] = 'Remind The Session Deadline Before (hours)';
+$lang['sessions_reminder_notification_before_help'] = 'Notification Hours Before The Session';
+$lang['next_session_link'] = 'Next Session Link';
+$lang['add_new_session_from_previous'] = 'Add An Upcoming Session';
+$lang['add_report_session'] = 'Add Report';
+$lang['permission_edite_report'] = 'Edite Report';
+$lang['permission_send_report'] = 'Send Report';
+$lang['no_primary_followers'] = 'No Primary Follower';
+$lang['not_sessions_added_you_as_follower'] = 'added you as follower on session %s ...';
+
+
+
+
 

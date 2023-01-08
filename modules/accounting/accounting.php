@@ -484,8 +484,7 @@ function acc_automatic_payment_conversion($data) {
 
 	}
 
-
-	return $payment_id;
+	return $data['id'];
 }
 
 function acc_automatic_expense_conversion($expense_id) {

@@ -10,9 +10,6 @@ class Migration_Version_521 extends CI_Migration
     }
     public function up()
     {
-        // Add saudi vat option for invoices and credit notes
-        if(!get_option('saudi_vat'))
-            add_option('saudi_vat', 0);
 
         // Add tblregular_durations table
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblregular_durations` (
@@ -26,19 +23,46 @@ class Migration_Version_521 extends CI_Migration
                 PRIMARY KEY (`id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 
-        // Add new fields to tblmy_cases table
+        // Add tblcases_regular_durations table
+        $this->db->query("CREATE TABLE IF NOT EXISTS `tblcases_regular_durations` (
+              `id` int(11) NOT NULL ,
+                `case_id` varchar (255) NOT NULL,
+                `reg_id` int(11) NOT NULL,
+                `days` int(11) ,
+                `start_date` date ,
+                `end_date` date ,
+                `deadline_notified` int(11) ,
+                `regular_header` int(1) ,
+                `dur_alert_close` date ,
+                 PRIMARY KEY (`id`)
+               
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 
-        if (!$this->db->field_exists('duration_id', db_prefix() . 'my_cases')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `duration_id` int(11) NULL DEFAULT NULL');
+        // Add tbldurations_cases table
+        $this->db->query("CREATE TABLE IF NOT EXISTS `tbldurations_cases` (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+               `reg_id` int(11) NOT NULL,
+               `case_id` int(11) NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
+
+
+        // drop fields from tblmy_cases table
+
+        if ($this->db->field_exists('duration_id', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `duration_id` ');
         }
-        if (!$this->db->field_exists('regular_duration_begin_date', db_prefix() . 'my_cases')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `regular_duration_begin_date` date  NULL DEFAULT NULL');
+        if ($this->db->field_exists('regular_duration_begin_date', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `regular_duration_begin_date` ');
         }
-        if (!$this->db->field_exists('deadline_notified', db_prefix() . 'my_cases')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `deadline_notified` int(11) NOT NULL DEFAULT 0');
+        if ($this->db->field_exists('deadline_notified', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `deadline_notified` ');
         }
-        if (!$this->db->field_exists('regular_header', db_prefix() . 'my_cases')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `regular_header` tinyint(1) NOT NULL DEFAULT 0');
+        if ($this->db->field_exists('regular_header', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `regular_header` ');
+        }
+        if ($this->db->field_exists('dur_alert_close', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `dur_alert_close` ');
         }
 
     }

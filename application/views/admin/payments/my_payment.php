@@ -81,7 +81,7 @@
                                     <?php echo format_organization_info(); ?>
                                 </address>
                             </div>
-                            <div class="col-sm-6 text-right">
+                            <div class="col-sm-6 text-aligh-right">
                                 <address>
 									<span class="bold">
 										<?php echo format_customer_info($payment->invoice, 'payment', 'billing', true); ?>

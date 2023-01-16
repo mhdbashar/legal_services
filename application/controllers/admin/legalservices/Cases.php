@@ -782,6 +782,9 @@ class Cases extends AdminController
             'id' => 0,
             'total_logged_time' => $this->case->calc_milestone_logged_time($data['project_id'], 0),
             'color' => null,
+            'start_date' => "",
+            'due_date' => "",
+
         ];
 
         $_milestones = $this->case->get_milestones($slug, $data['project_id']);
@@ -789,7 +792,8 @@ class Cases extends AdminController
         foreach ($_milestones as $m) {
             $data['milestones'][] = $m;
         }
-
+//print_r($_milestones);
+       // exit();
         echo $this->load->view('admin/legalservices/cases/milestones_kan_ban', $data, true);
     }
 

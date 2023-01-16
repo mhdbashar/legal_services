@@ -231,7 +231,7 @@
                                         )); ?></h4>
                                 </div>
                             <?php } ?>
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6 col-sm-6 ">
                                 <h4 class="bold">
                                     <?php
                                     $tags = get_tags_in($estimate->id,'estimate');
@@ -245,11 +245,11 @@
                            </span>
                                     </a>
                                 </h4>
-                                <address>
+                                <address >
                                     <?php echo format_organization_info(); ?>
                                 </address>
                             </div>
-                            <div class="col-sm-6 text-right">
+                            <div class="col-sm-6 text-aligh-right">
                                 <span class="bold"><?php echo _l('estimate_to'); ?>:</span>
                                 <address>
                                     <?php echo format_customer_info($estimate, 'estimate', 'billing', true); ?>

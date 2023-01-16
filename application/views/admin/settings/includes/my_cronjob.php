@@ -26,6 +26,9 @@
         <a href="#tasks" aria-controls="tasks" role="tab" data-toggle="tab"><?php echo _l('tasks'); ?></a>
     </li>
     <li role="presentation">
+        <a href="#sessions" aria-controls="tasks" role="tab" data-toggle="tab"><?php echo _l('sessions'); ?></a>
+    </li>
+    <li role="presentation">
         <a href="#tickets" aria-controls="tickets" role="tab" data-toggle="tab"><?php echo _l('tickets'); ?></a>
     </li>
     <li role="presentation">
@@ -117,6 +120,11 @@
         </div>
         <hr/>
         <?php render_yes_no_option('create_invoice_from_recurring_only_on_paid_invoices', 'invoices_create_invoice_from_recurring_only_on_paid_invoices', 'invoices_create_invoice_from_recurring_only_on_paid_invoices_tooltip'); ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="sessions">
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
+           data-title="<?php echo _l('sessions_reminder_notification_before_help'); ?>"></i>
+        <?php echo render_input('settings[automatically_stop_session_timer_after_hours]', 'automatically_stop_session_timer_after_hours', get_option('expenses_auto_operations_hour'), 'number', array('max' => 23)); ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="tasks">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"

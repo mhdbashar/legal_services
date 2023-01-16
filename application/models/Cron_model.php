@@ -78,7 +78,7 @@ class Cron_model extends App_Model
             $this->recurring_invoices();
             $this->recurring_expenses();
             $this->send_message_telegram();
-
+            $this->stop_session_timers();
             $this->auto_import_imap_tickets();
             $this->check_leads_email_integration();
             $this->delete_activity_log();
@@ -177,7 +177,22 @@ class Cron_model extends App_Model
             'end_time' => time(),
         ]);
     }
+    public function stop_session_timers()
+    {
+        $older_than_hours = get_option('automatically_stop_session_timer_after_hours');
+        if ($older_than_hours == '0' || empty($older_than_hours)) {
+            return;
+        }
 
+        $older_than_hours = intval($older_than_hours);
+        $time_ago         = strtotime(" - {$older_than_hours} hours");
+        $this->db->where('end_time IS NULL');
+        $this->db->where('task_id !=', '0');
+        $this->db->where('start_time <=', $time_ago);
+        $this->db->update(db_prefix() . 'taskstimers', [
+            'end_time' => time(),
+        ]);
+    }
     private function delete_twocheckout_logs()
     {
         $older_than_days = hooks()->apply_filters('delete_two_checkout_log_older_than_days', 40);

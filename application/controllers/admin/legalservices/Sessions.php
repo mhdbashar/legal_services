@@ -2351,36 +2351,6 @@ class Sessions extends AdminController
             $service_data->opponent_id = 0;
         }
 
-        if($service_data->is_send_opponent) {
-            $send_to = [];
-            $this->db->where('userid', $service_data->opponent_id);
-            $this->db->where('active', 1);
-            $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
-            foreach ($contacts as $contact) {
-                array_push($send_to, $contact['id']);
-            }
-            if (count($send_to) > 0) {
-                foreach ($send_to as $contact_id) {
-                    if ($contact_id != '') {
-                        $contact = $this->clients_model->get_contact($contact_id);
-                        if (!$contact) {
-                            continue;
-                        }
-                        $template = mail_template('send_report_session_to_customer', $contact,$service_data);
-                        set_mailing_constant();
-                        $pdf    = session_report_pdf($service_data);
-                        $attach = $pdf->Output($service_data->name . '.pdf', 'S');
-                        $template->add_attachment([
-                            'attachment' => $attach,
-                            'filename'   => str_replace('/', '-', $service_data->name . '.pdf'),
-                            'type'       => 'application/pdf',
-                        ]);
-                        $template->send();
-                    }
-                }
-            }
-        }
-
         $send_to     = [];
         $this->db->where('userid', $service_data->clientid);
         $this->db->where('active' , 1);

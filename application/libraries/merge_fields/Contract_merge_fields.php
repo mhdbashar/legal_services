@@ -77,6 +77,13 @@ class Contract_merge_fields extends App_merge_fields
                     'contract',
                 ],
             ],
+            [
+                'name' => _l('staff_document_name'),
+                'key' => '{staff_document_name}',
+                'available' => [
+                    'contract',
+                ],
+            ],
         ];
     }
 
@@ -111,7 +118,7 @@ class Contract_merge_fields extends App_merge_fields
         }else{
             $fields['{document_number}'] = '';
         }
-
+        $fields['{staff_document_name}'] = get_staff_full_name($contract->staff);
         $fields['{contract_id}'] = $contract->id;
         $fields['{contract_subject}'] = $contract->subject;
         $fields['{contract_type}'] = $contract->type_name;

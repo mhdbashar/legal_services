@@ -4099,8 +4099,9 @@ $lang['remember that'] = "remember that";
 $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
 $lang['session_report_added'] = 'added session report %s ...';
-$lang['staff_document_number'] = "The Company's Representative Document Number";
+$lang['staff_document_number'] = "The Official Document Number Of The Facility Representative";
 $lang['company_representative'] = "The Company's Representative";
 $lang['correspond'] = " <-> ";
+$lang['staff_document_name'] = "The Name Of The Representative Of The Establishment";
 
 

@@ -41,10 +41,10 @@ hooks()->add_filter('estimates_table_sql_join', 'estimates_add_table_sql_join', 
 //credit notes
 hooks()->add_filter('creditnotes_table_sql_join', 'creditnotes_add_table_sql_join', 10, 7);
 //Invoices table
-hooks()->add_filter('invoices_table_row_data', 'invoices_add_table_row', 10, 3);
-hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2);
-hooks()->add_filter('invoices_table_aColumns', 'services_add_table_aColumns', 10, 6);
-hooks()->add_filter('invoices_table_sql_join', 'invoices_add_table_sql_join', 10, 7);
+//hooks()->add_filter('invoices_table_row_data', 'invoices_add_table_row', 10, 3);
+//hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2);
+//hooks()->add_filter('invoices_table_aColumns', 'services_add_table_aColumns', 10, 6);
+//hooks()->add_filter('invoices_table_sql_join', 'invoices_add_table_sql_join', 10, 7);
 //Staffs table
 hooks()->add_filter('staffs_table_row_data', 'staffs_add_table_row', 10, 3);
 hooks()->add_filter('staffs_table_columns', 'staffs_add_table_column', 10, 2);

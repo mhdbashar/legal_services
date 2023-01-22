@@ -369,6 +369,9 @@
                                         $subcat_value = (isset($task->subcat_id) ? $task->subcat_id : '');
                                         $childsubcat_value = (isset($task->childsubcat_id) ? $task->childsubcat_id : '');
                                         $file_number_court_value = (isset($task->file_number_court) ? $task->file_number_court : '');
+                                        $clientid = (isset($task->clientid) ? $task->clientid : '');
+                                        $contact_notification = (isset($task->contact_notification) ? $task->contact_notification : '');
+                                        $notify_contacts = (isset($task->notify_contacts) ? $task->notify_contacts : '');
                                     } else {
                                         if ($rel_type == 'kd-y' || $rel_type == 'kdaya_altnfith') {
                                             $data = (isset($case) ? get_relation_data('myjudicial', $case->court_id) : array());
@@ -377,17 +380,23 @@
                                             $subcat_value = (isset($case->subcat_id) ? $case->subcat_id : '');
                                             $childsubcat_value = (isset($case->childsubcat_id) ? $case->childsubcat_id : '');
                                             $file_number_court_value = (isset($case->file_number_court) ? $case->file_number_court : '');
+                                            $clientid = (isset($case->clientid) ? $case->clientid : '');
+                                            $contact_notification = (isset($case->contact_notification) ? $case->contact_notification : '');
+                                            $notify_contacts = (isset($case->notify_contacts) ? $case->notify_contacts : '');
                                             if (isset($case)) {
                                                 $cats = get_relation_data('mycategory', $rel_type == 'kd-y' ? 1 : '');
                                                 $subcats = (isset($case->subcat_id) ? get_subcategory_by_category_id($case->cat_id) : []);
-//                                                $childsubcats = (isset($case->childsubcat_id) ? get_subcategory_by_category_id($case->subcat_id) : []);
                                             }
                                         } elseif ($rel_type != '') {
                                             $data = (isset($serv->court_id) ? get_relation_data('myjudicial', $serv->court_id) : array());
                                             $j_value = (isset($serv->jud_num) ? $serv->jud_num : '');
+                                            $clientid = (isset($serv->clientid) ? $serv->clientid : '');
+                                            $contact_notification = (isset($serv->contact_notification) ? $serv->contact_notification : '');
+                                            $notify_contacts = (isset($serv->notify_contacts) ? $serv->notify_contacts : '');
                                         } elseif ($rel_type == '') {
                                             $data = (isset($task) ? get_relation_data('myjudicial', $task->court_id) : array());
                                             $j_value = (isset($task->dept) ? $task->dept : '');
+                                            $clientid = (isset($task->clientid) ? $task->clientid : '');
                                         }
                                     } ?>
                                     <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
@@ -628,6 +637,58 @@
 
                         <?php echo render_input('session_link', 'session_link', isset($task) ? $task->session_link : '', 'link'); ?>
 
+                        <div id="form_contact_notification" class ="form-group">
+                            <div class="form-group hide">
+                                <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                                <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
+                                        class="ajax-search"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <?php
+                                    $selected = (isset($clientid) ? $clientid : '');
+                                    if ($selected != '') {
+                                        $rel_data = get_relation_data('customer', $selected);
+                                        $rel_val = get_relation_values($rel_data, 'customer');
+                                        echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['id'] . '</option>';
+                                    } ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group select-placeholder">
+                                <label for="contact_notification" class="control-label">
+                                    <span class="text-danger">*</span>
+                                    <?php echo _l('projects_send_contact_notification'); ?>
+                                </label>
+                                <select name="contact_notification" id="contact_notification" class="form-control selectpicker"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" required>
+                                    <?php
+                                    $options = [
+                                        ['id'=> 1 , 'name' => _l('project_send_all_contacts_with_notifications_enabled')],
+                                        ['id'=> 2 , 'name' => _l('project_send_specific_contacts_with_notification')],
+                                    ];
+                                    foreach ($options as $option) { ?>
+                                        <option value="<?php echo $option['id']; ?>" <?php if ((isset($contact_notification) && $contact_notification == $option['id'])) {
+                                            echo ' selected';
+                                        } ?>><?php echo $option['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <!-- hide class -->
+                            <div class="form-group select-placeholder <?php echo (isset($contact_notification) && $contact_notification == 2) ? '' : 'hide' ?>" id="notify_contacts_wrapper">
+                                <label for="notify_contacts" class="control-label"><span class="text-danger">*</span> <?php echo _l('project_contacts_to_notify') ?></label>
+                                <select name="notify_contacts[]" data-id="notify_contacts" id="notify_contacts" class="ajax-search" data-width="100%" data-live-search="true"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" multiple>
+                                    <?php
+                                    $notify_contact_ids = isset($notify_contacts) ? unserialize($notify_contacts) : [];
+                                    foreach ($notify_contact_ids as $contact_id) {
+                                        $rel_data = get_relation_data('contact',$contact_id);
+                                        $rel_val = get_relation_values($rel_data,'contact');
+                                        echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
                         <hr/>
                         <p class="bold"><?php echo _l('session_info'); ?></p>
                         <?php
@@ -654,6 +715,47 @@
         _milestone_selected_data = undefined;
 
         $(function () {
+            $contacts_select = $('#notify_contacts'),
+                $contacts_wrapper = $('#notify_contacts_wrapper'),
+                $clientSelect = $('#clientid'),
+                $contact_notification_select = $('#contact_notification');
+
+            init_ajax_search('contacts', $contacts_select, {
+                rel_id: $contacts_select.val(),
+                type: 'contacts',
+                extra: {
+                    client_id: function () {return $clientSelect.val();}
+                }
+            });
+
+            if ($clientSelect.val() == '' || $clientSelect.val() == null) {
+                $contacts_select.prop('disabled', true);
+                $contacts_select.selectpicker('refresh');
+            } else {
+                $contacts_select.siblings().find('input[type="search"]').val(' ').trigger('keyup');
+            }
+
+            $clientSelect.on('changed.bs.select', function () {
+                if ($clientSelect.selectpicker('val') == '' || $clientSelect.selectpicker('val') == null) {
+                    $contacts_select.prop('disabled', true);
+                } else {
+                    $contacts_select.siblings().find('input[type="search"]').val(' ').trigger('keyup');
+                    $contacts_select.prop('disabled', false);
+                }
+                deselect_ajax_search($contacts_select[0]);
+                $contacts_select.find('option').remove();
+                $contacts_select.selectpicker('refresh');
+            });
+
+            $contact_notification_select.on('changed.bs.select', function () {
+                if ($contact_notification_select.selectpicker('val') == 2) {
+                    $contacts_select.siblings().find('input[type="search"]').val(' ').trigger('keyup');
+                    $contacts_wrapper.removeClass('hide');
+                } else {
+                    $contacts_wrapper.addClass('hide');
+                    deselect_ajax_search($contacts_select[0]);
+                }
+            });
 
             $("body").off("change", "#rel_id");
             var inner_popover_template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>';
@@ -674,7 +776,7 @@
             appValidateForm($('#task-form'), {
                 name: 'required',
                 startdate: 'required',
-                //judge_id: 'required',
+                // judge_id: 'required',
                 //court_id: 'required',
                 rel_type: 'required',
                 rel_id: 'required',
@@ -700,7 +802,15 @@
                 $('#court_id').find('option').remove();
                 $('#court_id').selectpicker("refresh");
                 $('#dept').html('');
-                // _rel_id.change();
+                $('#cat_id').empty();
+                $('#subcat_id').html('');
+                $('#childsubcat').html('');
+                $('#file_number_court').val('');
+                $('#clientid').val('');
+                $contact_notification_select.val('1');
+                $contact_notification_select.selectpicker("refresh");
+                $contact_notification_select.change();
+
             });
 
             init_datepicker();
@@ -709,10 +819,19 @@
             task_rel_select();
 
             $('body').on('change', '#rel_id', function () {
+                $('#court_id').find('option').remove();
+                $('#court_id').selectpicker("refresh");
+                $('#dept').html('');
+                $('#cat_id').empty();
+                $('#subcat_id').html('');
+                $('#childsubcat').html('');
+                $('#file_number_court').val('');
+                $('#clientid').val('');
+                $contact_notification_select.val('1');
+                $contact_notification_select.selectpicker("refresh");
+                $contact_notification_select.change();
+
                 if ($(this).val() != '') {
-                    $('#court_id').find('option').remove();
-                    $('#court_id').selectpicker("refresh");
-                    $('#dept').html('');
                     $.ajax({
                         url: '<?php echo admin_url("legalservices/sessions/build_dropdown_courts_for_sessions"); ?>',
                         data: {
@@ -732,7 +851,6 @@
                                 $('#court_id').selectpicker('refresh');
                             });
                             if (response.jud != '') {
-                                $('#dept').html('');
                                 $.each(response.jud, function (key, value) {
                                     $('#dept').append('<option value="' + value['j_id'] + '"' + value['selected'] + '>' + value['Jud_number'] + '</option>');
                                 });
@@ -740,20 +858,23 @@
                             if (response.file_number_court != '') {
                                 $('#file_number_court').val(response.file_number_court);
                             }
+                            if (response.clientid != '') {
+                                var newOption = $("#clientid").append(new Option(response.clientid, response.clientid, true, true));
+                                $('#clientid').append(newOption);
+                                $('#clientid').selectpicker('refresh');
+                                $('#clientid').change();
+                            }
                             if (response.cat != '') {
-                                $('#cat_id').empty();
                                 $.each(response.cat, function (key, value) {
                                     $('#cat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
                                 });
                             }
                             if (response.subcat != '') {
-                                $('#subcat_id').html('');
                                 $.each(response.subcat, function (key, value) {
                                     $('#subcat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
                                 });
                             }
                             if (response.childsubcat != '') {
-                                $('#childsubcat').html('');
                                 $('#childsubcat').html(`
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -769,8 +890,6 @@
                                     $('#childsubcat_id').append('<option value="' + value['id'] + '"' + value['selected'] + '>' + value['name'] + '</option>');
                                 });
                             }
-
-
                         }
                     });
 
@@ -821,6 +940,8 @@
                 format: 'H:i'
             });
             <?php } ?>
+
+
         });
         <?php if(isset($_milestone_selected_data)){ ?>
         _milestone_selected_data = '<?php echo json_encode($_milestone_selected_data); ?>';
@@ -1039,6 +1160,7 @@
                 });
             }
         });
+
 
 
     </script>

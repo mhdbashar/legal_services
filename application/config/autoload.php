@@ -163,7 +163,6 @@ $autoload['helper'] = [
         'oservices',
         'iservices',
         'telegram',
-        'my_knowledge_base_helper',
     ];
 
 if (file_exists(APPPATH . 'helpers/my_functions_helper.php')) {

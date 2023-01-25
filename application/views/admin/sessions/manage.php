@@ -122,7 +122,7 @@ if ($time_format === '24') {
     $(function () {
         sessions_kanban();
         initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [7, 'desc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [7, 'asc']);
     });
 
     // Init session kan ban

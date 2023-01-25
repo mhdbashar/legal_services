@@ -26,7 +26,7 @@ class Migration_Version_523 extends CI_Migration
             $data = [
                 'type' => 'sessions', 'slug' => 'next_session_action_to_opponent', 'language' => 'arabic', 'name' => 'تذكير بالجلسة القادمة (مرسل جهات اتصال الخصم)', 'subject' => 'تم إنشاء جلسة قادمة',
                 'message' => '
-                عملينا الكريم : {contact_firstname}{contact_lastname}<br />السلام عليكم ورحمة الله وبركاته,,, وأسعد الله أوقاتكم بكل خير<br />فيما يلي نفيدكم بموعد الجلسة المقبلة الخاصة بكم. <br />تاريخ الجلسة القادمة : {next_session_date}<br />وقت الجلسة القادمة : {next_session_time}
+                السيد : {contact_firstname}{contact_lastname}<br />السلام عليكم ورحمة الله وبركاته,,, وأسعد الله أوقاتكم بكل خير<br />فيما يلي نفيدكم بموعد الجلسة المقبلة الخاصة بكم. <br />تاريخ الجلسة القادمة : {next_session_date}<br />وقت الجلسة القادمة : {next_session_time}
                 ',
                 'fromname' => '', 'fromemail' => '{companyname}', 'plaintext' => '0', 'active' => '1', 'order' => '0',
             ];

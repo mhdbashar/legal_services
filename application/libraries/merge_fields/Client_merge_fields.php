@@ -19,6 +19,7 @@ class Client_merge_fields extends App_merge_fields
                     'project',
                     'credit_note',
                     'subscriptions',
+                    'sessions',
                 ],
                 'templates' => [
                     'gdpr-removal-request',
@@ -28,6 +29,12 @@ class Client_merge_fields extends App_merge_fields
                     'task-added-attachment-to-contacts',
                     'task-commented-to-contacts',
                     'task-status-change-to-contacts',
+                    'session-added-attachment-to-contacts',
+                    'session-commented-to-contacts',
+                    'session-status-change-to-contacts',
+                    'send_report_session',
+                    'next_session_action',
+                    'next_session_action_to_opponent',
                 ],
             ],
             [
@@ -87,6 +94,7 @@ class Client_merge_fields extends App_merge_fields
                     'project',
                     'credit_note',
                     'subscriptions',
+                    'sessions',
                 ],
                 'templates' => [
                     'gdpr-removal-request',
@@ -96,6 +104,12 @@ class Client_merge_fields extends App_merge_fields
                     'task-added-attachment-to-contacts',
                     'task-commented-to-contacts',
                     'task-status-change-to-contacts',
+                    'session-added-attachment-to-contacts',
+                    'session-commented-to-contacts',
+                    'session-status-change-to-contacts',
+                    'send_report_session',
+                    'next_session_action',
+                    'next_session_action_to_opponent',
                 ],
             ],
             [

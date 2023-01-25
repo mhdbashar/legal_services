@@ -429,7 +429,7 @@ echo form_hidden('project_percent',$percent);
 
     $(function(){
         initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [6, 'desc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [7, 'desc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [7, 'asc']);
 
         // Init single task data
         if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }

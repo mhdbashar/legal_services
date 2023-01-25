@@ -3,6 +3,9 @@ $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
+$CI = &get_instance();
+$CI->load->library('app_modules');
+
 $time_format = get_option('time_format');
 $format = '';
 $time = '24';
@@ -20,12 +23,12 @@ $aColumns = [
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
     'court_name',
+    'session_link',
     //'session_information',
     'customer_report',
     'send_to_customer',
     'startdate',
     'TIME_FORMAT(time, ' . $format . ') as time',
-    'session_link',
 ];
 
 $sIndexColumn = 'id';
@@ -171,10 +174,6 @@ foreach ($rResult as $aRow) {
     endif;
     $row[] = $send;
     // startdate
-    $CI = &get_instance();
-
-
-    $CI->load->library('app_modules');
 
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 

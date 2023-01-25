@@ -725,6 +725,23 @@ class Sessions_model extends App_Model
             $session['session_link'] = $data['session_link'];
             unset($data['session_link']);
         }
+
+        if (isset($data['clientid'])) {
+            $session['clientid'] = $data['clientid'];
+            unset($data['clientid']);
+        }
+
+        if (isset($data['contact_notification'])) {
+            $session['contact_notification'] = $data['contact_notification'];
+            if ($data['contact_notification'] == 2) {
+                $session['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $session['notify_contacts'] = serialize([]);
+            }
+            unset($data['contact_notification']);
+            unset($data['notify_contacts']);
+        }
+
         $session_info = true;
         //End Block For Legal Services Session
         $this->db->insert(db_prefix() . 'tasks', $data);
@@ -1018,6 +1035,23 @@ class Sessions_model extends App_Model
             $session['session_link'] = $data['session_link'];
             unset($data['session_link']);
         }
+
+        if (isset($data['clientid'])) {
+            $session['clientid'] = $data['clientid'];
+            unset($data['clientid']);
+        }
+
+        if (isset($data['contact_notification'])) {
+            $session['contact_notification'] = $data['contact_notification'];
+            if ($data['contact_notification'] == 2) {
+                $session['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $session['notify_contacts'] = serialize([]);
+            }
+            unset($data['contact_notification']);
+            unset($data['notify_contacts']);
+        }
+
         //End Block For Legal Services Session
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);

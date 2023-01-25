@@ -13,22 +13,31 @@ class My_sessions extends ClientsController
     public function session_report($id,$downlod = 0)
     {
         $this->load->model('sessions_model');
-
-
         $data=[];
         $session = $this->sessions_model->get($id);
         $session->title         = _l('session_report');
         if($session->rel_type == 'kd-y'){
+            if($session->clientid == null){
             $session->clientid = get_client_id_by_case_id($session->rel_id);
+            }
             $session->opponent_id = get_opponent_id_by_case_id($session->rel_id);
         }elseif ($session->rel_type == 'kdaya_altnfith'){
-            $session->clientid = get_client_id_by_disputes_case_id($session->rel_id);
+            if($session->clientid == null) {
+                $session->clientid = get_client_id_by_disputes_case_id($session->rel_id);
+            }
             $opponents = get_disputes_cases_opponents_by_case_id($session->rel_id);
             foreach ($opponents as $opponent){
                 if($opponent->opponent_id > 0) $session->opponent_id = $opponent->opponent_id;break;
             }
+        }else if($session->rel_type == 'customer'){
+            if($session->clientid == null) {
+                $session->clientid = get_customer_by_id($session->rel_id);
+            }
+            $session->opponent_id = 0;
         }else{
-            $session->clientid = get_client_id_by_oservice_id($session->rel_id);
+            if($session->clientid == null) {
+                $session->clientid = get_client_id_by_oservice_id($session->rel_id);
+            }
             $session->opponent_id = 0;
         }
 
@@ -40,7 +49,6 @@ class My_sessions extends ClientsController
                 echo $e->getMessage();
                 die;
             }
-//            echo '<pre>';echo print_r($pdf);exit();
             $session_name = "$session->name";
             $companyname    = get_option('invoice_company_name');
             if ($companyname != '') {

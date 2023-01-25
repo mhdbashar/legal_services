@@ -63,7 +63,7 @@ class Migration_Version_522 extends CI_Migration
 </tbody>
 </table>
 <br /><strong>بإنه قد تم إضافة تقرير إلى الجلسة من قبل {session_related}</strong><br /><strong>يمكنك الإطلاع على التقرير وإعتماده من خلال الرابط التالي :</strong><br /><strong><a href="{session_link}" target="_blank" rel="noreferrer noopener">{session_name}<br /></a></strong><br /><span style="font-size: 14pt;"><strong>مع أطيب التحيات ,,,</strong></span><br /><span style="font-size: 14pt;"><strong>{companyname}</strong></span>',
-                'fromname'=>'', 'fromemail'=>'{companyname}', 'plaintext'=>'0', 'active'=>'1', 'order'=>'0',
+                'fromname'=>'{companyname}', 'fromemail'=>'', 'plaintext'=>'0', 'active'=>'1', 'order'=>'0',
             ];
             $this->db->insert(db_prefix() . 'emailtemplates',$data);
             //

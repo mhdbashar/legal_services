@@ -28,7 +28,7 @@ class Migration_Version_523 extends CI_Migration
                 'message' => '
                 السيد : {contact_firstname}{contact_lastname}<br />السلام عليكم ورحمة الله وبركاته,,, وأسعد الله أوقاتكم بكل خير<br />فيما يلي نفيدكم بموعد الجلسة المقبلة الخاصة بكم. <br />تاريخ الجلسة القادمة : {next_session_date}<br />وقت الجلسة القادمة : {next_session_time}
                 ',
-                'fromname' => '{companyname}', 'fromemail' => '{companyname}', 'plaintext' => '0', 'active' => '1', 'order' => '0',
+                'fromname' => '{companyname}', 'fromemail' => '', 'plaintext' => '0', 'active' => '1', 'order' => '0',
             ];
             $this->db->insert(db_prefix() . 'emailtemplates', $data);
         }

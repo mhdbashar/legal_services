@@ -3886,6 +3886,9 @@ $lang['permission_edite_report'] = 'Edite Report';
 $lang['permission_send_report'] = 'Send Report';
 $lang['no_primary_followers'] = 'No Primary Follower';
 $lang['not_sessions_added_you_as_follower'] = 'added you as follower on session %s ...';
+$lang['sessions_send_contact_notification'] = 'Send the session report and requests to :';
+$lang['sessions_send_all_contacts_with_notifications_enabled'] = 'For all contacts with alerts enabled';
+$lang['sessions_contacts_to_notify'] = 'Choose contacts';
 
 
 

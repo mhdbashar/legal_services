@@ -150,7 +150,7 @@ $staff->key = '2XeRfebcWS5y';?>
         var admin_url = 'https://library.lawyernet.net/admin';
         var url_ = 'https://library.lawyernet.net/api_lib/add_staff_babil';
 
-<!--        --><?php //if($staff->add_to_library == 0){?>
+        <?php //if($staff->add_to_library == 0){?>
         $.ajax({
             url: url_,
             data: {
@@ -177,9 +177,9 @@ $staff->key = '2XeRfebcWS5y';?>
                 }
             }
         });
-<!--        --><?php //}elseif($staff->add_to_library == 1){?>
-//        window.open(admin_url);
-//        <?php //}?>
+        <?php //}elseif($staff->add_to_library == 1){?>
+         window.open(admin_url);
+        <?php //}?>
     }
 
     var url = 'https://library.lawyernet.net/api_lib/search1';

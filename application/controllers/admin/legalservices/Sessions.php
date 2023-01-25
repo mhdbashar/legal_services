@@ -2232,11 +2232,12 @@ class Sessions extends AdminController
                         if (!$contact) {
                             continue;
                         }
-                        send_mail_template('Reminder_for_next_session_action', $contact, $id);
+                        send_mail_template('Reminder_for_next_session_action_to_opponent', $contact, $id);
                     }
                 }
             }
         }
+
         if($service_data->clientid != null){
             $client_id = $service_data->clientid;
         }

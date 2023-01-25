@@ -3462,6 +3462,9 @@ $lang['session_report_added'] = 'تمت إضافة تقرير للجلسة %s ..
 $lang['not_sessions_added_you_as_follower'] = 'تمت أضافك كمتابع في الجلسة  %s ...';
 $lang['company_representative'] = "ممثل المنشأة";
 $lang['correspond'] = " الموافق ";
+$lang['sessions_send_contact_notification'] = 'إرسال تقرير الجلسة و الطلبات الى :';
+$lang['sessions_send_all_contacts_with_notifications_enabled'] = 'لجميع جهات الاتصال مع تمكين التنبيهات';
+$lang['sessions_contacts_to_notify'] = 'إختر جهات الإتصال';
 
 
 

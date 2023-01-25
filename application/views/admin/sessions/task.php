@@ -656,13 +656,13 @@
                             <div class="form-group select-placeholder">
                                 <label for="contact_notification" class="control-label">
                                     <span class="text-danger">*</span>
-                                    <?php echo _l('projects_send_contact_notification'); ?>
+                                    <?php echo _l('sessions_send_contact_notification'); ?>
                                 </label>
                                 <select name="contact_notification" id="contact_notification" class="form-control selectpicker"
                                         data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" required>
                                     <?php
                                     $options = [
-                                        ['id'=> 1 , 'name' => _l('project_send_all_contacts_with_notifications_enabled')],
+                                        ['id'=> 1 , 'name' => _l('sessions_send_all_contacts_with_notifications_enabled')],
                                         ['id'=> 2 , 'name' => _l('project_send_specific_contacts_with_notification')],
                                     ];
                                     foreach ($options as $option) { ?>
@@ -674,7 +674,7 @@
                             </div>
                             <!-- hide class -->
                             <div class="form-group select-placeholder <?php echo (isset($contact_notification) && $contact_notification == 2) ? '' : 'hide' ?>" id="notify_contacts_wrapper">
-                                <label for="notify_contacts" class="control-label"><span class="text-danger">*</span> <?php echo _l('project_contacts_to_notify') ?></label>
+                                <label for="notify_contacts" class="control-label"><span class="text-danger">*</span> <?php echo _l('sessions_contacts_to_notify') ?></label>
                                 <select name="notify_contacts[]" data-id="notify_contacts" id="notify_contacts" class="ajax-search" data-width="100%" data-live-search="true"
                                         data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" multiple>
                                     <?php

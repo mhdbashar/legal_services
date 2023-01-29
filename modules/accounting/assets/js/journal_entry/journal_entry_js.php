@@ -21,18 +21,28 @@
               {"account":"","debit":"","credit":"","description":""},
               {"account":"","debit":"","credit":"","description":""},
               {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
-              {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
+        {"account":"","debit":"","credit":"","description":""},
                 ];
   <?php } ?>
 
@@ -140,7 +150,8 @@
 	    		alert('<?php echo _l('you_must_fill_out_at_least_two_detail_lines'); ?>');
 	    	}
 	    }else{
-            alert('<?php echo _l('please_balance_debits_and_credits'); ?>');
+	        let total_alert = total_debit.toFixed(2) - total_credit.toFixed(2) < 0 ? ( (total_debit.toFixed(2) - total_credit.toFixed(2)) * - 1) + ' زيادة للدائن' : total_debit.toFixed(2) - total_credit.toFixed(2) + ' زيادة للمدين'
+            alert(`<?php echo _l('please_balance_debits_and_credits'); ?> ${total_alert}`);
 	    }
 	});
 })(jQuery);

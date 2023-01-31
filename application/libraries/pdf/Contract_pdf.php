@@ -46,4 +46,25 @@ class Contract_pdf extends App_pdf
 
         return $actualPath;
     }
+	
+	
+	public function Header() {
+    $image_file = get_option('custom_pdf_header_image_url');
+	
+	    if ($image_file != '') {
+	
+
+    $this->Image($image_file, 110, 6, 60, '', 'PNG', '', 'T', false, 300, 'C', false, false, 0, false, false, false);
+        
+    }
+	  }
+
+    public function Footer() {
+      $image_file =   get_option('custom_pdf_footer_image_url');
+	  
+	if ($image_file != '') {
+
+    $this->Image($image_file, 110, 280, 60, "", "PNG", "", "B", false, 300, 'C', false, false, 0, false, false, false);
+		}
+    }
 }

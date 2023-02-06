@@ -3602,7 +3602,7 @@ class Cases_model extends App_Model
         $this->db->insert(db_prefix() . 'case_activity', $data);
     }
 
-    public function new_project_file_notification($ServID = '', $file_id, $project_id)
+    public function new_project_file_notification($ServID = '1', $file_id, $project_id)
     {
         $file = $this->get_file($file_id);
 
@@ -3671,7 +3671,7 @@ class Cases_model extends App_Model
         $this->db->insert(db_prefix() . 'case_files', $insert);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $this->new_project_file_notification($insert_id, $data['project_id']);
+            $this->new_project_file_notification(1,$insert_id, $data['project_id']);
 
             return $insert_id;
         }

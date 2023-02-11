@@ -4,8 +4,8 @@
 <?php } ?>
 (function($) {
   "use strict";
-		validate_contract_form();
-		function validate_contract_form(selector) {
+    validate_contract_form();
+    function validate_contract_form(selector) {
 
    var selector = typeof(selector) == 'undefined' ? '#contract-form' : selector;
 
@@ -42,7 +42,7 @@ var selector = typeof(selector) == 'undefined' ? 'div.editable' : selector;
      browser_spellcheck: true,
      height: 400,
      theme: 'modern',
-     skin: 'babil',
+     skin: 'perfex',
      language: app.tinymce_lang,
        relative_urls: false,
        remove_script_host: false,
@@ -226,7 +226,7 @@ get_contract_comments();
 function formatNumber(n) {
   "use strict"; 
   // format number 1000000 to 1,234,567
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo get_option('thousand_separator'); ?>");
 }
 function formatCurrency(input, blur) {
   "use strict"; 
@@ -234,14 +234,14 @@ function formatCurrency(input, blur) {
   if (input_val === "") { return; }
   var original_len = input_val.length;
   var caret_pos = input.prop("selectionStart");
-  if (input_val.indexOf(".") >= 0) {
-    var decimal_pos = input_val.indexOf(".");
+  if (input_val.indexOf("<?php echo get_option('decimal_separator'); ?>") >= 0) {
+    var decimal_pos = input_val.indexOf("<?php echo get_option('decimal_separator'); ?>");
     var left_side = input_val.substring(0, decimal_pos);
     var right_side = input_val.substring(decimal_pos);
     left_side = formatNumber(left_side);
     right_side = formatNumber(right_side);
     right_side = right_side.substring(0, 2);
-    input_val = left_side + "." + right_side;
+    input_val = left_side + "<?php echo get_option('decimal_separator'); ?>" + right_side;
 
   } else {
     input_val = formatNumber(input_val);
@@ -260,12 +260,26 @@ function view_pur_order(invoker){
   if(pur_order != ''){
     $.post(admin_url + 'purchase/view_pur_order/'+pur_order).done(function(response){
         response = JSON.parse(response);
-        $('select[name="vendor"]').val(response.vendor).change();
+
         $('input[name="contract_value"]').val(response.total);
         $('select[name="buyer"]').val(response.buyer).change();
+        $('select[name="project"]').val(response.project).change();
+        $('select[name="department"]').val(response.department).change();
     });
   }else{
     alert_float('warning', '<?php echo _l('please_chose_pur_order'); ?>');
+  }
+}
+
+function vendor_change(el){
+  "use strict"; 
+  var vendor = $(el).val();
+  if(vendor != ''){
+      $.post(admin_url + 'purchase/vendor_contract_change/'+vendor).done(function(response){
+        response = JSON.parse(response);
+        $('select[name="pur_order"]').html(response.html);
+        $('select[name="pur_order"]').selectpicker('refresh');
+      });
   }
 }
 

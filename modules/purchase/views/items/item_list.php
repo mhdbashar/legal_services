@@ -16,7 +16,7 @@
                   </div>
                   <div class="row row-margin-bottom">
                     <div class="col-md-5  ">
-                        <?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+                        <?php if (has_permission('purchase_items', '', 'create') || is_admin()) { ?>
 
                           <!-- dung cho add 1 -->
                         <a href="#" onclick="new_commodity_item(); return false;" class="btn btn-info pull-left display-block mr-4 button-margin-r-b" data-toggle="sidebar-right" data-target=".commodity_list-add-edit-modal">
@@ -42,18 +42,94 @@
                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               </div>
                               <div class="modal-body">
-                                 <?php if(has_permission('rec_proposal','','delete') || is_admin()){ ?>
+
                                  <div class="checkbox checkbox-danger">
-                                    <input type="checkbox" name="mass_delete" id="mass_delete">
-                                    <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
-                                 </div>
-                                
+                                  <div class="row">
+
+                                 <?php if(has_permission('purchase_items','','delete') || is_admin()){ ?>
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <input type="checkbox" name="mass_delete" id="mass_delete">
+                                      <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
+                                    </div>
+                                  </div>
                                  <?php } ?>
+
+                                   
+                                  </div>
+
+                                  <div class="row">
+                                    <?php if(has_permission('purchase_items','','create') || is_admin()){ ?>
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <input type="checkbox" name="clone_items" id="clone_items">
+                                      <label for="clone_items"><?php echo _l('clone_this_items'); ?></label>
+                                    </div>
+                                  </div>
+                                 <?php } ?>
+                                    
+                                  </div>
+
+                                 <?php if(has_permission('purchase_items','','edit') || is_admin()){ ?>
+                                  <div class="row">
+                                    <div class="col-md-5">
+                                      <div class="form-group">
+
+                                        <input type="checkbox" name="change_item_selling_price" id="change_item_selling_price" >
+                                        <label for="change_item_selling_price"><?php echo _l('change_item_selling_price'); ?></label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+
+                                        <div class="input-group" id="discount-total">
+                                          <input type="number" class="form-control text-right" min="0" max="100" name="selling_price" value="">
+                                          <div class="input-group-addon">
+                                            <div class="dropdown">
+                                             <span class="discount-type-selected">
+                                              %
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-5">
+                                    <div class="form-group">
+
+                                      <input type="checkbox" name="change_item_purchase_price" id="change_item_purchase_price">
+                                      <label for="change_item_purchase_price"><?php echo _l('change_item_purchase_price'); ?></label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+
+                                      <div class="input-group" id="discount-total">
+                                        <input type="number" class="form-control text-right" min="0" max="100" name="b_purchase_price" value="">
+                                        <div class="input-group-addon">
+                                          <div class="dropdown">
+                                           <span class="discount-type-selected">
+                                            %
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                 <?php } ?>
+                                 
+                                 </div>
+                                 
                               </div>
                               <div class="modal-footer">
                                  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
 
-                                 <?php if(has_permission('purchase','','delete') || is_admin()){ ?>
+                                 <?php if(has_permission('purchase_items','','delete') || is_admin()){ ?>
                                  <a href="#" class="btn btn-info" onclick="purchase_delete_bulk_action(this); return false;"><?php echo _l('confirm'); ?></a>
                                   <?php } ?>
                               </div>
@@ -74,6 +150,7 @@
                         _l('rate'),
                         _l('purchase_price'),
                         _l('tax'),
+                        _l('from_vendor'),
                         ),'table_item_list',['proposal_sm' => 'proposal_sm'],
                           array(
                             'proposal_sm' => 'proposal_sm',
@@ -197,14 +274,14 @@
                                      <?php $premium_rates = isset($premium_rates) ? $premium_rates : '' ?>
                                     <?php
                                     $attr = array();
-                                    $attr = ['data-type' => 'currency'];
-                                     echo render_input('rate', 'rate','', 'text', $attr); ?>
+                                    //$attr = ['data-type' => 'currency'];
+                                     echo render_input('rate', 'rate','', 'number', $attr); ?>
                                 </div>
                                 <div class="col-md-6">
                                     <?php 
                                     $attr = array();
-                                    $attr = ['data-type' => 'currency'];
-                                     echo render_input('purchase_price', 'purchase_price','', 'text', $attr); ?>
+                                    //$attr = ['data-type' => 'currency'];
+                                     echo render_input('purchase_price', 'purchase_price','', 'number', $attr); ?>
                                   
                                 </div>
                             </div>
@@ -213,9 +290,13 @@
                                      <?php echo render_select('unit_id',$units,array('unit_type_id','unit_name'),'units'); ?>
                                 </div>
                                 
-                              <div class="col-md-6">
-                                     <?php echo render_select('tax',$taxes,array('id','label'),'taxes'); ?>
-                                </div>
+                              <div class="col-md-3">
+                                     <?php echo render_select('tax',$taxes,array('id','label'),'tax_1'); ?>
+                              </div>
+
+                              <div class="col-md-3">
+                                     <?php echo render_select('tax2',$taxes,array('id','label'),'tax_2'); ?>
+                              </div>
 
                             </div>
                             <?php if(!isset($expense) || (isset($expense) && $expense->attachment == '')){ ?>

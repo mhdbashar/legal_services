@@ -125,6 +125,63 @@ function item_by_vendor(invoker){
       });
 }
 
+function show_tax_column(invoker){
+  "use strict";
+    var input_name = invoker.value;
+    var input_name_status = $('input[id="'+invoker.value+'"]').is(":checked");
+    
+    var data = {};
+        data.input_name = input_name;
+        data.input_name_status = input_name_status;
+    $.post(admin_url + 'purchase/show_tax_column', data).done(function(response){
+          response = JSON.parse(response); 
+          if (response.success == true) {
+              alert_float('success', response.message);
+          }else{
+              alert_float('warning', response.message);
+
+          }
+      });
+}
+
+function po_only_prefix_and_number(invoker){
+  "use strict";
+    var input_name = invoker.value;
+    var input_name_status = $('input[id="'+invoker.value+'"]').is(":checked");
+    
+    var data = {};
+        data.input_name = input_name;
+        data.input_name_status = input_name_status;
+    $.post(admin_url + 'purchase/po_only_prefix_and_number', data).done(function(response){
+          response = JSON.parse(response); 
+          if (response.success == true) {
+              alert_float('success', response.message);
+          }else{
+              alert_float('warning', response.message);
+
+          }
+      });
+}
+
+function show_item_cf_on_pdf(invoker){
+  "use strict";
+    var input_name = invoker.value;
+    var input_name_status = $('input[id="'+invoker.value+'"]').is(":checked");
+    
+    var data = {};
+        data.input_name = input_name;
+        data.input_name_status = input_name_status;
+    $.post(admin_url + 'purchase/show_item_cf_on_pdf', data).done(function(response){
+          response = JSON.parse(response); 
+          if (response.success == true) {
+              alert_float('success', response.message);
+          }else{
+              alert_float('warning', response.message);
+
+          }
+      });
+}
+
   function new_vendor_cate() {
     "use strict";
     $('.edit-title').addClass('hide');

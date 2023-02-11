@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="row">
+	<?php $base_currency = get_base_currency_pur(); ?>
 	<div class="col-md-12">
 		<h3 id="greeting" class="no-mtop"></h3>
 		
@@ -28,9 +29,9 @@
 		            	<?php foreach($pur_order as $p){ ?>
 		            		<tr>
 		            			<td><a href="<?php echo site_url('purchase/vendors_portal/pur_order/'.$p['id']); ?>"><?php echo html_entity_decode($p['pur_order_number'].' - '.$p['pur_order_name']); ?></a></td>
-		            			<td><?php echo html_entity_decode(app_format_money($p['subtotal'],'')); ?></td>
-		            			<td><?php echo html_entity_decode(app_format_money($p['total_tax'],'')); ?></td>
-		            			<td><?php echo html_entity_decode(app_format_money($p['total'],'')); ?></td>
+		            			<td><?php echo html_entity_decode(app_format_money($p['subtotal'],$base_currency->symbol)); ?></td>
+		            			<td><?php echo html_entity_decode(app_format_money($p['total_tax'],$base_currency->symbol)); ?></td>
+		            			<td><?php echo html_entity_decode(app_format_money($p['total'],$base_currency->symbol)); ?></td>
 		            			<td><span class="label label-primary"><?php echo html_entity_decode(_d($p['order_date'])); ?></span></td>
 		            		</tr>
 		            	<?php } ?>

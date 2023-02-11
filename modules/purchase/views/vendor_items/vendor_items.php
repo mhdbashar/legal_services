@@ -23,7 +23,7 @@
 
                <div class="col-md-6">
                   <label for="group_item"><?php echo _l('group_item'); ?></label>
-                    <select name="group_item" id="group_item" class="selectpicker" onchange="group_it_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('all'); ?>" >
+                    <select name="group_item" id="group_item" class="selectpicker" onchange="group_it_change(); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('all'); ?>" >
                       <option value=""></option>
                         <?php foreach($commodity_groups as $s) { ?>
                         <option value="<?php echo html_entity_decode($s['id']); ?>" ><?php echo html_entity_decode($s['name']); ?></option>
@@ -33,10 +33,8 @@
                 </div>
               <div class="col-md-6 form-group">
                 <label for="items"><?php echo _l('items'); ?></label>
-                    <select name="items[]" id="items" class="selectpicker" data-live-search="true" multiple data-width="100%" required data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
-                        <?php foreach($items as $s) { ?>
-                        <option value="<?php echo html_entity_decode($s['id']); ?>"><?php echo html_entity_decode($s['commodity_code']).' - '.html_entity_decode($s['description']); ?></option>
-                          <?php } ?>
+                    <select name="items[]" id="items" class="selectpicker no-margin<?php if($ajaxItems == true){echo ' ajax-search';} ?>" data-live-search="true" multiple data-width="100%" required data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                      
                     </select>
                     <br> 
               </div>

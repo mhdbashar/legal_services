@@ -552,6 +552,8 @@
         }
 
         var group_name = fixChatGroupName(data.group_name);
+        if(!group_name)
+            group_name = 'group'
         var main_selector = $("#frame #sidepanel .tab-content #groups .chat_groups_list");
         var group = "";
 

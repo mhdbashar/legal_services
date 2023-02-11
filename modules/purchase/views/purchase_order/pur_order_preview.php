@@ -1,15 +1,21 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php echo form_hidden('_attachment_sale_id',$estimate->id); ?>
 <?php echo form_hidden('_attachment_sale_type','estimate'); ?>
+<?php
+   $base_currency = get_base_currency_pur();
+    if($estimate->currency != 0){
+      $base_currency = pur_get_currency_by_id($estimate->currency);
+    }
+ ?>
 <div class="col-md-12 no-padding">
    <div class="panel_s">
       <div class="panel-body">
          <?php if($estimate->approve_status == 1){ ?>
-           <div class="ribbon info span_style"><span><?php echo _l('purchase_not_yet_approve'); ?></span></div>
+           <div class="ribbon info span_style"><span><?php echo _l('purchase_draft'); ?></span></div>
        <?php }elseif($estimate->approve_status == 2){ ?>
          <div class="ribbon success"><span><?php echo _l('purchase_approved'); ?></span></div>
        <?php }elseif($estimate->approve_status == 3){ ?>  
-         <div class="ribbon warning"><span><?php echo _l('purchase_reject'); ?></span></div>
+         <div class="ribbon warning"><span><?php echo _l('pur_rejected'); ?></span></div>
        <?php }elseif ($estimate->approve_status == 4) { ?>
          <div class="ribbon danger"><span><?php echo _l('cancelled'); ?></span></div>
       <?php  } ?>
@@ -100,18 +106,44 @@
          <div class="row">
             <div class="col-md-4">
               <p class="bold p_mar"><?php echo _l('vendor').': '?><a href="<?php echo admin_url('purchase/vendor/'.$estimate->vendor); ?>"><?php echo get_vendor_company_name($estimate->vendor); ?></a></p>
+              <?php 
+                $order_status_class = '';
+                $order_status_text = '';
+                if($estimate->order_status == 'new'){
+                  $order_status_class = 'label-info';
+                  $order_status_text = _l('new_order');
+                }else if($estimate->order_status == 'delivered'){
+                  $order_status_class = 'label-success';
+                  $order_status_text = _l('delivered');
+                }else if($estimate->order_status == 'confirmed'){
+                  $order_status_class = 'label-warning';
+                  $order_status_text = _l('confirmed');
+                }else if($estimate->order_status == 'cancelled'){
+                  $order_status_class = 'label-danger';
+                  $order_status_text = _l('cancelled');
+                }else if($estimate->order_status == 'return'){
+                   $order_status_class = 'label-warning';
+                   $order_status_text = _l('pur_return');
+                }
+               ?>
 
+               <?php if($estimate->order_status != null){ ?>
+               <p class="bold p_mar"><?php echo _l('order_status').': '; ?><span class="label <?php echo html_entity_decode($order_status_class); ?>"><?php echo html_entity_decode($order_status_text); ?></span></p>
+               <?php } ?>
+
+               <?php $clients_ids = explode(',', $estimate->clients); ?>
+               <?php if(count($clients_ids) > 0){ ?>
               <p class="bold p_mar"><?php echo _l('clients').': '?></p>
-               <?php $clients_ids = explode(',', $estimate->clients);
-                  foreach ($clients_ids as $ids) {
+                <?php  foreach ($clients_ids as $ids) {
                 ?>
                   <a href="<?php echo admin_url('clients/client/'.$ids); ?>"><span class="label label-tag"><?php echo get_company_name($ids); ?></span></a>
                <?php } ?>
+             <?php } ?>
               
             </div>
             <div class="col-md-8">
                <div class="btn-group pull-right">
-                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
+                  <a href="javascript:void(0)" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                      <li class="hidden-xs"><a href="<?php echo admin_url('purchase/purorder_pdf/'.$estimate->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
                      <li class="hidden-xs"><a href="<?php echo admin_url('purchase/purorder_pdf/'.$estimate->id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
@@ -123,30 +155,84 @@
                      </li>
                   </ul>
 
-                  <a href="#" onclick="send_po('<?php echo html_entity_decode($estimate->id); ?>'); return false;" class="btn btn-success mleft5" ><i class="fa fa-envelope" data-toggle="tooltip" title="<?php echo _l('send_to_vendor') ?>"></i></a>
+                  <a href="javascript:void(0)" onclick="send_po('<?php echo html_entity_decode($estimate->id); ?>'); return false;" class="btn btn-success mleft10" ><i class="fa fa-envelope" data-toggle="tooltip" title="<?php echo _l('send_to_vendor') ?>"></i></a>
                </div>
+
+               <?php if(is_admin()){ ?>
+                 <div class="btn-group pull-right mright5">
+                     <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <?php echo _l('more'); ?> <span class="caret"></span>
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-right">
+                      <?php if(has_permission('purchase_order_return','','edit') &&  $estimate->status == 'confirm'){ ?>
+                        <li>
+                             <a href="#" onclick="refund_order_return(); return false;" id="order_return_refund">
+                             <?php echo _l('refund'); ?>
+                             </a>
+                          </li>
+                      <?php } ?>
+
+                        <?php if(is_admin()){ ?>
+                        <?php 
+                          $statuses = [
+                            'new',
+                            'delivered',
+                            'confirmed',
+                            'cancelled',
+                            'return',
+                          ]; 
+                        ?>
+
+                        <?php foreach($statuses as $status){ ?>
+                          <?php if($status != $estimate->order_status){ ?>
+                            <li>
+                               <a href="<?php echo admin_url('purchase/mark_pur_order_as/'.$status.'/'.$estimate->id); ?>"><?php echo _l('invoice_mark_as',_l($status)); ?></a>
+                            </li>
+                        <?php } ?>
+                      <?php } ?>    
+                        <?php } ?>
+
+                        <?php if(has_permission('purchase_order_return','','edit')){ ?>
+                        <li>
+                           <a href="<?php echo admin_url('purchase/pur_order/'.$estimate->id); ?>"><?php echo _l('edit'); ?></a>
+                        </li>
+                        <?php } ?>
+
+                        
+                        <?php if(has_permission('purchase_order_return','','delete')){ ?>
+                        <li>
+                           <a href="<?php echo admin_url('purchase/delete_pur_order/'.$estimate->id); ?>" class="text-danger delete-text _delete"><?php echo _l('delete_invoice'); ?></a>
+                        </li>
+                        <?php } ?>
+           
+                    
+                     </ul>
+                  </div>
+                <?php } ?>
+
                <?php if($estimate->approve_status != 2){ ?>
-                  <div class="pull-right _buttons mright5">
-                     <?php if(has_permission('purchase','','edit')){ ?>
-                     <a href="<?php echo admin_url('purchase/pur_order/'.$estimate->id); ?>" class="btn btn-default btn-with-tooltip" data-toggle="tooltip" title="<?php echo _l('edit_pur_order_tooltip'); ?>" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>
+                  <div class="pull-right _buttons mright10">
+                     <?php if(has_permission('purchase_orders','','edit')){ ?>
+                     <a href="<?php echo admin_url('purchase/pur_order/'.$estimate->id); ?>" class="btn btn-default btn-with-tooltip" data-toggle="tooltip" title="<?php echo _l('edit'); ?>" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>
                      <?php } ?>
 
                   </div>
                <?php } ?>
 
-                  
+               <?php if(is_admin()){ ?>     
                <select name="status" id="status" class="selectpicker pull-right mright10" onchange="change_status_pur_order(this,<?php echo ($estimate->id); ?>); return false;" data-live-search="true" data-width="35%" data-none-selected-text="<?php echo _l('pur_change_status_to'); ?>">
                  <option value=""></option>
-                 <option value="1" class="<?php if($estimate->approve_status == 1) { echo 'hide';}?>"><?php echo _l('purchase_not_yet_approve'); ?></option>
+                 <option value="1" class="<?php if($estimate->approve_status == 1) { echo 'hide';}?>"><?php echo _l('purchase_draft'); ?></option>
                  <option value="2" class="<?php if($estimate->approve_status == 2) { echo 'hide';}?>"><?php echo _l('purchase_approved'); ?></option>
-                 <option value="3" class="<?php if($estimate->approve_status == 3) { echo 'hide';}?>"><?php echo _l('purchase_reject'); ?></option>
-                 <option value="4" class="<?php if($estimate->approve_status == 4) { echo 'hide';}?>"><?php echo _l('close'); ?></option>
+                 <option value="3" class="<?php if($estimate->approve_status == 3) { echo 'hide';}?>"><?php echo _l('pur_rejected'); ?></option>
+                 <option value="4" class="<?php if($estimate->approve_status == 4) { echo 'hide';}?>"><?php echo _l('pur_canceled'); ?></option>
                </select>
+              <?php } ?>
                
                <div class="col-md-12 padr_div_0">
                   <br>
                   <div class="pull-right _buttons  ">
-                     <a href="javascript:void(0)" onclick="copy_public_link(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-warning btn-with-tooltip" data-toggle="tooltip" title="<?php if($estimate->hash == ''){ echo _l('create_public_link'); }else{ echo _l('copy_public_link'); } ?>" data-placement="bottom"><i class="fa fa-clone "></i></a>
+                     <a href="javascript:void(0)" onclick="copy_public_link(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-warning btn-with-tooltip mleft10" data-toggle="tooltip" title="<?php if($estimate->hash == ''){ echo _l('create_public_link'); }else{ echo _l('copy_public_link'); } ?>" data-placement="bottom"><i class="fa fa-clone "></i></a>
                   </div>
                   <div class="pull-right col-md-6">
                      <?php if($estimate->hash != '' && $estimate->hash != null){
@@ -181,18 +267,18 @@
                <div id="estimate-preview">
                   <div class="row">
 
-                    <div class="pull-right mright5">
+                    <div class="<?php if(!is_mobile()){ echo 'pull-right'; } ?> mleft5 mright5">
                           <?php if($check_appr && $check_appr != false){
-                          if($estimate->approve_status != 2 && ($check_approve_status == false || $check_approve_status == 'reject')){ ?>
+                          if($estimate->approve_status == 1 && ($check_approve_status == false || $check_approve_status == 'reject')){ ?>
                       <a data-toggle="tooltip" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-success lead-top-btn lead-view" data-placement="top" href="#" onclick="send_request_approve(<?php echo html_entity_decode($estimate->id); ?>); return false;"><?php echo _l('send_request_approve_pur'); ?></a>
                     <?php } }
                       if(isset($check_approve_status['staffid'])){
                           ?>
                           <?php 
-                      if(in_array(get_staff_user_id(), $check_approve_status['staffid']) && !in_array(get_staff_user_id(), $get_staff_sign)){ ?>
+                      if(in_array(get_staff_user_id(), $check_approve_status['staffid']) && !in_array(get_staff_user_id(), $get_staff_sign) && $estimate->status == 1){ ?>
                           <div class="btn-group" >
                                  <a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo _l('approve'); ?><span class="caret"></span></a>
-                                 <ul class="dropdown-menu dropdown-menu-right ul_style" >
+                                 <ul class="dropdown-menu dropdown-menu-<?php if(is_mobile()){ echo 'left';}else{ echo 'right';} ?> ul_style" >
                                   <li>
                                     <div class="col-md-12">
                                       <?php echo render_textarea('reason', 'reason'); ?>
@@ -219,7 +305,7 @@
                         </div>
                      
                      <div class="project-overview-right">
-                        <?php if(count($list_approve_status) > 0){ ?>
+                        <?php if(count($list_approve_status) > 0 ){ ?>
                           
                          <div class="row">
                            <div class="col-md-12 project-overview-expenses-finance">
@@ -294,7 +380,7 @@
                      </div>
                      <?php } ?>
                      <div class="col-md-6 col-sm-6">
-                        <h4 class="bold">
+                        <h4 class="bold mbot5">
                          
                            <a href="<?php echo admin_url('purchase/purchase_order/'.$estimate->id); ?>">
                            <span id="estimate-number">
@@ -302,14 +388,34 @@
                            </span>
                            </a>
                         </h4>
-                        <address>
+
+                        <address class="mbot5">
                            <?php echo format_organization_info(); ?>
                         </address>
+
+                        <?php $custom_fields = get_custom_fields('pur_order');
+                         foreach($custom_fields as $field){ ?>
+                          <?php $value = get_custom_field_value($estimate->id,$field['id'],'pur_order');
+                              if($value == ''){continue;}?>
+                          <div class="task-info">
+                          <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">
+                            <i class="fa task-info-icon fa-fw fa-lg fa-pencil-square-o"></i>
+                            <?php echo $field['name']; ?>: <?php echo $value; ?>
+                          </h5>
+                           </div>
+                          <?php } ?>
                      </div>
+                     
                      
                   </div>
                   <div class="row">
                      <div class="col-md-12">
+
+                        <?php if($estimate->approve_status != 2){ ?>
+                          <a href="javascript:void(0)" onclick="refresh_order_value(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="<?php echo _l('refresh_value_note'); ?>"><i class="fa fa-refresh"></i> <?php echo ' '._l('refresh_order_value'); ?></a>
+                        <?php } ?>
+                       
+
                         <div class="table-responsive">
                            <table class="table items items-preview estimate-items-preview" data-type="estimate">
                               <thead>
@@ -319,7 +425,9 @@
                                     <th align="right"><?php echo _l('purchase_quantity'); ?></th>
                                     <th align="right"><?php echo _l('purchase_unit_price'); ?></th>
                                     <th align="right"><?php echo _l('into_money'); ?></th>
+                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
                                     <th align="right"><?php echo _l('tax'); ?></th>
+                                    <?php } ?>
                                     <th align="right"><?php echo _l('sub_total'); ?></th>
                                     <th align="right"><?php echo _l('discount(%)'); ?></th>
                                     <th align="right"><?php echo _l('discount(money)'); ?></th>
@@ -331,28 +439,32 @@
                                  <?php if(count($estimate_detail) > 0){
                                     $count = 1;
                                     $t_mn = 0;
+                                    $item_discount = 0;
                                  foreach($estimate_detail as $es) { ?>
                                  <tr nobr="true" class="sortable">
                                     <td class="dragger item_no ui-sortable-handle" align="center"><?php echo html_entity_decode($count); ?></td>
                                     <td class="description" align="left;"><span><strong><?php 
                                     $item = get_item_hp($es['item_code']); 
-                                    if(isset($item)){
+                                    if(isset($item) && isset($item->commodity_code) && isset($item->description)){
                                        echo html_entity_decode($item->commodity_code.' - '.$item->description);
                                     }else{
-                                       echo '';
+                                       echo html_entity_decode($es['item_name']);
                                     }
-                                    ?></strong></td>
+                                    ?></strong><?php if($es['description'] != ''){ ?><br><span><?php echo html_entity_decode($es['description']); ?></span><?php } ?></td>
                                     <td align="right"  width="12%"><?php echo html_entity_decode($es['quantity']); ?></td>
-                                    <td align="right"><?php echo app_format_money($es['unit_price'],''); ?></td>
-                                    <td align="right"><?php echo app_format_money($es['into_money'],''); ?></td>
-                                    <td align="right"><?php echo app_format_money(($es['total'] - $es['into_money']),''); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['total'],''); ?></td>
+                                    <td align="right"><?php echo app_format_money($es['unit_price'],$base_currency->symbol); ?></td>
+                                    <td align="right"><?php echo app_format_money($es['into_money'],$base_currency->symbol); ?></td>
+                                    <?php if(get_option('show_purchase_tax_column') == 1){ ?>
+                                    <td align="right"><?php echo app_format_money(($es['total'] - $es['into_money']),$base_currency->symbol); ?></td>
+                                    <?php } ?>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['total'],$base_currency->symbol); ?></td>
                                     <td class="amount" width="12%" align="right"><?php echo ($es['discount_%'].'%'); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['discount_money'],''); ?></td>
-                                    <td class="amount" align="right"><?php echo app_format_money($es['total_money'],''); ?></td>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['discount_money'],$base_currency->symbol); ?></td>
+                                    <td class="amount" align="right"><?php echo app_format_money($es['total_money'],$base_currency->symbol); ?></td>
                                  </tr>
                               <?php 
                               $t_mn += $es['total_money'];
+                              $item_discount += $es['discount_money'];
                               $count++; } } ?>
                               </tbody>
                            </table>
@@ -365,7 +477,7 @@
                                  <td><span class="bold"><?php echo _l('subtotal'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo app_format_money($estimate->subtotal,''); ?>
+                                    <?php echo app_format_money($estimate->subtotal,$base_currency->symbol); ?>
                                  </td>
                               </tr>
 
@@ -373,39 +485,33 @@
                                 echo html_entity_decode($tax_data['preview_html']);
                               } ?>
 
-                              <?php if($estimate->discount_total > 0){ ?>
+
+                              <?php if(($estimate->discount_total + $item_discount) > 0){ ?>
                               
                               <tr id="subtotal">
-                                 <td><span class="bold"><?php echo _l('discount(money)'); ?></span>
+                                 <td><span class="bold"><?php echo _l('discount_total(money)'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo '-'.app_format_money($estimate->discount_total, ''); ?>
+                                    <?php echo '-'.app_format_money(($estimate->discount_total + $item_discount), $base_currency->symbol); ?>
                                  </td>
                               </tr>
                               <?php } ?>
 
-                              <?php if($estimate->tax_order_amount > 0){ ?>
+                              <?php if($estimate->shipping_fee > 0){ ?>
                                 <tr id="subtotal">
-                                 <td><span class="bold"><?php echo _l('tax').'(%)'; ?></span>
-                                 </td>
-                                 <td class="subtotal">
-                                    <?php echo app_format_money($estimate->tax_order_rate,'').' %'; ?>
-                                 </td>
-                                </tr>
-                                <tr id="subtotal">
-                                   <td><span class="bold"><?php echo _l('tax_amount'); ?></span>
-                                   </td>
-                                   <td class="subtotal">
-                                      <?php echo app_format_money($estimate->tax_order_amount, ''); ?>
-                                   </td>
+                                  <td><span class="bold"><?php echo _l('pur_shipping_fee'); ?></span></td>
+                                  <td class="subtotal">
+                                    <?php echo app_format_money($estimate->shipping_fee, $base_currency->symbol); ?>
+                                  </td>
                                 </tr>
                               <?php } ?>
+
 
                               <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('total'); ?></span>
                                  </td>
                                  <td class="subtotal bold">
-                                    <?php echo app_format_money($estimate->total, ''); ?>
+                                    <?php echo app_format_money($estimate->total, $base_currency->symbol); ?>
                                  </td>
                               </tr>
                            </tbody>
@@ -473,8 +579,7 @@
                                     <?php
                                         $file_html = '';
                                         if(count($pur_order_attachments) > 0){
-                                            $file_html .= '<hr />
-                                                    <p class="bold text-muted">'._l('customer_attachments').'</p>';
+                                            $file_html .= '<hr />';
                                             foreach ($pur_order_attachments as $f) {
                                                 $href_url = site_url(PURCHASE_PATH.'pur_order/'.$f['rel_id'].'/'.$f['file_name']).'" download';
                                                                 if(!empty($f['external'])){
@@ -494,7 +599,6 @@
                                                 } 
                                                $file_html .= '</div></div>';
                                             }
-                                            $file_html .= '<hr />';
                                             echo html_entity_decode($file_html);
                                         }
                                      ?>
@@ -517,7 +621,17 @@
                <a href="#" onclick="convert_to_purchase_inv(<?php echo html_entity_decode($estimate->id); ?> ); return false;" class="btn btn-info pull-right mright5" data-toggle="tooltip" data-placement="top" title="<?php echo _l('convert_to_payment_of_purchase_inv'); ?>" ><i class="fa fa-refresh"></i></a>
                 <?php } ?>
 
+                <?php if(purorder_inv_left_to_pay($estimate->id) > 0){ ?>
+                  <?php if(total_inv_value_by_pur_order($estimate->id) > 0){ ?>
+                    
+                    <a href="#" onclick="add_payment_with_inv(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-success pull-right"><i class="fa fa-plus"></i><?php echo ' '._l('payment'); ?></a>
 
+                  <?php }else{ ?>
+
+                     <a href="#" onclick="add_payment(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-success pull-right"><i class="fa fa-plus"></i><?php echo ' '._l('payment'); ?></a>
+
+                  <?php } ?>
+                <?php } ?>
                </div>
                <div class="clearfix"></div>
                <table class="table dt-table">
@@ -531,16 +645,23 @@
                    </thead>
                   <tbody>
                      <?php foreach($payment as $pay) { ?>
+                      <?php
+                        $base_currency = $base_currency;
+                        $invoice_currency_id = get_invoice_currency_id($pay['pur_invoice']);
+                        if($invoice_currency_id != 0){
+                          $base_currency = pur_get_currency_by_id($invoice_currency_id);
+                        }
+                       ?>
                         <tr>
-                           <td><?php echo app_format_money($pay['amount'],''); ?></td>
+                           <td><?php echo app_format_money($pay['amount'],$base_currency->symbol); ?></td>
                            <td><?php echo get_payment_mode_by_id($pay['paymentmode']); ?></td>
                            <td><?php echo html_entity_decode($pay['transactionid']); ?></td>
                            <td><?php echo _d($pay['date']); ?></td>
                            <td> 
-                            <?php if(has_permission('purchase','','edit') || is_admin()){ ?>
+                            <?php if(has_permission('purchase_invoices','','edit') || is_admin()){ ?>
                               <a href="<?php echo admin_url('purchase/payment_invoice/'.$pay['id']); ?>" class="btn btn-default btn-icon" data-toggle="tooltip" data-placement="top" title="<?php echo _l('view'); ?>" ><i class="fa fa-eye "></i></a>
                             <?php } ?>
-                            <?php if(has_permission('purchase','','delete') || is_admin()){ ?>
+                            <?php if(has_permission('purchase_invoices','','delete') || is_admin()){ ?>
                             <a href="<?php echo admin_url('purchase/delete_payment/'.$pay['id'].'/'.$estimate->id); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                             <?php } ?>
                            </td>
@@ -556,7 +677,7 @@
 </div>
 <div class="modal fade" id="payment_record_pur" tabindex="-1" role="dialog">
     <div class="modal-dialog dialog_30" >
-        <?php echo form_open(admin_url('purchase/add_payment/'.$estimate->id),array('id'=>'purorder-add_payment-form')); ?>
+        <?php echo form_open(admin_url('purchase/add_payment_on_po/'.$estimate->id),array('id'=>'purorder-add_payment-form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -569,7 +690,7 @@
                 <div class="row">
                     <div class="col-md-12">
                      <div id="additional"></div>
-                     <?php echo render_input('amount','amount',app_format_money(purorder_left_to_pay($estimate->id),''),'text',array('data-type' => 'currency')); ?>
+                     <?php echo render_input('amount','amount',purorder_inv_left_to_pay($estimate->id),'number', array('max' => purorder_inv_left_to_pay($estimate->id)) ); ?>
                         <?php echo render_date_input('date','payment_edit_date'); ?>
                         <?php echo render_select('paymentmode',$payment_modes,array('id','name'),'payment_mode'); ?>
                         
@@ -587,6 +708,44 @@
             <?php echo form_close(); ?>
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+<div class="modal fade" id="payment_record_pur_with_inv" tabindex="-1" role="dialog">
+    <div class="modal-dialog dialog_30" >
+        <?php echo form_open(admin_url('purchase/add_payment_on_po_with_inv/'.$estimate->id),array('id'=>'purorder-add_payment_with_inv-form')); ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <span class="add-title"><?php echo _l('new_payment'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                     <div id="inv_additional"></div>
+
+                     <?php $selected = $invoices[0]['id'];
+                     echo render_select('pur_invoice',$invoices,array('id','invoice_number', 'total'),'pur_invoice', $selected, array('onchange' => 'pur_inv_payment_change(this); return false;')); ?>
+
+                     <?php echo render_input('amount','amount',purinvoice_left_to_pay($invoices[0]['id']),'number', array('max' => purinvoice_left_to_pay($invoices[0]['id']))); ?>
+                        <?php echo render_date_input('date','payment_edit_date'); ?>
+                        <?php echo render_select('paymentmode',$payment_modes,array('id','name'),'payment_mode'); ?>
+                        
+                        <?php echo render_input('transactionid','payment_transaction_id'); ?>
+                        <?php echo render_textarea('note','note','',array('rows'=>7)); ?>
+
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                    <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                </div>
+            </div><!-- /.modal-content -->
+            <?php echo form_close(); ?>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     
 <div class="modal fade" id="add_action" tabindex="-1" role="dialog">
    <div class="modal-dialog">
@@ -611,5 +770,51 @@
 
       </div><!-- /.modal-content -->
    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="send_po" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+      <?php echo form_open_multipart(admin_url('purchase/send_po'),array('id'=>'send_po-form')); ?>
+      <div class="modal-content modal_withd">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">
+                  <span><?php echo _l('send_a_po'); ?></span>
+              </h4>
+          </div>
+          <div class="modal-body">
+              <div id="additional_po"></div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label for="send_to"><span class="text-danger">* </span><?php echo _l('send_to'); ?></label>
+                    <select name="send_to[]" id="send_to" class="selectpicker" required multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                        <?php foreach($vendor_contacts as $s) { ?>
+                        <option value="<?php echo html_entity_decode($s['email']); ?>" data-subtext="<?php echo html_entity_decode($s['firstname'].' '.$s['lastname']); ?>" selected><?php echo html_entity_decode($s['email']); ?></option>
+                          <?php } ?>
+                    </select>
+                    <br>
+                </div>     
+                <div class="col-md-12">
+                  <div class="checkbox checkbox-primary">
+                      <input type="checkbox" name="attach_pdf" id="attach_pdf" checked>
+                      <label for="attach_pdf"><?php echo _l('attach_purchase_order_pdf'); ?></label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                 <?php echo render_textarea('content','additional_content','',array('rows'=>6,'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($routing) || isset($routing) && $routing->description == '' ? 'routing_init_editor(\'.tinymce-task\', {height:200, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?> 
+                </div>     
+                <div id="type_care">
+                  
+                </div>        
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type=""class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+              <button id="sm_btn" type="submit" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('pur_send'); ?></button>
+          </div>
+      </div><!-- /.modal-content -->
+          <?php echo form_close(); ?>
+      </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
     <?php require 'modules/purchase/assets/js/pur_order_preview_js.php';?>

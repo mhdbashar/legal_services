@@ -8,6 +8,7 @@ var data_send_mail = {};
     data_send_mail.rel_id = <?php echo html_entity_decode($payment_invoice->id); ?>;
     data_send_mail.rel_type = 'payment_request';
     data_send_mail.addedfrom = <?php echo html_entity_decode($payment_invoice->requester); ?>;
+    data_send_mail.csrf_token_name = $('input[id="csrf_token_name"]').val();
     $.post(admin_url+'purchase/send_mail', data_send_mail).done(function(response){
     });
   <?php } ?>

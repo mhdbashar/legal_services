@@ -22,11 +22,17 @@ statistics_cost_of_purchase_orders;
     "report_from": '[name="report-from"]',
     "report_to": '[name="report-to"]',
     "year_requisition": "[name='year_requisition']",
+    "report_currency": '[name="currency"]',
   }
   
   $('select[name="products_services"]').on('change', function() {
     gen_reports();
   });
+
+  $('select[name="currency"]').on('change', function() {
+    gen_reports();
+  });
+
 
   $('select[name="months-report"]').on('change', function() {
     if($(this).val() != 'custom'){
@@ -137,12 +143,14 @@ statistics_cost_of_purchase_orders;
       if (type == 'list_import_goods') {
         report_import_goods.removeClass('hide');
       }else if(type == 'statistics_number_of_purchase_orders'){
+        $('#currency').addClass('hide');
         statistics_number_of_purchase_orders.removeClass('hide');
         $('#year_requisition').removeClass('hide');
       }else if(type == 'statistics_cost_of_purchase_orders'){
         statistics_cost_of_purchase_orders.removeClass('hide');
         $('#year_requisition').removeClass('hide');
       }else if(type == 'po_voucher_report'){
+        $('#currency').addClass('hide');
         report_po_voucher.removeClass('hide');
       }else if(type == 'po_report'){
         report_po.removeClass('hide');
@@ -273,6 +281,7 @@ function cost_of_purchase_orders_analysis() {
 
   var data = {};
    data.year = $('select[name="year_requisition"]').val();
+   data.report_currency = $('select[name="currency"]').val();
   $.post(admin_url + 'purchase/cost_of_purchase_orders_analysis', data).done(function(response) {
      response = JSON.parse(response);
         Highcharts.setOptions({

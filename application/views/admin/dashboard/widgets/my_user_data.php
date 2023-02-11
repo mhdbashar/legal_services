@@ -102,7 +102,11 @@
                            }
                            ?>
                      </div>
-                     <?php $this->load->view('admin/sessions/_table'); ?>
+                      <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane active" id="Waiting_sessions">
+                              <?php $this->load->view('admin/sessions/watting_sessions_table', array('bulk_actions' => true)); ?>
+                          </div>
+                      </div>
                   </div>
                  
                   <?php if((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()){ ?>

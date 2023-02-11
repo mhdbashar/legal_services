@@ -1167,7 +1167,6 @@ class Clients extends ClientsController
 
                             set_alert('success', _l('added_successfully', _l('session')));
                             redirect(site_url('clients/legal_services/' . $project->id . '/' . $ServID. '?group=CaseSession&session_id='. $session_id));
-
                         }
                     } else {
                         if ($project->settings->edit_sessions == 1

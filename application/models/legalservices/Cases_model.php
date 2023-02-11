@@ -1463,24 +1463,35 @@ class Cases_model extends App_Model
    public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        
+
+        $CI = &get_instance();
+        $CI->load->library('app_modules');
+        $time_format = get_option('time_format');
+        if ($time_format === '24') {
+            $format = '"%H:%i"';
+        } else {
+            $format = '"%h:%i %p"';
+        }
+
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'tasks.id as id,
         '.db_prefix() . 'tasks.name as task_name,'
         .db_prefix() . 'my_judges.name as judge,
         court_name,
+        session_link,
         customer_report,
         send_to_customer,
         startdate,
-        time,
+        TIME_FORMAT(time,'. $format .') as time
         ';
-        
+
         $this->db->select($select);
 
         $this->db->where(array(
             db_prefix() .'tasks.rel_id'             => $id,
             db_prefix() .'tasks.rel_type'           => $slug,
-            db_prefix() .'tasks.is_session'         => 1
-        ));
+            db_prefix() .'tasks.is_session'         => 1,
+            db_prefix() .'tasks.visible_to_client'         => 1
+     ));
         $this->db->where($where);
 
         $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');

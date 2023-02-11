@@ -74,9 +74,13 @@
           <?php render_yes_no_option('show_contracts_on_calendar','show_contracts_on_calendar'); ?>
           <hr />
           <?php render_yes_no_option('show_tasks_on_calendar','show_tasks_on_calendar'); ?>
-          <hr />
-          <?php render_yes_no_option('calendar_only_assigned_tasks','calendar_only_assigned_tasks'); ?>
-          <hr />
+            <hr />
+            <?php render_yes_no_option('calendar_only_assigned_tasks','calendar_only_assigned_tasks'); ?>
+            <hr />
+            <?php render_yes_no_option('show_sessions_on_calendar','show_sessions_on_calendar'); ?>
+            <hr />
+            <?php render_yes_no_option('calendar_only_assigned_sessions','calendar_only_assigned_sessions'); ?>
+            <hr />
           <?php render_yes_no_option('show_projects_on_calendar','show_projects_on_calendar'); ?>
         </div>
 
@@ -90,5 +94,7 @@
     <?php echo render_color_picker('settings[calendar_reminder_color]',_l('settings_calendar_color',_l('reminder')),get_option('calendar_reminder_color')); ?>
     <?php echo render_color_picker('settings[calendar_contract_color]',_l('settings_calendar_color',_l('contract')),get_option('calendar_contract_color')); ?>
     <?php echo render_color_picker('settings[calendar_project_color]',_l('settings_calendar_color',_l('project')),get_option('calendar_project_color')); ?>
+    <?php echo render_color_picker('settings[calendar_sessions_color]',_l('calendar_sessions_color',_l('sessions')),get_option('calendar_sessions_color')); ?>
 
-  </div>
+
+   </div>

@@ -332,7 +332,7 @@ class Utilities_model extends App_Model
                     $task['color']    = $status['color'];
 
                     if (!$client_data) {
-                        $task['onclick'] = 'init_session_modal(' . $task['id'] . '); return false';
+                        $task['onclick'] = ($task['is_session'] ? 'init_session_modal' : 'init_task_modal')  . '(' . $task['id'] . '); return false';
                         $task['url']     = '#';
                     } else {
                         $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);

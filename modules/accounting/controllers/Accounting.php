@@ -4834,7 +4834,7 @@ class Accounting extends AdminController
      */
     public function account_type_detail()
     {
-        if (!has_permission('accounting_setting', '', 'edit') && !has_permission('accounting_setting', '', 'create')) {
+        if (!has_permission('accounting_setting', '', 'edit') && !has_permission('accounting_setting', '', 'view')) {
             access_denied('accounting');
         }
 
@@ -4843,7 +4843,7 @@ class Accounting extends AdminController
             $data['note'] = $this->input->post('note', false);
             $message = '';
             if ($data['id'] == '') {
-                if (!has_permission('accounting_setting', '', 'create')) {
+                if (!has_permission('accounting_setting', '', 'edit')) {
                     access_denied('accounting');
                 }
                 $success = $this->accounting_model->add_account_type_detail($data);

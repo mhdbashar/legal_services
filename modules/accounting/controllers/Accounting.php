@@ -3852,7 +3852,7 @@ class Accounting extends AdminController
         $this->db->where('id', $this->input->post('account'));
         $account = $this->db->get(db_prefix() . 'acc_accounts')->row();
         if(is_object($account)){
-            $account_name = _l($account->key_name);
+            $account_name = _l($account->name);
         }
         $data['account_name'] = $account_name;
         $this->load->view('report/details/'.$data_filter['type'], $data);

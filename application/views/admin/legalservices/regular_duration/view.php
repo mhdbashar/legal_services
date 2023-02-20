@@ -25,7 +25,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 <?php foreach($durations as $duration){ ?>
+
                                     <tr class="has-row-options odd">
                                         <td><a  href="#" class="font-size-14"><b><?php echo $duration->name; ?></b></a>
                                             <div class="row-options">
@@ -56,8 +58,8 @@
 </div>
 <?php init_tail(); ?>
 <script>
-    $(function(){
-        initDataTable('.table-regular_durations', window.location.href, [1], [1]);
+   // $(function(){
+      //  initDataTable('.table-regular_durations', window.location.href, [1], [1]);
     });
 </script>
 </body>

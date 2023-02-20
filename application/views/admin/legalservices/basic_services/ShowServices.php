@@ -53,7 +53,7 @@
                                                     <a href="<?php echo admin_url("edit_service/$service->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                                 <?php endif; ?>
                                                 <?php if (has_permission('legal_services', '', 'delete')): ?>
-                                                <?php if ($service->id != 1): ?>
+                                                <?php if ($service->id != 1 && $service->id != 22): ?>
                                                     <a href="<?php echo admin_url("delete_service/$service->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                                 <?php endif; ?>
                                             <?php endif; ?>

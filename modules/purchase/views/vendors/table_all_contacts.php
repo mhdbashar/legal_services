@@ -34,7 +34,7 @@ foreach ($custom_fields as $key => $field) {
 
 $where = [];
 
-if (!has_permission('purchase', '', 'view')) {
+if (!has_permission('purchase_vendors', '', 'view')) {
     array_push($where, 'AND ' . db_prefix() . 'pur_contacts.userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
@@ -64,7 +64,7 @@ foreach ($rResult as $aRow) {
 
     $rowName .= '<a href="#" onclick="vendor_contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . _l('edit') . '</a>';
 
-    if (has_permission('customers', '', 'delete') || is_vendor_admin($aRow['userid']) || is_admin()) {
+    if (has_permission('purchase_vendors', '', 'delete') || is_vendor_admin($aRow['userid']) || is_admin()) {
         if ($aRow['is_primary'] == 0 || ($aRow['is_primary'] == 1 && $aRow['total_contacts'] == 1)) {
             $rowName .= ' | <a href="' . admin_url('purchase/delete_vendor_contact/' . $aRow['userid'] . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
         }

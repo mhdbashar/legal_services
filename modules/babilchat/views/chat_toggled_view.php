@@ -6,18 +6,21 @@ $color = pr_get_chat_color(get_staff_user_id(), 'chat_color');
 $currentChatColor = validateChatColorBeforeApply($color);
 
 ?>
+
 <div class="modal_container"></div>
 <div id="pusherChat">
     <div id="mainChatId" class="draggable" style="display:none;">
         <div id="membersContent">
             <div class="chatMain">
                 <div class="topInfo" onclick="slideChat(this)" style="background:<?php echo $currentChatColor; ?>;">
-                    <p class="cname">
+                    <div class="caname">
                         <?php echo get_option('companyname'); ?>
-                    </p>
-                    <svg class="main_chat" data-toggle="tooltip" data-original-title="<?php echo _l('chat_browser_full_chat') ?>" data-placement="left" viewBox="0 0 24 24">
+                    </div>
+                    <div data-toggle="tooltip" data-original-title="<?php echo _l('chat_browser_full_chat') ?>" data-placement="left">
+                    <svg class="main_chat fixinline"   viewBox="0 0 24 24">
                         <path d="M18,6V17H22V6M2,17H6V6H2M7,19H17V4H7V19Z" />
                     </svg>
+                    </div>
                 </div>
             </div>
             <div class="connection_field">
@@ -28,25 +31,38 @@ $currentChatColor = validateChatColorBeforeApply($color);
                 <input class="form-control searchBox search_hidden" placeholder="<?php echo _l('chat_search_chat_members'); ?>" />
             </div>
             <div class="chat-footer" style="background:<?php echo $currentChatColor; ?>">
-                <div class="online" onclick="slideChat(this)">
+                <div class="online" onclick="slideChat(this)" data-toggle="tooltip" title="<?= _l('chat_toggle_circle_text'); ?>">
                     <?php echo _l('chat_online_users'); ?>
-                    <svg onclick="chatCircleTransform();" fill="#ffffff" data-toggle="tooltip" title="<?= _l('chat_toggle_circle_text'); ?>" class="toCircle" viewBox="0 0 24 24">
+                    
+                   
+                    <svg onclick="chatCircleTransform();" fill="#ffffff"  class="toCircle" viewBox="0 0 24 24">
                         <path d="M3,20.59L6.59,17H18A2,2 0 0,0 20,15V6A2,2 0 0,0 18,4H5A2,2 0 0,0 3,6V20.59M3,22H2V6A3,3 0 0,1 5,3H18A3,3 0 0,1 21,6V15A3,3 0 0,1 18,18H7L3,22M6,7H17V8H6V7M6,10H17V11H6V10M6,13H14V14H6V13Z" />
                     </svg>
-
+                 
+                    
                     <span id="count">0</span>
                 </div>
-                <svg id="disableSound" data-toggle="tooltip" data-placement="left" title="<?= _l('chat_sound_notifications'); ?>" viewBox="0 0 24 24">
+                
+                <div data-toggle="tooltip" data-placement="left" title="<?= _l('chat_sound_notifications'); ?>">
+                <svg id="disableSound"  viewBox="0 0 24 24">
                     <path d="M21,12.5C21,16.47 17.91,19.73 14,20V19C17.36,18.73 20,15.92 20,12.5C20,9.08 17.36,6.27 14,6V5C17.91,5.27 21,8.53 21,12.5M18,12.5C18,14.82 16.25,16.72 14,16.97V15.96C15.7,15.72 17,14.26 17,12.5C17,10.74 15.7,9.28 14,9.04V8.03C16.25,8.28 18,10.18 18,12.5M15,12.5C15,13.15 14.58,13.71 14,13.91V11.09C14.58,11.29 15,11.85 15,12.5M2,9H6L10,5H12V20H10L6,16H2V9M3,15H6.41L10.41,19H11V6H10.41L6.41,10H3V15Z" />
                 </svg>
-                <svg data-toggle="tooltip" title="<?= _l('chat_search_chat_members'); ?>" id="searchUsers" viewBox="0 0 24 24">
+                </div>
+                
+                
+                <div data-toggle="tooltip" title="<?= _l('chat_search_chat_members'); ?>" >
+                <svg  id="searchUsers" viewBox="0 0 24 24">
                     <path d="M9.5,4A6.5,6.5 0 0,1 16,10.5C16,12.12 15.41,13.6 14.43,14.73L20.08,20.38L19.37,21.09L13.72,15.44C12.59,16.41 11.11,17 9.5,17A6.5,6.5 0 0,1 3,10.5A6.5,6.5 0 0,1 9.5,4M9.5,5A5.5,5.5 0 0,0 4,10.5A5.5,5.5 0 0,0 9.5,16A5.5,5.5 0 0,0 15,10.5A5.5,5.5 0 0,0 9.5,5Z" />
                 </svg>
+                </div>
+                
                 <div class="dropup">
                     <button class="btn btn-primary dropdown-toggle gradientButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg id="colorGradientChanger" aria-hidden="true" data-toggle="tooltip" data-original-title="<?= _l('chat_color_settings'); ?>" viewBox="0 0 24 24">
+                        <div data-toggle="tooltip" data-original-title="<?= _l('chat_color_settings'); ?>">
+                        <svg id="colorGradientChanger" aria-hidden="true"  viewBox="0 0 24 24">
                             <path d="M19.59,15.5L17.77,14.2C18.07,13.12 18.09,11.95 17.77,10.78L19.59,9.5L18.14,7L16.11,7.92C15.32,7.12 14.32,6.5 13.15,6.21L12.95,4H10.05L9.85,6.21C8.68,6.5 7.68,7.12 6.89,7.92L4.86,7L3.41,9.5L5.23,10.78C4.91,11.95 4.93,13.12 5.23,14.2L3.41,15.5L4.86,18L6.89,17.07C7.68,17.86 8.68,18.46 9.85,18.77L10.05,21H12.95L13.15,18.77C14.32,18.46 15.32,17.86 16.11,17.07L18.14,18L19.59,15.5M13.5,3C13.77,3 14,3.2 14,3.46L14.18,5.5C14.94,5.78 15.62,6.19 16.23,6.68L18.08,5.81C18.31,5.69 18.6,5.77 18.74,6L20.74,9.5C20.88,9.71 20.8,10 20.58,10.15L18.91,11.32C19.04,12.12 19.03,12.91 18.91,13.68L20.58,14.85C20.8,15 20.88,15.29 20.74,15.5L18.74,19C18.6,19.21 18.31,19.29 18.08,19.17L16.23,18.31C15.62,18.8 14.94,19.2 14.18,19.5L14,21.5C14,21.79 13.77,22 13.5,22H9.5A0.5,0.5 0 0,1 9,21.5L8.82,19.5C8.06,19.2 7.38,18.8 6.77,18.31L4.92,19.17C4.69,19.29 4.4,19.21 4.26,19L2.26,15.5C2.12,15.29 2.2,15 2.42,14.85L4.09,13.68C3.97,12.91 3.96,12.12 4.09,11.32L2.42,10.15C2.2,10 2.12,9.71 2.26,9.5L4.26,6C4.4,5.77 4.69,5.69 4.92,5.81L6.77,6.68C7.38,6.19 8.06,5.78 8.82,5.5L9,3.46C9,3.2 9.23,3 9.5,3H13.5M11.5,9A3.5,3.5 0 0,1 15,12.5A3.5,3.5 0 0,1 11.5,16A3.5,3.5 0 0,1 8,12.5A3.5,3.5 0 0,1 11.5,9M11.5,10A2.5,2.5 0 0,0 9,12.5A2.5,2.5 0 0,0 11.5,15A2.5,2.5 0 0,0 14,12.5A2.5,2.5 0 0,0 11.5,10Z" />
                         </svg>
+                        </div>
                     </button>
                     <ul class="dropdown-menu" id="colorChangerMenu">
                         <li>
@@ -107,16 +123,22 @@ $currentChatColor = validateChatColorBeforeApply($color);
           </div>
         </span>
       </span>
-            <span class="user_view_selector">
-        <svg class="user_view" data-toggle="tooltip" data-original-title="<?php echo _l('chat_browser_full_chat') ?>" data-placement="left" viewBox="0 0 24 24">
+            <div class="user_view_selector" data-toggle="tooltip" data-original-title="<?php echo _l('chat_browser_full_chat') ?>" data-placement="left">
+        <svg class="user_view"  viewBox="0 0 24 24">
           <path d="M18,6V17H22V6M2,17H6V6H2M7,19H17V4H7V19Z" />
         </svg>
-      </span>
-            <span class="closeBox">
-        <svg data-toggle="tooltip" title="<?= _l('close'); ?>" viewBox="0 0 24 24">
+      </div>
+      
+   
+      
+            <div class="closeBox" data-toggle="tooltip" title="<?= _l('close'); ?>">
+        <svg  viewBox="0 0 24 24">
           <path d="M5,13V12H11V6H12V12H18V13H12V19H11V13H5Z" />
         </svg>
-      </span>
+      </div>
+      
+  
+      
             <chatHead class="chat-head" style="background:<?php echo $currentChatColor; ?>" onclick="slideChat(this)">
                 <span class="userName"></span>
             </chatHead>
@@ -129,11 +151,16 @@ $currentChatColor = validateChatColorBeforeApply($color);
                     <div class="msgTxt">
                     </div>
                 </div>
+                
+                
                 <div class="fileUpload" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>">
                     <svg viewBox="0 0 24 24">
                         <path d="M15,11A3,3 0 0,1 12,8V4H8A2,2 0 0,0 6,6V19A2,2 0 0,0 8,21H17A2,2 0 0,0 19,19V11H15M13,8A2,2 0 0,0 15,10H18.59L13,4.41V8M8,3H13L20,10V19A3,3 0 0,1 17,22H8A3,3 0 0,1 5,19V6A3,3 0 0,1 8,3M8,24A5,5 0 0,1 3,19V7H4V19A4,4 0 0,0 8,23H16V24H8Z" />
                     </svg>
                 </div>
+                
+                
+                
                 <form hidden enctype="multipart/form-data" name="fileForm" method="post" onsubmit="uploadFileForm(this);return false;">
                     <input type="file" class="file" name="userfile" required />
                     <input type="submit" name="submit" class="save" value="save" />
@@ -1265,3 +1292,6 @@ $currentChatColor = validateChatColorBeforeApply($color);
             `;
     }
 </script>
+
+
+

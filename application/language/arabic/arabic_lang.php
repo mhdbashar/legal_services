@@ -1369,8 +1369,8 @@ $lang['send_file_subject'] = "موضوع البريد الإلكتروني";
 $lang['send_file_email'] = "عنوان البريد الإلكتروني";
 $lang['send_file_message'] = "الرسالة";
 $lang['send_file'] = "إرسال ملف";
-$lang['add_checklist_item'] = "قائمة مرجعية";
-$lang['task_checklist_items'] = "قوائم مرجعية";
+$lang['add_checklist_item'] = "الطلبات والإجراءات";
+$lang['task_checklist_items'] = "قوائم الطلبات والإجراءات";
 $lang['default_pass_clients_import'] = "كلمة المرور الإفتراضية لكل المستخدمين";
 $lang['simulate_import'] = "محاكاة الاستيراد";
 $lang['import_upload_failed'] = "فشل التحميل";
@@ -1563,7 +1563,7 @@ $lang['not_invoice_sent_to_customer'] = "تم إرسال الفاتورة إلى
 $lang['not_invoice_sent_yes'] = "نعم";
 $lang['not_invoice_sent_not'] = "لا";
 $lang['not_action_taken_from_recurring_invoice'] = "الإجراءات التي اتخذت من الفواتير المتكررة";
-$lang['not_new_reminder_for'] = "إطار جديد لـ %s ";
+$lang['not_new_reminder_for'] = "إخطار جديد لـ %s ";
 $lang['not_received_one_or_more_messages_lead'] = "تلقى رسالة بريد إلكتروني أخرى من العميل المتوقع";
 $lang['not_received_lead_imported_email_integration'] = "العميل المتوقع المستورد من تكامل البريد الإلكتروني";
 $lang['not_lead_imported_attachment'] = "المرفقات المستوردة من البريد الإلكتروني";
@@ -3421,3 +3421,56 @@ $lang['project_setting_create_sessions'] = "إنشاء جلسة";
 $lang['project_setting_edit_sessions'] = "تحرير جلسة (فقط الجلسات التي تم إنشاؤها من جهة الاتصال)";
 $lang['project_setting_upload_on_sessions'] = "تحميل المرفقات على الجلسات";
 $lang['project_setting_comment_on_sessions'] = "التعليق على جلسات الخدمة";
+$lang['note_for_button_go_to_library'] = "ملاحظة : يمكنكم تسجيل الدخول المباشر لموقع المكتبة بإستخدام نفس معلومات حسابك في النظام، ويمكن لكم التعديل على محتوى المكتبة والمواد المدرجة فيها من خلال زر التعديل الموجود أسفل كل محتوى قانوني، وعند الرغبة في إضافة أقسام جديدة إلى المكتبة يرجى التواصل معنا.
+<br>ملاحظة 2 : نبذل قصارى جهدنا لإرفاد المكتبة القانونية بالمواد اللازمة والمفيدة لجميع المستخدمين، بالرغم من ذلك فإن شبكة بابل لتقنية نظم المعلومات غير مسؤولة عن المواد المنشورة في المكتبة أو محتواها.";
+
+//disputes cases new
+$lang['disputes_cases'] = "قضايا التنفيذ و التحصيل";//disputes_cases
+$lang['project_address1'] = 'العنوان السطر 1';
+$lang['project_address2'] = 'العنوان السطر 2';
+$lang['project_addressed_to'] = 'موجهة الى';
+$lang['project_notes'] = 'ملاحظات';
+$lang['disputes_cases_statuses'] = 'حالات قضايا التنفيذ و التحصيل';//
+$lang['disputes_cases_status'] = 'حالة قضية التنفيذ و التحصيل';//
+$lang['status_name'] = 'اسم الحالة';
+$lang['project_contacts'] = 'شهود المشروع';
+$lang['project_contacts_types'] = 'شاهد 1 , شاهد 2 , شاهد 3 , شاهد 4 , شاهد 5 , شاهد 6';
+$lang['project_billing_type_1'] = 'سعر الصرف الثابت';
+$lang['project_billing_type_10'] = 'سعر ثابت + النسبة المئوية ٪';
+$lang['project_billing_type_11'] = 'نسبه مئويه ٪';
+$lang['project_rate_percent'] = 'النسبة المئوية٪';
+$lang['disputes_cases_invoices'] = 'فواتير قضايا التنفيذ و التحصيل';//disputes_cases_invoices
+$lang['disputes_total'] = 'مجموع المطالبات';
+$lang['opponent_lawyer'] = 'المحامي الخصم';
+$lang['disputes_reminder'] = 'تذكير المنازعات';//disputes_cases_reminder
+$lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';
+$lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'إعادة إرسال المنازعات تلقائيا فاتورة تذكير المتأخرة قبل / بعد أيام';
+$lang['invoice_disputes_case'] = 'فوترة قضية التنفيذ و التحصيل';
+$lang['disputes_percent_fees'] = 'الرسوم من النسبة المئوية للقضية';
+$lang['disputes_invoice_item'] = 'رسوم فاتورة قضية التنفيذ و التحصيل';
+$lang['disputes_case_invoice_description_item'] = 'وصف للعنصر';
+$lang['disputes_case_invoice_long_description_item'] = 'وصف طويل للعنصر';
+$lang['sessions_reminder_notification_before'] = 'تذكير الموعد النهائي للجلسة قبل (ساعات)';
+$lang['sessions_reminder_notification_before_help'] = 'إشعار قبل موعد الجلسة بالساعات';
+$lang['next_session_link'] = 'رابط الجلسة القادمة';
+$lang['add_new_session_from_previous'] = 'إضافة جلسة قادمة';
+$lang['add_report_session'] = 'إضافة تقرير';
+$lang['permission_edite_report'] = 'تعديل تقرير';
+$lang['permission_send_report'] = 'إرسال تقرير';
+$lang['no_primary_followers'] = 'لا يوجد متابع للجلسة';
+$lang['session_report_added'] = 'تمت إضافة تقرير للجلسة %s ...';
+$lang['not_sessions_added_you_as_follower'] = 'تمت أضافك كمتابع في الجلسة  %s ...';
+$lang['company_representative'] = "ممثل المنشأة";
+$lang['correspond'] = " الموافق ";
+$lang['sessions_send_contact_notification'] = 'إرسال تقرير الجلسة و الطلبات الى :';
+$lang['sessions_send_all_contacts_with_notifications_enabled'] = 'لجميع جهات الاتصال مع تمكين التنبيهات';
+$lang['sessions_contacts_to_notify'] = 'إختر جهات الإتصال';
+
+
+
+
+
+
+
+
+

@@ -9748,7 +9748,7 @@ class Accounting_model extends App_Model
      */
     public function get_journal_entry_next_number()
     {
-        $this->db->select('max(number) as max_number');
+        $this->db->select('max(cast(number as UNSIGNED)) as max_number');
         $max = $this->db->get(db_prefix().'acc_journal_entries')->row();
         if(is_numeric($max->max_number)){
             return $max->max_number + 1;

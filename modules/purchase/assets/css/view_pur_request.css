@@ -8,12 +8,11 @@
     border: 1px solid #c0cbda;
   }
   .p_style{
-   margin-top: 15px; color: #d81b60;
+   margin-top: 15px;
   }
   .hr_style{
     margin-top: 5px; 
-    border: 0.5px solid; 
-    color: #d81b60
+
   }
   span.fontz9{
     font-size: 9px;
@@ -55,4 +54,19 @@
 
 .pright0{
   padding-right: 0px;
+}
+
+.compare_quotes_table thead{
+  background-color: #f9f9f9;
+}
+
+input { 
+    width: 100%;
+    height:100%; 
+    display:inline-block;
+    position:relative;
+}
+
+.dialog_withd {
+    width: 65%;
 }

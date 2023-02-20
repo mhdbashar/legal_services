@@ -68,6 +68,7 @@ class Procurations_model extends App_Model
                 $procuration->filetype              = '';
                 $procuration->attachment_added_from = 0;
                 $procuration->cases = $this->get_procurations_cases($id);
+                $procuration->disputes_cases = $this->get_procurations_disputes_cases($id);
                 $this->db->where('rel_id', $id);
                 $this->db->where('rel_type', 'procuration');
                 $file = $this->db->get(db_prefix() . 'files')->row();
@@ -111,6 +112,25 @@ class Procurations_model extends App_Model
         return $this->db->get()->result_array();
     }
 
+    public function get_procurations_disputes_cases($id)
+    {
+        $this->db->select('my_disputes_cases.id, my_disputes_cases.code');
+        $this->db->from('procuration_disputes_cases');
+        $this->db->join('my_disputes_cases', 'my_disputes_cases.id = procuration_disputes_cases._case');
+        $this->db->where('procuration_disputes_cases.procuration', $id);
+        return $this->db->get()->result_array();
+
+    }
+
+    public function get_procuration_disputes_cases($id)
+    {
+        $this->db->select('my_disputes_cases.id as id,my_disputes_cases.numbering as numbering, my_disputes_cases.code as code');
+        $this->db->from('my_disputes_cases');
+        $this->db->join('procuration_disputes_cases', 'my_disputes_cases.id = procuration_disputes_cases._case');
+        $this->db->where('procuration_disputes_cases.procuration', $id);
+        return $this->db->get()->result_array();
+    }
+
     public function getProcurationCases($id)
     {
         $this->db->select('my_cases.id as id,my_cases.numbering as numbering, my_cases.code as code');
@@ -119,6 +139,7 @@ class Procurations_model extends App_Model
         $this->db->where('procuration_cases.procuration', $id);
         return $this->db->get()->result();
     }
+
 
     public function add($data)
     {
@@ -131,6 +152,12 @@ class Procurations_model extends App_Model
         {
             $pcases=$data['cases'];
             unset($data['cases']);
+        }
+
+        if(isset($data['disputes_cases']))
+        {
+            $disputes_cases=$data['disputes_cases'];
+            unset($data['disputes_cases']);
         }
 
         //start Baraa alahalabi
@@ -182,6 +209,22 @@ class Procurations_model extends App_Model
                     }
                 }
             }
+            if (isset($disputes_cases)) {
+                foreach ($disputes_cases as $pid) {
+                    if (empty($pid)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'procuration_disputes_cases', [
+                        'procuration' => $insert_id,
+                        '_case'   => $pid,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+
+                        $affectedRows++;
+                    }
+                }
+            }
+
             return $insert_id;
         }
         return false;
@@ -220,11 +263,18 @@ class Procurations_model extends App_Model
             $pcases=$data['cases'];
             unset($data['cases']);
         }
+        if(isset($data['disputes_cases']))
+        {
+            $disputes_cases=$data['disputes_cases'];
+            unset($data['disputes_cases']);
+        }
 
         $data['start_date'] = to_sql_date($data['start_date']);
         $data['end_date'] = to_sql_date($data['end_date']);
 
         $case_procurations_in = $this->get_procuration_cases($id);
+        $disputes_case_procurations_in = $this->get_procuration_disputes_cases($id);
+
         if (sizeof($case_procurations_in) > 0) {
             foreach ($case_procurations_in as $case_member) {
                 if (isset($pcases)) {
@@ -277,6 +327,59 @@ class Procurations_model extends App_Model
 
             }
         }
+        if (sizeof($disputes_case_procurations_in) > 0) {
+            foreach ($disputes_case_procurations_in as $case_member) {
+                if (isset($disputes_cases)) {
+                    if (!in_array($case_member['id'], $disputes_cases)) {
+                        $this->db->where('procuration', $id);
+                        $this->db->where('_case', $case_member['id']);
+                        $this->db->delete(db_prefix() . 'procuration_disputes_cases');
+                    }
+                }else
+                {
+                    $this->db->where('procuration', $id);
+                    $this->db->delete(db_prefix() . 'procuration_disputes_cases');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($disputes_cases)) {
+                $notifiedUsers = [];
+                foreach ($disputes_cases as $pid) {
+                    $this->db->where('procuration', $id);
+                    $this->db->where('_case', $pid);
+                    $_exists = $this->db->get(db_prefix() . 'procuration_disputes_cases')->row();
+                    if (!$_exists) {
+                        if (empty($pid)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix() . 'procuration_disputes_cases', [
+                            'procuration' => $id,
+                            '_case'   => $pid,
+                        ]);
+                    }
+                }
+            }
+        }else {
+            if (isset($disputes_cases)) {
+                foreach ($disputes_cases as $pid) {
+                    if (empty($pid)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'procuration_disputes_cases', [
+                        'procuration' => $id,
+                        '_case'   => $pid,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+
+                        $affectedRows++;
+                    }
+                }
+
+            }
+        }
+
         $this->db->where('id', $id);
         $this->db->update('tblprocurations', $data);
         if ($this->db->affected_rows() > 0) {
@@ -304,6 +407,8 @@ class Procurations_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             $this->db->where('procuration', $id);
             $this->db->delete(db_prefix() . 'procuration_cases');
+            $this->db->where('procuration', $id);
+            $this->db->delete(db_prefix() . 'procuration_disputes_cases');
             log_activity(' procuration Deleted [ID: ' . $id . ']');
             $this->deleteDirectory("uploads/procurations/$id");
             return true;

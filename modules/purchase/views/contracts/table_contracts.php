@@ -25,8 +25,14 @@ $join         = [
                 ];
 $where = [];
 
+$base_currency = get_base_currency_pur();
+
 if(isset($vendor)){
     array_push($where, ' AND '.db_prefix().'pur_contracts.vendor = '.$vendor);
+}
+
+if(isset($project)){
+    array_push($where, ' AND '.db_prefix().'pur_contracts.project = '.$project);
 }
 
 if($this->ci->input->post('vendor')){
@@ -102,13 +108,13 @@ foreach ($rResult as $aRow) {
     
             $numberOutput .= '<div class="row-options">';
 
-            if (has_permission('purchase', '', 'view')) {
+            if (has_permission('purchase_contracts', '', 'view')) {
                 $numberOutput .= ' <a href="' . admin_url('purchase/contract/' . $aRow['contract_id']) . '" >' . _l('view') . '</a>';
             }
-            if (has_permission('purchase', '', 'edit')) {
+            if (has_permission('purchase_contracts', '', 'edit')) {
                 $numberOutput .= ' | <a href="' . admin_url('purchase/contract/' . $aRow['contract_id']) . '">' . _l('edit') . '</a>';
             }
-            if (has_permission('purchase', '', 'delete')) {
+            if (has_permission('purchase_contracts', '', 'delete')) {
                 $numberOutput .= ' | <a href="' . admin_url('purchase/delete_contract/' . $aRow['contract_id']) . '" class="text-danger">' . _l('delete') . '</a>';
             }
             $numberOutput .= '</div>';
@@ -128,9 +134,9 @@ foreach ($rResult as $aRow) {
             }
             $_data = $status;
         }elseif($aColumns[$i] == 'contract_value'){
-            $_data = app_format_money($aRow['contract_value'],'');
+            $_data = app_format_money($aRow['contract_value'],$base_currency->symbol);
         }elseif($aColumns[$i] == 'payment_amount'){
-            $_data = app_format_money($aRow['payment_amount'],'');
+            $_data = app_format_money($aRow['payment_amount'],$base_currency->symbol);
         }elseif($aColumns[$i] == 'payment_cycle'){
             $_data = _l($aRow['payment_cycle'],'');
         }elseif($aColumns[$i] == db_prefix().'pur_contracts.department'){

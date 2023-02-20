@@ -88,6 +88,8 @@
                          $ServID = $this->legal->get_service_id_by_slug($slug);
                          if($ServID == 1){
                              $service_name = get_case_name_by_id($invoice->rel_sid);
+                         }elseif ($ServID == 22){
+                             $service_name = get_disputes_case_name_by_id($invoice->rel_sid);
                          }else{
                              $service_name = get_oservice_name_by_id($invoice->rel_sid);
                          }
@@ -224,7 +226,7 @@
                     echo $prefix;
                   ?>
                   </span>
-                  <input type="text" name="number" readonly class="form-control" value="<?php echo ($_is_draft) ? 'DRAFT' : $_invoice_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>" <?php echo ($_is_draft) ? 'disabled' : '' ?>>
+                  <input type="text" name="number" <?php echo get_option('saudi_vat') ? 'readonly': ''?> class="form-control" value="<?php echo ($_is_draft) ? 'DRAFT' : $_invoice_number; ?>" data-isedit="<?php echo $isedit; ?>" data-original-number="<?php echo $data_original_number; ?>" <?php echo ($_is_draft) ? 'disabled' : '' ?>>
                   <?php if($format == 3) { ?>
                   <span class="input-group-addon">
                      <span id="prefix_year" class="format-n-yy"><?php echo $yy; ?></span>
@@ -242,7 +244,8 @@
                <div class="col-md-6">
                   <?php $value = (isset($invoice) ? _d($invoice->date) : _d(date('Y-m-d')));
                   $date_attrs = array();
-                  $date_attrs['disabled'] = true;
+                  if(get_option('saudi_vat') && isset($invoice))
+                    $date_attrs['disabled'] = true;
                   if(isset($invoice) && $invoice->recurring > 0 && $invoice->last_recurring_date != null) {
                     $date_attrs['disabled'] = true;
                   }

@@ -12,7 +12,7 @@
                     $amount = $invoice->total_left_to_pay;
                     $totalAllowed = 0;
                     echo render_input('amount','record_payment_amount_received',$amount,'number',array('max'=>$amount)); ?>
-                    <?php echo render_date_input('date','record_payment_date',_d(date('Y-m-d')), ['disabled' => true]); ?>
+                    <?php echo render_date_input('date','record_payment_date',_d(date('Y-m-d'))); ?>
                     <?php echo form_hidden('date', _d(date('Y-m-d'))) ?>
                     <div class="form-group">
                         <label for="paymentmode" class="control-label"><?php echo _l('payment_mode'); ?></label>

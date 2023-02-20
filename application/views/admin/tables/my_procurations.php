@@ -27,6 +27,8 @@ if(!empty($client_id)){
 
 if(!empty($case_id)){
     $where[] = 'AND id IN (SELECT procuration from ' . db_prefix() . 'procuration_cases WHERE _case="'.$case_id.'")';
+}elseif (!empty($disputes_case_id)){
+    $where[] = 'AND id IN (SELECT procuration from ' . db_prefix() . 'procuration_disputes_cases WHERE _case="'.$disputes_case_id.'")';
 }
 $join = [];
 
@@ -39,6 +41,8 @@ $ci->load->model('procurationtype_model');
 $ci->load->model('procurationstate_model');
 $ci->load->model('procurations_model');
 $ci->load->model('legalservices/Cases_model', 'case');
+$ci->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
+
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['come_from'];
@@ -63,6 +67,13 @@ foreach ($rResult as $aRow) {
         if(is_object($ci->case->get($case['id'])))
             $show_case .= $ci->case->get($case['id'])->name . ', ';
     }
+
+    $disputes_cases = $ci->procurations_model->get_procurations_disputes_cases($aRow['id']);
+    foreach($disputes_cases as $case){
+        if(is_object($ci->Dcase->get($case['id'])))
+            $show_case .= $ci->Dcase->get($case['id'])->name . ', ';
+    }
+
     $row[] = $show_case;
 
     

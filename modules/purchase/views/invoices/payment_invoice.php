@@ -6,6 +6,12 @@
       <div class="col-md-6">
         <div class="panel_s">
           <div class="panel-body">
+             <?php $csrf = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash(),
+              );
+              ?>
+              <input type="hidden" id="csrf_token_name" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
           	   <?php if($payment_invoice->approval_status == 1){ ?>
                     <div class="ribbon info"><span class="fontz9" ><?php echo _l('purchase_not_yet_approve'); ?></span></div>
                 <?php }elseif($payment_invoice->approval_status == 2){ ?>
@@ -14,7 +20,7 @@
                   <div class="ribbon danger"><span><?php echo _l('purchase_reject'); ?></span></div>
                 <?php } ?>
 
-          	<h4 class="pull-left "><?php echo html_entity_decode($title); ?></h4>
+          	<h4 class="pull-left "><?php echo _l('payment_for').' '; ?><a href="<?php echo admin_url('purchase/purchase_invoice/'. $payment_invoice->pur_invoice); ?>"><?php echo html_entity_decode($invoice->invoice_number); ?></a></h4>
 					<div class="clearfix"></div>
 				<hr class="hr-panel-heading" />
           	<div class="col-md-12">
@@ -211,6 +217,32 @@
 
   </div>
 </div>
+
+<div class="modal fade" id="add_action" tabindex="-1" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         
+        <div class="modal-body">
+         <p class="bold" id="signatureLabel"><?php echo _l('signature'); ?></p>
+            <div class="signature-pad--body">
+              <canvas id="signature" height="130" width="550"></canvas>
+            </div>
+            <input type="text" class="ip_style" tabindex="-1" name="signature" id="signatureInput">
+            <div class="dispay-block">
+              <button type="button" class="btn btn-default btn-xs clear" tabindex="-1" onclick="signature_clear();"><?php echo _l('clear'); ?></button>
+            
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('cancel'); ?></button>
+           <button onclick="sign_request(<?php echo html_entity_decode($payment_invoice->id); ?>);" data-loading-text="<?php echo _l('wait_text'); ?>" autocomplete="off" class="btn btn-success"><?php echo _l('e_signature_sign'); ?></button>
+          </div>
+
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <?php init_tail(); ?>
 </body>
 </html>

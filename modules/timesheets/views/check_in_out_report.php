@@ -17,6 +17,7 @@
                         <table class="apitable table dt-table">
                             <thead>
                             <th><?php echo _l('full_name'); ?></th>
+                            <th><?php echo _l('date'); ?></th>
                             <th><?php echo _l('email'); ?></th>
                             <th><?php echo _l('type'); ?></th>
                             <th><?php echo _l('brand'); ?></th>
@@ -26,6 +27,7 @@
                             <?php foreach($check_in_out as $item){ ?>
                                 <tr>
                                     <td><?php echo addslashes($item['firstname'] . ' ' . $item['second_name'] . ' '. $item['third_name']. ' ' .$item['lastname']); ?></td>
+                                    <td><?php echo addslashes($item['date']); ?></td>
                                     <td><?php echo addslashes($item['email']); ?></td>
                                     <td class="badge"><?php echo $item['type_check'] == 1 ? 'In' : 'Out'; ?></td>
                                     <td><?php echo addslashes($item['brand']); ?></td>

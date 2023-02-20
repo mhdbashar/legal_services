@@ -591,3 +591,4 @@ function deleteChatConversation(type)
         setTimeout(() => location.reload(), 2000);
     });
 }
+

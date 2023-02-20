@@ -42,36 +42,36 @@ class Sessions_model extends App_Model
                 'name'           => _l('task_status_1'),
                 'order'          => 1,
                 'filter_default' => true,
-                ],
-             [
+            ],
+            [
                 'id'             => self::STATUS_IN_PROGRESS,
                 'color'          => '#03A9F4',
                 'name'           => _l('task_status_4'),
                 'order'          => 2,
                 'filter_default' => true,
-                ],
-             [
+            ],
+            [
                 'id'             => self::STATUS_TESTING,
                 'color'          => '#2d2d2d',
                 'name'           => _l('task_status_3'),
                 'order'          => 3,
                 'filter_default' => true,
-                ],
-              [
+            ],
+            [
                 'id'             => self::STATUS_AWAITING_FEEDBACK,
                 'color'          => '#adca65',
                 'name'           => _l('task_status_2'),
                 'order'          => 4,
                 'filter_default' => true,
-                ],
+            ],
             [
                 'id'             => self::STATUS_COMPLETE,
                 'color'          => '#84c529',
                 'name'           => _l('task_status_5'),
                 'order'          => 100,
                 'filter_default' => false,
-                ],
-            ]);
+            ],
+        ]);
 
         usort($statuses, function ($a, $b) {
             return $a['order'] - $b['order'];
@@ -477,7 +477,7 @@ class Sessions_model extends App_Model
                 OR
                 (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $this->db->escape_str($customer_id) . ') AND rel_type="customer")
                 )'
-                );
+            );
         }
 
         if (!$has_permission_view) {
@@ -492,9 +492,9 @@ class Sessions_model extends App_Model
             $task_rel_value        = get_relation_values($task_rel_data, $task['rel_type']);
             $tasks[$i]['rel_name'] = $task_rel_value['name'];
             if (total_rows(db_prefix() . 'taskstimers', [
-                'task_id' => $task['id'],
-                'end_time' => null,
-            ]) > 0) {
+                    'task_id' => $task['id'],
+                    'end_time' => null,
+                ]) > 0) {
                 $tasks[$i]['started_timers'] = true;
             } else {
                 $tasks[$i]['started_timers'] = false;
@@ -558,7 +558,6 @@ class Sessions_model extends App_Model
             $ticket_to_task = true;
             unset($data['ticket_to_task']);
         }
-
         $data['is_session']            = 1;
         $data['startdate']             = to_sql_date($data['startdate']);
         $data['duedate']               = to_sql_date($data['duedate']);
@@ -706,6 +705,42 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+        if (isset($data['cat_id'])) {
+            $session['cat_id'] = $data['cat_id'];
+            unset($data['cat_id']);
+        }
+        if (isset($data['subcat_id'])) {
+            $session['subcat_id'] = $data['subcat_id'];
+            unset($data['subcat_id']);
+        }
+        if (isset($data['childsubcat_id'])) {
+            $session['childsubcat_id'] = $data['childsubcat_id'];
+            unset($data['childsubcat_id']);
+        }
+        if (isset($data['file_number_court'])) {
+            $session['file_number_court'] = $data['file_number_court'];
+            unset($data['file_number_court']);
+        }
+        if (isset($data['session_link'])) {
+            $session['session_link'] = $data['session_link'];
+            unset($data['session_link']);
+        }
+
+        if (isset($data['clientid'])) {
+            $session['clientid'] = $data['clientid'];
+            unset($data['clientid']);
+        }
+
+        if (isset($data['contact_notification'])) {
+            $session['contact_notification'] = $data['contact_notification'];
+            if ($data['contact_notification'] == 2) {
+                $session['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $session['notify_contacts'] = serialize([]);
+            }
+            unset($data['contact_notification']);
+            unset($data['notify_contacts']);
+        }
 
         $session_info = true;
         //End Block For Legal Services Session
@@ -734,7 +769,7 @@ class Sessions_model extends App_Model
                         'dateadded'   => date('Y-m-d H:i:s'),
                         'addedfrom'   => get_staff_user_id(),
                         'list_order'  => $key,
-                        ]);
+                    ]);
                 }
             }
             handle_tags_save($tags, $insert_id, 'task');
@@ -746,7 +781,7 @@ class Sessions_model extends App_Model
                 $this->load->model('leads_model');
                 $this->leads_model->log_lead_activity($data['rel_id'], 'not_activity_new_task_created', false, serialize([
                     '<a href="' . admin_url('tasks/view/' . $insert_id) . '" onclick="init_session_modal(' . $insert_id . ');return false;">' . $data['name'] . '</a>',
-                    ]));
+                ]));
             }
 
             if ($clientRequest == false) {
@@ -790,14 +825,14 @@ class Sessions_model extends App_Model
                                     $fpt      = fopen($task_path . $filename, 'w');
                                     if ($fpt && fwrite($fpt, stream_get_contents($f))) {
                                         $this->db->insert(db_prefix() . 'files', [
-                                                            'rel_id'         => $insert_id,
-                                                            'rel_type'       => 'task',
-                                                            'file_name'      => $filename,
-                                                            'filetype'       => $ticket_attachment['filetype'],
-                                                            'staffid'        => get_staff_user_id(),
-                                                            'dateadded'      => date('Y-m-d H:i:s'),
-                                                            'attachment_key' => app_generate_hash(),
-                                                        ]);
+                                            'rel_id'         => $insert_id,
+                                            'rel_type'       => 'task',
+                                            'file_name'      => $filename,
+                                            'filetype'       => $ticket_attachment['filetype'],
+                                            'staffid'        => get_staff_user_id(),
+                                            'dateadded'      => date('Y-m-d H:i:s'),
+                                            'attachment_key' => app_generate_hash(),
+                                        ]);
                                     }
                                     if ($fpt) {
                                         fclose($fpt);
@@ -811,7 +846,7 @@ class Sessions_model extends App_Model
             }
 
             log_activity('New '.$log_text.' Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
-                hooks()->do_action('after_add_task', $insert_id);
+            hooks()->do_action('after_add_task', $insert_id);
 
             return $insert_id;
         }
@@ -937,12 +972,12 @@ class Sessions_model extends App_Model
         foreach ($checklistItems as $key => $chkID) {
             $itemTemplate = $this->get_checklist_template($chkID);
             $this->db->insert(db_prefix() . 'task_checklist_items', [
-                    'description' => $itemTemplate->description,
-                    'taskid'      => $id,
-                    'dateadded'   => date('Y-m-d H:i:s'),
-                    'addedfrom'   => get_staff_user_id(),
-                    'list_order'  => $key,
-                    ]);
+                'description' => $itemTemplate->description,
+                'taskid'      => $id,
+                'dateadded'   => date('Y-m-d H:i:s'),
+                'addedfrom'   => get_staff_user_id(),
+                'list_order'  => $key,
+            ]);
             $affectedRows++;
         }
 
@@ -980,6 +1015,43 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+        if (isset($data['cat_id'])) {
+            $session['cat_id'] = $data['cat_id'];
+            unset($data['cat_id']);
+        }
+        if (isset($data['subcat_id'])) {
+            $session['subcat_id'] = $data['subcat_id'];
+            unset($data['subcat_id']);
+        }
+        if (isset($data['childsubcat_id'])) {
+            $session['childsubcat_id'] = $data['childsubcat_id'];
+            unset($data['childsubcat_id']);
+        }
+        if (isset($data['file_number_court'])) {
+            $session['file_number_court'] = $data['file_number_court'];
+            unset($data['file_number_court']);
+        }
+        if (isset($data['session_link'])) {
+            $session['session_link'] = $data['session_link'];
+            unset($data['session_link']);
+        }
+
+        if (isset($data['clientid'])) {
+            $session['clientid'] = $data['clientid'];
+            unset($data['clientid']);
+        }
+
+        if (isset($data['contact_notification'])) {
+            $session['contact_notification'] = $data['contact_notification'];
+            if ($data['contact_notification'] == 2) {
+                $session['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $session['notify_contacts'] = serialize([]);
+            }
+            unset($data['contact_notification']);
+            unset($data['notify_contacts']);
+        }
+
         //End Block For Legal Services Session
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);
@@ -1026,7 +1098,7 @@ class Sessions_model extends App_Model
     {
         $this->db->insert(db_prefix() . 'sessions_checklist_templates', [
             'description' => $description,
-            ]);
+        ]);
 
         return $this->db->insert_id();
     }
@@ -1226,9 +1298,9 @@ class Sessions_model extends App_Model
 
             if (get_staff_user_id() != $data['follower']) {
                 $notified = add_notification([
-                    'description'     => 'not_task_added_you_as_follower',
+                    'description'     => 'not_sessions_added_you_as_follower',
                     'touserid'        => $data['follower'],
-                    'link'            => '#taskid=' . $data['taskid'],
+                    'link'            => 'legalservices/sessions/index/' . $data['taskid'],
                     'additional_data' => serialize([
                         $taskName,
                     ]),
@@ -1240,11 +1312,11 @@ class Sessions_model extends App_Model
 
                 $member = $this->staff_model->get($data['follower']);
 
-                if(check_session_by_id($data['taskid'])){
+//                if(check_session_by_id($data['taskid'])){
                     send_mail_template('session_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
-                }else{
-                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
-                }
+//                }else{
+//                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+//                }
             }
 
             $description = 'not_task_added_someone_as_follower';
@@ -1262,6 +1334,11 @@ class Sessions_model extends App_Model
             }
 
             $this->_send_task_responsible_users_notification($description, $data['taskid'], $data['follower'], '', $additional_notification_data);
+
+            hooks()->do_action('task_follower_added', [
+                'staff_id' => $data['follower'],
+                'task_id'  => $data['taskid'],
+            ]);
 
             return true;
         }
@@ -1301,7 +1378,7 @@ class Sessions_model extends App_Model
                 $notification_data = [
                     'description' => ($cronOrIntegration == false ? 'not_session_assigned_to_you' : 'new_session_assigned_non_user'),
                     'touserid'    => $data['assignee'],
-                    'link'        => '#sessionid=' . $data['taskid'],
+                    'link'        => 'legalservices/sessions/index/' . $data['taskid'],
                 ];
 
                 $notification_data['additional_data'] = serialize([
@@ -1499,7 +1576,7 @@ class Sessions_model extends App_Model
                     'contact_id' => $file->contact_id,
                     'file_id'    => $file_id,
                     'dateadded'  => date('Y-m-d H:i:s'),
-                    ]);
+                ]);
             }
 
             return true;
@@ -1888,7 +1965,7 @@ class Sessions_model extends App_Model
             $this->db->where('rel_type', 'task');
             $this->db->delete(db_prefix() . 'taggables');
 
-            $this->db->where('rel_type', 'task');
+            $this->db->where('rel_type', 'session');
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'reminders');
 
@@ -1945,7 +2022,7 @@ class Sessions_model extends App_Model
             }
 
             if ($this->should_staff_receive_notification($member['staffid'], $taskid)) {
-                $link = '#sessionid=' . $taskid;
+                $link = 'legalservices/sessions/index/' . $taskid;
 
                 if ($comment_id) {
                     $link .= '#comment_' . $comment_id;
@@ -2021,9 +2098,9 @@ class Sessions_model extends App_Model
     public function is_task_follower($userid, $taskid)
     {
         if (total_rows(db_prefix() . 'task_followers', [
-            'staffid' => $userid,
-            'taskid' => $taskid,
-        ]) == 0) {
+                'staffid' => $userid,
+                'taskid' => $taskid,
+            ]) == 0) {
             return false;
         }
 
@@ -2039,9 +2116,9 @@ class Sessions_model extends App_Model
     public function is_task_assignee($userid, $taskid)
     {
         if (total_rows(db_prefix() . 'task_assigned', [
-            'staffid' => $userid,
-            'taskid' => $taskid,
-        ]) == 0) {
+                'staffid' => $userid,
+                'taskid' => $taskid,
+            ]) == 0) {
             return false;
         }
 
@@ -2057,10 +2134,10 @@ class Sessions_model extends App_Model
     public function is_task_creator($userid, $taskid)
     {
         if (total_rows(db_prefix() . 'tasks', [
-            'addedfrom' => $userid,
-            'id' => $taskid,
-            'is_added_from_contact' => 0,
-        ]) == 0) {
+                'addedfrom' => $userid,
+                'id' => $taskid,
+                'is_added_from_contact' => 0,
+            ]) == 0) {
             return false;
         }
 
@@ -2144,10 +2221,10 @@ class Sessions_model extends App_Model
             }
             $this->db->where('id', $timer_id);
             $this->db->update(db_prefix() . 'taskstimers', [
-                    'end_time' => time(),
-                    'task_id'  => $task_id,
-                    'note'     => ($note != '' ? $note : null),
-                ]);
+                'end_time' => time(),
+                'task_id'  => $task_id,
+                'note'     => ($note != '' ? $note : null),
+            ]);
         }
 
         return true;
@@ -2233,12 +2310,12 @@ class Sessions_model extends App_Model
         $affectedRows = 0;
         $this->db->where('id', $data['timer_id']);
         $this->db->update(db_prefix() . 'taskstimers', [
-                'start_time' => $start_time,
-                'end_time'   => $end_time,
-                'staff_id'   => $timesheet_staff_id,
-                'task_id'    => $data['timesheet_task_id'],
-                'note'       => (isset($data['note']) && $data['note'] != '' ? nl2br($data['note']) : null),
-            ]);
+            'start_time' => $start_time,
+            'end_time'   => $end_time,
+            'staff_id'   => $timesheet_staff_id,
+            'task_id'    => $data['timesheet_task_id'],
+            'note'       => (isset($data['note']) && $data['note'] != '' ? nl2br($data['note']) : null),
+        ]);
 
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
@@ -2435,7 +2512,7 @@ class Sessions_model extends App_Model
     public function get_reminders($task_id)
     {
         $this->db->where('rel_id', $task_id);
-        $this->db->where('rel_type', 'task');
+        $this->db->where('rel_type', 'session');
         $this->db->order_by('isnotified,date', 'ASC');
 
         return $this->db->get(db_prefix() . 'reminders')->result_array();
@@ -2478,9 +2555,9 @@ class Sessions_model extends App_Model
         }
 
         return ($this->is_task_assignee($staffid, $taskid)
-                || $this->is_task_follower($staffid, $taskid)
-                || $this->is_task_creator($staffid, $taskid)
-                || $this->staff_has_commented_on_task($staffid, $taskid));
+            || $this->is_task_follower($staffid, $taskid)
+            || $this->is_task_creator($staffid, $taskid)
+            || $this->staff_has_commented_on_task($staffid, $taskid));
     }
 
     public function new_task_to_select_timesheet($data)
@@ -2516,64 +2593,13 @@ class Sessions_model extends App_Model
         return $this->db->get('tblmy_judges')->result_array();
     }
 
-    public function update_customer_report($id, $data)
+    public function add_session_report($id, $data)
     {
-        if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
-            $send_mail_to_opponent = true;
-            unset($data['send_mail_to_opponent']);
-        }else{
-            $send_mail_to_opponent = false;
-            unset($data['send_mail_to_opponent']);
-        }
-        $sent = $this->send_mail_next_action_session($id, $send_mail_to_opponent);
-        if($sent == 1){
-            $data['next_session_date'] = to_sql_date($data['next_session_date']);
-            $this->db->where('task_id' , $id);
-            $this->db->set('customer_report', 1);
-            $this->db->update(db_prefix() .'my_session_info', $data);
-            if ($this->db->affected_rows() > 0) {
-                log_activity(' Customer report added [ Session ID ' . $id . ']');
-                return true;
-            }
-        }else{
-            return $sent;
-        }
-        return false;
-    }
-
-    function send_mail_next_action_session($id, $send_mail_to_opponent)
-    {
-        $this->db->where('id', $id);
-        $row = $this->db->get(db_prefix() .'tasks')->row();
-        $rel_type = $row->rel_type;
-        $rel_id = $row->rel_id;
-        $service_id = $this->legal->get_service_id_by_slug($rel_type);
-        if($service_id == 1){
-            $client_id = get_client_id_by_case_id($rel_id);
-            $opponent_id = get_opponent_id_by_case_id($rel_id);
-        }else{
-            $client_id = get_client_id_by_oservice_id($rel_id);
-            $opponent_id = '';
-        }
-        $this->db->where('userid', $client_id);
-        $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
-        if(!isset($contact_client)){
-            echo 'error_client'; // This customer doesn't have primary contact
-            return;
-        }
-        if($send_mail_to_opponent == true){
-            $this->db->where('userid', $opponent_id);
-            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
-            if(!isset($contact_opponent)){
-                echo 'error_opponent'; // This opponent doesn't have primary contact
-                return;
-            }  else{
-                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
-            }
-        }
-
-        if(isset($contact_client)){ // && isset($contact_opponent)
-            send_mail_template('reminder_for_next_session_action',$contact_client, $id);
+        $this->db->where('task_id' , $id);
+        $data['customer_report'] = 1;
+        $this->db->update(db_prefix() .'my_session_info', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity(' Customer report added [ Session ID ' . $id . ']');
             return true;
         }
         return false;
@@ -2595,27 +2621,6 @@ class Sessions_model extends App_Model
             return 2;
         }
         return false;
-    }
-
-    public function send_mail_to_client($id)
-    {
-        $this->db->where('id', $id);
-        $service_data = $this->db->get(db_prefix() .'tasks')->row();
-        $rel_type = $service_data->rel_type;
-        $rel_id = $service_data->rel_id;
-        $service_id = $this->legal->get_service_id_by_slug($rel_type);
-        if($service_id == 1){
-            $client_id = get_client_id_by_case_id($rel_id);
-        }else{
-            $client_id = get_client_id_by_oservice_id($rel_id);
-        }
-        $this->db->where('userid', $client_id);
-        $contact = $this->db->get(db_prefix() . 'contacts')->row();
-        if(isset($contact)){
-            send_mail_template('send_report_session_to_customer', $contact, $service_data);
-            return true;
-        }
-        return 2; // This customer doesn't have primary contact
     }
 
     public function get_session_data($task_id)

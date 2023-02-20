@@ -84,14 +84,14 @@ var commodity_group_type_value = {};
                   
                   ],
 
-        colHeaders: true,
-        nestedHeaders: [{"1":"<?php echo _l('commodity_group_code') ?>",
-                          "2":"<?php echo _l('commodity_group_name') ?>",
-                          "3":"<?php echo _l('order') ?>",
-                         "4":"<?php echo _l('display') ?>",
-                         "5":"<?php echo _l('note') ?>",
-                        }],
-
+        colHeaders: [
+        "<?php echo _l('commodity_group_code') ?>",
+        "<?php echo _l('commodity_group_name') ?>",
+        "<?php echo _l('order') ?>",
+        "<?php echo _l('display') ?>",
+        "<?php echo _l('note') ?>",
+      ],
+       
         
         data: [
         {"commodity_group_code":"","name":"","order":"","display":"yes","note":""},
@@ -203,13 +203,14 @@ var commodity_group_type_value = {};
               
               ],
 
-        colHeaders: true,
-        nestedHeaders: [{"1":"<?php echo _l('commodity_group_code') ?>",
-                      "2":"<?php echo _l('commodity_group_name') ?>",
-                      "3":"<?php echo _l('order') ?>",
-                      "4":"<?php echo _l('display') ?>",
-                      "5":"<?php echo _l('note') ?>",
-                      }],
+        colHeaders: [
+        "<?php echo _l('commodity_group_code') ?>",
+        "<?php echo _l('commodity_group_name') ?>",
+        "<?php echo _l('order') ?>",
+        "<?php echo _l('display') ?>",
+        "<?php echo _l('note') ?>",
+      ],
+
 
         data: [{"commodity_group_code":commodity_group_code,"name":name,"order":order,"display":display,"note":note}],
 

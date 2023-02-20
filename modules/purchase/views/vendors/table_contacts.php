@@ -53,7 +53,7 @@ foreach ($rResult as $aRow) {
     $rowName .= '<a href="#" onclick="vendor_contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . _l('edit') . '</a>';
 
 
-    if (has_permission('purchase', '', 'delete') || is_vendor_admin($aRow['userid']) || is_admin()) {
+    if (has_permission('purchase_vendors', '', 'delete') || is_vendor_admin($aRow['userid']) || is_admin()) {
         if ($aRow['is_primary'] == 0 || ($aRow['is_primary'] == 1 && $total_client_contacts == 1)) {
             $rowName .= ' | <a href="' . admin_url('purchase/delete_vendor_contact/' . $aRow['userid'] . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
         }

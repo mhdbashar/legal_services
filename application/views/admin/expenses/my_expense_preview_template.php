@@ -197,6 +197,9 @@
                       if($ServID == 1){ ?>
                           <p class="bold mbot5"><?php echo _l('ServiceTitle'); ?></p>
                           <p class="mbot15"><a href="<?php echo admin_url('Case/view/'.$ServID.'/'.$expense->rel_sid); ?>"><?php echo get_case_name_by_id($expense->rel_sid); ?></a></p>
+                      <?php }elseif($ServID == 22){ ?>
+                          <p class="bold mbot5"><?php echo _l('ServiceTitle'); ?></p>
+                          <p class="mbot15"><a href="<?php echo admin_url('Disputes_cases/view/'.$ServID.'/'.$expense->rel_sid); ?>"><?php echo get_disputes_case_name_by_id($expense->rel_sid); ?></a></p>
                       <?php }else{ ?>
                           <p class="bold mbot5"><?php echo _l('ServiceTitle'); ?></p>
                           <p class="mbot15"><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$expense->rel_sid); ?>"><?php echo get_oservice_name_by_id($expense->rel_sid); ?></a></p>

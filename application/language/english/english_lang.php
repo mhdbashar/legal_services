@@ -3852,3 +3852,45 @@ $lang['project_setting_create_sessions'] = "create session";
 $lang['project_setting_edit_sessions'] = "edit sessions (only sessions created from contact)";
 $lang['project_setting_upload_on_sessions'] = "upload attachments on sessions";
 $lang['project_setting_comment_on_sessions'] = "comment on law service sessions";
+
+//disputes_cases
+$lang['disputes_cases'] = 'Disputes Cases';
+$lang['project_address1'] = 'Address line 1';
+$lang['project_address2'] = 'Address line 2';
+$lang['project_addressed_to'] = 'Addressed to';
+$lang['project_notes'] = 'Notes';
+$lang['disputes_cases_statuses'] = 'Disputes Cases Statuses';
+$lang['disputes_cases_status'] = 'Dispute Case Status';
+$lang['status_name'] = 'Status name';
+$lang['project_contacts'] = 'Project Witnesses';
+$lang['project_contacts_types'] = 'witness 1,witness 2,witness 3,witness 4,witness 5,witness 6';
+$lang['project_billing_type_1'] = 'Fixed Rate';
+$lang['project_billing_type_10'] = 'Fixed Rate + Percent %';
+$lang['project_billing_type_11'] = 'Percent %';
+$lang['project_rate_percent'] = 'Rate Percent %';
+$lang['disputes_cases_invoices'] = 'Disputes Cases Invoices';
+$lang['disputes_total'] = 'Disputes Total';
+$lang['opponent_lawyer'] = 'Opponent Lawyer';
+$lang['disputes_reminder'] = 'Disputes Reminder';
+$lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'Automatically Send Disputes Invoice Overdue Reminder Before/After Days';
+$lang['automatically_resend_disputes_invoice_overdue_reminder_after'] = 'Automatically Resend Disputes Invoice Overdue Reminder Before/After Days';
+$lang['invoice_disputes_case'] = 'Disputes Invoice';
+$lang['disputes_percent_fees'] = 'Disputes Percent Fees';
+$lang['disputes_invoice_item'] = 'Disputes Invoice';
+$lang['sessions_reminder_notification_before'] = 'Remind The Session Deadline Before (hours)';
+$lang['sessions_reminder_notification_before_help'] = 'Notification Hours Before The Session';
+$lang['next_session_link'] = 'Next Session Link';
+$lang['add_new_session_from_previous'] = 'Add An Upcoming Session';
+$lang['add_report_session'] = 'Add Report';
+$lang['permission_edite_report'] = 'Edite Report';
+$lang['permission_send_report'] = 'Send Report';
+$lang['no_primary_followers'] = 'No Primary Follower';
+$lang['not_sessions_added_you_as_follower'] = 'added you as follower on session %s ...';
+$lang['sessions_send_contact_notification'] = 'Send the session report and requests to :';
+$lang['sessions_send_all_contacts_with_notifications_enabled'] = 'For all contacts with alerts enabled';
+$lang['sessions_contacts_to_notify'] = 'Choose contacts';
+
+
+
+
+

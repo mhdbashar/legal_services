@@ -98,6 +98,16 @@
 <script>
     $(function(){
 
+        $('input[name="settings[saudi_vat]"]').on('click', function() {
+            var activated = $(this).val()
+            if(activated === '0'){
+                $('input[name="settings[company_vat]"]').prop('readonly', true)
+            }
+            else{
+                $('input[name="settings[company_vat]"]').prop('readonly', false)
+            }
+        });
+
         <?php if(get_option('time_format') == 24) {?>
         $('#automatically_send_lawyer_daily_agenda').datetimepicker({
             datepicker:false,

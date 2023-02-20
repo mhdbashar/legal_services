@@ -89,7 +89,7 @@ class Cron_model extends App_Model
             $this->empty_legal_services_recycle_bin();
 
             $this->send_lawyer_daily_agenda();
-
+            $this->recurring_disputes_cases_invoices();
             //$this->fix_and_separate_names();
 
             /**
@@ -2542,6 +2542,28 @@ class Cron_model extends App_Model
             }
 
             update_option('_fix_staffs_and_contacts_names', true);
+        }
+    }
+
+    private function recurring_disputes_cases_invoices()
+    {
+        $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
+        if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
+            return;
+        }
+        $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
+        $this->db->select('id,duedate,clientid');
+        $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
+        $this->db->where('sent', 0);
+        $this->db->where('status !=', 2);
+        $invoices = $this->db->get()->result_array();
+        foreach ($invoices as $invoice) {
+            if(date('Y-m-d') == $invoice['duedate']){
+                $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
+                if($send){
+                    continue;
+                }
+            }
         }
     }
 }

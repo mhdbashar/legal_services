@@ -15,9 +15,10 @@ var expenseDropzone;
         "project": "[name='project[]']",
         "department": "[name='department[]']",
         "delivery_status": "[name='delivery_status[]']",
+        "purchase_request": "[name='pur_request[]']"
     };
 
-    initDataTable('.table-table_pur_order', admin_url+'purchase/table_pur_order', [0], [0], Params,[1, 'desc']);
+    initDataTable('.table-table_pur_order', admin_url+'purchase/table_pur_order', [0], [0], Params,[2, 'desc']);
 	init_pur_order();
     $.each(Params, function(i, obj) {
         $('select' + obj).on('change', function() {  
@@ -117,6 +118,14 @@ function toggle_small_pur_order_view(table, main_data) {
 
 function convert_expense(pur_order,total){
     "use strict";
+
+    $.post(admin_url + 'purchase/get_project_info/'+pur_order).done(function(response){
+      response = JSON.parse(response);
+      $('select[name="project_id"]').val(response.project_id).change();
+      $('select[name="clientid"]').val(response.customer).change();
+      $('select[name="currency"]').val(response.currency).change();
+    });
+
     $('#pur_order_expense').modal('show');
     $('input[id="amount"]').val(total);
     $('#pur_order_additional').html('');

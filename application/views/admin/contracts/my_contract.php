@@ -65,6 +65,8 @@
                                     $ServID = $this->legal->get_service_id_by_slug($slug);
                                     if($ServID == 1){
                                         $service_name = get_case_name_by_id($contract->rel_sid);
+                                    }elseif ($ServID == 22){
+                                        $service_name = get_disputes_case_name_by_id($contract->rel_sid);
                                     }else{
                                         $service_name = get_oservice_name_by_id($contract->rel_sid);
                                     }
@@ -102,6 +104,20 @@
                                 <?php $value = (isset($contract) ? _d($contract->dateend) : ''); ?>
                                 <?php echo render_date_input('dateend','contract_end_date',$value); ?>
                             </div>
+                        </div>
+                        <div class="form-group select-placeholder">
+                            <label for="staff" class="control-label">
+                                <?php echo _l('company_representative'); ?>
+                            </label>
+                            <select name="staff" id="staff" class="form-control selectpicker" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-width="100%">
+                                <option value=""><?php echo _l('ticket_settings_none_assigned'); ?></option>
+                                <?php $value = (isset($contract) ? $contract->staff : 0); ?>
+                                <?php foreach($staff as $member){ ?>
+                                    <option value="<?php echo $member['staffid']; ?>" <?php if($member['staffid'] == $value){echo 'selected';} ?>>
+                                        <?php echo $member['firstname'] . ' ' . $member['lastname'] ; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <?php $value = (isset($contract) ? $contract->description : ''); ?>
                         <?php echo render_textarea('description','contract_description',$value,array('rows'=>10)); ?>

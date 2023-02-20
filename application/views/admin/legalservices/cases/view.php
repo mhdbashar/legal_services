@@ -1,5 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+<?php init_head();
+$time_format = get_option('time_format');
+if ($time_format === '24') {
+    $time_type = 'text';
+} else {
+    $time_type = 'time';
+}
+?>
 <div id="wrapper">
     <?php echo form_hidden('project_id',$project->id) ?>
     <div class="content">
@@ -452,8 +459,8 @@ echo form_hidden('project_percent',$percent);
 <script>
 
     $(function(){
-        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [6, 'desc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/init_waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [7, 'asc']);
 
         // Init single task data
         if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }
@@ -467,43 +474,6 @@ echo form_hidden('project_percent',$percent);
     slug_waiting_sessions = $(".table-waiting_sessions_log").attr('data-new-rel-slug');
     init_waiting_sessions_log_table(project_id, slug_waiting_sessions);
 
-    function edit_customer_report(task_id) {
-        next_session_date = $('#next_session_date'+task_id).val();
-        next_session_time = $('#next_session_time'+task_id).val();
-        court_decision    = $('#edit_court_decision'+task_id).val();
-        send_mail_to_opponent    = $('#send_mail_to_opponent'+task_id).prop("checked");
-        if(next_session_date == '' || next_session_time == '' || court_decision == ''){
-            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
-        }else {
-            $.ajax({
-                url: '<?php echo admin_url('legalservices/sessions/edit_customer_report'); ?>' + '/' + task_id,
-                data: {
-                    next_session_date : next_session_date,
-                    next_session_time : next_session_time,
-                    court_decision : court_decision,
-                    send_mail_to_opponent : send_mail_to_opponent,
-                },
-                type: "POST",
-                success: function (data) {
-                    if(data == 1){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#customer_report'+task_id).modal('hide');
-                        $('#next_session_date'+task_id).val('');
-                        $('#next_session_time'+task_id).val('');
-                        $('#edit_court_decision'+task_id).val('');
-                        $("#send_mail_to_opponent"+task_id).prop('checked', false);
-                        reload_tasks_tables();
-                    }else if (data == 'error_client'){
-                        alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
-                    }else if (data == 'error_opponent'){
-                        alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
-                    }else {
-                        alert_float('danger', '<?php echo _l('Faild'); ?>');
-                    }
-                }
-            });
-        }
-    }
 
     $("#add_task_timesheet").click(function ()
     {
@@ -565,6 +535,176 @@ echo form_hidden('project_percent',$percent);
 
     });
 
+    function add_report_session_modal(task_id) {
+        var modal = document.getElementById("add_report_session_modal"+task_id);
+        var time_type = '<?php echo $time_type;?>';
+        if(!modal) {
+            $("#wrapper").append(`
+                <div class="modal fade" id="add_report_session_modal${task_id}" tabindex="-1" role="dialog" aria-labelledby="customer_report" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <span class="add-title"><?php echo _l('Customer_report');?></span>
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" app-field-wrapper="date">
+                                                <label for="next_session_date" class="control-label"><?php echo _l('next_session_date');?> </label>
+                                                <div class="input-group date">
+                                                    <input type="text" id="next_session_date${task_id}" name="next_session_date" class="form-control datepicker"  autocomplete="off" aria-invalid="false">
+                                                   <div class="input-group-addon">
+                                                        <i class="fa fa-calendar calendar-icon"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" app-field-wrapper="time">
+                                                <label for="next_session_time" class="control-label"><?php echo _l('next_session_time');?> </label><br>
+                                                <div class="input-group time">
+                                                    <input type="${time_type}" class="form-control" id="next_session_time${task_id}" name="next_session_time" autocomplete="off" aria-invalid="false">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o clock-icon"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="bold"><?php echo _l('next_session_link')?></p>
+                                            <input type="link" name="session_link" id="session_link${task_id}" class="form-control" style="width: 100%">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="bold"><?php echo _l('Court_decision')?> </p>
+                                            <textarea type="text" class="form-control" id="edit_court_decision${task_id}" name="edit_court_decision" rows="4" placeholder="<?php echo _l('Court_decision')?>"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="send_mail_to_opponent" id="send_mail_to_opponent${task_id}">
+                                                <label for="send_mail_to_opponent"><?php echo _l('send_mail_to_opponent')?> </label>
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close') ?> </button>
+                                    <button type="button" onclick="add_report_session(${task_id})" class="btn btn-info"><?php echo _l('submit')?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+        }
+        init_datepicker();
+        if (time_type === 'text') {
+            $('#next_session_time'+ task_id).datetimepicker({
+                datepicker:false,
+                format:'H:i'
+            });
+        }
+        $('#add_report_session_modal' + task_id).modal('show');
+    }
+
+    function add_report_session(task_id) {
+        next_session_date = $('#next_session_date' + task_id).val();
+        next_session_time = $('#next_session_time' + task_id).val();
+        court_decision = $('#edit_court_decision' + task_id).val();
+        session_link = $('#session_link' + task_id).val();
+        send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
+        if (court_decision == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+        } else {
+            $.ajax({
+                url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,
+                data: {
+                    next_session_date: next_session_date,
+                    next_session_time: next_session_time,
+                    court_decision: court_decision,
+                    send_mail_to_opponent: send_mail_to_opponent,
+                    session_link: session_link,
+                },
+                type: "POST",
+                success: function (data) {
+                    if (data == 1 || data == 'add_successfully') {
+                        $('#add_report_session_modal' + task_id).modal('hide');
+                        location.reload();
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                    } else if (data == 'error_client') {
+                        alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                    } else if (data == 'error_opponent') {
+                        alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
+                    } else if (data == 'error_followers') {
+                        alert_float('danger', '<?php echo _l('no_primary_followers'); ?>');
+                    } else {
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
+                    }
+                }
+            });
+        }
+    }
+
+    function edite_court_decision_modal(task_id) {
+        requestGetJSON('legalservices/sessions/edite_court_decision/' + task_id).done(function(response) {
+            if (response.edite === true ) {
+                var modal = document.getElementById("edite_court_decision_modal"+task_id);
+                if(!modal) {
+                    $("#wrapper").append(`
+                <div class="modal fade" id="edite_court_decision_modal${task_id}" tabindex="-1" role="dialog" aria-labelledby="edite_court_decision_modal" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <span class="add-title">${response.title}</span>
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="bold">${response.court_decision_title}</p>
+                                            <textarea type="text" class="form-control" id="val_court_decision${task_id}" name="court_decision" rows="4" placeholder="${response.court_decision_title}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">${response.close}</button>
+                                    <button type="button" onclick="edite_court_decision(${task_id})" class="btn btn-info">>${response.submit}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                }
+                $('#val_court_decision' + task_id).val(response.court_decision);
+                $('#edite_court_decision_modal' + task_id).modal('show');
+            }
+        });
+    }
+
+    function edite_court_decision(task_id) {
+        court_decision = $('#val_court_decision' + task_id).val();
+        $.ajax({
+            url: '<?php echo admin_url('legalservices/sessions/edite_court_decision/'); ?>' + task_id,
+            data: {
+                court_decision: court_decision,
+            },
+            type: "POST",
+            success: function (data) {
+                response = JSON.parse(data);
+                alert_float(`${response.alert_type}`, `${response.message}`);
+                $('#edite_court_decision_modal' + task_id).modal('hide');
+            }
+        });
+    }
 
 </script>
 </body>

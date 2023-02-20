@@ -29,7 +29,7 @@
                 <div class="row">
                   <div class="col-md-4">
                   <div class="_buttons">
-                     <?php if (has_permission('purchase','','create')) { ?>
+                     <?php if (has_permission('purchase_vendors','','create')) { ?>
                      <a href="<?php echo admin_url('purchase/vendor'); ?>" class="btn btn-info mright5 test pull-left display-block">
                      <?php echo _l('new_vendor'); ?></a>
 
@@ -111,7 +111,7 @@
                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                               <?php if(has_permission('rec_proposal','','delete') || is_admin()){ ?>
+                               <?php if(has_permission('purchase_vendors','','delete') || is_admin()){ ?>
                                <div class="checkbox checkbox-danger">
                                   <input type="checkbox" name="mass_delete" id="mass_delete">
                                   <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
@@ -122,7 +122,7 @@
                             <div class="modal-footer">
                                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
 
-                               <?php if(has_permission('purchase','','delete') || is_admin()){ ?>
+                               <?php if(has_permission('purchase_vendors','','delete') || is_admin()){ ?>
                                <a href="#" class="btn btn-info" onclick="purchase_delete_bulk_action(this); return false;"><?php echo _l('confirm'); ?></a>
                                 <?php } ?>
                             </div>
@@ -168,7 +168,7 @@
                         ),
               
                         array(
-                         'name'=>_l('date_created'),
+                         'name'=>_l('pur_date_created'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')
                         ),
                       );

@@ -15,14 +15,7 @@ $table_data = array(
    _l('pur_request'),
    _l('estimate_dt_table_heading_date'),
    _l('estimate_dt_table_heading_expirydate'),
-   _l('estimate_dt_table_heading_status'));
+   _l('approval_status'));
 
-/*$custom_fields = get_custom_fields('estimate',array('show_on_table'=>1));
-
-foreach($custom_fields as $field){
-   array_push($table_data,$field['name']);
-}*/
-
-$table_data = hooks()->apply_filters('estimates_table_columns', $table_data);
 
 render_datatable($table_data, 'pur_estimates');

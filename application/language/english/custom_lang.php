@@ -1,5 +1,7 @@
 <?php
 
+$lang['saudi_warning'] = 'You can\'t change this mode again';
+$lang['saudi_vat'] = 'Saudi vat';
 $lang['finger_timekeeper'] = 'Timekeeper';
 $lang['case_files'] = 'Case files';
 $lang['commercial_register'] = 'Commercial Register';
@@ -10,6 +12,8 @@ $lang['street_name'] = 'Street name';
 $lang['additional_number'] = 'Additional NO';
 $lang['unit_number'] = 'Unit NO';
 $lang['id_number'] = 'ID NO';
+$lang['contact_id_number'] = 'Contact ID NO';
+$lang['client_id_number'] = 'Client ID NO';
 
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
@@ -4102,5 +4106,10 @@ $lang['which started at'] = "which started at";
 $lang['will end at '] = "will end at ";
 $lang['regular_duration1'] = " regular duration";
 $lang['select_regular_duration'] = "Select Regular Duration";
+$lang['session_report_added'] = 'added session report %s ...';
+$lang['staff_document_number'] = "The Official Document Number Of The Facility Representative";
+$lang['company_representative'] = "The Company's Representative";
+$lang['correspond'] = " <-> ";
+$lang['staff_document_name'] = "The Name Of The Representative Of The Establishment";
 
 

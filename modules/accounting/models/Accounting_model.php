@@ -6424,7 +6424,9 @@ class Accounting_model extends App_Model
         $this->db->where('(account = '. $id .' or split = '. $id.')');
         $count = $this->db->count_all_results(db_prefix() . 'acc_account_history');
 
-        if($count > 0){
+        $account = $this->get_accounts($id);
+
+        if($count > 0 && $account->balance > 0){
             return 'have_transaction';
         }
 

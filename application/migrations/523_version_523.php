@@ -63,6 +63,7 @@ class Migration_Version_523 extends CI_Migration
         }
         if ($this->db->field_exists('dur_alert_close', db_prefix() . 'my_cases')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` DROP COLUMN `dur_alert_close` ');
+        }
         //add filds to tblmy_session_info
         if (!$this->db->field_exists('clientid', db_prefix() . 'my_session_info')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'my_session_info` ADD `clientid` int(11) NULL DEFAULT NULL');

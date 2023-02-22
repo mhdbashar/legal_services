@@ -177,7 +177,7 @@ function edit_account(id) {
       }
       $('textarea[name="description"]').val(response.description);
       if(response.balance > 0){
-        $('input[name="update_balance"]').val(0);
+        $('input[name="update_balance"]').val(1);
         $('#div_balance').removeClass('hide');
       }else{
         $('input[name="update_balance"]').val(1);

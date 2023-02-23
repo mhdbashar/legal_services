@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Version_523 extends CI_Migration
+class Migration_Version_524 extends CI_Migration
 {
     public function __construct()
     {

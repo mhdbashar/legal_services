@@ -40,7 +40,7 @@
           if($('select[name="account_type_id"]').val() <= 10 && $('select[name="account_type_id"]').val() != 1 && $('select[name="account_type_id"]').val() != 6){
             $('#div_balance').removeClass('hide');
           }else{
-            $('#div_balance').addClass('hide');
+            $('#div_balance').removeClass('hide');
           }
 
           $('#account-modal').find('button[type="submit"]').prop('disabled', false);
@@ -85,7 +85,7 @@
       if($(this).val() <= 10 && $(this).val() != 1 && $(this).val() != 6 && $('input[name="id"]').val() == ''){
         $('#div_balance').removeClass('hide');
       }else{
-        $('#div_balance').addClass('hide');
+        $('#div_balance').removeClass('hide');
       }
 
 			var html = '';
@@ -177,8 +177,8 @@ function edit_account(id) {
       }
       $('textarea[name="description"]').val(response.description);
       if(response.balance > 0){
-        $('input[name="update_balance"]').val(0);
-        $('#div_balance').addClass('hide');
+        $('input[name="update_balance"]').val(1);
+        $('#div_balance').removeClass('hide');
       }else{
         $('input[name="update_balance"]').val(1);
         $('#div_balance').removeClass('hide');

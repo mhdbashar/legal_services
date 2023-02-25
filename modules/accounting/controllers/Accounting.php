@@ -3218,7 +3218,8 @@ class Accounting extends AdminController
                 $this->db->where('account', $id);
                 $count = $this->db->count_all_results(db_prefix().'acc_account_history');
                 if($count > 0){
-                    $account->balance = 1;
+                    if($account->balance != 0)
+                        $account->balance = 1;
                 }
             }
         }
@@ -3852,7 +3853,7 @@ class Accounting extends AdminController
         $this->db->where('id', $this->input->post('account'));
         $account = $this->db->get(db_prefix() . 'acc_accounts')->row();
         if(is_object($account)){
-            $account_name = _l($account->key_name);
+            $account_name = _l($account->name ? $account->name : $account->key_name);
         }
         $data['account_name'] = $account_name;
         $this->load->view('report/details/'.$data_filter['type'], $data);
@@ -4834,7 +4835,7 @@ class Accounting extends AdminController
      */
     public function account_type_detail()
     {
-        if (!has_permission('accounting_setting', '', 'edit') && !has_permission('accounting_setting', '', 'create')) {
+        if (!has_permission('accounting_setting', '', 'edit') && !has_permission('accounting_setting', '', 'view')) {
             access_denied('accounting');
         }
 
@@ -4843,7 +4844,7 @@ class Accounting extends AdminController
             $data['note'] = $this->input->post('note', false);
             $message = '';
             if ($data['id'] == '') {
-                if (!has_permission('accounting_setting', '', 'create')) {
+                if (!has_permission('accounting_setting', '', 'edit')) {
                     access_denied('accounting');
                 }
                 $success = $this->accounting_model->add_account_type_detail($data);

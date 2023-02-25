@@ -1061,38 +1061,33 @@ class Cron_model extends App_Model
     private function regular_durations_reminders()
     {
         $reminder_before = get_option('regular_durations_reminder_notification_before');
-        $this->db->where('duration_id IS NOT NULL');
+        $this->db->where('reg_id IS NOT NULL');
         $this->db->where('deadline_notified', 0);
-        $cases = $this->db->get(db_prefix() . 'my_cases')->result_array();
+        $cases = $this->db->get(db_prefix() . 'cases_regular_durations')->result_array();
         $now   = new DateTime(date('Y-m-d'));
         $notifiedUsers = [];
         foreach ($cases as $case) {
-            $days=get_dur_number_of_days_by_id($case['duration_id']);
-            $duration_date=$case['regular_duration_begin_date'];
-            $end_date_case  = strtotime($duration_date . " +".$days."days");
-            $end_date_case = date('Y-m-d',$end_date_case);
 
-
-            if($end_date_case < $now)
+            if($case['end_date'] < $now)
             {
                 $this->db->where('id', $case['id']);
-                $this->db->update(db_prefix() . 'my_cases', [
+                $this->db->update(db_prefix() . 'cases_regular_durations', [
                     'regular_header' => 0,
                 ]);
             }
 
 
-            if ($duration_date >= date('Y-m-d')) {
-                $end_date = new DateTime($end_date_case);
+            if ($case['end_date'] > date('Y-m-d')) {
+                $end_date = new DateTime($case['end_date']);
                 $diff    = $end_date->diff($now)->format('%a');
                 // Check if difference between start date and end_date is the same like the reminder before
                 // In this case reminder wont be sent becuase the regular duration it too short
-                $end_date          = strtotime($end_date_case);
-                $start_date         = strtotime($duration_date);
+                $end_date          = strtotime($case['end_date']);
+                $start_date         = strtotime($case['start_date']);
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
-                // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
-                $this->db->where('project_id', $case['id']);
+                 if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before) {
+                $this->db->where('project_id', $case['case_id']);
                 $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
                 foreach ($assignees as $member) {
                     $this->db->where('staffid',$member->staff_id);
@@ -1103,21 +1098,22 @@ class Cron_model extends App_Model
                             'touserid'        => $member->staff_id,
                             'fromcompany'     => 1,
                             'fromuserid'      => null,
-                            'link'            => 'legalservices/cases/view/1/' . $case['id'],
+                            'link'            => 'legalservices/cases/view/1/' . $case['case_id'],
+
 
                         ]);
 
                         if ($notified) {
                             array_push($notifiedUsers, $member->staff_id);
                         }
-                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['id']);
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['case_id']);
                         $this->db->where('id', $case['id']);
-                        $this->db->update(db_prefix() . 'my_cases', [
+                        $this->db->update(db_prefix() . 'cases_regular_durations', [
                             'deadline_notified' => 1,'regular_header' => 1,
                         ]);
                     }
                 }
-                //  }
+                  }
             }
         }
 
@@ -1126,6 +1122,7 @@ class Cron_model extends App_Model
 
 
     //*************************
+
 
     private function staff_reminders()
     {

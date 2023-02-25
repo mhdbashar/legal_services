@@ -2,7 +2,6 @@
 
 <div class="col-md-12">
     <h4 class="bold well email-template-heading">
-        <?php print_r("helllllllloooo");exit();?>
         <?php echo _l('appointment_appointments'); ?>
         <?php if ($hasPermissionEdit) { ?>
             <a href="<?php echo admin_url('emails/disable_by_type/appointly'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>

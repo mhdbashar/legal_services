@@ -728,6 +728,7 @@ class Accounting extends AdminController
         $data['account_types'] = $this->accounting_model->get_account_types();
         $data['detail_types'] = $this->accounting_model->get_account_type_details();
         $data['accounts'] = $this->accounting_model->get_accounts();
+
         $this->load->view('chart_of_accounts/manage', $data);
     }
 
@@ -886,6 +887,11 @@ class Accounting extends AdminController
                 }elseif($ft_active == 'no'){
                     array_push($where, 'AND active = 0');
                 }
+                else{
+                    array_push($where, 'AND active IN (1,0)');
+
+
+                }
             }
             if ($this->input->post('ft_account')) {
                 $ft_account = $this->input->post('ft_account');
@@ -921,6 +927,7 @@ class Accounting extends AdminController
             $result       = $this->accounting_model->get_account_data_tables($aColumns, $sIndexColumn, $sTable, $join, $where, ['number', 'description', 'balance_as_of', $debit, $credit, 'default_account']);
             $output  = $result['output'];
             $rResult = $result['rResult'];
+
 
             foreach ($rResult as $aRow) {
                 $row   = [];
@@ -964,12 +971,19 @@ class Accounting extends AdminController
                 }else{
                     $row[] = '';
                 }
+
+
+
+
+
+
+
                 $row[] = isset($account_type_name[$aRow['account_type_id']]) ? $account_type_name[$aRow['account_type_id']] : '';
                 $row[] = isset($detail_type_name[$aRow['account_detail_type_id']]) ? $detail_type_name[$aRow['account_detail_type_id']] : '';
                 if($aRow['account_type_id'] == 11 || $aRow['account_type_id'] == 12 || $aRow['account_type_id'] == 8 || $aRow['account_type_id'] == 9 || $aRow['account_type_id'] == 10 || $aRow['account_type_id'] == 7){
-                    $row[] = app_format_money($aRow['credit'] - $aRow['debit'], $currency->name);
+                    $row[] = $aRow['balance'];
                 }else{
-                    $row[] = app_format_money($aRow['debit'] - $aRow['credit'], $currency->name);
+                    $row[] = $aRow['balance'] ;
                 }
                 $row[] = '';
 

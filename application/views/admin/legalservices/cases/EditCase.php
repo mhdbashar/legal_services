@@ -437,7 +437,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <?php $value = (isset($case) ? ($case->start_date) : (date('Y-m-d'))); ?>
+                                            <?php $value = (isset($case) ? ($case->start_date == '0000-00-00' ? '' : $case->start_date) : (date('Y-m-d'))); ?>
                                             <?php echo render_date_input('start_date','project_start_date',$value); ?>
                                         </div>
                                         <div class="col-md-6">

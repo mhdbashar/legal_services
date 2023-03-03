@@ -66,13 +66,13 @@
                                             </a>
                                         </li>
                                     <?php } ?>
-                                    <?php hooks()->apply_filters('services_filter', $class); ?>
+                                    <?php hooks()->apply_filters($ServID == 22 ? 'disputes_services_filter' : 'services_filter', $class); ?>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading" />
                         </div>
-                            <div class="row mbot15">
+                        <div class="row mbot15">
                             <div class="col-md-12">
                                 <h4 class="no-margin"><?php echo _l('summary').' '.$service->name ; ?></h4>
                                 <?php
@@ -113,68 +113,68 @@
                                     </div>
                                 <?php } ?>
                                 <?php hooks()->apply_filters('services_hidden_filter', [
-                                        '_where' => $_where,
-                                        'ServID' => $ServID,
-                                        'TableService' => $TableService,
-                                        'class' => $class
+                                    '_where' => $_where,
+                                    'ServID' => $ServID,
+                                    'TableService' => $TableService,
+                                    'class' => $class
                                 ]); ?>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                            <?php
-                            $table_data = array();
-                            if($ServID == 1){
-                                $TitleText = 'CaseTitle';
-                            }elseif ($ServID == 22){
-                                $TitleText = 'CaseTitle';
-                            }else{
-                                $TitleText = 'cf_translate_input_link_title';
-                            }
-                            $_table_data = array(
-                                array(
-                                    'name' => _l('the_number_sign'),
-                                ),
-                                array(
-                                    'name' => _l($TitleText),
-                                ),
-                                array(
-                                    'name' => _l('proposal_for_customer'),
-                                ),
-                                array(
-                                    'name' => _l('tags'),
-                                ),
-                                array(
-                                    'name' => _l('project_start_date'),
-                                ),
-                                array(
-                                    'name' => _l('project_deadline'),
-                                ),
-                                array(
-                                    'name' => _l('project_members'),
-                                ),
-                                array(
-                                    'name' => _l('project_status'),
-                                )
-                            );
-                            foreach($_table_data as $_t){
-                                array_push($table_data,$_t);
-                            }
-                            $custom_fields = get_custom_fields($service->slug,array('show_on_table'=>1));
-                            foreach($custom_fields as $field){
-                                array_push($table_data,$field['name']);
-                            }
+                        <?php
+                        $table_data = array();
+                        if($ServID == 1){
+                            $TitleText = 'CaseTitle';
+                        }elseif ($ServID == 22){
+                            $TitleText = 'CaseTitle';
+                        }else{
+                            $TitleText = 'cf_translate_input_link_title';
+                        }
+                        $_table_data = array(
+                            array(
+                                'name' => _l('the_number_sign'),
+                            ),
+                            array(
+                                'name' => _l($TitleText),
+                            ),
+                            array(
+                                'name' => _l('proposal_for_customer'),
+                            ),
+                            array(
+                                'name' => _l('tags'),
+                            ),
+                            array(
+                                'name' => _l('project_start_date'),
+                            ),
+                            array(
+                                'name' => _l('project_deadline'),
+                            ),
+                            array(
+                                'name' => _l('project_members'),
+                            ),
+                            array(
+                                'name' => _l('project_status'),
+                            )
+                        );
+                        foreach($_table_data as $_t){
+                            array_push($table_data,$_t);
+                        }
+                        $custom_fields = get_custom_fields($service->slug,array('show_on_table'=>1));
+                        foreach($custom_fields as $field){
+                            array_push($table_data,$field['name']);
+                        }
 
-                            $table_data = hooks()->apply_filters('services_table_columns', $table_data);
+                        $table_data = hooks()->apply_filters( $ServID == 22 ? 'disputes_services_table_columns' : 'services_table_columns', $table_data);
 
-                            render_datatable($table_data,$render_class);
-                            ?>
-                        </div>
+                        render_datatable($table_data,$render_class);
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <?php init_tail(); ?>
 

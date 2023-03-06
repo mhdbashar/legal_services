@@ -15,13 +15,13 @@ $aColumns = [
     'deadline',
     'status',
 ];
-$aColumns = hooks()->apply_filters('cases_table_aColumns', $aColumns);
+$aColumns = hooks()->apply_filters('disputes_cases_table_aColumns', $aColumns);
 
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_disputes_cases.clientid',
 ];
 
-$join = hooks()->apply_filters('cases_table_sql_join', $join);
+$join = hooks()->apply_filters('disputes_cases_table_sql_join', $join);
 
 if(isset($service)):
     $custom_fields = get_table_custom_fields($service->slug);
@@ -116,7 +116,7 @@ foreach ($rResult as $aRow) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
     $row['DT_RowClass'] = 'has-row-options';
-    $row = hooks()->apply_filters('services_table_row_data', $row, $aRow);
+    $row = hooks()->apply_filters('disputes_services_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
     $i++;

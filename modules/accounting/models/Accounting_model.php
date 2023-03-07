@@ -2050,6 +2050,12 @@ class Accounting_model extends App_Model
                 $account = $this->db->get(db_prefix().'acc_accounts')->row();
 
                 if($account){
+
+                    $this->db->where('account', $account->id);
+                    $this->db->delete(db_prefix() . 'acc_account_history');
+
+                    $this->db->where('account', $id);
+                    $this->db->delete(db_prefix() . 'acc_account_history');
                     $node = [];
 
                     if($data['account_type_id'] == 7 || $data['account_type_id'] == 15 || $data['account_type_id'] == 8 || $data['account_type_id'] == 9){

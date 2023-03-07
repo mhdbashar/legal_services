@@ -75,8 +75,7 @@
         <?php
          $row_index = 0; 
          ?>
-
-         <?php foreach ($data_report['data'] as $val) { 
+         <?php foreach ($data_report['data'] as $val) {
               $row_index += 1;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
@@ -93,13 +92,16 @@
               <?php echo html_entity_decode($val['description']); ?> 
               </td>
               <td class="total_amount">
+
               <?php echo app_format_money($val['decrease'], $currency->name); ?> 
               </td>
               <td class="total_amount">
+                  <?php $val['balance']= $val['increase']; ?>
               <?php echo app_format_money($val['increase'], $currency->name); ?> 
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['balance'], $currency->name); ?> 
+
+                  <?php echo app_format_money($val['balance'], $currency->name); ?>
               </td>
             </tr>
           <?php }

@@ -981,9 +981,9 @@ class Accounting extends AdminController
                 $row[] = isset($account_type_name[$aRow['account_type_id']]) ? $account_type_name[$aRow['account_type_id']] : '';
                 $row[] = isset($detail_type_name[$aRow['account_detail_type_id']]) ? $detail_type_name[$aRow['account_detail_type_id']] : '';
                 if($aRow['account_type_id'] == 11 || $aRow['account_type_id'] == 12 || $aRow['account_type_id'] == 8 || $aRow['account_type_id'] == 9 || $aRow['account_type_id'] == 10 || $aRow['account_type_id'] == 7){
-                    $row[] = $aRow['balance'];
+                    $row[] = app_format_money($aRow['credit'] - $aRow['debit'], $currency->name);
                 }else{
-                    $row[] = $aRow['balance'] ;
+                    $row[] = app_format_money($aRow['debit'] - $aRow['credit'], $currency->name);
                 }
                 $row[] = '';
 

@@ -96,8 +96,7 @@
               <?php echo app_format_money($val['decrease'], $currency->name); ?> 
               </td>
               <td class="total_amount">
-                  <?php $val['balance']= $val['increase']; ?>
-              <?php echo app_format_money($val['increase'], $currency->name); ?> 
+                  <?php echo app_format_money($val['increase'], $currency->name); ?>
               </td>
               <td class="total_amount">
 

@@ -27,20 +27,20 @@
                                  <?php echo _l('ticket_reminders'); ?>
                                  <?php
                                  $total_reminders = total_rows(db_prefix().'reminders',
-                                  array(
-                                   'isnotified'=>0,
-                                   'staff'=>get_staff_user_id(),
-                                   'rel_type'=>'ticket',
-                                   'rel_id'=>$ticket->ticketid
-                                )
-                               );
+                                   array(
+                                     'isnotified'=>0,
+                                     'staff'=>get_staff_user_id(),
+                                     'rel_type'=>'ticket',
+                                     'rel_id'=>$ticket->ticketid
+                                  )
+                                );
                                  if($total_reminders > 0){
-                                  echo '<span class="badge">'.$total_reminders.'</span>';
-                               }
-                               ?>
-                            </a>
-                         </li>
-                         <li role="presentation">
+                                   echo '<span class="badge">'.$total_reminders.'</span>';
+                                }
+                                ?>
+                             </a>
+                          </li>
+                          <li role="presentation">
                            <a href="#othertickets" onclick="init_table_tickets(true);" aria-controls="othertickets" role="tab" data-toggle="tab">
                               <?php echo _l('ticket_single_other_user_tickets'); ?>
                            </a>
@@ -55,6 +55,7 @@
                               <?php echo _l('ticket_single_settings'); ?>
                            </a>
                         </li>
+                        <?php hooks()->do_action('add_single_ticket_tab_menu_item', $ticket); ?>
                      </ul>
                   </div>
                </div>
@@ -149,6 +150,7 @@
                      <a href="<?php echo admin_url('tickets/delete/'.$ticket->ticketid); ?>" class="btn btn-danger _delete btn-ticket-label mright5">
                         <i class="fa fa-remove"></i>
                      </a>
+
                      <?php if(!empty($ticket->priority_name)){ ?>
                         <span class="ticket-label label label-default inline-block">
                            <?php echo _l('ticket_single_priority',ticket_priority_translate($ticket->priorityid)); ?>
@@ -175,6 +177,13 @@
                            </span>
                         </span>
                      <?php } ?>
+
+                     <span class="ticket-label label label-info inline-block">
+                        <a href="<?php echo get_ticket_public_url($ticket); ?>" target="_blank">
+                           <?php echo _l('view_public_form'); ?>
+                        </a>
+                     </span>
+
                      <div class="mtop15">
                         <?php
                         $use_knowledge_base = get_option('use_knowledge_base');
@@ -244,7 +253,7 @@
                                           <?php echo _l('ticket_single_attachments'); ?>
                                        </label>
                                        <div class="input-group">
-                                          <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                                          <input type="file" extension="<?php echo str_replace(['.', ' '], '', get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                                           <span class="input-group-btn">
                                              <button class="btn btn-success add_more_attachments p8-half" data-max="<?php echo get_option('maximum_allowed_ticket_attachments'); ?>" type="button"><i class="fa fa-plus"></i></button>
                                           </span>
@@ -308,16 +317,16 @@
                            <div class="col-md-6">
                               <?php
                               if($ticket->userid != 0){
-                               echo render_input('email','ticket_settings_email',$ticket->email,'email',array('disabled'=>true));
-                            } else {
-                               echo render_input('email','ticket_settings_email',$ticket->ticket_email,'email',array('disabled'=>true));
-                            }
-                            ?>
-                         </div>
-                      </div>
-                      <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
-                   </div>
-                   <div class="col-md-6">
+                                echo render_input('email','ticket_settings_email',$ticket->email,'email',array('disabled'=>true));
+                             } else {
+                                echo render_input('email','ticket_settings_email',$ticket->ticket_email,'email',array('disabled'=>true));
+                             }
+                             ?>
+                          </div>
+                       </div>
+                       <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
+                    </div>
+                    <div class="col-md-6">
                      <div class="form-group mbot20">
                         <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                         <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
@@ -375,6 +384,7 @@
                      <?php echo render_custom_fields('tickets',$ticket->ticketid); ?>
                   </div>
                </div>
+               <?php hooks()->do_action('add_single_ticket_tab_menu_content', $ticket); ?>
                <div class="row">
                   <div class="col-md-12 text-center">
                      <hr />
@@ -405,14 +415,14 @@
                         <hr />
                         <?php
                         if(total_rows(db_prefix().'spam_filters',array('type'=>'sender','value'=>$ticket->ticket_email,'rel_type'=>'tickets')) == 0){ ?>
-                         <button type="button" data-sender="<?php echo $ticket->ticket_email; ?>" class="btn btn-danger block-sender btn-xs">     <?php echo _l('block_sender'); ?>
-                      </button>
-                      <?php
-                   } else {
-                      echo '<span class="label label-danger">'._l('sender_blocked').'</span>';
-                   }
-                }
-             } else {  ?>
+                          <button type="button" data-sender="<?php echo $ticket->ticket_email; ?>" class="btn btn-danger block-sender btn-xs">     <?php echo _l('block_sender'); ?>
+                       </button>
+                       <?php
+                    } else {
+                       echo '<span class="label label-danger">'._l('sender_blocked').'</span>';
+                    }
+                 }
+              } else {  ?>
                <a href="<?php echo admin_url('profile/'.$ticket->admin); ?>"><?php echo $ticket->opened_by; ?></a>
             <?php } ?>
          </p>
@@ -421,12 +431,12 @@
                echo _l('ticket_staff_string');
             } else {
                if($ticket->userid != 0){
-                echo _l('ticket_client_string');
-             }
-          }
-          ?>
-       </p>
-       <?php if(has_permission('tasks','','create')){ ?>
+                 echo _l('ticket_client_string');
+              }
+           }
+           ?>
+        </p>
+        <?php if(has_permission('tasks','','create')){ ?>
          <a href="#" class="btn btn-default btn-xs" onclick="convert_ticket_to_task(<?php echo $ticket->ticketid; ?>,'ticket'); return false;"><?php echo _l('convert_to_task'); ?></a>
       <?php } ?>
    </div>
@@ -446,29 +456,29 @@
          echo '<hr />';
          foreach($ticket->attachments as $attachment){
 
-          $path = get_upload_path_by_type('ticket').$ticket->ticketid.'/'.$attachment['file_name'];
-          $is_image = is_image($path);
+           $path = get_upload_path_by_type('ticket').$ticket->ticketid.'/'.$attachment['file_name'];
+           $is_image = is_image($path);
 
-          if($is_image){
-           echo '<div class="preview_image">';
-        }
-        ?>
-        <a href="<?php echo site_url('download/file/ticket/'. $attachment['id']); ?>" class="display-block mbot5"<?php if($is_image){ ?> data-lightbox="attachment-ticket-<?php echo $ticket->ticketid; ?>" <?php } ?>>
-         <i class="<?php echo get_mime_class($attachment['filetype']); ?>"></i> <?php echo $attachment['file_name']; ?>
-         <?php if($is_image){ ?>
-            <img class="mtop5" src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path($path).'&type='.$attachment['filetype']); ?>">
-         <?php } ?>
-      </a>
-      <?php if($is_image){
-         echo '</div>';
-      }
-      if(is_admin() || (!is_admin() && get_option('allow_non_admin_staff_to_delete_ticket_attachments') == '1')){
-         echo '<a href="'.admin_url('tickets/delete_attachment/'.$attachment['id']).'" class="text-danger _delete">'._l('delete').'</a>';
-      }
-      echo '<hr />';
-      ?>
-   <?php }
-} ?>
+           if($is_image){
+             echo '<div class="preview_image">';
+          }
+          ?>
+          <a href="<?php echo site_url('download/file/ticket/'. $attachment['id']); ?>" class="display-block mbot5"<?php if($is_image){ ?> data-lightbox="attachment-ticket-<?php echo $ticket->ticketid; ?>" <?php } ?>>
+            <i class="<?php echo get_mime_class($attachment['filetype']); ?>"></i> <?php echo $attachment['file_name']; ?>
+            <?php if($is_image){ ?>
+               <img class="mtop5" src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path($path).'&type='.$attachment['filetype']); ?>">
+            <?php } ?>
+         </a>
+         <?php if($is_image){
+            echo '</div>';
+         }
+         if(is_admin() || (!is_admin() && get_option('allow_non_admin_staff_to_delete_ticket_attachments') == '1')){
+            echo '<a href="'.admin_url('tickets/delete_attachment/'.$attachment['id']).'" class="text-danger _delete">'._l('delete').'</a>';
+         }
+         echo '<hr />';
+         ?>
+      <?php }
+   } ?>
 </div>
 </div>
 </div>
@@ -499,15 +509,15 @@
                      echo _l('ticket_staff_string');
                   } else {
                      if($reply['userid'] != 0){
-                      echo _l('ticket_client_string');
-                   }
-                }
-                ?>
-             </p>
-             <hr />
-             <a href="<?php echo admin_url('tickets/delete_ticket_reply/'.$ticket->ticketid .'/'.$reply['id']); ?>" class="btn btn-danger pull-left _delete mright5 btn-xs"><?php echo _l('delete_ticket_reply'); ?></a>
-             <div class="clearfix"></div>
-             <?php if(has_permission('tasks','','create')){ ?>
+                       echo _l('ticket_client_string');
+                    }
+                 }
+                 ?>
+              </p>
+              <hr />
+              <a href="<?php echo admin_url('tickets/delete_ticket_reply/'.$ticket->ticketid .'/'.$reply['id']); ?>" class="btn btn-danger pull-left _delete mright5 btn-xs"><?php echo _l('delete_ticket_reply'); ?></a>
+              <div class="clearfix"></div>
+              <?php if(has_permission('tasks','','create')){ ?>
                <a href="#" class="pull-left btn btn-default mtop5 btn-xs" onclick="convert_ticket_to_task(<?php echo $reply['id']; ?>,'reply'); return false;"><?php echo _l('convert_to_task'); ?>
             </a>
             <div class="clearfix"></div>
@@ -529,29 +539,29 @@
          <?php if(count($reply['attachments']) > 0){
             echo '<hr />';
             foreach($reply['attachments'] as $attachment){
-             $path = get_upload_path_by_type('ticket').$ticket->ticketid.'/'.$attachment['file_name'];
-             $is_image = is_image($path);
+              $path = get_upload_path_by_type('ticket').$ticket->ticketid.'/'.$attachment['file_name'];
+              $is_image = is_image($path);
 
-             if($is_image){
-              echo '<div class="preview_image">';
-           }
-           ?>
-           <a href="<?php echo site_url('download/file/ticket/'. $attachment['id']); ?>" class="display-block mbot5"<?php if($is_image){ ?> data-lightbox="attachment-reply-<?php echo $reply['id']; ?>" <?php } ?>>
-            <i class="<?php echo get_mime_class($attachment['filetype']); ?>"></i> <?php echo $attachment['file_name']; ?>
-            <?php if($is_image){ ?>
-               <img class="mtop5" src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path($path).'&type='.$attachment['filetype']); ?>">
-            <?php } ?>
-         </a>
-         <?php if($is_image){
-            echo '</div>';
+              if($is_image){
+                echo '<div class="preview_image">';
+             }
+             ?>
+             <a href="<?php echo site_url('download/file/ticket/'. $attachment['id']); ?>" class="display-block mbot5"<?php if($is_image){ ?> data-lightbox="attachment-reply-<?php echo $reply['id']; ?>" <?php } ?>>
+               <i class="<?php echo get_mime_class($attachment['filetype']); ?>"></i> <?php echo $attachment['file_name']; ?>
+               <?php if($is_image){ ?>
+                  <img class="mtop5" src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path($path).'&type='.$attachment['filetype']); ?>">
+               <?php } ?>
+            </a>
+            <?php if($is_image){
+               echo '</div>';
+            }
+            if(is_admin() || (!is_admin() && get_option('allow_non_admin_staff_to_delete_ticket_attachments') == '1')){
+               echo '<a href="'.admin_url('tickets/delete_attachment/'.$attachment['id']).'" class="text-danger _delete">'._l('delete').'</a>';
+            }
+            echo '<hr />';
          }
-         if(is_admin() || (!is_admin() && get_option('allow_non_admin_staff_to_delete_ticket_attachments') == '1')){
-            echo '<a href="'.admin_url('tickets/delete_attachment/'.$attachment['id']).'" class="text-danger _delete">'._l('delete').'</a>';
-         }
-         echo '<hr />';
-      }
-   } ?>
-</div>
+      } ?>
+   </div>
 </div>
 </div>
 <div class="panel-footer">
@@ -601,7 +611,7 @@
 </script>
 <?php $this->load->view('admin/tickets/services/service'); ?>
 <?php init_tail(); ?>
-<?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
+<?php hooks()->do_action('ticket_admin_single_page_loaded', $ticket); ?>
 <script>
    $(function(){
       $('#single-ticket-form').appFormValidator();
@@ -615,8 +625,8 @@
          if(typeof(_ticket_message) != 'undefined') {
             // Init the task description editor
             if(!is_mobile()){
-              $(this).find('#description').click();
-           } else {
+             $(this).find('#description').click();
+          } else {
             $(this).find('#description').focus();
          }
          setTimeout(function(){

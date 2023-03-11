@@ -103,9 +103,15 @@ class Utilities_model extends App_Model
 
     public function get_calendar_data($start, $end, $client_id = '', $contact_id = '', $filters = false)
     {
+        $start      = $this->db->escape_str($start);
+        $end        = $this->db->escape_str($end);
+        $client_id  = $this->db->escape_str($client_id);
+        $contact_id = $this->db->escape_str($contact_id);
+
         $is_admin                     = is_admin();
         $has_permission_tasks_view    = has_permission('tasks', '', 'view');
         $has_permission_projects_view = has_permission('projects', '', 'view');
+        $has_permission_services_view = has_permission('legal_services', '', 'view');
         $has_permission_invoices      = has_permission('invoices', '', 'view');
         $has_permission_invoices_own  = has_permission('invoices', '', 'view_own');
         $has_permission_estimates     = has_permission('estimates', '', 'view');
@@ -124,6 +130,7 @@ class Utilities_model extends App_Model
             $has_contact_permission_proposals = has_contact_permission('proposals', $contact_id);
             $has_contact_permission_contracts = has_contact_permission('contracts', $contact_id);
             $has_contact_permission_projects  = has_contact_permission('projects', $contact_id);
+            $has_contact_permission_services  = has_contact_permission('projects', $contact_id);
         }
 
         $hook = [
@@ -143,7 +150,6 @@ class Utilities_model extends App_Model
         }
 
         if (get_option('show_invoices_on_calendar') == 1 && !$ff || $ff && array_key_exists('invoices', $filters)) {
-
             $noPermissionsQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
 
             $this->db->select('duedate as date,number,id,clientid,hash,' . get_sql_select_client_company());
@@ -246,7 +252,6 @@ class Utilities_model extends App_Model
             }
         }
         if (get_option('show_proposals_on_calendar') == 1 && !$ff || $ff && array_key_exists('proposals', $filters)) {
-
             $noPermissionsQuery = get_proposals_sql_where_staff(get_staff_user_id());
 
             $this->db->select('subject,id,hash,CASE WHEN open_till IS NULL THEN date ELSE open_till END as date', false);
@@ -291,9 +296,10 @@ class Utilities_model extends App_Model
         if (get_option('show_tasks_on_calendar') == 1 && !$ff || $ff && array_key_exists('tasks', $filters)) {
             if ($client_data && !$has_contact_permission_projects) {
             } else {
-                $this->db->select(db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
+                $this->db->select('is_session, '.db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,milestone,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
                 $this->db->from(db_prefix() . 'tasks');
                 $this->db->where('status !=', 5);
+               // $this->db->where('is_session', 0);
 
                 $this->db->where("CASE WHEN duedate IS NULL THEN (startdate BETWEEN '$start' AND '$end') ELSE (duedate BETWEEN '$start' AND '$end') END", null, false);
 
@@ -320,17 +326,30 @@ class Utilities_model extends App_Model
                     $task['date'] = $task['date'];
 
                     $name             = mb_substr($task['title'], 0, 60) . '...';
-                    $task['_tooltip'] = _l('calendar_task') . ' - ' . $name . $rel_showcase;
+                    $task['_tooltip'] = ($task['is_session'] ? _l('session') : _l('calendar_task')) . ' - ' . $name . $rel_showcase;
                     $task['title']    = $name;
                     $status           = get_task_status_by_id($task['status']);
                     $task['color']    = $status['color'];
 
                     if (!$client_data) {
-                        $task['onclick'] = 'init_task_modal(' . $task['id'] . '); return false';
+                        $task['onclick'] = ($task['is_session'] ? 'init_session_modal' : 'init_task_modal')  . '(' . $task['id'] . '); return false';
                         $task['url']     = '#';
                     } else {
                         $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);
                     }
+
+                    $task['className'] = $task['milestone'] ? ['milestone-' . $task['milestone']] : '';
+                    if($task['is_session']){
+
+                        $this->db->where('task_id', $task['id']);
+                        $session = $this->db->get(db_prefix() . 'my_session_info')->row_array();
+                        if(!empty($session))
+                        {
+                            $task['start'] = $task['date'] . ' '.$session['time'];
+                        }
+
+                    }
+
                     array_push($data, $task);
                 }
             }
@@ -383,8 +402,8 @@ class Utilities_model extends App_Model
                             } elseif ($key == 'ticket') {
                                 $url = admin_url('tickets/ticket/' . $reminder['rel_id']);
                             } elseif ($key == 'task') {
-                                // Not implemented yet
-                                $url = admin_url('tasks/view/' . $reminder['rel_id']);
+                                $url                  = '#';
+                                $_reminder['onclick'] = 'init_task_modal(' . $reminder['rel_id'] . '); return false;';
                             }
 
                             $_reminder['url'] = $url;
@@ -488,6 +507,99 @@ class Utilities_model extends App_Model
                 $_project['date'] = $project['date'];
 
                 array_push($data, $_project);
+            }
+        }
+        //calendar_legal_services
+        if (get_option('show_services_on_calendar') == 1 && !$ff || $ff && array_key_exists('legal_services', $filters)) {
+            $this->load->model('legalservices/Cases_model', 'case');
+            $this->load->model('legalservices/Other_services_model', 'other');
+
+            //cases
+            $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
+            $this->db->from(db_prefix() . 'my_cases');
+
+            // Exclude cancelled and finished
+            $this->db->where('status !=', 4);
+            $this->db->where('status !=', 5);
+            $this->db->where("CASE WHEN deadline IS NULL THEN (start_date BETWEEN '$start' AND '$end') ELSE (deadline BETWEEN '$start' AND '$end') END", null, false);
+
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_cases.clientid');
+
+            if (!$client_data && !$has_permission_services_view) {
+                $this->db->where('id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');
+            } elseif ($client_data) {
+                $this->db->where('clientid', $client_id);
+            }
+
+            $cases = $this->db->get()->result_array();
+            foreach ($cases as $case) {
+                $rel_showcase = '';
+
+                if (!$client_data) {
+                    $rel_showcase = ' (' . $case['company'] . ')';
+                } else {
+                    if (!$has_contact_permission_services) {
+                        continue;
+                    }
+                }
+
+                $name = $case['title'];
+                $_case['title'] = $name;
+                $_case['color'] = get_option('calendar_service_color');
+                $_case['_tooltip'] = _l('Case') . ' - ' . $name . $rel_showcase;
+                if (!$client_data) {
+                    $_case['url'] = admin_url('Case/view/1/' . $case['id']);
+                } else {
+                    $_case['url'] = site_url('clients/legal_services/' . $case['id'] . '/1');
+                }
+
+                $_case['date'] = $case['date'];
+
+                array_push($data, $_case);
+            }
+
+            //other services
+            $this->db->select('service_id, name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
+            $this->db->from(db_prefix() . 'my_other_services');
+
+            // Exclude cancelled and finished
+            $this->db->where('status !=', 4);
+            $this->db->where('status !=', 5);
+            $this->db->where("CASE WHEN deadline IS NULL THEN (start_date BETWEEN '$start' AND '$end') ELSE (deadline BETWEEN '$start' AND '$end') END", null, false);
+
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_other_services.clientid');
+
+            if (!$client_data && !$has_permission_services_view) {
+                $this->db->where('id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')');
+            } elseif ($client_data) {
+                $this->db->where('clientid', $client_id);
+            }
+
+            $other_services = $this->db->get()->result_array();
+            foreach ($other_services as $other_service) {
+                $rel_showcase = '';
+
+                if (!$client_data) {
+                    $rel_showcase = ' (' . $other_service['company'] . ')';
+                } else {
+                    if (!$has_contact_permission_services) {
+                        continue;
+                    }
+                }
+
+                $name = $other_service['title'];
+                $_other_service['title'] = $name;
+                $_other_service['color'] = get_option('calendar_service_color');
+                $_other_service['_tooltip'] = _l('legal_services_dashboard') . ' - ' . $name . $rel_showcase;
+                if (!$client_data) {
+                    $_other_service['url'] = admin_url('SOther/view/'.$other_service['service_id']. '/'. $other_service['id']);
+                } else {
+                    $_other_service['url'] = site_url('clients/legal_services/' . $other_service['id'] . '/'.$other_service['service_id']);
+                }
+
+                $_other_service['date'] = $other_service['date'];
+
+                array_push($data, $_other_service);
             }
         }
         if (!$client_data && !$ff || (!$client_data && $ff && array_key_exists('events', $filters))) {

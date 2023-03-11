@@ -13,6 +13,7 @@ class Emails extends AdminController
     /* List all email templates */
     public function index()
     {
+
         if (!has_permission('email_templates', '', 'view')) {
             access_denied('email_templates');
         }
@@ -23,11 +24,11 @@ class Emails extends AdminController
             $langCheckings = unserialize($langCheckings);
         }
 
-
-        $this->db->where('language', 'english');
+        $lang = get_staff_default_language() != '' ? get_staff_default_language(): 'arabic';
+        $this->db->where('language', $lang);
         $email_templates_english = $this->db->get(db_prefix() . 'emailtemplates')->result_array();
         foreach ($this->app->get_available_languages() as $avLanguage) {
-            if ($avLanguage != 'english') {
+            if ($avLanguage != $lang) {
                 foreach ($email_templates_english as $template) {
 
                     // Result is cached and stored in database
@@ -65,60 +66,106 @@ class Emails extends AdminController
 
         $data['staff'] = $this->emails_model->get([
             'type'     => 'staff',
-            'language' => 'english',
+            'language' => $lang,
         ]);
 
         $data['credit_notes'] = $this->emails_model->get([
             'type'     => 'credit_note',
-            'language' => 'english',
+            'language' => $lang,
         ]);
 
         $data['tasks'] = $this->emails_model->get([
             'type'     => 'tasks',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['client'] = $this->emails_model->get([
             'type'     => 'client',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['tickets'] = $this->emails_model->get([
             'type'     => 'ticket',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['invoice'] = $this->emails_model->get([
             'type'     => 'invoice',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['estimate'] = $this->emails_model->get([
             'type'     => 'estimate',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['contracts'] = $this->emails_model->get([
             'type'     => 'contract',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['proposals'] = $this->emails_model->get([
             'type'     => 'proposals',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['projects'] = $this->emails_model->get([
             'type'     => 'project',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
         $data['leads'] = $this->emails_model->get([
             'type'     => 'leads',
-            'language' => 'english',
+            'language' => $lang,
         ]);
 
         $data['gdpr'] = $this->emails_model->get([
             'type'     => 'gdpr',
-            'language' => 'english',
+            'language' => $lang,
         ]);
 
         $data['subscriptions'] = $this->emails_model->get([
             'type'     => 'subscriptions',
-            'language' => 'english',
+            'language' => $lang,
         ]);
+
+        $data['sessions'] = $this->emails_model->get([
+            'type'     => 'sessions',
+            'language' => $lang,
+        ]);
+
+        $data['estimate_request'] = $this->emails_model->get([
+            'type'     => 'estimate_request',
+            'language' => $lang,
+        ]);
+
+        $data['written_report'] = $this->emails_model->get([
+            'type'     => 'written_report',
+            'language' => $lang,
+        ]);
+
+        $data['dispute'] = $this->emails_model->get([
+            'type'     => 'dispute',
+            'language' => $lang,
+        ]);
+
+
+
+
+
+        $data['regular_duration'] = $this->emails_model->get([
+            'type'     => 'regular_duration',
+            'language' => $lang,
+        ]);
+
+
+
+
+
+
+
+
+
 
         $data['title'] = _l('email_templates');
 
@@ -167,16 +214,20 @@ class Emails extends AdminController
         // English is not included here
         $data['available_languages'] = $this->app->get_available_languages();
 
-        if (($key = array_search('english', $data['available_languages'])) !== false) {
-            unset($data['available_languages'][$key]);
-        }
+        $lang = get_staff_default_language();
+
+//        if (($key = array_search($lang, $data['available_languages'])) !== false) {
+//            unset($data['available_languages'][$key]);
+//        }
 
         $data['available_merge_fields'] = $this->app_merge_fields->all();
+        //var_dump($data['available_merge_fields'] ); exit;
 
         $data['template'] = $this->emails_model->get_email_template_by_id($id);
         $title            = $data['template']->name;
         $data['title']    = $title;
-        $this->load->view('admin/emails/template', $data);
+           $this->load->view('admin/emails/template', $data);
+
     }
 
     public function enable_by_type($type)
@@ -230,6 +281,7 @@ class Emails extends AdminController
             hooks()->do_action('before_send_test_smtp_email');
             $this->email->initialize();
             if (get_option('mail_engine') == 'phpmailer') {
+
                 $this->email->set_debug_output(function ($err) {
                     if (!isset($GLOBALS['debug'])) {
                         $GLOBALS['debug'] = '';
@@ -238,6 +290,7 @@ class Emails extends AdminController
 
                     return $err;
                 });
+
                 $this->email->set_smtp_debug(3);
             }
 
@@ -255,10 +308,12 @@ class Emails extends AdminController
 
             $this->email->subject($template->subject);
             $this->email->message($template->message);
+
             if ($this->email->send(true)) {
                 set_alert('success', 'Seems like your SMTP settings is set correctly. Check your email now.');
                 hooks()->do_action('smtp_test_email_success');
             } else {
+
                 set_debug_alert('<h1>Your SMTP settings are not set correctly here is the debug log.</h1><br />' . $this->email->print_debugger() . (isset($GLOBALS['debug']) ? $GLOBALS['debug'] : ''));
 
                 hooks()->do_action('smtp_test_email_failed');

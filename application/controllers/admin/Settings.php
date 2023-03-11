@@ -29,6 +29,7 @@ class Settings extends AdminController
             $signatureUploaded = (handle_company_signature_upload() ? true : false);
 
             $post_data = $this->input->post();
+
             $tmpData   = $this->input->post(null, false);
 
             if (isset($post_data['settings']['email_header'])) {
@@ -85,9 +86,7 @@ class Settings extends AdminController
 
         $data['admin_tabs'] = ['update', 'info'];
 
-
-
-        if (!$tab || (!in_array($tab, $data['admin_tabs']) && !is_admin())) {
+        if (!$tab || (in_array($tab, $data['admin_tabs']) && !is_admin())) {
             $tab = 'general';
         }
 

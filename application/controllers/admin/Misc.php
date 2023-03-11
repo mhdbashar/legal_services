@@ -72,6 +72,12 @@ class Misc extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function dismiss_php_version_notice()
+    {
+        update_option('show_php_version_notice', 0);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function clear_system_popup()
     {
         $this->session->unset_userdata('system-popup');
@@ -89,7 +95,7 @@ class Misc extends AdminController
     {
         if ($this->input->post()) {
             $type = $this->input->post('type');
-            $data = get_relation_data($type);
+            $data = get_relation_data($type, '', $this->input->post('extra'));
             if ($this->input->post('rel_id')) {
                 $rel_id = $this->input->post('rel_id');
             } else {

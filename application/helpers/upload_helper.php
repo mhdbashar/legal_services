@@ -1,12 +1,86 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
+
+
+/**
+ * Handle lead attachments if any
+ * @param  mixed $leadid
+ * @return boolean
+ */
+function handle_estimate_request_attachments($estimateRequestId, $index_name = 'file')
+{
+    $totalUploaded = 0;
+    if (
+        (isset($_FILES[$index_name]['name']) && !empty($_FILES[$index_name]['name'])) ||
+        (isset($_FILES[$index_name]) && is_array($_FILES[$index_name]['name']) && count($_FILES[$index_name]['name']) > 0)
+    ) {
+        if (!is_array($_FILES[$index_name]['name'])) {
+            $_FILES[$index_name]['name']     = [$_FILES[$index_name]['name']];
+            $_FILES[$index_name]['type']     = [$_FILES[$index_name]['type']];
+            $_FILES[$index_name]['tmp_name'] = [$_FILES[$index_name]['tmp_name']];
+            $_FILES[$index_name]['error']    = [$_FILES[$index_name]['error']];
+            $_FILES[$index_name]['size']     = [$_FILES[$index_name]['size']];
+        }
+
+        for ($i = 0; $i < count($_FILES[$index_name]['name']); $i++) {
+            if (isset($_FILES[$index_name]) && empty($_FILES[$index_name]['name'][$i])) {
+                continue;
+            }
+
+            if (isset($_FILES[$index_name][$i]) && _babil_upload_error($_FILES[$index_name]['error'][$i])) {
+                header('HTTP/1.0 400 Bad error');
+                echo _babil_upload_error($_FILES[$index_name]['error'][$i]);
+                die;
+            }
+
+            $CI = & get_instance();
+            if (isset($_FILES[$index_name]['name'][$i]) && $_FILES[$index_name]['name'][$i] != '') {
+                hooks()->do_action('before_upload_estimate_request_attachment', $estimateRequestId);
+                $path = get_upload_path_by_type('estimate_request') . $estimateRequestId . '/';
+                // Get the temp file path
+                $tmpFilePath = $_FILES[$index_name]['tmp_name'][$i];
+                // Make sure we have a filepath
+
+                if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                    if (!_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
+                        continue;
+                    }
+
+                    _maybe_create_upload_path($path);
+
+                    $filename    = unique_filename($path, $_FILES[$index_name]['name'][$i]);
+                    $newFilePath = $path . $filename;
+                    // Upload the file into the company uploads dir
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                        $CI = & get_instance();
+                        $CI->load->model('estimate_request_model');
+                        $data   = [];
+                        $data[] = [
+                            'file_name' => $filename,
+                            'filetype'  => $_FILES[$index_name]['type'][$i],
+                            ];
+                        $CI->estimate_request_model->add_attachment_to_database($estimateRequestId, $data, false);
+                        $totalUploaded++;
+                    }
+                }
+            }
+        }
+    }
+
+    if ($totalUploaded > 0) {
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * Handles uploads error with translation texts
  * @param  mixed $error type of error
  * @return mixed
  */
-function _perfex_upload_error($error)
+function _babil_upload_error($error)
 {
     $uploadErrors = [
         0 => _l('file_uploaded_success'),
@@ -32,9 +106,9 @@ function _perfex_upload_error($error)
  */
 function handle_newsfeed_post_attachments($postid)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     $path = get_upload_path_by_type('newsfeed') . $postid . '/';
@@ -101,8 +175,8 @@ function handle_project_file_uploads($project_id)
         $path = get_upload_path_by_type('project') . $project_id . '/';
 
         for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
-            if (_perfex_upload_error($_FILES['file']['error'][$i])) {
-                $errors[$_FILES['file']['name'][$i]] = _perfex_upload_error($_FILES['file']['error'][$i]);
+            if (_babil_upload_error($_FILES['file']['error'][$i])) {
+                $errors[$_FILES['file']['name'][$i]] = _babil_upload_error($_FILES['file']['error'][$i]);
 
                 continue;
             }
@@ -144,7 +218,7 @@ function handle_project_file_uploads($project_id)
                     } else {
                         $data['visible_to_customer'] = ($CI->input->post('visible_to_customer') == 'true' ? 1 : 0);
                     }
-                    $CI->db->insert(db_prefix().'project_files', $data);
+                    $CI->db->insert(db_prefix() . 'project_files', $data);
 
                     $insert_id = $CI->db->insert_id();
                     if ($insert_id) {
@@ -192,9 +266,9 @@ function handle_project_file_uploads($project_id)
  */
 function handle_contract_attachment($id)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
@@ -231,49 +305,51 @@ function handle_contract_attachment($id)
  */
 function handle_lead_attachments($leadid, $index_name = 'file', $form_activity = false)
 {
-    if (isset($_FILES[$index_name]) && empty($_FILES[$index_name]['name']) && $form_activity) {
-        return;
-    }
+    $uploaded_files = [];
+    $path           = get_upload_path_by_type('lead') . $leadid . '/';
+    $CI             = &get_instance();
+    $CI->load->model('leads_model');
 
-    if (isset($_FILES[$index_name]) && _perfex_upload_error($_FILES[$index_name]['error'])) {
-        header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES[$index_name]['error']);
-        die;
-    }
+    if (isset($_FILES[$index_name]['name'])
+        && ($_FILES[$index_name]['name'] != ''
+                || is_array($_FILES[$index_name]['name']) && count($_FILES[$index_name]['name']) > 0)) {
+        if (!is_array($_FILES[$index_name]['name'])) {
+            $_FILES[$index_name]['name']     = [$_FILES[$index_name]['name']];
+            $_FILES[$index_name]['type']     = [$_FILES[$index_name]['type']];
+            $_FILES[$index_name]['tmp_name'] = [$_FILES[$index_name]['tmp_name']];
+            $_FILES[$index_name]['error']    = [$_FILES[$index_name]['error']];
+            $_FILES[$index_name]['size']     = [$_FILES[$index_name]['size']];
+        }
 
-    $CI = & get_instance();
-    if (isset($_FILES[$index_name]['name']) && $_FILES[$index_name]['name'] != '') {
-        hooks()->do_action('before_upload_lead_attachment', $leadid);
-        $path = get_upload_path_by_type('lead') . $leadid . '/';
-        // Get the temp file path
-        $tmpFilePath = $_FILES[$index_name]['tmp_name'];
-        // Make sure we have a filepath
-        if (!empty($tmpFilePath) && $tmpFilePath != '') {
-            if (!_upload_extension_allowed($_FILES[$index_name]['name'])) {
-                return false;
-            }
+        _file_attachments_index_fix($index_name);
 
-            _maybe_create_upload_path($path);
+        for ($i = 0; $i < count($_FILES[$index_name]['name']); $i++) {
+            // Get the temp file path
+            $tmpFilePath = $_FILES[$index_name]['tmp_name'][$i];
 
-            $filename    = unique_filename($path, $_FILES[$index_name]['name']);
-            $newFilePath = $path . $filename;
-            // Upload the file into the company uploads dir
-            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-                $CI = & get_instance();
-                $CI->load->model('leads_model');
-                $data   = [];
-                $data[] = [
-                    'file_name' => $filename,
-                    'filetype'  => $_FILES[$index_name]['type'],
-                    ];
-                $CI->leads_model->add_attachment_to_database($leadid, $data, false, $form_activity);
+            // Make sure we have a filepath
+            if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                if (_babil_upload_error($_FILES[$index_name]['error'][$i])
+                    || !_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
+                    continue;
+                }
 
-                return true;
+                _maybe_create_upload_path($path);
+                $filename = unique_filename($path, $_FILES[$index_name]['name'][$i]);
+
+                $newFilePath = $path . $filename;
+
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $CI->leads_model->add_attachment_to_database($leadid, [[
+                        'file_name' => $filename,
+                        'filetype'  => $_FILES[$index_name]['type'][$i],
+                    ]], false, $form_activity);
+                }
             }
         }
     }
 
-    return false;
+    return true;
 }
 
 /**
@@ -306,7 +382,7 @@ function handle_task_attachments_array($taskid, $index_name = 'attachments')
 
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES[$index_name]['error'][$i])
+                if (_babil_upload_error($_FILES[$index_name]['error'][$i])
                     || !_upload_extension_allowed($_FILES[$index_name]['name'][$i])) {
                     continue;
                 }
@@ -318,9 +394,10 @@ function handle_task_attachments_array($taskid, $index_name = 'attachments')
                 // Upload the file into the temp dir
                 if (move_uploaded_file($tmpFilePath, $newFilePath)) {
                     array_push($uploaded_files, [
-                    'file_name' => $filename,
-                    'filetype'  => $_FILES[$index_name]['type'][$i],
+                        'file_name' => $filename,
+                        'filetype'  => $_FILES[$index_name]['type'][$i],
                     ]);
+
                     if (is_image($newFilePath)) {
                         create_img_thumb($path, $filename);
                     }
@@ -343,9 +420,9 @@ function handle_task_attachments_array($taskid, $index_name = 'attachments')
  */
 function handle_sales_attachments($rel_id, $rel_type)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
 
@@ -354,7 +431,7 @@ function handle_sales_attachments($rel_id, $rel_type)
     $CI = & get_instance();
     if (isset($_FILES['file']['name'])) {
         $uploaded_files = false;
-        $file_uploaded = false;
+        $file_uploaded  = false;
         // Get the temp file path
         $tmpFilePath = $_FILES['file']['tmp_name'];
         // Make sure we have a filepath
@@ -375,7 +452,7 @@ function handle_sales_attachments($rel_id, $rel_type)
                 $insert_id = $CI->misc_model->add_attachment_to_database($rel_id, $rel_type, $attachment);
                 // Get the key so we can return to ajax request and show download link
                 $CI->db->where('id', $insert_id);
-                $_attachment = $CI->db->get(db_prefix().'files')->row();
+                $_attachment = $CI->db->get(db_prefix() . 'files')->row();
                 $key         = $_attachment->attachment_key;
 
                 if ($rel_type == 'invoice') {
@@ -434,7 +511,7 @@ function handle_client_attachments_upload($id, $customer_upload = false)
             $tmpFilePath = $_FILES['file']['tmp_name'][$i];
             // Make sure we have a filepath
             if (!empty($tmpFilePath) && $tmpFilePath != '') {
-                if (_perfex_upload_error($_FILES['file']['error'][$i])
+                if (_babil_upload_error($_FILES['file']['error'][$i])
                     || !_upload_extension_allowed($_FILES['file']['name'][$i])) {
                     continue;
                 }
@@ -476,9 +553,9 @@ function handle_client_attachments_upload($id, $customer_upload = false)
  */
 function handle_expense_attachments($id)
 {
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
+        echo _babil_upload_error($_FILES['file']['error']);
         die;
     }
     $path = get_upload_path_by_type('expense') . $id . '/';
@@ -506,6 +583,77 @@ function handle_expense_attachments($id)
         }
     }
 }
+
+//////////////////
+// Ahmad Zaher Khrezaty
+function handle_procuration_attachments($id)
+{
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _babil_upload_error($_FILES['file']['error']);
+        die;
+    }
+    $path = get_upload_path_by_type('procuration') . $id . '/';
+    $CI   = & get_instance();
+
+    if (isset($_FILES['file']['name'])) {
+        hooks()->do_action('before_upload_expense_attachment', $id);
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = $_FILES['file']['name'];
+            $newFilePath = $path . $filename;
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                    ];
+
+                $CI->misc_model->add_attachment_to_database($id, 'procuration', $attachment);
+            }
+        }
+    }
+}
+
+//////////////////
+// waseem abdallah
+function handle_transaction_attachments($id)
+{
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _babil_upload_error($_FILES['file']['error']);
+        die;
+    }
+    $path = get_upload_path_by_type('transaction') . $id . '/';
+    $CI   = & get_instance();
+
+    if (isset($_FILES['file']['name'])) {
+        hooks()->do_action('before_upload_expense_attachment', $id);
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = $_FILES['file']['name'];
+            $newFilePath = $path . $filename;
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                ];
+
+                $CI->misc_model->add_attachment_to_database($id, 'transaction', $attachment);
+            }
+        }
+    }
+}
+
 /**
  * Check for ticket attachment after inserting ticket to database
  * @param  mixed $ticketid
@@ -563,11 +711,12 @@ function handle_company_logo_upload()
 {
     $logoIndex = ['logo', 'logo_dark'];
     $success   = false;
+
     foreach ($logoIndex as $logo) {
         $index = 'company_' . $logo;
 
-        if (isset($_FILES[$index]) && _perfex_upload_error($_FILES[$index]['error'])) {
-            set_alert('warning', _perfex_upload_error($_FILES[$index]['error']));
+        if (isset($_FILES[$index]) && !empty($_FILES[$index]['name']) && _babil_upload_error($_FILES[$index]['error'])) {
+            set_alert('warning', _babil_upload_error($_FILES[$index]['error']));
 
             return false;
         }
@@ -585,9 +734,12 @@ function handle_company_logo_upload()
                     'jpeg',
                     'png',
                     'gif',
+                    'svg',
                 ];
 
-                $allowed_extensions = hooks()->apply_filters('company_logo_upload_allowed_extensions', $allowed_extensions);
+                $allowed_extensions = array_unique(
+                    hooks()->apply_filters('company_logo_upload_allowed_extensions', $allowed_extensions)
+                );
 
                 if (!in_array($extension, $allowed_extensions)) {
                     set_alert('warning', 'Image extension not allowed.');
@@ -596,7 +748,7 @@ function handle_company_logo_upload()
                 }
 
                 // Setup our new file path
-                $filename    = $logo . '.' . $extension;
+                $filename    = md5($logo . time()) . '.' . $extension;
                 $newFilePath = $path . $filename;
                 _maybe_create_upload_path($path);
                 // Upload the file into the company uploads dir
@@ -617,8 +769,8 @@ function handle_company_logo_upload()
  */
 function handle_company_signature_upload()
 {
-    if (isset($_FILES['signature_image']) && _perfex_upload_error($_FILES['signature_image']['error'])) {
-        set_alert('warning', _perfex_upload_error($_FILES['signature_image']['error']));
+    if (isset($_FILES['signature_image']) && _babil_upload_error($_FILES['signature_image']['error'])) {
+        set_alert('warning', _babil_upload_error($_FILES['signature_image']['error']));
 
         return false;
     }
@@ -744,12 +896,12 @@ function handle_staff_profile_image_upload($staff_id = '')
                 $config['source_image']   = $newFilePath;
                 $config['new_image']      = 'small_' . $filename;
                 $config['maintain_ratio'] = true;
-                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 32);
-                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 32);
+                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 96);
+                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 96);
                 $CI->image_lib->initialize($config);
                 $CI->image_lib->resize();
                 $CI->db->where('staffid', $staff_id);
-                $CI->db->update(db_prefix().'staff', [
+                $CI->db->update(db_prefix() . 'staff', [
                     'profile_image' => $filename,
                 ]);
                 // Remove original image
@@ -822,7 +974,7 @@ function handle_contact_profile_image_upload($contact_id = '')
                 $CI->image_lib->resize();
 
                 $CI->db->where('id', $contact_id);
-                $CI->db->update(db_prefix().'contacts', [
+                $CI->db->update(db_prefix() . 'contacts', [
                     'profile_image' => $filename,
                 ]);
                 // Remove original image
@@ -845,9 +997,9 @@ function handle_contact_profile_image_upload($contact_id = '')
  */
 function handle_project_discussion_comment_attachments($discussion_id, $post_data, $insert_data)
 {
-    if (isset($_FILES['file']['name']) && _perfex_upload_error($_FILES['file']['error'])) {
+    if (isset($_FILES['file']['name']) && _babil_upload_error($_FILES['file']['error'])) {
         header('HTTP/1.0 400 Bad error');
-        echo json_encode(['message' => _perfex_upload_error($_FILES['file']['error'])]);
+        echo json_encode(['message' => _babil_upload_error($_FILES['file']['error'])]);
         die;
     }
 
@@ -931,7 +1083,7 @@ function _upload_extension_allowed($filename)
 
     //  https://discussions.apple.com/thread/7229860
     //  Used in main.js too for Dropzone
-    if(strtolower($browser) === 'safari'
+    if (strtolower($browser) === 'safari'
         && in_array('.jpg', $allowed_extensions)
         && !in_array('.jpeg', $allowed_extensions)
     ) {
@@ -1006,6 +1158,23 @@ function get_upload_path_by_type($type)
             $path = EXPENSE_ATTACHMENTS_FOLDER;
 
         break;
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        case 'procuration':
+            $path = PROCURATION_ATTACHMENTS_FOLDER;
+
+        break;
+
+        case 'hr/document':
+            $path = HR_DOCUMENT_ATTACHMENTS_FOLDER;
+
+        break;
+        ///////////////////////
+        // waseem abdallah
+        case 'transaction':
+            $path = TRANSACTION_ATTACHMENTS_FOLDER;
+
+        break;
         case 'project':
             $path = PROJECT_ATTACHMENTS_FOLDER;
 
@@ -1034,6 +1203,9 @@ function get_upload_path_by_type($type)
             $path = CONTRACTS_UPLOADS_FOLDER;
 
         break;
+        case 'hr_contract':
+            $path = HR_CONTRACTS_UPLOADS_FOLDER;
+            break;
         case 'customer':
             $path = CLIENT_ATTACHMENTS_FOLDER;
 
@@ -1058,6 +1230,28 @@ function get_upload_path_by_type($type)
         $path = NEWSFEED_FOLDER;
 
         break;
+        case 'estimate_request':
+        $path = NEWSFEED_FOLDER;
+
+        break;
+        case 'case':
+            $path = CASE_ATTACHMENTS_FOLDER;
+
+        break;
+        case 'oservice':
+            $path = OSERVICE_ATTACHMENTS_FOLDER;
+
+        break;
+        case 'iservice';
+            $path = ISERVICE_ATTACHMENTS_FOLDER;
+
+        break;
+
+        case 'disputes_case';
+            $path = 'uploads/disputes_cases/';
+
+            break;
+
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

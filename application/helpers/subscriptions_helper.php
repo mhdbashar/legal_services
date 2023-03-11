@@ -7,9 +7,9 @@ function create_subscription_invoice_data($subscription, $invoice)
     $CI     = &get_instance();
     $client = $CI->clients_model->get($subscription->clientid);
 
-    $stripeSubtotal   = is_array($invoice) ? $invoice['subtotal'] : $invoice->subtotal;
-    $stripeTotal      = is_array($invoice) ? $invoice['total'] : $invoice->total;
-    $stripeTaxPercent = is_array($invoice) ? $invoice['tax_percent'] : $invoice->tax_percent;
+    $stripeSubtotal = is_array($invoice) ? $invoice['subtotal'] : $invoice->subtotal;
+    $stripeTotal    = is_array($invoice) ? $invoice['total'] : $invoice->total;
+    $taxRates       = is_array($invoice) ? $invoice['default_tax_rates'] : $invoice->default_tax_rates;
 
     $new_invoice_data                    = [];
     $new_invoice_data['subscription_id'] = $subscription->id;
@@ -81,8 +81,10 @@ function create_subscription_invoice_data($subscription, $invoice)
         $new_invoice_data['newitems'][$key]['unit']    = '';
         $new_invoice_data['newitems'][$key]['taxname'] = [];
 
-        if (!empty($stripeTaxPercent)) {
-            array_push($new_invoice_data['newitems'][$key]['taxname'], $subscription->tax_name . '|' . $stripeTaxPercent);
+        if ($taxRates) {
+            foreach ($taxRates as $taxInfo) {
+                array_push($new_invoice_data['newitems'][$key]['taxname'], $taxInfo->display_name . '|' . $taxInfo->percentage);
+            }
         }
 
         $new_invoice_data['newitems'][$key]['order'] = $key;
@@ -100,7 +102,7 @@ function subscription_invoice_preview_data($subscription, $upcomingInvoice = nul
     $CI = &get_instance();
 
     if (!isset($upcomingInvoice)) {
-        $upcomingInvoice = $CI->stripe_subscriptions->get_upcoming_invoice($subscription->stripe_customer_id, $subscription->stripe_subscription_id);
+        $upcomingInvoice = $CI->stripe_subscriptions->get_upcoming_invoice($subscription->stripe_subscription_id);
     }
 
     $newInvoiceData = create_subscription_invoice_data($subscription, $upcomingInvoice);
@@ -157,8 +159,8 @@ function subscription_invoice_preview_data($subscription, $upcomingInvoice = nul
     $upcomingInvoice->recurring         = 0;
     $upcomingInvoice->is_recurring_from = null;
 
-    $currency = get_currency($subscription->currency);
-    $upcomingInvoice->symbol = $currency->symbol;
+    $currency                       = get_currency($subscription->currency);
+    $upcomingInvoice->symbol        = $currency->symbol;
     $upcomingInvoice->currency_name = $currency->name;
 
     $GLOBALS['items_preview_transaction'] = $upcomingInvoice;
@@ -190,8 +192,18 @@ function get_subscriptions_statuses()
             'filter_default' => true,
         ],
         [
+            'color'          => '#ff6f00',
+            'id'             => 'incomplete',
+            'filter_default' => true,
+        ],
+        [
             'color'          => '#777',
             'id'             => 'canceled',
+            'filter_default' => false,
+        ],
+        [
+            'color'          => '#777',
+            'id'             => 'incomplete_expired',
             'filter_default' => false,
         ],
     ]);
@@ -258,4 +270,58 @@ function can_logged_in_contact_update_credit_card()
     return $GLOBALS['contact']->is_primary == '1'
                         && !empty($GLOBALS['client']->stripe_id)
                         && $stripeOption == '1';
+}
+
+function customer_can_delete_credit_card($client_id = null)
+{
+    $client_id = $client_id === null ? get_client_user_id() : get_instance()->db->escape_str($client_id);
+
+    if (total_rows('subscriptions', "clientid={$client_id} AND status != 'canceled' AND status != 'incomplete_expired' AND status IS NOT NULL") > 0) {
+        return false;
+    }
+
+    return true;
+}
+
+
+function is_future_subscription_date($date)
+{
+    $anchor = strtotime($date);
+
+    if ($date <= date('Y-m-d')) {
+        return false;
+    }
+
+    return true;
+}
+
+
+function redirect_to_stripe_checkout($session_id)
+{
+    $CI = &get_instance();
+
+    if (!class_exists('stripe_core', false)) {
+        $CI->load->library('stripe_core');
+    }
+
+    echo '<script src="https://js.stripe.com/v3/"></script>';
+
+    echo '<script>
+        var stripe = Stripe("' . $CI->stripe_core->get_publishable_key() . '");
+            stripe.redirectToCheckout({
+                sessionId: "' . $session_id . '"
+            }).then(function (result) {});
+    </script>';
+    die;
+}
+
+function check_stripe_subscription_environment($subscription)
+{
+    if ($subscription->in_test_environment === '1' && !get_instance()->stripe_gateway->is_test()) {
+        echo '<h2>This subscription was created in test environment, now the system has switched to live environment, hence, cannot be viewed.</h4>';
+        if (staff_can('delete', 'subscriptions')) {
+            echo '<h3>Feel free to delete the subscription from the system.</h4>';
+        }
+        die;
+    }
 }

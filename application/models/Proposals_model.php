@@ -58,29 +58,29 @@ class Proposals_model extends App_Model
         if ($search != '') {
             if (!startsWith($search, '#')) {
                 $this->db->where('(
-                phone LIKE "%' . $search . '%"
+                phone LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                zip LIKE "%' . $search . '%"
+                zip LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                content LIKE "%' . $search . '%"
+                content LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                state LIKE "%' . $search . '%"
+                state LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                city LIKE "%' . $search . '%"
+                city LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                email LIKE "%' . $search . '%"
+                email LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                address LIKE "%' . $search . '%"
+                address LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                proposal_to LIKE "%' . $search . '%"
+                proposal_to LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                total LIKE "%' . $search . '%"
+                total LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                subject LIKE "%' . $search . '%")');
+                subject LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
             } else {
                 $this->db->where(db_prefix() . 'proposals.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'proposal\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -126,6 +126,12 @@ class Proposals_model extends App_Model
             unset($data['custom_fields']);
         }
 
+        $estimateRequestID = false;
+        if (isset($data['estimate_request_id'])) {
+            $estimateRequestID = $data['estimate_request_id'];
+            unset($data['estimate_request_id']);
+        }
+
         $data['address'] = trim($data['address']);
         $data['address'] = nl2br($data['address']);
 
@@ -165,6 +171,15 @@ class Proposals_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
+            if ($estimateRequestID !== false && $estimateRequestID != '') {
+                $this->load->model('estimate_request_model');
+                $completedStatus = $this->estimate_request_model->get_status_by_flag('completed');
+                $this->estimate_request_model->update_request_status([
+                    'requestid' => $estimateRequestID,
+                    'status' => $completedStatus->id,
+                ]);
+            }
+
             if (isset($custom_fields)) {
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
@@ -543,7 +558,7 @@ class Proposals_model extends App_Model
                         'description'     => 'not_proposal_comment_from_client',
                         'touserid'        => $member['staffid'],
                         'fromcompany'     => 1,
-                        'fromuserid'      => null,
+                        'fromuserid'      => 0,
                         'link'            => 'proposals/list_proposals/' . $data['proposalid'],
                         'additional_data' => serialize([
                             $proposal->subject,
@@ -841,6 +856,10 @@ class Proposals_model extends App_Model
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'proposals');
         if ($this->db->affected_rows() > 0) {
+            if (!is_null($proposal->short_link)) {
+                app_archive_short_link($proposal->short_link);
+            }
+
             delete_tracked_emails($id, 'proposal');
 
             $this->db->where('proposalid', $id);
@@ -848,6 +867,7 @@ class Proposals_model extends App_Model
             // Get related tasks
             $this->db->where('rel_type', 'proposal');
             $this->db->where('rel_id', $id);
+            $this->db->where('is_session', 0);
 
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
             foreach ($tasks as $task) {
@@ -863,7 +883,7 @@ class Proposals_model extends App_Model
             $this->db->where('rel_type', 'proposal');
             $this->db->delete(db_prefix() . 'notes');
 
-            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="proposal" AND rel_id="' . $id . '")');
+            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="proposal" AND rel_id="' . $this->db->escape_str($id) . '")');
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 

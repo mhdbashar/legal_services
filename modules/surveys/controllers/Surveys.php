@@ -32,8 +32,8 @@ class Surveys extends AdminController
         }
         if ($this->input->post()) {
             $data                    = $this->input->post();
-            $data['description']     = $this->input->post('description', false);
-            $data['viewdescription'] = $this->input->post('viewdescription', false);
+            $data['description']     = html_purify($this->input->post('description', false));
+            $data['viewdescription'] = html_purify($this->input->post('viewdescription', false));
 
             if ($id == '') {
                 if (!has_permission('surveys', '', 'create')) {
@@ -139,7 +139,11 @@ class Surveys extends AdminController
                         $where        = 'active=1';
 
                         if ($this->input->post('contacts_consent') && is_array($this->input->post('contacts_consent'))) {
-                            $whereConsent = ' AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(',', $this->input->post('contacts_consent')) . ') and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(', ', $this->input->post('contacts_consent')) . ') AND contact_id=' . db_prefix() . 'contacts.id))';
+                            $consents = array_map(function ($attr) {
+                                return get_instance()->db->escape_str($attr);
+                            }, $this->input->post('contacts_consent'));
+
+                            $whereConsent = ' AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(',', $consents) . ') and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(', ', $consents) . ') AND contact_id=' . db_prefix() . 'contacts.id))';
                         }
                         if ($this->input->post('ml_customers_all')) {
                             $where .= $whereConsent;
@@ -151,7 +155,7 @@ class Surveys extends AdminController
                             }
                         } else {
                             foreach ($this->input->post('customer_group') as $group_id => $val) {
-                                $clients = $this->clients_model->get_contacts('', 'active=1 AND userid IN (select customer_id from ' . db_prefix() . 'customer_groups where groupid =' . $group_id . ')' . $whereConsent);
+                                $clients = $this->clients_model->get_contacts('', 'active=1 AND userid IN (select customer_id from ' . db_prefix() . 'customer_groups where groupid =' . $this->db->escape_str($group_id) . ')' . $whereConsent);
                                 foreach ($clients as $email) {
                                     $added = true;
                                     array_push($_all_emails, $email['email']);
@@ -168,12 +172,16 @@ class Surveys extends AdminController
                         if ($this->input->post('leads_status')) {
                             $whereConsent = '';
                             if ($this->input->post('leads_consent') && is_array($this->input->post('leads_consent'))) {
-                                $whereConsent = ' AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(',', $this->input->post('leads_consent')) . ') and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(', ', $this->input->post('leads_consent')) . ') AND lead_id=' . db_prefix() . 'leads.id))';
+                                $consents = array_map(function ($attr) {
+                                    return get_instance()->db->escape_str($attr);
+                                }, $this->input->post('leads_consent'));
+
+                                $whereConsent = ' AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(',', $consents) . ') and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id IN (' . implode(', ', $consents) . ') AND lead_id=' . db_prefix() . 'leads.id))';
                             }
 
                             $statuses = [];
                             foreach ($this->input->post('leads_status') as $status_id => $val) {
-                                array_push($statuses, $status_id);
+                                array_push($statuses, $this->db->escape_str($status_id));
                             }
 
                             $where = 'status IN (' . implode(',', $statuses) . ')' . $whereConsent;
@@ -242,7 +250,7 @@ class Surveys extends AdminController
         } else {
             set_alert('warning', 'No emails found to send the survey based on the selections.');
         }
-        redirect(admin_url('surveys/survey/' . $surveyid.'?tab=survey_send_tab'));
+        redirect(admin_url('surveys/survey/' . $surveyid . '?tab=survey_send_tab'));
     }
 
     public function remove_survey_send($id)
@@ -595,7 +603,7 @@ class Surveys extends AdminController
         $temp_url = TEMP_FOLDER . $filename;
         if (move_uploaded_file($_FILES['file_xls']['tmp_name'], $temp_url)) {
             try {
-                $xls_emails = new SpreadsheetReader($temp_url);
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($temp_url);
             } catch (Exception $e) {
                 die('Error loading file "' . pathinfo($temp_url, PATHINFO_BASENAME) . '": ' . $e->getMessage());
             }
@@ -604,7 +612,8 @@ class Surveys extends AdminController
             $total_added_emails     = 0;
             $mails_failed_to_insert = 0;
             $listid                 = $this->input->post('listid');
-            foreach ($xls_emails as $email) {
+
+            foreach ($spreadsheet->getActiveSheet()->toArray() as $email) {
                 if (isset($email[0]) && $email[0] !== '') {
                     $data['email'] = $email[0];
                     if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -618,7 +627,7 @@ class Surveys extends AdminController
                         $total_custom_fields = count($custom_fields);
                         for ($i = 0; $i < $total_custom_fields; $i++) {
                             if ($email[$i + 1] !== '') {
-                                $data['customfields'][$custom_fields[$i]['customfieldid']] = $email[$i + 1];
+                                $data['customfields'][$custom_fields[$i]['customfieldid']] = $email[$i + 1] ?? '';
                             }
                         }
                     }

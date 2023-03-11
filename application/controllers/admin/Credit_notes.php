@@ -8,6 +8,7 @@ class Credit_notes extends AdminController
     {
         parent::__construct();
         $this->load->model('credit_notes_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* Get all credit ntoes in case user go on index page */
@@ -43,6 +44,36 @@ class Credit_notes extends AdminController
         ]);
     }
 
+    public function table_case($clientid = '',$ServID='', $slug = '')
+    {
+        if (!has_permission('credit_notes', '', 'view') && !has_permission('credit_notes', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('credit_notes_case', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function table_oservice($clientid = '',$ServID='', $slug = '')
+    {
+        if (!has_permission('credit_notes', '', 'view') && !has_permission('credit_notes', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('credit_notes_oservice', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
     public function update_number_settings($id)
     {
         $response = [
@@ -75,6 +106,7 @@ class Credit_notes extends AdminController
     {
         $isedit          = $this->input->post('isedit');
         $number          = $this->input->post('number');
+        $date            = $this->input->post('date');
         $original_number = $this->input->post('original_number');
         $number          = trim($number);
         $number          = ltrim($number, '0');
@@ -85,6 +117,7 @@ class Credit_notes extends AdminController
             }
         }
         if (total_rows(db_prefix() . 'creditnotes', [
+            'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
             'number' => $number,
         ]) > 0) {
             echo 'false';
@@ -111,6 +144,7 @@ class Credit_notes extends AdminController
                     redirect(admin_url('credit_notes/list_credit_notes/' . $id));
                 }
             } else {
+                // redirect(($_SERVER['HTTP_REFERER']));
                 if (!has_permission('credit_notes', '', 'edit')) {
                     access_denied('credit_notes');
                 }
@@ -124,6 +158,7 @@ class Credit_notes extends AdminController
         if ($id == '') {
             $title = _l('add_new', _l('credit_note_lowercase'));
         } else {
+            // redirect(($_SERVER['HTTP_REFERER']));
             $credit_note = $this->credit_notes_model->get($id);
 
             if (!$credit_note || (!has_permission('credit_notes', '', 'view') && $credit_note->addedfrom != get_staff_user_id())) {
@@ -157,7 +192,7 @@ class Credit_notes extends AdminController
         $data['currencies'] = $this->currencies_model->get();
 
         $data['base_currency'] = $this->currencies_model->get_base_currency();
-
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']     = $title;
         $data['bodyclass'] = 'credit-note';
         $this->load->view('admin/credit_notes/credit_note', $data);
@@ -342,6 +377,7 @@ class Credit_notes extends AdminController
 
     public function delete_credit_note_applied_credit($id, $credit_id, $invoice_id)
     {
+        redirect(admin_url('credit_notes/list_credit_notes/' . $credit_id));
         if (has_permission('credit_notes', '', 'delete')) {
             $this->credit_notes_model->delete_applied_credit($id, $credit_id, $invoice_id);
         }

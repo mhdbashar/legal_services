@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     db_prefix() . 'expenses.id',
-    'category',
+    db_prefix() . 'expenses_categories.name as category_name',
     'amount',
     'expense_name',
     'file_name',
@@ -31,7 +31,7 @@ $where  = [];
 $filter = [];
 include_once(APPPATH . 'views/admin/tables/includes/expenses_filter.php');
 
-array_push($where, 'AND project_id=' . $project_id);
+array_push($where, 'AND project_id=' . $this->ci->db->escape_str($project_id));
 
 if (!has_permission('expenses', '', 'view')) {
     array_push($where, 'AND ' . db_prefix() . 'expenses.addedfrom=' . get_staff_user_id());
@@ -39,7 +39,6 @@ if (!has_permission('expenses', '', 'view')) {
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'expenses';
 $result       = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
-    'name',
     'billable',
     'invoiceid',
     'currency',
@@ -59,8 +58,8 @@ foreach ($rResult as $aRow) {
         }
         if ($aColumns[$i] == db_prefix() . 'expenses.id') {
             $_data = '<span class="label label-default inline-block">' . $_data . '</span>';
-        } elseif ($aColumns[$i] == 'category') {
-            $_data = '<a href="' . admin_url('expenses/list_expenses/' . $aRow[db_prefix() . 'expenses.id']) . '" target="_blank">' . $aRow['name'] . '</a>';
+        } elseif (strpos($aColumns[$i], 'category_name') !== false) {
+            $_data = '<a href="' . admin_url('expenses/list_expenses/' . $aRow[db_prefix() . 'expenses.id']) . '" target="_blank">' . $aRow['category_name'] . '</a>';
             if ($aRow['billable'] == 1) {
                 if ($aRow['invoiceid'] == null) {
                     $_data .= '<p class="text-danger">' . _l('expense_list_unbilled') . '</p>';

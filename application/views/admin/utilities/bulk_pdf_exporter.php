@@ -21,7 +21,7 @@
                         <?php echo render_date_input('date-from','zip_from_date'); ?>
                         <?php echo render_date_input('date-to','zip_to_date'); ?>
                         <?php echo render_input('tag','bulk_export_include_tag','','text',array('data-toggle'=>'tooltip','title'=>'bulk_export_include_tag_help')); ?>
-                        <div class="form-group hide shifter" id="estimates_status">
+                        <div class="form-group hide shifter estimates_shifter">
                             <label for="estimate_zip_status"><?php echo _l('bulk_export_status'); ?></label>
                             <div class="radio radio-primary">
                                 <input type="radio" value="all" checked name="estimates_export_status">
@@ -35,7 +35,7 @@
                             <?php } ?>
                         </div>
 
-                        <div class="form-group hide shifter" id="credit_notes_status">
+                        <div class="form-group hide shifter credit_notes_shifter">
                             <label for="credit_notes_export_status"><?php echo _l('bulk_export_status'); ?></label>
                             <div class="radio radio-primary">
                                 <input type="radio" id="all" value="all" checked name="credit_notes_export_status">
@@ -48,7 +48,7 @@
                                 </div>
                             <?php } ?>
                         </div>
-                        <div class="form-group hide shifter" id="invoices_status">
+                        <div class="form-group hide shifter invoices_shifter">
                             <label for="invoices_export_status"><?php echo _l('bulk_export_status'); ?></label>
                             <div class="radio radio-primary">
                                 <input type="radio" id="all" value="all" checked name="invoices_export_status">
@@ -61,12 +61,12 @@
                                 </div>
                             <?php } ?>
                             <hr />
-                             <div class="radio radio-primary">
-                                    <input type="radio" id="invoice_not_send" value="not_send" name="invoices_export_status">
-                                    <label for="invoice_not_send"><?php echo _l('not_sent_indicator'); ?></label>
-                                </div>
+                            <div class="radio radio-primary">
+                                <input type="radio" id="invoice_not_send" value="not_send" name="invoices_export_status">
+                                <label for="invoice_not_send"><?php echo _l('not_sent_indicator'); ?></label>
+                            </div>
                         </div>
-                        <div class="form-group hide shifter" id="proposal_status">
+                        <div class="form-group hide shifter proposals_shifter">
                             <label for="proposals_export_status"><?php echo _l('bulk_export_status'); ?></label>
                             <div class="radio radio-primary">
                                 <input type="radio" value="all" checked name="proposals_export_status">
@@ -81,12 +81,13 @@
                                 </div>
                             <?php } ?>
                         </div>
-                        <div class="form-group hide shifter" id="payment_modes">
+                        <div class="form-group hide shifter payments_shifter expenses_shifter">
                             <?php
                             array_unshift($payment_modes,array('id'=>'','name'=>_l('bulk_export_status_all')));
-                            echo render_select('paymentmode',$payment_modes,array('id','name'),'bulk_export_zip_payment_modes');
+                            echo render_select('paymentmode',$payment_modes,array('id','name'),'payment_modes');
                             ?>
                         </div>
+                        <?php hooks()->do_action('after_bulk_pdf_export_options'); ?>
                         <button class="btn btn-info" type="submit"><?php echo _l('bulk_pdf_export_button'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
@@ -102,18 +103,8 @@
         $('#export_type').on('change',function(){
             var val = $(this).val();
             $('.shifter').addClass('hide');
-            if(val == 'invoices'){
-             $('#invoices_status').removeClass('hide');
-         } else if(val == 'estimates'){
-             $('#estimates_status').removeClass('hide');
-         } else if(val == 'payments'){
-            $('#payment_modes').removeClass('hide');
-        } else if(val == 'proposals'){
-            $('#proposal_status').removeClass('hide');
-        } else if(val == 'credit_notes'){
-            $('#credit_notes_status').removeClass('hide');
-        }
-    });
+            $('.'+val+'_shifter').removeClass('hide');
+        });
     });
 </script>
 </body>

@@ -41,13 +41,13 @@ function add_default_theme_menu_items()
                     'position' => 100,
                 ]);
     } else {
-        if (has_contact_permission('projects')) {
+       /* if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
                     'name'     => _l('clients_nav_projects'),
                     'href'     => site_url('clients/projects'),
                     'position' => 10,
                 ]);
-        }
+        }*/
         if (has_contact_permission('invoices')) {
             add_theme_menu_item('invoices', [
                     'name'     => _l('clients_nav_invoices'),
@@ -76,26 +76,18 @@ function add_default_theme_menu_items()
                     'position' => 30,
                 ]);
         }
-        if (can_logged_in_contact_view_subscriptions()) {
+        /*if (can_logged_in_contact_view_subscriptions()) {
             add_theme_menu_item('subscriptions', [
                     'name'     => _l('subscriptions'),
                     'href'     => site_url('clients/subscriptions'),
                     'position' => 40,
                 ]);
-        }
+        }*/
         if (has_contact_permission('support')) {
             add_theme_menu_item('support', [
                     'name'     => _l('clients_nav_support'),
                     'href'     => site_url('clients/tickets'),
                     'position' => 45,
-                ]);
-        }
-
-        if (is_gdpr() && is_client_logged_in() && get_option('show_gdpr_in_customers_menu') == '1') {
-            add_theme_menu_item('gdpr', [
-                    'name'     => _l('gdpr_short'),
-                    'href'     => site_url('clients/gdpr'),
-                    'position' => 50,
                 ]);
         }
     }
@@ -196,6 +188,15 @@ function privacy_policy_url()
 }
 
 /**
+ * Check whether the recaptcha should be shown in customers area
+ *
+ * @return boolean
+ */
+function show_recaptcha_in_customers_area()
+{
+    return show_recaptcha() && get_option('use_recaptcha_customers_area') == 1;
+}
+/**
  * Current theme view part
  * @param  string $name file name
  * @param  array  $data variables passed to view
@@ -236,10 +237,10 @@ function active_clients_theme()
     $theme = get_option('clients_default_theme');
 
     if ($theme == '') {
-        if (is_dir(VIEWPATH . 'themes/perfex')) {
+        if (is_dir(VIEWPATH . 'themes/babil')) {
             // In case the default theme still exists, just add it as default to prevent errors on clients area.
-            update_option('clients_default_theme', 'perfex');
-            $theme = 'perfex';
+            update_option('clients_default_theme', 'babil');
+            $theme = 'babil';
         } else {
             show_error('Default clients area theme not configured in settings. Access the <a href="' . admin_url('settings?group=clients  ') . '">settings area</a> and set default clients theme.');
         }
@@ -261,9 +262,7 @@ function app_theme_head_hook()
     ob_start();
     echo get_custom_fields_hyperlink_js_function();
 
-    if (get_option('use_recaptcha_customers_area') == 1
-        && get_option('recaptcha_secret_key') != ''
-        && get_option('recaptcha_site_key') != '') {
+    if (show_recaptcha_in_customers_area()) {
         echo "<script src='https://www.google.com/recaptcha/api.js'></script>";
     }
 

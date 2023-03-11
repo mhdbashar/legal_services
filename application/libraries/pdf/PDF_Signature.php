@@ -6,6 +6,14 @@ trait PDF_Signature
 {
     public function process_signature()
     {
+        if (is_rtl()) {
+            $this->setRTL(false);
+            $align = 'R'; //Right align
+        }else{
+            $this->setRTL(false);
+            $align = 'L'; //Left align
+        }
+
         $dimensions       = $this->getPageDimensions();
         $leftColumnExists = false;
 
@@ -27,10 +35,11 @@ trait PDF_Signature
             $this->ln(13);
 
             if ($signatureImage != '' && $signatureExists) {
-                $blankSignatureLine .= '<br /><br /><img src="' . site_url('uploads/company/' . $signatureImage) . '" />';
+                $imageData = base64_encode(file_get_contents($signaturePath));
+                $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img src="@' . $imageData . '" />';
             }
 
-            $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, _l('authorized_signature_text') . ' ' . $blankSignatureLine, 0, 'J', 0, 0, '', '', true, 0, true, true, 0);
+            $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, _l('authorized_signature_text') . ' ' . $blankSignatureLine, 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
 
             $leftColumnExists = true;
         }
@@ -54,12 +63,12 @@ trait PDF_Signature
             $this->type()
         );
 
-        if (!empty($customerSignaturePath)) {
+        if (!empty($customerSignaturePath) && file_exists($customerSignaturePath)) {
             $customerSignature = _l('document_customer_signature_text');
 
             $imageData = base64_encode(file_get_contents($customerSignaturePath));
 
-            $customerSignature .= '<br /><br /><img src="@' . $imageData . '">';
+            $customerSignature .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img src="@' . $imageData . '">';
             $width = ($dimensions['wk'] / 2) - $dimensions['rm'];
 
             if (!$leftColumnExists) {

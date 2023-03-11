@@ -33,7 +33,6 @@ class Clients_model extends App_Model
         }
 
         if (is_numeric($id)) {
-
             $this->db->where(db_prefix() . 'clients.userid', $id);
             $client = $this->db->get(db_prefix() . 'clients')->row();
 
@@ -63,6 +62,7 @@ class Clients_model extends App_Model
         if ($customer_id != '') {
             $this->db->where('userid', $customer_id);
         }
+
         $this->db->order_by('is_primary', 'DESC');
 
         return $this->db->get(db_prefix() . 'contacts')->result_array();
@@ -81,12 +81,31 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get contact by given email
+     *
+     * @since 2.8.0
+     *
+     * @param  string $email
+     *
+     * @return \strClass|null
+     */
+    public function get_contact_by_email($email)
+    {
+        $this->db->where('email', $email);
+        $this->db->limit(1);
+
+        return $this->db->get('contacts')->row();
+    }
+
+    /**
      * @param array $_POST data
-     * @param client_request is this request from the customer area
+     * @param withContact
+     *
      * @return integer Insert ID
+     *
      * Add new client to database
      */
-    public function add($data, $client_or_lead_convert_request = false)
+    public function add($data, $withContact = false)
     {
         $contact_data = [];
         foreach ($this->contact_columns as $field) {
@@ -113,6 +132,11 @@ class Clients_model extends App_Model
         if (isset($data['groups_in'])) {
             $groups_in = $data['groups_in'];
             unset($data['groups_in']);
+        }
+
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
         }
 
         $data = $this->check_zero_columns($data);
@@ -145,17 +169,28 @@ class Clients_model extends App_Model
                 }
                 handle_custom_fields_post($userid, $custom_fields);
             }
+
             /**
              * Used in Import, Lead Convert, Register
              */
-            if ($client_or_lead_convert_request == true) {
-                $contact_id = $this->add_contact($contact_data, $userid, $client_or_lead_convert_request);
+            if ($withContact == true) {
+                $contact_id = $this->add_contact($contact_data, $userid, $withContact);
             }
+
             if (isset($groups_in)) {
                 foreach ($groups_in as $group) {
                     $this->db->insert(db_prefix() . 'customer_groups', [
                         'customer_id' => $userid,
                         'groupid'     => $group,
+                    ]);
+                }
+            }
+
+            if (isset($groups_company_in)) {
+                foreach ($groups_company_in as $group_company) {
+                    $this->db->insert(db_prefix() . 'my_customer_company_groups', [
+                        'customer_id' => $userid,
+                        'groupid'     => $group_company,
                     ]);
                 }
             }
@@ -167,6 +202,7 @@ class Clients_model extends App_Model
             }
 
             $isStaff = null;
+
             if (!is_client_logged_in() && is_staff_logged_in()) {
                 $log .= ', From Staff: ' . get_staff_user_id();
                 $isStaff = get_staff_user_id();
@@ -212,6 +248,11 @@ class Clients_model extends App_Model
             unset($data['groups_in']);
         }
 
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
+        }
+
         $data = $this->check_zero_columns($data);
 
         $data = hooks()->apply_filters('before_client_updated', $data, $id);
@@ -225,17 +266,18 @@ class Clients_model extends App_Model
 
         if (isset($update_all_other_transactions) || isset($update_credit_notes)) {
             $transactions_update = [
-                    'billing_street'   => $data['billing_street'],
-                    'billing_city'     => $data['billing_city'],
-                    'billing_state'    => $data['billing_state'],
-                    'billing_zip'      => $data['billing_zip'],
-                    'billing_country'  => $data['billing_country'],
-                    'shipping_street'  => $data['shipping_street'],
-                    'shipping_city'    => $data['shipping_city'],
-                    'shipping_state'   => $data['shipping_state'],
-                    'shipping_zip'     => $data['shipping_zip'],
-                    'shipping_country' => $data['shipping_country'],
-                ];
+                'billing_street'   => $data['billing_street'],
+                'billing_city'     => $data['billing_city'],
+                'billing_state'    => $data['billing_state'],
+                'billing_zip'      => $data['billing_zip'],
+                'billing_country'  => $data['billing_country'],
+                // hide shipping
+//                    'shipping_street'  => $data['shipping_street'],
+//                    'shipping_city'    => $data['shipping_city'],
+//                    'shipping_state'   => $data['shipping_state'],
+//                    'shipping_zip'     => $data['shipping_zip'],
+//                    'shipping_country' => $data['shipping_country'],
+            ];
             if (isset($update_all_other_transactions)) {
 
                 // Update all invoices except paid ones.
@@ -267,7 +309,15 @@ class Clients_model extends App_Model
             $groups_in = false;
         }
 
+        if (!isset($groups_company_in)) {
+            $groups_company_in = false;
+        }
+
         if ($this->client_groups_model->sync_customer_groups($id, $groups_in)) {
+            $affectedRows++;
+        }
+
+        if ($this->client_groups_model->sync_company_customer_groups($id, $groups_company_in)) {
             $affectedRows++;
         }
 
@@ -293,6 +343,14 @@ class Clients_model extends App_Model
     {
         $affectedRows = 0;
         $contact      = $this->get_contact($id);
+
+        if (isset($data['full_name'])) {
+            $data['firstname'] = strtok($data['full_name'], ' ');
+            $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+            $data['lastname'] = $lastname != '' ? $lastname : NULL;
+            unset($data['full_name']);
+        }
+
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -387,6 +445,15 @@ class Clients_model extends App_Model
                 $set_password_email_sent = $this->authentication_model->set_password_email($data['email'], 0);
             }
         }
+
+        if (($client_request == true) && $send_set_password_email) {
+            $set_password_email_sent = $this->authentication_model->set_password_email($data['email'], 0);
+        }
+
+        if ($affectedRows > 0) {
+            hooks()->do_action('contact_updated', $id, $data);
+        }
+
         if ($affectedRows > 0 && !$set_password_email_sent) {
             log_activity('Contact Updated [ID: ' . $id . ']');
 
@@ -412,6 +479,16 @@ class Clients_model extends App_Model
      */
     public function add_contact($data, $customer_id, $not_manual_request = false)
     {
+//        if (isset($data['full_name'])) {
+//            $data['firstname'] = strtok($data['full_name'], ' ');
+//            $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+//            if($lastname == ' ' || $lastname == ''){
+//                $data['lastname'] = NULL;
+//            }else{
+//                $data['lastname'] = $lastname;
+//            }
+//            unset($data['full_name']);
+//        }
         $send_set_password_email = isset($data['send_set_password_email']) ? true : false;
 
         if (isset($data['custom_fields'])) {
@@ -442,6 +519,7 @@ class Clients_model extends App_Model
 
             // If client register set this contact as primary
             $data['is_primary'] = 1;
+
             if (is_email_verification_enabled() && !empty($data['email'])) {
                 // Verification is required on register
                 $data['email_verified_at']      = null;
@@ -463,7 +541,7 @@ class Clients_model extends App_Model
         $data['userid']       = $customer_id;
         if (isset($data['password'])) {
             $password_before_hash = $data['password'];
-            $data['password'] = app_hash_password($data['password']);
+            $data['password']     = app_hash_password($data['password']);
         }
 
         $data['datecreated'] = date('Y-m-d H:i:s');
@@ -545,8 +623,14 @@ class Clients_model extends App_Model
                 }
             }
 
-            if ($send_welcome_email == true) {
-                send_mail_template('customer_created_welcome_mail', $data['email'], $data['userid'], $contact_id, $password_before_hash);
+            if ($send_welcome_email == true && !empty($data['email'])) {
+                send_mail_template(
+                    'customer_created_welcome_mail',
+                    $data['email'],
+                    $data['userid'],
+                    $contact_id,
+                    $password_before_hash
+                );
             }
 
             if ($send_set_password_email) {
@@ -563,6 +647,80 @@ class Clients_model extends App_Model
 
             log_activity('Contact Created [ID: ' . $contact_id . ']');
 
+            hooks()->do_action('contact_created', $contact_id);
+
+            return $contact_id;
+        }
+
+        return false;
+    }
+
+    /**
+     * Add new contact via customers area
+     *
+     * @param array  $data
+     * @param mixed  $customer_id
+     */
+    public function add_contact_via_customers_area($data, $customer_id)
+    {
+        $send_welcome_email      = isset($data['donotsendwelcomeemail']) && $data['donotsendwelcomeemail'] ? false : true;
+        $send_set_password_email = isset($data['send_set_password_email']) && $data['send_set_password_email'] ? true : false;
+        $custom_fields           = $data['custom_fields'];
+        unset($data['custom_fields']);
+
+        if (!is_email_verification_enabled()) {
+            $data['email_verified_at'] = date('Y-m-d H:i:s');
+        } elseif (is_email_verification_enabled() && !empty($data['email'])) {
+            // Verification is required on register
+            $data['email_verified_at']      = null;
+            $data['email_verification_key'] = app_generate_hash();
+        }
+
+        $password_before_hash = $data['password'];
+
+        $data = array_merge($data, [
+            'datecreated' => date('Y-m-d H:i:s'),
+            'userid'      => $customer_id,
+            'password'    => app_hash_password(isset($data['password']) ? $data['password'] : time()),
+        ]);
+
+        $data = hooks()->apply_filters('before_create_contact', $data);
+        $this->db->insert(db_prefix() . 'contacts', $data);
+
+        $contact_id = $this->db->insert_id();
+
+        if ($contact_id) {
+            handle_custom_fields_post($contact_id, $custom_fields);
+
+            // Apply default permissions
+            $default_permissions = @unserialize(get_option('default_contact_permissions'));
+
+            if (is_array($default_permissions)) {
+                foreach (get_contact_permissions() as $permission) {
+                    if (in_array($permission['id'], $default_permissions)) {
+                        $this->db->insert(db_prefix() . 'contact_permissions', [
+                            'userid'        => $contact_id,
+                            'permission_id' => $permission['id'],
+                        ]);
+                    }
+                }
+            }
+
+            if ($send_welcome_email === true) {
+                send_mail_template(
+                    'customer_created_welcome_mail',
+                    $data['email'],
+                    $customer_id,
+                    $contact_id,
+                    $password_before_hash
+                );
+            }
+
+            if ($send_set_password_email === true) {
+                $this->authentication_model->set_password_email($data['email'], 0);
+            }
+
+            log_activity('Contact Created [ID: ' . $contact_id . ']');
             hooks()->do_action('contact_created', $contact_id);
 
             return $contact_id;
@@ -681,9 +839,9 @@ class Clients_model extends App_Model
             }
             foreach ($data['customer_admins'] as $n_admin_id) {
                 if (total_rows(db_prefix() . 'customer_admins', [
-                    'customer_id' => $id,
-                    'staff_id' => $n_admin_id,
-                ]) == 0) {
+                        'customer_id' => $id,
+                        'staff_id' => $n_admin_id,
+                    ]) == 0) {
                     $this->db->insert(db_prefix() . 'customer_admins', [
                         'customer_id'   => $id,
                         'staff_id'      => $n_admin_id,
@@ -797,6 +955,7 @@ class Clients_model extends App_Model
                 'subscription_id'          => 0,
                 'cancel_overdue_reminders' => 1,
                 'last_overdue_reminder'    => null,
+                'last_due_reminder'        => null,
             ]);
 
             if (is_gdpr() && get_option('gdpr_on_forgotten_remove_estimates') == '1') {
@@ -896,6 +1055,10 @@ class Clients_model extends App_Model
         }
         if ($affectedRows > 0) {
             hooks()->do_action('after_client_deleted', $id);
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type="clients" or rel_type="opponent"']);
+                $this->db->delete('tblbranches_services');
+            }
 
             // Delete activity log caused by delete customer function
             if ($last_activity) {
@@ -1202,6 +1365,11 @@ class Clients_model extends App_Model
             'active' => $status,
         ]);
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('contact_status_changed', [
+                'id'     => $id,
+                'status' => $status,
+            ]);
+
             log_activity('Contact Status Changed [ContactID: ' . $id . ' Status(Active/Inactive): ' . $status . ']');
 
             return true;
@@ -1224,6 +1392,11 @@ class Clients_model extends App_Model
         ]);
 
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('client_status_changed', [
+                'id'     => $id,
+                'status' => $status,
+            ]);
+
             log_activity('Customer Status Changed [ID: ' . $id . ' Status(Active/Inactive): ' . $status . ']');
 
             return true;
@@ -1277,6 +1450,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get customer groups where customer belongs
+     * @param  mixed $id customer id
+     * @return array
+     */
+    public function get_company_customer_groups($id)
+    {
+        return $this->client_groups_model->get_company_customer_groups($id);
+    }
+
+    /**
      * Get all customer groups
      * @param  string $id
      * @return mixed
@@ -1287,6 +1470,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get all customer groups
+     * @param  string $id
+     * @return mixed
+     */
+    public function get_company_groups($id = '')
+    {
+        return $this->client_groups_model->get_company_groups($id);
+    }
+
+    /**
      * Delete customer groups
      * @param  mixed $id group id
      * @return boolean
@@ -1294,6 +1487,16 @@ class Clients_model extends App_Model
     public function delete_group($id)
     {
         return $this->client_groups_model->delete($id);
+    }
+
+    /**
+     * Delete customer groups
+     * @param  mixed $id group id
+     * @return boolean
+     */
+    public function delete_company_group($id)
+    {
+        return $this->client_groups_model->company_delete($id);
     }
 
     /**
@@ -1316,11 +1519,30 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Create new vault entry
-    * @param  array $data        $_POST data
-    * @param  mixed $customer_id customer id
-    * @return boolean
-    */
+     * Add new customer groups
+     * @param array $data $_POST data
+     */
+    public function add_company_group($data)
+    {
+        return $this->client_groups_model->company_add($data);
+    }
+
+    /**
+     * Edit customer group
+     * @param  array $data $_POST data
+     * @return boolean
+     */
+    public function edit_company_group($data)
+    {
+        return $this->client_groups_model->company_edit($data);
+    }
+
+    /**
+     * Create new vault entry
+     * @param  array $data        $_POST data
+     * @param  mixed $customer_id customer id
+     * @return boolean
+     */
     public function vault_entry_create($data, $customer_id)
     {
         return $this->client_vault_entries_model->create($data, $customer_id);
@@ -1369,26 +1591,26 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Get customer statement formatted
-    * @param  mixed $customer_id customer id
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @return array
-    */
+     * Get customer statement formatted
+     * @param  mixed $customer_id customer id
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @return array
+     */
     public function get_statement($customer_id, $from, $to)
     {
         return $this->statement_model->get_statement($customer_id, $from, $to);
     }
 
     /**
-    * Send customer statement to email
-    * @param  mixed $customer_id customer id
-    * @param  array $send_to     array of contact emails to send
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @param  string $cc          email CC
-    * @return boolean
-    */
+     * Send customer statement to email
+     * @param  mixed $customer_id customer id
+     * @param  array $send_to     array of contact emails to send
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @param  string $cc          email CC
+     * @return boolean
+     */
     public function send_statement_to_email($customer_id, $send_to, $from, $to, $cc = '')
     {
         return $this->statement_model->send_statement_to_email($customer_id, $send_to, $from, $to, $cc);
@@ -1486,14 +1708,14 @@ class Clients_model extends App_Model
 
         foreach ($staff as $member) {
             mail_template('customer_profile_uploaded_file_to_staff', $member['email'], $member['staffid'])
-            ->set_merge_fields($merge_fields)
-            ->send();
+                ->set_merge_fields($merge_fields)
+                ->send();
 
             if (add_notification([
-                    'touserid' => $member['staffid'],
-                    'description' => 'not_customer_uploaded_file',
-                    'link' => 'clients/client/' . $customer_id . '?group=attachments',
-                ])) {
+                'touserid' => $member['staffid'],
+                'description' => 'not_customer_uploaded_file',
+                'link' => 'clients/client/' . $customer_id . '?group=attachments',
+            ])) {
                 array_push($notifiedUsers, $member['staffid']);
             }
         }
@@ -1502,6 +1724,7 @@ class Clients_model extends App_Model
 
     public function get_staff_members_that_can_access_customer($id)
     {
+        $id = $this->db->escape_str($id);
 
         return $this->db->query('SELECT * FROM ' . db_prefix() . 'staff
             WHERE (
@@ -1535,5 +1758,17 @@ class Clients_model extends App_Model
         }
 
         return $data;
+    }
+
+    public function delete_contact_profile_image($id)
+    {
+        hooks()->do_action('before_remove_contact_profile_image');
+        if (file_exists(get_upload_path_by_type('contact_profile_images') . $id)) {
+            delete_dir(get_upload_path_by_type('contact_profile_images') . $id);
+        }
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'contacts', [
+            'profile_image' => null,
+        ]);
     }
 }

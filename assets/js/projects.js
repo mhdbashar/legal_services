@@ -25,7 +25,20 @@
       });
 
       $('body').on('show.bs.modal', '._project_file', function() {
-          discussion_comments('#project-file-discussion', discussion_id, 'file');
+          discussion_comments('#project-file-discussion', discussion_id, 'file')
+      });
+
+      $('body').on('shown.bs.modal', '._project_file', function() {
+          var content_height = ($('body').find('._project_file .modal-content').height() - 165);
+          var projectFilePreviewIframe = $('.project_file_area iframe');
+
+          if(projectFilePreviewIframe.length > 0){
+            projectFilePreviewIframe.css('height', content_height);
+          }
+
+          if(!is_mobile()){
+           $('.project_file_area,.project_file_discusssions_area').css('height',content_height);
+         }
       });
 
       $('body').on('shown.bs.modal', '#milestone', function() {
@@ -33,6 +46,13 @@
       });
 
       initDataTable('.table-credit-notes', admin_url + 'credit_notes/table?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+
+        var ContractsServerParams = {};
+        $.each($('._hidden_inputs._filters input'),function(){
+            ContractsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
+        });
+
+      initDataTable('.table-contracts', admin_url+'contracts/table?project_id='+project_id, undefined, undefined, ContractsServerParams, [6, 'desc']);
 
       if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
           var chartOptions = {
@@ -68,6 +88,7 @@
           timesheetsChart = new Chart(ctx, chartOptions);
       }
       milestones_kanban();
+
       $('#project_top').on('change', function() {
           var val = $(this).val();
           var __project_group = get_url_param('group');
@@ -152,28 +173,6 @@
           currency: 'required'
       }, projectExpenseSubmitHandler);
 
-      gantt = $("#gantt").gantt({
-          source: gantt_data,
-          itemsPerPage: 25,
-          months: app.months_json,
-          navigate: 'scroll',
-          onRender: function() {
-              $('#gantt .leftPanel .name .fn-label:empty').parents('.name').css('background', 'initial');
-              $('#gantt .leftPanel .spacer').html('<span class="gantt_project_name"><i class="fa fa-cubes"></i> ' + $('.project-name').text() + '</span>');
-              var _percent = $('input[name="project_percent"]').val();
-              $('#gantt .leftPanel .spacer').append('<div style="padding:10px 20px 10px 20px;"><div class="progress mtop5 progress-bar-mini"><div class="progress-bar progress-bar-success no-percent-text" role="progressbar" aria-valuenow="' + _percent + '" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="' + _percent + '"></div></div></div>');
-              init_progress_bars();
-          },
-          onItemClick: function(data) {
-              init_task_modal(data.task_id);
-          },
-          onAddClick: function(dt, rowId) {
-              var fmt = new DateFormatter();
-              var d0 = new Date(+dt);
-              var d1 = fmt.formatDate(d0, app.options.date_format);
-              new_task(admin_url + 'tasks/task?rel_type=project&rel_id=' + project_id + '&start_date=' + d1);
-          }
-      });
       // Expenses additional server params
       var Expenses_ServerParams = {};
       $.each($('._hidden_inputs._filters input'), function() {
@@ -243,6 +242,7 @@
 
       $('#discussion').on('hidden.bs.modal', function(event) {
           var $d = $('#discussion');
+          $d.find('input[name="id"]').remove();
           $d.find('input[name="subject"]').val('');
           $d.find('textarea[name="description"]').val('');
           $d.find('input[name="show_to_customer"]').prop('checked', true);

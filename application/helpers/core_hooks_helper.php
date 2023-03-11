@@ -11,7 +11,7 @@ hooks()->add_filter('register_merge_fields', 'core_merge_fields');
 /*
 Actions
  */
-
+hooks()->add_action('clients_init', '_maybe_add_estimate_request_link_in_customers_area');
 hooks()->add_action('non_existent_user_login_attempt', '_maybe_user_is_trying_to_login_into_the_clients_area_as_staff');
 hooks()->add_action('clients_login_form_start', '_maybe_mistaken_login_area_check_performed');
 
@@ -25,7 +25,7 @@ hooks()->add_action('admin_init', 'app_init_customer_profile_tabs');
 hooks()->add_action('admin_init', 'app_init_project_tabs');
 hooks()->add_action('admin_init', 'app_init_settings_tabs');
 
-if (defined('APP_CSRF_PROTECTION') && APP_CSRF_PROTECTION) {
+if (get_instance()->config->item('csrf_protection')) {
     hooks()->add_action('app_admin_head', 'csrf_jquery_token');
     hooks()->add_action('app_customers_head', 'csrf_jquery_token');
     hooks()->add_action('app_external_form_head', 'csrf_jquery_token');
@@ -54,6 +54,42 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/projects_merge_fields';
     $fields[] = 'merge_fields/event_merge_fields';
     $fields[] = 'merge_fields/other_merge_fields';
+    $fields[] = 'merge_fields/estimate_request_merge_fields';
+    $fields[] = 'merge_fields/sessions_merge_fields';
+//    $fields[] = 'merge_fields/termination_staff_merge_fields';
+    $fields[] = 'merge_fields/wreports_merge_fields';
+
+    $fields[] = 'merge_fields/dispute_merge_fields';
+    $fields[] = 'merge_fields/regular_duration_rem';
+
+    
+    $fields[] = 'merge_fields/dispute_case_merge_fields';
+
 
     return $fields;
+}
+
+/**
+ * Add the selected estimate request in the customers area as menu item (if any)
+ */
+function _maybe_add_estimate_request_link_in_customers_area()
+{
+    $formId = get_option('show_estimate_request_in_customers_area');
+
+    if ($formId != 0) {
+        $CI = &get_instance();
+        $CI->load->model('estimate_request_model');
+
+        if ($form = $CI->estimate_request_model->get_form(['id' => $formId])) {
+            add_theme_menu_item('estimate-request', [
+                'name' => _l('customers_estimate_request_link_text'),
+                'href' => hooks()->apply_filters(
+                    'customers_area_estimate_request_link',
+                    site_url('forms/quote/' . $form->form_key) . '?styled=1',
+                    $form
+                ),
+                'position' => 1,
+            ]);
+        }
+    }
 }

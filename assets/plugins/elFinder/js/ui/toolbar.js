@@ -7,7 +7,7 @@ $.fn.elfindertoolbar = function(fm, opts) {
 	"use strict";
 	this.not('.elfinder-toolbar').each(function() {
 		var commands = fm._commands,
-			self     = $(this).addClass('ui-helper-clearfix ui-widget-header ui-corner-top elfinder-toolbar'),
+			self     = $(this).addClass('ui-helper-clearfix ui-widget-header elfinder-toolbar'),
 			options  = {
 				// default options
 				displayTextLabel: false,
@@ -32,14 +32,14 @@ $.fn.elfindertoolbar = function(fm, opts) {
 				l = panels.length;
 				while (l--) {
 					if (panels[l]) {
-						panel = $('<div class="ui-widget-content ui-corner-all elfinder-buttonset"/>');
+						panel = $('<div class="ui-widget-content ui-corner-all elfinder-buttonset"></div>');
 						i = panels[l].length;
 						while (i--) {
 							name = panels[l][i];
 							if ((!disabled || !disabled[name]) && (cmd = commands[name])) {
 								button = 'elfinder'+cmd.options.ui;
 								if (! buttons[name] && $.fn[button]) {
-									buttons[name] = $('<div/>')[button](cmd);
+									buttons[name] = $('<div></div>')[button](cmd);
 								}
 								if (buttons[name]) {
 									buttons[name].children('.elfinder-button-text')[textLabel? 'show' : 'hide']();
@@ -49,7 +49,7 @@ $.fn.elfindertoolbar = function(fm, opts) {
 						}
 						
 						panel.children().length && self.prepend(panel);
-						panel.children(':gt(0)').before('<span class="ui-widget-content elfinder-toolbar-button-separator"/>');
+						panel.children(':gt(0)').before('<span class="ui-widget-content elfinder-toolbar-button-separator"></span>');
 
 					}
 				}
@@ -58,10 +58,10 @@ $.fn.elfindertoolbar = function(fm, opts) {
 					//cmdPref.state = !self.children().length? 0 : -1;
 					if (options.showPreferenceButton === 'always' || (!self.children().length && options.showPreferenceButton === 'auto')) {
 						//cmdPref.state = 0;
-						panel = $('<div class="ui-widget-content ui-corner-all elfinder-buttonset"/>');
+						panel = $('<div class="ui-widget-content ui-corner-all elfinder-buttonset"></div>');
 						name = 'preference';
 						button = 'elfinder'+cmd.options.ui;
-						buttons[name] = $('<div/>')[button](cmdPref);
+						buttons[name] = $('<div></div>')[button](cmdPref);
 						buttons[name].children('.elfinder-button-text')[textLabel? 'show' : 'hide']();
 						panel.prepend(buttons[name]);
 						self.append(panel);
@@ -77,77 +77,88 @@ $.fn.elfindertoolbar = function(fm, opts) {
 			dispre   = null,
 			uiCmdMapPrev = '',
 			prevHeight = 0,
+			contextRaw = [],
 			l, i, cmd, panel, button, swipeHandle, autoHide, textLabel, resizeTm;
 		
 		// normalize options
 		options.showPreferenceButton = options.showPreferenceButton.toLowerCase();
 		
-		// correction of options.displayTextLabel
-		textLabel = fm.storage('toolbarTextLabel');
-		if (textLabel === null) {
-			textLabel = (options.displayTextLabel && (! options.labelExcludeUA || ! options.labelExcludeUA.length || ! $.grep(options.labelExcludeUA, function(v){ return fm.UA[v]? true : false; }).length));
-		} else {
-			textLabel = (textLabel == 1);
+		if (options.displayTextLabel !== 'none') {
+			// correction of options.displayTextLabel
+			textLabel = fm.storage('toolbarTextLabel');
+			if (textLabel === null) {
+				textLabel = (options.displayTextLabel && (! options.labelExcludeUA || ! options.labelExcludeUA.length || ! $.grep(options.labelExcludeUA, function(v){ return fm.UA[v]? true : false; }).length));
+			} else {
+				textLabel = (textLabel == 1);
+			}
+			contextRaw.push({
+				label    : fm.i18n('textLabel'),
+				icon     : 'text',
+				callback : function() {
+					textLabel = ! textLabel;
+					self.css('height', '').find('.elfinder-button-text')[textLabel? 'show':'hide']();
+					fm.trigger('uiresize').storage('toolbarTextLabel', textLabel? '1' : '0');
+				},
+			});
 		}
-		
-		// add contextmenu
-		self.on('contextmenu', function(e) {
-				e.stopPropagation();
-				e.preventDefault();
-				fm.trigger('contextmenu', {
-					raw: [{
-						label    : fm.i18n('textLabel'),
-						icon     : 'accept',
-						callback : function() {
-							textLabel = ! textLabel;
-							self.css('height', '').find('.elfinder-button-text')[textLabel? 'show':'hide']();
-							fm.trigger('uiresize').storage('toolbarTextLabel', textLabel? '1' : '0');
-						},
-					},{
-						label    : fm.i18n('toolbarPref'),
-						icon     : 'preference',
-						callback : function() {
-							fm.exec('preference', void(0), {tab: 'toolbar'});
-						}
-					}],
-					x: e.pageX,
-					y: e.pageY
-				});
-			}).on('touchstart', function(e) {
-				if (e.originalEvent.touches.length > 1) {
-					return;
-				}
-				self.data('tmlongtap') && clearTimeout(self.data('tmlongtap'));
-				self.removeData('longtap')
-					.data('longtap', {x: e.originalEvent.touches[0].pageX, y: e.originalEvent.touches[0].pageY})
-					.data('tmlongtap', setTimeout(function() {
-						self.removeData('longtapTm')
-							.trigger({
-								type: 'contextmenu',
-								pageX: self.data('longtap').x,
-								pageY: self.data('longtap').y
-							})
-							.data('longtap', {longtap: true});
-					}, 500));
-			}).on('touchmove touchend', function(e) {
-				if (self.data('tmlongtap')) {
-					if (e.type === 'touchend' ||
-							( Math.abs(self.data('longtap').x - e.originalEvent.touches[0].pageX)
-							+ Math.abs(self.data('longtap').y - e.originalEvent.touches[0].pageY)) > 4)
-					clearTimeout(self.data('tmlongtap'));
-					self.removeData('longtapTm');
-				}
-			}).on('click', function(e) {
-				if (self.data('longtap') && self.data('longtap').longtap) {
-					e.stopImmediatePropagation();
-					e.preventDefault();
-				}
-			}).on('touchend click', '.elfinder-button', function(e) {
-				if (self.data('longtap') && self.data('longtap').longtap) {
-					e.stopImmediatePropagation();
-					e.preventDefault();
+
+		if (options.preferenceInContextmenu && commands['preference']) {
+			contextRaw.push({
+				label    : fm.i18n('toolbarPref'),
+				icon     : 'preference',
+				callback : function() {
+					fm.exec('preference', void(0), {tab: 'toolbar'});
 				}
 			});
+		}
+
+		// add contextmenu
+		if (contextRaw.length) {
+			self.on('contextmenu', function(e) {
+					e.stopPropagation();
+					e.preventDefault();
+					fm.trigger('contextmenu', {
+						raw: contextRaw,
+						x: e.pageX,
+						y: e.pageY
+					});
+				}).on('touchstart', function(e) {
+					if (e.originalEvent.touches.length > 1) {
+						return;
+					}
+					self.data('tmlongtap') && clearTimeout(self.data('tmlongtap'));
+					self.removeData('longtap')
+						.data('longtap', {x: e.originalEvent.touches[0].pageX, y: e.originalEvent.touches[0].pageY})
+						.data('tmlongtap', setTimeout(function() {
+							self.removeData('longtapTm')
+								.trigger({
+									type: 'contextmenu',
+									pageX: self.data('longtap').x,
+									pageY: self.data('longtap').y
+								})
+								.data('longtap', {longtap: true});
+						}, 500));
+				}).on('touchmove touchend', function(e) {
+					if (self.data('tmlongtap')) {
+						if (e.type === 'touchend' ||
+								( Math.abs(self.data('longtap').x - e.originalEvent.touches[0].pageX)
+								+ Math.abs(self.data('longtap').y - e.originalEvent.touches[0].pageY)) > 4)
+						clearTimeout(self.data('tmlongtap'));
+						self.removeData('longtapTm');
+					}
+				}).on('click', function(e) {
+					if (self.data('longtap') && self.data('longtap').longtap) {
+						e.stopImmediatePropagation();
+						e.preventDefault();
+					}
+				}).on('touchend click', '.elfinder-button', function(e) {
+					if (self.data('longtap') && self.data('longtap').longtap) {
+						e.stopImmediatePropagation();
+						e.preventDefault();
+					}
+				}
+			);
+		}
 
 		self.prev().length && self.parent().prepend(this);
 		
@@ -216,7 +227,7 @@ $.fn.elfindertoolbar = function(fm, opts) {
 							btn = buttons[from];
 							if (btn) {
 								if (! buttons[to] && $.fn[button]) {
-									buttons[to] = $('<div/>')[button](cmd);
+									buttons[to] = $('<div></div>')[button](cmd);
 									if (buttons[to]) {
 										buttons[to].children('.elfinder-button-text')[textLabel? 'show' : 'hide']();
 										if (cmd.extendsCmd) {
@@ -258,7 +269,7 @@ $.fn.elfindertoolbar = function(fm, opts) {
 			}
 			
 			fm.bind('load', function() {
-				swipeHandle = $('<div class="elfinder-toolbar-swipe-handle"/>').hide().appendTo(fm.getUI());
+				swipeHandle = $('<div class="elfinder-toolbar-swipe-handle"></div>').hide().appendTo(fm.getUI());
 				if (swipeHandle.css('pointer-events') !== 'none') {
 					swipeHandle.remove();
 					swipeHandle = null;

@@ -360,7 +360,7 @@ abstract class App_import
         $form = '';
         $form .= form_open($this->ci->uri->uri_string());
         $form .= form_hidden('download_sample', 'true');
-        $form .= '<button type="submit" class="btn btn-success">Download Sample</button>';
+        $form .= '<button type="submit" class="btn btn-success">'._l('download_sample').'</button>';
         $form .= '<hr />';
         $form .= form_close();
 
@@ -709,9 +709,9 @@ abstract class App_import
 
     private function setDefaultImportGuidelinesInfo()
     {
-        $this->addImportGuidelinesInfo('If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (' . date('Y-m-d') . ').</b>');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst1'));
 
-        $this->addImportGuidelinesInfo('Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst2'));
     }
 
     /**

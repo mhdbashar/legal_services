@@ -17,6 +17,8 @@ $system_path = rtrim($system_path, '/') . '/';
 
 define('BASEPATH', str_replace('\\', '/', $system_path));
 define('APPPATH', $application_folder . '/');
+$view_folder = APPPATH.'views';
+define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 define('EXT', '.php');
 define('ENVIRONMENT', $environment ? $environment : 'development');
 define('FCPATH', dirname(__FILE__) . '/');
@@ -50,13 +52,11 @@ if ($composer_autoload = config_item('composer_autoload')) {
 require_once(APPPATH . 'config/hooks.php');
 // Load the classes autoloader
 require_once(APPPATH . 'hooks/App_Autoloader.php');
+
 (new App_Autoloader)->register();
 
 if (extension_loaded('mbstring')) {
     define('MB_ENABLED', true);
-    // mbstring.internal_encoding is deprecated starting with PHP 5.6
-    // and it's usage triggers E_DEPRECATED messages.
-    @ini_set('mbstring.internal_encoding', $charset);
     // This is required for mb_convert_encoding() to strip invalid characters.
     // That's utilized by CI_Utf8, but it's also done for consistency with iconv.
     mb_substitute_character('none');
@@ -64,16 +64,9 @@ if (extension_loaded('mbstring')) {
     define('MB_ENABLED', false);
 }
 
-    // There's an ICONV_IMPL constant, but the PHP manual says that using
-    // iconv's predefined constants is "strongly discouraged".
-    if (extension_loaded('iconv')) {
-        define('ICONV_ENABLED', true);
-        // iconv.internal_encoding is deprecated starting with PHP 5.6
-        // and it's usage triggers E_DEPRECATED messages.
-        @ini_set('iconv.internal_encoding', $charset);
-    } else {
-        define('ICONV_ENABLED', false);
-    }
+// There's an ICONV_IMPL constant, but the PHP manual says that using
+// iconv's predefined constants is "strongly discouraged".
+define('ICONV_ENABLED', extension_loaded('iconv'));
 
 $GLOBALS['CFG'] = & load_class('Config', 'core');
 $GLOBALS['UNI'] = & load_class('Utf8', 'core');
@@ -99,11 +92,15 @@ $instance = new $class();
 $fd = fopen('php://stdin', 'r');
 
 $input = '';
+
 while (!feof($fd)) {
     $input .= fread($fd, 1024);
 }
+
 fclose($fd);
+
 require_once(APPPATH . 'hooks/InitHook.php');
+
 _app_init_load();
 
 $instance->load->model('tickets_model');
@@ -115,15 +112,15 @@ $instance->load->helper('database');
 $mailParser = new \ZBateson\MailMimeParser\MailMimeParser();
 $message    = $mailParser->parse($input);
 
-$body = $message->getTextContent();
+$body = $message->getHtmlContent();
 
-if (!$body) {
-    $body = $message->getHtmlContent();
+if (! $body) {
+    $body = $message->getTextContent();
 }
 
 $body = trim($body);
 
-if (!$body) {
+if (! $body) {
     $body = 'No message found.';
 }
 
@@ -144,7 +141,7 @@ foreach ($mailAttachments as $attachment) {
     $attachments[] = [
         'data'     => $attachment->getContent(),
         'filename' => sanitize_file_name($filename),
-  ];
+    ];
 }
 
 $subject   = $message->getHeaderValue('subject');
@@ -166,6 +163,7 @@ if ($reply_to = $message->getHeaderValue('reply-to')) {
 $toemails = [];
 foreach (['to', 'cc', 'bcc'] as $checkHeader) {
     $addreses = $message->getHeader($checkHeader);
+
     if ($addreses) {
         foreach ($addreses->getAddresses() as $addr) {
             $toemails[] = $addr->getEmail();
@@ -175,14 +173,13 @@ foreach (['to', 'cc', 'bcc'] as $checkHeader) {
 
 $to = implode(',', $toemails);
 
-$body = handle_google_drive_links_in_text($body);
-
 if (class_exists('EmailReplyParser\EmailReplyParser')
     && get_option('ticket_import_reply_only') === '1'
     && (mb_substr_count($subject, 'FWD:') == 0 && mb_substr_count($subject, 'FW:') == 0)) {
     $parsedBody = \EmailReplyParser\EmailReplyParser::parseReply($body);
 
     $parsedBody = trim($parsedBody);
+
     // For some emails this is causing an issue and not returning the email, instead is returning empty string
     // In this case, only use parsed email reply if not empty
     if (!empty($parsedBody)) {

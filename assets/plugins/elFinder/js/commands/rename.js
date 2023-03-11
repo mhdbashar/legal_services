@@ -22,7 +22,7 @@ elFinder.prototype.commands.rename = function() {
 			
 			fm.lockfiles({files : sel});
 			
-			if (fm.isRoot(file)) {
+			if (fm.isRoot(file) && !file.netkey) {
 				if (!(rootNames = fm.storage('rootNames'))) {
 					rootNames = {};
 				}
@@ -74,8 +74,9 @@ elFinder.prototype.commands.rename = function() {
 					navigate : {}
 				})
 				.fail(function(error) {
+					var err = fm.parseError(error);
 					dfrd && dfrd.reject();
-					if (! error || ! Array.isArray(error) || error[0] !== 'errRename') {
+					if (! err || ! Array.isArray(err) || err[0] !== 'errRename') {
 						fm.sync();
 					}
 				})
@@ -157,16 +158,16 @@ elFinder.prototype.commands.rename = function() {
 				prefix  = $(tplr),
 				suffix  = $(tplr),
 				extention  = $(tplr),
-				checks = $('<div/>').append(
+				checks = $('<div></div>').append(
 					mkChk(num, 'plusNumber'),
 					mkChk(prefix, 'asPrefix'),
 					mkChk(suffix, 'asSuffix'),
 					mkChk(extention, 'changeExtention')
 				),
-				preview = $('<div class="elfinder-rename-batch-preview"/>'),
-				node = $('<div class="elfinder-rename-batch"/>').append(
-						$('<div class="elfinder-rename-batch-name"/>').append(name),
-						$('<div class="elfinder-rename-batch-type"/>').append(checks),
+				preview = $('<div class="elfinder-rename-batch-preview"></div>'),
+				node = $('<div class="elfinder-rename-batch"></div>').append(
+						$('<div class="elfinder-rename-batch-name"></div>').append(name),
+						$('<div class="elfinder-rename-batch-type"></div>').append(checks),
 						preview
 					),
 				opts = {
@@ -234,7 +235,7 @@ elFinder.prototype.commands.rename = function() {
 					}
 				});
 			}
-			dialog = fm.dialog(node, opts);
+			dialog = self.fmDialog(node, opts);
 		};
 	
 	this.noChangeDirOnRemovedCwd = true;
@@ -267,7 +268,7 @@ elFinder.prototype.commands.rename = function() {
 			isRoot = fm.isRoot(sel[0]);
 		}
 
-		state = (cnt === 1 && (isRoot || !sel[0].locked) || (fm.api > 2.1030 && cnt === $.grep(sel, function(f) {
+		state = (cnt === 1 && ((fm.cookieEnabled && isRoot) || !sel[0].locked) || (fm.api > 2.1030 && cnt === $.grep(sel, function(f) {
 			if (!brk && !f.locked && f.phash === phash && !fm.isRoot(f) && (mime === f.mime || ext === fm.splitFileExtention(f.name)[1].toLowerCase())) {
 				return true;
 			} else {
@@ -284,7 +285,7 @@ elFinder.prototype.commands.rename = function() {
 		if (state !== -1 && cnt > 1) {
 			self.extra = {
 				icon: 'preference',
-				node: $('<span/>')
+				node: $('<span></span>')
 					.attr({title: fm.i18n('batchRename')})
 					.on('click touchstart', function(e){
 						if (e.type === 'touchstart' && e.originalEvent.touches.length > 1) {
@@ -313,7 +314,7 @@ elFinder.prototype.commands.rename = function() {
 			incwd    = (fm.cwd().hash == file.hash),
 			type     = (opts._currentType === 'navbar' || opts._currentType === 'files')? opts._currentType : (incwd? 'navbar' : 'files'),
 			navbar   = (type !== 'files'),
-			target   = $('#'+fm[navbar? 'navHash2Id' : 'cwdHash2Id'](file.hash)),
+			target   = fm[navbar? 'navHash2Elm' : 'cwdHash2Elm'](file.hash),
 			tarea    = (!navbar && fm.storage('view') != 'list'),
 			split    = function(name) {
 				var ext = fm.splitFileExtention(name)[1];
@@ -446,7 +447,7 @@ elFinder.prototype.commands.rename = function() {
 					}
 				}
 			},
-			input = $(tarea? '<textarea/>' : '<input type="text"/>')
+			input = $(tarea? '<textarea></textarea>' : '<input type="text"/>')
 				.on('keyup text', function(){
 					if (tarea) {
 						this.style.height = '1px';
@@ -556,7 +557,7 @@ elFinder.prototype.commands.rename = function() {
 	fm.bind('select contextmenucreate closecontextmenu', function(e) {
 		var sel = (e.data? (e.data.selected || e.data.targets) : null) || fm.selected(),
 			file;
-		if (sel && sel.length === 1 && fm.isRoot(fm.file(sel[0]))) {
+		if (sel && sel.length === 1 && (file = fm.file(sel[0])) && fm.isRoot(file)) {
 			self.title = fm.i18n('kindAlias') + ' (' + fm.i18n('preference') + ')';
 		} else {
 			self.title = fm.i18n('cmdrename');

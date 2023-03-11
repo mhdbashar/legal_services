@@ -46,7 +46,7 @@ class Gdpr extends AdminController
 
         foreach ($data as $name => $val) {
             if (in_array($name, $noXSS)) {
-                $val = $this->input->post('settings', false)[$name];
+                $val = html_purify($this->input->post('settings', false)[$name]);
             }
             update_option($name, $val);
         }

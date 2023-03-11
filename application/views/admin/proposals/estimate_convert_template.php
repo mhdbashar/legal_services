@@ -51,4 +51,9 @@
     $('input[name="adjustment"]').val('<?php echo $proposal->adjustment; ?>');
     $('input[name="show_quantity_as"][value="<?php echo $proposal->show_quantity_as; ?>"]').prop('checked',true).change();
     $('#convert_to_estimate #clientid').change();
+    // Trigger item select width fix
+    $('#convert_to_estimate').on('shown.bs.modal', function(){
+        $('#item_select').trigger('change')
+    })
+
 </script>

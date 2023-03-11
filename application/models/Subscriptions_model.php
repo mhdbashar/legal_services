@@ -58,6 +58,8 @@ class Subscriptions_model extends App_Model
 
     public function create($data)
     {
+        $data = $this->handleSelectedTax($data);
+
         $this->db->insert(db_prefix() . 'subscriptions', array_merge($data, [
                 'created'      => date('Y-m-d H:i:s'),
                 'hash'         => app_generate_hash(),
@@ -69,6 +71,8 @@ class Subscriptions_model extends App_Model
 
     public function update($id, $data)
     {
+        $data = $this->handleSelectedTax($data);
+
         $this->db->where(db_prefix() . 'subscriptions.id', $id);
         $this->db->update(db_prefix() . 'subscriptions', $data);
 
@@ -77,13 +81,14 @@ class Subscriptions_model extends App_Model
 
     private function select()
     {
-        $this->db->select(db_prefix() . 'subscriptions.id as id, date, next_billing_cycle, status, ' . db_prefix() . 'subscriptions.project_id as project_id, description, ' . db_prefix() . 'subscriptions.created_from as created_from, ' . db_prefix() . 'subscriptions.name as name, ' . db_prefix() . 'currencies.name as currency_name, ' . db_prefix() . 'currencies.symbol, currency, clientid, ends_at, date_subscribed, stripe_plan_id,stripe_subscription_id,quantity,hash,description_in_item,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as tax_percent, tax_id, stripe_id as stripe_customer_id,' . get_sql_select_client_company());
+        $this->db->select(db_prefix() . 'subscriptions.id as id, stripe_tax_id, stripe_tax_id_2, terms, in_test_environment, date, next_billing_cycle, status, ' . db_prefix() . 'subscriptions.project_id as project_id, description, ' . db_prefix() . 'subscriptions.created_from as created_from, ' . db_prefix() . 'subscriptions.name as name, ' . db_prefix() . 'currencies.name as currency_name, ' . db_prefix() . 'currencies.symbol, currency, clientid, ends_at, date_subscribed, stripe_plan_id,stripe_subscription_id,quantity,hash,description_in_item,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as tax_percent, ' . db_prefix() . 'taxes_2.name as tax_name_2, ' . db_prefix() . 'taxes_2.taxrate as tax_percent_2, tax_id, tax_id_2, stripe_id as stripe_customer_id,' . get_sql_select_client_company());
     }
 
     private function join()
     {
         $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id=' . db_prefix() . 'subscriptions.currency');
-        $this->db->join(db_prefix() . 'taxes', db_prefix() . 'taxes.id=' . db_prefix() . 'subscriptions.tax_id', 'left');
+        $this->db->join(db_prefix() . 'taxes', '' . db_prefix() . 'taxes.id = ' . db_prefix() . 'subscriptions.tax_id', 'left');
+        $this->db->join('' . db_prefix() . 'taxes as ' . db_prefix() . 'taxes_2', '' . db_prefix() . 'taxes_2.id = ' . db_prefix() . 'subscriptions.tax_id_2', 'left');
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'subscriptions.clientid');
     }
 
@@ -106,8 +111,10 @@ class Subscriptions_model extends App_Model
     {
         $subscription = $this->get_by_id($id);
 
-        if (!empty($subscription->stripe_subscription_id) && $simpleDelete == false) {
-            return false;
+        if ($subscription->in_test_environment === '0') {
+            if (!empty($subscription->stripe_subscription_id) && $simpleDelete == false) {
+                return false;
+            }
         }
 
         $this->db->where('id', $id);
@@ -116,9 +123,46 @@ class Subscriptions_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             delete_tracked_emails($id, 'subscription');
 
-            return true;
+            $this->db->where('subscription_id');
+            $this->db->update('invoices', ['subscription_id' => 0]);
+
+            return $subscription;
         }
 
         return false;
+    }
+
+    protected function handleSelectedTax($data)
+    {
+        $this->load->library('stripe_core');
+        foreach (['stripe_tax_id', 'stripe_tax_id_2'] as $key) {
+            $localKey = $key === 'stripe_tax_id' ? 'tax_id' : 'tax_id_2';
+
+            if (isset($data[$key]) && !empty($data[$key])) {
+                $stripe_tax = $this->stripe_core->retrieve_tax_rate($data[$key]);
+
+                $displayName =  $stripe_tax->display_name;
+                // Region label when using Stripe Region Label field.
+                $displayName .= !empty($stripe_tax->jurisdiction) ? ' - ' . $stripe_tax->jurisdiction : '';
+
+                $this->db->where('name', $displayName);
+                $this->db->where('taxrate', $percentage = number_format($stripe_tax->percentage, get_decimal_places()));
+                $dbTax = $this->db->get('taxes')->row();
+                if (!$dbTax) {
+                    $this->db->insert('taxes', [
+                        'name'    => $displayName,
+                        'taxrate' => $percentage,
+                    ]);
+                    $data[$localKey] = $this->db->insert_id();
+                } else {
+                    $data[$localKey] = $dbTax->id;
+                }
+            } elseif (isset($data[$key]) && !$data[$key]) {
+                $data[$localKey] = 0;
+                $data[$key]      = null;
+            }
+        }
+
+        return $data;
     }
 }

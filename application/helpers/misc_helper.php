@@ -3,6 +3,28 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
+ * Check whether recaptcha should be shown
+ *
+ * @return boolean
+ */
+function show_recaptcha()
+{
+    if (get_option('recaptcha_secret_key') == '' || get_option('recaptcha_site_key') == '') {
+        return false;
+    }
+
+    $excludedIps = explode(',', get_option('recaptcha_ignore_ips'));
+
+    $excludedIps = array_filter(array_map(function ($ip) {
+        return trim($ip);
+    }, $excludedIps));
+
+    $CI = &get_instance();
+
+    return !in_array($CI->input->ip_address(), $excludedIps);
+}
+
+/**
  * Return locale for media usafe plugin
  * @return string
  */
@@ -22,26 +44,6 @@ function get_tinymce_language($locale)
     return app\services\utilities\Locale::getTinyMceLangKey($locale, list_files(FCPATH . 'assets/plugins/tinymce/langs/'));
 }
 
-/**
- * Replace google drive links with actual a tag
- * @param  string $text
- * @return string
- */
-function handle_google_drive_links_in_text($text)
-{
-    $pattern = '#\bhttps?://drive.google.com[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#';
-    preg_match_all($pattern, $text, $matchGoogleDriveLinks);
-
-    if (isset($matchGoogleDriveLinks[0]) && is_array($matchGoogleDriveLinks[0])) {
-        foreach ($matchGoogleDriveLinks[0] as $driveLink) {
-            $link = '<a href="' . $driveLink . '">' . $driveLink . '</a>';
-            $text = str_replace($driveLink, $link, $text);
-            $text = str_replace('<' . $link . '>', $link, $text);
-        }
-    }
-
-    return $text;
-}
 /**
  * Get system favourite colors
  * @return array
@@ -129,14 +131,19 @@ function get_acceptance_info_array($empty = false)
 function get_form_accepted_mimes()
 {
     $allowed_extensions  = get_option('allowed_files');
-    $_allowed_extensions = explode(',', $allowed_extensions);
-    $all_form_ext        = '';
-    $CI                  = &get_instance();
+    $_allowed_extensions = array_map(function ($ext) {
+        return trim($ext);
+    }, explode(',', $allowed_extensions));
+
+    $all_form_ext = '';
+    $CI           = &get_instance();
+
     // Chrome doing conflict when the regular extensions are appended to the accept attribute which cause top popup
     // to select file to stop opening
     if ($CI->agent->browser() != 'Chrome') {
-        $all_form_ext .= $allowed_extensions;
+        $all_form_ext .= str_replace([' '], '', $allowed_extensions);
     }
+
     if (is_array($_allowed_extensions)) {
         if ($all_form_ext != '') {
             $all_form_ext .= ', ';
@@ -203,17 +210,9 @@ function get_alert_class()
  */
 function generate_two_factor_auth_key()
 {
-    $key  = '';
-    $keys = array_merge(range(0, 9), range('a', 'z'));
-
-    for ($i = 0; $i < 16; $i++) {
-        $key .= $keys[array_rand($keys)];
-    }
-
-    $key .= uniqid();
-
-    return $key;
+    return bin2hex(get_instance()->encryption->create_key(4));
 }
+
 /**
  * Function that will replace the dropbox link size for the images
  * This function is used to preview dropbox image attachments
@@ -308,7 +307,7 @@ function _prepare_items_array_for_export($items, $type)
  * @param  array   $where
  * @return array
  */
-function get_all_knowledge_base_articles_grouped($only_customers = true, $where = [])
+function get_all_knowledge_base_articles_grouped($only_customers = true, $where = [], $q = null)
 {
     $CI = & get_instance();
     $CI->load->model('knowledge_base_model');
@@ -319,18 +318,29 @@ function get_all_knowledge_base_articles_grouped($only_customers = true, $where 
         $CI->db->from(db_prefix() . 'knowledge_base');
         $CI->db->where('articlegroup', $group['groupid']);
         $CI->db->where('active', 1);
+
         if ($only_customers == true) {
             $CI->db->where('staff_article', 0);
         }
+
+        if (!empty($q)) {
+            $CI->db->group_start();
+            $CI->db->like('subject', $q);
+            $CI->db->or_like('description', $q);
+            $CI->db->group_end();
+        }
+
         $CI->db->where($where);
         $CI->db->order_by('article_order', 'asc');
         $articles = $CI->db->get()->result_array();
+
         if (count($articles) == 0) {
             unset($groups[$i]);
             $i++;
 
             continue;
         }
+
         $groups[$i]['articles'] = $articles;
         $i++;
     }
@@ -393,9 +403,9 @@ function app_set_update_message_info($version)
     update_option('update_info_message', '
         <div class="col-md-12">
             <div class="alert alert-success bold">
-                <h4 class="bold">Hi! Thanks for updating Perfex CRM - You are using version ' . wordwrap($version, 1, '.', true) . '</h4>
+                <h4 class="bold">'. _l("migration_lang_13", wordwrap($version, 1, '.', true)).'</h4>
                 <p>
-                   This window will reload automaticaly in 10 seconds and will try to clear your browser/cloudflare cache, however its recomended to clear your browser cache manually.
+                  '. _l("migration_lang_14").'
                 </p>
             </div>
         </div>
@@ -404,6 +414,18 @@ function app_set_update_message_info($version)
             window.location.reload();
         },10000);
         </script>');
+}
+
+/**
+ * Get the scheduled email default date
+ *
+ * @since 2.7.0
+ *
+ * @return string
+ */
+function get_scheduled_email_default_date()
+{
+    return hooks()->apply_filters('scheduled_email_default_date', date('Y-m-d 08:00', strtotime('+1 day')));
 }
 
 /**
@@ -479,7 +501,7 @@ function _maybe_mistaken_login_area_check_performed()
     if (get_instance()->session->flashdata('mistaken_login_area_check_performed') === '1') {
         echo '<div class="alert alert-warning">';
         echo '<h4>Temporary Message</h4>';
-        echo '<b>It looks like yo are trying to login as admin/staff member in the clients area.</b><br /><br />';
+        echo '<b>It looks like you are trying to login as admin/staff member in the clients area.</b><br /><br />';
         echo 'Administrators/staff <b>must</b> log in at <a href="' . admin_url() . '">' . admin_url() . '</a><br /><br />';
         echo 'Customer contacts <b>must</b> login at <a href="' . site_url() . '">' . site_url() . '</a><br />';
         echo '</div>';

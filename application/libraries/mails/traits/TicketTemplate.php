@@ -11,7 +11,7 @@ trait TicketTemplate
          * Do not change/remove this line, this is used for email piping so the software can recognize the ticket id.
          */
         if (substr($this->template->subject, 0, 10) != '[Ticket ID') {
-            return '[Ticket ID: ' . $this->ticketid . '] ' . $this->template->subject;
+            return $this->template->subject . ' [Ticket ID: ' . $this->ticketid . ']';
         }
 
         return parent::_subject();

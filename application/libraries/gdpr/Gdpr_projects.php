@@ -35,7 +35,7 @@ class Gdpr_projects
         foreach ($projects as $projectsKey => $project) {
             if (in_array('related_tasks', $valAllowed)) {
                 $sql = 'SELECT * FROM ' . db_prefix() . 'tasks WHERE (rel_id="' . $project['id'] . '" AND rel_type="project"';
-                $sql .= ' AND addedfrom=' . $contact_id . ' AND is_added_from_contact=1) OR (id IN (SELECT(taskid) FROM ' . db_prefix() . 'task_comments WHERE contact_id=' . $contact_id . '))';
+                $sql .= ' AND addedfrom=' . $this->ci->db->escape_str($contact_id) . ' AND is_added_from_contact=1) OR (id IN (SELECT(taskid) FROM ' . db_prefix() . 'task_comments WHERE contact_id=' . $this->ci->db->escape_str($contact_id) . '))';
                 $tasks = $this->ci->db->query($sql)->result_array();
 
                 foreach ($tasks as $taskKey => $task) {
@@ -48,7 +48,7 @@ class Gdpr_projects
 
             if (in_array('related_discussions', $valAllowed)) {
                 $sql = 'SELECT * FROM ' . db_prefix() . 'projectdiscussions WHERE (project_id="' . $project['id'] . '"';
-                $sql .= ' AND contact_id=' . $contact_id . ') OR (id IN (SELECT(discussion_id) FROM ' . db_prefix() . 'projectdiscussioncomments WHERE contact_id=' . $contact_id . ' AND discussion_type="regular"))';
+                $sql .= ' AND contact_id=' . $this->ci->db->escape_str($contact_id) . ') OR (id IN (SELECT(discussion_id) FROM ' . db_prefix() . 'projectdiscussioncomments WHERE contact_id=' . $this->ci->db->escape_str($contact_id) . ' AND discussion_type="regular"))';
 
                 $discussions = $this->ci->db->query($sql)->result_array();
 

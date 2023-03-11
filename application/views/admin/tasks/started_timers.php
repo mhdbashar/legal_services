@@ -10,10 +10,16 @@ $i = 0;
 foreach ($startedTimers as $timer) {
     $data = '';
 
+    $this->db->select('is_session');
+    $this->db->where('id', $timer['task_id']);
+    $_task = $this->db->get(db_prefix() . 'tasks')->row_array();
     $data .= '<li class="timer relative" id="timer-'.$timer['id'].'">';
 
     if ($timer['task_id'] != '0') {
-        $data.= '<a href="'.admin_url('tasks/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_task_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
+        if($_task['is_session'] == 1)
+            $data.= '<a href="'.admin_url('legalservices/sessions/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
+        else
+            $data.= '<a href="'.admin_url('tasks/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_task_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
     } else {
         $noTimersWithoutTask = false;
     }
@@ -34,7 +40,7 @@ foreach ($startedTimers as $timer) {
         $data .= '<button type=\'button\' onclick=\'timer_action(this,'.$timer['task_id'].','.$timer['id'].');\' class=\'btn btn-info btn-xs\'>'._l('save').'</button>" ';
         $data .= 'onclick="return false;">';
     } else {
-        $data .= 'onclick=\'timer_action(this,'.$timer['task_id'].','.$timer['id'].'); return false;\'>';
+        $data .= 'onclick=\'timer_action(this,'.$timer['task_id'].','.$timer['id'].'); return false;\' data-timer-id=\''.$timer['id'].'\'>';
     }
 
     $data .= '<i class="fa fa-clock-o"></i> '._l('task_stop_timer').'</a>';

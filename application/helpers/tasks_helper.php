@@ -24,6 +24,8 @@ function format_task_status($status, $text = false, $clean = false)
 
     $style = '';
     $class = '';
+    if(!isset($status['color']))
+        $status['color'] = '#03A9F4';
     if ($text == false) {
         $style = 'border: 1px solid ' . $status['color'] . ';color:' . $status['color'] . ';';
         $class = 'label';
@@ -42,15 +44,15 @@ function get_tasks_priorities()
 {
     return hooks()->apply_filters('tasks_priorities', [
         [
-            'id'     => 1,
-            'name'   => _l('task_priority_low'),
-             'color' => '#777',
+            'id'    => 1,
+            'name'  => _l('task_priority_low'),
+            'color' => '#777',
 
         ],
         [
-            'id'     => 2,
-            'name'   => _l('task_priority_medium'),
-             'color' => '#03a9f4',
+            'id'    => 2,
+            'name'  => _l('task_priority_medium'),
+            'color' => '#03a9f4',
 
         ],
         [
@@ -73,9 +75,10 @@ function get_tasks_priorities()
  */
 function get_task_subject_by_id($id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('name');
     $CI->db->where('id', $id);
+    $CI->db->where('is_session', 0);
     $task = $CI->db->get(db_prefix() . 'tasks')->row();
     if ($task) {
         return $task->name;
@@ -95,12 +98,12 @@ function get_task_status_by_id($id)
     $statuses = $CI->tasks_model->get_statuses();
 
     $status = [
-      'id'         => 0,
-      'bg_color'   => '#333',
-      'text_color' => '#333',
-      'name'       => '[Status Not Found]',
-      'order'      => 1,
-      ];
+        'id'         => 0,
+        'bg_color'   => '#333',
+        'text_color' => '#333',
+        'name'       => '[Status Not Found]',
+        'order'      => 1,
+    ];
 
     foreach ($statuses as $s) {
         if ($s['id'] == $id) {
@@ -166,10 +169,10 @@ function format_members_by_ids_and_names($ids, $names, $hidden_export_table = tr
         if ($assigned != '') {
             $outputAssignees .= '<a href="' . admin_url('profile/' . $assignee_id) . '">' .
                 staff_profile_image($assignee_id, [
-                  $image_class . ' mright5',
+                    $image_class . ' mright5',
                 ], 'small', [
-                  'data-toggle' => 'tooltip',
-                  'data-title'  => $assigned,
+                    'data-toggle' => 'tooltip',
+                    'data-title'  => $assigned,
                 ]) . '</a>';
             $exportAssignees .= $assigned . ', ';
         }
@@ -221,6 +224,8 @@ function task_rel_link($rel_id, $rel_type)
         $link = admin_url('estimates/list_estimates/' . $rel_id);
     } elseif ($rel_type == 'contract') {
         $link = admin_url('contracts/contract/' . $rel_id);
+    } elseif ($rel_type == 'hr_contract') {
+        $link = admin_url('hr/contracts/contract/' . $rel_id);
     } elseif ($rel_type == 'ticket') {
         $link = admin_url('tickets/ticket/' . $rel_id);
     } elseif ($rel_type == 'expense') {
@@ -238,31 +243,46 @@ function task_rel_link($rel_id, $rel_type)
  * @param  array $task task array
  * @return array
  */
-function get_task_array_gantt_data($task)
+function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
 {
-    $data           = [];
-    $data['values'] = [];
-    $values         = [];
+    $data = [];
 
-    $data['desc'] = $task['name'];
-    $data['name'] = '';
+    $data['id']     = $task['id'];
+    $data['desc']   = $task['name'];
+    $data['status'] = $task['status'];
 
-    $values['from']  = strftime('%Y/%m/%d', strtotime($task['startdate']));
-    $values['to']    = strftime('%Y/%m/%d', strtotime($task['duedate']));
-    $values['desc']  = $task['name'] . ' - ' . _l('task_total_logged_time') . ' ' . seconds_to_time_format($task['total_logged_time']);
-    $values['label'] = $task['name'];
-    if ($task['duedate'] && date('Y-m-d') > $task['duedate'] && $task['status'] != Tasks_model::STATUS_COMPLETE) {
-        $values['customClass'] = 'ganttRed';
-    } elseif ($task['status'] == Tasks_model::STATUS_COMPLETE) {
-        $values['label']       = ' <i class="fa fa-check"></i> ' . $values['label'];
-        $values['customClass'] = 'ganttGreen';
+    $data['start'] = strftime('%Y-%m-%d', strtotime($task['startdate']));
+
+    if ($task['duedate']) {
+        $data['end'] = strftime('%Y-%m-%d', strtotime($task['duedate']));
+    } else {
+        $data['end'] = $defaultEnd;
     }
 
-    $values['dataObj'] = [
-        'task_id' => $task['id'],
-    ];
+    $data['desc']  = $task['name'] . ' - ' . _l('task_total_logged_time') . ' ' . seconds_to_time_format($task['total_logged_time']);
+    $data['label'] = $task['name'];
+    if ($task['duedate'] && date('Y-m-d') > $task['duedate'] && $task['status'] != Tasks_model::STATUS_COMPLETE) {
+        $data['custom_class'] = 'ganttRed';
+    } elseif ($task['status'] == Tasks_model::STATUS_COMPLETE) {
+        $data['custom_class'] = 'ganttGreen';
+    }
 
-    $data['values'][] = $values;
+    $data['name']     = $task['name'];
+    $data['task_id']  = $task['id'];
+    $data['progress'] = 0;
+
+    //for task in single project gantt
+    if ($dep_id) {
+        $data['dependencies'] = $dep_id;
+    }
+
+    if (!staff_can('edit', 'tasks') || is_client_logged_in()) {
+        if (isset($data['custom_class'])) {
+            $data['custom_class'] .= ' noDrag';
+        } else {
+            $data['custom_class'] = 'noDrag';
+        }
+    }
 
     return $data;
 }
@@ -301,29 +321,29 @@ function init_relation_tasks_table($table_attributes = [])
         [
             'name'     => _l('tasks_dt_name'),
             'th_attrs' => [
-                'style' => 'min-width:200px',
-                ],
+                'style' => 'width:200px',
             ],
-             _l('task_status'),
-         [
+        ],
+        _l('task_status'),
+        [
             'name'     => _l('tasks_dt_datestart'),
             'th_attrs' => [
-                'style' => 'min-width:75px',
-                ],
+                'style' => 'width:75px',
             ],
-         [
+        ],
+        [
             'name'     => _l('task_duedate'),
             'th_attrs' => [
-                'style' => 'min-width:75px',
+                'style' => 'width:75px',
                 'class' => 'duedate',
-                ],
             ],
-         [
+        ],
+        [
             'name'     => _l('task_assigned'),
             'th_attrs' => [
-                'style' => 'min-width:75px',
-                ],
+                'style' => 'width:75px',
             ],
+        ],
         _l('tags'),
         _l('tasks_list_priority'),
     ];
@@ -349,7 +369,7 @@ function init_relation_tasks_table($table_attributes = [])
     }
 
     $table      = '';
-    $CI         = & get_instance();
+    $CI         = &get_instance();
     $table_name = '.table-' . $name;
     $CI->load->view('admin/tasks/tasks_filter_by', [
         'view_table_name' => $table_name,
@@ -386,14 +406,24 @@ function init_relation_tasks_table($table_attributes = [])
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
         <label for="ts_rel_to_customer">' . _l('client') . '</label>
-        </div>
+        </div>';
 
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
-        <label for="ts_rel_to_project">' . _l('projects') . '</label>
-        </div>
+        $services = $CI->db->get('my_basic_services')->result();
+        foreach ($services as $service):
+            if($service->is_module == 0):
+                echo '<div class="checkbox checkbox-inline mbot25">
+                      <input type="checkbox" value="'.$service->slug.'" id="ts_rel_to_'.$service->slug.'" name="tasks_related_to[]">
+                      <label for="ts_rel_to_'.$service->slug.'">' . $service->name . '</label>
+                      </div>';
+            else:
+                echo '<div class="checkbox checkbox-inline mbot25">
+                    <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
+                    <label for="ts_rel_to_project">' . $service->name . '</label>
+                    </div>';
+            endif;
+        endforeach;
 
-        <div class="checkbox checkbox-inline mbot25">
+        echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" value="invoice" id="ts_rel_to_invoice" name="tasks_related_to[]">
         <label for="ts_rel_to_invoice">' . _l('invoices') . '</label>
         </div>
@@ -448,16 +478,20 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
     $tasks_summary = [];
     $statuses      = $CI->tasks_model->get_statuses();
     foreach ($statuses as $status) {
-        $tasks_where = 'status = ' . $status['id'];
+        $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
+        $tasks_where .= ' AND is_session = 0';
+        $tasks_where .= ' AND deleted = 0';
         if (!has_permission('tasks', '', 'view')) {
             $tasks_where .= ' ' . get_tasks_where_string();
         }
-        $tasks_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $status['id'];
+        $tasks_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $CI->db->escape_str($status['id']);
         if ($rel_id && $rel_type) {
-            $tasks_where .= ' AND rel_id=' . $rel_id . ' AND rel_type="' . $rel_type . '"';
-            $tasks_my_where .= ' AND rel_id=' . $rel_id . ' AND rel_type="' . $rel_type . '"';
+            $tasks_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
+            $tasks_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
         } else {
-            $sqlProjectTasksWhere = ' AND CASE
+            $sqlProjectTasksWhere = ' AND is_session = 0';
+            $sqlProjectTasksWhere = ' AND deleted = 0';
+            $sqlProjectTasksWhere .= ' AND CASE
             WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1)
             THEN rel_type != "project"
             ELSE 1=1
@@ -482,13 +516,13 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
 function get_sql_calc_task_logged_time($task_id)
 {
     /**
-    * Do not remove where task_id=
-    * Used in tasks detailed_overview to overwrite the taskid
-    */
+     * Do not remove where task_id=
+     * Used in tasks detailed_overview to overwrite the taskid
+     */
     return 'SELECT SUM(CASE
             WHEN end_time is NULL THEN ' . time() . '-start_time
             ELSE end_time-start_time
-            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . $task_id;
+            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . get_instance()->db->escape_str($task_id);
 }
 
 function get_sql_select_task_assignees_ids()
@@ -498,17 +532,17 @@ function get_sql_select_task_assignees_ids()
 
 function get_sql_select_task_asignees_full_names()
 {
-    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM '.db_prefix().'task_assigned JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'task_assigned.staffid WHERE taskid='.db_prefix().'tasks.id ORDER BY '.db_prefix().'task_assigned.staffid)';
+    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
 }
 
 function get_sql_select_task_total_checklist_items()
 {
-    return '(SELECT COUNT(id) FROM '.db_prefix().'task_checklist_items WHERE taskid='.db_prefix().'tasks.id) as total_checklist_items';
+    return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id) as total_checklist_items';
 }
 
 function get_sql_select_task_total_finished_checklist_items()
 {
-    return '(SELECT COUNT(id) FROM '.db_prefix().'task_checklist_items WHERE taskid='.db_prefix().'tasks.id AND finished=1) as total_finished_checklist_items';
+    return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id AND finished=1) as total_finished_checklist_items';
 }
 
 /**
@@ -519,9 +553,9 @@ function get_sql_select_task_total_finished_checklist_items()
  */
 function get_tasks_where_string($table = true)
 {
-    $_tasks_where = '('.db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR '.db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
+    $_tasks_where = '(' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
     if (get_option('show_all_tasks_for_project_member') == 1) {
-        $_tasks_where .= ' OR ('.db_prefix().'tasks.rel_type="project" AND '.db_prefix().'tasks.rel_id IN (SELECT project_id FROM '.db_prefix().'project_members WHERE staff_id=' . get_staff_user_id() . '))';
+        $_tasks_where .= ' OR (' . db_prefix() . 'tasks.rel_type="project" AND ' . db_prefix() . 'tasks.rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . '))';
     }
     $_tasks_where .= ' OR is_public = 1)';
     if ($table == true) {
@@ -529,4 +563,110 @@ function get_tasks_where_string($table = true)
     }
 
     return $_tasks_where;
+}
+
+/**
+ * @since 2.7.1
+ *
+ * Task timer round off options
+ *
+ * @return array
+ */
+function get_task_timer_round_off_options()
+{
+    $options = [
+        [
+            'name' => _l('task_timer_dont_round_off'),
+            'id'   => 0,
+        ],
+        [
+            'name' => _l('task_timer_round_up'),
+            'id'   => 1,
+        ],
+        [
+            'name' => _l('task_timer_round_down'),
+            'id'   => 2,
+        ],
+        [
+            'name' => _l('task_timer_round_nearest'),
+            'id'   => 3,
+        ],
+    ];
+
+    return hooks()->apply_filters('before_get_task_timer_round_off_options', $options);
+}
+
+/**
+ * @since  2.7.1
+ *
+ * Get the task timer round of available times
+ *
+ * @return array
+ */
+function get_task_timer_round_off_times()
+{
+    return hooks()->apply_filters('before_get_task_timer_round_off_times', [5, 10, 15, 20, 25, 30, 35, 40, 45]);
+}
+
+/**
+ * Round the given logged seconds of a task
+ *
+ * @since 2.7.1
+ *
+ * @param  int $seconds
+ *
+ * @return int
+ */
+function task_timer_round($seconds)
+{
+    $roundMinutes = get_option('round_off_task_timer_time');
+    $roundSeconds = $roundMinutes * 60;
+    switch (get_option('round_off_task_timer_option')) {
+        case 1: // up
+        return ceil($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        case 2: // down
+        return floor($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        case 3: // nearest
+        return round($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        default:
+        return $seconds;
+
+        break;
+    }
+}
+
+
+
+/**
+ * check if staff created task
+ *
+ * @param null|int|string $taskId
+ * @param null|int|string $staffId
+ * @return bool
+ * @since 2.8.2
+ *
+ */
+function is_task_created_by_staff($taskId, $staffId = null)
+{
+    if (is_null($staffId)) {
+        $staffId = get_staff_user_id();
+    }
+
+    if (!is_numeric($staffId) || !is_numeric($staffId)) {
+        return false;
+    }
+
+    $CI = &get_instance();
+    $CI->db->select('1')
+        ->where('is_added_from_contact', 0)
+        ->where('addedfrom', $staffId)
+        ->where('id', $taskId);
+
+    return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
 }

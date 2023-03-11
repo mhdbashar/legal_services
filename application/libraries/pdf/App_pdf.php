@@ -58,7 +58,7 @@ abstract class App_pdf extends TCPDF
         $this->setLanguageArray($this->languageArray);
 
         $this->swap       = get_option('swap_pdf_info');
-        $this->pdf_author = get_option('company');
+        $this->pdf_author = get_option('companyname');
 
         $this->set_font_size($this->get_default_font_size());
         $this->set_font_name($this->get_default_font_name());
@@ -206,6 +206,10 @@ abstract class App_pdf extends TCPDF
         $content = preg_replace('/(<img[^>]+>(?:<\/img>)?)/i', '<div>$1</div>', $content);
         // Fix BLOG images from TinyMCE Mobile Upload, could help with desktop too
         $content = preg_replace('/data:image\/jpeg;base64/m', '@', $content);
+
+        // Replace <img src="" width="100%" height="auto">
+        $content = preg_replace('/width="(([0-9]*%)|auto)"|height="(([0-9]*%)|auto)"/mi', '', $content);
+
         // Add cellpadding to all tables inside the html
         $content = preg_replace('/(<table\b[^><]*)>/i', '$1 cellpadding="4">', $content);
 
@@ -276,5 +280,72 @@ abstract class App_pdf extends TCPDF
         $this->ci->load->library('app_number_to_word', [ 'clientid' => $client_id ], 'numberword');
 
         return $this;
+    }
+
+    /**
+    * Unset all class variables except the following critical variables.
+    *
+    * @param $destroyall (boolean) if true destroys all class variables, otherwise preserves critical variables.
+    * @param $preserve_objcopy (boolean) if true preserves the objcopy variable
+    *
+    * @since 4.5.016 (2009-02-24)
+    */
+    public function _destroy($destroyall = false, $preserve_objcopy = false)
+    {
+        // restore internal encoding
+        if (isset($this->internal_encoding) and !empty($this->internal_encoding)) {
+            mb_internal_encoding($this->internal_encoding);
+        }
+
+        if (isset(self::$cleaned_ids[$this->file_id])) {
+            $destroyall = false;
+        }
+
+        if ($destroyall and !$preserve_objcopy) {
+            self::$cleaned_ids[$this->file_id] = true;
+            // remove all temporary files
+            if ($handle = @opendir(K_PATH_CACHE)) {
+                while (false !== ($file_name = readdir($handle))) {
+                    $fullPath = K_PATH_CACHE . $file_name;
+                    if (strpos($file_name, '__tcpdf_' . $this->file_id . '_') === 0 && file_exists($fullPath)) {
+                        unlink($fullPath);
+                    }
+                }
+
+                closedir($handle);
+            }
+
+            if (isset($this->imagekeys)) {
+                foreach ($this->imagekeys as $file) {
+                    if (strpos($file, K_PATH_CACHE) === 0 && file_exists($file)) {
+                        @unlink($file);
+                    }
+                }
+            }
+        }
+
+        $preserve = [
+            'file_id',
+            'internal_encoding',
+            'state',
+            'bufferlen',
+            'buffer',
+            'cached_files',
+            'imagekeys',
+            'sign',
+            'signature_data',
+            'signature_max_length',
+            'byterange_string',
+            'tsa_timestamp',
+            'tsa_data',
+        ];
+
+        foreach (array_keys(get_object_vars($this)) as $val) {
+            if ($destroyall or !in_array($val, $preserve)) {
+                if ((!$preserve_objcopy or ($val != 'objcopy')) and ($val != 'file_id') and isset($this->$val)) {
+                    unset($this->$val);
+                }
+            }
+        }
     }
 }

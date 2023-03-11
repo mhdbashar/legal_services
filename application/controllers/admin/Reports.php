@@ -126,7 +126,7 @@ class Reports extends AdminController
                 foreach ($select as $_select) {
                     if ($i !== 0) {
                         $_temp = substr($_select, 0, -1);
-                        $_temp .= ' AND currency =' . $by_currency . ')';
+                        $_temp .= ' AND currency =' . $this->db->escape_str($by_currency) . ')';
                         $select[$i] = $_temp;
                     }
                     $i++;
@@ -198,7 +198,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -323,7 +323,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -338,7 +338,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -351,7 +351,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -490,7 +490,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -505,7 +505,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -517,7 +517,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -649,9 +649,9 @@ class Reports extends AdminController
                 $from_date = to_sql_date($this->input->post('report_from'));
                 $to_date   = to_sql_date($this->input->post('report_to'));
                 if ($from_date == $to_date) {
-                    $custom_date_select = 'AND ' . $field . ' = "' . $from_date . '"';
+                    $custom_date_select = 'AND ' . $field . ' = "' . $this->db->escape_str($from_date) . '"';
                 } else {
-                    $custom_date_select = 'AND (' . $field . ' BETWEEN "' . $from_date . '" AND "' . $to_date . '")';
+                    $custom_date_select = 'AND (' . $field . ' BETWEEN "' . $this->db->escape_str($from_date) . '" AND "' . $this->db->escape_str($to_date) . '")';
                 }
             }
         }
@@ -695,7 +695,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -706,7 +706,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -769,6 +769,7 @@ class Reports extends AdminController
                   (SELECT COALESCE(SUM(amount),0) FROM ' . db_prefix() . 'creditnote_refunds WHERE ' . db_prefix() . 'creditnote_refunds.credit_note_id=' . db_prefix() . 'creditnotes.id)
                   )
                 ) as remaining_amount',
+                '(SELECT SUM(amount) FROM  ' . db_prefix() . 'creditnote_refunds WHERE credit_note_id=' . db_prefix() . 'creditnotes.id) as refund_amount',
                 'status',
             ];
 
@@ -798,7 +799,7 @@ class Reports extends AdminController
 
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -809,7 +810,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -843,6 +844,7 @@ class Reports extends AdminController
                 'discount_total'   => 0,
                 'adjustment'       => 0,
                 'remaining_amount' => 0,
+                'refund_amount'    => 0,
             ];
 
             foreach ($credit_note_taxes as $key => $tax) {
@@ -889,6 +891,9 @@ class Reports extends AdminController
 
                 $row[] = app_format_money($aRow['remaining_amount'], $currency->name);
                 $footer_data['remaining_amount'] += $aRow['remaining_amount'];
+
+                $row[] = app_format_money($aRow['refund_amount'], $currency->name);
+                $footer_data['refund_amount'] += $aRow['refund_amount'];
 
                 $row[] = format_credit_note_status($aRow['status']);
 
@@ -959,7 +964,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -977,7 +982,7 @@ class Reports extends AdminController
                 $select[$totalPaymentsColumnIndex] = $_temp;
 
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency                          = $this->currencies_model->get_base_currency();
                 $select[$totalPaymentsColumnIndex] = $select[$totalPaymentsColumnIndex] .= ' as amount_open';
@@ -989,7 +994,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -1105,9 +1110,12 @@ class Reports extends AdminController
             $data['categories'] = $this->expenses_model->get_category();
             $data['years']      = $this->expenses_model->get_expenses_years();
 
+            $this->load->model('payment_modes_model');
+            $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
             if ($this->input->is_ajax_request()) {
                 $aColumns = [
-                    'category',
+                    db_prefix() . 'expenses.category',
                     'amount',
                     'expense_name',
                     'tax',
@@ -1135,7 +1143,7 @@ class Reports extends AdminController
                 $by_currency = $this->input->post('currency');
                 if ($by_currency) {
                     $currency = $this->currencies_model->get($by_currency);
-                    array_push($where, 'AND currency=' . $by_currency);
+                    array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
                 } else {
                     $currency = $this->currencies_model->get_base_currency();
                 }
@@ -1327,6 +1335,7 @@ class Reports extends AdminController
 
         $data['years']                           = $_years;
         $data['chart_expenses_vs_income_values'] = json_encode($this->reports_model->get_expenses_vs_income_report($year));
+        $data['base_currency']                   = get_base_currency();
         $data['title']                           = _l('als_expenses_vs_income');
         $this->load->view('admin/reports/expenses_vs_income', $data);
     }

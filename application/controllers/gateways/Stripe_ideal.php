@@ -7,17 +7,15 @@ class Stripe_ideal extends App_Controller
     public function response($id, $hash)
     {
         $this->load->model('invoices_model');
+
         check_invoice_restrictions($id, $hash);
 
         $invoice = $this->invoices_model->get($id);
         load_client_language($invoice->clientid);
 
-        $this->load->library('stripe_core');
-
         try {
-
             $source_id = $this->input->get('source');
-            $source    = $this->stripe_core->get_source($source_id);
+            $source    = $this->stripe_ideal_gateway->get_source($source_id);
 
             if ($source->status == 'chargeable') {
                 try {
@@ -33,7 +31,8 @@ class Stripe_ideal extends App_Controller
                             set_alert('success', _l('payment_received_awaiting_confirmation'));
                         } else {
                             // In the mean time the webhook probably got the source
-                            $source = $this->stripe_core->get_source($source_id);
+                            $source = $this->stripe_ideal_gateway->get_source($source_id);
+
                             if ($source->status == 'consumed') {
                                 set_alert('success', _l('online_payment_recorded_success'));
                             } else {
@@ -46,7 +45,7 @@ class Stripe_ideal extends App_Controller
                         }
                     } catch (Exception $e) {
                         // In the mean time the webhook probably got the source
-                        $source = $this->stripe_core->get_source($source_id);
+                        $source = $this->stripe_ideal_gateway->get_source($source_id);
                         if ($source->status == 'consumed') {
                             set_alert('success', _l('online_payment_recorded_success'));
                         } else {
@@ -66,31 +65,65 @@ class Stripe_ideal extends App_Controller
         redirect(site_url('invoice/' . $id . '/' . $hash));
     }
 
-    public function webhook($key)
+    /**
+     * Create the application Stripe webhook endpoint
+     *
+     * @return mixed
+     */
+    public function create_webhook()
     {
-        $saved_key = $this->stripe_ideal_gateway->getSetting('webhook_key');
+        if (staff_can('edit', 'settings')) {
+            try {
+                $this->stripe_ideal_gateway->create_webhook();
+                set_alert('success', _l('webhook_created'));
+            } catch (Exception $e) {
+                $this->session->set_flashdata('stripe-ideal-webhook-failure', true);
+                set_alert('warning', $e->getMessage());
+            }
 
-        if ($saved_key == $key) {
-            $input = json_decode(file_get_contents('php://input'), true);
-            $data  = $input['data']['object'];
+            redirect(admin_url('settings/?group=payment_gateways&tab=online_payments_stripe_ideal_tab'));
+        }
+    }
 
-            $pcrm_gateway = isset($data['metadata']['pcrm-stripe-ideal'])
-            ? $data['metadata']['pcrm-stripe-ideal']
-            : false;
+    public function webhook()
+    {
+        \Stripe\Stripe::setApiVersion($this->stripe_ideal_gateway->apiVersion);
+        \Stripe\Stripe::setApiKey($this->stripe_ideal_gateway->decryptSetting('api_secret_key'));
 
-            if ($pcrm_gateway == true
-                && (isset($data['type']) && $data['type'] == 'ideal')
-                && $data['status'] == 'chargeable'
-             ) {
-                $invoice_id = intval($data['metadata']['invoice_id']);
-                $charge     = $this->stripe_ideal_gateway->charge($data['id'], $data['amount'], $invoice_id);
+        $payload    = @file_get_contents('php://input');
+        $event      = null;
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+
+        // Validate the webhook
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sig_header,
+                get_option('stripe_ideal_webhook_signing_secret')
+          );
+        } catch (\UnexpectedValueException $e) {
+            // Invalid payload
+          http_response_code(400); // PHP 5.4 or greater
+          exit();
+        } catch (\Stripe\Error\SignatureVerification $e) {
+            // Invalid signature
+              http_response_code(400); // PHP 5.4 or greater
+              exit();
+        }
+
+        if ($event->type == 'source.chargeable') {
+            $source = $event->data->object;
+
+            if (isset($source->metadata['pcrm-stripe-ideal'])
+                    && $source->type == 'ideal'
+                    && $source->status == 'chargeable') {
+                $invoice_id = intval($source->metadata['invoice_id']);
+                $charge     = $this->stripe_ideal_gateway->charge($source->id, $source->amount, $invoice_id);
+
                 if ($charge->status == 'succeeded') {
                     $this->stripe_ideal_gateway->finish_payment($charge);
                 }
             }
-        } else {
-            header('HTTP/1.0 403 Not Authorized');
-            echo 'Webhook key is not matching.';
         }
     }
 }

@@ -8,21 +8,21 @@ class Tasks_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => 'Staff/Contact who take action on task',
+                    'name'      => _l('staff_contact_who_take_action_on_task'),
                     'key'       => '{task_user_take_action}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Link',
+                    'name'      => _l('task_link'),
                     'key'       => '{task_link}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Comment Link',
+                    'name'      => _l('comment_link'),
                     'key'       => '{comment_link}',
                     'available' => [
                     ],
@@ -32,28 +32,28 @@ class Tasks_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Task Name',
+                    'name'      => _l('task_name'),
                     'key'       => '{task_name}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Description',
+                    'name'      => _l('task_description'),
                     'key'       => '{task_description}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Status',
+                    'name'      => _l('task_status'),
                     'key'       => '{task_status}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Comment',
+                    'name'      => _l('task_comment'),
                     'key'       => '{task_comment}',
                     'available' => [
 
@@ -64,28 +64,28 @@ class Tasks_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Task Priority',
+                    'name'      => _l('task_priority'),
                     'key'       => '{task_priority}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Start Date',
+                    'name'      => _l('task_start_date'),
                     'key'       => '{task_startdate}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Due Date',
+                    'name'      => _l('task_due_date'),
                     'key'       => '{task_duedate}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Related to',
+                    'name'      => _l('related_to'),
                     'key'       => '{task_related}',
                     'available' => [
                         'tasks',
@@ -105,7 +105,7 @@ class Tasks_merge_fields extends App_merge_fields
         $fields = [];
 
         $this->ci->db->where('id', $task_id);
-        $task = $this->ci->db->get(db_prefix().'tasks')->row();
+        $task = $this->ci->db->get(db_prefix() . 'tasks')->row();
 
         if (!$task) {
             return $fields;
@@ -127,15 +127,15 @@ class Tasks_merge_fields extends App_merge_fields
 
         $fields['{task_comment}'] = '';
         $fields['{task_related}'] = '';
-        $fields['{project_name}'] = '';
+        $fields['{service_name}'] = '';
 
         if ($task->rel_type == 'project') {
             $this->ci->db->select('name, clientid');
-            $this->ci->db->from(db_prefix().'projects');
+            $this->ci->db->from(db_prefix() . 'projects');
             $this->ci->db->where('id', $task->rel_id);
             $project = $this->ci->db->get()->row();
             if ($project) {
-                $fields['{project_name}'] = $project->name;
+                $fields['{service_name}'] = $project->name;
             }
         }
 
@@ -190,7 +190,7 @@ class Tasks_merge_fields extends App_merge_fields
         $this->ci->db->where('taskid', $task_id);
         $this->ci->db->limit(1);
         $this->ci->db->order_by('dateadded', 'desc');
-        $comment = $this->ci->db->get(db_prefix().'task_comments')->row();
+        $comment = $this->ci->db->get(db_prefix() . 'task_comments')->row();
 
         if ($comment) {
             $fields['{task_comment}'] = $comment->content;

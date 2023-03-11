@@ -3,6 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
+    '1', // bulk actions
     db_prefix() . 'expenses.id as id',
     db_prefix() . 'expenses_categories.name as category_name',
     'amount',
@@ -37,7 +38,7 @@ $filter = [];
 include_once(APPPATH . 'views/admin/tables/includes/expenses_filter.php');
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'expenses.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'expenses.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('expenses', '', 'view')) {
@@ -55,7 +56,6 @@ if (count($custom_fields) > 4) {
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
-    'category',
     'billable',
     db_prefix().'currencies.name as currency_name',
     db_prefix() . 'expenses.clientid',
@@ -71,6 +71,8 @@ $this->ci->load->model('payment_modes_model');
 
 foreach ($rResult as $aRow) {
     $row = [];
+
+    $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
 

@@ -26,17 +26,22 @@ foreach ($statuses as $status) {
           <div class="kan-ban-step-indicator<?php if($status['isdefault'] == 1){ echo ' kan-ban-step-indicator-full'; } ?>"></div>
           <i class="fa fa-reorder pointer"></i>
           <span class="heading pointer" <?php if($is_admin){ ?> data-order="<?php echo $status['statusorder']; ?>" data-color="<?php echo $status['color']; ?>" data-name="<?php echo $status['name']; ?>" onclick="edit_status(this,<?php echo $status['id']; ?>); return false;" <?php } ?>><?php echo $status['name']; ?>
-          </span>
+         </span> -
+          <?php echo app_format_money(
+            $summary[$statusSummaryIndex = array_search($status['id'], array_column($summary, 'id'))]['value'],
+            $base_currency
+          ); ?> - <?php echo $summary[$statusSummaryIndex]['total'] . ' ' . _l('leads') ?>
           <a href="#" onclick="return false;" class="pull-right color-white kanban-color-picker kanban-stage-color-picker<?php if($status['isdefault'] == 1){ echo ' kanban-stage-color-picker-last'; } ?>" data-placement="bottom" data-toggle="popover" data-content="
             <div class='text-center'>
               <button type='button' return false;' class='btn btn-success btn-block mtop10 new-lead-from-status'>
                 <?php echo _l('new_lead'); ?>
               </button>
             </div>
+            <?php if (is_admin()){?>
             <hr />
             <div class='kan-ban-settings cpicker-wrapper'>
               <?php echo $settings; ?>
-            </div>" data-html="true" data-trigger="focus">
+            </div><?php } ?>" data-html="true" data-trigger="focus">
             <i class="fa fa-angle-down"></i>
           </a>
         </div>
@@ -47,7 +52,7 @@ foreach ($statuses as $status) {
               $leads = $this->leads_model->do_kanban_query($status['id'],$this->input->get('search'),1,array('sort_by'=>$this->input->get('sort_by'),'sort'=>$this->input->get('sort')));
               $total_leads = count($leads);
               foreach ($leads as $lead) {
-                $this->load->view('admin/leads/_kan_ban_card',array('lead'=>$lead,'status'=>$status));
+                $this->load->view('admin/leads/_kan_ban_card',array('lead'=>$lead,'status'=>$status,'base_currency'=>$base_currency));
               } ?>
               <?php if($total_leads > 0 ){ ?>
               <li class="text-center not-sortable kanban-load-more" data-load-status="<?php echo $status['id']; ?>">

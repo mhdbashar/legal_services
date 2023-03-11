@@ -16,7 +16,7 @@ $top_search_area = ob_get_contents();
 ob_end_clean();
 ?>
 <div id="header">
-   <div class="hide-menu"><i class="fa fa-bars"></i></div>
+   <div class="hide-menu"><i class="fa fa-align-left"></i></div>
    <div id="logo">
       <?php get_company_logo(get_admin_uri().'/') ?>
    </div>
@@ -77,7 +77,7 @@ ob_end_clean();
          <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>"><?php echo _l('nav_my_profile'); ?></a></li>
          <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li>
          <li class="header-edit-profile"><a href="<?php echo admin_url('staff/edit_profile'); ?>"><?php echo _l('nav_edit_profile'); ?></a></li>
-         <?php if(get_option('disable_language') == 0){ ?>
+         <?php if(!is_language_disabled()){ ?>
             <li class="dropdown-submenu pull-left header-languages">
                <a href="#" tabindex="-1"><?php echo _l('language'); ?></a>
                <ul class="dropdown-menu dropdown-menu">

@@ -51,11 +51,30 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_customers_based_on_admins'),
             ],
         ],
+        'opponents' => [
+            'name'         => _l('opponents'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view_own' => _l('permission_customers_based_on_admins'),
+            ],
+        ],
+        'procurations' => [
+            'name'         => _l('procurations'),
+            'capabilities' => $withNotApplicableViewOwn,
+        ],
         'email_templates' => [
             'name'         => _l('email_templates'),
             'capabilities' => [
                 'view' => $viewGlobalName,
                 'edit' => _l('permission_edit'),
+            ],
+        ],
+        'imported_services' => [
+            'name'         => _l('imported_services'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+                'export' => _l('export'),
+                'delete' => _l('permission_delete')
             ],
         ],
         'estimates' => [
@@ -87,7 +106,8 @@ function get_available_staff_permissions($data = [])
         ],
         'projects' => [
             'name'         => _l('projects'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn, [ 'create_milestones' => _l('permission_create_milestones'),
+                'edit_milestones'=> _l('permission_edit_milestones'),'delete_milestones'=> _l('permission_delete_milestones')]),
             'help'         => [
                 'view'     => _l('help_project_permissions'),
                 'view_own' => _l('permission_projects_based_on_assignee'),
@@ -118,16 +138,24 @@ function get_available_staff_permissions($data = [])
             'name'         => _l('staff'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
-        'subscriptions' => [
-            'name'         => _l('subscriptions'),
-            'capabilities' => $allPermissionsArray,
-        ],
+        // 'subscriptions' => [
+        //     'name'         => _l('subscriptions'),
+        //     'capabilities' => $allPermissionsArray,
+        // ],
         'tasks' => [
             'name'         => _l('tasks'),
             'capabilities' => $withNotApplicableViewOwn,
-             'help'        => [
+            'help'        => [
                 'view'     => _l('help_tasks_permissions'),
                 'view_own' => _l('permission_tasks_based_on_assignee'),
+            ],
+        ],
+        'sessions' => [
+            'name'         => _l('sessions'),
+            'capabilities' => array_merge($withNotApplicableViewOwn,['send_report' => _l('permission_send_report'), 'edite_report' => _l('permission_edite_report')]),
+            'help'        => [
+                'view'     => _l('help_sessions_permissions'),
+                'view_own' => _l('permission_sessions_based_on_assignee'),
             ],
         ],
         'checklist_templates' => [
@@ -136,6 +164,90 @@ function get_available_staff_permissions($data = [])
                 'create' => _l('permission_create'),
                 'delete' => _l('permission_delete'),
             ],
+        ],
+        'estimate_request' => [
+            'name'         => _l('estimate_request'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'judges_manage' => [
+            'name'         => _l('judges_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'customer_representative' => [
+            'name'         => _l('customer_representative_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'case_status' => [
+            'name'         => _l('case_status_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'courts' => [
+            'name'         => _l('CourtsManagement'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'judicial_departments' => [
+            'name'         => _l('judicial_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'legal_recycle_bin' => [
+            'name'         => _l('LService_recycle_bin'),
+            'capabilities' => [
+                'view'    => $viewGlobalName,
+                'delete'  => _l('permission_delete'),
+                'restore' => _l('restore'),
+            ]
+        ],
+        'legal_services' => [
+            'name'         => _l('LegalServiceManage'),
+            'capabilities' => [
+                'create'     => _l('permission_create'),
+                'edit'       => _l('permission_edit'),
+                'delete'     => _l('permission_delete'),
+                'active'     => _l('MakePrimary'),
+                'categories' => _l('categories_management'),
+            ]
+        ],
+        'legal_services_phases' => [
+            'name'         => _l('legal_services_phases'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+                'active' => _l('active_phase'),
+            ]
+        ],
+        'legal_procedures' => [
+            'name'         => _l('legal_procedures_management'),
+            'capabilities' => $allPermissionsArray,
+        ],
+        'written_reports' => [
+            'name'         => _l('written_reports'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),
+                'edit'             => _l('permission_edit'),
+                'delete'           => _l('permission_delete'),
+                'send_to_customer' => _l('Send_to_customer'),
+            ]
         ],
     ];
 
@@ -200,7 +312,7 @@ function staff_profile_image_url($staff_id, $type = 'small')
     } else {
         $CI = & get_instance();
         $CI->db->select('profile_image')
-        ->where('staffid', $staff_id);
+            ->where('staffid', $staff_id);
 
         $staff = $CI->db->get(db_prefix() . 'staff')->row();
     }
@@ -319,7 +431,11 @@ function get_staff_default_language($staffid = '')
     $CI->db->where('staffid', $staffid);
     $staff = $CI->db->get()->row();
     if ($staff) {
-        return $staff->default_language;
+        if (isset($staff->default_language) && $staff->default_language !="" ) {
+            return $staff->default_language;
+        }else {
+            return get_option('active_language');
+        }
     }
 
     return '';
@@ -369,7 +485,23 @@ function is_staff_member($staff_id = '')
     }
 
     $CI->db->where('staffid', $staff_id)
-    ->where('is_not_staff', 0);
+        ->where('is_not_staff', 0);
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
+}
+
+function add_staff_to_library($staff_id = ''){
+    $CI = & get_instance();
+    if($staff_id == ''){
+        $staff_id = get_staff_user_id();
+        $CI->db->where('staffid', $staff_id);
+        $CI->db->update(db_prefix() . 'staff', [
+            'add_to_library' => 1
+        ]);
+        return true;
+    }elseif (is_numeric($staff_id)){
+        $CI->db->where('staffid', $staff_id);
+        $staff = $CI->db->get()->row();
+        return $staff->add_to_library;
+    }
 }

@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function get_all_countries()
 {
-    return hooks()->apply_filters('all_countries', get_instance()->db->get(db_prefix().'countries')->result_array());
+    return hooks()->apply_filters('all_countries', get_instance()->db->order_by('short_name', 'asc')->get(db_prefix().'countries')->result_array());
 }
 /**
  * Get country row from database based on passed country id
@@ -55,5 +55,16 @@ function get_country_name($id)
         return $country->short_name;
     }
 
+    return '';
+}
+function get_country_name_by_staff_default_language($id,$staff_language)
+{
+    $country = get_country($id);
+    if ($country) {
+        if($staff_language == 'arabic')
+            return $country->short_name_ar;
+        else
+            return $country->short_name;
+    }
     return '';
 }

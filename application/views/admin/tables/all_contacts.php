@@ -41,7 +41,7 @@ if (!has_permission('customers', '', 'view')) {
 if ($this->ci->input->post('custom_view')) {
     $filter = $this->ci->input->post('custom_view');
     if (startsWith($filter, 'consent_')) {
-        array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' AND contact_id=' . db_prefix() . 'contacts.id))');
+        array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' AND contact_id=' . db_prefix() . 'contacts.id))');
     }
 }
 
@@ -125,5 +125,8 @@ foreach ($rResult as $aRow) {
         $row['Data_Title']  = _l('customer_requires_registration_confirmation');
         $row['Data_Toggle'] = 'tooltip';
     }
+
+    $row = hooks()->apply_filters('all_contacts_table_row', $row, $aRow);
+
     $output['aaData'][] = $row;
 }

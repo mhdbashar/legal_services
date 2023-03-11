@@ -8,6 +8,7 @@ class Estimates extends AdminController
     {
         parent::__construct();
         $this->load->model('estimates_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
     }
 
     /* Get all estimates in case user go on index page */
@@ -66,23 +67,69 @@ class Estimates extends AdminController
         ]);
     }
 
+
+    public function table_case($clientid = '',$ServID='', $slug)
+    {
+
+        if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('estimates_case', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function table_oservice($clientid = '',$ServID='', $slug)
+    {
+        if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('estimates_oservice', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
     /* Add new estimate or update existing */
     public function estimate($id = '')
     {
         if ($this->input->post()) {
             $estimate_data = $this->input->post();
+
+            $save_and_send_later = false;
+            if (isset($estimate_data['save_and_send_later'])) {
+                unset($estimate_data['save_and_send_later']);
+                $save_and_send_later = true;
+            }
+
             if ($id == '') {
                 if (!has_permission('estimates', '', 'create')) {
                     access_denied('estimates');
                 }
                 $id = $this->estimates_model->add($estimate_data);
+
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('estimate')));
-                    if ($this->set_estimate_pipeline_autoload($id)) {
-                        redirect(admin_url('estimates/list_estimates/'));
-                    } else {
-                        redirect(admin_url('estimates/list_estimates/' . $id));
+
+                    $redUrl = admin_url('estimates/list_estimates/' . $id);
+
+                    if ($save_and_send_later) {
+                        $this->session->set_userdata('send_later', true);
+                        // die(redirect($redUrl));
                     }
+
+                    redirect(
+                        !$this->set_estimate_pipeline_autoload($id) ? $redUrl : admin_url('estimates/list_estimates/')
+                    );
                 }
             } else {
                 if (!has_permission('estimates', '', 'edit')) {
@@ -112,9 +159,15 @@ class Estimates extends AdminController
             $data['edit']     = true;
             $title            = _l('edit', _l('estimate_lowercase'));
         }
+
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
+
+        if ($this->input->get('estimate_request_id')) {
+            $data['estimate_request_id'] = $this->input->get('estimate_request_id');
+        }
+
         $this->load->model('taxes_model');
         $data['taxes'] = $this->taxes_model->get();
         $this->load->model('currencies_model');
@@ -125,7 +178,7 @@ class Estimates extends AdminController
         $this->load->model('invoice_items_model');
 
         $data['ajaxItems'] = false;
-        if (total_rows(db_prefix().'items') <= ajax_on_total_items()) {
+        if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
             $data['items']     = [];
@@ -135,6 +188,7 @@ class Estimates extends AdminController
 
         $data['staff']             = $this->staff_model->get('', ['active' => 1]);
         $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']             = $title;
         $this->load->view('admin/estimates/estimate', $data);
     }
@@ -156,7 +210,7 @@ class Estimates extends AdminController
         ];
         if (has_permission('estimates', '', 'edit')) {
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'estimates', [
+            $this->db->update(db_prefix() . 'estimates', [
                 'prefix' => $this->input->post('prefix'),
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -185,7 +239,7 @@ class Estimates extends AdminController
             }
         }
 
-        if (total_rows(db_prefix().'estimates', [
+        if (total_rows(db_prefix() . 'estimates', [
             'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
             'number' => $number,
         ]) > 0) {
@@ -245,7 +299,14 @@ class Estimates extends AdminController
         $data['estimate']          = $estimate;
         $data['members']           = $this->staff_model->get('', ['active' => 1]);
         $data['estimate_statuses'] = $this->estimates_model->get_statuses();
-        $data['totalNotes']        = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'estimate']);
+        $data['totalNotes']        = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'estimate']);
+
+        $data['send_later'] = false;
+        if ($this->session->has_userdata('send_later')) {
+            $data['send_later'] = true;
+            $this->session->unset_userdata('send_later');
+        }
+
         if ($to_return == false) {
             $this->load->view('admin/estimates/estimate_preview_template', $data);
         } else {
@@ -261,9 +322,9 @@ class Estimates extends AdminController
             $this->load->model('currencies_model');
 
             if (!$this->input->post('customer_id')) {
-                $multiple_currencies = call_user_func('is_using_multiple_currencies', db_prefix().'estimates');
+                $multiple_currencies = call_user_func('is_using_multiple_currencies', db_prefix() . 'estimates');
             } else {
-                $multiple_currencies = call_user_func('is_client_using_multiple_currencies', $this->input->post('customer_id'), db_prefix().'estimates');
+                $multiple_currencies = call_user_func('is_client_using_multiple_currencies', $this->input->post('customer_id'), db_prefix() . 'estimates');
             }
 
             if ($multiple_currencies) {
@@ -455,7 +516,7 @@ class Estimates extends AdminController
     {
         if (is_admin()) {
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'estimates', get_acceptance_info_array(true));
+            $this->db->update(db_prefix() . 'estimates', get_acceptance_info_array(true));
         }
 
         redirect(admin_url('estimates/list_estimates/' . $id));
@@ -577,7 +638,9 @@ class Estimates extends AdminController
         if ($id == '') {
             return false;
         }
-        if ($this->session->has_userdata('estimate_pipeline') && $this->session->userdata('estimate_pipeline') == 'true') {
+
+        if ($this->session->has_userdata('estimate_pipeline')
+                && $this->session->userdata('estimate_pipeline') == 'true') {
             $this->session->set_flashdata('estimateid', $id);
 
             return true;

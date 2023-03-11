@@ -1,12 +1,12 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-define('APP_MINIMUM_REQUIRED_PHP_VERSION', '5.6.4');
+define('APP_MINIMUM_REQUIRED_PHP_VERSION', '7.2.5');
 
 if (file_exists(APPPATH . 'config/app-config.php')) {
     if (version_compare(PHP_VERSION, APP_MINIMUM_REQUIRED_PHP_VERSION) === -1) {
-        echo '<h1>Minimum required PHP version is <b>5.6.4</b>. Consider upgrading to a newer PHP version.</h4>';
-        echo '<h3>You are using ' . PHP_VERSION . ', you should consult with your hosting provider to help you to change your PHP version to 5.6.4 or higher, after you upgrade the PHP version this message will disappear.</h3>';
+        echo '<h1>Minimum required PHP version is <b>'.APP_MINIMUM_REQUIRED_PHP_VERSION.'</b>. Consider upgrading to a newer PHP version.</h4>';
+        echo '<h3>You are using ' . PHP_VERSION . ', you should consult with your hosting provider to help you to change your PHP version to '.APP_MINIMUM_REQUIRED_PHP_VERSION.' or higher, after you upgrade the PHP version this message will disappear.</h3>';
         exit;
     }
     include_once(APPPATH . 'config/app-config.php');
@@ -15,11 +15,12 @@ if (file_exists(APPPATH . 'config/app-config.php')) {
     $install_url .= '://' . $_SERVER['HTTP_HOST'];
     $install_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
     $install_url .= 'install';
-    echo '<h1>Perfex CRM not installed</h1>';
-    echo '<p>1. To you use the automatic Perfex CRM installation tool click <a href="' . $install_url . '">here (' . $install_url . ')</a></p>';
+    echo '<h1>babillawnet CRM not installed</h1>';
+    echo '<p>1. To you use the automatic babillawnet CRM installation tool click <a href="' . $install_url . '">here (' . $install_url . ')</a></p>';
     echo '<p>2. If you are installing manually rename the config file located in application/config/app-config-sample.php to app-config.php and populate the defined fields.</p>';
     die();
 }
+
 /**
  * Database Tables Prefix
  * @return string
@@ -392,15 +393,30 @@ $config['encryption_key'] = APP_ENC_KEY;
 |
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
+
+| 'sess_cookie_samesite'
+|
+| SameSite prevents the browser from sending this cookie along with cross-site requests.
+| There are three possible values for the same-site attribute:
+
+| 'Lax'
+|           -   Some cross-site usage is allowed.
+| 'Strict'
+|           -   The cookie is withheld with any cross-site usage.
+| 'None'
+|           -   Clearly communicate you intentionally want the cookie sent in a third-party context.
 |
 */
 $config['sess_driver']             = SESS_DRIVER;
 $config['sess_cookie_name']        = (defined('APP_SESSION_COOKIE_NAME') ? APP_SESSION_COOKIE_NAME : 'sp_session');
 $config['sess_expiration']         = (defined('APP_SESSION_EXPIRATION') ? APP_SESSION_EXPIRATION : 28800);
+$config['custom_sess_expiration']  = (defined('APP_CUST_SESSION_EXPIRATION') ? APP_CUST_SESSION_EXPIRATION : 28800);
 $config['sess_save_path']          = SESS_SAVE_PATH;
 $config['sess_match_ip']           = (defined('APP_SESSION_MATCH_IP') ? APP_SESSION_MATCH_IP : false);
 $config['sess_time_to_update']     = (defined('APP_SESSION_TIME_TO_UPDATE') ? APP_SESSION_TIME_TO_UPDATE : 300);
 $config['sess_regenerate_destroy'] = (defined('APP_SESSION_REGENERATE_DESTROY') ? APP_SESSION_REGENERATE_DESTROY : false);
+// Work only on php 7.3 or later
+$config['sess_cookie_samesite'] = (defined('APP_SESSION_COOKIE_SAME_SITE') ? APP_SESSION_COOKIE_SAME_SITE : '');
 
 /*
 |--------------------------------------------------------------------------
@@ -468,9 +484,9 @@ $config['global_xss_filtering'] = true;
 $config['csrf_protection']   = defined('APP_CSRF_PROTECTION') ? APP_CSRF_PROTECTION : false;
 $config['csrf_token_name']   = defined('APP_CSRF_TOKEN_NAME') ? APP_CSRF_TOKEN_NAME : 'csrf_token_name';
 $config['csrf_cookie_name']  = defined('APP_CSRF_COOKIE_NAME') ? APP_CSRF_COOKIE_NAME : 'csrf_cookie_name';
-$config['csrf_expire']       = defined('APP_CSRF_EXPIRE') ? APP_CSRF_EXPIRE : 3600;
+$config['csrf_expire']       = defined('APP_CSRF_EXPIRE') ? APP_CSRF_EXPIRE : 3660;
 $config['csrf_regenerate']   = false;
-$config['csrf_exclude_uris'] = ['forms/wtl/[0-9a-z]+', 'api\/.+'];
+$config['csrf_exclude_uris'] = ['admin/custom_email_and_sms_notifications/email_sms/sendEmailSms', 'forms/wtl/[0-9a-z]+', 'forms/ticket', 'forms/quote/[0-9a-z]+', 'admin/tasks/timer_tracking', 'api\/.+', 'finger_api\/.+'];
 
 if (isset($app_csrf_exclude_uris)) {
     $config['csrf_exclude_uris'] = array_merge($config['csrf_exclude_uris'], $app_csrf_exclude_uris);

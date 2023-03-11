@@ -71,7 +71,7 @@ function update_option($name, $value, $autoload = null)
      * @since  2.3.3
      */
     if (!option_exists($name)) {
-        return add_option($name, $value, $autoload);
+        return add_option($name, $value, $autoload === null ? 1 : 0);
     }
 
     $CI = & get_instance();
@@ -156,11 +156,11 @@ function app_init_settings_tabs()
         'position' => 25,
     ]);
 
-    $CI->app_tabs->add_settings_tab('subscriptions', [
-        'name'     => _l('subscriptions'),
-        'view'     => 'admin/settings/includes/subscriptions',
-        'position' => 30,
-    ]);
+    // $CI->app_tabs->add_settings_tab('subscriptions', [
+    //     'name'     => _l('subscriptions'),
+    //     'view'     => 'admin/settings/includes/subscriptions',
+    //     'position' => 30,
+    // ]);
 
     $CI->app_tabs->add_settings_tab('payment_gateways', [
         'name'     => _l('settings_group_online_payment_modes'),
@@ -177,6 +177,13 @@ function app_init_settings_tabs()
     $CI->app_tabs->add_settings_tab('tasks', [
         'name'     => _l('tasks'),
         'view'     => 'admin/settings/includes/tasks',
+        'position' => 45,
+    ]);
+
+
+    $CI->app_tabs->add_settings_tab('sessions', [
+        'name'     => _l('sessions'),
+        'view'     => 'admin/settings/includes/sessions',
         'position' => 45,
     ]);
 
@@ -205,7 +212,7 @@ function app_init_settings_tabs()
     ]);
 
     $CI->app_tabs->add_settings_tab('e_sign', [
-        'name'     => 'E-Sign',
+        'name'     => _l('e_sign'),
         'view'     => 'admin/settings/includes/e_sign',
         'position' => 70,
     ]);

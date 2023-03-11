@@ -25,12 +25,12 @@
    <?php } ?>
    <div class="clearfix"></div>
 </div>
-<table class="table table-invoices-report scroll-responsive">
+<table class="table table-invoices-report">
    <thead>
       <tr>
          <th><?php echo _l('report_invoice_number'); ?></th>
          <th><?php echo _l('report_invoice_customer'); ?></th>
-         <th><?php echo _l('invoice_estimate_year'); ?></th>
+         <th class="not-export"><?php echo _l('invoice_estimate_year'); ?></th>
          <th><?php echo _l('report_invoice_date'); ?></th>
          <th><?php echo _l('report_invoice_duedate'); ?></th>
          <th><?php echo _l('report_invoice_amount'); ?></th>

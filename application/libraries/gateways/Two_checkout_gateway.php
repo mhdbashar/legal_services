@@ -4,17 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Two_checkout_gateway extends App_gateway
 {
-    private $required_address_line_2_country_codes = 'CHN, JPN, RUS';
-
-    private $required_state_country_codes = ' ARG, AUS, BGR, CAN, CHN, CYP, EGY, FRA, IND, IDN, ITA, JPN, MYS, MEX, NLD, PAN, PHL, POL, ROU, RUS, SRB, SGP, ZAF, ESP, SWE, THA, TUR, GBR, USA';
-
-    private $required_zip_code_country_codes = 'ARG, AUS, BGR, CAN, CHN, CYP, EGY, FRA, IND, IDN, ITA, JPN, MYS, MEX, NLD, PAN, PHL, POL, ROU, RUS, SRB, SGP, ZAF, ESP, SWE, THA, TUR, GBR, USA';
-
     public function __construct()
     {
         /**
-        * Call App_gateway __construct function
-        */
+         * Call App_gateway __construct function
+         */
         parent::__construct();
         /**
          * REQUIRED
@@ -31,124 +25,129 @@ class Two_checkout_gateway extends App_gateway
 
         /**
          * Add gateway settings
-        */
-        $this->setSettings([
-            [
-                'name'  => 'account_number',
-                'label' => 'paymentmethod_two_checkout_account_number',
-            ],
-            [
-                'name'      => 'private_key',
-                'label'     => 'paymentmethod_two_checkout_private_key',
-                'encrypted' => true,
-            ],
-            [
-                'name'  => 'publishable_key',
-                'label' => 'paymentmethod_two_checkout_publishable_key',
-            ],
-            [
-                'name'          => 'currencies',
-                'label'         => 'settings_paymentmethod_currencies',
-                'default_value' => 'USD,EUR',
-            ],
-            [
-                'name'          => 'test_mode_enabled',
-                'type'          => 'yes_no',
-                'label'         => 'settings_paymentmethod_testing_mode',
-                'default_value' => 1,
-            ],
-        ]);
-
-        /**
-         * Add ssl notice
          */
-        hooks()->add_action('before_render_payment_gateway_settings', 'two_checkout_ssl_notice');
-
-        $line_address_2_required                     = $this->required_address_line_2_country_codes;
-        $this->required_address_line_2_country_codes = [];
-        foreach (explode(', ', $line_address_2_required) as $cn_code) {
-            array_push($this->required_address_line_2_country_codes, $cn_code);
-        }
-        $state_country_codes_required       = $this->required_state_country_codes;
-        $this->required_state_country_codes = [];
-        foreach (explode(', ', $state_country_codes_required) as $cn_code) {
-            array_push($this->required_state_country_codes, $cn_code);
-        }
-        $zip_code_country_codes_required       = $this->required_zip_code_country_codes;
-        $this->required_zip_code_country_codes = [];
-        foreach (explode(', ', $zip_code_country_codes_required) as $cn_code) {
-            array_push($this->required_zip_code_country_codes, $cn_code);
-        }
+        $this->setSettings(
+            [
+                [
+                    'name'      => 'merchant_code',
+                    'encrypted' => true,
+                    'label'     => 'two_checkout_merchant_code',
+                ],
+                [
+                    'name'      => 'secret_key',
+                    'encrypted' => true,
+                    'label'     => 'two_checkout_secret_Key',
+                ],
+                [
+                    'name'          => 'description',
+                    'label'         => 'settings_paymentmethod_description',
+                    'type'          => 'textarea',
+                    'default_value' => 'Payment for Invoice {invoice_number}',
+                ],
+                [
+                    'name'             => 'currencies',
+                    'label'            => 'settings_paymentmethod_currencies',
+                    'default_value'    => 'USD, EUR, GBP',
+                ],
+                [
+                    'name'          => 'test_mode_enabled',
+                    'type'          => 'yes_no',
+                    'default_value' => 1,
+                    'label'         => 'settings_paymentmethod_testing_mode',
+                ],
+            ]
+        );
+        hooks()->add_action('before_render_payment_gateway_settings', 'two_checkout_gateway_webhook_notice');
     }
 
+
+    /**
+     * REQUIRED FUNCTION
+     * @param  array $data
+     * @return mixed
+     */
     public function process_payment($data)
     {
-        $this->ci->session->set_userdata([
-            'total_2checkout' => $data['amount'],
+        $reference = $this->reference($data['invoice']->id);
+        $logPayment = $this->logTransaction([
+            'invoice_id' =>  $data['invoice']->id,
+            'amount'    => $data['amount'],
+            'reference' => $reference,
         ]);
-        redirect(site_url('gateways/two_checkout/make_payment?invoiceid=' . $data['invoiceid'] . '&hash=' . $data['invoice']->hash));
+
+        if (!$logPayment) {
+            set_alert('warning', _l('something_went_wrong'));
+            redirect(site_url('invoices/' .  $data['invoice']->id . '/' . $data['invoice']->hash));
+        }
+
+        $this->ci->session->set_userdata([
+            'two_checkout_total' => $data['amount'],
+            'two_checkout_reference' => $reference
+        ]);
+
+        redirect(site_url('gateways/two_checkout/payment/' . $data['invoice']->id . '/' . $data['invoice']->hash));
+    }
+    /**
+     * Generate payment reference
+     * @param int $id
+     * @return string 
+     */
+    public function reference($id)
+    {
+        return  md5($id . time());
     }
 
-    public function finish_payment($data)
+    public function description($id)
     {
-        Twocheckout::privateKey($this->decryptSetting('private_key'));
-        Twocheckout::sellerId($this->getSetting('account_number'));
-        Twocheckout::sandbox($this->getSetting('test_mode_enabled') == '1');
-
-        $billingAddress              = [];
-        $billingAddress['name']      = $this->ci->input->post('billingName');
-        $billingAddress['addrLine1'] = $this->ci->input->post('billingAddress1');
-
-        if ($this->ci->input->post('billingAddress2')) {
-            $billingAddress['addrLine2'] = $this->ci->input->post('billingAddress2');
-        }
-        $billingAddress['city'] = $this->ci->input->post('billingCity');
-
-        if ($this->ci->input->post('billingState')) {
-            $billingAddress['state'] = $this->ci->input->post('billingState');
-        }
-        if ($this->ci->input->post('billingPostcode')) {
-            $billingAddress['zipCode'] = $this->ci->input->post('billingPostcode');
-        }
-        $billingAddress['country'] = $this->ci->input->post('billingCountry');
-        $billingAddress['email']   = $this->ci->input->post('email');
-
-        try {
-            $charge = Twocheckout_Charge::auth([
-                'sellerId'        => $this->getSetting('account_number'),
-                'merchantOrderId' => $data['invoice']->id,
-                'token'           => $this->ci->input->post('token'),
-                'currency'        => $data['currency'],
-                'total'           => number_format($data['amount'], 2, '.', ''),
-                'billingAddr'     => $billingAddress,
-            ]);
-
-            return ['success' => true, 'charge' => $charge];
-        } catch (Twocheckout_Error $e) {
-            return ['success' => false, 'message' => $e->getMessage()];
-        }
+        return str_replace('{invoice_number}', format_invoice_number($id),  $this->getSetting('description'));
     }
 
-    public function get_required_address_2_by_country_code()
+    public function logTransaction($data)
     {
-        return $this->required_address_line_2_country_codes;
+        $this->ci->load->model('twocheckout_model');
+        return $this->ci->twocheckout_model->add($data);
+    }
+    public function merchant_code()
+    {
+        return $this->decryptSetting('merchant_code');
     }
 
-    public function get_required_state_by_country_code()
+    public function secret_key()
     {
-        return $this->required_state_country_codes;
+        return $this->decryptSetting('secret_key');
     }
 
-    public function get_required_zip_by_country_code()
+    public function ArrayExpand($array)
     {
-        return $this->required_zip_code_country_codes;
+        $retval = "";
+        for ($i = 0; $i < sizeof($array); $i++) {
+            $size        = strlen(StripSlashes($array[$i]));  /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
+            $retval    .= $size . StripSlashes($array[$i]);  /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
+        }
+        return $retval;
+    }
+
+    public function hmac($key, $data)
+    {
+        $b = 64; // byte length for md5
+        if (strlen($key) > $b) {
+            $key = pack("H*", md5($key));
+        }
+        $key  = str_pad($key, $b, chr(0x00));
+        $ipad = str_pad('', $b, chr(0x36));
+        $opad = str_pad('', $b, chr(0x5c));
+        $k_ipad = $key ^ $ipad;
+        $k_opad = $key ^ $opad;
+        return md5($k_opad  . pack("H*", md5($k_ipad . $data)));
     }
 }
 
-function two_checkout_ssl_notice($gateway)
+
+function two_checkout_gateway_webhook_notice($gateway)
 {
-    if ($gateway['id'] == 'two_checkout') {
-        echo '<p class="text-warning">' . _l('2checkout_usage_notice') . '</p>';
-        echo '<p class="alert alert-warning bold">2Checkout payment gateway is deprecated and will be removed or replaced in future updates.</p>';
+    if ($gateway['id'] === 'two_checkout') {
+        echo '<div class="alert alert-info">';
+        echo _l('two_gateway_webhook_notice', site_url('gateways/two_checkout/webhook'));
+        echo '</div>';
     }
 }

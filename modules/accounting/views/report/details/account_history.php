@@ -84,7 +84,11 @@
                         <?php echo _d($val['date']); ?>
                     </td>
                     <td>
-                        <?php echo html_entity_decode($val['type']); ?>
+                        <a href="<?php if($val['invoice']!=0)
+                      echo 'http://localhost/legalserv/admin/invoices/list_invoices/'. $val['invoice'];
+                     else   echo '#'; ?>">
+                            <?php echo html_entity_decode($val['type']); ?>
+                        </a>
                     </td>
                     <td>
                         <?php echo html_entity_decode($val['split']); ?>

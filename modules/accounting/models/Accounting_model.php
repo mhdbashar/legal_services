@@ -7893,6 +7893,7 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
+            $invoice_id=$v['rel_id'];
             $decrease = 0;
             $increase = 0;
             if($info_account->account_type_id == 7 || $info_account->account_type_id == 8){
@@ -7909,16 +7910,17 @@ class Accounting_model extends App_Model
                 $balance += ($v['debit'] - $v['credit']);
             }
             $data_report[] =   [
-                'date' => date('Y-m-d', strtotime($v['date'])),
-                'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
-                'type' => _l($v['rel_type']),
-                'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
-                'description' => $v['description'],
-                'customer' => $v['customer'],
-                'decrease' => $decrease,
-                'increase' => $increase,
-                'balance' => $balance,
-            ];
+                            'date' => date('Y-m-d', strtotime($v['date'])),
+                            'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
+                            'type' => _l($v['rel_type']),
+                            'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
+                            'description' => $v['description'],
+                            'customer' => $v['customer'],
+                            'decrease' => $decrease,
+                            'increase' => $increase,
+                            'balance' => $balance,
+                            'invoice' => $invoice_id,
+                        ];
         }
 
         return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date, 'account_type' => $info_account->account_type_id];

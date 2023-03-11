@@ -1,5 +1,8 @@
 <div id="accordion">
   <div class="card">
+    <?php // print_r( $filter);
+     // exit();
+      ?>
     <table class="tree">
       <tbody>
       <tr>
@@ -73,17 +76,22 @@
           <td class="total_amount text-bold"><?php echo _l('balance'); ?></td>
         </tr>
         <?php
-         $row_index = 0; 
+         $row_index = 0;
          ?>
-         <?php foreach ($data_report['data'] as $val) {
+              <?php foreach ($data_report['data'] as $val) {
               $row_index += 1;
-            ?>
+              ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
               <td>
               <?php echo _d($val['date']); ?> 
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+                  <a href="<?php if($val['invoice']!=0)
+                      echo 'http://localhost/legalserv/admin/invoices/list_invoices/'. $val['invoice'];
+                     else   echo '#'; ?>">
+                      <?php echo html_entity_decode($val['type']); ?>
+                  </a>
+
               </td>
               <td>
               <?php echo html_entity_decode($val['split']); ?> 

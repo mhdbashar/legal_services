@@ -78,6 +78,7 @@
         <?php
          $row_index = 0;
          ?>
+
               <?php foreach ($data_report['data'] as $val) {
               $row_index += 1;
               ?>
@@ -86,8 +87,16 @@
               <?php echo _d($val['date']); ?> 
               </td>
               <td>
-                  <a href="<?php if($val['invoice']!=0)
-                      echo 'http://localhost/legalserv/admin/invoices/list_invoices/'. $val['invoice'];
+
+                  <a href="<?php  if($val['rel_id']!=0)
+                      if($val['rel_type']=='invoice')
+                      echo 'http://localhost/legalserv/admin/invoices/list_invoices/'. $val['rel_id'];
+                  elseif($val['rel_type']=='journal_entry')
+                      echo 'http://localhost/legalserv/admin/accounting/journal_entry';
+                  elseif($val['rel_type']=='deposit')
+                      echo  '#';
+                      elseif($val['rel_type']=='payment')
+                          echo 'http://localhost/legalserv/admin/invoices#'. $val['rel_id'];
                      else   echo '#'; ?>">
                       <?php echo html_entity_decode($val['type']); ?>
                   </a>

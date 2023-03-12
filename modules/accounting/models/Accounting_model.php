@@ -7895,7 +7895,8 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
-            $invoice_id=$v['rel_id'];
+            $rel_id=$v['rel_id'];
+            $rel_type=$v['rel_type'];
             $decrease = 0;
             $increase = 0;
             if($info_account->account_type_id == 7 || $info_account->account_type_id == 8){
@@ -7921,7 +7922,8 @@ class Accounting_model extends App_Model
                             'decrease' => $decrease,
                             'increase' => $increase,
                             'balance' => $balance,
-                            'invoice' => $invoice_id,
+                            'rel_id' => $rel_id,
+                            'rel_type' => $rel_type,
                         ];
         }
                 
@@ -10085,13 +10087,22 @@ class Accounting_model extends App_Model
             $total_py_amount = $val['py_amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  '.$val['name'].'
+              </span>
+             
               </td>
               <td class="total_amount">
-              '.app_format_money($val['amount'], $currency->name).'
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   '.app_format_money($val['amount'], $currency->name).'
+              </span>
+            
               </td>
               <td class="total_amount">
-              '.app_format_money($val['py_amount'], $currency->name).'
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  '.app_format_money($val['py_amount'], $currency->name).'
+              </span>
+             
               </td>
             </tr>';
 
@@ -10106,7 +10117,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
                   '._l('total_for', $val['name']).'
+              </span>
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -10202,7 +10216,12 @@ class Accounting_model extends App_Model
             $_parent_index = $data_return['row_index'];
             if(count($value['details']) > 0 || count($value['child_account']) > 0){
                 $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' treegrid-parent-'.$parent_index.' parent-node expanded">
-                    <td class="parent">'.$value['name'].'</td>
+                    <td class="parent">
+                     <span style="margin-right: 24px!important; margin-top: -10px  ">
+                        '.$value['name'].'
+                    </span>
+                    
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -10217,7 +10236,10 @@ class Accounting_model extends App_Model
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
-                  '. _d($val['date']).'
+                   <span style="margin-right: 24px!important; margin-top: -10px  ">
+                        '. _d($val['date']).'
+                    </span>
+                 
                   </td>
                   <td>
                   '. html_entity_decode($val['type']).' 
@@ -10548,7 +10570,10 @@ class Accounting_model extends App_Model
             $total_amount = $val['amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              <span style="margin-right: 24px; margin-top: -10px">
+                       '.$val['name'].'
+                </span>
+            
               </td>
               <td class="total_amount">
               '.app_format_money($val['amount'], $currency->name).'
@@ -10564,7 +10589,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                  <span style="margin-right: 24px; margin-top: -10px">
+                     '._l('total_for', $val['name']).'
+                </span>
+                  
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -10644,7 +10672,10 @@ class Accounting_model extends App_Model
             $total_amount = $val['amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+               <span style="margin-right: 24px; margin-top: -10px">
+                      '.$val['name'].'
+                </span>
+            
               </td>
               <td class="total_amount">
               '.app_format_money($val['amount'], $currency->name).'
@@ -10670,7 +10701,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     '._l('total_for', $val['name']).'
+                </span>
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -10766,7 +10800,10 @@ class Accounting_model extends App_Model
             $total_py_amount = $val['last_year'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+               <span style="margin-right: 24px; margin-top: -10px">
+                      '.$val['name'].'
+                </span> 
+             
               </td>
               <td class="total_amount">
               '.app_format_money($val['this_year'], $currency->name).'
@@ -10787,7 +10824,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                   <span style="margin-right: 24px; margin-top: -10px">
+                      '._l('total_for', $val['name']).'
+                </span> 
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -11115,7 +11155,10 @@ class Accounting_model extends App_Model
             $total_amount = $val['amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              <span style="margin-right: 24px; margin-top: -10px">
+                      '.$val['name'].'
+                </span>
+             
               </td>
               <td class="total_amount">
               '.app_format_money($val['amount'], $currency->name).'
@@ -11131,7 +11174,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                  <span style="margin-right: 24px; margin-top: -10px">
+                       '._l('total_for', $val['name']).'
+                </span>
+                
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -11204,7 +11250,10 @@ class Accounting_model extends App_Model
             $total_amount = $val['amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+               <span style="margin-right: 24px; margin-top: -10px">
+                     '.$val['name'].'
+                </span>
+             
               </td>
               <td class="total_amount">
               '.app_format_money($val['amount'], $currency->name).'
@@ -11220,7 +11269,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     '._l('total_for', $val['name']).'
+                </span>
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -11289,7 +11341,10 @@ class Accounting_model extends App_Model
             $total_amount = $val['amount'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              <span style="margin-right: 24px; margin-top: -10px">
+                    '.$val['name'].' 
+                </span>
+              
               </td>
               <td class="total_amount">
               '.app_format_money($val['amount'], $currency->name).'
@@ -11305,7 +11360,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                  <span style="margin-right: 24px; margin-top: -10px">
+                     '._l('total_for', $val['name']).'
+                </span>
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_amount, $currency->name).'
@@ -15232,7 +15290,10 @@ class Accounting_model extends App_Model
             $data_return['row_index']++;
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
             <td>
-            '.$val['name'].'
+             <span style="margin-right: 24px; margin-top: -10px">
+                       '.$val['name'].'
+                </span>
+           
             </td>';
             $total = 0;
             foreach($val['amount'] as $amount){
@@ -15888,7 +15949,10 @@ class Accounting_model extends App_Model
 
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+                <span style="margin-right: 24px; margin-top: -10px">
+                      '.$val['name'].'
+                </span>
+             
               </td>
               <td class="total_amount">
               '.app_format_money($val['last_amount'], $currency->name).'
@@ -15922,7 +15986,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                    <span style="margin-right: 24px; margin-top: -10px">
+                      '._l('total_for', $val['name']).'
+                </span>
+                 
                   </td>
                   <td class="total_amount">
                   '.app_format_money($total_last_amount, $currency->name).'
@@ -18591,7 +18658,10 @@ class Accounting_model extends App_Model
             $data_return['row_index']++;
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              <span style="margin-right: 24px; margin-top: -10px">
+                    '.$val['name'].' 
+                </span>
+             
               </td>';
             $amount = 0;
             $total_amount = $amount;
@@ -18618,7 +18688,10 @@ class Accounting_model extends App_Model
                 $data_return['row_index']++;
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
                   <td>
-                  '._l('total_for', $val['name']).'
+                  <span style="margin-right: 24px; margin-top: -10px">
+                     '._l('total_for', $val['name']).'
+                </span>
+                 
                   </td>';
                     if ($display_columns_by != 'total_only') {
                         $data_return['html'] .= $html_column;

@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
     $align = 'R'; //Right align
@@ -8,7 +10,7 @@ if (is_rtl()) {
     $align = 'L'; //Left align
     $attr_align = 'right';
     $table_td = "right";
-}
+}   
 $image_file = get_option('custom_pdf_header_image_url');
 if($image_file !== ''){
 $pdf->SetMargins(10, 60, 10, true);
@@ -23,10 +25,8 @@ $pdf->SetAutoPageBreak(TRUE, 60);
   
     
 }
-$dimensions = $pdf->getPageDimensions();
 
-// Get Y position for the separation
-$y = $pdf->getY();
+$dimensions = $pdf->getPageDimensions();
 
 $company_info = '<div style="color:#424242;">';
 $company_info .= format_organization_info();
@@ -37,19 +37,25 @@ $client_details = '<div align="'.$attr_align.'">';
 $client_details .= format_customer_info($payment->invoice_data, 'payment', 'billing');
 $client_details .= '</div>';
 
-//$left_info  = $swap == '1' ? $client_details : $company_info;
-//$right_info = $swap == '1' ? $company_info : $client_details;
+$info_left_column  = '';
 
+$info_right_column = '';
+
+$info_left_column .= pdf_logo_url();
 if (is_rtl()) {
-    $left_info = $company_info;
-    $right_info = $client_details;
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 }else{
-    $left_info = $client_details;
-    $right_info = $company_info;
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 }
 
+if (is_rtl()) {
+    $left_info = $client_details;
+    $right_info = $company_info;
+}else{
+    $left_info = $company_info;
+    $right_info = $client_details;
+}
 pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
-
 if (is_rtl()) {
     $this->setRTL(true);
 }
@@ -116,3 +122,7 @@ $tblhtml .= '</tr>';
 $tblhtml .= '</tbody>';
 $tblhtml .= '</table>';
 $pdf->writeHTML($tblhtml, true, false, false, false, $align);
+
+
+
+

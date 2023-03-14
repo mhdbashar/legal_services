@@ -37,7 +37,12 @@
             $total = $data['total_amount'];
           ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total treegrid-parent-10000">
-              <td class="parent"><?php echo _l('total_equity'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('total_equity'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?> </td>
             </tr>
         </tbody>

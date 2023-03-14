@@ -54,7 +54,11 @@
           <td class="total_amount text-bold"><?php echo _l('balance'); ?></td>
         </tr>
         <tr class="treegrid-100000 parent-node expanded">
-          <td class="parent"><?php echo _l('acc_assets'); ?></td>
+          <td class="parent">
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_assets'); ?>
+              </span>
+          </td>
           <td></td>
           <td></td>
           <td></td>
@@ -103,7 +107,12 @@
             <td></td>
           </tr>
         <tr class="treegrid-100001 parent-node expanded">
-          <td class="parent"><?php echo _l('liabilities_and_shareholders_equity'); ?></td>
+          <td class="parent">
+               <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('liabilities_and_shareholders_equity'); ?>
+              </span>
+
+          </td>
           <td></td>
           <td></td>
           <td></td>
@@ -162,7 +171,12 @@
           $total_equity = 0;
          ?>
          <tr class="treegrid-<?php echo html_entity_decode($_parent_index); ?> treegrid-parent-100001 parent-node expanded">
-          <td class="parent"><?php echo _l('equity'); ?></td>
+          <td class="parent">
+               <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('equity'); ?>
+              </span>
+
+          </td>
           <td></td>
           <td></td>
           <td></td>

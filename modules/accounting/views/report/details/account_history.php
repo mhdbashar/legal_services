@@ -88,16 +88,20 @@
               </td>
               <td>
 
-                  <a href="<?php  if($val['rel_id']!=0)
+                  <a href=" <?php
+                  if($val['rel_id']!=0)
                       if($val['rel_type']=='invoice')
-                      echo 'http://localhost/legalserv/admin/invoices/list_invoices/'. $val['rel_id'];
+                          echo admin_url('invoices/list_invoices/'. $val['rel_id']);
                   elseif($val['rel_type']=='journal_entry')
-                      echo 'http://localhost/legalserv/admin/accounting/journal_entry';
+                        echo admin_url('accounting/journal_entry');
                   elseif($val['rel_type']=='deposit')
                       echo  '#';
                       elseif($val['rel_type']=='payment')
-                          echo 'http://localhost/legalserv/admin/invoices#'. $val['rel_id'];
-                     else   echo '#'; ?>">
+                           echo admin_url('invoices#'. $val['rel_id']);
+
+                     else   echo '#';
+                     ?>
+                     ">
                       <?php echo html_entity_decode($val['type']); ?>
                   </a>
 

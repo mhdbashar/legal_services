@@ -10920,7 +10920,12 @@ class Accounting_model extends App_Model
             $_parent_index = $data_return['row_index'];
             if(count($value['details']) > 0 || count($value['child_account']) > 0){
                 $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' treegrid-parent-'.$parent_index.' parent-node expanded">
-                    <td class="parent">'.$value['name'].'</td>
+                    <td class="parent">
+                     <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   '.$value['name'].'
+              </span>
+                   
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>

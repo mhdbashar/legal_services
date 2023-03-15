@@ -1256,3 +1256,38 @@ function get_upload_path_by_type($type)
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);
 }
+function handle_message_upload($id)
+{
+    if (isset($_FILES['files']['name']) && $_FILES['files']['name'] != '') {
+    
+        $path = get_upload_path_by_type('company'). $id . '/';
+        // Get the temp file path
+        $CI   = & get_instance();
+        $tmpFilePath = $_FILES['files']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            // Getting file extension
+            $path_parts = pathinfo($_FILES['files']['name']);
+            $extension  = $path_parts['extension'];
+            $extension  = strtolower($extension);
+            // Setup our new file path
+            $filename    = $_FILES['files']['name'];
+            $newFilePath = $path . $filename;
+            _maybe_create_upload_path($path);
+            // Upload the file into the company uploads dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+            
+                return true;
+            }
+            $attachment   = [];
+            $attachment[] = [
+                'file_name' => $filename,
+                'filetype'  => $_FILES['files']['type'],
+                ];
+            $CI->misc_model->add_attachment_to_database($id, 'company',$attachment);
+        }
+    }
+    
+
+    return false;
+}

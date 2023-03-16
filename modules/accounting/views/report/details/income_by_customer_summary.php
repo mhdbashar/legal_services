@@ -63,7 +63,12 @@
           $total_net_income += $_income - $_expenses;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded">
-            <td class="parent"><?php echo get_company_name($value); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo get_company_name($value); ?>
+                   </span>
+
+            </td>
             <td class="total_amount"><?php echo app_format_money($_income, $currency->name); ?> </td>
             <td class="total_amount"><?php echo app_format_money($_expenses, $currency->name); ?> </td>
             <td class="total_amount"><?php echo app_format_money(($_income - $_expenses), $currency->name); ?> </td>
@@ -73,7 +78,12 @@
             $row_index += 1;
            ?>
         <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?>  parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total'); ?>
+                   </span>
+
+            </td>
             <td class="total_amount"><?php echo app_format_money($total_income, $currency->name); ?> </td>
             <td class="total_amount"><?php echo app_format_money($total_expenses, $currency->name); ?> </td>
             <td class="total_amount"><?php echo app_format_money($total_net_income, $currency->name); ?> </td>

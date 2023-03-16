@@ -100,7 +100,12 @@
            ?>
           
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px!important; margin-top: -10px  ">
+                <?php echo _l('total'); ?>
+                   </span>
+
+            </td>
             <td class="total_amount"><?php echo app_format_money($total_current, $currency->name); ?></td>
             <td class="total_amount"><?php echo app_format_money($total_1_30, $currency->name); ?></td>
             <td class="total_amount"><?php echo app_format_money($total_31_60, $currency->name); ?></td>

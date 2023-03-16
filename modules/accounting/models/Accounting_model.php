@@ -6424,9 +6424,7 @@ class Accounting_model extends App_Model
         $this->db->where('(account = '. $id .' or split = '. $id.')');
         $count = $this->db->count_all_results(db_prefix() . 'acc_account_history');
 
-        $account = $this->get_accounts($id);
-
-        if($count > 0 && $account->balance > 0){
+        if($count > 0){
             return 'have_transaction';
         }
 
@@ -9936,7 +9934,7 @@ class Accounting_model extends App_Model
         $this->db->select('id, number, name, parent_account, account_type_id, account_detail_type_id, balance, key_name, active, number, description, balance_as_of, '.$debit.', '.$credit.', default_account');
         if($CI->input->post('length') != -1)
             $this->db->limit(intval($CI->input->post('length')), intval($CI->input->post('start')));
-        $this->db->order_by('id', 'desc');
+        $this->db->order_by('account_type_id', 'desc');
 
         $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
 

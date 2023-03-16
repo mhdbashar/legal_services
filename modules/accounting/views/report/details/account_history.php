@@ -129,8 +129,8 @@
             </tr>
           <?php }
             $row_index += 1;
-           ?>
-      </tbody>
-    </table>
-  </div>
+            ?>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -106,7 +106,7 @@ class Messages extends AdminController
             $data['to_user_id']=$this->input->post('to_user_id');
           
            $data['from_user_id']=$data['from_user_id'].'_staff';
-     
+           
             if ($id == '') {
                 $id = $this->Messages_model->add($data);
                 
@@ -274,28 +274,7 @@ class Messages extends AdminController
     }
 
 
-    public function inbox_befor_alters($auto_select_index = "")
-    {
-
-        $view_data['mode'] = "inbox";
-        $view_data['auto_select_index'] = $auto_select_index;
-
- 
-        $this->load->view('admin/messages/index', $view_data);
-
-    }
-    public function sent_items_old($auto_select_index = "")
-    {
-
-        $view_data['mode'] = "sent_items";
-        $view_data['auto_select_index'] = $auto_select_index;
-
     
-        $this->load->view('admin/messages/index', $view_data);
-
-
-        
-    }
 
     function list_data($mode = "inbox") {
       
@@ -318,41 +297,6 @@ class Messages extends AdminController
     }
 
 
-    function view_view_old($message_id = 0, $mode = "sent_items", $reply = 0) {
-        
-    
-
-        $message_mode = $mode;
-        if ($reply == 1 && $mode == "inbox") {
-            $message_mode = "sent_items";
-        } else if ($reply == 1 && $mode == "sent_items") {
-            $message_mode = "inbox";
-        }
-
-        $options = array("id" => $message_id, "user_id" => 3, "mode" => $message_mode);
-        $view_data["message_info"] = $this->Messages_model->get_details($options)->row;
-     
-
-        //change message status to read
-        $this->Messages_model->set_message_status_as_read($view_data["message_info"]->id, 3);
-
-        $replies_options = array("message_id" => $message_id, "user_id" => 1, "limit" => 4);
-        $messages = $this->Messages_model->get_details($replies_options);
-
-        $view_data["replies"] = $messages->result;
-        $view_data["found_rows"] = $messages->found_rows;
-
-        $view_data["mode"] = $mode;
-        $view_data["is_reply"] = $reply;
-
-
-
-        $this->load->view('admin/messages/view', $view_data);
-        
-       
-
-        
-    }
     function view_view($message_id = 0, $mode = "sent_items", $reply = 0) {
         
     

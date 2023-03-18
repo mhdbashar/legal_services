@@ -38,6 +38,10 @@
                                    'name'=>_l('the_number_sign'),
                                    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
                                   ),
+                                 // array(
+                                  //  'name'=> 'المرسل',
+                                 //   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-fullname')
+                                 //  ), 
                                    array(
                                    'name'=> 'الموضوع',
                                    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-subject')

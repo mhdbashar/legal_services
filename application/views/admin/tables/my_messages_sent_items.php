@@ -9,7 +9,6 @@ $aColumns = [
     db_prefix() . 'messages.id as id',
     'subject',
     'to_user_id',
-  
 
 ];
 
@@ -29,10 +28,8 @@ $y = get_staff_user_id() . '_staff';
 
 $where = [];
 
-
-    $where = ['AND from_user_id like "' . $y . '" '];
-    array_push($where, 'AND message_id = 0 ');
- 
+$where = ['AND from_user_id like "' . $y . '" '];
+array_push($where, 'AND message_id = 0 ');
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
 
@@ -45,10 +42,10 @@ foreach ($rResult as $aRow) {
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
-  // $row[] = $aRow['to_user_id'];
+    // $row[] = $aRow['to_user_id'];
     $member = $model->GetSender_get($aRow['to_user_id']);
 
-   $row[] = $member->firstname . ' ' . $member->firstname;
+    $row[] = $member->firstname . ' ' . $member->lastname;
 
     if (has_permission('messages_manage', '', 'create') && has_permission('messages_manage', '', 'edit')) {
         $link = admin_url('messages/messagecu/' . $aRow['id']);

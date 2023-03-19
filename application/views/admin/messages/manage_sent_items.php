@@ -70,31 +70,17 @@
 </div>
 <?php init_tail(); ?>
 
-<?php
-if($mode == "sent_items"){
-?>
+
 
 <script>
    $(function(){
    			 initDataTable('.table-messages', admin_url + 'messages/sent_items', undefined, undefined, 'undefined', [0, 'desc']);
 	});
 </script>
-<?php
 
-}
-elseif($mode == "inbox"){
 
-?>
-<script>
-   $(function(){
-   			 initDataTable('.table-messages', admin_url + 'messages/inbox', undefined, undefined, 'undefined', [0, 'desc']);
-	});
-</script>
 
-<?php
-}
 
-?>
 
 
 

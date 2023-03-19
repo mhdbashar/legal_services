@@ -2,14 +2,13 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$custom_fields         = get_table_custom_fields('messages');
+$custom_fields = get_table_custom_fields('messages');
 
 $aColumns = [
     '1',
-    db_prefix() .'messages.id as id',
+    db_prefix() . 'messages.id as id',
     'subject',
     'from_user_id',
-    //'(SELECT  CONCAT(firstname,lastname)   FROM tblstaff  WHERE  tblstaff.staffid = tblmessages.from_user_id )  as fullname',
 
 ];
 
@@ -24,73 +23,58 @@ foreach ($custom_fields as $key => $field) {
 
 $filter = [];
 $sIndexColumn = 'id';
-$sTable       = db_prefix() . 'messages';
-$y=get_staff_user_id().'_staff';
+$sTable = db_prefix() . 'messages';
+$y = get_staff_user_id() . '_staff';
 
-    $where  = [];
+$where = [];
 
-    if($mode=="sent_items"){
-        $where  = ['AND from_user_id like "'.$y.'" ' ];
-        array_push($where, 'AND message_id = 0 ');
-    }
-    elseif($mode=="inbox"){
-        $where  = ['AND to_user_id like "'.$y.'" '];
-        array_push($where, 'AND message_id = 0 ');
+if ($mode == "sent_items") {
+    $where = ['AND from_user_id like "' . $y . '" '];
+    array_push($where, 'AND message_id = 0 ');
+} elseif ($mode == "inbox") {
+    $where = ['AND to_user_id like "' . $y . '" '];
+    array_push($where, 'AND message_id = 0 ');
 
-    }
-   
-
-
+}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
 
-$output  = $result['output'];
+$output = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
 
-
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
-    
 
+    $member = $model->GetSender($aRow['from_user_id']);
 
-    
-        $member = $model->GetSender($aRow['from_user_id']);
-       
-    $row[] = $member->firstname.' '.$member->firstname;
-    
+    $row[] = $member->firstname . ' ' . $member->lastname;
+
     if (has_permission('messages_manage', '', 'create') && has_permission('messages_manage', '', 'edit')) {
         $link = admin_url('messages/messagecu/' . $aRow['id']);
-    }else{
+    } else {
         $link = '#';
     }
     $_data = ' <a href="' . admin_url('Messages/view_view/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
     $_data .= '<div class="row-options">';
-   // if (has_permission('messages_manage', '', 'edit')) {
-       // $_data .= ' <a href="' . admin_url('Messages/messagescu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-   // }
+    // if (has_permission('messages_manage', '', 'edit')) {
+    // $_data .= ' <a href="' . admin_url('Messages/messagescu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    // }
     if (has_permission('system_messages', '', 'delete')) {
         $_data .= '  <a href="' . admin_url('Messages/messagesd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     //$row[] = $aRow['fullname'];
     $row[] = $_data;
 
-   
-
-
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
-            $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
-        }
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+    }
 
     $row['DT_RowClass'] = 'has-row-options';
 
-
     $output['aaData'][] = $row;
 }
-
-
-

@@ -35,7 +35,8 @@
                     <th class="th-project-name"><?php echo _l('الرقم'); ?></th>
 
 
-                    <th class="th-project-start-date"><?php echo _l('المستقبل'); ?> </th>
+
+                    <th class="th-project-start-date"><?php echo _l('المرسل'); ?></th>
 
 
                     <th class="th-project-start-date"><?php echo _l('الموضوع'); ?> </th>
@@ -53,7 +54,7 @@
                     <td>
                   <?php
 
-    $member = $model->GetSender($message['to_user_id']);
+    $member = $model->GetSender($message['from_user_id']);
     ?>
                   <?php echo $member->firstname . ' ' . $member->lastname; ?>
                      </td>

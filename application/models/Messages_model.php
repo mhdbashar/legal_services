@@ -190,14 +190,9 @@ class Messages_model extends App_Model
         $user_id = $this->get_clean_value($options, "user_id");
         $user_id = $user_id . '_client';
 
-        $notification_sql = "";
-        $is_notification = $this->get_clean_value($options, "is_notification");
-        if ($is_notification) {
-            $notification_sql = " ORDER BY timestamp($messages_table.created_at) DESC LIMIT 10 ";
-        }
-
         //ignor sql mode here
         $this->db->query("SET sql_mode = ''");
+
         if ($mode == 'inbox') {
             $sql = "select * from $messages_table where  to_user_id like '" . $user_id . "' AND message_id = 0";
         } elseif ($mode == 'sent_items') {

@@ -8,7 +8,7 @@ class Messages extends AdminController
     public function __construct()
     {
         parent::__construct();
-       
+
         $this->load->model('Messages_model');
         //check user's login status, if not logged in redirect to signin page
 
@@ -20,22 +20,13 @@ class Messages extends AdminController
     }
     public function get_staff()
     {
-      
-        $data['staff']= $this->Messages_model->get('', ['active' => 1]);
-        $data['contact']=$this->Messages_model->get_contact('', ['active' => 1]);
-       
+
+        $data['staff'] = $this->Messages_model->get('', ['active' => 1]);
+        $data['contact'] = $this->Messages_model->get_contact('', ['active' => 1]);
 
         return $data;
-       
+
     }
-
-
-
-
-
- 
-
-
 
     public function inbox()
     {
@@ -45,77 +36,63 @@ class Messages extends AdminController
             $this->app->get_table_data('my_messages', [
                 'mode' => $mode,
                 'model' => $model,
-              
+
             ]);
         }
 
+        // $options = array("user_id" => get_staff_user_id(), "mode" =>$mode );
+        // $data['messages'] = $this->Messages_model->get_list($options)->result_array();
 
-
-       // $options = array("user_id" => get_staff_user_id(), "mode" =>$mode );
-       // $data['messages'] = $this->Messages_model->get_list($options)->result_array();
-   
-     
         $data['title'] = 'المراسلات الداخلية';
         $data['mode'] = "inbox";
-      
-      
+
         $this->load->view('admin/messages/manage', $data);
 
     }
 
-
     public function sent_items()
     {
-      
+
         $mode = "sent_items";
         $model = $this->Messages_model;
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_messages_sent_items', [
                 'mode' => $mode,
                 'model' => $model,
-               
 
-               
-              
             ]);
         }
 
         //$options = array("user_id" => get_staff_user_id(), "mode" => $mode);
-       // $data['messages'] = $this->Messages_model->get_list_sent_items($options)->result_array();
-   
+        // $data['messages'] = $this->Messages_model->get_list_sent_items($options)->result_array();
 
         $data['title'] = 'المراسلات الداخلية';
         $data['mode'] = "sent_items";
-      
 
         $this->load->view('admin/messages/manage_sent_items', $data);
 
     }
-
-
-
-
 
     public function messagescu($id = '')
     {
         if (!has_permission('system_messages', '', 'create')) {
             access_denied('system_messages');
         }
-      
+
         if ($this->input->post()) {
             $data = $this->input->post();
             $data['files'] = $_FILES['files']['name'];
-            $data['to_user_id']=$this->input->post('to_user_id');
-          
-           $data['from_user_id']=$data['from_user_id'].'_staff';
-           
+            $data['to_user_id'] = $this->input->post('to_user_id');
+
+            $data['from_user_id'] = $data['from_user_id'] . '_staff';
+
             if ($id == '') {
                 $id = $this->Messages_model->add($data);
-                
+
                 if ($id) {
                     handle_message_upload($id);
-                    echo  handle_message_upload($id);
-                
+                    echo handle_message_upload($id);
+
                     set_alert('success', _l('added_successfully', _l('Message')));
                     redirect(admin_url('messages'));
                 }
@@ -131,74 +108,63 @@ class Messages extends AdminController
             $title = _l('ارسال رسالة', _l(''));
         } else {
             $data['Messages'] = $this->Messages_model->get($id);
-            $title                = _l('edit', _l('messages'));
+            $title = _l('edit', _l('messages'));
         }
 
-        
         $data['users_dropdown'] = array("" => "-");
-        
 
         $staffs = $this->get_staff()['staff'];
-        $contacts=$this->get_staff()['contact'];
+        $contacts = $this->get_staff()['contact'];
 
-        $data['staffs']=$staffs;
-        $data['contacts']=$contacts;
-
+        $data['staffs'] = $staffs;
+        $data['contacts'] = $contacts;
 
         foreach ($staffs as $staff) {
-          
-            if($staff->staffid == get_staff_user_id()){
+
+            if ($staff->staffid == get_staff_user_id()) {
                 continue;
             }
-           // get_client_user_id()
-            $user_name = $staff->firstname . " " . $staff->lastname.'.....موظف';
+            // get_client_user_id()
+            $user_name = $staff->firstname . " " . $staff->lastname . '.....موظف';
 
             $data['users_dropdown'][$staff->staffid] = $user_name;
-            
+
         }
         foreach ($contacts as $contact) {
-          
-            if($contact->id == get_contact_user_id()){
+
+            if ($contact->id == get_contact_user_id()) {
                 continue;
             }
-         
-            $user_name = $contact->firstname . " " . $contact->lastname.'......زبون';
+
+            $user_name = $contact->firstname . " " . $contact->lastname . '......زبون';
 
             $data['users_dropdown'][$contact->id] = $user_name;
         }
-
-
 
         $data['user_type'] = 'staff';
         $data['title'] = $title;
         $this->load->view('admin/messages/message', $data);
     }
 
-
-
-
-
-
-
     public function messagescu_client($id = '')
     {
         if (!has_permission('system_messages_client', '', 'create')) {
             access_denied('system_messages_client');
         }
-      
+
         if ($this->input->post()) {
             $data = $this->input->post();
             $data['files'] = $_FILES['files']['name'];
-            $data['to_user_id']=$this->input->post('to_user_id');
-          
-           $data['from_user_id']=$data['from_user_id'].'_staff';
+            $data['to_user_id'] = $this->input->post('to_user_id');
+
+            $data['from_user_id'] = $data['from_user_id'] . '_staff';
             if ($id == '') {
                 $id = $this->Messages_model->add($data);
-                
+
                 if ($id) {
                     handle_message_upload($id);
-                    echo  handle_message_upload($id);
-                
+                    echo handle_message_upload($id);
+
                     set_alert('success', _l('added_successfully', _l('Message')));
                     redirect(admin_url('messages'));
                 }
@@ -214,50 +180,29 @@ class Messages extends AdminController
             $title = _l('ارسال رسالة', _l(''));
         } else {
             $data['Messages'] = $this->Messages_model->get($id);
-            $title                = _l('edit', _l('messages'));
+            $title = _l('edit', _l('messages'));
         }
 
-        
         $data['users_dropdown'] = array("" => "-");
-        
 
-       
-        $contacts=$this->get_staff()['contact'];
+        $contacts = $this->get_staff()['contact'];
 
-    
-        $data['contacts']=$contacts;
-
+        $data['contacts'] = $contacts;
 
         foreach ($contacts as $contact) {
-          
-            if($contact->id == get_contact_user_id()){
+
+            if ($contact->id == get_contact_user_id()) {
                 continue;
             }
-         
-            $user_name = $contact->firstname . " " . $contact->lastname.'......زبون';
+
+            $user_name = $contact->firstname . " " . $contact->lastname . '......زبون';
 
             $data['users_dropdown'][$contact->id] = $user_name;
         }
 
-
-
-      
         $data['title'] = $title;
         $this->load->view('admin/messages/message_client', $data);
     }
-
-
-
-
-
-
-
-
-
-
-
-
- 
 
     public function messagesd($id)
     {
@@ -276,16 +221,12 @@ class Messages extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function list_data($mode = "inbox")
+    {
 
-    
-
-    function list_data($mode = "inbox") {
-      
         if ($mode !== "inbox") {
             $mode = "sent_items";
         }
-
-      
 
         $options = array("user_id" => get_staff_user_id(), "mode" => $mode);
         $list_data = $this->Messages_model->get_list($options)->result();
@@ -299,10 +240,8 @@ class Messages extends AdminController
         echo json_encode(array("data" => $result));
     }
 
-
-    function view_view($message_id = 0, $mode = "sent_items", $reply = 0) {
-        
-    
+    public function view_view($message_id = 0, $mode = "sent_items", $reply = 0)
+    {
 
         $message_mode = $mode;
         if ($reply == 1 && $mode == "inbox") {
@@ -313,14 +252,9 @@ class Messages extends AdminController
 
         $options = array("id" => $message_id, "user_id" => get_staff_user_id(), "mode" => $message_mode);
         $view_data["message_info"] = $this->Messages_model->get_details($options)->row;
-      
 
- 
-
-
- 
         //change message status to read
-       // $this->Messages_model->set_message_status_as_read($view_data["message_info"]->id, 3);
+        // $this->Messages_model->set_message_status_as_read($view_data["message_info"]->id, 3);
 
         $replies_options = array("message_id" => $message_id, "user_id" => get_staff_user_id());
         $messages = $this->Messages_model->get_details($replies_options);
@@ -330,16 +264,12 @@ class Messages extends AdminController
 
         $view_data["mode"] = $mode;
         $view_data["is_reply"] = $reply;
- $view_data['reply_messages']=$this->Messages_model->get_reply_all($message_id);
+        $view_data['reply_messages'] = $this->Messages_model->get_reply_all($message_id);
 
-
-  
         $this->load->view('admin/messages/view', $view_data);
-        
+
     }
 
-
-   
     protected function get_access_info($group)
     {
         $info = new \stdClass();
@@ -440,119 +370,98 @@ class Messages extends AdminController
         }
     }
 
-    public function  send_message() {
+    public function send_message()
+    {
         $data = $this->input->post();
         $data['from_user_id'] = get_staff_user_id();
-   
+
         $data['created_at'] = get_current_utc_time();
         $data['deleted_by_users'] = "1";
-        
 
-       $this->Messages_model->add($data);
-
-       
+        $this->Messages_model->add($data);
 
         redirect("admin/messages/inbox");
-      
+
     }
 
-
-     function is_my_message($message_info) {
+    public function is_my_message($message_info)
+    {
         if ($message_info->from_user_id == get_staff_user_id() || $message_info->to_user_id == get_staff_user_id()) {
             return true;
         }
     }
-    function reply() {
-        
-        
-      
-        
-        
-          
+    public function reply()
+    {
+
         $message_id = $this->input->post('message_id');
         $message_info = $this->Messages_model->get_one($message_id);
-           if ($message_info->id) {
+        if ($message_info->id) {
             //check, where we have to send this message
             $to_user_id = 0;
-            if ($message_info->from_user_id === get_staff_user_id().'_staff') {
+            if ($message_info->from_user_id === get_staff_user_id() . '_staff') {
                 $to_user_id = $message_info->to_user_id;
             } else {
                 $to_user_id = $message_info->from_user_id;
             }
 
-          
-           // $message = $this->request->getPost('message');
+            // $message = $this->request->getPost('message');
             $data['message'] = $this->input->post('description');
-      $data['files'] = $_FILES['files']['name'];
-         
+            $data['files'] = $_FILES['files']['name'];
+
             $message_data = array(
-                "from_user_id" => get_staff_user_id().'_staff',
+                "from_user_id" => get_staff_user_id() . '_staff',
                 "to_user_id" => $to_user_id,
                 "message_id" => $message_id,
-                 "message" => $data['message'],
-               // "created_at" => '',
+                "message" => $data['message'],
+                // "created_at" => '',
                 "files" => $data['files'],
-                
-                
+
             );
 
-         
             //don't clean serilized data
 
-
             $id = $this->Messages_model->add($message_data);
-                
+
             if ($id) {
                 handle_message_upload($id);
-                echo  handle_message_upload($id);
+                echo handle_message_upload($id);
                 $message_data = $this->Messages_model->get_one($id);
-                
-             
-               
+
             }
             echo json_encode($message_data);
 
-        }
-        else{
+        } else {
             echo json_encode(array("success" => true));
         }
-        
-    }
-    
-    function   reply_messages_all($message_id){
-         $data['result']=$this->Messages_model->get_reply_all($message_id);
-        
-    }
-    
-        function messages_notefication(){
 
-        $view=$this->input->post('view');
-        if($view !== ''){
+    }
+
+    public function reply_messages_all($message_id)
+    {
+        $data['result'] = $this->Messages_model->get_reply_all($message_id);
+
+    }
+
+    public function messages_notefication()
+    {
+
+        $view = $this->input->post('view');
+        if ($view !== '') {
             $this->Messages_model->update_notification($view);
 
         }
 
-        $count=$this->Messages_model->get_unread_messages();
-        
+        $count = $this->Messages_model->get_unread_messages();
+
         $data = array(
-           
-            'unseen_notification' => $count
-           );
 
-           echo json_encode($data);
+            'unseen_notification' => $count,
+        );
+
+        echo json_encode($data);
     }
-    
- 
-
-
 
 }
-
-
-
-
-
-
 
 /* End of file messages.php */
 /* Location: ./app/controllers/messages.php */

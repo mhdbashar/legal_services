@@ -35,7 +35,7 @@ class Messages extends ClientsController
         $options = array("user_id" => get_contact_user_id(), "mode" => $mode);
         $data['messages'] = $this->Messages_model->get_list_client_contacts($options)->result_array();
 
-        $data['title'] = 'messages';
+        $data['title'] = _l('internal_messages');
         $data['mode'] = "inbox";
         $data['model'] = $this->Messages_model;
 
@@ -53,7 +53,7 @@ class Messages extends ClientsController
         $data['messages'] = $this->Messages_model->get_list_client_contacts($options)->result_array();
         $data['model'] = $this->Messages_model;
 
-        $data['title'] = 'messages';
+        $data['title'] = _l('internal_messages');
         $data['mode'] = "sent_items";
 
         $this->view('messages/index');

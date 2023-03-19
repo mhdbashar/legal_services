@@ -43,7 +43,7 @@ class Messages extends AdminController
         // $options = array("user_id" => get_staff_user_id(), "mode" =>$mode );
         // $data['messages'] = $this->Messages_model->get_list($options)->result_array();
 
-        $data['title'] = 'المراسلات الداخلية';
+        $data['title'] = _l('internal_messages');
         $data['mode'] = "inbox";
 
         $this->load->view('admin/messages/manage', $data);
@@ -66,7 +66,7 @@ class Messages extends AdminController
         //$options = array("user_id" => get_staff_user_id(), "mode" => $mode);
         // $data['messages'] = $this->Messages_model->get_list_sent_items($options)->result_array();
 
-        $data['title'] = 'المراسلات الداخلية';
+        $data['title'] = _l('internal_messages');
         $data['mode'] = "sent_items";
 
         $this->load->view('admin/messages/manage_sent_items', $data);

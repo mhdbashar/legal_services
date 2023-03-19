@@ -1180,7 +1180,7 @@ $lang['permission_receive'] = "سماحية استقبال الرسائل";
 $lang['system_messages'] = "سماحيات ارسال الرسائل الى الموظفين";
 $lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
 $lang['staff_document_name'] = "أسم ممثل المنشأة";
-
+$lang['internal_messages'] = "المراسلات الداخلية";
 
 
 

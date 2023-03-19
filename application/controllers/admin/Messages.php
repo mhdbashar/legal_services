@@ -40,10 +40,11 @@ class Messages extends AdminController
     public function inbox()
     {
         $mode = "inbox";
-
+        $model = $this->Messages_model;
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_messages', [
                 'mode' => $mode,
+                'model' => $model,
               
             ]);
         }
@@ -54,9 +55,9 @@ class Messages extends AdminController
        // $data['messages'] = $this->Messages_model->get_list($options)->result_array();
    
      
-        $data['title'] = 'messages';
+        $data['title'] = 'المراسلات الداخلية';
         $data['mode'] = "inbox";
-        $data['user_type'] = "staff";
+      
       
         $this->load->view('admin/messages/manage', $data);
 
@@ -65,12 +66,13 @@ class Messages extends AdminController
 
     public function sent_items()
     {
-
+      
         $mode = "sent_items";
-     
+        $model = $this->Messages_model;
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_messages', [
+            $this->app->get_table_data('my_messages_sent_items', [
                 'mode' => $mode,
+                'model' => $model,
                
 
                
@@ -82,11 +84,11 @@ class Messages extends AdminController
        // $data['messages'] = $this->Messages_model->get_list_sent_items($options)->result_array();
    
 
-        $data['title'] = 'messages';
+        $data['title'] = 'المراسلات الداخلية';
         $data['mode'] = "sent_items";
-        $data['user_type'] = "staff";
+      
 
-        $this->load->view('admin/messages/manage', $data);
+        $this->load->view('admin/messages/manage_sent_items', $data);
 
     }
 
@@ -171,6 +173,7 @@ class Messages extends AdminController
         $data['title'] = $title;
         $this->load->view('admin/messages/message', $data);
     }
+
 
 
 

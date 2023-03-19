@@ -8,7 +8,8 @@ $aColumns = [
     '1',
     db_prefix() .'messages.id as id',
     'subject',
-    
+    'from_user_id',
+    //'(SELECT  CONCAT(firstname,lastname)   FROM tblstaff  WHERE  tblstaff.staffid = tblmessages.from_user_id )  as fullname',
 
 ];
 
@@ -49,9 +50,18 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
+
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
+    
+
+
+    
+        $member = $model->GetSender($aRow['from_user_id']);
+       
+    $row[] = $member->firstname.' '.$member->firstname;
+    
     if (has_permission('messages_manage', '', 'create') && has_permission('messages_manage', '', 'edit')) {
         $link = admin_url('messages/messagecu/' . $aRow['id']);
     }else{
@@ -65,6 +75,7 @@ foreach ($rResult as $aRow) {
     if (has_permission('system_messages', '', 'delete')) {
         $_data .= '  <a href="' . admin_url('Messages/messagesd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
+    //$row[] = $aRow['fullname'];
     $row[] = $_data;
 
    

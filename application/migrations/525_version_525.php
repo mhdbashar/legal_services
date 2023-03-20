@@ -16,7 +16,7 @@ class Migration_Version_525 extends CI_Migration
             `id` int(11) NOT NULL,
             `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Untitled',
             `message` mediumtext COLLATE utf8_unicode_ci NOT NULL,
-            `created_at` datetime NOT NULL,
+            `created_at` datetime NOT NULL DEFAULT current_timestamp(),
             `from_user_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
             `to_user_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
             `status` enum('unread','read') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'unread',

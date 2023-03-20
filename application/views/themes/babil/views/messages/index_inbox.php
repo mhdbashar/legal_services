@@ -33,7 +33,7 @@
             <thead>
                 <tr>
                     <th class="th-project-name"><?php echo _l('الرقم'); ?></th>
-
+                    <th class="th-project-name"><?php echo _l('التاريخ والوقت'); ?></th>
 
 
                     <th class="th-project-start-date"><?php echo _l('المرسل'); ?></th>
@@ -51,6 +51,7 @@
                 <tr>
 
                     <td><?php echo $message['id']; ?></td>
+                    <td><?php echo $message['created_at']; ?></td>
                     <td>
                   <?php
 

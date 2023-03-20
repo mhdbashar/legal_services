@@ -39,6 +39,10 @@ $_table_data = array(
         'th_attrs' => array('class' => 'toggleable', 'id' => 'th-number'),
     ),
     array(
+        'name' => _l('date'),
+        'th_attrs' => array('class' => 'toggleable', 'id' => 'th-created_at'),
+    ),
+    array(
         'name' => 'المرسل',
         'th_attrs' => array('class' => 'toggleable', 'id' => 'th-from_user_id'),
     ),

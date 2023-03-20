@@ -39,6 +39,10 @@
                                    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
                                   ),
                                   array(
+                                    'name' => _l('date'),
+                                    'th_attrs' => array('class' => 'toggleable', 'id' => 'th-created_at'),
+                                ),
+                                  array(
                                     'name'=> 'المستقبل',
                                     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-to_user_id')
                                    ),  

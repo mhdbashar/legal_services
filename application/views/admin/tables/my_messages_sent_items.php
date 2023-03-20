@@ -9,7 +9,7 @@ $aColumns = [
     db_prefix() . 'messages.id as id',
     'subject',
     'to_user_id',
-
+    'created_at',
 ];
 
 $join = [];
@@ -42,6 +42,7 @@ foreach ($rResult as $aRow) {
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
+    $row[] = $aRow['created_at'];
     // $row[] = $aRow['to_user_id'];
     $member = $model->GetSender_get($aRow['to_user_id']);
 

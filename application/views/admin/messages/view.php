@@ -32,25 +32,25 @@
 
                            <p class="font-weight-bold">
                            <?php
-                           if(isset($message_info->subject) && ($message_info->subject !== '')){
-                            echo $message_info->subject;
+if (isset($message_info->subject) && ($message_info->subject !== '')) {
+    echo $message_info->subject;
 
-                           }
-                            
-                             ?>
+}
+
+?>
                         </p>
 
                                             <div class="form-group green-border-focus">
   <label for="exampleFormControlTextarea5">نص الرسالة</label>
-  <textarea rows="5" cols="150" readonly class="form-control" id="exampleFormControlTextarea5" rows="3"> 
+  <textarea rows="5" cols="150" readonly class="form-control" id="exampleFormControlTextarea5" rows="3">
   <?php
-                           if(isset($message_info->message) && ($message_info->message !== '')){
-                            echo $message_info->message; 
+if (isset($message_info->message) && ($message_info->message !== '')) {
+    echo $message_info->message;
 
-                           }
-                            
-                             ?>
-    
+}
+
+?>
+
 </textarea>
 </div>
                  <?php
@@ -60,15 +60,13 @@ if (isset($message_info->files) && ($message_info->files !== null)) {
     ?>
                          <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) . $message_info->id . '/' . $message_info->files) ?>'>
 
-                         
 
-  
-                                
+
+
+
                                  <?php
 
-        echo $message_info->files;
-
-    
+    echo $message_info->files;
 
     ?>
                             </a>
@@ -87,38 +85,32 @@ if (isset($message_info->files) && ($message_info->files !== null)) {
                  <?php
 
 if (isset($reply_messages)) {
-    
-    foreach($reply_messages as $reply){
-        
+
+    foreach ($reply_messages as $reply) {
+
         ?>
         <div class="form-outline">
-  <textarea readonly class="form-control" id="textAreaExample1" rows="4"><?php   echo $reply->message; ?></textarea>
+  <textarea readonly class="form-control" id="textAreaExample1" rows="4"><?php echo $reply->message; ?></textarea>
   <label class="form-label" for="textAreaExample">الرسالة</label>
 </div>
-        
+
         <?php
-        
-    
-  $path = get_upload_path_by_type('company');
-    ?>
-                         <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) .  $reply->id . '/' .  $reply->files) ?>'><?php echo $reply->files ;?></a>
-  
+
+        $path = get_upload_path_by_type('company');
+        ?>
+                         <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) . $reply->id . '/' . $reply->files) ?>'><?php echo $reply->files; ?></a>
+
 
     <?php
-        
-        
-         
-        
-          
+
     }
-  
 
 }
 ?>
 
 <div class="reply_message">
-    
-    
+
+
 </div>
 
 
@@ -142,7 +134,7 @@ if (isset($reply_messages)) {
                     </div>
 
 						<button  type="submit" class="btn btn-info pull-right"><?php echo _l('رد على الرسالة'); ?></button>
-                    
+
 
                    </form>
 
@@ -179,7 +171,7 @@ if (isset($reply_messages)) {
 	$(document).ready(function(){
 
 		$('#reply_message').submit(function(e){
-		    e.preventDefault(); 
+		    e.preventDefault();
 		    let html='';
 		         $.ajax({
 		              url: "<?php echo admin_url('messages/reply'); ?>",
@@ -191,28 +183,28 @@ if (isset($reply_messages)) {
 		             cache:false,
 		             async:false,
 		              success: function(data){
-		               
-		               
+
+
 		                                     html += '<div class="form-group green-border-focus">';
-                                
-                                    
-                                   
-                                        
+
+
+
+
                                      html += '<label for="exampleFormControlTextarea5">نص الرسالة</label>';
    html +='<textarea rows="5" cols="150" readonly class="form-control tinymce" id="exampleFormControlTextarea5" rows="3">';
                    html += data.message;
                html+='</textarea>';
                html+='<a target="_blank" href="<?php echo site_url() ?>uploads/company/'+data.id+'/'+data.files+'">'+data.files+'</a>';
-               
-             
+
+
                  $('.reply_message').append(html);
 		           }
 		         });
 		    });
-		
+
 
 	});
- 
+
 </script>
 
 

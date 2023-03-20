@@ -39,7 +39,7 @@ $_table_data = array(
         'th_attrs' => array('class' => 'toggleable', 'id' => 'th-number'),
     ),
     array(
-        'name' => _l('date'),
+        'name' => _l('date_time'),
         'th_attrs' => array('class' => 'toggleable', 'id' => 'th-created_at'),
     ),
     array(

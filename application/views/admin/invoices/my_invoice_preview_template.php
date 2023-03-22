@@ -466,7 +466,7 @@
 
 
 </script>
-<?php if($this->app_modules->is_active('telegram_chat')) { ?>
+<?php if($this->app_modules->is_active('accounting')) { ?>
     <script>
 
         function convert(invoker){

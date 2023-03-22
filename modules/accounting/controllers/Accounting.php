@@ -2249,7 +2249,7 @@ class Accounting extends AdminController
      * convert
      * @return json
      */
-    public function convert(){
+    public function convert($from_invoice = ''){
         if (!has_permission('accounting_transaction', '', 'create')) {
             access_denied('accounting');
         }
@@ -2259,6 +2259,10 @@ class Accounting extends AdminController
             $message = _l('successfully_converted');
         }else {
             $message = _l('conversion_failed');
+        }
+        if($from_invoice != ''){
+            set_alert('success', _l('successfully'));
+            redirect(admin_url('invoices#'.$from_invoice));
         }
         echo json_encode(['success' => $success, 'message' => $message]);
         die();

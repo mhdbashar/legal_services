@@ -7911,18 +7911,18 @@ class Accounting_model extends App_Model
                 $balance += ($v['debit'] - $v['credit']);
             }
             $data_report[] =   [
-                            'date' => date('Y-m-d', strtotime($v['date'])),
-                            'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
-                            'type' => _l($v['rel_type']),
-                            'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
-                            'description' => $v['description'],
-                            'customer' => $v['customer'],
-                            'decrease' => $decrease,
-                            'increase' => $increase,
-                            'balance' => $balance,
-                            'rel_id' => $rel_id,
-                            'rel_type' => $rel_type,
-                        ];
+                'date' => date('Y-m-d', strtotime($v['date'])),
+                'split' => $v['split'] != 0 ? (isset($account_name[$v['split']]) ? $account_name[$v['split']] : '') : '-Split-',
+                'type' => _l($v['rel_type']),
+                'name' => (isset($account_name[$v['account']]) ? $account_name[$v['account']] : ''),
+                'description' => $v['description'],
+                'customer' => $v['customer'],
+                'decrease' => $decrease,
+                'increase' => $increase,
+                'balance' => $balance,
+                'rel_id' => $rel_id,
+                'rel_type' => $rel_type,
+            ];
         }
 
         return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date, 'account_type' => $info_account->account_type_id];
@@ -11437,10 +11437,13 @@ class Accounting_model extends App_Model
 
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$name.'
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  '.$name.'
+                   </span>
+             
               </td>
               <td>
-              '.$val['type'].'
+               '.$val['type'].'
               </td>
               <td>
               '.$val['detail_type'].'
@@ -11557,7 +11560,12 @@ class Accounting_model extends App_Model
             $_parent_index = $data_return['row_index'];
             if(count($value['details']) > 0 || count($value['child_account']) > 0){
                 $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
-                    <td class="parent">'.$value['name'].'</td>
+                    <td class="parent">
+                    <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  '.$value['name'].'
+                   </span>
+                   
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -11688,7 +11696,11 @@ class Accounting_model extends App_Model
             $total_credit = $val['credit'];
             $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
               <td>
-              '.$val['name'].'
+              
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                    '.$val['name'].'
+                   </span>
+            
               </td>
               <td class="total_amount">
               '.app_format_money($val['debit'], $currency->name).'
@@ -11804,7 +11816,12 @@ class Accounting_model extends App_Model
             $_parent_index = $data_return['row_index'];
             if(count($value['details']) > 0 || count($value['child_account']) > 0){
                 $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
-                    <td class="parent">'.$value['name'].'</td>
+                    <td class="parent">
+                    <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   '.$value['name'].'
+                   </span>
+                  
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -11946,7 +11963,12 @@ class Accounting_model extends App_Model
             $_parent_index = $data_return['row_index'];
             if(count($value['details']) > 0 || count($value['child_account']) > 0){
                 $data_return['html'] .= '<tr class="treegrid-'.$_parent_index.' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' parent-node expanded">
-                    <td class="parent">'.$value['name'].'</td>
+                    <td class="parent">
+                    <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  '.$value['name'].'
+                   </span>
+                   
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>

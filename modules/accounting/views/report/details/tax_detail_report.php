@@ -64,7 +64,12 @@
          $total = 0; 
          ?>
          <tr class="treegrid-10000 parent-node expanded">
-            <td class="parent"><?php echo _l('tax_collected_on_sales'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('tax_collected_on_sales'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -108,7 +113,12 @@
            ?>
           
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_for', _l('tax_collected_on_sales')); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_for', _l('tax_collected_on_sales')); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -123,7 +133,13 @@
          $total = 0; 
          ?>
          <tr class="treegrid-10001 parent-node expanded">
-            <td class="parent"><?php echo _l('total_taxable_sales_in_period_before_tax'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_taxable_sales_in_period_before_tax'); ?>
+                   </span>
+
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -167,7 +183,12 @@
            ?>
           
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_for', _l('total_taxable_sales_in_period_before_tax')); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_for', _l('total_taxable_sales_in_period_before_tax')); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -179,7 +200,12 @@
           <?php $row_index += 1; 
            $total = 0; ?>
           <tr class="treegrid-10000 parent-node expanded">
-            <td class="parent"><?php echo _l('tax_reclaimable_on_purchases'); ?></td>
+            <td class="parent">
+<span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('tax_reclaimable_on_purchases'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -223,7 +249,12 @@
            ?>
           
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_for', _l('tax_reclaimable_on_purchases')); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('total_for', _l('tax_reclaimable_on_purchases')); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -235,7 +266,12 @@
           <?php $row_index += 1; 
            $total = 0; ?>
           <tr class="treegrid-10001 parent-node expanded">
-            <td class="parent"><?php echo _l('total_taxable_purchases_in_period_before_tax'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('total_taxable_purchases_in_period_before_tax'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -279,7 +315,12 @@
            ?>
           
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_for', _l('total_taxable_purchases_in_period_before_tax')); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_for', _l('total_taxable_purchases_in_period_before_tax')); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>

@@ -97,7 +97,10 @@
                   elseif($val['rel_type']=='deposit')
                       echo  '#';
                       elseif($val['rel_type']=='payment')
-                           echo admin_url('invoices#'. $val['rel_id']);
+                        //  #invoice_payments_received
+                           echo admin_url('invoices/list_invoices/'. $val['rel_id']);
+                      elseif($val['rel_type']=='expense')
+                          echo admin_url('expenses/list_expenses/'. $val['rel_id']);
 
                      else   echo '#';
                      ?>

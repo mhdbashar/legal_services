@@ -53,7 +53,7 @@ foreach ($rResult as $aRow) {
     } else {
         $link = '#';
     }
-    $_data = ' <a href="' . admin_url('Messages/view_view/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+    $_data = ' <a href="' . admin_url('Messages/view_view_sent_items/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
     $_data .= '<div class="row-options">';
     // if (has_permission('messages_manage', '', 'edit')) {
     // $_data .= ' <a href="' . admin_url('Messages/messagescu/' . $aRow['id']) . '">' . _l('edit') . '</a>';

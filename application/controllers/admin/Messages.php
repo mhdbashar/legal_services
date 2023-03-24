@@ -265,8 +265,39 @@ class Messages extends AdminController
         $view_data["mode"] = $mode;
         $view_data["is_reply"] = $reply;
         $view_data['reply_messages'] = $this->Messages_model->get_reply_all($message_id);
+        $view_data['model']= $this->Messages_model;
 
         $this->load->view('admin/messages/view', $view_data);
+
+    }
+    public function view_view_sent_items($message_id = 0, $mode = "sent_items", $reply = 0)
+    {
+
+        $message_mode = $mode;
+        if ($reply == 1 && $mode == "inbox") {
+            $message_mode = "sent_items";
+        } else if ($reply == 1 && $mode == "sent_items") {
+            $message_mode = "inbox";
+        }
+
+        $options = array("id" => $message_id, "user_id" => get_staff_user_id(), "mode" => $message_mode);
+        $view_data["message_info"] = $this->Messages_model->get_details($options)->row;
+
+        //change message status to read
+        // $this->Messages_model->set_message_status_as_read($view_data["message_info"]->id, 3);
+
+        $replies_options = array("message_id" => $message_id, "user_id" => get_staff_user_id());
+        $messages = $this->Messages_model->get_details($replies_options);
+
+        $view_data["replies"] = $messages->result;
+        $view_data["found_rows"] = $messages->found_rows;
+
+        $view_data["mode"] = $mode;
+        $view_data["is_reply"] = $reply;
+        $view_data['reply_messages'] = $this->Messages_model->get_reply_all($message_id);
+        $view_data['model']= $this->Messages_model;
+
+        $this->load->view('admin/messages/view_sent_items', $view_data);
 
     }
 
@@ -402,6 +433,7 @@ class Messages extends AdminController
                 $to_user_id = $message_info->to_user_id;
             } else {
                 $to_user_id = $message_info->from_user_id;
+
             }
 
             // $message = $this->request->getPost('message');
@@ -417,7 +449,7 @@ class Messages extends AdminController
                 "files" => $data['files'],
 
             );
-
+            $from_user_id = get_staff_user_id() . '_staff';
             //don't clean serilized data
 
             $id = $this->Messages_model->add($message_data);
@@ -426,9 +458,10 @@ class Messages extends AdminController
                 handle_message_upload($id);
                 echo handle_message_upload($id);
                 $message_data = $this->Messages_model->get_one($id);
-
+                $member = $this->Messages_model->GetSender($from_user_id);
             }
-            echo json_encode($message_data);
+            echo json_encode(array('member' => $member, 'message' => $message_data));
+       // echo json_encode($message_data);
 
         } else {
             echo json_encode(array("success" => true));

@@ -122,10 +122,12 @@ class Messages_model extends App_Model
     {
 
         $this->db->where('relid', $id);
-        $this->db->where('fieldto', 'message'); //judge is the name of belong to in custom fields table
+        $this->db->where('fieldto', 'message'); //message is the name of belong to in custom fields table
         $this->db->delete(db_prefix() . 'customfieldsvalues');
 
         $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'messages');
+        $this->db->where('message_id', $id);
         $this->db->delete(db_prefix() . 'messages');
         if ($this->db->affected_rows() > 0) {
             log_activity('Message Deleted [' . $id . ']');
@@ -354,7 +356,7 @@ class Messages_model extends App_Model
     }
     public function GetSender($id)
     {
-        //proccess id to extract staff or client
+        //proccess id to extract staff or client from from_use_id
 
         if (str_contains($id, 'staff')) {
 
@@ -380,7 +382,7 @@ class Messages_model extends App_Model
 
     public function GetSender_get($id)
     {
-        //proccess id to extract staff or client
+        //proccess id to extract staff or client from      to_use_id
 
         if (str_contains($id, 'staff')) {
 

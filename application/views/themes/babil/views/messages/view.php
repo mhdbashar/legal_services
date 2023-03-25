@@ -95,9 +95,11 @@
 if (isset($reply_messages)) {
     
     foreach($reply_messages as $reply){
-        
+        echo '<br><br>';
+        $member = $model->GetSender($reply->from_user_id);
+        echo $member->firstname . ' ' . $member->lastname;
         ?>
-           
+                                <br>
         <label class="form-label" for="textAreaExample">الرسالة</label>
         <div class="form-outline">
   <textarea readonly class="form-control" id="textAreaExample1" rows="4"><?php   echo $reply->message; ?></textarea>
@@ -197,7 +199,10 @@ if (isset($reply_messages)) {
 		             cache:false,
 		             async:false,
 		              success: function(data){
-		                 
+                        html += '<br>';
+                html += data.member.firstname;
+                html += ' ';
+                html += data.member.lastname;
 		               
 		              
 		                                     html += '<div class="form-group green-border-focus">';
@@ -207,9 +212,9 @@ if (isset($reply_messages)) {
                                         
                                      html += '<label for="exampleFormControlTextarea5">نص الرسالة</label>';
    html +='<textarea rows="5" cols="150" readonly class="form-control tinymce" id="exampleFormControlTextarea5" rows="3">';
-                   html += data.message;
+                   html += data.message.message;
                html+='</textarea>';
-               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/company/'+data.id+'/'+data.files+'">'+data.files+'</a>';
+               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/company/'+data.message.id+'/'+data.message.files+'">'+data.message.files+'</a>';
                
              
                  $('.reply_message').append(html);

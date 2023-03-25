@@ -182,7 +182,7 @@ class Messages extends ClientsController
         $view_data["mode"] = $mode;
         $view_data["is_reply"] = $reply;
         $view_data['reply_messages'] = $this->Messages_model->get_reply_all($message_id);
-
+        $view_data['model']= $this->Messages_model;
         $this->view('messages/view');
         $this->data($view_data);
         $this->layout();
@@ -234,7 +234,7 @@ class Messages extends ClientsController
                 "files" => $data['files'],
 
             );
-
+            $from_user_id = get_contact_user_id() . '_client';
             //don't clean serilized data
 
             $id = $this->Messages_model->add($message_data);
@@ -245,7 +245,9 @@ class Messages extends ClientsController
                 $message_data = $this->Messages_model->get_one($id);
 
             }
-            echo json_encode($message_data);
+            $member = $this->Messages_model->GetSender($from_user_id);
+            echo json_encode(array('member' => $member, 'message' => $message_data));
+           // echo json_encode($message_data);
 
         } else {
             echo json_encode(array("success" => true));

@@ -80,7 +80,7 @@ if (isset($message_info->files) && ($message_info->files !== null)) {
 
                                 <?php
 
-if (isset($reply_messages)) {
+if (isset($reply_messages) && ($reply_messages !== '')) {
 
     foreach ($reply_messages as $reply) {
         echo '<br><br>';

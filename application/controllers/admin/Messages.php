@@ -213,6 +213,7 @@ class Messages extends AdminController
             redirect(admin_url('Messages/messagecu'));
         }
         $response = $this->Messages_model->delete($id);
+        
         if ($response == true) {
             set_alert('success', _l('deleted', _l('Message')));
         } else {
@@ -301,105 +302,9 @@ class Messages extends AdminController
 
     }
 
-    protected function get_access_info($group)
-    {
-        $info = new \stdClass();
-        $info->access_type = "";
-        $info->allowed_members = array();
-        $info->allowed_ticket_types = array();
-        $info->allowed_client_groups = array();
-        $info->module_group = $group;
 
-        //admin users has access to everything
-        if ($this->login_user->is_admin) {
-            $info->access_type = "all";
-        } else {
 
-            //not an admin user? check module wise access permissions
-            $module_permission = get_array_value($this->login_user->permissions, $group);
-
-            if ($module_permission === "all") {
-                //this user's has permission to access/manage everything of this module (same as admin)
-                $info->access_type = "all";
-            } else if ($module_permission === "specific" || $module_permission === "specific_excluding_own") {
-                //this user's has permission to access/manage sepcific items of this module
-
-                $info->access_type = "specific";
-                $module_permission = get_array_value($this->login_user->permissions, $group . "_specific");
-                $permissions = explode(",", $module_permission);
-
-                //check the accessable users list
-                if ($group === "leave" || $group === "attendance" || $group === "team_member_update_permission" || $group === "timesheet_manage_permission" || $group == "message_permission" || $group == "timeline_permission") {
-                    $info->allowed_members = prepare_allowed_members_array($permissions, $this->login_user->id);
-                } else if ($group === "ticket") {
-                    //check the accessable ticket types
-                    $info->allowed_ticket_types = $permissions;
-                } else if ($group === "client") {
-                    //check the accessable client groups
-                    $info->allowed_client_groups = $permissions;
-                }
-            } else if ($module_permission === "own" || $module_permission === "read_only" || $module_permission === "assigned_only" || $module_permission === "own_project_members" || $module_permission === "own_project_members_excluding_own") {
-                $info->access_type = $module_permission;
-            }
-        }
-        return $info;
-    }
-
-    public function make_row($data = null, $mode = "", $return_only_message = false, $online_status = false)
-    {
-        $image_url = "http://localhost:8012/codeigniter4/assets/images/avatar.jpg";
-        $created_at = $data->created_at;
-        $message_id = $data->main_message_id;
-        $label = "";
-        $reply = "";
-        $status = "";
-        $attachment_icon = "";
-        $subject = $data->subject;
-        if ($mode == "inbox") {
-            $status = $data->status;
-        }
-
-        if ($data->reply_subject) {
-            $label = " <label class='badge bg-success d-inline-block'>reply</label>";
-            $reply = "1";
-            $subject = $data->reply_subject;
-        }
-
-        if ($data->files && is_array(unserialize($data->files)) && count(unserialize($data->files))) {
-            $attachment_icon = "<i data-feather='paperclip' class='icon-14 mr15'></i>";
-        }
-
-        //prepare online status
-        $online = "";
-        if ($online_status) {
-            $online = "<i class='online'></i>";
-        }
-
-        $message = "<div class='message-row $status' data-id='$message_id' data-index='$data->main_message_id' data-reply='$reply'><div class='d-flex'><div class='flex-shrink-0'>
-                        <span class='avatar avatar-xs'>
-                            <img src='$image_url' />
-                                $online
-                        </span>
-                    </div>
-                    <div class='w-100 ps-3'>
-                        <div class='mb5'>
-                            <strong> $data->user_name</strong>
-                                  <span class='text-off float-end time'>$attachment_icon $created_at</span>
-                        </div>
-                        $label $subject
-                    </div></div></div>
-
-                ";
-        if ($return_only_message) {
-            return $message;
-        } else {
-            return array(
-                $message,
-                $data->created_at,
-                $status,
-            );
-        }
-    }
+    
 
     public function send_message()
     {
@@ -461,7 +366,7 @@ class Messages extends AdminController
                 $member = $this->Messages_model->GetSender($from_user_id);
             }
             echo json_encode(array('member' => $member, 'message' => $message_data));
-       // echo json_encode($message_data);
+     
 
         } else {
             echo json_encode(array("success" => true));
@@ -493,6 +398,7 @@ class Messages extends AdminController
 
         echo json_encode($data);
     }
+   
 
 }
 

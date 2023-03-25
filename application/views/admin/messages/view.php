@@ -57,7 +57,7 @@ if (isset($message_info->message) && ($message_info->message !== '')) {
                                 <?php
 
 if (isset($message_info->files) && ($message_info->files !== null)) {
-    $path = get_upload_path_by_type('company');
+    $path = get_upload_path_by_type('message');
     ?>
                                 <br>
                                 <a target="_blank"
@@ -96,7 +96,7 @@ if (isset($reply_messages) && ($reply_messages !== '')) {
 
                                 <?php
 
-        $path = get_upload_path_by_type('company');
+        $path = get_upload_path_by_type('message');
         ?>
                                 <br>
                                 <a target="_blank"
@@ -187,7 +187,7 @@ $(document).ready(function() {
                 html += data.message.message;
                 html += '</textarea>';
                 html +=
-                    '<a target="_blank" href="<?php echo site_url() ?>uploads/company/' +
+                    '<a target="_blank" href="<?php echo site_url() ?>uploads/message/' +
                     data.message.id + '/' + data.message.files + '">' + data.message.files +
                     '</a>';
 
@@ -200,7 +200,12 @@ $(document).ready(function() {
 
 });
 </script>
-
+<script>
+	$(function(){
+        $("[name='description']").attr("required", true);
+	
+	});
+</script>
 
 </body>
 

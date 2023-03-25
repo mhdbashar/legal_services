@@ -1175,6 +1175,10 @@ function get_upload_path_by_type($type)
             $path = TRANSACTION_ATTACHMENTS_FOLDER;
 
         break;
+        
+        case 'message':
+            $path = MESSAGE_FILES_FOLDER;
+            break;
         case 'project':
             $path = PROJECT_ATTACHMENTS_FOLDER;
 
@@ -1260,7 +1264,7 @@ function handle_message_upload($id)
 {
     if (isset($_FILES['files']['name']) && $_FILES['files']['name'] != '') {
     
-        $path = get_upload_path_by_type('company'). $id . '/';
+        $path = get_upload_path_by_type('message'). $id . '/';
         // Get the temp file path
         $CI   = & get_instance();
         $tmpFilePath = $_FILES['files']['tmp_name'];
@@ -1274,7 +1278,7 @@ function handle_message_upload($id)
             $filename    = $_FILES['files']['name'];
             $newFilePath = $path . $filename;
             _maybe_create_upload_path($path);
-            // Upload the file into the company uploads dir
+            // Upload the file into the message uploads dir
             if (move_uploaded_file($tmpFilePath, $newFilePath)) {
             
                 return true;
@@ -1284,7 +1288,7 @@ function handle_message_upload($id)
                 'file_name' => $filename,
                 'filetype'  => $_FILES['files']['type'],
                 ];
-            $CI->misc_model->add_attachment_to_database($id, 'company',$attachment);
+            $CI->misc_model->add_attachment_to_database($id, 'message',$attachment);
         }
     }
     

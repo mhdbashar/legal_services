@@ -129,6 +129,13 @@ class Messages_model extends App_Model
         $this->db->delete(db_prefix() . 'messages');
         $this->db->where('message_id', $id);
         $this->db->delete(db_prefix() . 'messages');
+
+       
+           delete_dir(get_upload_path_by_type('message') . $id) ;
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'message');
+                $this->db->delete(db_prefix() . 'files');
+           
         if ($this->db->affected_rows() > 0) {
             log_activity('Message Deleted [' . $id . ']');
 
@@ -382,7 +389,7 @@ class Messages_model extends App_Model
 
     public function GetSender_get($id)
     {
-        //proccess id to extract staff or client from      to_use_id
+        //proccess id to extract staff or client from  to_use_id
 
         if (str_contains($id, 'staff')) {
 
@@ -404,6 +411,21 @@ class Messages_model extends App_Model
 
         }
 
+    }
+    public function delete_message_attachment($id)
+    {
+        if (is_dir(get_upload_path_by_type('message') . $id)) {
+            if (delete_dir(get_upload_path_by_type('message') . $id)) {
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'message');
+                $this->db->delete(db_prefix() . 'files');
+                log_activity('Message Doc Deleted [ProcID: ' . $id . ']');
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

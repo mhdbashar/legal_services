@@ -66,7 +66,7 @@
                     <?php 
                    
                     if(isset($message_info->files) && ($message_info->files !== '')){
-                         $path= get_upload_path_by_type('company');
+                         $path= get_upload_path_by_type('message');
                         ?>
                          <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path). $message_info->id . '/' . $message_info->files)      ?>'>
                             
@@ -109,7 +109,7 @@ if (isset($reply_messages)) {
         <?php
         
     
-  $path = get_upload_path_by_type('company');
+  $path = get_upload_path_by_type('message');
     ?>
  <br> 
                          <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) .  $reply->id . '/' .  $reply->files) ?>'><?php echo $reply->files ;?></a>
@@ -214,7 +214,7 @@ if (isset($reply_messages)) {
    html +='<textarea rows="5" cols="150" readonly class="form-control tinymce" id="exampleFormControlTextarea5" rows="3">';
                    html += data.message.message;
                html+='</textarea>';
-               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/company/'+data.message.id+'/'+data.message.files+'">'+data.message.files+'</a>';
+               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/message/'+data.message.id+'/'+data.message.files+'">'+data.message.files+'</a>';
                
              
                  $('.reply_message').append(html);
@@ -230,7 +230,9 @@ if (isset($reply_messages)) {
 	});
 	
 </script>
-
+<script>
+$("[name='description']").attr("required", true);
+</script>
 
 
 </body>

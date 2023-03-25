@@ -56,7 +56,7 @@ if (isset($message_info->message) && ($message_info->message !== '')) {
                  <?php
 
 if (isset($message_info->files) && ($message_info->files !== null)) {
-    $path = get_upload_path_by_type('company');
+    $path = get_upload_path_by_type('message');
     ?>
     <br>
                          <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) . $message_info->id . '/' . $message_info->files) ?>'>
@@ -89,8 +89,8 @@ if (isset($reply_messages)) {
 
     foreach ($reply_messages as $reply) {
         echo '<br><br>';
-        $member=$model->GetSender($reply->from_user_id);
-        echo  $member->firstname . ' ' . $member->lastname;
+        $member = $model->GetSender($reply->from_user_id);
+        echo $member->firstname . ' ' . $member->lastname;
         ?>
        <br><br>
         <div class="form-outline">
@@ -101,7 +101,7 @@ if (isset($reply_messages)) {
 
         <?php
 
-        $path = get_upload_path_by_type('company');
+        $path = get_upload_path_by_type('message');
         ?>
         <br>
                          <a target="_blank" href='<?php echo site_url(protected_file_url_by_path($path) . $reply->id . '/' . $reply->files) ?>'><?php echo $reply->files; ?></a>
@@ -192,11 +192,11 @@ html+=data.member.lastname;
 
 
 
-                                  
+
    html +='<textarea rows="5" cols="150" readonly class="form-control tinymce" id="exampleFormControlTextarea5" rows="3">';
                    html += data.message.message;
                html+='</textarea>';
-               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/company/'+data.message.id+'/'+data.message.files+'">'+data.message.files+'</a>';
+               html+='<a target="_blank" href="<?php echo site_url() ?>uploads/message/'+data.message.id+'/'+data.message.files+'">'+data.message.files+'</a>';
 
 
                  $('.reply_message').append(html);
@@ -209,7 +209,12 @@ html+=data.member.lastname;
 
 </script>
 
-
+<script>
+	$(function(){
+        $("[name='description']").attr("required", true);
+	
+	});
+</script>
 
 
 

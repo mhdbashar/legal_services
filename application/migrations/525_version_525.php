@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Version_523 extends CI_Migration
+class Migration_Version_525 extends CI_Migration
 {
     public function __construct()
     {
@@ -10,7 +10,6 @@ class Migration_Version_523 extends CI_Migration
     }
     public function up()
     {
-
 
         if(!get_option('calendar_only_assigned_sessions')) {
             add_option('calendar_only_assigned_sessions', 0);
@@ -23,5 +22,6 @@ class Migration_Version_523 extends CI_Migration
         if(!get_option('calendar_sessions_color')) {
             add_option('calendar_sessions_color', '#072377');
         }
+
     }
 }

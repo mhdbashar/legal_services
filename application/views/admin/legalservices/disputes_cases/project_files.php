@@ -8,10 +8,17 @@
   <label class="onoffswitch-label" for="pf_visible_to_customer"></label>
 </div>
 <div class="text-right" style="margin-top:-25px;">
-   <button class="gpicker" data-on-pick="projectFileGoogleDriveSave">
-    <i class="fa fa-google" aria-hidden="true"></i>
-    <?php echo _l('choose_from_google_drive'); ?>
-  </button>
+    <?php if (get_option('google_client_id') != '' && get_option('enable_google_picker') == '1') {?>
+        <button id="authorize_button" onclick="createGooglePicker()">
+            <i class="fa fa-google" aria-hidden="true"></i>
+            <?php echo _l('choose_from_google_drive'); ?>
+        </button>
+    <?php }?>
+
+<!--    <button class="gpicker" data-on-pick="projectFileGoogleDriveSave">-->
+<!--    <i class="fa fa-google" aria-hidden="true"></i>-->
+<!--    --><?php //echo _l('choose_from_google_drive'); ?>
+<!--  </button>-->
   <div id="dropbox-chooser"></div>
 </div>
 <div class="clearfix"></div>
@@ -141,3 +148,79 @@
    </table>
    <div id="project_file_data"></div>
    <?php include_once(APPPATH . 'views/admin/clients/modals/send_file_modal.php'); ?>
+<?php if (get_option('google_client_id') != '' && get_option('enable_google_picker') == '1') {?>
+    <script>
+        let tokenClient;
+        let accessToken = null;
+
+        function gisLoaded() {
+            const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+            const CLIENT_ID = '<?=get_option("google_client_id")?>';
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+            });
+        }
+        function createGooglePicker() {
+            tokenClient.callback = async (response) => {
+                if (response.error !== undefined) {
+                    throw (response);
+                }
+                accessToken = response.access_token;
+                await createPicker();
+            };
+
+            if (accessToken === null) {
+                // Prompt the user to select a Google Account and ask for consent to share their data
+                // when establishing a new session.
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                // Skip display of account chooser and consent dialog for an existing session.
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+        function createPicker() {
+            const view = new google.picker.View(google.picker.ViewId.DOCS);
+            const APP_ID = '';
+            const API_KEY = app.options.google_api;
+            // view.setMimeTypes('image/png,image/jpeg,image/jpg');
+            const picker = new google.picker.PickerBuilder()
+                .enableFeature(google.picker.Feature.NAV_HIDDEN)
+                .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                .setDeveloperKey(API_KEY)
+                .setAppId(APP_ID)
+                .setOAuthToken(accessToken)
+                .addView(view)
+                .addView(new google.picker.DocsUploadView())
+                .setCallback(pickerCallback)
+                .build();
+            picker.setVisible(true);
+        }
+
+        async function pickerCallback(data) {
+            if (data.action === google.picker.Action.PICKED) {
+                const doc = data[google.picker.Response.DOCUMENTS][0];
+                var retVal = [];
+                retVal.push({
+                    name: doc[google.picker.Document.NAME],
+                    link: doc[google.picker.Document.URL],
+                    mime: doc[google.picker.Document.MIME_TYPE],
+                    thumbnailLink: doc[google.picker.Document.thumbnailLink],
+                });
+                projectFileGoogleDriveSave(retVal);
+
+            }
+        }
+
+        function gapiLoaded() {
+            gapi.load('client:picker', initializePicker);
+        }
+
+        async function initializePicker() {
+            await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+        }
+
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+<?php }?>

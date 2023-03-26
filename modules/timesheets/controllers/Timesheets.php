@@ -423,9 +423,9 @@ public function day_off(){
 					
 					unset($data['time_sheet']);
 
-					$add = $this->timesheets_model->add_update_timesheet($ts_val, true);
+                    $success = $this->timesheets_model->add_update_timesheet($ts_val, true);
 
-					$success = $this->timesheets_model->latch_timesheet($month_latch);
+//					$success = $this->timesheets_model->latch_timesheet($month_latch);
 
 					if($success){
 						set_alert('success',_l('timekeeping_latch_successful'));

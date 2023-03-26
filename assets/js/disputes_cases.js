@@ -355,7 +355,7 @@ function projectFileGoogleDriveSave(pickData) {
     saveProjectExternalFile(pickData, 'gdrive');
 }
 function saveProjectExternalFile(files, externalType) {
-    $.post(admin_url + 'projects/add_external_file', {
+    $.post(admin_url + 'legalservices/disputes_cases/add_external_file', {
         files: files,
         project_id: project_id,
         external: externalType,

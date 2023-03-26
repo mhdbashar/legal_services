@@ -35,8 +35,8 @@
             _l('session_assigned'),
             _l('Court'),
             //_l('session_info'),
-            _l('Customer_report'),
-            _l('Send_to_customer'),
+//            _l('Customer_report'),
+//            _l('Send_to_customer'),
             _l('session_date'),
             _l('session_time'),
         ];

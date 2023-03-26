@@ -180,12 +180,12 @@ function add_dropbox_js_assets($group = 'admin')
 function add_google_api_js_assets($group = 'admin')
 {
     if (get_option('enable_google_picker') == '1') {
-        get_instance()->app_scripts->add('google-js', [
-            'path'       => 'https://apis.google.com/js/api.js?onload=onGoogleApiLoad',
-            'attributes' => [
-                'defer',
-            ],
-        ], $group);
+//        get_instance()->app_scripts->add('google-js', [
+//            'path'       => 'https://apis.google.com/js/api.js?onload=onGoogleApiLoad',
+//            'attributes' => [
+//                'defer',
+//            ],
+//        ], $group);
     }
 }
 

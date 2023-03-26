@@ -88,7 +88,7 @@
             echo '</div>';
             } ?>
          <div class="clearfix"></div>
-         <?php if($task->status != Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('sessions','','edit') || $task->current_user_is_creator)){ ?>
+         <?php /* if($task->status != Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('sessions','','edit') || $task->current_user_is_creator)){ ?>
          <p class="no-margin pull-left" style="<?php echo 'margin-'.(is_rtl() ? 'left' : 'right').':5px !important'; ?>">
             <a href="#" class="btn btn-info" id="task-single-mark-complete-btn" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" onclick="session_mark_complete(<?php echo $task->id; ?>); return false;" data-toggle="tooltip" title="<?php echo _l('task_single_mark_as_complete'); ?>">
             <i class="fa fa-check"></i>
@@ -100,7 +100,7 @@
             <i class="fa fa-check"></i>
             </a>
          </p>
-         <?php } ?>
+         <?php } */?>
          <?php if(has_permission('sessions','','create') && count($task->timesheets) > 0){ ?>
          <p class="no-margin pull-left mright5">
             <a href="#" class="btn btn-default mright5" data-toggle="tooltip" data-title="<?php echo _l('task_statistics'); ?>" onclick="session_tracking_stats(<?php echo $task->id; ?>); return false;">
@@ -547,7 +547,7 @@
                      </a>
                   </li>
                   <?php } ?>
-                  <?php if(has_permission('sessions','','create')){ ?>
+                  <?php /* if(has_permission('sessions','','create')){ ?>
                   <?php
                      $copy_template = "";
                      if(count($task->assignees) > 0){
@@ -574,7 +574,7 @@
                      $copy_template .= "</div>";
                      ?>
                   <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a></li>
-                  <?php } ?>
+                  <?php } */ ?>
                   <?php if(has_permission('sessions','','delete')){ ?>
                   <li>
                      <a href="<?php echo admin_url('legalservices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
@@ -606,6 +606,7 @@
             <br />
             <?php } else { ?>
             <small class="text-dark"><?php echo _l('task_created_at','<span class="text-dark">'._dt($task->dateadded).'</span>'); ?></small>
+                <br />
             <?php } ?>
          </h5>
          <hr class="task-info-separator" />
@@ -648,14 +649,10 @@
          <?php } ?>
          <div class="task-info task-single-inline-wrap task-info-start-date">
             <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
-               <?php echo _l('task_single_start_date'); ?>:
-               <?php if(has_permission('sessions','','edit') && $task->status !=5) { ?>
-               <input name="startdate" tabindex="-1" value="<?php echo _d($task->startdate); ?>" id="task-single-startdate" class="task-info-inline-input-edit datepicker pointer task-single-inline-field">
-               <?php } else { ?>
-               <?php echo _d($task->startdate); ?>
-               <?php } ?>
+               <?php echo _l('session_date').' : '. _d($task->startdate); ?>
             </h5>
          </div>
+          <!--
          <div class="task-info task-info-due-date task-single-inline-wrap<?php if(!$task->duedate && !has_permission('edit','','tasks')){echo ' hide';} ?>"<?php if(!$task->duedate){ echo ' style="opacity:0.5;"';} ?>>
             <h5>
                <i class="fa fa-calendar-check-o task-info-icon fa-fw fa-lg pull-left"></i>
@@ -674,6 +671,7 @@
                <?php } ?>
             </h5>
          </div>
+         -->
         <?php /* <div class="task-info task-info-priority">
             <h5>
                <i class="fa task-info-icon fa-fw fa-lg pull-left fa-bolt"></i>
@@ -944,10 +942,17 @@
          <?php echo form_open_multipart('admin/legalservices/sessions/upload_file',array('id'=>'task-attachment','class'=>'dropzone')); ?>
          <?php echo form_close(); ?>
          <div class="mtop10 text-right">
-            <button class="gpicker mbot5">
-            <i class="fa fa-google" aria-hidden="true"></i>
-            <?php echo _l('choose_from_google_drive'); ?>
-            </button>
+             <?php if (get_option('google_client_id') != '' && get_option('enable_google_picker') == '1') {?>
+                 <button class="mbot5" id="authorize_button" onclick="createGooglePicker()" >
+                     <i class="fa fa-google" aria-hidden="true"></i>
+                     <?php echo _l('choose_from_google_drive'); ?>
+                 </button>
+             <?php }?>
+
+<!--             <button class="gpicker mbot5">-->
+<!--            <i class="fa fa-google" aria-hidden="true"></i>-->
+<!--            --><?php //echo _l('choose_from_google_drive'); ?>
+<!--            </button>-->
             <div id="dropbox-chooser-task"></div>
          </div>
       </div>

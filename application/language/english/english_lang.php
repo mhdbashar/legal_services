@@ -3889,6 +3889,9 @@ $lang['not_sessions_added_you_as_follower'] = 'added you as follower on session 
 $lang['sessions_send_contact_notification'] = 'Send the session report and requests to :';
 $lang['sessions_send_all_contacts_with_notifications_enabled'] = 'For all contacts with alerts enabled';
 $lang['sessions_contacts_to_notify'] = 'Choose contacts';
+$lang['show_sessions_on_calendar'] = 'Session';
+$lang['calendar_only_assigned_sessions'] = 'Calendar Only Assigned Sessions';
+$lang['calendar_sessions_color'] = 'Session Color';
 
 
 

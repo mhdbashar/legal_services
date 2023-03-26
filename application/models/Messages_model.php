@@ -135,6 +135,8 @@ class Messages_model extends App_Model
                 $this->db->where('rel_id', $id);
                 $this->db->where('rel_type', 'message');
                 $this->db->delete(db_prefix() . 'files');
+
+                
            
         if ($this->db->affected_rows() > 0) {
             log_activity('Message Deleted [' . $id . ']');

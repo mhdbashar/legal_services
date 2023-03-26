@@ -1268,6 +1268,7 @@ function handle_message_upload($id)
         $tmpFilePath = $_FILES['files']['tmp_name'];
         // Make sure we have a filepath
         if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
             // Getting file extension
             $path_parts = pathinfo($_FILES['files']['name']);
             $extension = $path_parts['extension'];
@@ -1275,7 +1276,7 @@ function handle_message_upload($id)
             // Setup our new file path
             $filename = $_FILES['files']['name'];
             $newFilePath = $path . $filename;
-            _maybe_create_upload_path($path);
+            
             // Upload the file into the message uploads dir
             if (move_uploaded_file($tmpFilePath, $newFilePath)) {
 

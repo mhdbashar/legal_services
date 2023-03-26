@@ -91,7 +91,7 @@ class Messages extends AdminController
 
                 if ($id) {
                     handle_message_upload($id);
-                    echo handle_message_upload($id);
+                  //  echo handle_message_upload($id);
 
                     set_alert('success', _l('added_successfully', _l('Message')));
                     redirect(admin_url('messages'));

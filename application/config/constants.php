@@ -245,6 +245,10 @@ define('CASE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cases' . '/');
  * Case files attachments
  */
 define('OSERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/oservices' . '/');
+/**
+ * Company attachments, favicon, logo etc..
+ */
+define('MESSAGE_FILES_FOLDER', FCPATH . 'uploads/message' . '/');
 
 define('ISERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/imported_services' . '/');
 /**

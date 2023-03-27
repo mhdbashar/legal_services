@@ -294,7 +294,7 @@
     }
 
     #forwardToModal ul.groupsList li span {
-        position: absolute;
+        position: relative;
         margin-top: 8px;
         margin-left: 8px;
     }

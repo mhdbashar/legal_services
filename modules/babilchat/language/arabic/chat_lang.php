@@ -3,7 +3,7 @@
 
 
 # General
-
+$lang['chat_non_selected_member_text'] = 'إختر الأعضاء';
 $lang['chat_last_seen'] = 'أخر ظهور';
 $lang['chat_message_you'] = 'أنت:';
 $lang['chat_message_deleted'] = 'تم حذف هذه الرسالة';

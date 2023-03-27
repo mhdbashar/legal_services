@@ -127,25 +127,19 @@ class Messages_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'messages');
-
-        if (is_dir(get_upload_path_by_type('message') . $id)) {
-            if (delete_dir(get_upload_path_by_type('message') . $id)) {
-                $this->db->where('rel_id', $id);
-                $this->db->where('rel_type', 'message');
-                $this->db->delete(db_prefix() . 'files');
-                log_activity('Message Doc Deleted [ProcID: ' . $id . ']');
-
-                return true;
-            }
-        }
-
-       // $this->db->where('message_id', $id);
-        
-      //  $this->db->delete(db_prefix() . 'messages');
-
-
-
         if ($this->db->affected_rows() > 0) {
+            if (is_dir(get_upload_path_by_type('message') . $id)) {
+                if (delete_dir(get_upload_path_by_type('message') . $id)) {
+                    $this->db->where('rel_id', $id);
+                    $this->db->where('rel_type', 'message');
+                    $this->db->delete(db_prefix() . 'files');
+
+                }
+            }
+
+            $this->db->where('message_id', $id);
+            $this->db->delete(db_prefix() . 'messages');
+
             log_activity('Message Deleted [' . $id . ']');
 
             return true;

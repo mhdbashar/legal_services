@@ -1172,12 +1172,12 @@ $lang['select_regular_duration'] = "اختيار مدة نظامية";
 
 
 $lang['customer_permission_messages_see'] = "البريد الوارد فقط";
-$lang['see_email_only'] = "البريد الوارد فقط";
+$lang['see_email_only'] = "الرسائل الداخلية - البريد الوارد";
 $lang['customer_permission_messages'] = "التراسل";
 $lang['permission_create_to_client'] = "ارسال الرسال الى الزبائن";
-$lang['system_messages_client'] = "سماحيات ارسال الرسائل الى الزبائن";
+$lang['system_messages_client'] = "الرسائل الداخلية - العملاء";
 $lang['permission_receive'] = "سماحية استقبال الرسائل";
-$lang['system_messages'] = "سماحيات ارسال الرسائل الى الموظفين";
+$lang['system_messages'] = "الرسائل الداخلية - الموظفين";
 $lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
 $lang['staff_document_name'] = "أسم ممثل المنشأة";
 $lang['internal_messages'] = "المراسلات الداخلية";

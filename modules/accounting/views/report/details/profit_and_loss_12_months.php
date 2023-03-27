@@ -84,7 +84,12 @@
           $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_income'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                        <?php echo _l('acc_income'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -109,7 +114,12 @@
             ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_income'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('total_income'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -125,7 +135,12 @@
             $parent_index = $row_index;
           ?>
            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_cost_of_sales'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                        <?php echo _l('acc_cost_of_sales'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -146,7 +161,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_cost_of_sales'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('total_cost_of_sales'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -160,7 +180,12 @@
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('gross_profit_uppercase'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('gross_profit_uppercase'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -176,7 +201,12 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_other_income'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                      <?php echo _l('acc_other_income'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -197,7 +227,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_other_income_loss'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('total_other_income_loss'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -213,7 +248,12 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_expenses'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('acc_expenses'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -234,7 +274,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_expenses'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                         <?php echo _l('total_expenses'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -250,7 +295,13 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_other_expenses'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                      <?php echo _l('acc_other_expenses'); ?>
+                </span>
+
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -271,7 +322,12 @@
             $row_index += 1;
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_other_expenses'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('total_other_expenses'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);
@@ -285,7 +341,12 @@
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('net_earnings_uppercase'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                       <?php echo _l('net_earnings_uppercase'); ?>
+                </span>
+
+            </td>
             <?php 
             $start = $month = strtotime($data_report['from_date']);
             $end = strtotime($data_report['to_date']);

@@ -273,7 +273,12 @@
           ?>
         </tr>
         <tr class="treegrid-1000 parent-node expanded">
-          <td class="parent"><?php echo _l('acc_assets'); ?></td>
+          <td class="parent">
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('acc_assets'); ?>
+                   </span>
+
+          </td>
           <?php echo $html_column; ?>
           <td></td>
         </tr>
@@ -285,7 +290,12 @@
           $total_current_assets = 0;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1000 parent-node expanded">
-            <td class="parent"><?php echo _l('acc_current_assets'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_current_assets'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td></td>
           </tr>
@@ -293,7 +303,12 @@
           $row_index += 1;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_accounts_receivable'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_accounts_receivable'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td></td>
           </tr>
@@ -308,7 +323,12 @@
             $row_index += 1;
            ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_accounts_receivable'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_accounts_receivable'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td class="total_amount"><?php echo app_format_money($data['total_amount'], $currency->name); ?> </td>
           </tr>
@@ -327,7 +347,12 @@
             $row_index += 1;
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1000 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_current_assets'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_current_assets'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td class="total_amount"><?php echo app_format_money($total_current_assets, $currency->name); ?> </td>
           </tr>
@@ -337,7 +362,12 @@
             $total_long_term_assets = 0;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1000 parent-node expanded">
-            <td class="parent"><?php echo _l('long_term_assets'); ?></td>
+            <td class="parent">
+             <span style="margin-right: 24px!important; margin-top: -10px  ">
+                <?php echo _l('long_term_assets'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td></td>
           </tr>
@@ -355,7 +385,12 @@
             $row_index += 1;
             ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1000 parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_long_term_assets'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_long_term_assets'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td class="total_amount"><?php echo app_format_money($total_long_term_assets, $currency->name); ?> </td>
           </tr>
@@ -363,7 +398,12 @@
             $row_index += 1;
             ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> tr_total">
-            <td class="parent"><?php echo _l('total_assets'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('total_assets'); ?>
+                   </span>
+
+            </td>
             <?php echo $html_column; ?>
             <td class="total_amount"><?php echo app_format_money($total_current_assets + $total_long_term_assets, $currency->name); ?> </td>
           </tr>
@@ -371,7 +411,12 @@
             $row_index += 1;
             ?>
             <tr class="treegrid-1001 parent-node expanded">
-              <td class="parent"><?php echo _l('liabilities_and_shareholders_equity'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('liabilities_and_shareholders_equity'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td></td>
             </tr>
@@ -381,13 +426,23 @@
             $total_current_liabilities = 0;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
-              <td class="parent"><?php echo _l('acc_current_liabilities'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_current_liabilities'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td></td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-              <td class="parent"><?php echo _l('accounts_payable'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('accounts_payable'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td></td>
             </tr>
@@ -400,7 +455,12 @@
               ?>
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> tr_total">
-              <td class="parent"><?php echo _l('total_accounts_payable'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_accounts_payable'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td class="total_amount"><?php echo app_format_money($data['total_amount'], $currency->name); ?> </td>
             </tr>
@@ -417,7 +477,12 @@
             ?>
            
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
-              <td class="parent"><?php echo _l('total_current_liabilities'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_current_liabilities'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td class="total_amount"><?php echo app_format_money($total_current_liabilities, $currency->name); ?> </td>
             </tr>
@@ -428,7 +493,12 @@
             $total_non_current_liabilities = 0;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
-              <td class="parent"><?php echo _l('acc_non_current_liabilities'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('acc_non_current_liabilities'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td></td>
             </tr>
@@ -441,7 +511,12 @@
 
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
-              <td class="parent"><?php echo _l('total_non_current_liabilities'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_non_current_liabilities'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td class="total_amount"><?php echo app_format_money($total_non_current_liabilities, $currency->name); ?> </td>
             </tr>
@@ -452,7 +527,12 @@
             $total_shareholders_equity = $data_report['net_income'];
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-1001 parent-node expanded">
-              <td class="parent"><?php echo _l('shareholders_equity'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('shareholders_equity'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td></td>
             </tr>
@@ -476,13 +556,23 @@
 
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1001 tr_total">
-              <td class="parent"><?php echo _l('total_shareholders_equity'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_shareholders_equity'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td class="total_amount"><?php echo app_format_money($total_shareholders_equity, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> tr_total">
-              <td class="parent"><?php echo _l('total_liabilities_and_equity'); ?></td>
+              <td class="parent">
+                  <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('total_liabilities_and_equity'); ?>
+                   </span>
+
+              </td>
               <?php echo $html_column; ?>
               <td class="total_amount"><?php echo app_format_money($total_shareholders_equity + $total_non_current_liabilities + $total_current_liabilities, $currency->name); ?> </td>
             </tr>

@@ -728,7 +728,6 @@ class Accounting extends AdminController
         $data['account_types'] = $this->accounting_model->get_account_types();
         $data['detail_types'] = $this->accounting_model->get_account_type_details();
         $data['accounts'] = $this->accounting_model->get_accounts();
-
         $this->load->view('chart_of_accounts/manage', $data);
     }
 
@@ -887,11 +886,6 @@ class Accounting extends AdminController
                 }elseif($ft_active == 'no'){
                     array_push($where, 'AND active = 0');
                 }
-                else{
-                    array_push($where, 'AND active IN (1,0)');
-
-
-                }
             }
             if ($this->input->post('ft_account')) {
                 $ft_account = $this->input->post('ft_account');
@@ -927,7 +921,6 @@ class Accounting extends AdminController
             $result       = $this->accounting_model->get_account_data_tables($aColumns, $sIndexColumn, $sTable, $join, $where, ['number', 'description', 'balance_as_of', $debit, $credit, 'default_account']);
             $output  = $result['output'];
             $rResult = $result['rResult'];
-
 
             foreach ($rResult as $aRow) {
                 $row   = [];
@@ -971,13 +964,6 @@ class Accounting extends AdminController
                 }else{
                     $row[] = '';
                 }
-
-
-
-
-
-
-
                 $row[] = isset($account_type_name[$aRow['account_type_id']]) ? $account_type_name[$aRow['account_type_id']] : '';
                 $row[] = isset($detail_type_name[$aRow['account_detail_type_id']]) ? $detail_type_name[$aRow['account_detail_type_id']] : '';
                 if($aRow['account_type_id'] == 11 || $aRow['account_type_id'] == 12 || $aRow['account_type_id'] == 8 || $aRow['account_type_id'] == 9 || $aRow['account_type_id'] == 10 || $aRow['account_type_id'] == 7){
@@ -1002,7 +988,7 @@ class Accounting extends AdminController
                 $row[] = $_data;
 
                 $options = '';
-                if(true){
+                if(in_array($aRow['account_type_id'], $array_history)){
                     $options = icon_btn(admin_url('accounting/rp_account_history?account='.$aRow['id']), 'history', 'btn-default', [
                         'title' => _l('account_history'),
                     ]);
@@ -2263,7 +2249,7 @@ class Accounting extends AdminController
      * convert
      * @return json
      */
-    public function convert(){
+    public function convert($from_invoice = ''){
         if (!has_permission('accounting_transaction', '', 'create')) {
             access_denied('accounting');
         }
@@ -2273,6 +2259,10 @@ class Accounting extends AdminController
             $message = _l('successfully_converted');
         }else {
             $message = _l('conversion_failed');
+        }
+        if($from_invoice != ''){
+            set_alert('success', _l('successfully'));
+            redirect(admin_url('invoices#'.$from_invoice));
         }
         echo json_encode(['success' => $success, 'message' => $message]);
         die();
@@ -3232,8 +3222,7 @@ class Accounting extends AdminController
                 $this->db->where('account', $id);
                 $count = $this->db->count_all_results(db_prefix().'acc_account_history');
                 if($count > 0){
-                    if($account->balance != 0)
-                        $account->balance = 1;
+                    $account->balance = 1;
                 }
             }
         }
@@ -3867,7 +3856,7 @@ class Accounting extends AdminController
         $this->db->where('id', $this->input->post('account'));
         $account = $this->db->get(db_prefix() . 'acc_accounts')->row();
         if(is_object($account)){
-            $account_name = _l($account->name ? $account->name : $account->key_name);
+            $account_name = _l($account->name);
         }
         $data['account_name'] = $account_name;
         $this->load->view('report/details/'.$data_filter['type'], $data);

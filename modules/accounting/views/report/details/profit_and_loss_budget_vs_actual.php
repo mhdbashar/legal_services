@@ -51,7 +51,12 @@
           $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_income'); ?></td>
+            <td class="parent">
+              <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_income'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"></td>
@@ -70,7 +75,12 @@
             ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_income'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('total_income'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_income, $currency->name); ?> </td>
@@ -80,7 +90,12 @@
             $parent_index = $row_index;
           ?>
            <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_cost_of_sales'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('acc_cost_of_sales'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -95,7 +110,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_cost_of_sales'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_cost_of_sales'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_cost_of_sales, $currency->name); ?> </td>
@@ -103,7 +123,12 @@
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('gross_profit_uppercase'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('gross_profit_uppercase'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_income - $total_cost_of_sales, $currency->name); ?> </td>
@@ -113,7 +138,12 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_other_income'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_other_income'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -128,7 +158,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_other_income_loss'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('total_other_income_loss'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_other_income, $currency->name); ?> </td>
@@ -138,7 +173,12 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_expenses'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                 <?php echo _l('acc_expenses'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -153,7 +193,12 @@
            ?>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_expenses'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_expenses'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_expenses, $currency->name); ?> </td>
@@ -163,7 +208,12 @@
             $parent_index = $row_index;
           ?>
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo _l('acc_other_expenses'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('acc_other_expenses'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -178,7 +228,12 @@
             $row_index += 1;
           ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('total_other_expenses'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo _l('total_other_expenses'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total_other_expenses, $currency->name); ?> </td>
@@ -186,7 +241,12 @@
           </tr>
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('net_earnings_uppercase'); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                   <?php echo _l('net_earnings_uppercase'); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td class="total_amount"><?php echo app_format_money(($total_income + $total_other_income) - ($total_cost_of_sales + $total_expenses + $total_other_expenses), $currency->name); ?> </td>

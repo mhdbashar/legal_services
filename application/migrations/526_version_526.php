@@ -11,6 +11,7 @@ class Migration_Version_526 extends CI_Migration
     public function up()
     {
 
+
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblmessages` (
             `id` int(11) NOT NULL,
             `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Untitled',

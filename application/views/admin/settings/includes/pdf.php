@@ -40,6 +40,16 @@
         <hr />
         <?php echo render_input('settings[pdf_logo_width]','pdf_logo_width',get_option('pdf_logo_width'),'number'); ?>
         <hr />
+		    <?php echo render_input('settings[custom_pdf_header_image_url]','settings_custom_pdf_header_image_url',get_option('custom_pdf_header_image_url'),'text',array('data-toggle'=>'tooltip','title'=>'settings_custom_pdf_header_image_url_tooltip')); ?>
+        <hr />
+		  <?php echo render_input('settings[pdf_header_logo_width]','pdf_header_logo_width',get_option('pdf_header_logo_width'),'number'); ?>
+        <hr />
+		     <?php echo render_input('settings[custom_pdf_footer_image_url]','settings_custom_pdf_footer_image_url',get_option('custom_pdf_footer_image_url'),'text',array('data-toggle'=>'tooltip','title'=>'settings_custom_pdf_footer_image_url_tooltip')); ?>
+        <hr />
+		  <?php echo render_input('settings[pdf_footer_logo_width]','pdf_footer_logo_width',get_option('pdf_footer_logo_width'),'number'); ?>
+        <hr />
+		
+		
         <?php render_yes_no_option('show_status_on_pdf_ei',_l('show_status_on_pdf',_l('invoice').'/'._l('estimate').'/'._l('credit_note'))); ?>
         <hr />
 

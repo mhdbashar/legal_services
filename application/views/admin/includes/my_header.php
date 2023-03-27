@@ -59,6 +59,13 @@ ob_end_clean();
                                 <?php echo _l('whats_on_your_mind'); ?>
                             </a>
                         </li>
+
+                        <li class="icon header-newsfeed">
+         <a href="<?php echo admin_url('messages/inbox'); ?>"  data-toggle="tooltip" title="<?php echo _l('البريد'); ?>" data-placement="bottom"><i class="fa fa-envelope fa-fw fa-lg" aria-hidden="true"></i>
+		  <span class="message-noti label bg-warning icon-total-indicator"></span>
+		 </a>
+		 
+      </li>
                     <?php } ?>
                     <li class="header-logout"><a href="#" onclick="logout(); return false;"><?php echo _l('nav_logout'); ?></a></li>
                 </ul>
@@ -74,6 +81,9 @@ ob_end_clean();
                 <a href="#" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="false">
                     <?php echo staff_profile_image($current_user->staffid,array('img','img-responsive','staff-profile-image-small','pull-left')); ?>
                 </a>
+
+       
+
                 <ul class="dropdown-menu animated fadeIn">
                     <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>"><?php echo _l('nav_my_profile'); ?></a></li>
                     <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li>
@@ -99,6 +109,14 @@ ob_end_clean();
                 <li class="icon header-newsfeed">
                     <a href="#" class="open_newsfeed desktop" data-toggle="tooltip" title="<?php echo _l('whats_on_your_mind'); ?>" data-placement="bottom"><i class="fa fa-share fa-fw fa-lg" aria-hidden="true"></i></a>
                 </li>
+                <?php if ((has_permission('system_messages', '', 'create')) ||(has_permission('system_messages_client', '', 'create') || (has_permission('see_email_only', '', 'view')) )) { ?>
+                    <li class="icon header-newsfeed">
+         <a href="<?php echo admin_url('messages/inbox'); ?>"  data-toggle="tooltip" title="<?php echo _l('البريد'); ?>" data-placement="bottom"><i class="fa fa-envelope fa-fw fa-lg" aria-hidden="true"></i>
+           <span class="message-noti label bg-warning icon-total-indicator"></span>
+         
+         </a>
+      </li>
+            <?php } ?>
             <?php } ?>
             <li class="icon header-todo">
                 <a href="<?php echo admin_url('todo'); ?>" data-toggle="tooltip" title="<?php echo _l('nav_todo_items'); ?>" data-placement="bottom"><i class="fa fa-check-square-o fa-fw fa-lg"></i>
@@ -116,9 +134,11 @@ ob_end_clean();
                     <?php $this->load->view('admin/tasks/started_timers',array('startedTimers'=>$startedTimers)); ?>
                 </ul>
             </li>
+   
             <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip" title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
                 <?php $this->load->view('admin/includes/notifications'); ?>
             </li>
+        
         </ul>
     </nav>
 </div>

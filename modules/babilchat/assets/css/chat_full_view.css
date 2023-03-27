@@ -2342,7 +2342,7 @@ body #frame .active_group_members {
 
 #frame .chat_groups_list .leave_chat_group {
     position: absolute;
-    right: 0;
+    left: 0;
     font-size: 13px;
     padding-top: 0;
     padding-left: 10px;

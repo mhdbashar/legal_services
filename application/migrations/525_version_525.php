@@ -10,10 +10,8 @@ class Migration_Version_525 extends CI_Migration
     }
     public function up()
     {
-
-        // Add tblregular_durations table
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblmessages` (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `id` int(11) NOT NULL ,
             `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Untitled',
             `message` mediumtext COLLATE utf8_unicode_ci NOT NULL,
             `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -26,6 +24,11 @@ class Migration_Version_525 extends CI_Migration
             `deleted_by_users` text COLLATE utf8_unicode_ci NOT NULL,
              PRIMARY KEY (`id`)
           )  ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
+		  
+		   if ($this->db->field_exists('id', db_prefix() . 'messages')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'messages` MODIFY COLUMN `id` auto_increment');
+        }
+
 
 
 

@@ -13,7 +13,7 @@ class Migration_Version_525 extends CI_Migration
 
         // Add tblregular_durations table
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblmessages` (
-            `id` int(11) NOT NULL,
+            `id` int(11) NOT NULL AUTO_INCREMENT,
             `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Untitled',
             `message` mediumtext COLLATE utf8_unicode_ci NOT NULL,
             `created_at` datetime NOT NULL DEFAULT current_timestamp(),

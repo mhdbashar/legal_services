@@ -26,8 +26,6 @@ class Migration_Version_525 extends CI_Migration
           )  ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 		  
 
-        $this->db->query("ALTER TABLE `tblmessages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;");
 
 
 

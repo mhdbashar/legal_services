@@ -25,9 +25,9 @@ class Migration_Version_525 extends CI_Migration
              PRIMARY KEY (`id`)
           )  ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 		  
-		   if ($this->db->field_exists('id', db_prefix() . 'messages')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'messages` MODIFY COLUMN `id` auto_increment');
-        }
+
+	 $this->db->query('ALTER TABLE `tblmessages` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT');
+	 
 
 
 

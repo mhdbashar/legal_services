@@ -70,6 +70,10 @@ class Messages extends ClientsController
         }
 
         if ($this->input->post()) {
+            $this->form_validation->set_rules('to_user_id', _l('to_user_id'), 'required');
+            $this->form_validation->set_rules('subject', _l('subject'), 'required');
+            $this->form_validation->set_rules('message', _l('message'), 'required');
+            if ($this->form_validation->run() !== false) {
             $data = $this->input->post();
             $data['files'] = $_FILES['files']['name'];
             $data['to_user_id'] = $data['to_user_id'] . '_staff';
@@ -93,6 +97,7 @@ class Messages extends ClientsController
                 redirect('messages');
             }
         }
+    }
         if ($id == '') {
             $title = _l('ارسال رسالة', _l(''));
         } else {

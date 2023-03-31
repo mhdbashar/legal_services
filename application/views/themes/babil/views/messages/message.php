@@ -19,15 +19,15 @@
 					
 					إختر الموظف
                             <?php   echo form_dropdown("to_user_id", $users_dropdown, array(), "class='form-control select2 validate-hidden' id='to_user_id' data-rule-required='true', data-msg-required='" . 'field_required' . "'"); ?>
-					
+							<?php echo form_error('to_user_id'); ?>
 						<?php $subject = (isset($Message) ? $Message->subject : ''); ?>
-                        <?php echo render_input('subject',_l('الموضوع'),$subject,"required"); ?> 
-
+                        <?php echo render_input('subject',_l('الموضوع'),$subject,"text"); ?> 
+						<?php echo form_error('subject'); ?>
                         <?php $message = (isset($Message) ? $Message->message : ''); ?>
                     
 						<?php echo render_textarea('message', _l('الرسالة'), '', array(), array(), '', 'tinymce'); ?>
                         <!-- for testing -->
-                        
+						<?php echo form_error('message'); ?>
 						<div class="form-group" >
                         <label for="profile_image" class="profile-image"><?php echo _l('attachment'); ?></label>
                         <input type="file" name="files" class="form-control" id="profile_image">
@@ -46,14 +46,6 @@
 </div>
 
 
-<script>
-	$(function(){
-	
-		$('Textarea').prop('required',true);
-		$("input[name='subject']").attr("required", "true");
-		$("select[name='to_user_id']").attr("required", "true");
 
-	});
-</script>
 </body>
 </html>

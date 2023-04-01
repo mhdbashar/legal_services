@@ -45,7 +45,7 @@ if (isset($message_info->subject) && ($message_info->subject !== '')) {
   <textarea rows="5" cols="150" readonly class="form-control" id="exampleFormControlTextarea5" rows="3">
   <?php
 if (isset($message_info->message) && ($message_info->message !== '')) {
-    echo $message_info->message;
+    echo strip_html_tags($message_info->message);
 
 }
 

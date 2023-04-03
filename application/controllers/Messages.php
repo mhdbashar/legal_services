@@ -74,30 +74,30 @@ class Messages extends ClientsController
             $this->form_validation->set_rules('subject', _l('subject'), 'required');
             $this->form_validation->set_rules('message', _l('message'), 'required');
             if ($this->form_validation->run() !== false) {
-            $data = $this->input->post();
-            $data['files'] = $_FILES['files']['name'];
-            $data['to_user_id'] = $data['to_user_id'] . '_staff';
-            $data['from_user_id'] = $data['from_user_id'] . '_client';
+                $data = $this->input->post();
+                $data['files'] = $_FILES['files']['name'];
+                $data['to_user_id'] = $data['to_user_id'] . '_staff';
+                $data['from_user_id'] = $data['from_user_id'] . '_client';
 
-            if ($id == '') {
-                $id = $this->Messages_model->add($data);
+                if ($id == '') {
+                    $id = $this->Messages_model->add($data);
 
-                if ($id) {
-                    handle_message_upload($id);
-                   // echo handle_message_upload($id);
+                    if ($id) {
+                        handle_message_upload($id);
+                        // echo handle_message_upload($id);
 
-                    set_alert('success', _l('added_successfully', _l('Message')));
+                        set_alert('success', _l('added_successfully', _l('Message')));
+                        redirect('messages');
+                    }
+                } else {
+                    $success = $this->Messages_model->update($data, $id);
+                    if ($success) {
+                        set_alert('success', _l('updated_successfully', _l('Messages')));
+                    }
                     redirect('messages');
                 }
-            } else {
-                $success = $this->Messages_model->update($data, $id);
-                if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('Messages')));
-                }
-                redirect('messages');
             }
         }
-    }
         if ($id == '') {
             $title = _l('ارسال رسالة', _l(''));
         } else {
@@ -180,23 +180,17 @@ class Messages extends ClientsController
 
         $replies_options = array("message_id" => $message_id, "user_id" => get_contact_user_id(), "limit" => 4);
         $messages = $this->Messages_model->get_details($replies_options);
-
         $view_data["replies"] = $messages->result;
         $view_data["found_rows"] = $messages->found_rows;
-
         $view_data["mode"] = $mode;
         $view_data["is_reply"] = $reply;
         $view_data['reply_messages'] = $this->Messages_model->get_reply_all($message_id);
-        $view_data['model']= $this->Messages_model;
+        $view_data['model'] = $this->Messages_model;
         $this->view('messages/view');
         $this->data($view_data);
         $this->layout();
 
     }
-
-
-
-   
 
     public function send_message()
     {
@@ -252,7 +246,7 @@ class Messages extends ClientsController
             }
             $member = $this->Messages_model->GetSender($from_user_id);
             echo json_encode(array('member' => $member, 'message' => $message_data));
-           // echo json_encode($message_data);
+            // echo json_encode($message_data);
 
         } else {
             echo json_encode(array("success" => true));

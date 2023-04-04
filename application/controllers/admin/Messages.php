@@ -91,7 +91,7 @@ class Messages extends AdminController
 
                 if ($id) {
                     handle_message_upload($id);
-                  //  echo handle_message_upload($id);
+                  
 
                     set_alert('success', _l('added_successfully', _l('Message')));
                     redirect(admin_url('messages'));
@@ -163,7 +163,7 @@ class Messages extends AdminController
 
                 if ($id) {
                     handle_message_upload($id);
-                    echo handle_message_upload($id);
+                  
 
                     set_alert('success', _l('added_successfully', _l('Message')));
                     redirect(admin_url('messages'));
@@ -361,7 +361,7 @@ class Messages extends AdminController
 
             if ($id) {
                 handle_message_upload($id);
-                echo handle_message_upload($id);
+               
                 $message_data = $this->Messages_model->get_one($id);
                 $member = $this->Messages_model->GetSender($from_user_id);
             }

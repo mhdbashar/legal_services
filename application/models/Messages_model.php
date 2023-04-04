@@ -85,9 +85,6 @@ class Messages_model extends App_Model
         return $data;
     }
 
-
-
-
     /*
      * prepare inbox/sent items list
      */
@@ -139,15 +136,15 @@ class Messages_model extends App_Model
                 }
             }
             $this->db->where('message_id', $id);
-            $rows =  $this->db->get(db_prefix() . 'messages')->result();
+            $rows = $this->db->get(db_prefix() . 'messages')->result();
 
-            foreach($rows as $row){
+            foreach ($rows as $row) {
                 if (is_dir(get_upload_path_by_type('message') . $row->id)) {
                     if (delete_dir(get_upload_path_by_type('message') . $row->id)) {
                         $this->db->where('rel_id', $row->id);
                         $this->db->where('rel_type', 'message');
                         $this->db->delete(db_prefix() . 'files');
-    
+
                     }
                 }
             }

@@ -1276,20 +1276,18 @@ function handle_message_upload($id)
             // Setup our new file path
             $filename = $_FILES['files']['name'];
             $newFilePath = $path . $filename;
-            
+
             // Upload the file into the message uploads dir
             if (move_uploaded_file($tmpFilePath, $newFilePath)) {
 
-                return true;
+                $attachment = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype' => $_FILES['files']['type'],
+                ];
+                $CI->misc_model->add_attachment_to_database($id, 'message', $attachment);
             }
-            $attachment = [];
-            $attachment[] = [
-                'file_name' => $filename,
-                'filetype' => $_FILES['files']['type'],
-            ];
-            $CI->misc_model->add_attachment_to_database($id, 'message', $attachment);
         }
     }
 
-    return false;
 }

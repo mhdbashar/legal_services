@@ -88,7 +88,7 @@ class Regular_duration_rem extends App_merge_fields
                 $fields['{regular_duration_name}'] = get_dur_name_by_id($reg_id);
         $fields['{regular_duration_start_date}'] = _d($duration->start_date);
         $fields['{regular_duration_end_date}'] = _d($duration->end_date);
-        $fields['{case_name}'] = get_case_by_id($case_id);
+        $fields['{case_name}'] = get_case_name_by_id($case_id);
         $fields['{regular_duration_description}'] = _l('regular_duration_description');
         $fields['{regular_duration_notification}'] = _l('regular_duration_notification');
 

@@ -838,18 +838,7 @@ function get_dur_name_by_id($id)
     return false;
 }
 //*************************************
-function get_case_name_by_id($id)
-{
-    $CI = & get_instance();
-    $CI->db->select('name');
-    $CI->db->where('id', $id);
-    $case_name = $CI->db->get(db_prefix() . 'my_cases')->row();
-    if ($case_name) {
-        return $case_name->name;
-    }
-    return false;
-}
-//*************************************
+
 
 function get_case_by_id($case_id){
     $CI = & get_instance();

@@ -1107,7 +1107,7 @@ class Cron_model extends App_Model
                             array_push($notifiedUsers, $member->staff_id);
                         }
 
-                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['case_id'],$case['reg_id']);
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id , $case['case_id'] , $case['reg_id']);
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'cases_regular_durations', [
                             'deadline_notified' => 1,'regular_header' => 1,

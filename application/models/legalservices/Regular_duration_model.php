@@ -48,6 +48,8 @@ class Regular_duration_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'regular_durations');
+        $this->db->where('reg_id', $id);
+        $this->db->delete(db_prefix() . 'cases_regular_durations');
         if ($this->db->affected_rows() > 0) {
             log_activity('duration Deleted [durationID: ' . $id . ']');
             return true;

@@ -83,8 +83,10 @@ class Messages extends ClientsController
                     $id = $this->Messages_model->add($data);
 
                     if ($id) {
+                        if(!file_exists('uploads/message')){
+                            mkdir(FCPATH.'uploads/message', 0755);
+                        }
                         handle_message_upload($id);
-                       
 
                         set_alert('success', _l('added_successfully', _l('Message')));
                         redirect('messages');
@@ -141,25 +143,6 @@ class Messages extends ClientsController
             set_alert('warning', _l('problem_deleting', _l('Message')));
         }
         redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function list_data($mode = "inbox")
-    {
-
-        if ($mode !== "inbox") {
-            $mode = "sent_items";
-        }
-
-        $options = array("user_id" => get_staff_user_id(), "mode" => $mode);
-        $list_data = $this->Messages_model->get_list($options)->result();
-
-        $result = array();
-
-        foreach ($list_data as $data) {
-            $result[] = $this->make_row($data, $mode);
-        }
-
-        echo json_encode(array("data" => $result));
     }
 
     public function view_view($message_id = 0, $mode = "sent_items", $reply = 0)
@@ -240,7 +223,7 @@ class Messages extends ClientsController
 
             if ($id) {
                 handle_message_upload($id);
-               
+
                 $message_data = $this->Messages_model->get_one($id);
 
             }

@@ -1173,7 +1173,8 @@ function get_upload_path_by_type($type)
             $path = TRANSACTION_ATTACHMENTS_FOLDER;
 
             break;
-
+   ///////////////////////
+        // ryad shaker 
         case 'message':
             $path = MESSAGE_FILES_FOLDER;
             break;

@@ -30,6 +30,10 @@ class Messages extends ClientsController
 
     public function inbox()
     {
+        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages') ) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
         $mode = "inbox";
 
         $options = array("user_id" => get_contact_user_id(), "mode" => $mode);
@@ -64,7 +68,7 @@ class Messages extends ClientsController
 
     public function messagescu($id = '')
     {
-        if (!has_contact_permission('invoices')) {
+        if (!has_contact_permission('messages')) {
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }

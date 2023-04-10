@@ -2929,6 +2929,20 @@ class Accounting extends AdminController
     }
 
     /**
+     * report trial balance two
+     * @return view
+     */
+    public function rp_trial_balance_two(){
+        $this->load->model('currencies_model');
+        $data['title'] = _l('trial_balance');
+        $data['from_date'] = date('Y-m-01');
+        $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
+        $data['currency'] = $this->currencies_model->get_base_currency();
+        $this->load->view('report/includes/trial_balance_two', $data);
+    }
+
+    /**
      * dashboard
      * @return view
      */
@@ -3797,6 +3811,9 @@ class Accounting extends AdminController
                 break;
             case 'trial_balance':
                 $data['data_report'] = $this->accounting_model->get_data_trial_balance($data_filter);
+                break;
+            case 'trial_balance_two':
+                $data['data_report'] = $this->accounting_model->get_data_trial_balance_two($data_filter);
                 break;
             case 'account_history':
                 $data['data_report'] = $this->accounting_model->get_data_account_history($data_filter);

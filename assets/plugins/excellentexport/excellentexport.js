@@ -132,7 +132,7 @@ var ExcellentExport = (function() {
             }
 
             table = get(table);
-            var csvData = tableToCSV(table);
+            var csvData = table ToCSV(table);
             var b64 = base64(csvData);
             return createDownloadLink(anchor,b64,'application/csv','export.csv');
         }

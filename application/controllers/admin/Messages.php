@@ -30,6 +30,9 @@ class Messages extends AdminController
 
     public function inbox()
     {
+        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view') ) {
+            access_denied('system_messages');
+        }
         $mode = "inbox";
         $model = $this->Messages_model;
         if ($this->input->is_ajax_request()) {
@@ -49,7 +52,9 @@ class Messages extends AdminController
 
     public function sent_items()
     {
-
+        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view') ) {
+            access_denied('system_messages');
+        }
         $mode = "sent_items";
         $model = $this->Messages_model;
         if ($this->input->is_ajax_request()) {

@@ -51,6 +51,10 @@ class Messages extends ClientsController
 
     public function sent_items()
     {
+        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages') ) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
         $mode = "sent_items";
 
         $options = array("user_id" => get_contact_user_id(), "mode" => $mode);

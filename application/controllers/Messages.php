@@ -30,7 +30,7 @@ class Messages extends ClientsController
 
     public function inbox()
     {
-        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages') ) {
+        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages')) {
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }
@@ -51,7 +51,7 @@ class Messages extends ClientsController
 
     public function sent_items()
     {
-        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages') ) {
+        if (!has_contact_permission('customer_see_email_only') && !has_contact_permission('messages')) {
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }
@@ -91,13 +91,14 @@ class Messages extends ClientsController
                     $id = $this->Messages_model->add($data);
 
                     if ($id) {
-                        if(!file_exists('uploads/message')){
-                            mkdir(FCPATH.'uploads/message', 0755);
+                        if (!file_exists('uploads/message')) {
+                            mkdir(FCPATH . 'uploads/message', 0755);
                         }
                         handle_message_upload($id);
 
                         set_alert('success', _l('added_successfully', _l('Message')));
-                        redirect('messages');
+                       
+                        redirect(site_url('messages/sent_items/'));
                     }
                 } else {
                     $success = $this->Messages_model->update($data, $id);
@@ -183,19 +184,6 @@ class Messages extends ClientsController
 
     }
 
-    public function send_message()
-    {
-        $data = $this->input->post();
-        $data['from_user_id'] = get_staff_user_id();
-
-        $data['created_at'] = get_current_utc_time();
-        $data['deleted_by_users'] = "1";
-
-        $this->Messages_model->add($data);
-
-        redirect("admin/messages/inbox");
-
-    }
     public function reply_client()
     {
 

@@ -30,7 +30,7 @@ class Messages extends AdminController
 
     public function inbox()
     {
-        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view') ) {
+        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view')) {
             access_denied('system_messages');
         }
         $mode = "inbox";
@@ -52,7 +52,7 @@ class Messages extends AdminController
 
     public function sent_items()
     {
-        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view') ) {
+        if (!has_permission('system_messages', '', 'create') && !has_permission('system_messages_client', '', 'create') && !has_permission('see_email_only', '', 'view')) {
             access_denied('system_messages');
         }
         $mode = "sent_items";
@@ -92,18 +92,18 @@ class Messages extends AdminController
                 $id = $this->Messages_model->add($data);
 
                 if ($id) {
-                      if(!file_exists('uploads/message')){
-                    mkdir(FCPATH.'uploads/message', 0755);
-                }
+                    if (!file_exists('uploads/message')) {
+                        mkdir(FCPATH . 'uploads/message', 0755);
+                    }
                     handle_message_upload($id);
 
-                    set_alert('success', _l('added_successfully', _l('Message')));
-                    redirect(admin_url('messages'));
+                    set_alert('success', _l('added_successfully', _l('message')));
+                    redirect(admin_url('messages/sent_items'));
                 }
             } else {
                 $success = $this->Messages_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('Messages')));
+                    set_alert('success', _l('updated_successfully', _l('message')));
                 }
                 redirect(admin_url('Messages'));
             }
@@ -122,28 +122,6 @@ class Messages extends AdminController
 
         $data['staffs'] = $staffs;
         $data['contacts'] = $contacts;
-
-        foreach ($staffs as $staff) {
-
-            if ($staff->staffid == get_staff_user_id()) {
-                continue;
-            }
-            // get_client_user_id()
-            $user_name = $staff->firstname . " " . $staff->lastname . '.....موظف';
-
-            $data['users_dropdown'][$staff->staffid] = $user_name;
-
-        }
-        foreach ($contacts as $contact) {
-
-            if ($contact->id == get_contact_user_id()) {
-                continue;
-            }
-
-            $user_name = $contact->firstname . " " . $contact->lastname . '......زبون';
-
-            $data['users_dropdown'][$contact->id] = $user_name;
-        }
 
         $data['user_type'] = 'staff';
         $data['title'] = $title;
@@ -168,15 +146,15 @@ class Messages extends AdminController
                 if ($id) {
                     handle_message_upload($id);
 
-                    set_alert('success', _l('added_successfully', _l('Message')));
-                    redirect(admin_url('messages'));
+                    set_alert('success', _l('added_successfully', _l('message')));
+                    redirect(admin_url('messages/sent_items'));
                 }
             } else {
                 $success = $this->Messages_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('Messages')));
+                    set_alert('success', _l('updated_successfully', _l('message')));
                 }
-                redirect(admin_url('Messages'));
+                redirect(admin_url('messages/sent_items'));
             }
         }
         if ($id == '') {
@@ -218,9 +196,9 @@ class Messages extends AdminController
         $response = $this->Messages_model->delete($id);
 
         if ($response == true) {
-            set_alert('success', _l('deleted', _l('Message')));
+            set_alert('success', _l('deleted', _l('message')));
         } else {
-            set_alert('warning', _l('problem_deleting', _l('Message')));
+            set_alert('warning', _l('problem_deleting', _l('message')));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -283,20 +261,6 @@ class Messages extends AdminController
         $view_data['model'] = $this->Messages_model;
 
         $this->load->view('admin/messages/view_sent_items', $view_data);
-
-    }
-
-    public function send_message()
-    {
-        $data = $this->input->post();
-        $data['from_user_id'] = get_staff_user_id();
-
-        $data['created_at'] = get_current_utc_time();
-        $data['deleted_by_users'] = "1";
-
-        $this->Messages_model->add($data);
-
-        redirect("admin/messages/inbox");
 
     }
 

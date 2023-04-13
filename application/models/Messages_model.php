@@ -229,7 +229,7 @@ class Messages_model extends App_Model
 
     public function get_reply_all($message_id)
     {
-        $sql = "select * from tblmessages where message_id = $message_id ";
+        $sql = "select * from tblmessages where message_id = $message_id ORDER BY id ASC ";
 
         return $this->db->query($sql)->result();
 

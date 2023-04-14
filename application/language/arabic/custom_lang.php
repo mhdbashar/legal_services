@@ -1190,6 +1190,8 @@ $lang['system_messages'] = "الرسائل الداخلية - الموظفين";
 $lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
 $lang['staff_document_name'] = "أسم ممثل المنشأة";
 $lang['internal_messages'] = "المراسلات الداخلية";
+$lang['to_user_id'] = "ارسال الى";
+$lang['message'] = "الرسالة";
 
 
 

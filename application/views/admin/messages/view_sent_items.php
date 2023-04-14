@@ -24,10 +24,12 @@
 
 
 
-                            <h1>مشاهدة الرسالة</h1>
+                            <h1> عرض الرسالة</h1>
 
                            <div>
+                            <h3>
                            موضوع الرسالة
+</h3>
                          </div>
 
                            <p class="font-weight-bold">
@@ -41,11 +43,12 @@ if (isset($message_info->subject) && ($message_info->subject !== '')) {
                         </p>
 
                                             <div class="form-group green-border-focus">
-  <label for="exampleFormControlTextarea5">نص الرسالة</label>
+  <label for="exampleFormControlTextarea5"><h3>نص الرسالة</h3></label>
   <textarea rows="5" cols="150" readonly class="form-control" id="exampleFormControlTextarea5" rows="3">
   <?php
 if (isset($message_info->message) && ($message_info->message !== '')) {
-    echo $message_info->message;
+
+    echo strip_html_tags($message_info->message);
 
 }
 
@@ -81,7 +84,7 @@ if (isset($message_info->files) && ($message_info->files !== null)) {
 
 
 
-<h1>الردود على هذه الرسالة</h1>
+<h2>الردود على هذه الرسالة</h2>
 
                  <?php
 
@@ -166,7 +169,7 @@ if (isset($reply_messages)) {
 
 <?php init_tail();?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -200,6 +203,13 @@ html+=data.member.lastname;
 
 
                  $('.reply_message').append(html);
+                 Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'تم اضافة الرد بنجاح',
+                showConfirmButton: false,
+                timer: 1500
+            })
 		           }
 		         });
 		    });
@@ -212,7 +222,7 @@ html+=data.member.lastname;
 <script>
 	$(function(){
         $("[name='description']").attr("required", true);
-	
+
 	});
 </script>
 

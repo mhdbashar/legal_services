@@ -178,7 +178,7 @@ if (isset($reply_messages)) {
 </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -218,6 +218,13 @@ if (isset($reply_messages)) {
                
              
                  $('.reply_message').append(html);
+                 Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'تم اضافة الرد بنجاح',
+                showConfirmButton: false,
+                timer: 1500
+            })
 		           },
                      error:function(e){
                              console.log('error');

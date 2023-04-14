@@ -46,7 +46,7 @@ if (isset($message_info->subject) && ($message_info->subject !== '')) {
                                         id="exampleFormControlTextarea5" rows="3">
   <?php
 if (isset($message_info->message) && ($message_info->message !== '')) {
-    echo $message_info->message;
+    echo strip_html_tags($message_info->message);
 
 }
 
@@ -158,7 +158,7 @@ if (isset($reply_messages) && ($reply_messages !== '')) {
 
 <?php init_tail();?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -193,6 +193,13 @@ $(document).ready(function() {
 
 
                 $('.reply_message').append(html);
+                Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'تم اضافة الرد بنجاح',
+                showConfirmButton: false,
+                timer: 1500
+            })
             }
         });
     });

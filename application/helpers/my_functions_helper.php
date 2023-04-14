@@ -839,6 +839,7 @@ function get_dur_name_by_id($id)
 }
 //*************************************
 
+
 function get_case_by_id($case_id){
     $CI = & get_instance();
     $CI->db->where('id', $case_id);

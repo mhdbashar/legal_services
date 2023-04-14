@@ -85,6 +85,7 @@ class Migration_Version_524 extends CI_Migration
                 'fromname' => '{companyname}', 'fromemail' => '', 'plaintext' => '0', 'active' => '1', 'order' => '0',
             ];
             $this->db->insert(db_prefix() . 'emailtemplates', $data);
+            add_option('settings[regular_durations_reminder_notification_before]', '5');
         }
 
     }

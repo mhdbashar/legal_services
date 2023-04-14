@@ -1106,7 +1106,24 @@ class Cron_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member->staff_id);
                         }
-                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id,$case['case_id']);
+
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id , $case['case_id'] , $case['reg_id']);
+
+
+                        if($this->app_modules->is_active('telegram_chat')) {
+                            $this->load->helper('telegram_helper');
+                            $this->load->helper('my_functions_helper');
+                            $this->load->helper('cases_helper');
+                            $dur_name = get_dur_name_by_id($case['reg_id']);
+                            $case_name = get_case_name_by_id($case['case_id']);
+                            $link = APP_BASE_URL . 'admin/Case/view/1/' . $case['case_id'] . '?group=regular_duration';
+
+                            $link1 = "<a href= '$link' >click here</a>";
+                            $txt = " تذكير &#128227\n" . "اقتربت المدة النظامية " . $dur_name . "\n" . "التابعة للقضية " . $case_name . "\n" . "من الانتهاء " . "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+                            send_message_telegram(urlencode($txt));
+                        }
+
+                       //********
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'cases_regular_durations', [
                             'deadline_notified' => 1,'regular_header' => 1,

@@ -1150,6 +1150,15 @@ $lang['number_of_dayes'] = "عدد أيام المدة النظامية";
 $lang['duration_name'] = "اسم المدة النظامية";
 $lang['duration_start_date'] = "تاريخ بداية المدة النظامية";
 $lang['duration_end_date'] = "تاريخ انتهاء المدة النظامية";
+$lang['regular_duration_name'] = "اسم المدة النظامية";
+$lang['case_name'] = "اسم القضية";
+$lang['Regular_duration_rem'] = "المدة النظامية";
+$lang['regular_duration_notification'] = "تنبيه انتهاء المدة النظامية";
+$lang['regular_duration_description'] = "وصف المدة النظامية";
+
+
+
+
 
 
 
@@ -1181,6 +1190,8 @@ $lang['system_messages'] = "الرسائل الداخلية - الموظفين";
 $lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
 $lang['staff_document_name'] = "أسم ممثل المنشأة";
 $lang['internal_messages'] = "المراسلات الداخلية";
+$lang['to_user_id'] = "ارسال الى";
+$lang['message'] = "الرسالة";
 
 
 

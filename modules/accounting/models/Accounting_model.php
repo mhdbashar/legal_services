@@ -6177,6 +6177,141 @@ class Accounting_model extends App_Model
     }
 
     /**
+     * get data trial balance
+     * @param  array $data_filter
+     * @return array
+     */
+    public function get_data_trial_balance_two($data_filter){
+        $from_date = date('Y-m-01');
+        $to_date = date('Y-m-d');
+        $accounting_method = 'cash';
+        $acc_show_account_numbers = get_option('acc_show_account_numbers');
+
+        if(isset($data_filter['accounting_method'])){
+            $accounting_method = $data_filter['accounting_method'];
+        }
+        if(isset($data_filter['from_date'])){
+            $from_date = to_sql_date($data_filter['from_date']);
+        }
+
+        if(isset($data_filter['to_date'])){
+            $to_date = to_sql_date($data_filter['to_date']);
+        }
+
+        $account_type_details = $this->get_account_type_details();
+        $data_report = [];
+        $data_total = [];
+        $data_accounts = [];
+
+        foreach ($account_type_details as $key => $value) {
+            if($value['account_type_id'] == 1){
+                $data_accounts['accounts_receivable'][] = $value;
+            }
+            if($value['account_type_id'] == 2){
+                $data_accounts['current_assets'][] = $value;
+            }
+            if($value['account_type_id'] == 3){
+                $data_accounts['cash_and_cash_equivalents'][] = $value;
+            }
+            if($value['account_type_id'] == 4){
+                $data_accounts['fixed_assets'][] = $value;
+            }
+            if($value['account_type_id'] == 5){
+                $data_accounts['non_current_assets'][] = $value;
+            }
+            if($value['account_type_id'] == 6){
+                $data_accounts['accounts_payable'][] = $value;
+            }
+            if($value['account_type_id'] == 7){
+                $data_accounts['credit_card'][] = $value;
+            }
+            if($value['account_type_id'] == 8){
+                $data_accounts['current_liabilities'][] = $value;
+            }
+            if($value['account_type_id'] == 9){
+                $data_accounts['non_current_liabilities'][] = $value;
+            }
+            if($value['account_type_id'] == 10){
+                $data_accounts['owner_equity'][] = $value;
+            }
+
+            if($value['account_type_id'] == 11){
+                $data_accounts['income'][] = $value;
+            }
+
+            if($value['account_type_id'] == 12){
+                $data_accounts['other_income'][] = $value;
+            }
+
+            if($value['account_type_id'] == 13){
+                $data_accounts['cost_of_sales'][] = $value;
+            }
+
+            if($value['account_type_id'] == 14){
+                $data_accounts['expenses'][] = $value;
+            }
+
+            if($value['account_type_id'] == 15){
+                $data_accounts['other_expenses'][] = $value;
+            }
+        }
+
+        foreach ($data_accounts as $data_key => $data_account) {
+            $data_report[$data_key] = [];
+            $total = 0;
+            foreach ($data_account as $key => $value) {
+                $this->db->where('active', 1);
+                $this->db->where('(parent_account is null or parent_account = 0)');
+                $this->db->where('account_detail_type_id', $value['id']);
+                $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+                $opening_stock = 0;
+                foreach ($accounts as $val) {
+                    // open
+
+                    $this->db->select('debit, credit');
+                    $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+                    $this->db->where(['account' => $val['id'], 'rel_type' => 'deposit']);
+                    $opening_stock = $this->db->get(db_prefix().'acc_account_history')->row();
+                    // debits and credites
+                    $this->db->select('sum(credit) as credit, sum(debit) as debit');
+                    $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+                    $this->db->where('account', $val['id']);
+                    if($accounting_method == 'cash'){
+                        $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+                    }
+                    $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+                    $opening_stock_debits = is_object($opening_stock) ? $opening_stock->debit : 0;
+                    $opening_stock_credits = is_object($opening_stock) ? $opening_stock->credit : 0;
+                    $credits = $account_history->credit != '' ? $account_history->credit : 0;
+                    $debits = $account_history->debit != '' ? $account_history->debit : 0;
+                    if($credits > $debits){
+                        $ending_stock_credits = $credits - $debits;
+                        $ending_stock_debits = 0;
+                    }else{
+                        $ending_stock_debits = $debits - $credits;
+                        $ending_stock_credits = 0;
+                    }
+                    $credits = $account_history->credit != '' ? $account_history->credit - $opening_stock_credits : 0;
+                    $debits = $account_history->debit != '' ? $account_history->debit - $opening_stock_debits : 0;
+                    if($acc_show_account_numbers == 1 && $val['number'] != ''){
+                        $name = $val['name'] != '' ? $val['number'].' - '.$val['name'] : $val['number'].' - '._l($val['key_name']);
+                    }else{
+                        $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+                    }
+
+
+                    $child_account = $this->get_data_trial_balance_recursive_two([], $val['id'], $value['account_type_id'], $from_date, $to_date, $accounting_method, $acc_show_account_numbers);
+
+                    $data_report[$data_key][] = ['name' => $name, 'opening_stock_debits' => $opening_stock_debits, 'opening_stock_credits' => $opening_stock_credits, 'ending_stock_debits' => $ending_stock_debits, 'ending_stock_credits' => $ending_stock_credits, 'debit' => $debits, 'credit' => $credits, 'child_account' => $child_account];
+                }
+            }
+            $data_total[$data_key] = $total;
+        }
+        return ['data' => $data_report, 'total' => $data_total, 'from_date' => $from_date, 'to_date' => $to_date];
+
+    }
+
+    /**
      * import xlsx banking
      * @param  array $data
      * @return integer or boolean
@@ -11675,6 +11810,194 @@ class Accounting_model extends App_Model
         }
 
         return $child_account;
+    }
+
+
+    /**
+     * get data trial balance recursive
+     * @param  array $child_account
+     * @param  integer $account_id
+     * @param  integer $account_type_id
+     * @param  string $from_date
+     * @param  string $to_date
+     * @param  string $accounting_method
+     * @return array
+     */
+    public function get_data_trial_balance_recursive_two($child_account, $account_id, $account_type_id, $from_date, $to_date, $accounting_method, $acc_show_account_numbers){
+        $this->db->where('active', 1);
+        $this->db->where('parent_account', $account_id);
+        $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
+        foreach ($accounts as $val) {
+            // open
+
+            $this->db->select('debit, credit');
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where(['account' => $val['id'], 'rel_type' => 'deposit']);
+            $opening_stock = $this->db->get(db_prefix().'acc_account_history')->row();
+            // debits and credites
+            $this->db->select('sum(credit) as credit, sum(debit) as debit');
+            $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '")');
+            $this->db->where('account', $val['id']);
+            if($accounting_method == 'cash'){
+                $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+            }
+
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->row();
+            $opening_stock_debits = is_object($opening_stock) ? $opening_stock->debit : 0;
+            $opening_stock_credits = is_object($opening_stock) ? $opening_stock->credit : 0;
+            $credits = $account_history->credit != '' ? $account_history->credit : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit : 0;
+            if($credits > $debits){
+                $ending_stock_credits = $credits - $debits;
+                $ending_stock_debits = 0;
+            }else{
+                $ending_stock_debits = $debits - $credits;
+                $ending_stock_credits = 0;
+            }
+            $credits = $account_history->credit != '' ? $account_history->credit - $opening_stock_credits : 0;
+            $debits = $account_history->debit != '' ? $account_history->debit - $opening_stock_debits : 0;
+            if($acc_show_account_numbers == 1 && $val['number'] != ''){
+                $name = $val['name'] != '' ? $val['number'].' - '.$val['name'] : $val['number'].' - '._l($val['key_name']);
+            }else{
+                $name = $val['name'] != '' ? $val['name'] : _l($val['key_name']);
+            }
+
+            $child_account[] = ['name' => $name, 'opening_stock_debits' => $opening_stock_debits, 'opening_stock_credits' => $opening_stock_credits, 'ending_stock_debits' => $ending_stock_debits, 'ending_stock_credits' => $ending_stock_credits,  'debit' => $debits, 'credit' => $credits, 'child_account' => $this->get_data_trial_balance_recursive_two([], $val['id'], $account_type_id, $from_date, $to_date, $accounting_method, $acc_show_account_numbers)];
+        }
+
+        return $child_account;
+    }
+
+    /**
+     * get html trial balance two
+     * @param  array $child_account
+     * @param  array $data_return
+     * @param  integer $parent_index
+     * @param  object $currency
+     * @return array
+     */
+    public function get_html_trial_balance_two($child_account, $data_return, $parent_index, $currency){
+        $total_debit = 0;
+        $total_credit = 0;
+        $total_opening_stock_debit = 0;
+        $total_opening_stock_credit = 0;
+        $total_ending_stock_debit = 0;
+        $total_ending_stock_credit = 0;
+        $data_return['total_debit'] = 0;
+        $data_return['total_credit'] = 0;
+        $data_return['total_opening_stock_debit'] = 0;
+        $data_return['total_opening_stock_credit'] = 0;
+        $data_return['total_ending_stock_debit'] = 0;
+        $data_return['total_ending_stock_credit'] = 0;
+        foreach ($child_account as $val) {
+            $data_return['row_index']++;
+            $total_debit = $val['debit'];
+            $total_credit = $val['credit'];
+            $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' expanded">
+              <td class=" th_total text-center" style="border-right: 1px solid black">
+              
+              <span>
+                    '.$val['name'].'
+                   </span>
+            
+              </td>
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['opening_stock_debits'], $currency->name).'
+              </td>
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['opening_stock_credits'], $currency->name).'
+              </td>
+              
+              
+              
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['debit'], $currency->name).'
+              </td>
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['credit'], $currency->name).'
+              </td>
+              
+              
+              
+              
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['ending_stock_debits'], $currency->name).'
+              </td>
+              <td class="total_amount th_total text-center">
+              '.app_format_money($val['ending_stock_credits'], $currency->name).'
+              </td>
+            </tr>';
+
+            if(count($val['child_account']) > 0){
+                $d = $data_return['total_debit'];
+                $c = $data_return['total_credit'];
+
+                $od = $data_return['total_opening_stock_debit'];
+                $oc = $data_return['total_opening_stock_credit'];
+
+                $ed = $data_return['total_ending_stock_debit'];
+                $ec = $data_return['total_ending_stock_credit'];
+                $data_return = $this->get_html_trial_balance_two($val['child_account'], $data_return, $data_return['row_index'], $currency);
+
+                $total_debit += $data_return['total_debit'];
+                $total_credit += $data_return['total_credit'];
+
+                $total_opening_stock_debit += $data_return['total_opening_stock_debit'];
+                $total_opening_stock_credit += $data_return['total_opening_stock_credit'];
+
+                $total_ending_stock_debit += $data_return['total_ending_stock_debit'];
+                $total_ending_stock_credit += $data_return['total_ending_stock_credit'];
+
+                $data_return['row_index']++;
+                $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' '.($parent_index != 0 ? 'treegrid-parent-'.$parent_index : '').' tr_total">
+                  <td class="total_amount th_total text-center" style="border-right: 1px solid black">
+                  '._l('total_for', $val['name']).'
+                  </td>
+                  
+                  
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_opening_stock_debit, $currency->name).'
+                  </td>
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_opening_stock_credit, $currency->name).'
+                  </td>
+                  
+                  
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_debit, $currency->name).'
+                  </td>
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_credit, $currency->name).'
+                  </td>
+                  
+                  
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_ending_stock_debit, $currency->name).'
+                  </td>
+                  <td class="total_amount th_total text-center">
+                  '.app_format_money($total_ending_stock_credit, $currency->name).'
+                  </td>
+                </tr>';
+                $data_return['total_debit'] += $d;
+                $data_return['total_credit'] += $c;
+
+                $data_return['total_opening_stock_debit'] += $od;
+                $data_return['total_opening_stock_credit'] += $oc;
+
+                $data_return['total_ending_stock_debit'] += $ed;
+                $data_return['total_ending_stock_credit'] += $ec;
+            }
+
+            $data_return['total_debit'] += $val['debit'];
+            $data_return['total_credit'] += $val['credit'];
+
+            $data_return['total_opening_stock_debit'] += $val['opening_stock_debits'];
+            $data_return['total_opening_stock_credit'] += $val['opening_stock_credits'];
+
+            $data_return['total_ending_stock_debit'] += $val['ending_stock_debits'];
+            $data_return['total_ending_stock_credit'] += $val['ending_stock_credits'];
+        }
+        return $data_return;
     }
 
     /**

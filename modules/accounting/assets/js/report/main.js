@@ -54,47 +54,28 @@ function printDiv2()
 }
 
 function printExcel(){
-	"use strict";
-   $(".tree").tableHTMLExport({
-      type:'csv',
-      filename:$('input[name="type"]').val()+'.csv',
-    });
+    "use strict";
+
+    let file = new Blob([$('#DivIdToPrint').html()], {type:"application/vnd.ms-excel"});
+    let url = URL.createObjectURL(file);
+    let a = $("<a />", {
+        href: url,
+        download: "accounting_report.xls"}).appendTo("body").get(0).click();
+    e.preventDefault();
 }
 
 function filter_form_handler(form) {
-	"use strict";
-    if($('select[name="display_rows_by"]').val() != undefined){
-      if($('select[name="display_rows_by"]').val() == $('select[name="display_columns_by"]').val()){
-        alert('Warning: Row and column headings must be different.');
-        return false;
-      }
-    }
-
-    if($('input[name="type"]').val() == 'custom_summary_report'){
-      if($('select[name="page_type"]').val() == 'vertical'){
-        $('#DivIdToPrint').addClass('page');
-        $('#DivIdToPrint').removeClass('page-size2');
-
-        $('#export_to_pdf_btn').attr('onclick', 'printDiv(); return false;');
-      }
-
-      if($('select[name="page_type"]').val() == 'horizontal'){
-        $('#DivIdToPrint').removeClass('page');
-        $('#DivIdToPrint').addClass('page-size2');
-        $('#export_to_pdf_btn').attr('onclick', 'printDiv2(); return false;');
-      }
-    }
-
+    "use strict";
     var formURL = form.action;
     var formData = new FormData($(form)[0]);
     //show box loading
     var html = '';
-      html += '<div class="Box">';
-      html += '<span>';
-      html += '<span></span>';
-      html += '</span>';
-      html += '</div>';
-      $('#box-loading').html(html);
+    html += '<div class="Box">';
+    html += '<span>';
+    html += '<span></span>';
+    html += '</span>';
+    html += '</div>';
+    $('#box-loading').html(html);
 
     $.ajax({
         type: $(form).attr('method'),
@@ -105,12 +86,12 @@ function filter_form_handler(form) {
         processData: false,
         url: formURL
     }).done(function(response) {
-    	$('#DivIdToPrint').html(response);
-		$('.tree').treegrid();
+        $('#DivIdToPrint').html(response);
+        $('.tree').treegrid();
 
-		//hide boxloading
-	    $('#box-loading').html('');
-	    $('button[id="uploadfile"]').removeAttr('disabled');
+        //hide boxloading
+        $('#box-loading').html('');
+        $('button[id="uploadfile"]').removeAttr('disabled');
     }).fail(function(error) {
         alert_float('danger', JSON.parse(error.mesage));
     });

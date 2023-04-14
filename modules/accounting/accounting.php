@@ -243,7 +243,6 @@ function accounting_load_js() {
     }
 
     if (!(strpos($viewuri, 'admin/accounting/rp_') === false) || !(strpos($viewuri, 'admin/accounting/report') === false)) {
-        echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/tableHTMLExport.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
         echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/plugins/treegrid/js/jquery.treegrid.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
         echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/report/main.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';
         echo '<script src="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/js/html2pdf/html2pdf.bundle.min.js') . '?v=' . ACCOUNTING_REVISION . '"></script>';

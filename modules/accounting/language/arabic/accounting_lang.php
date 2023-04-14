@@ -1,7 +1,7 @@
 <?php
 
 
-$lang['trial_balance_two'] = 'ميزان المراجعة التفصيلي';
+$lang['trial_balance_two'] = 'ميزان المراجعة التفصيلي (تجريبي)';
 $lang['opening_stock_credits'] = 'الرصيد الافتتاحي';
 $lang['movement'] = 'الحركة';
 $lang['ending_stock_credits'] = 'الرصيد الختامي';

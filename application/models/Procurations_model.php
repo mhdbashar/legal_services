@@ -220,6 +220,8 @@ class Procurations_model extends App_Model
                     ]);
                     if ($this->db->affected_rows() > 0) {
 
+                        log_activity(' Procuration Added [ID: ' . $insert_id . '] for client [ID: '.$data["client"].'');
+
                         $affectedRows++;
                     }
                 }

@@ -1117,6 +1117,29 @@ class Clients_model extends App_Model
             $this->db->where('user_id', $id);
             $this->db->where('staff', 0);
             $this->db->delete(db_prefix() . 'user_auto_login');
+            
+            $this->db->select('*');
+            $this->db->like('from_user_id', $id.'_client','none');
+            $messages = $this->db->get(db_prefix() . 'messages')->result_array();
+
+            $this->load->model('messages_model');
+            foreach ($messages as $message) {
+                $this->messages_model->delete_files($message['id']);
+            }
+
+            $this->db->select('*');
+            $this->db->like('to_user_id', $id.'_client','none');
+            $messages = $this->db->get(db_prefix() . 'messages')->result_array();
+
+            $this->load->model('messages_model');
+            foreach ($messages as $message) {
+                $this->messages_model->delete_files($message['id']);
+            }
+            $this->db->like('from_user_id', $id.'_client','none');
+            $this->db->delete(db_prefix() . 'messages');
+
+            $this->db->like('to_user_id', $id.'_client','none');
+            $this->db->delete(db_prefix() . 'messages');
 
             $this->db->select('ticketid');
             $this->db->where('contactid', $id);
@@ -1188,7 +1211,7 @@ class Clients_model extends App_Model
             $this->db->where('(email="' . $result->email . '" OR bcc LIKE "%' . $result->email . '%" OR cc LIKE "%' . $result->email . '%")');
             $this->db->delete(db_prefix() . 'mail_queue');
 
-            if (is_gdpr()) {
+            if (is_gdpr()) { 
                 $this->db->where('email', $result->email);
                 $this->db->delete(db_prefix() . 'listemails');
 

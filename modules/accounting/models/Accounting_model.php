@@ -3469,7 +3469,7 @@ class Accounting_model extends App_Model
                     $node['credit'] = $value[2];
                     $node['description'] = $value[3];
                     $node['rel_id'] = $insert_id;
-                    $node['rel_type'] = 'journal_entry';
+                    $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
@@ -6436,7 +6436,7 @@ class Accounting_model extends App_Model
                 $node['date'] = $data['journal_date'];
                 $node['description'] = $value[3];
                 $node['rel_id'] = $id;
-                $node['rel_type'] = 'journal_entry';
+                $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                 $node['datecreated'] = date('Y-m-d H:i:s');
                 $node['addedfrom'] = get_staff_user_id();
 

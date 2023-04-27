@@ -2845,7 +2845,7 @@ class Accounting extends AdminController
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
-        $data['accounts'] = $this->accounting_model->get_accounts();
+        $data['accounts'] = $this->accounting_model->get_accounts('', [], false);
         $this->load->view('report/includes/account_history', $data);
     }
 

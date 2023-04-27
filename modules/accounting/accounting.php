@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المحاسبة ومسك الدفاتر
 المحاسبة هي عملية تسجيل البيانات المالية وتتبعها لمعرفة السلامة المالية للكيان.
-Version: 1.1.6
+Version: 1.1.7
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa

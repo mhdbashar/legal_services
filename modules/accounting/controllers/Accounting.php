@@ -2443,6 +2443,7 @@ class Accounting extends AdminController
                 '1', // bulk actions
                 'id',
                 'number',
+                'type',
                 'journal_date',
             ];
 
@@ -2506,6 +2507,7 @@ class Accounting extends AdminController
                 }else{
                     $row[] = $aRow['number'].' - '.html_entity_decode($aRow['description']);
                 }
+                $row[] = $aRow['type'] == 1 ? _l('opening_stock') : '';
                 $row[] = app_format_money($aRow['amount'], $currency->name);
 
                 $output['aaData'][] = $row;

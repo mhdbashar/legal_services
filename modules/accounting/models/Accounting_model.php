@@ -1768,6 +1768,7 @@ class Accounting_model extends App_Model
 
         $this->db->where($where);
         $this->db->where('active', 1);
+        $this->db->where('default_account', 0);
         $this->db->order_by('account_type_id,account_detail_type_id', 'desc');
         $accounts = $this->db->get(db_prefix() . 'acc_accounts')->result_array();
 
@@ -3468,7 +3469,7 @@ class Accounting_model extends App_Model
                     $node['credit'] = $value[2];
                     $node['description'] = $value[3];
                     $node['rel_id'] = $insert_id;
-                    $node['rel_type'] = 'journal_entry';
+                    $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
@@ -6435,7 +6436,7 @@ class Accounting_model extends App_Model
                 $node['date'] = $data['journal_date'];
                 $node['description'] = $value[3];
                 $node['rel_id'] = $id;
-                $node['rel_type'] = 'journal_entry';
+                $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                 $node['datecreated'] = date('Y-m-d H:i:s');
                 $node['addedfrom'] = get_staff_user_id();
 

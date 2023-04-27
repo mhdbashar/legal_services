@@ -1768,6 +1768,7 @@ class Accounting_model extends App_Model
 
         $this->db->where($where);
         $this->db->where('active', 1);
+        $this->db->where('default_account', 0);
         $this->db->order_by('account_type_id,account_detail_type_id', 'desc');
         $accounts = $this->db->get(db_prefix() . 'acc_accounts')->result_array();
 

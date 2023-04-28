@@ -93,7 +93,7 @@
                       if($val['rel_type']=='invoice')
                           echo admin_url('invoices/list_invoices/'. $val['rel_id']);
                   elseif($val['rel_type']=='journal_entry')
-                        echo admin_url('accounting/journal_entry');
+                        echo admin_url('accounting/new_journal_entry/'. $val['rel_id']);
                   elseif($val['rel_type']=='deposit')
                       echo  '#';
                       elseif($val['rel_type']=='payment')

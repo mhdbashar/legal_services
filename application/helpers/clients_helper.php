@@ -787,6 +787,19 @@ function get_contact_permissions()
             'name'       => _l('customer_permission_projects'),
             'short_name' => 'projects',
         ],
+        [
+            'id'         => 7,
+            'name'       => _l('customer_permission_messages'),
+            'short_name' => 'messages',
+        ],
+        [
+            'id'         => 8,
+            'name'       => _l('customer_permission_messages_see'),
+            'short_name' => 'customer_see_email_only',
+        ],
+    
+        
+        
     ];
 
     return hooks()->apply_filters('get_contact_permissions', $permissions);

@@ -273,7 +273,7 @@ $lang['form_file_location'] = "موقع ملف النموذج";
 $lang['form_url'] = "رابط النموذج";
 $lang['form_info'] = "معلومات النموذج";
 $lang['recurring_session'] = "جلسة متكررة";
-$lang['show_tasks_on_calendar'] = "المهام أو الجلسات";
+$lang['show_tasks_on_calendar'] = "المهام";
 $lang['e_sign'] = "التوقيع الرقمي";
 $lang['sub_template_succeed'] = "نجاح دفع الاشتراكات";
 $lang['email_queue_skip_attachments_exp'] = "على الأرجح ستواجه مشاكل في قائمة انتظار البريد الإلكتروني إذا كان النظام بحاجة إلى إضافة ملفات كبيرة إلى قائمة الانتظار. إذا كنت تخطط لاستخدام هذا الخيار ، فاستشر مسؤول الخادم / مزود الاستضافة لزيادة خيارات max_allowed_packet و wait_timeout في تكوين الخادم ، وإلا عند تعيين هذا الخيار على نعم ، لن يضيف النظام رسائل بريد إلكتروني تحتوي على مرفقات في قائمة الانتظار وسوف يتم إرسالها على الفور.";
@@ -1180,9 +1180,19 @@ $lang['will end at'] = "ستنتهي بتاريخ ";
 $lang['select_regular_duration'] = "اختيار مدة نظامية";
 
 
-
+$lang['customer_permission_messages_see'] = "البريد الوارد فقط";
+$lang['see_email_only'] = "الرسائل الداخلية - البريد الوارد";
+$lang['customer_permission_messages'] = "التراسل";
+$lang['permission_create_to_client'] = "ارسال الرسال الى الزبائن";
+$lang['system_messages_client'] = "الرسائل الداخلية - العملاء";
+$lang['permission_receive'] = "سماحية استقبال الرسائل";
+$lang['system_messages'] = "الرسائل الداخلية - الموظفين";
 $lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
 $lang['staff_document_name'] = "أسم ممثل المنشأة";
+$lang['internal_messages'] = "المراسلات الداخلية";
+$lang['to_user_id'] = "ارسال الى";
+$lang['message'] = "الرسالة";
+
 
 
 

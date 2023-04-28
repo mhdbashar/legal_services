@@ -38,4 +38,35 @@ if(get_option('pusher_realtime_notifications') == 1){ ?>
    });
    </script>
 <?php } ?>
+
+<script>
+   function load_unseen_notification(view = '')
+ {
+
+  $.ajax({
+    url: "<?php echo admin_url('messages/messages_notefication'); ?>",
+   method:"POST",
+   data:{view:view},
+   dataType:"json",
+   success:function(data)
+   {
+  
+    if(data.unseen_notification > 0)
+    {
+     $('.message-noti').html(data.unseen_notification);
+    }
+   }
+  });
+ }
+ $(document).on('click', '.message-noti', function(){
+  $('.message-noti').html('');
+  load_unseen_notification('yes');
+ });
+ 
+ setInterval(function(){ 
+  load_unseen_notification(); 
+ }, 5000);
+
+</script>
+
 <?php app_admin_footer(); ?>

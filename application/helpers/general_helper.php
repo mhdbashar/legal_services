@@ -917,3 +917,28 @@ function get_last_upgrade_copy_data()
 
     return false;
 }
+/**
+ * check the array key and return the value 
+ * 
+ * @param array $array
+ * @return extract array value safely
+ */
+if (!function_exists('get_array_value')) {
+
+    function get_array_value($array, $key) {
+        if (is_array($array) && array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+    }
+
+}   
+
+if (!function_exists('get_current_utc_time')) {
+
+    function get_current_utc_time($format = "Y-m-d H:i:s") {
+        $d = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+        $d->setTimeZone(new DateTimeZone("UTC"));
+        return $d->format($format);
+    }
+
+}

@@ -249,6 +249,34 @@ function get_available_staff_permissions($data = [])
                 'send_to_customer' => _l('Send_to_customer'),
             ]
         ],
+        'system_messages' => [
+            'name'         => _l('system_messages'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),                   
+                'delete'           => _l('permission_delete'),
+                
+            ]
+        ],
+        'system_messages_client' => [
+            'name'         => _l('system_messages_client'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),     
+                'delete'           => _l('permission_delete'),
+                
+            ]
+        ],
+        'see_email_only' => [
+            'name'         => _l('see_email_only'),
+            'capabilities' => [
+                'view'           => _l('permission_view'),     
+             
+                
+            ]
+        ],
+        
+
+
+
     ];
 
     $addLeadsPermission = true;

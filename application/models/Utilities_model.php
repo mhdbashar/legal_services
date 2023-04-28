@@ -299,7 +299,7 @@ class Utilities_model extends App_Model
                 $this->db->select('is_session, '.db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,milestone,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
                 $this->db->from(db_prefix() . 'tasks');
                 $this->db->where('status !=', 5);
-               // $this->db->where('is_session', 0);
+                $this->db->where('is_session', 0);
 
                 $this->db->where("CASE WHEN duedate IS NULL THEN (startdate BETWEEN '$start' AND '$end') ELSE (duedate BETWEEN '$start' AND '$end') END", null, false);
 
@@ -326,7 +326,7 @@ class Utilities_model extends App_Model
                     $task['date'] = $task['date'];
 
                     $name             = mb_substr($task['title'], 0, 60) . '...';
-                    $task['_tooltip'] = ($task['is_session'] ? _l('session') : _l('calendar_task')) . ' - ' . $name . $rel_showcase;
+                    $task['_tooltip'] = _l('calendar_task') . ' - ' . $name . $rel_showcase;
                     $task['title']    = $name;
                     $status           = get_task_status_by_id($task['status']);
                     $task['color']    = $status['color'];
@@ -339,15 +339,64 @@ class Utilities_model extends App_Model
                     }
 
                     $task['className'] = $task['milestone'] ? ['milestone-' . $task['milestone']] : '';
-                    if($task['is_session']){
 
-                        $this->db->where('task_id', $task['id']);
-                        $session = $this->db->get(db_prefix() . 'my_session_info')->row_array();
-                        if(!empty($session))
-                        {
-                            $task['start'] = $task['date'] . ' '.$session['time'];
-                        }
+                    array_push($data, $task);
+                }
+            }
+        }
 
+        if (get_option('show_sessions_on_calendar') == 1 && !$ff || $ff && array_key_exists('sessions', $filters)) {
+            if ($client_data && !$has_contact_permission_projects) {
+            } else {
+                $this->db->select('is_session, '.db_prefix() . 'tasks.name as title,id,' . tasks_rel_name_select_query() . ' as rel_name,rel_id,status,milestone,CASE WHEN duedate IS NULL THEN startdate ELSE duedate END as date', false);
+                $this->db->from(db_prefix() . 'tasks');
+                $this->db->where('status !=', 5);
+                 $this->db->where('is_session', 1);
+
+                $this->db->where("CASE WHEN duedate IS NULL THEN (startdate BETWEEN '$start' AND '$end') ELSE (duedate BETWEEN '$start' AND '$end') END", null, false);
+
+                if ($client_data) {
+                    $this->db->where('rel_type', 'project');
+                    $this->db->where('rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $client_id . ')');
+                    $this->db->where('rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE name="view_tasks" AND value=1)');
+                    $this->db->where('visible_to_client', 1);
+                }
+
+                if ((!$has_permission_tasks_view || get_option('calendar_only_assigned_sessions') == '1') && !$client_data) {
+                    $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . '))');
+                }
+
+                $tasks = $this->db->get()->result_array();
+
+                foreach ($tasks as $task) {
+                    $rel_showcase = '';
+
+                    if (!empty($task['rel_id']) && !$client_data) {
+                        $rel_showcase = ' (' . $task['rel_name'] . ')';
+                    }
+
+                    $task['date'] = $task['date'];
+
+                    $name             = mb_substr($task['title'], 0, 60) . '...';
+                    $task['_tooltip'] = _l('session') . ' - ' . $name . $rel_showcase;
+                    $task['title']    = $name;
+                    $status           = get_task_status_by_id($task['status']);
+                    $task['color']    = get_option('calendar_sessions_color');
+
+                    if (!$client_data) {
+                        $task['onclick'] = 'init_session_modal(' . $task['id'] . '); return false' ;
+                        $task['url']     = admin_url('tasks/view/'.$task["id"]);
+                    } else {
+                        $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);
+                    }
+
+                    $task['className'] = $task['milestone'] ? ['milestone-' . $task['milestone']] : '';
+
+                    $this->db->where('task_id', $task['id']);
+                    $session = $this->db->get(db_prefix() . 'my_session_info')->row_array();
+                    if(!empty($session))
+                    {
+                        $task['start'] = $task['date'] . ' '.$session['time'];
                     }
 
                     array_push($data, $task);

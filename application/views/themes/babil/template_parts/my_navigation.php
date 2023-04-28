@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');?>
 <nav class="navbar navbar-default header">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -10,13 +10,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <?php get_company_logo('', 'navbar-brand logo'); ?>
+            <?php get_company_logo('', 'navbar-brand logo');?>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="theme-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <?php hooks()->do_action('customers_navigation_start'); ?>
-                <?php if (is_client_logged_in()) { ?>
+                <?php hooks()->do_action('customers_navigation_start');?>
+                <?php if (is_client_logged_in()) {?>
                 <li class="dropdown customers-nav-item-LegalServices">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
@@ -25,45 +25,74 @@
                     </a>
                     <ul class="dropdown-menu animated fadeIn">
                         <?php
-                        // Show menu item only if client is logged in
-                        $CI = &get_instance();
-                        $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
-                        $position = 0;
-                        if (has_contact_permission('projects')) {
-                            if (is_client_logged_in()) {
-                                foreach ($services as $service): ?>
+// Show menu item only if client is logged in
+    $CI = &get_instance();
+    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
+    $position = 0;
+    if (has_contact_permission('projects')) {
+        if (is_client_logged_in()) {
+            foreach ($services as $service): ?>
                                     <li class="customers-nav-item-logout">
                                         <a href="<?php echo $service->is_module == 0 ? site_url('clients/legals/' . $service->id) : site_url('clients/projects/' . $service->id); ?>">
                                             <?php echo $service->name; ?>
                                         </a>
                                     </li>
-                                <?php endforeach; ?>
+                                <?php endforeach;?>
                                 <li class="customers-nav-item-logout">
                                     <a href="<?php echo site_url('clients/imported/'); ?>">
                                         <?php echo _l('imported_services'); ?>
                                     </a>
                                 </li>
                             <?php }
-                        } ?>
+    }?>
                     </ul>
+
+
+                    <?php if (is_client_logged_in()) {?>
+                <?php if (has_contact_permission('messages') || has_contact_permission('customer_see_email_only')) {?>
+                    <li>
+         <a href="<?php echo site_url('messages/inbox'); ?>"  data-toggle="tooltip" title="<?php echo _l('البريد'); ?>" data-placement="bottom"><i class="fa fa-envelope  fa-lg" aria-hidden="true"></i>
+         <span class="message-noti  bg-warning icon-total-indicator" style="  
+     background-color: red;
+    padding: 10px;
+    border-radius: 100%;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    /* background-color: #f00; */
+    border-radius: 10px;
+    margin-top: -28px;
+    margin-right: -34px;">0</span>
+         </a>
+      </li>
+        <?php }?>
+        <?php }?>
+
                 </li>
-                <?php } ?>
-                <?php foreach ($menu as $item_id => $item) { ?>
+                <?php }?>
+                <?php foreach ($menu as $item_id => $item) {?>
                     <li class="customers-nav-item-<?php echo $item_id; ?>"
                         <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
                         <a href="<?php echo $item['href']; ?>"
                             <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
                             <?php
-                            if (!empty($item['icon'])) {
-                                echo '<i class="' . $item['icon'] . '"></i> ';
-                            }
-                            echo $item['name'];
-                            ?>
+if (!empty($item['icon'])) {
+    echo '<i class="' . $item['icon'] . '"></i> ';
+}
+    echo $item['name'];
+    ?>
                         </a>
                     </li>
-                <?php } ?>
-                <?php hooks()->do_action('customers_navigation_end'); ?>
-                <?php if (is_client_logged_in()) { ?>
+                <?php }?>
+                <?php hooks()->do_action('customers_navigation_end');?>
+                <?php if (is_client_logged_in()) {?>
                     <li class="dropdown customers-nav-item-profile">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
@@ -79,68 +108,68 @@
                                     <?php echo _l('clients_nav_profile'); ?>
                                 </a>
                             </li>
-                            <?php if ($contact->is_primary == 1) { ?>
-                                <?php if (can_loggged_in_user_manage_contacts()) { ?>
+                            <?php if ($contact->is_primary == 1) {?>
+                                <?php if (can_loggged_in_user_manage_contacts()) {?>
                                     <li class="customers-nav-item-edit-profile">
                                         <a href="<?php echo site_url('contacts'); ?>">
                                             <?php echo _l('clients_nav_contacts'); ?>
                                         </a>
                                     </li>
-                                <?php } ?>
+                                <?php }?>
                                 <li class="customers-nav-item-company-info">
                                     <a href="<?php echo site_url('clients/company'); ?>">
                                         <?php echo _l('client_company_info'); ?>
                                     </a>
                                 </li>
-                            <?php } ?>
-                            <?php if (can_logged_in_contact_update_credit_card()) { ?>
+                            <?php }?>
+                            <?php if (can_logged_in_contact_update_credit_card()) {?>
                                 <li class="customers-nav-item-stripe-card">
                                     <a href="<?php echo site_url('clients/credit_card'); ?>">
                                         <?php echo _l('credit_card'); ?>
                                     </a>
                                 </li>
-                            <?php } ?>
-                            <?php if (is_gdpr() && get_option('show_gdpr_in_customers_menu') == '1') { ?>
+                            <?php }?>
+                            <?php if (is_gdpr() && get_option('show_gdpr_in_customers_menu') == '1') {?>
                                 <li class="customers-nav-item-announcements">
                                     <a href="<?php echo site_url('clients/gdpr'); ?>">
                                         <?php echo _l('gdpr_short'); ?>
                                     </a>
                                 </li>
-                            <?php } ?>
+                            <?php }?>
                             <li class="customers-nav-item-announcements">
                                 <a href="<?php echo site_url('clients/announcements'); ?>">
                                     <?php echo _l('announcements'); ?>
-                                    <?php if ($total_undismissed_announcements != 0) { ?>
+                                    <?php if ($total_undismissed_announcements != 0) {?>
                                         <span class="badge"><?php echo $total_undismissed_announcements; ?></span>
-                                    <?php } ?>
+                                    <?php }?>
                                 </a>
                             </li>
                             <?php if (!is_language_disabled()) {
-                                ?>
+    ?>
                                 <li class="dropdown-submenu pull-left customers-nav-item-languages">
                                     <a href="#" tabindex="-1">
                                         <?php echo _l('language'); ?>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-left">
                                         <li class="<?php if (get_contact_language() == "") {
-                                            echo 'active';
-                                        } ?>">
+        echo 'active';
+    }?>">
                                             <a href="<?php echo site_url('clients/change_language'); ?>">
                                                 <?php echo _l('system_default_string'); ?>
                                             </a>
                                         </li>
-                                        <?php foreach ($this->app->get_available_languages() as $user_lang) { ?>
+                                        <?php foreach ($this->app->get_available_languages() as $user_lang) {?>
                                             <li <?php if (get_contact_language() == $user_lang) {
-                                                echo 'class="active"';
-                                            } ?>>
+        echo 'class="active"';
+    }?>>
                                                 <a href="<?php echo site_url('clients/change_language/' . $user_lang); ?>">
                                                     <?php echo ucfirst($user_lang); ?>
                                                 </a>
                                             </li>
-                                        <?php } ?>
+                                        <?php }?>
                                     </ul>
                                 </li>
-                            <?php } ?>
+                            <?php }?>
                             <li class="customers-nav-item-logout">
                                 <a href="<?php echo site_url('authentication/logout'); ?>">
                                     <?php echo _l('clients_nav_logout'); ?>
@@ -148,11 +177,41 @@
                             </li>
                         </ul>
                     </li>
-                <?php } ?>
-                <?php hooks()->do_action('customers_navigation_after_profile'); ?>
+                <?php }?>
+                <?php hooks()->do_action('customers_navigation_after_profile');?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
 </nav>
+<script>
+   function load_unseen_notification(view = '')
+ {
+    
+
+  $.ajax({
+    url: "<?php echo site_url('messages/messages_notefication'); ?>",
+   method:"POST",
+   data:{view:view},
+   dataType:"json",
+   success:function(data)
+   {
+  
+    if(data.unseen_notification > 0)
+    {
+     $('.message-noti').html(data.unseen_notification);
+    }
+   }
+  });
+ }
+ $(document).on('click', '.message-noti', function(){
+  $('.message-noti').html('');
+  load_unseen_notification('yes');
+ });
+ 
+ setInterval(function(){ 
+  load_unseen_notification(); 
+ }, 5000);
+
+</script>

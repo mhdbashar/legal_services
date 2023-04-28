@@ -10,6 +10,20 @@ if (is_rtl()) {
     $text_align = 'left';
     $attr_align = 'right';
 }
+$image_file = get_option('custom_pdf_header_image_url');
+if($image_file !== ''){
+$pdf->SetMargins(10, 60, 10, true);
+  
+    
+}
+
+ $image_file_footer = get_option('custom_pdf_footer_image_url');
+if($image_file_footer !== ''){
+$pdf->SetMargins(10, 60, 10, true);
+$pdf->SetAutoPageBreak(TRUE, 60);
+  
+    
+}
 
 $dimensions = $pdf->getPageDimensions();
 

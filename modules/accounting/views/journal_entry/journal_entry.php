@@ -11,14 +11,24 @@
           <h4 class="no-margin font-bold"><?php echo _l($title); ?></h4>
           <hr />
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <?php $value = (isset($journal_entry) ? _d($journal_entry->journal_date) : _d(date('Y-m-d'))); ?>
               <?php echo render_date_input('journal_date','journal_date',$value); ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <?php $value = (isset($journal_entry) ? $journal_entry->number : $next_number); ?>
               <?php echo render_input('number','number',$value,'number'); ?>
             </div>
+
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="complaint_from" class="control-label"><?php echo _l('type ') ?></label>
+                      <select required="required" class="form-control" id="type" name="type" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                          <option value="0"></option>
+                          <option <?= isset($journal_entry) && $journal_entry->type == 1 ? 'selected': '' ?> value="1"><?php echo _l('opening_stock') ?></option>
+                      </select>
+                  </div>
+              </div>
           </div>
           <div id="journal_entry_container"></div>
           <div class="col-md-8 col-md-offset-4">

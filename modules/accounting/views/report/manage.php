@@ -110,8 +110,11 @@
                       <p><?php echo _l('transaction_list_by_date_note'); ?></p>
                       <a href="<?php echo admin_url('accounting/rp_transaction_list_with_splits'); ?>" class="hide"><h4 class="no-margin"><?php echo _l('transaction_list_with_splits'); ?></h4></a>
                       <p class="hide"><?php echo _l('transaction_list_with_splits_note'); ?></p>
-                      <a href="<?php echo admin_url('accounting/rp_trial_balance'); ?>"><h4 class="no-margin"><?php echo _l('trial_balance'); ?></h4></a>
-                      <p><?php echo _l('trial_balance_note'); ?></p>
+                        <a href="<?php echo admin_url('accounting/rp_trial_balance'); ?>"><h4 class="no-margin"><?php echo _l('trial_balance'); ?></h4></a>
+                        <p><?php echo _l('trial_balance_note'); ?></p>
+
+                        <a href="<?php echo admin_url('accounting/rp_trial_balance_two'); ?>"><h4 class="no-margin"><?php echo _l('trial_balance_two'); ?></h4></a>
+                        <p><?php echo _l('trial_balance_two_note'); ?></p>
                       <a href="<?php echo admin_url('accounting/rp_bank_reconciliation_summary'); ?>"><h4 class="no-margin"><?php echo _l('bank_reconciliation_summary'); ?></h4></a>
                       <p class=""><?php echo _l('bank_reconciliation_summary_note'); ?></p>
                       <a href="<?php echo admin_url('accounting/rp_bank_reconciliation_detail'); ?>"><h4 class="no-margin"><?php echo _l('bank_reconciliation_detail'); ?></h4></a>

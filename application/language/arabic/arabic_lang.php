@@ -1094,6 +1094,10 @@ $lang['settings_show_sale_agent_on_estimates'] = "إظهار اسم مندوب �
 $lang['settings_predefined_predefined_term'] = "الشروط والأحكام المحددة مسبقا";
 $lang['settings_predefined_clientnote'] = "ملاحظة العميل المعرفة مسبقا";
 $lang['settings_custom_pdf_logo_image_url'] = "رابط ملف PDF مخصص  لشعار الشركة";
+$lang['settings_custom_pdf_header_image_url'] = "رابط مخصص لصورة في الترويسة في  ملف ال PDF";
+$lang['settings_custom_pdf_footer_image_url'] = "رابط مخصص لصورة في ذيل  في  ملف ال PDF";
+$lang['settings_custom_pdf_header_image_url_tooltip'] = "رابط مخصص لصورة في الترويسة في  ملف ال PDF";
+$lang['settings_custom_pdf_footer_image_url_tooltip'] = "رابط مخصص لصورة في ذيل  في  ملف ال PDF";
 $lang['settings_custom_pdf_logo_image_url_tooltip'] = "ربما ستواجه مشكلات مع شفافية صور PNG  يتم التعامل معها بطريقة مختلفة اعتمادًا على إصدار php-imagick أو php-gd المستخدم. حاول تحديث php-imagick وتعطيل php-gd. إذا تركت هذا الحقل فارغًا ، فسيتم استخدام الشعار الذي تم تحميله.";
 $lang['sale_agent_string'] = "مندوب المبيعات";
 $lang['amount_display_in_base_currency'] = "يتم عرض المبلغ بالعملة الأساسية الخاصة بك - استخدم هذا التقرير فقط إذا كنت تستخدم عملة واحدة للمدفوعات والنفقات.";
@@ -2147,6 +2151,8 @@ $lang['expense_recurring_months'] = "شهر";
 $lang['expense_recurring_years'] = "سنة";
 $lang['reset_to_default_color'] = "إعادة تعيين إلى اللون الإفتراضي";
 $lang['pdf_logo_width'] = "عرض الشعار (PX)";
+$lang['pdf_header_logo_width'] = "عرض الشعار (PX) لرأس الصفحة ";
+$lang['pdf_footer_logo_width'] = "عرض الشعار (PX) لذيل الصفحة";
 $lang['drop_files_here_to_upload'] = "إسقاط الملفات هنا للتحميل";
 $lang['browser_not_support_drag_and_drop'] = "متصفحك لا يدعم تحميل الملفات بالسحب";
 $lang['remove_file'] = "إزالة الملف";
@@ -3465,7 +3471,12 @@ $lang['correspond'] = " الموافق ";
 $lang['sessions_send_contact_notification'] = 'إرسال تقرير الجلسة و الطلبات الى :';
 $lang['sessions_send_all_contacts_with_notifications_enabled'] = 'لجميع جهات الاتصال مع تمكين التنبيهات';
 $lang['sessions_contacts_to_notify'] = 'إختر جهات الإتصال';
+$lang['show_sessions_on_calendar'] = 'الجلسات';
+$lang['calendar_only_assigned_sessions'] = 'إظهار الجلسات المعينة للموظف الذي تم تسجيل دخوله فقط';
+$lang['calendar_sessions_color'] = 'اللون الجلسات';
 
+$lang['customer_permission_messages'] = "التراسل";
+$lang['customer_permission_messages_see'] = "البريد الوارد فقط";
 
 
 

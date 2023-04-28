@@ -2249,7 +2249,7 @@ class Accounting extends AdminController
      * convert
      * @return json
      */
-    public function convert(){
+    public function convert($from_invoice = ''){
         if (!has_permission('accounting_transaction', '', 'create')) {
             access_denied('accounting');
         }
@@ -2259,6 +2259,10 @@ class Accounting extends AdminController
             $message = _l('successfully_converted');
         }else {
             $message = _l('conversion_failed');
+        }
+        if($from_invoice != ''){
+            set_alert('success', _l('successfully'));
+            redirect(admin_url('invoices#'.$from_invoice));
         }
         echo json_encode(['success' => $success, 'message' => $message]);
         die();
@@ -2439,6 +2443,7 @@ class Accounting extends AdminController
                 '1', // bulk actions
                 'id',
                 'number',
+                'type',
                 'journal_date',
             ];
 
@@ -2502,6 +2507,7 @@ class Accounting extends AdminController
                 }else{
                     $row[] = $aRow['number'].' - '.html_entity_decode($aRow['description']);
                 }
+                $row[] = $aRow['type'] == 1 ? _l('opening_stock') : '';
                 $row[] = app_format_money($aRow['amount'], $currency->name);
 
                 $output['aaData'][] = $row;
@@ -2839,7 +2845,7 @@ class Accounting extends AdminController
         $data['from_date'] = date('Y-m-01');
         $data['to_date'] = date('Y-m-d');
         $data['currency'] = $this->currencies_model->get_base_currency();
-        $data['accounts'] = $this->accounting_model->get_accounts();
+        $data['accounts'] = $this->accounting_model->get_accounts('', [], false);
         $this->load->view('report/includes/account_history', $data);
     }
 
@@ -2922,6 +2928,20 @@ class Accounting extends AdminController
         $data['accounting_method'] = get_option('acc_accounting_method');
         $data['currency'] = $this->currencies_model->get_base_currency();
         $this->load->view('report/includes/trial_balance', $data);
+    }
+
+    /**
+     * report trial balance two
+     * @return view
+     */
+    public function rp_trial_balance_two(){
+        $this->load->model('currencies_model');
+        $data['title'] = _l('trial_balance');
+        $data['from_date'] = date('Y-m-01');
+        $data['to_date'] = date('Y-m-d');
+        $data['accounting_method'] = get_option('acc_accounting_method');
+        $data['currency'] = $this->currencies_model->get_base_currency();
+        $this->load->view('report/includes/trial_balance_two', $data);
     }
 
     /**
@@ -3793,6 +3813,9 @@ class Accounting extends AdminController
                 break;
             case 'trial_balance':
                 $data['data_report'] = $this->accounting_model->get_data_trial_balance($data_filter);
+                break;
+            case 'trial_balance_two':
+                $data['data_report'] = $this->accounting_model->get_data_trial_balance_two($data_filter);
                 break;
             case 'account_history':
                 $data['data_report'] = $this->accounting_model->get_data_account_history($data_filter);

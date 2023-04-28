@@ -24,7 +24,8 @@
               <tr>
                 <th><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="journal-entry"><label></label></div></th>
                  <th><?php echo _l('journal_date'); ?></th>
-                 <th><?php echo _l('number').' - '._l('description'); ?></th>
+                  <th><?php echo _l('number').' - '._l('description'); ?></th>
+                  <th><?php echo _l('type'); ?></th>
                  <th><?php echo _l('acc_amount'); ?></th>
               </tr>
            </thead>

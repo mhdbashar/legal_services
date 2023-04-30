@@ -16,12 +16,14 @@ class Utilities_model extends App_Model
     public function event($data)
     {
         $data['userid'] = get_staff_user_id();
-        $data['start']  = to_sql_date($data['start'], true);
+        $data['start']  = to_sql_date($data['start'] . ' ' .$data['time'] . ':00', true);
         if ($data['end'] == '') {
             unset($data['end']);
         } else {
-            $data['end'] = to_sql_date($data['end'], true);
+            $data['end'] = to_sql_date($data['end'] . ' ' .$data['end_time'] . ':00', true);
         }
+
+        unset($data['time'], $data['end_time']);
         if (isset($data['public'])) {
             $data['public'] = 1;
         } else {

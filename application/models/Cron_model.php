@@ -325,6 +325,14 @@ class Cron_model extends App_Model
                             }
 
                             send_mail_template('contract_expiration_reminder_to_staff', $contract, $member);
+                            //*******telegram notifications*******
+                            if($this->app_modules->is_active('telegram_chat')) {
+                                $this->load->helper('telegram_helper');
+                                $link1 = "<a href= '#' > </a>";
+                                $txt = " تذكير &#128227\n" . "اقترب العقد " . $contract ."\n" . "من الانتهاء " . $link1 . "\n Done!";
+                                send_message_telegram(urlencode($txt));
+                            }
+                            //**********************
                         }
                     }
 
@@ -1042,8 +1050,18 @@ class Cron_model extends App_Model
                                 array_push($notifiedUsers, $member['staffid']);
                             }
 
-                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
 
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+                            //*******telegram notifications*******
+                            if($this->app_modules->is_active('telegram_chat')) {
+                                $this->load->helper('telegram_helper');
+                                $this->load->helper('my_functions_helper');
+                                $procuration_name = get_procuration_name_by_id($procuration['id']);
+                                $link1 = "<a href= '#' > </a>";
+                                $txt = " تذكير &#128227\n" . "اقتربت الوكالة" . $procuration_name ."\n" . "من الانتهاء " . $link1 . "\n Done!";
+                                send_message_telegram(urlencode($txt));
+                            }
+                            //**********************
 
                             $this->db->where('id', $procuration['id']);
                             $this->db->update(db_prefix() . 'procurations', [

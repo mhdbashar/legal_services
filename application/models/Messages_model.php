@@ -159,6 +159,44 @@ class Messages_model extends App_Model
 
         return false;
     }
+    public function delete_files($id)
+    {
+
+        $this->db->where('relid', $id);
+        $this->db->where('fieldto', 'message'); //message is the name of belong to in custom fields table
+        $this->db->delete(db_prefix() . 'customfieldsvalues');
+
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'messages');
+        if ($this->db->affected_rows() > 0) {
+            if (is_dir(get_upload_path_by_type('message') . $id)) {
+                if (delete_dir(get_upload_path_by_type('message') . $id)) {
+                    $this->db->where('rel_id', $id);
+                    $this->db->where('rel_type', 'message');
+                    $this->db->delete(db_prefix() . 'files');
+
+                }
+            }
+            $this->db->where('message_id', $id);
+            $rows = $this->db->get(db_prefix() . 'messages')->result();
+
+            foreach ($rows as $row) {
+                if (is_dir(get_upload_path_by_type('message') . $row->id)) {
+                    if (delete_dir(get_upload_path_by_type('message') . $row->id)) {
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', 'message');
+                        $this->db->delete(db_prefix() . 'files');
+
+                    }
+                }
+            }
+
+
+            return true;
+        }
+
+        return false;
+    }
 
     public function get_list_client_contacts($options = array())
     {

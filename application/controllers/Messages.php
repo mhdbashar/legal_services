@@ -97,7 +97,7 @@ class Messages extends ClientsController
                         handle_message_upload($id);
 
                         set_alert('success', _l('added_successfully', _l('Message')));
-                       
+
                         redirect(site_url('messages/sent_items/'));
                     }
                 } else {
@@ -230,12 +230,6 @@ class Messages extends ClientsController
         } else {
             echo json_encode(array("success" => true));
         }
-
-    }
-
-    public function reply_messages_all($message_id)
-    {
-        $data['result'] = $this->Messages_model->get_reply_all($message_id);
 
     }
 

@@ -14,10 +14,13 @@ class Api_lib extends ClientsController
         $this->load->model('api_model');
     }
 
-//    public function copy_type(){
-//        $text  = $this->api_model->copy();
-//        echo $text;exit();
-//    }
+    public function copy_type()
+    {
+        $text = $this->api_model->copy();
+        echo $text;
+        exit();
+    }
+
     public function article($id)
     {
 
@@ -134,7 +137,7 @@ class Api_lib extends ClientsController
         $type = $this->input->post('type');
         $text = explode(' ', $text);
         $all_id = [];
-        if ($type == 13 ) {//|| $type == 15|| $type == 19
+        if ($type == 13) {//|| $type == 15|| $type == 19
             foreach ($text as $item) {
                 if ($item == '' || $item == ' ')
                     continue;
@@ -142,12 +145,7 @@ class Api_lib extends ClientsController
                 foreach ($data as $val) {
                     $all_id[] = $val;
                 }
-//                $all_id[] = $data;
             }
-//            echo json_encode($all_id);
-//            die();
-//            exit();
-
             $values = array_count_values($all_id);
             arsort($values);
             $popular = array_slice(array_keys($values), 0, 30, true);
@@ -234,23 +232,25 @@ class Api_lib extends ClientsController
             echo "<br>";
             echo 'OK';
             while ($row = mysqli_fetch_object($res))
-                echo var_dump($row);echo '<br>';
-        }else
+                echo var_dump($row);
+            echo '<br>';
+        } else
             die("error  " . mysqli_connect_error());
 
         exit();
     }
 
-    public function add_staff_babil(){
+    public function add_staff_babil()
+    {
         $key = '2XeRfebcWS5y';
-        $data= $this->input->post();
+        $data = $this->input->post();
         unset($data['key']);
         unset($data['csrf_token_name']);
-        if($key != $this->input->post('key')) return false;
-        $staff = is_staff($data['email'],$data['firstname'],$data['lastname']);
-        if($staff){
+        if ($key != $this->input->post('key')) return false;
+        $staff = is_staff($data['email'], $data['firstname'], $data['lastname']);
+        if ($staff) {
             echo 'ok';
-        }else{
+        } else {
             $this->load->model('staff_model');
             $staff_id = $this->staff_model->add_from_legalservices($data);
             echo $staff_id;

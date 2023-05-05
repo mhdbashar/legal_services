@@ -4,9 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function kb_group_name($id){
     $CI = & get_instance();
     $CI->db->where('groupid', $id);
-    $main_group = $CI->db->get(db_prefix() . 'knowledge_base_groups')->row();
-    if($main_group)
-        return $main_group;
+    $group = $CI->db->get(db_prefix() . 'knowledge_base_groups')->row();
+    if($group)
+        return $group;
     else
         return false;
 }
@@ -122,4 +122,23 @@ function is_staff($email,$firstname,$lastname){
     return false;
 }
 
+function get_knowledge_article($id){
+    $CI = & get_instance();
+    $CI->db->where('articleid', $id);
+    $article = $CI->db->get(db_prefix() . 'knowledge_base')->row();
+    if($article)
+        return $article;
+    else
+        return false;
+}
+
+function get_knowledge_custom_field($id){
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    $article = $CI->db->get(db_prefix() . 'knowledge_custom_fields')->row();
+    if($article)
+        return $article;
+    else
+        return false;
+}
 

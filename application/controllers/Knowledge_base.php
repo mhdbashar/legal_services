@@ -68,7 +68,7 @@ class Knowledge_base extends ClientsController
         $data['articles'] = get_all_knowledge_base_articles_grouped(true, [], $q);
         $data['search_results'] = true;
         $data['title'] = _l('showing_search_result', $q);
-        $data['knowledge_base_search'] = true;
+//        $data['knowledge_base_search'] = true;
         $this->view('knowledge_base');
         $this->data($data);
         $this->layout();
@@ -88,11 +88,14 @@ class Knowledge_base extends ClientsController
             show_404();
         }
 
-        $data['knowledge_base_search'] = true;
-        $data['related_articles'] = $this->knowledge_base_model->get_related_articles($data['article']->articleid);
+//        $data['knowledge_base_search'] = true;
+//        $data['related_articles'] = $this->knowledge_base_model->get_related_articles($data['article']->articleid);
         add_views_tracking('kb_article', $data['article']->articleid);
         $data['title'] = $data['article']->subject;
         $data['fields'] = $this->knowledge_base_model->get_content($id);
+//        if ($data['article']->type == 13) {
+//            $data['links'] = $this->knowledge_base_model->get_links($id);
+//        }
         $this->view('knowledge_base_article');
         $this->data($data);
         $this->layout();

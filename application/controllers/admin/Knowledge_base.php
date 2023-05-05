@@ -25,7 +25,6 @@ class Knowledge_base extends AdminController
         $data['bodyclass'] = 'top-tabs kan-ban-body';
         $data['title'] = _l('kb_string');
         $this->load->view('admin/knowledge_base/articles', $data);
-//        echo '<pre>';echo print_r($data);exit();
     }
 
     /* Add new article or edit existing*/
@@ -168,7 +167,7 @@ class Knowledge_base extends AdminController
         if (!has_permission('knowledge_base', '', 'view')) {
             access_denied('knowledge_base');
         }
-        if(is_staff_from_legalservices(get_staff_user_id())){
+        if (is_staff_from_legalservices(get_staff_user_id())) {
             redirect(admin_url('knowledge_base'));
         }
         $data['groups'] = $this->knowledge_base_model->get_kbg();
@@ -223,6 +222,39 @@ class Knowledge_base extends AdminController
     }
 
     /* Change group active or inactive */
+
+    public function update_all_main_group_id()
+    {
+        $groups = get_kb_groups();
+        foreach ($groups as $group) {
+            if ($group['parent_id'] == 0) {
+                $this->db->where('groupid', $group['groupid']);
+                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id' => $group['groupid']]);
+                continue;
+            }
+            if ($group['is_main'] == 1) {
+                $this->db->where('groupid', $group['groupid']);
+                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id' => $group['parent_id']]);
+                continue;
+            }
+            $parent_id = $group['parent_id'];
+            for ($i = 0; $i < 11; $i++) {
+                $this->db->where('groupid', $parent_id);
+                $main_group = $this->db->get(db_prefix() . 'knowledge_base_groups')->row();
+                if ($main_group) {
+                    if ($main_group->is_main == 1) {
+                        $this->db->where('groupid', $group['groupid']);
+                        $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id' => $main_group->groupid]);
+                        break;
+                    }
+                    $parent_id = $main_group->parent_id;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
     public function change_group_status($id, $status)
     {
         if (has_permission('knowledge_base', '', 'edit')) {
@@ -231,6 +263,8 @@ class Knowledge_base extends AdminController
             }
         }
     }
+
+    /* Delete article group */
 
     public function update_groups_order()
     {
@@ -241,7 +275,6 @@ class Knowledge_base extends AdminController
         }
     }
 
-    /* Delete article group */
     public function delete_group($id)
     {
         if (!has_permission('knowledge_base', '', 'delete')) {
@@ -275,7 +308,6 @@ class Knowledge_base extends AdminController
         echo $out;
     }
 
-
     public function delete_all_article_for_group_by_type($type)
     {
         $all_article = get_all_article_by_type($type);
@@ -299,35 +331,29 @@ class Knowledge_base extends AdminController
         $this->load->view('admin/knowledge_base/kb_activity');
     }
 
-    public function update_all_main_group_id(){
-        $groups = get_kb_groups();
-        foreach ($groups as $group){
-            if($group['parent_id'] == 0) {
-                $this->db->where('groupid', $group['groupid']);
-                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$group['groupid']]);
-                continue;
-            }
-            if($group['is_main'] == 1) {
-                $this->db->where('groupid', $group['groupid']);
-                $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$group['parent_id']]);
-                continue;
-            }
-            $parent_id = $group['parent_id'];
-            for ($i = 0; $i < 11; $i++) {
-                $this->db->where('groupid', $parent_id);
-                $main_group = $this->db->get(db_prefix() . 'knowledge_base_groups')->row();
-                if($main_group) {
-                    if($main_group->is_main==1) {
-                        $this->db->where('groupid', $group['groupid']);
-                        $this->db->update(db_prefix() . 'knowledge_base_groups', ['main_group_id'=>$main_group->groupid]);
-                        break;
-                    }
-                    $parent_id = $main_group->parent_id;
-                }else{
-                    break;
-                }
-            }
+    public function kb_nezam_vers()
+    {
+        if (!has_permission('knowledge_base', '', 'view')) {
+            access_denied('knowledge_base');
         }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('knowlege_nezam_vers');
+        }
+        $this->load->view('admin/knowledge_base/kb_nezam_vers');
+    }
+
+    public function get_all_childe_group_ajax()
+    {
+        $group_id = $this->input->post('id');
+        $groups = kb_all_childe_group($group_id);
+        foreach ($groups as $key => $group) {
+            $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
+            if ($group_id == $group['groupid']) unset($groups[$key]);
+        }
+        if (count($groups) == 0) {
+            echo json_encode(0);
+        } else
+            echo json_encode($groups);
     }
 
     public function get_kb_all_childe_group_ajax()
@@ -339,5 +365,144 @@ class Knowledge_base extends AdminController
         }
         echo json_encode($groups);
     }
+
+    public function knowlege_nezam_vers($id = '')
+    {
+        if (!has_permission('knowledge_base', '', 'view')) {
+            access_denied('knowledge_base');
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if ($id == '') {
+                if (!has_permission('knowledge_base', '', 'create')) {
+                    access_denied('knowledge_base');
+                }
+                if (isset($data['nezam_ids'])) {
+                    $ids = $data['nezam_ids'];
+                    unset($data['nezam_ids']);
+                } else
+                    $ids = [];
+
+                $added = $this->knowledge_base_model->add_nezam_vers($data);
+                if ($added) {
+                    foreach ($ids as $id) {
+                        $this->db->insert(db_prefix() . 'my_knowledge_nezam_vers', ['vers_id' => "$added", 'knowledge_id' => $id]);
+                    }
+                    set_alert('success', _l('added_successfully', _l('kb_nezam_vers')));
+                    redirect(admin_url('knowledge_base/kb_nezam_vers'));
+                }
+            } else {
+                if (!has_permission('knowledge_base', '', 'edit')) {
+                    access_denied('knowledge_base');
+                }
+                if (isset($data['nezam_ids'])) {
+                    $ids = $data['nezam_ids'];
+                    unset($data['nezam_ids']);
+                } else
+                    $ids = [];
+
+                $update = $this->knowledge_base_model->update_nezam_vers($data, $id);
+                if ($update) {
+                    $this->db->where('vers_id', $id);
+                    $this->db->delete(db_prefix() . 'my_knowledge_nezam_vers');
+                    foreach ($ids as $nezam_id) {
+                        $this->db->insert(db_prefix() . 'my_knowledge_nezam_vers', ['vers_id' => "$id", 'knowledge_id' => $nezam_id]);
+                    }
+                    set_alert('success', _l('updated_successfully', _l('kb_nezam_vers')));
+                    redirect(admin_url('knowledge_base/kb_nezam_vers'));
+                }
+
+            }
+        }
+
+        if ($id == '') {
+            $title = _l('add_new', _l('kb_nezam_vers'));
+        } else {
+            $version = $this->knowledge_base_model->get_nezam_vers($id);
+            $data['vers'] = $version;
+            $title = _l('edit', _l('kb_nezam_vers')) . ' ' . $version->name;
+        }
+
+        $data['bodyclass'] = 'kb-article';
+        $data['title'] = $title;
+        $this->load->view('admin/knowledge_base/kb_add_nezam_vers', $data);
+    }
+
+    public function delete_nezam_vers($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'nezam_vers');
+        if ($this->db->affected_rows() > 0) {
+            $this->db->where('vers_id', $id);
+            $this->db->delete(db_prefix() . 'my_knowledge_nezam_vers');
+            set_alert('success', _l('deleted_successfully'));
+            log_activity('nezam_vers Deleted [nezam_versID: ' . $id . ']');
+            redirect(admin_url('knowledge_base/kb_nezam_vers'));
+        }
+
+        set_alert('warning', _l('problem_deleting'));
+        redirect(admin_url('knowledge_base/kb_nezam_vers'));
+    }
+
+    public function build_dropdown_nezams()
+    {
+        $data = $this->input->post();
+        $articlegroup = 0;
+        if ($data['country'] == 194) {
+            $articlegroup = 2;
+        }
+        $this->db->where('articlegroup', $articlegroup);
+        $nezams = $this->db->get(db_prefix() . 'knowledge_base')->result_array();
+        $vers_ids = [];
+        if (isset($data['vers_id']) && $data['vers_id'] != 0) {
+            $this->db->where('vers_id', $data['vers_id']);
+            $vers_ids = $this->db->get(db_prefix() . 'my_knowledge_nezam_vers')->result_array();
+        }
+        $output = '<div class="form-group">';
+        $output .= '<label for="nezam_ids">' . _l('nezams') . '</label>';
+        foreach ($nezams as $nezam) {
+            $output .= '<div class="checkbox checkbox-primary">';
+            $checked = '';
+            foreach ($vers_ids as $vers_id) {
+                if ($nezam['articleid'] == $vers_id['knowledge_id']) {
+                    $checked = ' checked';
+                }
+            }
+            $output .=
+                '<input type="checkbox" id="nezam_' . $nezam['articleid'] . '" name="nezam_ids[]" value="' . $nezam['articleid'] . '"' . $checked . '>' .
+                '<label for="nezam_' . $nezam['articleid'] . '">' . $nezam['subject'] . '</label>' .
+                '</div>';
+        }
+        $output .= '</div>';
+        echo $output;
+    }
+
+    public function get_kb_country_groups_ajax()
+    {
+        $group_id = $this->input->post('id');
+        $groups = get_kb_main_groups();
+//        foreach ($groups as $key => $group) {
+//            $groups[$key]['full_name'] = kb_all_main_group_name($group['groupid']);
+//        }
+        echo json_encode($groups);
+    }
+
+    public function get_knowledge_ajax()
+    {
+        $group_id = $this->input->post('id');
+        $this->db->where('articlegroup', $group_id);
+        $this->db->from(db_prefix() . 'knowledge_base');
+        $this->db->order_by('articleid', 'asc');
+        $knowledge = $this->db->get()->result_array();
+        echo json_encode($knowledge);
+    }
+
+    public function get_knowledge_fields_ajax()
+    {
+        $knowledge_id = $this->input->post('id');
+        $fields = $this->knowledge_base_model->get_content($knowledge_id);
+        echo json_encode($fields);
+    }
+
 
 }

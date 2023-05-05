@@ -5,8 +5,6 @@ $CI->load->library('app_modules'); ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
-
 <div class="panel_s section-knowledge-base" dir="rtl">
     <div class="panel-body">
         <div class="row kb-article">
@@ -21,7 +19,6 @@ $CI->load->library('app_modules'); ?>
                 $custom_fields = get_custom_fields('kb_' . $article->type);
                 if (count($custom_fields) > 0) {
                     ?>
-                    <!--                    <div class="col-md-12" >-->
                     <table class="table table-striped">
                         <thead>
                         </thead>
@@ -29,7 +26,7 @@ $CI->load->library('app_modules'); ?>
 
                         <?php
                         foreach ($custom_fields as $custom) {
-                            if($custom['id'] == 24 || $custom['id'] == 25 || $custom['id'] == 26 || $custom['id'] == 27 || $custom['id'] == 28)
+                            if ($custom['id'] == 24 || $custom['id'] == 25 || $custom['id'] == 26 || $custom['id'] == 27 || $custom['id'] == 28)
                                 continue;
                             $field = get_custom_field_value($article->articleid, $custom['id'], $custom['fieldto']);
                             ?>
@@ -46,50 +43,62 @@ $CI->load->library('app_modules'); ?>
                         <?php } ?>
                         </tbody>
                     </table>
-                    <!--                    </div>-->
                 <?php } ?>
                 <div class="mtop10 tc-content kb-article-content">
+                    <?php if (isset($links)) { ?>
+                        <hr class="row mright5 mtop0" style="width: 500px"/>
+                        <h5>الإرتباطات</h5>
+                        <?php foreach ($links as $link) {
+                            ?>
+                            <a target="_blank"
+                               href="<?php echo site_url('knowledge-base/article/') . $link['knowledge_link_id'] ?>">
+                                <?= get_knowledge_custom_field($link['ct_link_id'])->title ?> >>
+                                <?= get_knowledge_article($link['knowledge_link_id'])->subject ?> >>
+                                <?= kb_all_main_group_name($link['group_link_id']) ?>
+                            </a>
+                            <br>
+                            <br>
+                        <?php } ?>
+                    <?php } ?>
 
-                    <?php $i = 0; ?>
-
-                    <?php foreach ($fields
+                    <?php if (count($fields) > 0) {
+                    foreach ($fields
 
                     as $d){
-
                     ?>
-
-
                     <div>
-
-
                         <h3 style="color: rgb(255 255 255);background-color: #51647c;height: 28px;padding: 4px;"
-                            data-toggle="collapse" data-target="#demo<?php echo $i; ?>">
+                            data-toggle="collapse" data-target="#demo<?= $d['id'] ?>">
                             <?php echo $d['title']; ?> <i style="margin-right: 8px;" class="fa fa-minus-circle"></i>
 
                         </h3>
-
-
-                        <p id="demo<?php echo $i; ?>" class="show"
+                        <p id="demo<?= $d['id'] ?>" class="show"
                            data-parent="#accordion"><?php echo $d['description']; ?></p>
-
-
-                        <button style="float: left;" ; class="fa fa-files-o"
-                                onclick="copyElementText('demo<?php echo $i; ?>')"
+                        <br>
+                        <button style="float: left;" class="fa fa-files-o"
+                                onclick="copyElementText('demo<?= $d['id'] ?>')"
                                 title="نسخ النص لهذه المادة"></button>
                         <br>
-                        <br>
-
                         <?php
-                        $i++;
-                        ?>
+                        if (count($d['links']) > 0) { ?>
+                            <hr class="row mright5 mtop0" style="width: 500px"/>
+                            <h5>الإرتباطات</h5>
+                            <?php foreach ($d['links'] as $link) { ?>
+                                <a target="_blank"
+                                   href="<?php echo site_url('knowledge-base/article/') . $link['knowledge_link_id'] ?>">
+                                    <?= get_knowledge_custom_field($link['ct_link_id'])->title ?> >>
+                                    <?= get_knowledge_article($link['knowledge_link_id'])->subject ?> >>
+                                    <?= kb_all_main_group_name($link['group_link_id']) ?>
+                                </a>
+                                <br>
+                                <br>
+                            <?php }
+                        } ?>
                         <hr class="no-mtop"/>
-
-                        <?php } ?>
-
+                        <?php }
+                        } ?>
                     </div>
                     <hr/>
-
-
                     <h4 class="mtop20"><?php echo _l('clients_knowledge_base_find_useful'); ?></h4>
                     <div class="answer_response"></div>
                     <div class="btn-group mtop15 article_useful_buttons" role="group">
@@ -100,31 +109,6 @@ $CI->load->library('app_modules'); ?>
                                 class="btn btn-danger"><?php echo _l('clients_knowledge_base_find_useful_no'); ?></button>
                     </div>
                 </div>
-                <!--            --><?php //if(count($related_articles) > 0){ ?>
-                <!--                <div class="visible-xs visible-sm">-->
-                <!--                    <br />-->
-                <!--                </div>-->
-                <!--                <div class="col-md-4">-->
-                <!--                    <h4 class="bold no-mtop h3 kb-related-heading">-->
-                <?php //echo _l('related_knowledgebase_articles'); ?><!--</h4>-->
-                <!--                    <hr class="no-mtop" />-->
-                <!--                    <ul class="mtop10 articles_list">-->
-                <!--                        --><?php //foreach($related_articles as $relatedArticle) { ?>
-                <!--                            <li>-->
-                <!--                                <h4 class="article-heading article-related-heading">-->
-                <!--                                    <a href="-->
-                <?php //echo site_url('knowledge-base/article/'.$relatedArticle['articleid']); ?><!--">-->
-                <!--                                        --><?php //echo $relatedArticle['subject']; ?>
-                <!--                                    </a>-->
-                <!--                                </h4>-->
-                <!--                                						<div class="text-muted mtop10">-->
-                <?php //echo mb_substr(strip_tags($relatedArticle['description']),0,150); ?><!--...</div>-->
-                <!--                            </li>-->
-                <!--                            <hr class="hr-10" />-->
-                <!--                        --><?php //} ?>
-                <!--                    </ul>-->
-                <!--                </div>-->
-                <!--            --><?php //}	?>
                 <?php hooks()->do_action('after_single_knowledge_base_article_customers_area', $article->articleid); ?>
             </div>
         </div>
@@ -133,8 +117,6 @@ $CI->load->library('app_modules'); ?>
     <script>
 
         function copyElementText(id) {
-
-
             var text = document.getElementById(id).innerText;
             var elem = document.createElement("textarea");
             document.body.appendChild(elem);
@@ -142,7 +124,6 @@ $CI->load->library('app_modules'); ?>
             elem.select();
             document.execCommand("copy");
             document.body.removeChild(elem);
-
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',

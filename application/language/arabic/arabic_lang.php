@@ -3431,3 +3431,10 @@ $lang['kb_process'] = 'العملية';
 $lang['kb_chang_item'] = 'الحقول التي تم تعديلها';
 $lang['main_group'] = 'قسم رئيسي';
 $lang['kb_group_add_edit_is_main'] = 'هل هي قسم رئيسي ( من اجل عرضه في الحقول المخصصة )';
+
+$lang['kb_nez_vers'] = 'إصدارات الأنظمة';
+$lang['kb_nezam_vers_new'] = 'إضافة إصدار نظام جديد';
+$lang['kb_nezam_vers_name'] = 'اسم الإصدار';
+$lang['kb_nezam_vers'] = 'إصدار نظام';
+$lang['nezams'] = 'الأنظمة';
+

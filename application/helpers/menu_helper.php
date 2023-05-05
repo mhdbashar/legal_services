@@ -220,17 +220,23 @@ function app_init_admin_sidebar_menu_items()
             'href'     => admin_url('knowledge_base'),
             'icon'     => 'fa fa-folder-open-o',
             'position' => 50,
-//            'badge'    => []
         ]);
+
+//        $CI->app_menu->add_sidebar_children_item('knowledge-base', [
+//            'slug' => 'knowledge-base',
+//            'name' => _l('kb_nez_vers'),
+//            'href' => admin_url('knowledge_base/kb_nezam_vers'),
+//            'icon' => 'fa fa-folder-open-o',
+//            'position' => 50,
+//        ]);
+
         if(!is_staff_from_legalservices(get_staff_user_id())){
             $CI->app_menu->add_sidebar_children_item('knowledge-base', [
                 'slug' => 'knowledge-base',
-
                 'name' => _l('als_kb_log'),
                 'href' => admin_url('knowledge_base/kb_activity'),
                 'icon' => 'fa fa-folder-open-o',
                 'position' => 50,
-//            'badge'    => []
             ]);
         }
     }

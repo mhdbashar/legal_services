@@ -158,6 +158,7 @@
             $('#account-modal').modal('show');
 
             $('select[name="account_type_id"]').val(response.account_type_id).change();
+            let array_history = ['2','3','4','5','7','8','9','10'];
             $('select[name="account_detail_type_id"]').val(response.account_detail_type_id).change();
             if(response.parent_account != 0){
                 $('select[name="parent_account"]').val(response.parent_account).change();
@@ -176,7 +177,8 @@
                 tinyMCE.activeEditor.setContent('');
             }
             $('textarea[name="description"]').val(response.description);
-            if(response.balance > 0){
+            console.log(array_history.includes(response.account_type_id))
+            if(response.balance > 0 && !array_history.includes(response.account_type_id)){
                 $('input[name="update_balance"]').val(0);
                 $('#div_balance').addClass('hide');
             }else{

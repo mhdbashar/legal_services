@@ -2076,6 +2076,8 @@ class Accounting_model extends App_Model
                     $node['rel_type'] = 'deposit';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
+                    $this->db->where(['account' => $node['account'], 'rel_type' => 'deposit']);
+                    $this->db->delete(db_prefix().'acc_account_history');
                     $this->db->insert(db_prefix().'acc_account_history', $node);
 
                     $node = [];
@@ -2101,6 +2103,8 @@ class Accounting_model extends App_Model
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
+                    $this->db->where(['account' => $node['account'], 'rel_type' => 'deposit']);
+                    $this->db->delete(db_prefix().'acc_account_history');
                     $this->db->insert(db_prefix().'acc_account_history', $node);
                 }else{
                     $this->db->insert(db_prefix().'acc_accounts', [

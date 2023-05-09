@@ -787,6 +787,11 @@ function get_contact_permissions()
             'name'       => _l('customer_permission_projects'),
             'short_name' => 'projects',
         ],
+        [
+            'id'         => 7,
+            'name'       => _l('knowledge_links'),
+            'short_name' => 'knowledge_links',
+        ],
     ];
 
     return hooks()->apply_filters('get_contact_permissions', $permissions);

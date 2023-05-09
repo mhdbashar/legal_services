@@ -80,7 +80,7 @@ $CI->load->library('app_modules'); ?>
                                 title="نسخ النص لهذه المادة"></button>
                         <br>
                         <?php
-                        if (count($d['links']) > 0) { ?>
+                        if ((count($d['links']) > 0 && has_contact_permission('knowledge_links')) || (count($d['links']) > 0 && is_staff_logged_in())) { ?>
                             <hr class="row mright5 mtop0" style="width: 500px"/>
                             <h5>الإرتباطات</h5>
                             <?php foreach ($d['links'] as $link) { ?>

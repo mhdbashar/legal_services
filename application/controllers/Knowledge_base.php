@@ -34,11 +34,11 @@ class Knowledge_base extends ClientsController
     private function checkKnowledgeBaseAccess()
     {
         if (get_option('use_knowledge_base') == 1 && !is_client_logged_in() && get_option('knowledge_base_without_registration') == 0) {
-            if (is_staff_logged_in()) {
-                set_alert(
-                    'warning',
-                    'Knowledge base is available only for logged in contacts, you are accessing this page as staff member only for preview.'
-                );
+            if (is_client_logged_in() || is_staff_logged_in()) {
+//                set_alert(
+//                    'warning',
+//                    'Knowledge base is available only for logged in contacts, you are accessing this page as staff member only for preview.'
+//                );
             } else {
                 // Knowedge base viewable only for registered customers
                 // Redirect to login page so they can login to view

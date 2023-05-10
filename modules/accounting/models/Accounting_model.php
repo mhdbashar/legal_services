@@ -2180,7 +2180,7 @@ class Accounting_model extends App_Model
      */
     public function get_data_account_to_select() {
 
-        $accounts = $this->get_accounts();
+        $accounts = $this->get_accounts('', [], false);
         $acc_enable_account_numbers = get_option('acc_enable_account_numbers');
         $acc_show_account_numbers = get_option('acc_show_account_numbers');
         $list_accounts = [];

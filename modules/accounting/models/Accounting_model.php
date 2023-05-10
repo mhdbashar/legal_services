@@ -2180,7 +2180,7 @@ class Accounting_model extends App_Model
      */
     public function get_data_account_to_select() {
 
-        $accounts = $this->get_accounts();
+        $accounts = $this->get_accounts('', [], false);
         $acc_enable_account_numbers = get_option('acc_enable_account_numbers');
         $acc_show_account_numbers = get_option('acc_show_account_numbers');
         $list_accounts = [];
@@ -6262,6 +6262,7 @@ class Accounting_model extends App_Model
             }
         }
 
+        $ids = [];
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
             $total = 0;
@@ -6272,6 +6273,9 @@ class Accounting_model extends App_Model
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 $opening_stock = 0;
                 foreach ($accounts as $val) {
+                    if(in_array($val['id'], $ids))
+                        continue;
+                    $ids[] = $val['id'];
                     // open
 
                     $this->db->select('debit, credit');

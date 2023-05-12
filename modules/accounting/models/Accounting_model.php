@@ -6370,7 +6370,7 @@ class Accounting_model extends App_Model
 
         if($journal_entrie){
             $this->db->where('rel_id', $id);
-            $this->db->where('rel_type', 'journal_entry');
+            $this->db->where('rel_type', $journal_entrie->type == 0 ? 'journal_entry' : 'deposit');
             $details = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
             $data_details =[];

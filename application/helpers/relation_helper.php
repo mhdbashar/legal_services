@@ -194,7 +194,7 @@ function get_relation_data($type, $rel_id = '', $extra = [])
 
             $data = $CI->countries->get_cities_by_countryId($rel_id);
         }else
-            $data = $CI->countries->get_all_cities();
+            $data = $CI->countries->get_cities_by_countryId(194);
     }elseif ($type == 'procurations') {
         $CI->load->model('procurations_model', 'procurations');
         $data = $CI->procurations->get();

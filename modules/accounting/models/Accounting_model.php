@@ -1768,8 +1768,8 @@ class Accounting_model extends App_Model
 
         $this->db->where($where);
         $this->db->where('active', 1);
-        if($default)
-            $this->db->where('default_account', 0);
+
+
         $this->db->order_by('account_type_id,account_detail_type_id', 'desc');
         $accounts = $this->db->get(db_prefix() . 'acc_accounts')->result_array();
 
@@ -1786,6 +1786,7 @@ class Accounting_model extends App_Model
         foreach ($detail_types as $key => $value) {
             $detail_type_name[$value['id']] = $value['name'];
         }
+        $accounts_to_delete = [];
 
         foreach ($accounts as $key => $value) {
 
@@ -1794,12 +1795,17 @@ class Accounting_model extends App_Model
             }else{
                 $accounts[$key]['name'] = $value['name'] != '' ? $value['name'] : _l($value['key_name']);
             }
+            $accounts_to_delete[] = $accounts[$key]['parent_account'];
 
             $_account_type_name = isset($account_type_name[$value['account_type_id']]) ? $account_type_name[$value['account_type_id']] : '';
             $_detail_type_name = isset($detail_type_name[$value['account_detail_type_id']]) ? $detail_type_name[$value['account_detail_type_id']] : '';
             $accounts[$key]['account_type_name'] = $_account_type_name;
             $accounts[$key]['detail_type_name'] = $_detail_type_name;
         }
+        foreach ( $accounts as $key => $value )
+            if(in_array($accounts[$key]['id'], $accounts_to_delete))
+                if($default)
+                    unset($accounts[$key]);
 
         return $accounts;
     }
@@ -6399,10 +6405,12 @@ class Accounting_model extends App_Model
     public function delete_journal_entry($id)
     {
         $this->db->where('id', $id);
+        $journal_entrie = $this->db->get('acc_journal_entries')->row();
+        $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'acc_journal_entries');
         if ($this->db->affected_rows() > 0) {
             $this->db->where('rel_id', $id);
-            $this->db->where('rel_type', 'journal_entry');
+            $this->db->where('rel_type', $journal_entrie->type == 0 ? 'journal_entry' : 'deposit');
             $this->db->delete(db_prefix() . 'acc_account_history');
 
             return true;

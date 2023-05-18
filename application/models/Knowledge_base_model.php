@@ -238,7 +238,7 @@ class Knowledge_base_model extends App_Model
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             $custom_fields_updated = knowledge_base_handle_custom_fields_post($id, $custom_fields);
-            if (count($custom_fields_updated) > 0) {
+            if ($custom_fields_updated > 0) {
                 $affectedRows++;
                 $chang_item .= implode(' ، ', $custom_fields_updated);
             }
@@ -246,7 +246,7 @@ class Knowledge_base_model extends App_Model
         }
 
         if (count($updated) > 0) {
-            if (count($custom_fields_updated) > 0) {
+            if ($custom_fields_updated > 0) {
                 $chang_item .= ' ، ';
             }
             $chang_item .= implode(' ، ', $updated);

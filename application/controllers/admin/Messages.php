@@ -317,12 +317,6 @@ class Messages extends AdminController
 
     }
 
-    public function reply_messages_all($message_id)
-    {
-        $data['result'] = $this->Messages_model->get_reply_all($message_id);
-
-    }
-
     public function messages_notefication()
     {
 

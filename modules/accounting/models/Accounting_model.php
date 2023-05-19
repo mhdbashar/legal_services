@@ -2076,6 +2076,8 @@ class Accounting_model extends App_Model
                     $node['rel_type'] = 'deposit';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
+                    $this->db->where(['account' => $node['account'], 'rel_type' => 'deposit']);
+                    $this->db->delete(db_prefix().'acc_account_history');
                     $this->db->insert(db_prefix().'acc_account_history', $node);
 
                     $node = [];
@@ -2101,6 +2103,8 @@ class Accounting_model extends App_Model
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
 
+                    $this->db->where(['account' => $node['account'], 'rel_type' => 'deposit']);
+                    $this->db->delete(db_prefix().'acc_account_history');
                     $this->db->insert(db_prefix().'acc_account_history', $node);
                 }else{
                     $this->db->insert(db_prefix().'acc_accounts', [
@@ -2176,7 +2180,7 @@ class Accounting_model extends App_Model
      */
     public function get_data_account_to_select() {
 
-        $accounts = $this->get_accounts();
+        $accounts = $this->get_accounts('', [], false);
         $acc_enable_account_numbers = get_option('acc_enable_account_numbers');
         $acc_show_account_numbers = get_option('acc_show_account_numbers');
         $list_accounts = [];
@@ -6258,6 +6262,7 @@ class Accounting_model extends App_Model
             }
         }
 
+        $ids = [];
         foreach ($data_accounts as $data_key => $data_account) {
             $data_report[$data_key] = [];
             $total = 0;
@@ -6268,6 +6273,9 @@ class Accounting_model extends App_Model
                 $accounts = $this->db->get(db_prefix().'acc_accounts')->result_array();
                 $opening_stock = 0;
                 foreach ($accounts as $val) {
+                    if(in_array($val['id'], $ids))
+                        continue;
+                    $ids[] = $val['id'];
                     // open
 
                     $this->db->select('debit, credit');
@@ -6362,7 +6370,7 @@ class Accounting_model extends App_Model
 
         if($journal_entrie){
             $this->db->where('rel_id', $id);
-            $this->db->where('rel_type', 'journal_entry');
+            $this->db->where('rel_type', $journal_entrie->type == 0 ? 'journal_entry' : 'deposit');
             $details = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
             $data_details =[];

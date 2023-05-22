@@ -32,10 +32,12 @@
 
                                 <div class="col-md-3">
                                     <label  class="control-label"><?php echo _l('type_check'); ?></label>
-                                    <select name="type_check" data-live-search="true" class="form-control"  data-actions-box="true" data-width="100%" <?php echo _l('select type_check'); ?>">
+                                    <select name="type_check" data-live-search="true" class="form-control"  data-actions-box="true" data-width="100%" <?php echo _l('select type_check'); ?>  >
 
-                                    <option value='<?php echo $type_check ?>'><?php  if($type_check==1) echo _l('in'); else echo _l('out');  ?></option>
-                                    <option value="<?php if($type_check==1) echo '2'; else echo '1';  ?>"><?php if($type_check==1) echo _l('out'); else echo _l('in');  ?></option>
+                                    <option value='<?php echo $type_check ?>'><?php  if($type_check==1) echo _l('in'); else  if($type_check==2) echo _l('out'); else echo _l('all');    ?></option>
+                                    <option value="1" >  <?php echo _l('in'); ?> </option>
+                                        <option value="2" >  <?php echo _l('out'); ?> </option>
+                                        <option value="3" >  <?php echo _l('all'); ?> </option>
 
                                     </select>
                                 </div>

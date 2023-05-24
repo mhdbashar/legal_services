@@ -4,7 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('admin_auth_init', 'init_admin_auth_assets');
 hooks()->add_action('app_admin_assets', '_init_admin_assets');
+function add_datatables_js_assets($group = 'admin')
+{
+   
+get_instance()->app_scripts->add('datatables-js', 'assets/plugins/datatables/datatables.min.js', $group);
+get_instance()->app_scripts->add('pdfmake-js', 'assets/plugins/datatables/pdfmake.js', $group);
+get_instance()->app_scripts->add('vfs_fonts-js', 'assets/plugins/datatables/vfs_fonts.js', $group);
 
+}
 function init_admin_assets()
 {
     hooks()->do_action('app_admin_assets');
@@ -201,10 +208,7 @@ function add_admin_tickets_js_assets()
     );
 }
 
-function add_datatables_js_assets($group = 'admin')
-{
-    get_instance()->app_scripts->add('datatables-js', 'assets/plugins/datatables/datatables.min.js', $group);
-}
+
 
 function app_compile_css($group = 'admin')
 {

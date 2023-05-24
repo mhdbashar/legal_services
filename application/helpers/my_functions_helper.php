@@ -838,6 +838,19 @@ function get_dur_name_by_id($id)
     return false;
 }
 //*************************************
+function get_procuration_name_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $procuration_name = $CI->db->get(db_prefix() . 'procurations')->row();
+    if ($procuration_name) {
+        return $procuration_name->name;
+    }
+    return false;
+}
+//*************************************
+
 
 function get_case_by_id($case_id){
     $CI = & get_instance();

@@ -143,6 +143,7 @@ function babil_chat_add_head_components()
     echo '<link href="' . base_url('modules/babilchat/assets/css/lity.css' . '?v=' . VERSIONING . '') . '"  rel="stylesheet" type="text/css" />';
     echo '<link href="' . base_url('modules/babilchat/assets/css/chat_statuses.css') . '" rel="stylesheet" type="text/css"/>';
     echo '<link href="' . base_url('modules/babilchat/assets/css/mentions.css') . '" rel="stylesheet" type="text/css"/>';
+     echo '<link href="' . base_url('modules/babilchat/assets/css/font-awesome.min.css') . '" rel="stylesheet" type="text/css"/>';
 }
 
 /**

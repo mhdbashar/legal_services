@@ -4089,6 +4089,12 @@ $lang['new_regular_duration'] = "New Regular Duration";
 $lang['new_case_regular_duration'] = "New Case Regular Duration";
 $lang['duration_name'] = "Duration Name";
 $lang['number_of_dayes'] = "Number Of Dayes";
+$lang['regular_duration_name'] = "Regular Duration Name";
+$lang['case_name'] = "Case Name";
+$lang['Regular_duration_rem'] = "Regular Duration";
+$lang['regular_duration_notification'] = "Regular Duration Notification";
+$lang['regular_duration_description'] = "Regular Duration Description";
+
 
 $lang['duration_start_date'] = "Duration Start Date";
 $lang['duration_end_date'] = "Duration End Date";

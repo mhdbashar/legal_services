@@ -1,4 +1,11 @@
-<?php 
+<?php
+
+
+$lang['trial_balance_two'] = 'ميزان المراجعة التفصيلي (تجريبي)';
+$lang['opening_stock_credits'] = 'الرصيد الافتتاحي';
+$lang['movement'] = 'الحركة';
+$lang['ending_stock_credits'] = 'الرصيد الختامي';
+$lang['trial_balance_two_note'] = 'يلخص هذا التقرير الأرصدة المدينة والدائنة بشكل تفصيلي ( الرصيد الافتتاحي , الحركة , الرصيد الختامي ) لكل حساب في شجرة حساباتك خلال فترة زمنية.';
 
 $lang['als_accounting'] = 'المحاسبة';
 $lang['transaction'] = 'الحركة المالية';
@@ -807,7 +814,7 @@ $lang['acc_preferred_payment_method'] = 'فضل طريقة الدفع';
 $lang['mapping_status'] = 'حالة التعيين';
 $lang['acc_invoice_status'] = 'حالة الفاتورة';
 $lang['payslips'] = 'كشوف الرواتب';
-$lang['opening_stock'] = 'افتتاح المخزون';
+$lang['opening_stock'] = 'الرصيد الافتتاحي';
 $lang['purchase_payment'] = 'مدفوعات المشتريات';
 $lang['budget'] = 'الموازنة';
 $lang['creating_a_budget'] = 'إنشاء ميزانية';

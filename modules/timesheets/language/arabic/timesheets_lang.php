@@ -830,3 +830,7 @@ $lang['leave_include'] = 'تضمين';
 $lang['allow_substitute_employee'] = 'السماح باختيار موظف بديل؟';
 
 $lang['salary_type'] = 'نوع الراتب';
+$lang['type_check'] = 'النوع';
+$lang['in'] = 'دخول';
+$lang['out'] = 'خروج';
+

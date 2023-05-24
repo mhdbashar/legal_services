@@ -115,18 +115,18 @@ register_language_files(ADVANCED_TASK_STATUS_MANAGER_MODULE_NAME, [ADVANCED_TASK
 function load_statuses_from_db($statuses)
 {
     $CI = &get_instance();
-    if ($CI->is_task_status_manager_loading ?? false) {
-        return $statuses;
-    }
-
-    if ($CI->uri->uri_string == 'admin/tasks' || ($CI->uri->segments[2] == 'projects' && $CI->uri->segments[3] == 'view' && $CI->input->get('group') == 'project_tasks')) {
-        $statusesUserCantSee = $CI->db->where('staff_id', get_staff_user_id())->get(db_prefix() . 'task_status_dont_have_staff')->result_array();
-        $statusesIdsUserCantSee = array_map(fn ($x) => $x['task_status_id'], $statusesUserCantSee);
-
-        if (!empty($statusesIdsUserCantSee)) {
-            return $CI->db->where_not_in('id', $statusesIdsUserCantSee)->get(db_prefix() . 'task_statuses')->result_array();
-        }
-    }
+//    if ($CI->is_task_status_manager_loading ?? false) {
+//        return $statuses;
+//    }
+//
+//    if ($CI->uri->uri_string == 'admin/tasks' || ($CI->uri->segments[2] == 'projects' && $CI->uri->segments[3] == 'view' && $CI->input->get('group') == 'project_tasks')) {
+//        $statusesUserCantSee = $CI->db->where('staff_id', get_staff_user_id())->get(db_prefix() . 'task_status_dont_have_staff')->result_array();
+//        $statusesIdsUserCantSee = array_map(fn ($x) => $x['task_status_id'], $statusesUserCantSee);
+//
+//        if (!empty($statusesIdsUserCantSee)) {
+//            return $CI->db->where_not_in('id', $statusesIdsUserCantSee)->get(db_prefix() . 'task_statuses')->result_array();
+//        }
+//    }
 
     return  $CI->db->get(db_prefix() . 'task_statuses')->result_array();
 }

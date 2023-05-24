@@ -56,13 +56,13 @@ hooks()->add_filter('departments_table_columns', 'departments_add_table_column',
 hooks()->add_filter('departments_table_aColumns', 'departments_add_table_aColumns', 10, 6);
 hooks()->add_filter('departments_table_sql_join', 'departments_add_table_sql_join', 10, 7);
 // Report
-hooks()->add_filter('report_table_columns', 'report_add_table_column', 10 ,3);
-hooks()->add_filter('report_filter', 'report_add_filter', 10 ,4);
-hooks()->add_filter('report_filter_estimates', 'report_add_filter_estimates', 10 ,4);
-hooks()->add_filter('report_filter_credit_notes', 'report_add_filter_credit_notes', 10 ,4);
-hooks()->add_filter('report_select_branch', 'report_add_select_branch', 10 ,4);
-hooks()->add_filter('report_select_branch_estimates', 'report_add_select_branch_estimates', 10 ,4);
-hooks()->add_filter('report_select_branch_credit_notes', 'report_add_select_branch_credit_notes', 10 ,4);
+//hooks()->add_filter('report_table_columns', 'report_add_table_column', 10 ,3);
+//hooks()->add_filter('report_filter', 'report_add_filter', 10 ,4);
+//hooks()->add_filter('report_filter_estimates', 'report_add_filter_estimates', 10 ,4);
+//hooks()->add_filter('report_filter_credit_notes', 'report_add_filter_credit_notes', 10 ,4);
+//hooks()->add_filter('report_select_branch', 'report_add_select_branch', 10 ,4);
+//hooks()->add_filter('report_select_branch_estimates', 'report_add_select_branch_estimates', 10 ,4);
+//hooks()->add_filter('report_select_branch_credit_notes', 'report_add_select_branch_credit_notes', 10 ,4);
 
 
 function report_add_select_branch($where) {

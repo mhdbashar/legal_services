@@ -423,9 +423,9 @@ public function day_off(){
 					
 					unset($data['time_sheet']);
 
-					$add = $this->timesheets_model->add_update_timesheet($ts_val, true);
+                    $success = $this->timesheets_model->add_update_timesheet($ts_val, true);
 
-					$success = $this->timesheets_model->latch_timesheet($month_latch);
+//					$success = $this->timesheets_model->latch_timesheet($month_latch);
 
 					if($success){
 						set_alert('success',_l('timekeeping_latch_successful'));
@@ -6457,7 +6457,29 @@ public function export_attendance_excel()
         $this->db->order_by("id", "desc");
         $this->db->join(db_prefix().'staff', db_prefix().'staff.staffid='.db_prefix().'check_in_out.staff_id', 'left');
         $data['check_in_out'] = $this->db->get(db_prefix().'check_in_out')->result_array();
+        $data['type_check'] ='3';
         $this->load->view('check_in_out_report', $data);
     }
+
+    public function check_in_out_filter(){
+        $data_filter= $this->input->post();
+       // print_r($data_filter);
+       // exit();
+        $from= $data_filter['from_date'];
+        $to= $data_filter['to_date'];
+        $type_check= $data_filter['type_check'];
+        if($type_check != 3)
+        {
+            $this->db->where('type_check=',  $type_check);
+        }
+            $this->db->where('date>', $from);
+            $this->db->where('date<', $to);
+            $this->db->order_by("id", "desc");
+            $this->db->join(db_prefix().'staff', db_prefix().'staff.staffid='.db_prefix().'check_in_out.staff_id', 'left');
+            $data['check_in_out'] = $this->db->get(db_prefix().'check_in_out')->result_array();
+            $data['type_check'] =$type_check;
+            $this->load->view('check_in_out_report', $data);
+       }
+
 
 }

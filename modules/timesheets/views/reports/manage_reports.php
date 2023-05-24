@@ -57,8 +57,8 @@
                <option value=""><?php echo _l('report_sales_months_all_time'); ?></option>
                <option value="this_month"><?php echo _l('this_month'); ?></option>
                <option value="1"><?php echo _l('last_month'); ?></option>
-               <option value="this_year"><?php echo _l('this_year'); ?></option>
-               <option value="last_year"><?php echo _l('last_year'); ?></option>
+               <option value="this_year"><?php echo _l('ts_this_year'); ?></option>
+               <option value="last_year"><?php echo _l('ts_last_year'); ?></option>
                <option value="3" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-2 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_three_months'); ?></option>
                <option value="6" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-5 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_six_months'); ?></option>
                <option value="12" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-11 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_twelve_months'); ?></option>

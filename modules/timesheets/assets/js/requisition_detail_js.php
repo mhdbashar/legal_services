@@ -189,7 +189,7 @@
     }
     $('#convert_expense input[name="expense_name"]').val(name);
     if(list_expense_name != ''){
-      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense_of') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
+      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
     }
     $('#convert_expense input[name="amount"]').val($('#total_advance_payment').text().replace(/,/g,''));
     $('#convert_expense input[name="date"]').val($('#request_date').text());

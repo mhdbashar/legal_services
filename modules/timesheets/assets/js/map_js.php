@@ -100,9 +100,9 @@
 
       function get_data_map_fillter(){
       	var data = {};
-      	data.staff = $('select[name="staff_fillter[]"]').val();
-      	data.date = $('input[name="date_fillter"]').val();
-      	data.route_point = $('select[name="route_point_fillter[]"]').val();
+      	data.staff = $('[name="staff_fillter[]"]').val();
+      	data.date = $('[name="date_fillter"]').val();
+      	data.route_point = $('[name="route_point_fillter[]"]').val();
       	$.post(admin_url+'timesheets/get_data_map',data).done(function(response){
       		response = JSON.parse(response);
       		if(response.length > 0){

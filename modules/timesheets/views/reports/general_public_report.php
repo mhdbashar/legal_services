@@ -4,7 +4,8 @@
       <thead>
          <tr>
             <th><?php echo _l('staffid'); ?></th>
-            <th><?php echo _l('full_name'); ?></th>
+            <th><?php echo _l('first_name'); ?></th>
+            <th><?php echo _l('last_name'); ?></th>
             <th><?php echo _l('total_shift_days'); ?></th>
             <th><?php echo _l('number_of_working_days'); ?></th>
             <th><?php echo _l('annual_leave'); ?></th>
@@ -23,6 +24,7 @@
       </thead>
       <tbody></tbody>
       <tfoot>
+         <td></td>
          <td></td>
          <td></td>
          <td></td>

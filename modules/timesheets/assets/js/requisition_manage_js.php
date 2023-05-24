@@ -2,7 +2,6 @@
   var addnewkpi;
   var table_registration_leave = $('table.table-table_registration_leave');
   var table_additional_timesheets  = $('table.table-table_additional_timesheets');
-  var table_type_of_leave  = $('table.table-table_type_of_leave');
   var rest_time = 0;
   var time = 0;
   var hour_working;
@@ -51,10 +50,7 @@
       });
     });
 
-      initDataTable(table_type_of_leave,admin_url + 'timesheets/table_type_of_leave');
-
-
-      var addtimesheetServerParams = {
+     var addtimesheetServerParams = {
       "status_filter_ats": "[name='status_filter_ats[]']",
       "rel_type_filter_ats": "[name='rel_type_filter_ats[]']",
       "chose_ats": "[name='chose_ats']",
@@ -89,20 +85,8 @@
     });
 
 
-    $('#type_of_leave').on('change', function() {
-      var value = $('select[name="type_of_leave"]').val();
-      if(value == 8){
-        $('div[id="number_days_off_2"]').removeClass('hide');
-        var number_day_off = $('input[name="number_day_off"]').val();
-        if($('input[name="number_of_leaving_day"]').val() > number_day_off){
-          $('button[type="submit"]').attr('disabled', 'true');
-        }else{
-          $('button[type="submit"]').removeAttr('disabled');
-        }
-      }else{
-        $('div[id="number_days_off_2"]').addClass('hide');
-        $('button[type="submit"]').removeAttr('disabled');
-      }
+    $('select[name="type_of_leave"]').on('change', function() {
+      get_remain_day_off();
     });
 
     $('#rel_type').on('change', function() {
@@ -156,6 +140,7 @@
 
         $('.date_input').removeClass('hide');
         $('.datetime_input').addClass('hide');
+        get_remain_day_off();
       }else{
         $('div[id="number_days_off"]').addClass('hide');
         $('div[id="number_days_off_2"]').addClass('hide');
@@ -203,7 +188,7 @@
     });
 
     $("body").on('change', '#rel_type', function() {
-      rel_type = $('select[name="rel_type"]').val();
+      var rel_type = $('select[name="rel_type"]').val();
       if(rel_type == '1'){
         $('#leave_handover_recipients').removeClass('hide');
       }
@@ -336,14 +321,6 @@
   });
 
 
-
-    $("#start_time").change(function(){
-      get_day_from_date();
-    });
-
-    $("#end_time").change(function(){
-      get_day_from_date();
-    });
     function get_day_from_date(){
       var data = {};
       data.start_time = $("#start_time").val();
@@ -384,21 +361,120 @@
     <?php } ?>
 
     $('select[name="staff_id"]').change(function(){
-      $('#requisition-form .btn-submit').attr('disabled', true);
-      var id = $(this).val();
-      $('input[name="userid"]').val(id);
-      var current_date =  $('input[name="current_date"]').val();
-      $('input[name="number_of_leaving_day"]').val(0.5);
-      $.post(admin_url+'timesheets/get_remain_day_of/'+id).done(function(response){
-        response = JSON.parse(response);
-        $('#number_days_off_2').html(response.html);
-        $('input[name="start_time"]').val(response.valid_date);
-        $('input[name="end_time"]').val(response.valid_date);
-        $('#requisition-form .btn-submit').removeAttr('disabled');
-      });
+      get_remain_day_off();
+    });
+
+    $('.add_new_type_of_leave').click(function(){
+      $('#add_new_type_of_leave').modal('show');
+      $('#requisition_m').modal('hide');
+
+    });
+
+    $('.add_type_of_leave').on('click', function(){
+      var val = $('input[name="type_name"]').val();
+      var symbol = $('input[name="symbol"]').val();
+      if(val.trim() && symbol.trim()){
+        var list_exist_symbol = new Array("AL", "W", "U", "HO", "E", "L", "B", "SI", "M", "ME", "NS", "P");
+        let i, duplicate = 0;
+        for(i = 0; i<list_exist_symbol.length; i++){
+          if(list_exist_symbol[i] == symbol){
+            duplicate = 1;
+          }
+        }
+        if(duplicate != 0){
+          alert_float('warning', '<?php echo _l('ts_this_character_already_exists'); ?>');
+          return false; 
+        }
+
+        $('#add_new_type_of_leave').modal('hide');
+      }
+    });
+    appValidateForm($('#add_type_of_leave-form'), {
+      type_name: 'required',
+      symbol:  'required'
+    });
+    $("#requisition-form").submit(function(e) {
+      "use strict";
+      var value = $('#rel_type').val();
+      if(value == 1){
+       var type_of_leave = $('select[name="type_of_leave"]').val();
+       var number_of_leaving_day = $('#number_of_leaving_day').val();
+       var number_day_off = $('input[name="number_day_off"]').val();
+       if(parseFloat(number_day_off) <= 0) {        
+        alert_float('warning', '<?php echo _l('cannot_create_number_of_days_remaining_is_0'); ?>');
+        return false;   
+      }
+      if(parseFloat(number_of_leaving_day) <= 0){
+        alert_float('warning', '<?php echo _l('the_minimum_number_of_days_off_must_be_0.5'); ?>');
+        return false;   
+      }
+      if(parseFloat(number_of_leaving_day) > parseFloat(number_day_off)){
+        alert_float('warning', '<?php echo _l('the_number_of_days_off_must_not_be_greater_than').' '; ?>'+number_day_off);
+        return false;   
+      }
+    }
+    else{
+      $('.btn-submit').removeAttr('disabled');    
+    }
+    if($("#requisition-form").valid()){
+      $('.btn-submit').text('Processing ...');   
+      $('.btn-submit').attr('disabled', true);    
+    } 
+  });
+
+    $("#edit_timesheets-form").submit(function(e) {
+      "use strict";
+      if($("#edit_timesheets-form").valid()){
+        $('.btn-additional-timesheets').text('Processing ...');   
+        $('.btn-additional-timesheets').attr('disabled', true); 
+      }
+    });
+    appValidateForm($('#edit_timesheets-form'), {
+      additional_day: 'required'
+    });
+
+    $('input[name="start_time_s"]').change(function(){
+      start_time_check(this,'input[name="end_time_s"]');
+    });
+
+    $('input[name="end_time_s"]').change(function(){
+      end_time_check('input[name="start_time_s"]', this);
+    });
+
+    $('input[name="start_time"]').change(function(){
+      var res = start_time_check(this,'input[name="end_time"]');
+      if(res){ get_day_from_date(); }
+    });
+    
+    $('input[name="end_time"]').change(function(){
+      var res = end_time_check('input[name="start_time"]', this);
+      if(res){ get_day_from_date(); }
     });
   })(jQuery);
 
+  function get_remain_day_off(){
+    "use strict";
+    var staff_id = $('select[name="staff_id"]').val();
+    var type_of_leave = $('select[name="type_of_leave"]').val();
+    $('#requisition-form .btn-submit').attr('disabled', true);
+    $('input[name="userid"]').val(staff_id);
+    var current_date =  $('input[name="current_date"]').val();
+    $('input[name="number_of_leaving_day"]').val(0.5);
+    $.post(admin_url+'timesheets/get_remain_day_of/'+staff_id+'/'+type_of_leave).done(function(response){
+      response = JSON.parse(response);
+      $('#number_days_off_2').html(response.html);
+      $('input[name="start_time"]').val(response.valid_date);
+      $('input[name="end_time"]').val(response.valid_date);
+      $('#requisition-form .btn-submit').removeAttr('disabled');
+      var number_day_off = $('input[name="number_day_off"]').val();
+      var number_of_leaving_day = $('input[name="number_of_leaving_day"]').val();
+      if(parseFloat(number_of_leaving_day) > parseFloat(number_day_off)){
+        $('button[type="submit"]').attr('disabled', 'true');
+      }else{
+        $('button[type="submit"]').removeAttr('disabled');
+      }
+    });
+  }
 
   function btn_additional_timesheets(){
     "use strict";
@@ -410,6 +486,9 @@
     $('#requisition_m').modal('show');
     $('.edit-title').addClass('hide');
     $('.add-title').removeClass('hide');
+    $('#requisition_m select[name="rel_type"]').val(1).change();
+    $('#requisition_m input[name="subject"]').val('');
+    $('#requisition_m textarea').val('');
   }
 
   function add_requisition(){
@@ -669,6 +748,7 @@
       }
     });
   }
+  
   function choose_approver(id, addedfrom){
     "use strict";
     var data = {};
@@ -695,111 +775,76 @@
     }
   }
 
-  $("#requisition-form").submit(function(e) {
+  function start_time_check(start_input, end_input){
     "use strict";
-    var value = $('#rel_type').val();
-    if(value == 1){
-     var type_of_leave = $('select[name="type_of_leave"]').val();
-     if(type_of_leave == 8){
-      var number_of_leaving_day = $('#number_of_leaving_day').val();
-      var number_day_off = $('input[name="number_day_off"]').val();
-      if(number_day_off <= 0) {        
-        alert_float('warning', '<?php echo _l('cannot_create_number_of_days_remaining_is_0'); ?>');
-        return false;   
-      }
-      if(number_of_leaving_day <= 0){
-        alert_float('warning', '<?php echo _l('the_minimum_number_of_days_off_must_be_0.5'); ?>');
-        return false;   
-      }
-      if(number_of_leaving_day > number_day_off){
-        alert_float('warning', '<?php echo _l('the_number_of_days_off_must_not_be_greater_than').' '; ?>'+number_day_off);
-        return false;   
-      }
+    var rel_type = $('select[name="rel_type"]').val();
+    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
+      return false;
     }
-    else{
-      $('.btn-submit').removeAttr('disabled');          
+    var fit_start_time  = $(start_input).val(); 
+    var fit_end_time    = $(end_input).val(); 
+    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
+    {
+      alert_float('warning', '<?php echo _l('ts_from_date_must_be_less_than_or_equal_to_to_date'); ?>');
+      $(start_input).val(fit_end_time);
+      return false;
     }
+    return true;
   }
-  else{
-    $('.btn-submit').removeAttr('disabled');    
-  }
-  if($("#requisition-form").valid()){
-    $('.btn-submit').text('Processing ...');   
-    $('.btn-submit').attr('disabled', true);    
-  } 
-});
 
-  $("#edit_timesheets-form").submit(function(e) {
+  function end_time_check(start_input, end_input){
     "use strict";
-    if($("#edit_timesheets-form").valid()){
-      $('.btn-additional-timesheets').text('Processing ...');   
-      $('.btn-additional-timesheets').attr('disabled', true); 
-    }
-  });
-  appValidateForm($('#edit_timesheets-form'), {
-    additional_day: 'required'
-  });
-
-  $('input[name="start_time_s"]').change(function(){
     var rel_type = $('select[name="rel_type"]').val();
     if(rel_type == 3 || rel_type == 2 || rel_type == 6){
       return false;
     }
-    var fit_start_time  = $(this).val(); 
-    var fit_end_time    = $('input[name="end_time_s"]').val(); 
+    var fit_start_time    = $(start_input).val(); 
+    var fit_end_time  = $(end_input).val();
     if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
     {
-      alert_float('warning', 'From Date must be less than or equal to To Date');
-      $(this).val(fit_end_time);
-    }
-  });
-
-  $('input[name="end_time_s"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
+      alert_float('warning', '<?php echo _l('ts_to_date_must_be_greater_than_or_equal_to_from_date'); ?>');
+      $(end_input).val(fit_start_time);
       return false;
     }
-    var fit_start_time    = $('input[name="start_time_s"]').val(); 
-    var fit_end_time  = $(this).val();
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'To Date must be greater than or equal to From Date');
-      $(this).val(fit_start_time);
-    }
-  });
-
-  $('input[name="start_time"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time  = $(this).val(); 
-    var fit_end_time    = $('input[name="end_time"]').val(); 
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'From Date must be less than or equal to To Date');
-      $(this).val(fit_end_time);
-    }
-  });
-  $('input[name="end_time"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time    = $('input[name="start_time"]').val(); 
-    var fit_end_time  = $(this).val();
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'To Date must be greater than or equal to From Date');
-      $(this).val(fit_start_time);
-    }
-  });
+    return true;
+  }
 
   function datetimeToDate(datetime){
-    var currentTime = new Date(datetime);
-    var month = currentTime.getMonth() + 1;
-    var date = currentTime.getDate();
-    var year = currentTime.getFullYear();
-    return year + '-' + month + '-' + date;
+    "use strict";
+    var format_date = $('input[name="date_format"]').val();
+    var parts = '';
+    var result = datetime;
+    switch(format_date)
+    {
+      case 'd-m-Y|%d-%m-%Y':
+      parts = datetime.split('-');
+      result = parts[2] + '/' + parts[1] + '/' + parts[0];//
+      break;
+      case 'd/m/Y|%d/%m/%Y':
+      parts = datetime.split('/');
+      result = parts[2] + '/' + parts[1] + '/' + parts[0];//
+      break;
+      case 'm-d-Y|%m-%d-%Y':
+      parts = datetime.split('-');
+      result = parts[2] + '/' + parts[0] + '/' + parts[1];//
+      break;
+      case 'm.d.Y|%m.%d.%Y':
+      parts = datetime.split('.');
+      result =  parts[2] + '/' + parts[0] + '/' + parts[1];//
+      break;
+      case 'm/d/Y|%m/%d/%Y':
+      parts = datetime.split('/');
+      result = parts[2] + '/' + parts[0] + '/' + parts[1];//
+      break;
+      case 'Y-m-d|%Y-%m-%d':
+      parts = datetime.split('-');
+      result = parts[0] + '/' + parts[1] + '/' + parts[2];//
+      break;
+      case 'd.m.Y|%d.%m.%Y':
+      parts = datetime.split('.');
+      result = parts[2] + '/' + parts[1] + '/' + parts[0];//
+      break;
+    }  
+    return result;
   }
 </script>

@@ -2,9 +2,14 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <div class="row">
  <div class="col-md-12">
-  <div class="col-md-3">
-   <?php echo render_select('staff_fillter[]', $staff, array('staffid', array('firstname', 'lastname')), 'staff', get_staff_user_id(), array('multiple' => true, 'onchange' => 'get_data_map_fillter()'),[],'','',false); ?>
- </div>
+  <?php 
+  if(has_permission('route_management','','view') || is_admin()){ ?>
+    <div class="col-md-3">
+     <?php echo render_select('staff_fillter[]', $staff, array('staffid', array('firstname', 'lastname')), 'staff', get_staff_user_id(), array('multiple' => true, 'onchange' => 'get_data_map_fillter()'),[],'','',false); ?>
+   </div>
+  <?php } else { ?>
+    <input type="hidden" id="staff_fillter[]" name="staff_fillter[]" value="<?php echo get_staff_user_id(); ?>">
+  <?php } ?>
  <div class="col-md-3">
    <?php echo render_date_input('date_fillter', 'dates', _d(date('Y-m-d')), array('onchange' => 'get_data_map_fillter()')); ?>
  </div>

@@ -17,6 +17,7 @@ $join         = [
 ];
 $where = [];
 array_push($where, ' AND '.db_prefix().'staff.active = 1');
+array_push($where, timesheet_staff_manager_query('table_workplace_management', db_prefix().'timesheets_workplace_assign.staffid', 'AND'));
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'timesheets_workplace_assign.id', db_prefix().'timesheets_workplace.name', db_prefix().'timesheets_workplace.workplace_address', db_prefix().'staff.firstname', db_prefix().'staff.lastname', db_prefix().'timesheets_workplace_assign.staffid']);
 
@@ -26,6 +27,7 @@ $disabled = '';
 if(!(is_admin() || has_permission('table_workplace_management', '', 'view'))){
   $disabled = ' disabled="disabled"';
 }
+
 foreach ($rResult as $aRow) {
   $row = [];
   $row[] = '<input type="checkbox" class="wp-assign" data-id="'.$aRow['id'].'" onchange="checked_add(this); return false;" '.$disabled.'/>';  

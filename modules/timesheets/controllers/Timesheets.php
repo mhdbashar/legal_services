@@ -6700,9 +6700,9 @@ public function check_in_ts() {
  * add type of leave
  */
 	public function add_type_of_leave() {
+        $is_redirect = 0;
 		if ($this->input->post()) {
 			$data = $this->input->post();
-			$is_redirect = 0;
 			if (isset($data['is_setting'])) {
 				$is_redirect = 1;
 				unset($data['is_setting']);

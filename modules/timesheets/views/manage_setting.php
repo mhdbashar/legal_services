@@ -17,6 +17,8 @@
           <?php
           $i = 0;
           foreach($tab as $gr){
+              if($gr == 'api_integration')
+                  continue;
             $url = admin_url('timesheets/setting?group='.$gr);
             $target = '';
             if($gr == 'api_integration'){
@@ -26,7 +28,7 @@
             ?>
             <li<?php if($i == 0){echo " class='active'"; } ?>>
             <a href="<?php echo html_entity_decode($url); ?>" <?php echo html_entity_decode($target); ?> data-group="<?php echo html_entity_decode($gr); ?>">
-              <?php 
+              <?php
               if($gr == 'payroll'){
                 echo _l('_salary_form'); 
               }

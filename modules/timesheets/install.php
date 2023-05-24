@@ -97,32 +97,37 @@ if (!$CI->db->field_exists('place_of_business', db_prefix() . 'timesheets_requis
 }
 
 if (!$CI->db->table_exists(db_prefix() . 'timesheets_additional_timesheet')) {
-	$CI->db->query('CREATE TABLE `' . db_prefix() . 'timesheets_additional_timesheet` (
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_timekeeper_data` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `additional_day` VARCHAR(45) NOT NULL,
         `status` VARCHAR(45) NOT NULL,
         `timekeeping_value` VARCHAR(45) NOT NULL,
         `approver` INT(11) NOT NULL,
         `creator` INT(11) NOT NULL,
-        PRIMARY KEY (`id`));');
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 
 if (!$CI->db->table_exists(db_prefix() . 'timesheets_timekeeper_data')) {
-	$CI->db->query('CREATE TABLE `' . db_prefix() . 'timesheets_timekeeper_data` (
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_timekeeper_data` (
         `staff_identifi` VARCHAR(25) NOT NULL,
         `time` DATETIME NOT NULL,
         `type` VARCHAR(45) NOT NULL,
-        PRIMARY KEY (`staff_identifi`, `time`, `type`));');
+        PRIMARY KEY (`staff_identifi`, `time`, `type`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
-
 if (!$CI->db->table_exists(db_prefix() . 'timesheets_approval_setting')) {
-	$CI->db->query('CREATE TABLE `' . db_prefix() . 'timesheets_approval_setting` (
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_approval_setting` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `name` VARCHAR(255) NOT NULL,
         `related` VARCHAR(255) NOT NULL,
         `setting` LONGTEXT NOT NULL,
-        PRIMARY KEY (`id`));');
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
+$CI->db->query('ALTER TABLE '.db_prefix() . 'timesheets_approval_setting'.' CONVERT TO CHARACTER SET utf8;');
+$CI->db->query('ALTER TABLE '.db_prefix() . 'timesheets_timekeeper_data'.' CONVERT TO CHARACTER SET utf8;');
+$CI->db->query('ALTER TABLE '.db_prefix() . 'timesheets_additional_timesheet'.' CONVERT TO CHARACTER SET utf8;');
 
 if (!$CI->db->field_exists('choose_when_approving', db_prefix() . 'timesheets_approval_setting')) {
 	$CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_approval_setting`

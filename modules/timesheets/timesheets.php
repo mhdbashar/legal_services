@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: نظام الحضور والإنصراف والإجازات
 Description: يعمل تطبيق نظام إدارة الحضور الكامل مع الجدول الزمني في الغالب مع الحضور والإجازات والعطلات والمناوبة
-Version: 1.1.8
+Version: 1.1.9
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa/
@@ -17,7 +17,7 @@ define('TIMESHEETS_CONTRACT_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(TIMESHEE
 define('TIMESHEETS_JOB_POSIITON_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(TIMESHEETS_MODULE_NAME, 'uploads/job_position/'));
 define('TIMESHEETS_PATH', 'modules/timesheets/uploads/');
 define('TIMESHEETS_PAYSLIPS', 'modules/timesheets/uploads/payslips/');
-define('TIMESHEETS_REVISION', 118);
+define('TIMESHEETS_REVISION', 119);
 
 define('PAY_SLIP', FCPATH);
 

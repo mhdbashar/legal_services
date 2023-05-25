@@ -39,6 +39,11 @@ $info_left_column .= '<br />';
 $info_left_column .= '<h3 style="font-weight:bold;font-size:16px;">' ._l("session_report"). '</h3>';
 $info_left_column .= '</div>';
 $info_right_column .= pdf_logo_url();
+$info_right_column .= '<div>';
+$info_right_column .= '';
+$info_right_column .= '<h4 class="text-center" >بسم اللّه الرحمن الرحيم</h4>';
+$info_right_column .= '</div>';
+
 
 pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
@@ -47,8 +52,9 @@ $export_candidate='
             <h3 style="background-color: silver; text-align: center">معلومات القضية</h3>
                 <br />
                 ' . _l('file_number_in_court') . ' : ' . $file_number_court . '<br />
-                ' . _l('claimant') . ' ' . $client . '<br />
-                ' . _l('accused') . ' ' . $opponent . '<br />
+                ' . _l('customer_name') . ' : ' . $client . '<br />
+                ' . _l('customer_description') . ' : ' . $representative . '<br />
+                ' . _l('opponent_name') . ' : ' . $opponent . '<br />
                 ' . _l('Court') . ' : ' . $court . '
             <h3 style="background-color: silver;text-align: center">معلومات الجلسة</h3>
                 <br />

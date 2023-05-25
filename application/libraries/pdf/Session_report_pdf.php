@@ -37,6 +37,7 @@ class Session_report_pdf extends App_pdf
 
         $this->set_view_vars([
             'client' => isset($this->session->clientid) ? get_customer_by_id($this->session->clientid)->company : '',
+            'representative' => isset($this->session->representative) ? maybe_translate(_l('nothing_was_specified'), get_representative_by_id($this->session->representative)) : '',
             'opponent' => isset($this->session->opponent_id) && $this->session->opponent_id != 0 ? get_customer_by_id($this->session->opponent_id)->company : '',
             'court' => get_court_by_id($this->session->court_id)->court_name,
             'file_number_court' => $this->session->file_number_court,
@@ -54,17 +55,6 @@ class Session_report_pdf extends App_pdf
         return $this->build();
     }
 
-    protected function type()
-    {
-        return 'session_report';
-    }
-
-    protected function file_path()
-    {
-        $actualPath = APPPATH . 'views/themes/' . active_clients_theme() . '/views/session_report_pdf.php';
-        return $actualPath;
-    }
- 
     public function Header()
     {
 
@@ -108,6 +98,17 @@ class Session_report_pdf extends App_pdf
             }
 
         }
+    }
+
+    protected function type()
+    {
+        return 'session_report';
+    }
+
+    protected function file_path()
+    {
+        $actualPath = APPPATH . 'views/themes/' . active_clients_theme() . '/views/session_report_pdf.php';
+        return $actualPath;
     }
 
 }

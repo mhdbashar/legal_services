@@ -46,9 +46,7 @@
                         <input type="password" class="form-control" name="passwordr" id="passwordr">
                         <?php echo form_error('passwordr'); ?>
                     </div>
-                    <div class="register-contact-custom-fields">
-                        <?php echo render_custom_fields( 'contacts','',array('show_on_client_portal'=>1)); ?>
-                    </div>
+                   
                 </div>
                 <div class="col-md-6">
                     <h4 class="bold register-company-info-heading"><?php echo _l('client_register_company_info'); ?></h4>
@@ -97,34 +95,18 @@
                     </div>
                    
                 </div>
-                <?php if (is_gdpr() && get_option('gdpr_enable_terms_and_conditions') == 1) { ?>
-                <div class="col-md-12 register-terms-and-conditions-wrapper">
-                    <div class="text-center">
-                       <div class="checkbox">
-                        <input type="checkbox" name="accept_terms_and_conditions" id="accept_terms_and_conditions" <?php echo set_checkbox('accept_terms_and_conditions', 'on'); ?>>
-                        <label for="accept_terms_and_conditions">
-                            <?php echo _l('gdpr_terms_agree', terms_url()); ?>
-                        </label>
-                    </div>
-                    <?php echo form_error('accept_terms_and_conditions'); ?>
+          
+       </div>
+
+       <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="form-group">
+                    <button type="submit" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('clients_register_string'); ?></button>
                 </div>
             </div>
-            <?php } ?>
-            <?php if(get_option('use_recaptcha_customers_area') == 1 && get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != ''){ ?>
-            <div class="col-md-12 register-recaptcha">
-               <div class="g-recaptcha" data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
-               <?php echo form_error('g-recaptcha-response'); ?>
-           </div>
-           <?php } ?>
-       </div>
+        </div>
    </div>
 </div>
-<div class="row">
-    <div class="col-md-12 text-center">
-        <div class="form-group">
-            <button type="submit" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('clients_register_string'); ?></button>
-        </div>
-    </div>
-</div>
+
 <?php echo form_close(); ?>
 </div>

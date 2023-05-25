@@ -6,9 +6,11 @@ var fnServerParams;
 
 	fnServerParams = {
 		"vendor_filter": '[name="vendor_filter"]',
-    	"items_filter": '[name="items_filter"]',
+    	"items_filter": '[name="item_select"]',
     	"group_items_filter": '[name="group_items_filter"]'
 	}
+
+	init_ajax_search('items','#item_select.ajax-search',undefined,admin_url+'purchase/pur_commodity_code_search');
 
 	init_vendor_items_table();
 
@@ -16,7 +18,7 @@ var fnServerParams;
 		init_vendor_items_table();
 
 	});
-	$('select[name="items_filter"]').on('change', function() {
+	$('select[name="item_select"]').on('change', function() {
 		init_vendor_items_table();
 	});
 	$('select[name="group_items_filter"]').on('change', function() {

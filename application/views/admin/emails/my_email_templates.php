@@ -7,6 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="row">
+
                             <?php hooks()->do_action('before_tickets_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="no-margin"><?php echo _l('email_templates'); ?></h4>
@@ -149,6 +150,65 @@
                                     </table>
                                 </div>
                             </div>
+
+
+
+
+
+                            <?php hooks()->do_action('before_invoices_email_templates'); ?>
+                            <div class="col-md-12">
+                                <h4 class="bold well email-template-heading">
+                                    <?php echo _l('email_template_regular_durations_fields_heading'); ?>
+                                    <?php if($hasPermissionEdit){ ?>
+                                        <a href="<?php echo admin_url('emails/disable_by_type/regular_duration'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+                                        <a href="<?php echo admin_url('emails/enable_by_type/regular_duration'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+                                    <?php } ?>
+
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th><?php echo _l('email_templates_table_heading_name'); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        <?php foreach($regular_duration as $rd_template){ ?>
+                                            <tr>
+                                                <td class="<?php if($rd_template['active'] == 0){echo 'text-throught';} ?>">
+                                                    <a href="<?php echo admin_url('emails/email_template/'.$rd_template['emailtemplateid']); ?>"><?php echo $rd_template['name']; ?></a>
+                                                    <?php // if(ENVIRONMENT !== 'production'){ ?>
+                                                        <br/><small><?php echo $rd_template['slug']; ?></small>
+                                                    <?php  // } ?>
+                                                    <?php  // if($hasPermissionEdit){ ?>
+                                                        <a href="<?php echo admin_url('emails/'.($rd_template['active'] == '1' ? 'disable/' : 'enable/').$rd_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($rd_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+
+                                                    <?php //} ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                              <?php /*  <div class="clearfix"></div>
                                 <?php hooks()->do_action('before_subscriptions_email_templates'); ?>
                              <div class="col-md-12">
@@ -400,6 +460,24 @@
                                     </table>
                                 </div>
                             </div> */?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <?php hooks()->do_action('before_staff_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">

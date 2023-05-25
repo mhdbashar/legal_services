@@ -38,7 +38,23 @@
     <?php echo render_input('settings[invoice_company_postal_code]','settings_sales_postal_code',get_option('invoice_company_postal_code')); ?>
     <?php echo render_input('settings[invoice_company_commercial_register]','commercial_register',get_option('invoice_company_commercial_register')); ?>
     <?php echo render_input('settings[invoice_company_phonenumber]','settings_sales_phonenumber',get_option('invoice_company_phonenumber')); ?>
-    <?php echo render_input('settings[company_vat]','company_vat_number',get_option('company_vat')); ?>
+    <hr />
+    <?php
+        $readonly = [];
+        if(!get_option('saudi_vat')){
+            $readonly = ['readonly' => 'true'];
+    ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <?php render_yes_no_option('saudi_vat','saudi_vat', _l('saudi_warning')); ?>
+                </div>
+                <div class="col-md-6 text-danger">
+                    <?= _l('saudi_warning') ?>
+                </div>
+            </div>
+    <?php } ?>
+    <?php echo render_input('settings[company_vat]','company_vat_number',get_option('company_vat'), 'text', $readonly); ?>
+    <hr />
 
     <?php echo render_input('settings[district_name]','district_name',get_option('district_name')); ?>
     <?php echo render_input('settings[building_number]','building_number',get_option('building_number')); ?>

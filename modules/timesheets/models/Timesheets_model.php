@@ -2787,8 +2787,8 @@ class timesheets_model extends app_model
                                 $data_send_mail['staff_name'] = $staff_name;
                                 $data_send_mail['type_check'] = 'checked in';
                                 $data_send_mail['date_time'] = _d($data['date']);
-                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
-                                $template->send();
+//                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
+//                                $template->send();
                                 $this->notifications($staffid, 'timesheets/requisition_manage', 'checked in at '._d($data['date']));
                             }
                         }
@@ -2801,8 +2801,8 @@ class timesheets_model extends app_model
                                 $data_send_mail['staff_name'] = get_staff_full_name($data['staff_id']);
                                 $data_send_mail['type_check'] = 'checked out';
                                 $data_send_mail['date_time'] = _d($data['date']);
-                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
-                                $template->send();
+//                                $template = mail_template('attendance_notice', 'timesheets', array_to_object($data_send_mail));
+//                                $template->send();
                                 $this->notifications($staffid, 'timesheets/requisition_manage', 'checked out at '._d($data['date']));
                             }
                         }

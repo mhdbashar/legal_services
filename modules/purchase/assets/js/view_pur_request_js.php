@@ -8,389 +8,15 @@ var data_send_mail = {};
     data_send_mail.rel_id = <?php echo html_entity_decode($pur_request->id); ?>;
     data_send_mail.rel_type = 'pur_request';
     data_send_mail.addedfrom = <?php echo html_entity_decode($pur_request->requester); ?>;
+    data_send_mail.csrf_token_name = $('input[id="csrf_token_name"]').val();
     $.post(admin_url+'purchase/send_mail', data_send_mail).done(function(response){
     });
   <?php } ?>
 
-<?php if(isset($pur_request)){
- ?>
-var dataObject = <?php echo html_entity_decode($pur_request_detail); ?>;
-var hotElement = document.querySelector('#example');
-    var hotElementContainer = hotElement.parentNode;
-    var hotSettings = {
-      data: dataObject,
-      columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-          readOnly: true
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-          readOnly: true
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          //width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          },
-          readOnly: true
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          //width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-          readOnly: true
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
 
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          //width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-      licenseKey: 'non-commercial-and-evaluation',
-      stretchH: 'all',
-      width: '100%',
-      autoWrapRow: true,
-      rowHeights: 30,
-      columnHeaderHeight: 40,
-      minRows: 10,
-      maxRows: 22,
-      rowHeaders: true,
-      
-      colHeaders: [
-        '<?php echo ''; ?>',
-        '<?php echo ''; ?>',
-        '<?php echo _l('items'); ?>',
-        '<?php echo _l('pur_unit'); ?>',
-        '<?php echo _l('purchase_unit_price'); ?>',
-        '<?php echo _l('purchase_quantity'); ?>',
-        '<?php echo _l('subtotal_before_tax'); ?>',
-        '<?php echo _l('tax'); ?>',
-        '<?php echo _l('tax_value'); ?>',
-        '<?php echo _l('total'); ?>',
-        '<?php echo _l('inventory_quantity'); ?>'
-        
-      ],
-       columnSorting: {
-        indicator: true
-      },
-      autoColumnSize: {
-        samplingRatio: 23
-      },
-      dropdownMenu: true,
-      mergeCells: true,
-      contextMenu: true,
-      manualRowMove: true,
-      manualColumnMove: true,
-      multiColumnSorting: {
-        indicator: true
-      },
-      hiddenColumns: {
-        columns: [0,1,10],
-        indicators: true
-      },
-      filters: true,
-      manualRowResize: true,
-      manualColumnResize: true
-    };
-
-
-var hot = new Handsontable(hotElement, hotSettings);
-hot.addHook('afterChange', function(changes, src) {
-    changes.forEach(([row, prop, oldValue, newValue]) => {
-      if(prop == 'item_code'){
-        $.post(admin_url + 'purchase/items_change/'+newValue).done(function(response){
-          response = JSON.parse(response);
-
-          hot.setDataAtCell(row,3, response.value.unit_id);
-          hot.setDataAtCell(row,4, response.value.purchase_price);
-          hot.setDataAtCell(row,6, response.value.purchase_price*hot.getDataAtCell(row,5));
-        });
-
-      }else if(prop == 'quantity'){
-        hot.setDataAtCell(row,6, newValue*hot.getDataAtCell(row,4));
-      }
-
-    });
-  });
-$('.save_detail').on('click', function() {
-  $('input[name="request_detail"]').val(hot.getData());   
-});
-
-<?php if($pur_request->from_items == 0){ ?>
-  hot.updateSettings({
-       columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },g
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_text',
-          
-          // width: 150,
-          
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          // width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-      
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          //width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],  
-  });
-<?php }else{ ?>
-  hot.updateSettings({
-    columns: [
-        {
-          data: 'prd_id',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'pur_request',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'item_code',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          //width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($items); ?>
-          }
-        },
-        {
-          data: 'unit_id',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-          //width: 150,
-          chosenOptions: {
-              data: <?php echo json_encode($units); ?>
-          },
-          readOnly: true
-     
-        },
-        {
-          data: 'unit_price',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          
-        },
-        {
-          data: 'quantity',
-          type: 'numeric',
-      
-        },
-        {
-          data: 'into_money',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-          readOnly: true
-        },
-        {
-          data: 'tax',
-          renderer: customDropdownRenderer,
-          editor: "chosen",
-      
-          //width: 100,
-          chosenOptions: {
-             
-              data: <?php echo json_encode($taxes); ?>
-          }
-        },
-        {
-          data: 'tax_value',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'total',
-          type: 'numeric',
-          numericFormat: {
-            pattern: '0,0'
-          },
-           //width: 90,
-          readOnly: true
-        },
-        {
-          data: 'inventory_quantity',
-          type: 'numeric',
-          readOnly: true
-        },
-      
-      ],
-  });
-<?php } ?>
-
-
-<?php } ?>
 
 })(jQuery); 
 
-function customDropdownRenderer(instance, td, row, col, prop, value, cellProperties) {
-  "use strict"; 
-  var selectedId;
-  var optionsList = cellProperties.chosenOptions.data;
-  
-  if(typeof optionsList === "undefined" || typeof optionsList.length === "undefined" || !optionsList.length) {
-      Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-      return td;
-  }
-
-  var values = (value + "").split("|");
-  value = [];
-  for (var index = 0; index < optionsList.length; index++) {
-
-      if (values.indexOf(optionsList[index].id + "") > -1) {
-          selectedId = optionsList[index].id;
-          value.push(optionsList[index].label);
-      }
-  }
-  value = value.join(", ");
-
-  Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
-  return td;
-}
 
 function change_status_pur_request(invoker,id){
   "use strict"; 
@@ -578,4 +204,89 @@ function copy_public_link(pur_order){
     });
   }
 }  
+
+// Mark task status
+function purchase_request_mark_as(status, pur_request_id) {
+    var url = 'purchase/change_status_pur_request/' + status + '/' + pur_request_id;
+
+    $("body").append('<div class="dt-loader"></div>');
+    requestGetJSON(url).done(function (response) {
+        $("body").find('.dt-loader').remove();
+        if (response.result != '') {
+            alert_float('success',response.result);
+            window.location.reload();
+        }
+    });
+}
+
+if(typeof(commonTaskPopoverMenuOptions) == 'undefined') {
+      var commonTaskPopoverMenuOptions = {
+         html: true,
+         placement: 'bottom',
+         trigger: 'click',
+         template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>',
+      };
+   }
+
+if(typeof(taskPopoverMenus) == 'undefined'){
+    var taskPopoverMenus = [{
+          selector: '.task-menu-options',
+          title: "<?php echo _l('actions'); ?>",
+       },
+       {
+          selector: '.task-menu-status',
+          title: "<?php echo _l('ticket_single_change_status'); ?>",
+       },
+       {
+          selector: '.task-menu-priority',
+          title: "<?php echo _l('task_single_priority'); ?>",
+       },
+       {
+          selector: '.task-menu-milestones',
+          title: "<?php echo _l('task_milestone'); ?>",
+       },
+    ];
+ }
+
+ for (var i = 0; i < taskPopoverMenus.length; i++) {
+    $(taskPopoverMenus[i].selector + ' .trigger').popover($.extend({}, commonTaskPopoverMenuOptions, {
+       title: taskPopoverMenus[i].title,
+       content: $('body').find(taskPopoverMenus[i].selector + ' .content-menu').html()
+    }));
+ }
+
+
+function preview_purrequest_btn(invoker){
+  "use strict"; 
+    var id = $(invoker).attr('id');
+    var rel_id = $(invoker).attr('rel_id');
+    view_purrequest_file(id, rel_id);
+}
+
+function view_purrequest_file(id, rel_id) {
+  "use strict"; 
+      $('#purrequest_file_data').empty();
+      $("#purrequest_file_data").load(admin_url + 'purchase/file_purrequest/' + id + '/' + rel_id, function(response, status, xhr) {
+          if (status == "error") {
+              alert_float('danger', xhr.statusText);
+          }
+      });
+}
+function close_modal_preview(){
+  "use strict"; 
+ $('._project_file').modal('hide');
+}
+
+function delete_purrequest_attachment(id) {
+  "use strict"; 
+    if (confirm_delete()) {
+        requestGetJSON('purchase/delete_purrequest_attachment/' + id).done(function(response) {
+            if (response.success == true || response.success == 'true') {
+                $("#purrequest_pv_file").find('[data-attachment-id="' + id + '"]').remove();
+            }
+        }).fail(function(error) {
+            alert_float('danger', error.responseText);
+        });
+    }
+  }
 </script>

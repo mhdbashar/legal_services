@@ -26,14 +26,6 @@ $join = [
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'pur_estimates';
 
-$custom_fields = get_table_custom_fields('estimate');
-
-foreach ($custom_fields as $key => $field) {
-    $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
-    array_push($customFieldsColumns, $selectAs);
-    array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
-    array_push($join, 'LEFT JOIN ' . db_prefix() . 'customfieldsvalues as ctable_' . $key . ' ON ' . db_prefix() . 'pur_estimates.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
-}
 
 $where  = [];
 
@@ -73,15 +65,15 @@ if (isset($vendors)) {
     }
 }
 
+if(isset($vendor)){
+    array_push($where, ' AND '.db_prefix().'pur_estimates.vendor = '.$vendor);
+}
+
 $filter = [];
 
 
 $aColumns = hooks()->apply_filters('estimates_table_sql_columns', $aColumns);
 
-// Fix for big queries. Some hosting have max_join_limit
-if (count($custom_fields) > 4) {
-    @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
-}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'pur_estimates.id',
@@ -90,7 +82,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'currencies.name as currency_name',
     'pur_request',
     'deleted_vendor_name',
-
+    db_prefix() . 'pur_estimates.currency',
     'company',
     'pur_rq_name',
     'pur_rq_code'
@@ -102,6 +94,12 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
+    $base_currency = get_base_currency_pur();
+
+    if($aRow['currency'] != 0){
+        $base_currency = pur_get_currency_by_id($aRow['currency']);
+    }
+
     $numberOutput = '';
     // If is from client area table or projects area request
     
@@ -111,20 +109,20 @@ foreach ($rResult as $aRow) {
 
     $numberOutput .= '<div class="row-options">';
 
-    if (has_permission('purchase', '', 'view')) {
+    if (has_permission('purchase_quotations', '', 'view')) {
         $numberOutput .= ' <a href="' . admin_url('purchase/quotations/' . $aRow['id']) . '" onclick="init_pur_estimate(' . $aRow['id'] . '); return false;">' . _l('view') . '</a>';
     }
-    if ( (has_permission('purchase', '', 'edit') || is_admin()) && $aRow[db_prefix() . 'pur_estimates.status'] != 2) {
+    if ( (has_permission('purchase_quotations', '', 'edit') || is_admin()) && $aRow[db_prefix() . 'pur_estimates.status'] != 2) {
         $numberOutput .= ' | <a href="' . admin_url('purchase/estimate/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
-    if (has_permission('purchase', '', 'delete') || is_admin()) {
+    if (has_permission('purchase_quotations', '', 'delete') || is_admin()) {
         $numberOutput .= ' | <a href="' . admin_url('purchase/delete_estimate/' . $aRow['id']) . '" class="text-danger">' . _l('delete') . '</a>';
     }
     $numberOutput .= '</div>';
 
     $row[] = $numberOutput;
 
-    $amount = app_format_money($aRow[db_prefix() . 'pur_estimates.total'], '');
+    $amount = app_format_money($aRow[db_prefix() . 'pur_estimates.total'], $base_currency->symbol);
 
     if ($aRow['invoiceid']) {
         $amount .= '<br /><span class="hide"> - </span><span class="text-success">' . _l('estimate_invoiced') . '</span>';
@@ -132,7 +130,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $amount;
 
-    $row[] = app_format_money($aRow[db_prefix() . 'pur_estimates.total_tax'], '');
+    $row[] = app_format_money($aRow[db_prefix() . 'pur_estimates.total_tax'], $base_currency->symbol);
 
     $row[] = $aRow['year'];
 
@@ -142,7 +140,7 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_vendor_name'];
     }
 
-    $row[] = '<a href="' . admin_url('purchase/view_pur_request/' . $aRow['pur_request']) . '" onclick="init_pur_estimate(' . $aRow['id'] . '); return false;">' . $aRow['pur_rq_code'] .' - '.$aRow['pur_rq_name'] . '</a>' ;
+    $row[] = '<a href="' . admin_url('purchase/view_pur_request/' . $aRow['pur_request']) . '" onclick="init_pur_estimate(' . $aRow['id'] . '); return false;">' . $aRow['pur_rq_code'] .'</a>' ;
 
    
 

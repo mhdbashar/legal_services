@@ -30,6 +30,10 @@
                </li>
             <?php } ?>
             <?php hooks()->do_action('customers_navigation_end'); ?>
+            <li>
+         <a href="<?php echo site_url('messages/inbox'); ?>"  data-toggle="tooltip" title="<?php echo _l('البريد'); ?>" data-placement="bottom"><i class="fa fa-envelope fa-fw fa-lg" aria-hidden="true"></i></a>
+      </li>
+            
             <?php if(is_client_logged_in()) { ?>
                <li class="dropdown customers-nav-item-profile">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

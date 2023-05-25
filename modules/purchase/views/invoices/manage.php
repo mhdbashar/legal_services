@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">    
                           <div class="_buttons col-md-12">
-                            <?php if (has_permission('purchase', '', 'create') || is_admin()) { ?>
+                            <?php if (has_permission('purchase_invoices', '', 'create') || is_admin()) { ?>
                             <a href="<?php echo admin_url('purchase/pur_invoice'); ?>"class="btn btn-info pull-left mright10 display-block">
                                 <?php echo _l('new'); ?>
                             </a>
@@ -25,7 +25,7 @@
                             <div class="col-md-2">
                                 <?php echo render_date_input('to_date','','',array('placeholder' => _l('to_date') )); ?>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                              
                               <select name="contract[]" id="contract" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('contract'); ?>">
                                  <?php foreach($contracts as $ct){ ?>
@@ -35,30 +35,43 @@
 
 
                              </div>
-                             <div class="col-md-3 form-group">
+                             <div class="col-md-2 form-group">
                                <select name="pur_orders[]" id="pur_orders" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('purchase_order'); ?>">
                                  <?php foreach($pur_orders as $ct){ ?>
-                                  <option value="<?php echo html_entity_decode($ct['id']); ?>" ><?php echo html_entity_decode($ct['pur_order_number']); ?></option>
+                                  <option value="<?php echo html_entity_decode($ct['id']); ?>" <?php if($this->input->get('po') != null && $this->input->get('po') == $ct['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($ct['pur_order_number']); ?></option>
                                  <?php } ?>
                               </select>
                              </div>
+                             <div class="col-md-2 form-group">
+                                <?php echo render_select('vendor_ft[]',$vendors,array('userid','company'),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('vendors'),'multiple'=>true,'data-actions-box'=>true),array(),'no-mbot','',false); ?>
+                            </div>
                         </div>
                       </div>
                     
-                    <?php render_datatable(array(
+                    <?php 
+
+                    $table_data = array(
                         _l('invoice_no'),
+                        _l('vendor'),
                         _l('contract'),
                         _l('pur_order'),
                         _l('invoice_date'),
+                        _l('recurring_from'),
                         _l('invoice_amount'),
                         _l('tax_value'),
                         _l('total_included_tax'),
                         _l('payment_request_status'),
                         _l('payment_status'),
                         _l('transaction_id'),
-                        _l('transaction_date'),
                         _l('tag'),
-                        ),'table_pur_invoices'); ?>
+                        );
+
+                    $custom_fields = get_custom_fields('pur_invoice',array('show_on_table'=>1));
+                    foreach($custom_fields as $field){
+                     array_push($table_data,$field['name']);
+                    }
+                    
+                    render_datatable($table_data,'table_pur_invoices'); ?>
             
           </div>
         </div>

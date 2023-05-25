@@ -40,6 +40,14 @@
         <a href="#daily_agenda" aria-controls="daily_agenda" role="tab"
            data-toggle="tab"><?php echo _l('daily_agenda'); ?></a>
     </li>
+    <li role="presentation">
+        <a href="#regular_durations" aria-controls="regular_durations" role="tab"
+           data-toggle="tab"><?php echo _l('regular_durations'); ?></a>
+    </li>
+    <li role="presentation">
+        <a href="#sessions" aria-controls="sessions" role="tab"
+           data-toggle="tab"><?php echo _l('sessions'); ?></a>
+    </li>
     </li>
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 </ul>
@@ -128,6 +136,11 @@
            data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
         <?php echo render_input('settings[procurations_reminder_notification_before]', 'procurations_reminder_notification_before', get_option('procurations_reminder_notification_before'), 'number'); ?>
     </div>
+    <div role="tabpanel" class="tab-pane" id="regular_durations">
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
+           data-title="<?php echo _l('regular_durations_reminder_notification_before_help'); ?>"></i>
+        <?php echo render_input('settings[regular_durations_reminder_notification_before]', 'regular_durations_reminder_notification_before_help', get_option('regular_durations_reminder_notification_before'), 'number'); ?>
+    </div>
     <div role="tabpanel" class="tab-pane" id="contracts">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
            data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
@@ -184,6 +197,11 @@
     <div role="tabpanel" class="tab-pane" id="daily_agenda">
         <label for="automatically_send_lawyer_daily_agenda" class="col-form-label"><?php echo _l('daily_agenda_hour   '); ?></label>
         <input type="<?php echo (get_option('time_format') == 24) ? 'text' : 'time' ?>" class="form-control" value="<?php echo get_option('automatically_send_lawyer_daily_agenda'); ?>" id="automatically_send_lawyer_daily_agenda" name="settings[automatically_send_lawyer_daily_agenda]" autocomplete="off">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="sessions">
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
+           data-title="<?php echo _l('sessions_reminder_notification_before_help'); ?>"></i>
+        <?php echo render_input('settings[sessions_reminder_notification_before]', 'sessions_reminder_notification_before', get_option('sessions_reminder_notification_before'), 'number'); ?>
     </div>
     <?php hooks()->do_action('after_cron_settings_last_tab_content'); ?>
 </div>

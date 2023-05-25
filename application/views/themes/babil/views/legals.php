@@ -53,6 +53,8 @@
                      <?php
                      if($ServID == 1){
                          $status = get_case_status_by_id($project['status']);
+                     }elseif ($ServID == 22){
+                         $status = get_disputes_case_status_by_id($project['status']);
                      }else{
                          $status = get_oservice_status_by_id($project['status']);
                      }

@@ -1,5 +1,8 @@
 <?php
 
+$lang['saudi_warning'] = 'في حال تم تغيير الوضع الى نعم لن يمكنك تغيير هذا الخيار مرة اخرى';
+$lang['saudi_vat'] = 'خاضع لنظام الضريبة السعودي';
+$lang['finger_timekeeper'] = 'مراقب الدوام';
 $lang['case_files'] = 'وسائط القضية';
 $lang['commercial_register'] = 'السجل التجاري';
 $lang['district_name'] = 'اسم الحي';
@@ -9,6 +12,8 @@ $lang['street_name'] = 'اسم الشارع';
 $lang['additional_number'] = 'الرقم الاضافي';
 $lang['unit_number'] = 'رقم الوحدة';
 $lang['id_number'] = 'رقم الهوية';
+$lang['contact_id_number'] = 'رقم الهوية لجهة الاتصال';
+$lang['client_id_number'] = 'رقم الهوية للعميل';
 
 $lang['staff_add_edit_second_name'] = "اسم الأب";
 $lang['staff_add_edit_third_name'] = "الاسم الأوسط";
@@ -268,7 +273,7 @@ $lang['form_file_location'] = "موقع ملف النموذج";
 $lang['form_url'] = "رابط النموذج";
 $lang['form_info'] = "معلومات النموذج";
 $lang['recurring_session'] = "جلسة متكررة";
-$lang['show_tasks_on_calendar'] = "المهام أو الجلسات";
+$lang['show_tasks_on_calendar'] = "المهام";
 $lang['e_sign'] = "التوقيع الرقمي";
 $lang['sub_template_succeed'] = "نجاح دفع الاشتراكات";
 $lang['email_queue_skip_attachments_exp'] = "على الأرجح ستواجه مشاكل في قائمة انتظار البريد الإلكتروني إذا كان النظام بحاجة إلى إضافة ملفات كبيرة إلى قائمة الانتظار. إذا كنت تخطط لاستخدام هذا الخيار ، فاستشر مسؤول الخادم / مزود الاستضافة لزيادة خيارات max_allowed_packet و wait_timeout في تكوين الخادم ، وإلا عند تعيين هذا الخيار على نعم ، لن يضيف النظام رسائل بريد إلكتروني تحتوي على مرفقات في قائمة الانتظار وسوف يتم إرسالها على الفور.";
@@ -897,8 +902,8 @@ $lang['Customer_report'] = "تقرير العميل";
 $lang['Send_to_customer'] = "إرسال للعميل";
 $lang['session_date'] = "تاريخ الجلسة";
 $lang['session_time'] = "وقت الجلسة";
-$lang['Waiting_sessions'] = "جلسات بالانتظار";
-$lang['Previous_Sessions'] = "جلسات سابقة";
+$lang['Waiting_sessions'] = "جلسات قادمة";
+$lang['Previous_Sessions'] = "جلسات منتهية";
 $lang['add_new_session'] = "إضافة جلسة";
 $lang['session_info'] = "وقائع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
@@ -1135,3 +1140,60 @@ $lang['migration_lang_14'] = "ستتم إعادة تحميل هذه النافذ
 $lang['migration_lang_15'] = "تم تحديث قاعدة البيانات الخاصة بك";
 
 $lang['tax_invoice_pdf_heading'] = "فاتورة ضريبية";
+$lang['regular_duration'] = "المدة النظامية";
+$lang['regular_durations'] = "المدد النظامية";
+$lang['number_of_days'] = "عدد الأيام";
+$lang['name'] = "الاسم";
+$lang['new_regular_duration'] = "إنشاء مدة نظامية جديدة";
+$lang['new_case_regular_duration'] = "إنشاء مدة نظامية جديدة للقضية";
+$lang['number_of_dayes'] = "عدد أيام المدة النظامية";
+$lang['duration_name'] = "اسم المدة النظامية";
+$lang['duration_start_date'] = "تاريخ بداية المدة النظامية";
+$lang['duration_end_date'] = "تاريخ انتهاء المدة النظامية";
+$lang['regular_duration_name'] = "اسم المدة النظامية";
+$lang['case_name'] = "اسم القضية";
+$lang['Regular_duration_rem'] = "المدة النظامية";
+$lang['regular_duration_notification'] = "تنبيه انتهاء المدة النظامية";
+$lang['regular_duration_description'] = "وصف المدة النظامية";
+
+
+
+
+
+
+
+
+
+
+
+$lang['categories'] = "التصنيفات الرئيسية";
+$lang['sub_categories'] = "التصنيفات الفرعية";
+$lang['edit_regular_duration'] = "تحرير مدة زمنية نظامية";
+$lang['regular_duration_begin_date1'] = "تاريخ بداية المدة الزمنية النظامية";
+$lang['regular_durations_reminder_notification_before_help'] = "تذكير الموعد النهائي للمدة النظامية قبل (الأيام)";
+$lang['not_case_deadline_reminder'] = "إنتهاء المدة المحددة لهذه القضية";
+$lang['email_template_regular_durations_fields_heading'] = "المدد النظامية";
+$lang['Regular duration Reminder'] = "تنبيه بانتهاء المدة النظامية";
+$lang['remember that'] = "تذكر أن المدة النظامية";
+$lang['which started at'] = "والتي بدأت بتاريخ ";
+$lang['will end at'] = "ستنتهي بتاريخ ";
+$lang['select_regular_duration'] = "اختيار مدة نظامية";
+
+
+$lang['customer_permission_messages_see'] = "البريد الوارد فقط";
+$lang['see_email_only'] = "الرسائل الداخلية - البريد الوارد";
+$lang['customer_permission_messages'] = "التراسل";
+$lang['permission_create_to_client'] = "ارسال الرسال الى الزبائن";
+$lang['system_messages_client'] = "الرسائل الداخلية - العملاء";
+$lang['permission_receive'] = "سماحية استقبال الرسائل";
+$lang['system_messages'] = "الرسائل الداخلية - الموظفين";
+$lang['staff_document_number'] = "رقم الوثيقة الرسمية لممثل المنشأة";
+$lang['staff_document_name'] = "أسم ممثل المنشأة";
+$lang['internal_messages'] = "المراسلات الداخلية";
+$lang['to_user_id'] = "ارسال الى";
+$lang['message'] = "الرسالة";
+
+
+
+
+

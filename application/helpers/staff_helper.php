@@ -152,7 +152,7 @@ function get_available_staff_permissions($data = [])
         ],
         'sessions' => [
             'name'         => _l('sessions'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn,['send_report' => _l('permission_send_report'), 'edite_report' => _l('permission_edite_report')]),
             'help'        => [
                 'view'     => _l('help_sessions_permissions'),
                 'view_own' => _l('permission_sessions_based_on_assignee'),
@@ -249,6 +249,34 @@ function get_available_staff_permissions($data = [])
                 'send_to_customer' => _l('Send_to_customer'),
             ]
         ],
+        'system_messages' => [
+            'name'         => _l('system_messages'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),                   
+                'delete'           => _l('permission_delete'),
+                
+            ]
+        ],
+        'system_messages_client' => [
+            'name'         => _l('system_messages_client'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),     
+                'delete'           => _l('permission_delete'),
+                
+            ]
+        ],
+        'see_email_only' => [
+            'name'         => _l('see_email_only'),
+            'capabilities' => [
+                'view'           => _l('permission_view'),     
+             
+                
+            ]
+        ],
+        
+
+
+
     ];
 
     $addLeadsPermission = true;
@@ -488,4 +516,20 @@ function is_staff_member($staff_id = '')
         ->where('is_not_staff', 0);
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
+}
+
+function add_staff_to_library($staff_id = ''){
+    $CI = & get_instance();
+    if($staff_id == ''){
+        $staff_id = get_staff_user_id();
+        $CI->db->where('staffid', $staff_id);
+        $CI->db->update(db_prefix() . 'staff', [
+            'add_to_library' => 1
+        ]);
+        return true;
+    }elseif (is_numeric($staff_id)){
+        $CI->db->where('staffid', $staff_id);
+        $staff = $CI->db->get()->row();
+        return $staff->add_to_library;
+    }
 }

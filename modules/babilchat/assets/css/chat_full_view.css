@@ -297,7 +297,7 @@ body #frame #mainFilterDiv .btn_filter {
 #frame .history_slider {
     float: left;
     position: absolute;
-    left: 6px;
+  
 }
 
 #frame #sidepanel #contacts {
@@ -415,7 +415,7 @@ body #frame #mainFilterDiv .btn_filter {
 
 #frame .contact-profile a.actionTask i {
     position: absolute;
-    left: 29px;
+    right: 29px;
     top: 32px;
     background: #dce3ec;
     padding: 4px;
@@ -2342,7 +2342,7 @@ body #frame .active_group_members {
 
 #frame .chat_groups_list .leave_chat_group {
     position: absolute;
-    right: 0;
+    left: 0;
     font-size: 13px;
     padding-top: 0;
     padding-left: 10px;
@@ -3796,4 +3796,30 @@ body .staffList::-webkit-scrollbar {
 body .staffList::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     border: 1px solid #b7bec5;
+}
+#frame #sidepanel .nav-tabs > li {
+ 
+    padding: 7px 10px 7px 8px !important; 
+}
+#frame .content .contact-profile .social-media {
+    float: left;
+
+}
+#frame .dropdown-menu {
+    right: -123px;
+    min-width: 166px;
+    margin-right: -10px;
+}
+#frame #sidepanel #profile .wrap #status-options ul li {
+    padding: 15px 11px 30px 43px;
+
+}
+.rtl #frame #sidepanel #profile .wrap p {
+    float: right;
+    margin-right: 16px;
+    font-weight: 500;
+}
+#forwardToModal ul.groupsList li button {
+
+    float: left !important;
 }

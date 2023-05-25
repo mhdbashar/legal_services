@@ -21,9 +21,9 @@ class Cron_model extends App_Model
     {
         if (!defined('APP_DISABLE_CRON_LOCK') || defined('APP_DISABLE_CRON_LOCK') && !APP_DISABLE_CRON_LOCK) {
             register_shutdown_function([$this, '__destruct']);
-            $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
+          //  $f = fopen(get_temp_dir() . 'pcrm-cron-lock', 'w+');
 
-            if (!$f) {
+            //if (!$f) {
                 $this->lock_handle = fopen(TEMP_FOLDER . 'pcrm-cron-lock', 'w+');
                 // Again? Disable the lock
                 if (!$this->lock_handle && !defined('APP_DISABLE_CRON_LOCK')) {
@@ -31,9 +31,9 @@ class Cron_model extends App_Model
                     // Used in method can_cron_run
                     define('APP_DISABLE_CRON_LOCK', true);
                 }
-            } else {
-                $this->lock_handle = $f;
-            }
+           // } else {
+             //   $this->lock_handle = $f;
+           //}
         }
 
         parent::__construct();
@@ -67,6 +67,7 @@ class Cron_model extends App_Model
             $this->events();
             $this->tasks_reminders();
             $this->procurations_reminders();
+            $this->regular_durations_reminders();
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();
@@ -88,7 +89,7 @@ class Cron_model extends App_Model
             $this->empty_legal_services_recycle_bin();
 
             $this->send_lawyer_daily_agenda();
-
+            $this->recurring_disputes_cases_invoices();
             //$this->fix_and_separate_names();
 
             /**
@@ -324,6 +325,14 @@ class Cron_model extends App_Model
                             }
 
                             send_mail_template('contract_expiration_reminder_to_staff', $contract, $member);
+                            //*******telegram notifications*******
+                            if($this->app_modules->is_active('telegram_chat')) {
+                                $this->load->helper('telegram_helper');
+                                $link1 = "<a href= '#' > </a>";
+                                $txt = " تذكير &#128227\n" . "اقترب العقد " . $contract ."\n" . "من الانتهاء " . $link1 . "\n Done!";
+                                send_message_telegram(urlencode($txt));
+                            }
+                            //**********************
                         }
                     }
 
@@ -1041,8 +1050,18 @@ class Cron_model extends App_Model
                                 array_push($notifiedUsers, $member['staffid']);
                             }
 
-                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
 
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+                            //*******telegram notifications*******
+                            if($this->app_modules->is_active('telegram_chat')) {
+                                $this->load->helper('telegram_helper');
+                                $this->load->helper('my_functions_helper');
+                                $procuration_name = get_procuration_name_by_id($procuration['id']);
+                                $link1 = "<a href= '#' > </a>";
+                                $txt = " تذكير &#128227\n" . "اقتربت الوكالة" . $procuration_name ."\n" . "من الانتهاء " . $link1 . "\n Done!";
+                                send_message_telegram(urlencode($txt));
+                            }
+                            //**********************
 
                             $this->db->where('id', $procuration['id']);
                             $this->db->update(db_prefix() . 'procurations', [
@@ -1056,6 +1075,89 @@ class Cron_model extends App_Model
 
         pusher_trigger_notification($notifiedUsers);
     }
+    //*************************
+    private function regular_durations_reminders()
+    {
+        $reminder_before = get_option('regular_durations_reminder_notification_before');
+        $this->db->where('reg_id IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+        $cases = $this->db->get(db_prefix() . 'cases_regular_durations')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+        $notifiedUsers = [];
+        foreach ($cases as $case) {
+
+            if($case['end_date'] < $now)
+            {
+                $this->db->where('id', $case['id']);
+                $this->db->update(db_prefix() . 'cases_regular_durations', [
+                    'regular_header' => 0,
+                ]);
+            }
+
+
+            if ($case['end_date'] > date('Y-m-d')) {
+                $end_date = new DateTime($case['end_date']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the regular duration it too short
+                $end_date          = strtotime($case['end_date']);
+                $start_date         = strtotime($case['start_date']);
+                $start_and_end_date_diff = $end_date - $start_date;
+                $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
+                 if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before) {
+                $this->db->where('project_id', $case['case_id']);
+                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                foreach ($assignees as $member) {
+                    $this->db->where('staffid',$member->staff_id);
+                    $row = $this->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_case_deadline_reminder',
+                            'touserid'        => $member->staff_id,
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'legalservices/cases/view/1/' . $case['case_id'],
+
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member->staff_id);
+                        }
+
+                        send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id , $case['case_id'] , $case['reg_id']);
+
+
+                        if($this->app_modules->is_active('telegram_chat')) {
+                            $this->load->helper('telegram_helper');
+                            $this->load->helper('my_functions_helper');
+                            $this->load->helper('cases_helper');
+                            $dur_name = get_dur_name_by_id($case['reg_id']);
+                            $case_name = get_case_name_by_id($case['case_id']);
+                            $link = APP_BASE_URL . 'admin/Case/view/1/' . $case['case_id'] . '?group=regular_duration';
+
+                            $link1 = "<a href= '$link' >click here</a>";
+                            $txt = " تذكير &#128227\n" . "اقتربت المدة النظامية " . $dur_name . "\n" . "التابعة للقضية " . $case_name . "\n" . "من الانتهاء " . "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
+                            send_message_telegram(urlencode($txt));
+                        }
+
+                       //********
+                        $this->db->where('id', $case['id']);
+                        $this->db->update(db_prefix() . 'cases_regular_durations', [
+                            'deadline_notified' => 1,'regular_header' => 1,
+                        ]);
+                    }
+                }
+                  }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
+
+
+    //*************************
+
 
     private function staff_reminders()
     {
@@ -2475,6 +2577,28 @@ class Cron_model extends App_Model
             }
 
             update_option('_fix_staffs_and_contacts_names', true);
+        }
+    }
+
+    private function recurring_disputes_cases_invoices()
+    {
+        $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
+        if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
+            return;
+        }
+        $this->load->model('legalservices/disputes_cases/Disputes_invoices_model','disputes_invoices');
+        $this->db->select('id,duedate,clientid');
+        $this->db->from(db_prefix() . 'my_disputes_cases_invoices');
+        $this->db->where('sent', 0);
+        $this->db->where('status !=', 2);
+        $invoices = $this->db->get()->result_array();
+        foreach ($invoices as $invoice) {
+            if(date('Y-m-d') == $invoice['duedate']){
+                $send = $this->disputes_invoices->send_dispute_to_client($invoice['id'], '', true, '', true, [], $invoice['clientid']);
+                if($send){
+                    continue;
+                }
+            }
         }
     }
 }

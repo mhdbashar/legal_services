@@ -208,31 +208,34 @@ $(function() {
         window.location.href = admin_url + 'Service/1';
     });
 
-    table_sessions = $('.table-sessions');
-    if (table_sessions.length) {
-        var SessionsServerParams = {},
-            Sessions_Filters;
-        Sessions_Filters = $('._hidden_inputs._filters._tasks_filters input');
-        $.each(Sessions_Filters, function() {
-            SessionsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
-        });
+    //sesions table
+    initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
 
-        // Tasks not sortable
-        var sessionsTableNotSortable = [0]; // bulk actions
-        var sessionsTableURL = admin_url + 'legalservices/sessions/table';
-
-        if ($("body").hasClass('tasks-page')) {
-            sessionsTableURL += '?bulk_actions=true';
-        }
-
-        _table_api = initDataTable(table_sessions, sessionsTableURL, sessionsTableNotSortable, sessionsTableNotSortable, SessionsServerParams, [table_sessions.find('th.duedate').index(), 'asc']);
-
-        if (_table_api && $("body").hasClass('dashboard')) {
-            _table_api.column(5).visible(false, false)
-                .column(6).visible(false, false)
-                .columns.adjust();
-        }
-    }
+    // table_sessions = $('.table-sessions');
+    // if (table_sessions.length) {
+    //     var SessionsServerParams = {},
+    //         Sessions_Filters;
+    //     Sessions_Filters = $('._hidden_inputs._filters._tasks_filters input');
+    //     $.each(Sessions_Filters, function() {
+    //         SessionsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    //     });
+    //
+    //     // Tasks not sortable
+    //     var sessionsTableNotSortable = [0]; // bulk actions
+    //     var sessionsTableURL = admin_url + 'legalservices/sessions/table';
+    //
+    //     if ($("body").hasClass('tasks-page')) {
+    //         sessionsTableURL += '?bulk_actions=true';
+    //     }
+    //
+    //     _table_api = initDataTable(table_sessions, sessionsTableURL, sessionsTableNotSortable, sessionsTableNotSortable, SessionsServerParams, [table_sessions.find('th.duedate').index(), 'asc']);
+    //
+    //     if (_table_api && $("body").hasClass('dashboard')) {
+    //         _table_api.column(5).visible(false, false)
+    //             .column(6).visible(false, false)
+    //             .columns.adjust();
+    //     }
+    // }
 
     // Copy task href/button event.
     $("body").on('click', '.copy_session_action', function() {
@@ -267,7 +270,7 @@ $(function() {
         if (data.follower !== '') {
             data.taskid = $(this).attr('data-task-id');
             $("body").append('<div class="dt-loader"></div>');
-            $.post(admin_url + 'legalservices/sessions/add_task_followers', data).done(function(response) {
+            $.post(admin_url + 'legalservices/sessions/add_session_followers', data).done(function(response) {
                 response = JSON.parse(response);
                 $("body").find('.dt-loader').remove();
                 _task_append_html(response.taskHtml);
@@ -1184,7 +1187,7 @@ function init_previous_sessions_log_table(rel_id, rel_type, selector) {
         url += '?bulk_actions=true';
     }
 
-    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'desc']);
 }
 
 // Initing waiting_sessions_log tables
@@ -1209,7 +1212,7 @@ function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
         url += '?bulk_actions=true';
     }
 
-    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'desc']);
 }
 
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.

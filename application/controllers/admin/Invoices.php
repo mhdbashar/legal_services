@@ -96,6 +96,27 @@ class Invoices extends AdminController
         ]);
     }
 
+    public function table_disputes_case($clientid = '',$ServID='22', $slug = 'kdaya_altnfith')
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_disputes_case'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+            'ServID'   => $ServID,
+            'slug'     => $slug,
+        ]);
+    }
+
     public function table_oservice($clientid = '',$ServID='', $slug = '')
     {
         if (!has_permission('invoices', '', 'view')
@@ -385,7 +406,7 @@ class Invoices extends AdminController
 
             $data['invoice']        = $invoice;
             $data['edit']           = true;
-            if($this->invoices_model->is_draft($id))
+            if($this->invoices_model->is_draft($id) || !get_option('saudi_vat'))
                 $data['edit']           = false;
             $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
 

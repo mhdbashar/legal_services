@@ -36,12 +36,22 @@
           $total = 0;
           ?>
         <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded">
-          <td class="parent"><?php echo _l('cash_flows_from_operating_activities'); ?></td>
+          <td class="parent">
+                <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('cash_flows_from_operating_activities'); ?>
+                </span>
+
+          </td>
           <td></td>
         </tr>
         <?php $row_index += 1; ?>
         <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-          <td class="parent"><?php echo _l('profit_for_the_year'); ?></td>
+          <td class="parent">
+               <span style="margin-right: 24px; margin-top: -10px">
+                    <?php echo _l('profit_for_the_year'); ?>
+                </span>
+
+          </td>
           <td class="total_amount"><?php echo app_format_money($data_report['net_income'], $currency->name); ?> </td>
         </tr>
         <?php
@@ -49,7 +59,12 @@
           ?>
         <?php $row_index += 1; ?>
         <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-          <td class="parent"><?php echo _l('adjustments_for_non_cash_income_and_expenses'); ?></td>
+          <td class="parent">
+               <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('adjustments_for_non_cash_income_and_expenses'); ?>
+                </span>
+
+          </td>
           <td></td>
         </tr>
         <?php $parent_index = $row_index; ?>
@@ -106,12 +121,22 @@
            ?>
             
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-              <td class="parent"><?php echo _l('total_adjustments_for_non_cash_income_and_expenses'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                      <?php echo _l('total_adjustments_for_non_cash_income_and_expenses'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?> </td>
             </tr>
             <?php $total_cash_flows_from_operating_activities += $total; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-1 parent-node expanded tr_total">
-              <td class="parent"><?php echo _l('net_cash_from_operating_activities'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('net_cash_from_operating_activities'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($total_cash_flows_from_operating_activities, $currency->name); ?> </td>
             </tr>
             <?php 
@@ -119,7 +144,12 @@
               $net_cash_used_in_investing_activities = 0;
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded">
-              <td class="parent"><?php echo _l('cash_flows_from_investing_activities'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('cash_flows_from_investing_activities'); ?>
+                </span>
+
+              </td>
               <td></td>
             </tr>
             <?php $parent_index = $row_index; ?>
@@ -147,12 +177,22 @@
             $row_index += 1;
           ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-              <td class="parent"><?php echo _l('net_cash_used_in_investing_activities'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('net_cash_used_in_investing_activities'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($net_cash_used_in_investing_activities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded">
-              <td class="parent"><?php echo _l('cash_flows_from_financing_activities'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('cash_flows_from_financing_activities'); ?>
+                </span>
+
+              </td>
               <td></td>
             </tr>
             <?php $parent_index = $row_index; 
@@ -176,17 +216,32 @@
 
             $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total">
-              <td class="parent"><?php echo _l('net_cash_used_in_financing_activities'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('net_cash_used_in_financing_activities'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($net_cash_used_in_financing_activities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-              <td class="parent"><?php echo _l('net_increase_decrease_in_cash_and_cash_equivalents_uppercase'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('net_increase_decrease_in_cash_and_cash_equivalents_uppercase'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($net_cash_used_in_financing_activities + $net_cash_used_in_investing_activities + $total_cash_flows_from_operating_activities, $currency->name); ?> </td>
             </tr>
             <?php $row_index += 1; ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> parent-node expanded hide">
-              <td class="parent"><?php echo _l('cash_and_cash_equivalents_at_beginning_of_year'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('cash_and_cash_equivalents_at_beginning_of_year'); ?>
+                </span>
+
+              </td>
               <td></td>
             </tr>
             <?php $parent_index = $row_index; 
@@ -203,11 +258,21 @@
 
             ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-<?php echo html_entity_decode($parent_index); ?> parent-node expanded tr_total hide">
-              <td class="parent"><?php echo _l('total_cash_and_cash_equivalents_at_beginning_of_year'); ?></td>
+              <td class="parent">
+                   <span style="margin-right: 24px; margin-top: -10px">
+                      <?php echo _l('total_cash_and_cash_equivalents_at_beginning_of_year'); ?>
+                </span>
+
+              </td>
               <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?> </td>
             </tr>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
-            <td class="parent"><?php echo _l('cash_and_cash_equivalents_at_end_of_year_uppercase'); ?></td>
+            <td class="parent">
+                 <span style="margin-right: 24px; margin-top: -10px">
+                     <?php echo _l('cash_and_cash_equivalents_at_end_of_year_uppercase'); ?>
+                </span>
+
+            </td>
             <td class="total_amount"><?php echo app_format_money($total + $net_cash_used_in_financing_activities + $net_cash_used_in_investing_activities + $total_cash_flows_from_operating_activities, $currency->name); ?> </td>
           </tr>
         </tbody>

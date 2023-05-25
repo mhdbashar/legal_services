@@ -26,7 +26,9 @@
       <?php if($comment['staffid'] != 0){ ?>
          <a href="<?php echo admin_url('profile/' . $comment['staffid']); ?>"><?php echo get_staff_full_name($comment['staffid']); ?></a>
       <?php } else { ?>
-         <?php echo '<b>' . _l('pur_vendor') . '</b>'; ?>
+         <?php $object = get_object_comment($comment['rel_id'], $comment['rel_type']); ?>
+
+         <?php echo '<b>' . get_vendor_company_name($object->vendor). '</b>'; ?>
       <?php } ?>
       <small class="text-muted text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($comment['dateadded']); ?>"> - <?php echo time_ago($comment['dateadded']); ?></small>
       </div>

@@ -437,7 +437,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <?php $value = (isset($case) ? ($case->start_date) : (date('Y-m-d'))); ?>
+                                            <?php $value = (isset($case) ? ($case->start_date == '0000-00-00' ? '' : $case->start_date) : (date('Y-m-d'))); ?>
                                             <?php echo render_date_input('start_date','project_start_date',$value); ?>
                                         </div>
                                         <div class="col-md-6">
@@ -1112,13 +1112,15 @@
         var select = '';
         <?php $value = (isset($case) ? $case->childsubcat_id : ''); ?>
         var childsubcat_id = "<?php echo $value; ?>";
-        $.ajax({
-            url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
-            success: function (data) {
-                // if(data != null){
-                response = JSON.parse(data);
-                if(response.length != 0) {
-                    $('#childsubcat').html(`
+        if(id != null) {
+
+            $.ajax({
+                url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
+                success: function (data) {
+                    // if(data != null){
+                    response = JSON.parse(data);
+                    if (response.length != 0) {
+                        $('#childsubcat').html(`
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="childsubcat_id" class="control-label"><?php echo _l('child_sub_categories'); ?></label>
@@ -1128,18 +1130,19 @@
                             </div>
                         </div>
                         `);
-                    $('#childsubcat_id').append('<option value=""></option>');
-                    $.each(response, function (key, value) {
-                        if(value['id'] == childsubcat_id){
-                            var select = 'selected';
-                        }
-                        $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select +'>' + value['name'] + '</option>');
-                    });
-                }else {
-                    $('#childsubcat').html('');
+                        $('#childsubcat_id').append('<option value=""></option>');
+                        $.each(response, function (key, value) {
+                            if (value['id'] == childsubcat_id) {
+                                var select = 'selected';
+                            }
+                            $('#childsubcat_id').append('<option value="' + value['id'] + '"' + select + '>' + value['name'] + '</option>');
+                        });
+                    } else {
+                        $('#childsubcat').html('');
+                    }
                 }
-            }
-        });
+            });
+        }
     });
     $("#clientid").change(function () {
         var groupFilter = $('#previous_case_id');

@@ -15,7 +15,13 @@ class Written_reports extends AdminController
         if (!has_permission('written_reports', '', 'create')) {
             access_denied('written_reports');
         }
-        $route = $ServID == 1 ? 'Case' : 'SOther';
+        if($ServID == 1){
+            $route = 'Case';
+        }elseif($ServID == 22){
+            $route = 'Disputes_cases';
+        }else{
+            $route = 'SOther';
+        }
         if ($this->input->post()) {
             $data['report'] = $this->input->post('report', false);
             $data = $this->input->post();
@@ -32,7 +38,13 @@ class Written_reports extends AdminController
         if (!has_permission('written_reports', '', 'edit')) {
             access_denied('written_reports');
         }
-        $route = $ServID == 1 ? 'Case' : 'SOther';
+        if($ServID == 1){
+            $route = 'Case';
+        }elseif($ServID == 22){
+            $route = 'Disputes_cases';
+        }else{
+            $route = 'SOther';
+        }
         if ($this->input->post()) {
             $data['report'] = $this->input->post('report', false);
             $data = $this->input->post();
@@ -49,7 +61,13 @@ class Written_reports extends AdminController
         if (!has_permission('written_reports', '', 'delete')) {
             access_denied('written_reports');
         }
-        $route = $ServID == 1 ? 'Case' : 'SOther';
+        if($ServID == 1){
+            $route = 'Case';
+        }elseif($ServID == 22){
+            $route = 'Disputes_cases';
+        }else{
+            $route = 'SOther';
+        }
         if(!$report_id){
             set_alert('danger', _l('WrongEntry'));
             redirect($_SERVER['HTTP_REFERER']);
@@ -103,6 +121,8 @@ class Written_reports extends AdminController
         $rel_id = $report->rel_id;
         if($service_id == 1){
             $client_id = get_client_id_by_case_id($rel_id);
+        }elseif ($service_id == 22){
+            $client_id = get_client_id_by_disputes_case_id($rel_id);
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
         }

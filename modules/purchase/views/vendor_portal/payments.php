@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="row">
+	<?php $base_currency = get_base_currency_pur(); ?>
 	<div class="col-md-12">
 		<div class="panel_s">
 			<div class="panel-body">
@@ -17,7 +18,7 @@
 			         <?php foreach($payments as $p) { ?>
 			         <tr>
 			         	<td><?php echo html_entity_decode($p['pur_order_name']); ?></td>
-			         	<td><?php echo app_format_money($p['amount'],''); ?></td>
+			         	<td><?php echo app_format_money($p['amount'],$base_currency->symbol); ?></td>
 			         	<td><?php echo get_payment_mode_by_id($p['paymentmode']); ?></td>
 			         	<td><?php echo html_entity_decode($p['transactionid']); ?></td>
 			         	<td><span class="label label-primary"><?php echo _d($p['date']); ?></span></td>

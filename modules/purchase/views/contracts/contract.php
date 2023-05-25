@@ -32,7 +32,7 @@
 
                 <div class="col-md-6 form-group">
                   <label for="vendor"><?php echo _l('vendor'); ?></label>
-                  <select name="vendor" id="vendor" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                  <select name="vendor" id="vendor" class="selectpicker" onchange="vendor_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
                     <option value=""></option>
                     <?php foreach($vendors as $or){ ?>
                       <option value="<?php echo html_entity_decode($or['userid']); ?>" <?php if(isset($contract) && $contract->vendor == $or['userid']){ echo 'selected'; }else{ if(isset($ven) && $ven == $or['userid']){ echo 'selected'; } } ?>><?php echo html_entity_decode($or['company']); ?></option>
@@ -49,13 +49,19 @@
                     <?php } ?>
                   </select>
                 </div>
+                <?php 
+                  $project_id = '';
+                  if($this->input->get('project')){
+                    $project_id = $this->input->get('project');
+                  }
+                 ?>
 
                 <div class="col-md-6 form-group">
                   <label for="project"><?php echo _l('project'); ?></label>
-                  <select name="project" id="project" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                  <select name="project" id="project" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
                     <option value=""></option>
                     <?php foreach($projects as $pj){ ?>
-                      <option value="<?php echo html_entity_decode($pj['id']); ?>" <?php if(isset($contract) && $contract->project == $pj['id']){ echo 'selected'; } ?>><?php echo html_entity_decode($pj['name']); ?></option>
+                      <option value="<?php echo html_entity_decode($pj['id']); ?>" <?php if(isset($contract) && $contract->project == $pj['id']){ echo 'selected'; }else if(!isset($contract) && $pj['id'] == $project_id){ echo 'selected';} ?>><?php echo html_entity_decode($pj['name']); ?></option>
                     <?php } ?>
                   </select>
                 </div>
@@ -330,7 +336,7 @@
                                <td><?php echo _d($pay['date']); ?></td>
                                <td><?php echo get_status_approve($pay['approval_status']); ?></td>
                                <td>
-                                <?php if(has_permission('purchase','','edit') || is_admin()){ ?>
+                                <?php if(has_permission('purchase_invoices','','edit') || is_admin()){ ?>
                                   <a href="<?php echo admin_url('purchase/payment_invoice/'.$pay['id']); ?>" class="btn btn-default btn-icon" data-toggle="tooltip" data-placement="top" title="<?php echo _l('view'); ?>" ><i class="fa fa-eye "></i></a>
                                 <?php } ?>
                                 

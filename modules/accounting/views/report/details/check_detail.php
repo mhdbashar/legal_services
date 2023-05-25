@@ -56,7 +56,12 @@
           <?php if(count($value['details']) > 0){ ?>
 
           <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> parent-node expanded">
-            <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
+            <td class="parent">
+                <span style="margin-right: 24px!important; margin-top: -10px  ">
+                  <?php echo html_entity_decode($value['name']); ?>
+                   </span>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>

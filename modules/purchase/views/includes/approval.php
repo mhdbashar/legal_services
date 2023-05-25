@@ -28,6 +28,12 @@
 	</tbody>
 </table>
 
+<?php
+$hr_record_status = 0; 
+if(get_status_modules_pur('hr_profile') == true){
+	$hr_record_status = 1;
+} ?>
+
 <div class="modal fade" id="approval_setting_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog withd_1k" role="document">
 		<div class="modal-content">
@@ -54,18 +60,18 @@
 						<div class="list_approve">
 							<div id="item_approve">
                                 <div class="col-md-11">
-                                <div class="col-md-1 hide">
+                                <div class="col-md-<?php if($hr_record_status == 1){ echo '4'; }else{ echo '1'; } ?> <?php if($hr_record_status == 0){ echo 'hide'; } ?>">
                                 	<div class="select-placeholder form-group">
 		                                <label for="approver[0]"><?php echo _l('approver'); ?></label>
 		                            <select name="approver[0]" id="approver[0]" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-hide-disabled="true" required>
 		                                <option value=""></option>
 		                                <option value="direct_manager"><?php echo _l('direct_manager'); ?></option>
-		                                <option value="department_manager"><?php echo _l('department_manager'); ?></option>
-		                                <option value="staff" selected><?php echo _l('staff'); ?></option>
+		                                <option value="head_of_department"><?php echo _l('department_manager'); ?></option>
+		                                <option value="staff" <?php if($hr_record_status == 0){ echo 'selected'; } ?> ><?php echo _l('staff'); ?></option>
 		                            </select>
 		                           </div> 
                           		</div>
-                          		<div class="col-md-8">
+                          		<div class="col-md-<?php if($hr_record_status == 1){ echo '4'; }else{ echo '8'; } ?>">
                                 	<div class="select-placeholder form-group">
 		                                <label for="staff[0]"><?php echo _l('staff'); ?></label>
 		                            <select name="staff[0]" id="staff[0]" class="selectpicker" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-hide-disabled="true">
@@ -80,7 +86,7 @@
 		                            </select>
 		                           </div> 
                           		</div>
-                          		<div class="col-md-4">
+                          		<div class="col-md-4" id="is_staff_0">
                                 	<div class="select-placeholder form-group">
 		                                <label for="action[0]"><?php echo _l('action'); ?></label>
 		                            <select name="action[0]" id="action[0]" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-hide-disabled="true">

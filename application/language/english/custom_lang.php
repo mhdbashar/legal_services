@@ -1,5 +1,8 @@
 <?php
 
+$lang['saudi_warning'] = 'You can\'t change this mode again';
+$lang['saudi_vat'] = 'Saudi vat';
+$lang['finger_timekeeper'] = 'Timekeeper';
 $lang['case_files'] = 'Case files';
 $lang['commercial_register'] = 'Commercial Register';
 $lang['district_name'] = 'District name';
@@ -9,6 +12,8 @@ $lang['street_name'] = 'Street name';
 $lang['additional_number'] = 'Additional NO';
 $lang['unit_number'] = 'Unit NO';
 $lang['id_number'] = 'ID NO';
+$lang['contact_id_number'] = 'Contact ID NO';
+$lang['client_id_number'] = 'Client ID NO';
 
 $lang['staff_add_edit_second_name'] = "Second Name";
 $lang['staff_add_edit_third_name'] = "Third Name";
@@ -4075,3 +4080,42 @@ $lang['migration_lang_14'] = "This window will reload automaticaly in 10 seconds
 $lang['migration_lang_15'] = "Your database is up to date";
 
 $lang['tax_invoice_pdf_heading'] = "Tax Invoice";
+
+$lang['regular_duration'] = "Regular Duration";
+$lang['regular_durations'] = "Regular Durations";
+$lang['number_of_days'] = "Number Of Days";
+$lang['name'] = "Name";
+$lang['new_regular_duration'] = "New Regular Duration";
+$lang['new_case_regular_duration'] = "New Case Regular Duration";
+$lang['duration_name'] = "Duration Name";
+$lang['number_of_dayes'] = "Number Of Dayes";
+$lang['regular_duration_name'] = "Regular Duration Name";
+$lang['case_name'] = "Case Name";
+$lang['Regular_duration_rem'] = "Regular Duration";
+$lang['regular_duration_notification'] = "Regular Duration Notification";
+$lang['regular_duration_description'] = "Regular Duration Description";
+
+
+$lang['duration_start_date'] = "Duration Start Date";
+$lang['duration_end_date'] = "Duration End Date";
+$lang['categories'] = "Categories";
+$lang['sub_categories'] = "Sub Categories";
+$lang['edit_regular_duration'] = "Edit Regular Duration";
+$lang['sub_category'] = "Sub category";
+$lang['regular_duration_begin_date1'] = " Regular Duration Begin Date";
+$lang['regular_durations_reminder_notification_before_help'] = "Regular Duration reminder notification before (days)";
+$lang['not_case_deadline_reminder'] = "Case deadline reminder";
+$lang['email_template_regular_durations_fields_heading'] = "Regular Duration Reminder";
+$lang['Regular duration Reminder'] = "Regular duration Reminder";
+$lang['remember that'] = "remember that";
+$lang['which started at'] = "which started at";
+$lang['will end at '] = "will end at ";
+$lang['regular_duration1'] = " regular duration";
+$lang['select_regular_duration'] = "Select Regular Duration";
+$lang['session_report_added'] = 'added session report %s ...';
+$lang['staff_document_number'] = "The Official Document Number Of The Facility Representative";
+$lang['company_representative'] = "The Company's Representative";
+$lang['correspond'] = " <-> ";
+$lang['staff_document_name'] = "The Name Of The Representative Of The Establishment";
+
+

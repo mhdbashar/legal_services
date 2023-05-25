@@ -65,6 +65,8 @@
                                     $ServID = $this->legal->get_service_id_by_slug($slug);
                                     if($ServID == 1){
                                         $service_name = get_case_name_by_id($contract->rel_sid);
+                                    }elseif ($ServID == 22){
+                                        $service_name = get_disputes_case_name_by_id($contract->rel_sid);
                                     }else{
                                         $service_name = get_oservice_name_by_id($contract->rel_sid);
                                     }
@@ -102,6 +104,20 @@
                                 <?php $value = (isset($contract) ? _d($contract->dateend) : ''); ?>
                                 <?php echo render_date_input('dateend','contract_end_date',$value); ?>
                             </div>
+                        </div>
+                        <div class="form-group select-placeholder">
+                            <label for="staff" class="control-label">
+                                <?php echo _l('company_representative'); ?>
+                            </label>
+                            <select name="staff" id="staff" class="form-control selectpicker" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-width="100%">
+                                <option value=""><?php echo _l('ticket_settings_none_assigned'); ?></option>
+                                <?php $value = (isset($contract) ? $contract->staff : 0); ?>
+                                <?php foreach($staff as $member){ ?>
+                                    <option value="<?php echo $member['staffid']; ?>" <?php if($member['staffid'] == $value){echo 'selected';} ?>>
+                                        <?php echo $member['firstname'] . ' ' . $member['lastname'] ; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <?php $value = (isset($contract) ? $contract->description : ''); ?>
                         <?php echo render_textarea('description','contract_description',$value,array('rows'=>10)); ?>
@@ -358,10 +374,17 @@
                                     <?php echo form_open(admin_url('contracts/add_contract_attachment/'.$contract->id),array('id'=>'contract-attachments-form','class'=>'dropzone')); ?>
                                     <?php echo form_close(); ?>
                                     <div class="text-right mtop15">
-                                        <button class="gpicker" data-on-pick="contractGoogleDriveSave">
-                                            <i class="fa fa-google" aria-hidden="true"></i>
-                                            <?php echo _l('choose_from_google_drive'); ?>
-                                        </button>
+                                        <?php if (get_option('google_client_id') != '' && get_option('enable_google_picker') == '1') {?>
+                                            <button id="authorize_button" onclick="createGooglePicker()">
+                                                <i class="fa fa-google" aria-hidden="true"></i>
+                                                <?php echo _l('choose_from_google_drive'); ?>
+                                            </button>
+                                        <?php }?>
+
+<!--                                        <button class="gpicker" data-on-pick="contractGoogleDriveSave">-->
+<!--                                            <i class="fa fa-google" aria-hidden="true"></i>-->
+<!--                                            --><?php //echo _l('choose_from_google_drive'); ?>
+<!--                                        </button>-->
                                         <div id="dropbox-chooser"></div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -776,5 +799,82 @@
     }
 
 </script>
+<?php if (get_option('google_client_id') != '' && get_option('enable_google_picker') == '1') {?>
+    <script>
+        let tokenClient;
+        let accessToken = null;
+
+        function gisLoaded() {
+            const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+            const CLIENT_ID = '<?=get_option("google_client_id")?>';
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+            });
+        }
+        function createGooglePicker() {
+            tokenClient.callback = async (response) => {
+                if (response.error !== undefined) {
+                    throw (response);
+                }
+                accessToken = response.access_token;
+                await createPicker();
+            };
+
+            if (accessToken === null) {
+                // Prompt the user to select a Google Account and ask for consent to share their data
+                // when establishing a new session.
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                // Skip display of account chooser and consent dialog for an existing session.
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+        function createPicker() {
+            const view = new google.picker.View(google.picker.ViewId.DOCS);
+            const APP_ID = '';
+            const API_KEY = app.options.google_api;
+            // view.setMimeTypes('image/png,image/jpeg,image/jpg');
+            const picker = new google.picker.PickerBuilder()
+                .enableFeature(google.picker.Feature.NAV_HIDDEN)
+                .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                .setDeveloperKey(API_KEY)
+                .setAppId(APP_ID)
+                .setOAuthToken(accessToken)
+                .addView(view)
+                .addView(new google.picker.DocsUploadView())
+                .setCallback(pickerCallback)
+                .build();
+            picker.setVisible(true);
+        }
+
+        async function pickerCallback(data) {
+            if (data.action === google.picker.Action.PICKED) {
+                const doc = data[google.picker.Response.DOCUMENTS][0];
+                var retVal = [];
+                retVal.push({
+                    name: doc[google.picker.Document.NAME],
+                    link: doc[google.picker.Document.URL],
+                    mime: doc[google.picker.Document.MIME_TYPE],
+                    thumbnailLink: doc[google.picker.Document.thumbnailLink],
+                });
+                contractGoogleDriveSave(retVal);
+
+            }
+        }
+
+        function gapiLoaded() {
+            gapi.load('client:picker', initializePicker);
+        }
+
+        async function initializePicker() {
+            await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+        }
+
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+<?php }?>
+
 </body>
 </html>

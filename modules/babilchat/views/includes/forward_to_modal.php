@@ -238,7 +238,7 @@
     }
 
     #forwardToModal ul.staffList img.staff-profile-image-small {
-        float: left;
+        float: right;
         clear: both;
         margin-top: 4px;
         margin-right: 10px;
@@ -287,14 +287,14 @@
     }
 
     #forwardToModal ul.groupsList li img._group_image {
-        float: left;
+        float: right;
         padding-bottom: 5px;
         width: 35px;
         border-radius: 0px;
     }
 
     #forwardToModal ul.groupsList li span {
-        position: absolute;
+        position: relative;
         margin-top: 8px;
         margin-left: 8px;
     }

@@ -35,6 +35,7 @@ class Global_model extends App_Model{
 
     public function delete($id, $transfer_data_to)
     {
+
         if (!is_numeric($transfer_data_to)) {
             return false;
         }
@@ -49,7 +50,7 @@ class Global_model extends App_Model{
         ]);
 
         $name           = get_staff_full_name($id);
-        $transferred_to = get_staff_full_name($transfer_data_to);
+       // $transferred_to = get_staff_full_name($transfer_data_to);
 
         $this->db->where('addedfrom', $id);
         $this->db->update(db_prefix() . 'estimates', [
@@ -207,6 +208,21 @@ class Global_model extends App_Model{
         $this->db->update(db_prefix() . 'subscriptions', [
             'created_from' => $transfer_data_to,
         ]);
+
+        $this->db->where('staff_id', $id);
+        $this->db->update(db_prefix() . 'my_members_cases', [
+            'staff_id' => $transfer_data_to,
+        ]);
+        $this->db->where('staff_id', $id);
+        $this->db->update(db_prefix() . 'my_disputes_cases_members', [
+            'staff_id' => $transfer_data_to,
+        ]);
+        $this->db->where('staff_id', $id);
+        $this->db->update(db_prefix() . 'my_members_services', [
+            'staff_id' => $transfer_data_to,
+        ]);
+
+
 
         $this->db->where('notify_type', 'specific_staff');
         $web_to_lead = $this->db->get(db_prefix() . 'web_to_lead')->result_array();

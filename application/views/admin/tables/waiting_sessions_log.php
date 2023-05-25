@@ -3,6 +3,9 @@ $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
+$CI = &get_instance();
+$CI->load->library('app_modules');
+
 $time_format = get_option('time_format');
 $format = '';
 $time = '24';
@@ -20,9 +23,10 @@ $aColumns = [
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
     'court_name',
+    'session_link',
     //'session_information',
-    'customer_report',
-    'send_to_customer',
+//    'customer_report',
+//    'send_to_customer',
     'startdate',
     'TIME_FORMAT(time, ' . $format . ') as time',
 ];
@@ -50,6 +54,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
 
         if($ServID == 1){
             $table_rel = 'my_cases';
+        }elseif ($ServID == 22){
+            $table_rel = 'my_disputes_cases';
         }else{
             $table_rel = 'my_other_services';
         }
@@ -107,6 +113,7 @@ foreach ($rResult as $aRow) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
     $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
@@ -146,27 +153,27 @@ foreach ($rResult as $aRow) {
     }
     $outputName .= '</div>';
     $row[] = $outputName;
+
+    $row[] = isset($aRow['session_link'])?'<a href="'.$aRow['session_link'].'" target="_blank">'.$aRow['session_link'].'</a>' : '';
+
+
     //$row[] = $aRow['judge'];
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
     //$row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
-    if($aRow['customer_report'] == 0):
-        $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';
-    else:
-        $report = '<span class="label label inline-block project-status-4" style="color:#84c529;border:1px solid #84c529">يوجد</span>';
-    endif;
-    $row[] = $report;
-    if($aRow['send_to_customer'] == 0):
-        $send = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لم يتم الارسال</span>';
-    else:
-        $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border:1px solid #84c529">مرسل</span>';
-    endif;
-    $row[] = $send;
+//    if($aRow['customer_report'] == 0):
+//        $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';
+//    else:
+//        $report = '<span class="label label inline-block project-status-4" style="color:#84c529;border:1px solid #84c529">يوجد</span>';
+//    endif;
+//    $row[] = $report;
+//    if($aRow['send_to_customer'] == 0):
+//        $send = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لم يتم الارسال</span>';
+//    else:
+//        $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border:1px solid #84c529">مرسل</span>';
+//    endif;
+//    $row[] = $send;
     // startdate
-    $CI = &get_instance();
-
-
-    $CI->load->library('app_modules');
 
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 

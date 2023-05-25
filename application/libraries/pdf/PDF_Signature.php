@@ -4,26 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 trait PDF_Signature
 {
-
-
-
-
-
-
-
-
     public function process_signature()
     {
-
-        if(is_rtl() &&  ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)){
-            $this->setRTL(true);
-            $align = 'R';
-        }
-        elseif (is_rtl()) {
+        if (is_rtl()) {
             $this->setRTL(false);
-            $align = 'L'; //Right align
-        }
-        else{
+            $align = 'R'; //Right align
+        }else{
             $this->setRTL(false);
             $align = 'L'; //Left align
         }
@@ -32,9 +18,9 @@ trait PDF_Signature
         $leftColumnExists = false;
 
         if (($this->type() == 'invoice' && get_option('show_pdf_signature_invoice') == 1)
-            || ($this->type() == 'estimate' && get_option('show_pdf_signature_estimate') == 1)
-            || ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)
-            || ($this->type() == 'credit_note') && get_option('show_pdf_signature_credit_note') == 1) {
+        || ($this->type() == 'estimate' && get_option('show_pdf_signature_estimate') == 1)
+        || ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)
+        || ($this->type() == 'credit_note') && get_option('show_pdf_signature_credit_note') == 1) {
             $signatureImage = get_option('signature_image');
 
             $signaturePath   = FCPATH . 'uploads/company/' . $signatureImage;
@@ -46,58 +32,16 @@ trait PDF_Signature
                 $blankSignatureLine = '';
             }
 
-            $this->ln(8);
+            $this->ln(13);
 
             if ($signatureImage != '' && $signatureExists) {
                 $imageData = base64_encode(file_get_contents($signaturePath));
-                $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img style="width:130px !important; " src="@' . $imageData . '"  >';
-
+                $blankSignatureLine .= str_repeat('<br />', hooks()->apply_filters('pdf_signature_break_lines', 1)) . '<img src="@' . $imageData . '" />';
             }
 
-
-            if(is_rtl() &&  ($this->type() == 'contract' && get_option('show_pdf_signature_contract') == 1)){
-                $this->SetX(($dimensions['wk'] / 6) - $dimensions['lm']);
-                $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
-
-                $this->SetAlpha(0.5);
-
-
-                $this->SetDrawColor(0,255,48);
-                // $this->Rect(($dimensions['wk'] / 10) - $dimensions['lm'], 0, 16, 8);
-                //$this->Rotate(20,0,0);
-
-                $this->SetX(($dimensions['wk'] / 10) - $dimensions['lm']);
-                $this->Rotate(15);
-                $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:40px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'R', 0, 0, '', '', true, 0, true, true, 0);
-
-
-
-            }
-
-            else {
-
-
-                $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, $blankSignatureLine  , 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
-                $this->SetAlpha(0.5);
-
-
-                $this->SetDrawColor(0,255,48);
-                // $this->Rect(($dimensions['wk'] / 10) - $dimensions['lm'], 0, 16, 8);
-
-                $this->SetX(14);
-                $this->Rotate(15);
-                $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0,'<div style="font-size:45px;color: #00ff30;opacity:2;" >'. _l('معتمد').'</div>', 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
-
-
-            }
+            $this->MultiCell(($dimensions['wk'] / 2) - $dimensions['lm'], 0, _l('authorized_signature_text') . ' ' . $blankSignatureLine, 0, 'L', 0, 0, '', '', true, 0, true, true, 0);
 
             $leftColumnExists = true;
-
-
-
-
-
-
         }
 
         $customerSignaturePath = '';
@@ -119,27 +63,6 @@ trait PDF_Signature
             $this->type()
         );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if (!empty($customerSignaturePath) && file_exists($customerSignaturePath)) {
             $customerSignature = _l('document_customer_signature_text');
 
@@ -160,23 +83,4 @@ trait PDF_Signature
             hooks()->do_action('after_customer_pdf_signature', $hookData);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

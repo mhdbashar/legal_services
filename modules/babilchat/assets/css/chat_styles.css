@@ -76,7 +76,7 @@ body .lity {
     z-index: 99999;
     right: 10px;
     bottom: 0px;
-    width: 310px;
+      width: 310px;
     background: #eee;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
@@ -1203,7 +1203,7 @@ body.rtl #pusherChat .pusherChatBox .closeBox {
 }
 
 body.rtl #pusherChat .chatMain svg.main_chat {
-    margin-right: 86px;
+        margin-left: 10px;
 }
 
 body.rtl #pusherChat p.cname {
@@ -1525,11 +1525,10 @@ body.rtl #pusherChat #membersContent .on::before {
     width: 23px;
     height: 23px;
     fill: #ffffff;
-    float: right;
+   float: left;
     margin-top: 6px;
     margin-right: 12px;
 }
-
 .user_view_selector svg.user_view {
     width: 23px;
     height: 23px;
@@ -1855,4 +1854,29 @@ body #pusherChat .conversation_from .messageOptionsDiv {
 
 #chooseAnnouncement {
     top: 30%;
+}
+
+
+#frame #sidepanel .nav-tabs > li {
+
+    padding: 7px 10px 7px 8px;
+}
+
+.caname {
+    float: right;
+    padding-right: 16px;
+    width: 189px;
+    min-height: 17px;
+    text-align: right;
+    margin-top:4px;
+}
+#pusherChat #membersContent .topInfo {
+
+    height: 40px;
+  
+}
+#pusherChat .colorHolder {
+ 
+        top: -83px;
+
 }

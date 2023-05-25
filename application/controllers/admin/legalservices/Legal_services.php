@@ -9,6 +9,7 @@ class Legal_services extends AdminController
         parent::__construct();
         $this->load->model('legalservices/LegalServicesModel' , 'legal');
         $this->load->model('legalservices/Cases_model','case');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model','disputes_cases');
         $this->load->model('legalservices/Other_services_model','other');
         $this->load->model('legalservices/Imported_services_model','imported');
         $this->load->model('projects_model');
@@ -32,7 +33,9 @@ class Legal_services extends AdminController
         if ($clientid != '' || $slug != '') {
             if($ServID == 1){
                 $res = $this->case->get('', ['clientid' => $clientid]);
-            }else{
+            }elseif ($ServID == 22) {
+                $res = $this->disputes_cases->get('', ['clientid' => $clientid]);
+            }else {
                 $res = $this->other->get($ServID ,'', ['clientid' => $clientid]);
             }
             echo json_encode($res);
@@ -50,7 +53,13 @@ class Legal_services extends AdminController
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('cases',$data);
             }
-        }else{
+        } elseif ($ServID == 22){
+            $data['statuses'] = $this->disputes_cases->get_project_statuses();
+            $data['model']    = $this->disputes_cases;
+            if ($this->input->is_ajax_request()) {
+                $this->app->get_table_data('disputes_cases',$data);
+            }
+        } else{
             $data['statuses'] = $this->other->get_project_statuses();
             $data['model']    = $this->other;
             if ($this->input->is_ajax_request()) {
@@ -317,6 +326,10 @@ class Legal_services extends AdminController
         }else if ($ServID == 1){
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('case_recycle_bin',$data);
+            }
+        }elseif($ServID == 22){
+            if ($this->input->is_ajax_request()) {
+                $this->app->get_table_data('disputes_case_recycle_bin',$data);
             }
         }else{
             if ($this->input->is_ajax_request()) {

@@ -250,3 +250,16 @@ img.images_w_table {
 .widthul{
     width: 300px;
 }
+
+input.pur_input_none{
+    background: 0 0 !important;
+  }
+  
+.img-width-height{
+width: 150px; height: 80px
+}
+
+
+.handsontable {
+    direction: ltr;
+}

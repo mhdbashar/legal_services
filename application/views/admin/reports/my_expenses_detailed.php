@@ -125,16 +125,17 @@
        initDataTable('.table-expenses', window.location.href, 'undefined', 'undefined', Expenses_ServerParams, [8, 'desc']);
        initDataTable('.table-expenses_case', window.location.href, 'undefined', 'undefined', Expenses_ServerParams, [8, 'desc']);
 
-       report_from.on('change', function() {
+       var click_or_change = "<?php echo $this->app_modules->is_active('hijri') ? 'click' : 'change'  ?>";
+        $('#report-from').on(click_or_change, function() {
          var val = $(this).val();
-         var report_to_val = report_to.val();
+         var report_to_val = $('#report-to').val();
          if (val != '') {
-           report_to.attr('disabled', false);
+           $('#report-to').attr('disabled', false);
            $(filter_selector_helper).removeClass('active').addClass('hide');
            $('input[name^="year_"]').val('');
            $('input[name^="expenses_by_month_"]').val('');
          } else {
-            report_to.attr('disabled', true);
+            $('#report-to').attr('disabled', true);
          }
 
          if ((report_to_val != '' && val != '') || (val == '' && report_to_val == '') || (val == '' && report_to_val != '')) {

@@ -7,18 +7,34 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <?php if(has_permission('projects','','create')){ ?>
-                                <?php $route = $ServID == 1 ?  admin_url("Case/add/$ServID") : admin_url("SOther/add/$ServID") ?>
+                            <?php if(has_permission('projects','','create')){
+                                if($ServID == 1) $route = admin_url("Case/add/$ServID");
+                                elseif($ServID == 22) $route = admin_url("Disputes_cases/add/$ServID");
+                                else $route = admin_url("SOther/add/$ServID");?>
                                 <a href="<?php echo $route; ?>" class="btn btn-info mright5 test pull-left display-block">
                                     <?php echo _l('permission_create').' '.$service->name; ?>
                                 </a>
                             <?php }
+                            $TableStaff = 'my_members_services';
+                            $TableService = 'my_other_services';
+                            $field = 'oservice_id';
+                            $class = '.table-my_other_services';
+                            $render_class = 'my_other_services';
+                            if($ServID == 1){
+                                $TableStaff = 'my_members_cases';
+                                $TableService = 'my_cases';
+                                $field = 'project_id';
+                                $class = '.table-cases';
+                                $render_class = 'cases';
 
-                            $TableStaff = $ServID == 1 ? 'my_members_cases' : 'my_members_services';
-                            $TableService = $ServID == 1 ? 'my_cases' : 'my_other_services';
-                            $field = $ServID == 1 ? 'project_id' : 'oservice_id';
-                            $class = $ServID == 1 ? '.table-cases' : '.table-my_other_services';
-                            $render_class = $ServID == 1 ? 'cases' : 'my_other_services';
+                            }
+                            if($ServID == 22){
+                                $TableStaff = 'my_members_cases';
+                                $TableService ='my_disputes_cases';
+                                $field = 'project_id';
+                                $class = '.table-cases';
+                                $render_class ='cases';
+                            }
 
                             ?>
 
@@ -50,13 +66,13 @@
                                             </a>
                                         </li>
                                     <?php } ?>
-                                    <?php hooks()->apply_filters('services_filter', $class); ?>
+                                    <?php hooks()->apply_filters($ServID == 22 ? 'disputes_services_filter' : 'services_filter', $class); ?>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading" />
                         </div>
-                            <div class="row mbot15">
+                        <div class="row mbot15">
                             <div class="col-md-12">
                                 <h4 class="no-margin"><?php echo _l('summary').' '.$service->name ; ?></h4>
                                 <?php
@@ -80,8 +96,14 @@
                                     ?>
                                     <div class="col-md-2 col-xs-6 border-right">
                                         <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; ?>
-                                        <?php $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
-                                              $where .= (' AND '.db_prefix().$TableService.'.deleted = 0'); ?>
+                                        <?php if($ServID==1){
+                                            $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                            $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        } ?>
+                                        <?php if($ServID==22){
+                                            $where .= ($ServID == 22 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                            $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        } ?>
                                         <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
                                             <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">
@@ -91,61 +113,68 @@
                                     </div>
                                 <?php } ?>
                                 <?php hooks()->apply_filters('services_hidden_filter', [
-                                        '_where' => $_where,
-                                        'ServID' => $ServID,
-                                        'TableService' => $TableService,
-                                        'class' => $class
+                                    '_where' => $_where,
+                                    'ServID' => $ServID,
+                                    'TableService' => $TableService,
+                                    'class' => $class
                                 ]); ?>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                            <?php
-                            $table_data = array();
-                            $TitleText = $ServID == 1 ? 'CaseTitle' : 'cf_translate_input_link_title';
-                            $_table_data = array(
-                                array(
-                                    'name' => _l('the_number_sign'),
-                                ),
-                                array(
-                                    'name' => _l($TitleText),
-                                ),
-                                array(
-                                    'name' => _l('proposal_for_customer'),
-                                ),
-                                array(
-                                    'name' => _l('tags'),
-                                ),
-                                array(
-                                    'name' => _l('project_start_date'),
-                                ),
-                                array(
-                                    'name' => _l('project_deadline'),
-                                ),
-                                array(
-                                    'name' => _l('project_members'),
-                                ),
-                                array(
-                                    'name' => _l('project_status'),
-                                )
-                            );
-                            foreach($_table_data as $_t){
-                                array_push($table_data,$_t);
-                            }
-                            $custom_fields = get_custom_fields($service->slug,array('show_on_table'=>1));
-                            foreach($custom_fields as $field){
-                                array_push($table_data,$field['name']);
-                            }
+                        <?php
+                        $table_data = array();
+                        if($ServID == 1){
+                            $TitleText = 'CaseTitle';
+                        }elseif ($ServID == 22){
+                            $TitleText = 'CaseTitle';
+                        }else{
+                            $TitleText = 'cf_translate_input_link_title';
+                        }
+                        $_table_data = array(
+                            array(
+                                'name' => _l('the_number_sign'),
+                            ),
+                            array(
+                                'name' => _l($TitleText),
+                            ),
+                            array(
+                                'name' => _l('proposal_for_customer'),
+                            ),
+                            array(
+                                'name' => _l('tags'),
+                            ),
+                            array(
+                                'name' => _l('project_start_date'),
+                            ),
+                            array(
+                                'name' => _l('project_deadline'),
+                            ),
+                            array(
+                                'name' => _l('project_members'),
+                            ),
+                            array(
+                                'name' => _l('project_status'),
+                            )
+                        );
+                        foreach($_table_data as $_t){
+                            array_push($table_data,$_t);
+                        }
+                        $custom_fields = get_custom_fields($service->slug,array('show_on_table'=>1));
+                        foreach($custom_fields as $field){
+                            array_push($table_data,$field['name']);
+                        }
 
-                            $table_data = hooks()->apply_filters('services_table_columns', $table_data);
-                            render_datatable($table_data,$render_class);
-                            ?>
-                        </div>
+                        $table_data = hooks()->apply_filters( $ServID == 22 ? 'disputes_services_table_columns' : 'services_table_columns', $table_data);
+
+                        render_datatable($table_data,$render_class);
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <?php init_tail(); ?>
 

@@ -31,7 +31,13 @@
                   <?php echo _l( 'billing_shipping'); ?>
                   </a>
                </li>
-               <?php hooks()->do_action('after_customer_billing_and_shipping_tab', isset($client) ? $client : false); ?>
+
+               <li role="presentation">
+                  <a href="#return_policies" aria-controls="return_policies" role="tab" data-toggle="tab">
+                  <?php echo _l( 'pur_return_policies'); ?>
+                  </a>
+               </li>
+
                <?php if(isset($client)){ ?>
                <li role="presentation">
                   <a href="#vendor_admins" aria-controls="vendor_admins" role="tab" data-toggle="tab">
@@ -66,10 +72,10 @@
                   <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
                   <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
                   <div id="company_exists_info" class="hide"></div>
-                  <?php if(get_option('company_requires_vat_number_field') == 1){
+                  <?php 
                      $value=( isset($client) ? $client->vat : '');
                      echo render_input( 'vat', 'client_vat_number',$value);
-                     } ?>
+                      ?>
                   <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
                   <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
                   <?php if((isset($client) && empty($client->website)) || !isset($client)){
@@ -102,9 +108,7 @@
                   <?php }
                      $s_attrs = array('data-none-selected-text'=>_l('system_default_string'));
                      $selected = '';
-                     if(isset($client) && client_have_transactions($client->userid)){
-                        $s_attrs['disabled'] = true;
-                     }
+                     
                      foreach($currencies as $currency){
                         if(isset($client)){
                           if($currency['id'] == $client->default_currency){
@@ -157,7 +161,7 @@
          </div>
          <?php if(isset($client)){ ?>
          <div role="tabpanel" class="tab-pane" id="vendor_admins">
-            <?php if (has_permission('purchase', '', 'create') || has_permission('purchase', '', 'edit')) { ?>
+            <?php if (has_permission('purchase_vendors', '', 'create') || has_permission('purchase_vendors', '', 'edit')) { ?>
             <a href="#" data-toggle="modal" data-target="#customer_admins_assign" class="btn btn-info mbot30"><?php echo _l('assign_admin'); ?></a>
             <?php } ?>
             <table class="table dt-table">
@@ -165,7 +169,7 @@
                   <tr>
                      <th><?php echo _l('staff_member'); ?></th>
                      <th><?php echo _l('customer_admin_date_assigned'); ?></th>
-                     <?php if(has_permission('purchase','','create') || has_permission('purchase','','edit')){ ?>
+                     <?php if(has_permission('purchase_vendors','','create') || has_permission('purchase_vendors','','edit')){ ?>
                      <th><?php echo _l('options'); ?></th>
                      <?php } ?>
                   </tr>
@@ -181,7 +185,7 @@
                            echo get_staff_full_name($c_admin['staff_id']); ?></a>
                      </td>
                      <td data-order="<?php echo html_entity_decode($c_admin['date_assigned']); ?>"><?php echo _dt($c_admin['date_assigned']); ?></td>
-                     <?php if(has_permission('customers','','create') || has_permission('customers','','edit')){ ?>
+                     <?php if(has_permission('purchase_vendors','','create') || has_permission('purchase_vendors','','edit')){ ?>
                      <td>
                         <a href="<?php echo admin_url('purchase/delete_vendor_admin/'.$client->userid.'/'.$c_admin['staff_id']); ?>" class="btn btn-danger _delete btn-icon"><i class="fa fa-remove"></i></a>
                      </td>
@@ -251,12 +255,28 @@
                </div>
             </div>
          </div>
+
+         <div role="tabpanel" class="tab-pane" id="return_policies">
+            <div class="row">
+               <div class="col-md-6">
+                   <?php $return_within_day = ($client->return_within_day != null) ? $client->return_within_day : get_option('pur_return_request_within_x_day');
+                    echo render_input('return_within_day','pur_return_request_within_x_day', $return_within_day , 'number', ['min' => 1]); ?>
+               </div>
+               <div class="col-md-6">
+                   <?php echo render_input('return_order_fee','pur_fee_for_return_order',$client->return_order_fee, 'number'); ?>
+               </div>
+               <div class="col-md-12">
+                   <?php echo render_textarea('return_policies', 'pur_return_policies_information', $client->return_policies, array(), array()); ?>  
+               </div>
+            </div>
+         </div>
+
       </div>
    </div>
    <?php echo form_close(); ?>
 </div>
 <?php if(isset($client)){ ?>
-<?php if (has_permission('customers', '', 'create') || has_permission('customers', '', 'edit')) { ?>
+<?php if (has_permission('purchase_vendors', '', 'create') || has_permission('purchase_vendors', '', 'edit')) { ?>
 <div class="modal fade" id="customer_admins_assign" tabindex="-1" role="dialog">
    <div class="modal-dialog">
       <?php echo form_open(admin_url('purchase/assign_vendor_admins/'.$client->userid)); ?>

@@ -28,6 +28,22 @@
 		                    <p><a href="#" class="font-medium" onclick="init_report(this,'statistics_cost_of_purchase_orders'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('purchase_statistics_by_cost'); ?></a></p>
 		                 </div>
 		                 <div class="col-md-4">
+		                 	<?php if(isset($currencies)){ ?>
+			                  <div id="currency" class="form-group hide">
+			                     <label for="currency"><i class="fa fa-question-circle" data-toggle="tooltip" title="<?php echo _l('report_sales_base_currency_select_explanation'); ?>"></i> <?php echo _l('currency'); ?></label><br />
+			                     <select class="selectpicker" name="currency" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+			                        <?php foreach($currencies as $currency){
+			                           $selected = '';
+			                           if($currency['isdefault'] == 1){
+			                              $selected = 'selected';
+			                           }
+			                           ?>
+			                           <option value="<?php echo $currency['id']; ?>" <?php echo $selected; ?>><?php echo $currency['name']; ?></option>
+			                           <?php } ?>
+			                        </select>
+			                     </div>
+			                <?php } ?>
+
 		                 	<div class="form-group" id="report-time">
 		                        <label for="months-report"><?php echo _l('period_datepicker'); ?></label><br />
 		                        <select class="selectpicker" name="months-report" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">

@@ -125,7 +125,7 @@ class timesheets extends AdminController {
 		}
 
 		if ($data['group'] == 'type_of_leave') {
-			$data['type_of_leave'] = $this->timesheets_model->get_type_of_leave();
+                $data['type_of_leave'] = $this->timesheets_model->get_type_of_leave();
 		}
 
 		if ($data['group'] == 'valid_ip') {

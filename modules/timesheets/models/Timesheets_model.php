@@ -7793,17 +7793,15 @@ class timesheets_model extends app_model {
 
     /**
      * get type of leave
-     * @param  integer $id
-     * @return array
+     * @param  string $id
+     * @return array or object
      */
-    public function get_type_of_leave($id = ''){
-
+    public function get_type_of_leave($id = '') {
         if (is_numeric($id)) {
             $this->db->where('id', $id);
-
-            return $this->db->get(db_prefix() . 'type_of_leave')->row();
-        }else{
-            return [];
+            return $this->db->get(db_prefix() . 'timesheets_type_of_leave')->row();
+        } else {
+            return $this->db->get(db_prefix() . 'timesheets_type_of_leave')->result_array();
         }
     }
 /**
@@ -7845,31 +7843,19 @@ class timesheets_model extends app_model {
 	}
 
 
+
     /**
      * add type of leave
-     * @param  array $data
-     * @return boolean
+     * @param array $data
      */
-    public function add_type_of_leave($data){
-
-        $allocations = $data['allocation'];
-        unset($data['allocation']);
-        $this->db->insert(db_prefix() . 'type_of_leave', $data);
+    public function add_type_of_leave($data) {
+        $this->db->insert(db_prefix() . 'timesheets_type_of_leave', $data);
         $insert_id = $this->db->insert_id();
-        if($insert_id){
-            foreach ($allocations as $allocation){
-                $this->db->insert(db_prefix() . 'type_of_leave_allocation', [
-                    'percent' => $allocation['percent'],
-                    'days' => $allocation['days'],
-                    'type_of_leave_id' => $insert_id
-                ]);
-            }
-            return true;
+        if ($insert_id) {
+            return $insert_id;
         }
-        return false;
+        return 0;
     }
-
-
 
     /**
      * delete type of leave

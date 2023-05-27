@@ -3478,6 +3478,9 @@ $lang['calendar_sessions_color'] = 'اللون الجلسات';
 $lang['customer_permission_messages'] = "التراسل";
 $lang['customer_permission_messages_see'] = "البريد الوارد فقط";
 
+$lang['customer_name'] = "اسم العميل";
+$lang['opponent_name'] = "اسم الخصم";
+
 
 
 

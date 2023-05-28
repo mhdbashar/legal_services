@@ -835,3 +835,6 @@ $lang['leave_extend'] = 'Extend';
 $lang['leave_include'] = 'Include';
 $lang['allow_substitute_employee'] = 'Allow Substitute Employee?';
 $lang['salary_type'] = 'Salary type';
+$lang['type_check'] = 'Type';
+$lang['in'] = 'In';
+$lang['out'] = 'Out';

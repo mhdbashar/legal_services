@@ -1802,10 +1802,10 @@ class Accounting_model extends App_Model
             $accounts[$key]['account_type_name'] = $_account_type_name;
             $accounts[$key]['detail_type_name'] = $_detail_type_name;
         }
-        foreach ( $accounts as $key => $value )
-            if(in_array($accounts[$key]['id'], $accounts_to_delete))
-                if($default)
-                    unset($accounts[$key]);
+//        foreach ( $accounts as $key => $value )
+//            if(in_array($accounts[$key]['id'], $accounts_to_delete))
+//                if($default)
+//                    unset($accounts[$key]);
 
         return $accounts;
     }

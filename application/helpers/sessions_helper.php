@@ -652,3 +652,15 @@ function session_statuses()
     );
     return $session_statuses;
 }
+function get_representative_by_id($id)
+{
+    $CI = &get_instance();
+    $CI->db->select('representative');
+    $CI->db->where('id', $id);
+    $row = $CI->db->get(db_prefix() . 'my_customer_representative')->row();
+    if ($row) {
+        return $row->representative;
+    }
+    return false;
+}
+

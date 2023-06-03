@@ -23,6 +23,13 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
 <div class="panel_s mtop20">
     <div class="panel-body">
         <div class="row">
+            <div class="col-md-12">
+                <div class="mbot30">
+                    <div class="mbot30">
+                        <h4 class="text-center" style="font-family: 'Reem Kufi'">بسم اللّه الرحمن الرحيم</h4>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="mbot30">
                     <h2 class="text-center"><?php echo get_option('invoice_company_name'); ?></h2>
@@ -37,9 +44,6 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
                     <div class="" style="margin: 0px 200px 0px 0px">
                         <?php echo get_dark_company_logo(); ?>
                     </div>
-                    <div class="mbot30">
-                        <h4 class="text-center" style="font-family: 'Reem Kufi'">بسم اللّه الرحمن الرحيم</h4>
-                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -49,22 +53,52 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
             <div class="col-md-12">
                 <div class="col-md-6">
                     <p style="font-weight: bold"> <?php echo _l('file_number_in_court') . ' : '; ?>
-                        <b><?php echo $session->file_number_court; ?></b></p>
+                        <b><?php echo isset($session->file_number_court)?$session->file_number_court:''; ?></b></p>
                     <p style="font-weight: bold"> <?php echo _l('customer_name') . ' : '; ?>
                         <b><?php echo isset($session->clientid) ? get_customer_by_id($session->clientid)->company : ''; ?></b>
                     </p>
                     <p style="font-weight: bold"> <?php echo _l('customer_description') . ' : '; ?>
-                        <b><?php echo isset($session->representative) ? maybe_translate(_l('nothing_was_specified'), get_representative_by_id($session->representative)) : ''; ?></b>
+                        <b><?php echo isset($session->representative) ? get_representative_by_id($session->representative) : ''; ?></b>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: bold"> <?php echo _l('CaseTitle') . ' : '; ?>
+                        <b><?php echo isset($session->case_name) && $session->case_name != '' ? $session->case_name : '' ?> </b>
+                    </p>
+                    <p style="font-weight: bold"> <?php echo _l('city') . ' : '; ?>
+                        <b><?php echo isset($session->city) && $session->city != '' ? $session->city : ''; ?> </b>
                     </p>
                     <p style="font-weight: bold"> <?php echo _l('opponent_name') . ' : '; ?>
                         <b><?php echo isset($session->opponent_id) && $session->opponent_id != 0 ? get_customer_by_id($session->opponent_id)->company : ''; ?> </b>
                     </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <h3 class="text-center" style="background-color: silver"><?php echo '' ?>معلومات المحكمة</h3>
+            <div class="col-md-12">
+                <div class="col-md-6">
                     <p style="font-weight: bold"> <?php echo _l('Court') . ' : '; ?>
-                        <b><?php echo get_court_by_id($session->court_id)->court_name ?> </b>
+                        <b><?php echo isset($session->court_id) && $session->court_id != 0 ? get_court_by_id($session->court_id)->court_name : '' ?> </b>
+                    </p>
+                    <p style="font-weight: bold"> <?php echo _l('Categories') . ' : '; ?>
+                        <b><?php echo isset($session->cat_id) && $session->cat_id != 0 ? get_cat_name_by_id($session->cat_id) : '' ?> </b>
+                    </p>
+                    <p style="font-weight: bold"> <?php echo _l('child_sub_categories') . ' : '; ?>
+                        <b><?php echo isset($session->childsubcat_id) && $session->childsubcat_id != 0 ? get_cat_name_by_id($session->childsubcat_id) : '' ?> </b>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: bold"> <?php echo _l('NumJudicialDept') . ' : '; ?>
+                        <b><?php echo isset($session->dept) && $session->dept != '' ? get_judicialdept_by_id($session->dept)->Jud_number : ''; ?> </b>
+                    </p>
+                    <p style="font-weight: bold"> <?php echo _l('SubCategories') . ' : '; ?>
+                        <b><?php echo isset($session->subcat_id) && $session->subcat_id != 0 ? get_cat_name_by_id($session->subcat_id) : '' ?> </b>
                     </p>
                 </div>
             </div>
         </div>
+
         <div class="col-md-10 col-md-offset-1">
             <h3 class="text-center" style="background-color: silver"><?php echo '' ?>معلومات الجلسة</h3>
             <div class="col-md-12">
@@ -106,7 +140,6 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
                 </div>
             </div>
         <?php } ?>
-
         <div class="col-md-10 col-md-offset-1">
             <h3 class="text-center" style="background-color: silver"><?php echo '' ?>معلومات الجلسة القادمة</h3>
             <div class="col-md-12">
@@ -122,7 +155,3 @@ $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($ses
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-    });
-</script>

@@ -17,16 +17,22 @@ class My_sessions extends ClientsController
         $session = $this->sessions_model->get($id);
         $session->title = _l('session_report');
         if ($session->rel_type == 'kd-y') {
+            $case = get_case_by_id($session->rel_id);
             if ($session->clientid == null) {
-                $session->clientid = get_client_id_by_case_id($session->rel_id);
-                $session->representative = get_representative_id_by_case_id($session->rel_id);
+                $session->clientid = $case->clientid;
             }
-            $session->opponent_id = get_opponent_id_by_case_id($session->rel_id);
+            $session->representative = $case->representative;
+            $session->opponent_id = $case->opponent_id;
+            $session->city = $case->city;
+            $session->case_name =$case->name;
         } elseif ($session->rel_type == 'kdaya_altnfith') {
+            $case = get_disputes_case($session->rel_id);
             if ($session->clientid == null) {
-                $session->clientid = get_client_id_by_disputes_case_id($session->rel_id);
-                $session->representative = get_representative_id_by_case_id($session->rel_id);
+                $session->clientid = $case->clientid;
             }
+            $session->representative = $case->representative;
+            $session->city = $case->city;
+            $session->case_name =$case->name;
             $opponents = get_disputes_cases_opponents_by_case_id($session->rel_id);
             foreach ($opponents as $opponent) {
                 if ($opponent->opponent_id > 0) $session->opponent_id = $opponent->opponent_id;

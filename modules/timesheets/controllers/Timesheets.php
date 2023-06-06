@@ -2033,7 +2033,7 @@ public function get_data_additional_timesheets($id){
 		$data['staff']     = $this->staff_model->get();
 		$data['department']     = $this->departments_model->get();
 		$data['roles']         = $this->roles_model->get();
-		$data['workplace'] = $this->timesheets_model->get_workplace();
+		$data['نسبة تسجيل الوصول والمغادرة حسب مكان العمل '] = $this->timesheets_model->get_workplace();
 		$data['route_point'] = $this->timesheets_model->get_route_point();
 		$data['word_shift'] = $this->timesheets_model->get_shift_type();
 		$data['title'] = _l('hr_reports');
@@ -2298,9 +2298,9 @@ public function get_data_additional_timesheets($id){
 	 				$to_date   = date('Y-m-t');
 	 			}
 
-	 			if($months_report == '1'){ 
+	 			if($months_report == '1'){
 	 				$from_date = date('Y-m-01', strtotime('first day of last month'));
-	 				$to_date   = date('Y-m-t', strtotime('last day of last month'));              
+	 				$to_date   = date('Y-m-t', strtotime('last day of last month'));
 	 			}
 
 
@@ -2311,7 +2311,7 @@ public function get_data_additional_timesheets($id){
 
 	 			if($months_report == 'last_year'){
 	 				$from_date = date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-01-01')));
-	 				$to_date = date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-12-31')));               
+	 				$to_date = date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-12-31')));
 	 			}
 
 	 			if($months_report == '3'){
@@ -2335,7 +2335,7 @@ public function get_data_additional_timesheets($id){
 
 	 			if($months_report == 'custom'){
 	 				$from_date = $this->timesheets_model->format_date($this->input->post('report_from'));
-	 				$to_date   = $this->timesheets_model->format_date($this->input->post('report_to'));                                      
+	 				$to_date   = $this->timesheets_model->format_date($this->input->post('report_to'));
 	 			}
 
 	 			$select = [
@@ -2350,8 +2350,7 @@ public function get_data_additional_timesheets($id){
 	 				'staffid',
 	 				'staffid',
 	 				'staffid',
-	 				'staffid',
-	 				'staffid',
+
 	 			];
 	 			$query = '';
 	 			if(isset($role_filter)){
@@ -2362,7 +2361,7 @@ public function get_data_additional_timesheets($id){
 	 				if(isset($staff_filter)){
 	 					$staffid_list = implode(',', $staff_filter);
 	 					$query .= ' staffid in ('.$staffid_list.') and';
-	 				}    
+	 				}
 	 			}
 	 			else{
 	 				$query .= ' staffid = '.get_staff_user_id().' and';
@@ -2395,10 +2394,10 @@ public function get_data_additional_timesheets($id){
 	 			$data_timekeeping_form = get_timesheets_option('timekeeping_form');
 	 			$data_timesheet = [];
 	 			if($data_timekeeping_form == 'timekeeping_task'){
-	 				$data_timesheet = $this->timesheets_model->get_attendance_task($rResult, '', '', $from_date, $to_date);  
+	 				$data_timesheet = $this->timesheets_model->get_attendance_task($rResult, '', '', $from_date, $to_date);
 	 			}
 	 			else{
-	 				$data_timesheet = $this->timesheets_model->get_attendance_manual($rResult, '', '', $from_date, $to_date);  
+	 				$data_timesheet = $this->timesheets_model->get_attendance_manual($rResult, '', '', $from_date, $to_date);
 	 			}
 	 			$index_hr_code = _l('staff_id');
 	 			if($data_timesheet){
@@ -2427,7 +2426,7 @@ public function get_data_additional_timesheets($id){
 	 							foreach ($data_timesheet['staff_row_tk_detailt'][$index] as $date => $list_attendance) {
 	 								$shift_hour = $this->timesheets_model->get_hour_shift_staff($aRow['staffid'], $date);
 	 								if($shift_hour > 0){
-	 									$total_shift++;	 									
+	 									$total_shift++;
 	 								}
 	 								if(($list_attendance != '') && ($shift_hour > 0)){
 	 									$list_tks = explode(';', $list_attendance);
@@ -2501,6 +2500,7 @@ public function get_data_additional_timesheets($id){
 	 						$index++;
 	 					}
 
+                        $row[] = $total_shift;
 	 					$row[] = $total_shift;
 	 					$row[] = ($total > 0) ? (float)number_format($total,2) : 0;
 	 					$row[] = ($total2 > 0) ? (float)number_format($total2,2) : 0;
@@ -2509,13 +2509,10 @@ public function get_data_additional_timesheets($id){
 	 					$row[] = ($total8 > 0) ? (float)number_format($total8,2) : 0;
 	 					$row[] = ($total9 > 0) ? (float)number_format($total9,2) : 0;
 	 					$row[] = ($total10 > 0) ? (float)number_format($total10,2) : 0;
-	 					$row[] = ($total11 > 0) ? (float)number_format($total11,2) : 0;
-	 					$row[] = ($total12 > 0) ? (float)number_format($total12,2) : 0;
-	 					$row[] = ($total13 > 0) ? (float)number_format($total13,2) : 0;
-	 					$row[] = ($total14 > 0) ? (float)number_format($total14,2) : 0;
+
 
 	 					// $total_row = number_format($total - ($total2 + $total3 + $total7 + $total8 + $total9 + $total10 + $total11 + $total12 + $total13 + $total14),2);
-	 					// $row[] = $total_row; 
+	 					// $row[] = $total_row;
 	 					$output['aaData'][] = $row;
 	 				}
 	 			}
@@ -2525,6 +2522,107 @@ public function get_data_additional_timesheets($id){
 	 	}
 	 }
 
+
+
+
+    public function general_public_check_in_out_report(){
+        /*
+	id Primary	int(11)
+
+	staff_id	int(11)
+	date	datetime
+      type_check	int(11)
+        	brand	varchar(255)
+        device	varchar(255)
+        type	varchar(5)
+        route_point_id	int(11)
+*/
+
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                $from_date = $this->input->post('report_from');
+                $to_date = $this->input->post('report_to');
+
+
+                $staff_filter = $this->input->post('staff_filter1');
+            }
+        }
+
+
+       $staff_id= $staff_filter;
+
+        $aColumns = ['staff_id', 'date', 'type_check'];
+
+        $sIndexColumn = 'id';
+        $sTable       = db_prefix().'check_in_out';
+        $inter_time=date('H:i:s',strtotime( '7:30:0'));
+        $out_time=date('H:i:s',strtotime( '17:0:0'));
+        $days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
+        $day  = 1;
+        $date1='';
+        $date2='';
+        $time1='';
+        $time2='';
+
+if($from_date!=''  &&  $to_date!='' )
+{
+    $where = [  'AND staff_id='.$staff_id, 'AND date > "' . $from_date . '" ' ,'AND date < "' . $to_date . '" ' ];
+
+   }
+else
+{
+  $where = ['AND staff_id='.$staff_id];
+  }
+
+        $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, ['id']);
+        $output  = $result['output'];
+        $rResult = $result['rResult'];
+
+        $index=0;
+        foreach ($rResult as $aRow)
+        {
+           if($index==0)
+           {
+               $date1=date('Y-m-d',strtotime( $aRow['date']));
+               $time1=date('H:i:s',strtotime( $aRow['date']));
+
+               $index++;
+               continue;
+          }
+            if($index==1)
+            {
+                $date2=date('Y-m-d',strtotime( $aRow['date']));
+                $time2=date('H:i:s',strtotime( $aRow['date']));
+                $day=$dayofweek = date('w', strtotime($date2));
+                $dayofweek =  $days[$day];
+
+               $index=0;
+             if($date1 == $date2) {
+
+                     $row = [];
+                     $row[] = $date2;
+                    $row[] = _l($dayofweek);
+                     //$row[]= $staff_filter ;
+                    // $row[]=$to_date;
+                     $row[] = 'الدوام الرسمي';
+                     $row[] = '7:30:0 - 17:0:0';
+                     $row[] =''.$time2.' - '.$time1;
+                     $row[] = ($time1 > $inter_time) ? $time1 : '';
+                     $row[] = ($time2 < $out_time) ? $time2 : '';
+                     $row[] = ($date1 == '' && $date2 == '' ) ? 'غائب' : 'حاضر';
+                     $output['aaData'][] = $row;
+             }
+
+            }
+
+        }
+
+
+        echo json_encode($output);
+        die();
+
+
+    }
 
 	 /*mass delete for multiple feature*/
 	 public function timesheets_delete_bulk_action()

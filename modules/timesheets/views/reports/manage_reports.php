@@ -170,9 +170,49 @@
    </select>
  </div>
 </div>
-</div> 
+</div>
+</div>
 
-<!-- workplace - root -->
+
+
+
+   <div id="in_out" class="row    hide " >
+
+
+        <div class="table-fillter col-md-4">
+            <div class="form-group">
+                <label for="annual_leave"><?php echo _l('staff'); ?></label>
+                <select name="staff1[]" class="selectpicker" data-live-search="true" data-width="100%"  data-none-selected-text="<?php echo _l('invoice_status_report_all'); ?>">
+                    <?php foreach($staff as $item){ ?>
+                        <option value="<?php echo html_entity_decode($item['staffid']); ?>"><?php echo html_entity_decode($item['firstname']).' '.$item['lastname']; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- workplace - root -->
 <div class="row sorting_2_table hide">
   <div class="filter_fr_2 col-md-3 staff_2_fr">
    <div class="form-group">

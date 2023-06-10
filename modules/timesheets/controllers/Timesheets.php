@@ -2605,7 +2605,7 @@ else
                      //$row[]= $staff_filter ;
                     // $row[]=$to_date;
                      $row[] = 'الدوام الرسمي';
-                     $row[] = '7:30:0 - 17:0:0';
+                     $row[] = ' 17:0:0- 7:30:0';
                      $row[] =''.$time2.' - '.$time1;
                      $row[] = ($time1 > $inter_time) ? $time1 : '';
                      $row[] = ($time2 < $out_time) ? $time2 : '';

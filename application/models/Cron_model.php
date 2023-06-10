@@ -1129,7 +1129,7 @@ class Cron_model extends App_Model
                         }
 
                         send_mail_template('regular_duration_deadline_notification', $row->email,$member->staff_id , $case['case_id'] , $case['reg_id']);
-/*
+
 
                         if($this->app_modules->is_active('telegram_chat')) {
                             $this->load->helper('telegram_helper');
@@ -1143,7 +1143,7 @@ class Cron_model extends App_Model
                             $txt = " تذكير &#128227\n" . "اقتربت المدة النظامية " . $dur_name . "\n" . "التابعة للقضية " . $case_name . "\n" . "من الانتهاء " . "\n اضغط على هذا الرابط للمعاينة: " . $link1 . "\n Done!";
                             send_message_telegram(urlencode($txt));
                         }
-*/
+
                        //********
                         $this->db->where('id', $case['id']);
                         $this->db->update(db_prefix() . 'cases_regular_durations', [

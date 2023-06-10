@@ -1104,8 +1104,10 @@ class Cron_model extends App_Model
                 $start_date         = strtotime($case['start_date']);
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
-                 if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before)
-              //  if ($diff <= $reminder_before )
+                // if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before)
+                     if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before)
+
+                         //  if ($diff <= $reminder_before )
                      {
 
                          $this->db->where('project_id', $case['case_id']);

@@ -1030,7 +1030,9 @@ class Cron_model extends App_Model
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
 
-                if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+               // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                if ($diff <= $reminder_before ) {
+
                     $this->db->where('admin', 1);
                     $assignees = $this->staff_model->get();
 
@@ -1104,10 +1106,13 @@ class Cron_model extends App_Model
                 $start_date         = strtotime($case['start_date']);
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
-                 if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before) {
-                $this->db->where('project_id', $case['case_id']);
-                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
-                foreach ($assignees as $member) {
+                // if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before)
+                    if ($diff <= $reminder_before )
+                     {
+
+                         $this->db->where('project_id', $case['case_id']);
+                       $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                       foreach ($assignees as $member) {
                     $this->db->where('staffid',$member->staff_id);
                     $row = $this->db->get(db_prefix() . 'staff')->row();
                     if ($row) {
@@ -1147,8 +1152,8 @@ class Cron_model extends App_Model
                             'deadline_notified' => 1,'regular_header' => 1,
                         ]);
                     }
-                }
                   }
+                     }
             }
         }
 

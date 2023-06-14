@@ -214,6 +214,10 @@ class Clients extends AdminController
                 $this->load->model('legalservices/Cases_model', 'case');
                 $data['model'] = $this->case;
                 $data['project_statuses'] = $this->case->get_project_statuses();
+            } elseif ($group == 'disputes_cases') {
+                $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'Dcase');
+                $data['model'] = $this->Dcase;
+                $data['project_statuses'] = $this->Dcase->get_project_statuses();
             } elseif ($group == 'legal_services') {
                 $this->load->model('legalservices/Other_services_model', 'other');
                 $data['model'] = $this->other;

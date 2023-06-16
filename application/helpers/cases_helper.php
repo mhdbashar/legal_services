@@ -979,3 +979,15 @@ function str_filter_for_library($str)
     return $text;
 }
 
+function get_representative_id_by_case_id($id)
+{
+    $CI = &get_instance();
+    $CI->db->select('representative');
+    $CI->db->where('id', $id);
+    $project = $CI->db->get(db_prefix() . 'my_cases')->row();
+    if ($project) {
+        return $project->representative;
+    }
+    return false;
+}
+

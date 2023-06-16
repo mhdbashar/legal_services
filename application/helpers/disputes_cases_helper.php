@@ -1604,4 +1604,17 @@ function check_if_invoiced_case($disputes_case_id){
     else
         return false;
 }
+function get_representative_id_by_disputes_case_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('representative');
+    $CI->db->where('id', $id);
+    $project = $CI->db->get(db_prefix() . 'my_disputes_cases')->row();
+    if ($project) {
+        return $project->representative;
+    }
+
+    return false;
+}
+
 

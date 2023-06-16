@@ -208,6 +208,7 @@
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true' || $.isNumeric(response.success)) {
                 alert_float('success', response.message);
+                location.reload()
 
                 init_account_table();
             }else{

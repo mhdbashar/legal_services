@@ -120,6 +120,12 @@ function my_app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/cases',
         'position' => 65,
     ]);
+    $CI->app_tabs->add_customer_profile_tab('disputes_cases', [
+        'name'     => _l('disputes_cases'),
+        'icon'     => 'fa fa-gavel',
+        'view'     => 'admin/clients/groups/disputes_cases',
+        'position' => 65,
+    ]);
     $CI->app_tabs->add_customer_profile_tab('legal_services', [
         'name'     => _l('LegalServices'),
         'icon'     => 'fa fa-gavel',
@@ -852,6 +858,7 @@ function get_procuration_name_by_id($id)
 //*************************************
 
 
+
 function get_case_by_id($case_id){
     $CI = & get_instance();
     $CI->db->where('id', $case_id);
@@ -888,7 +895,24 @@ function get_duration_by_id($duration_id){
     $duration = $CI->db->get(db_prefix() . 'regular_durations')->row();
     return $duration;
 }
+
 //*************************************
+function get_case_procurations_by_case_id($case_id){
+    $CI = & get_instance();
+    $CI->db->where('_case', $case_id);
+    $case_procurations = $CI->db->get(db_prefix() . 'procuration_cases')->result_array();
+    return $case_procurations;
+}
+//*************************************
+function get_procuration_by_id($procuration){
+    $CI = & get_instance();
+    $CI->db->where('id', $procuration);
+    $procuration = $CI->db->get(db_prefix() . 'procurations')->row();
+    return $procuration;
+}
+
+//*************************************
+
 
 function get_service_by_id($serv_id){
     $CI = & get_instance();

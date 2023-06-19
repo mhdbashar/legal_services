@@ -5280,6 +5280,43 @@ class timesheets_model extends app_model
         $this->db->order_by('id');
         return $this->db->get(db_prefix() . 'check_in_out')->result_array();
     }
+
+
+    /**
+     * get staff list check in/out
+     * @param  $date
+     * @param  string $staffid
+     * @return
+     */
+    public function get_staff_list_check_in_out($date_from,$date_to, $staffid = ''){
+        if ($staffid !='') {
+            $this->db->where('staff_id', $staffid);
+        }
+        if ($date_from !='') {
+            $this->db->where('date>', $date_from);
+        }
+        if ($date_to !='') {
+            $this->db->where('date<', $date_to);
+        }
+
+
+         return $this->db->get(db_prefix() . 'check_in_out')->result_array();
+       // return $this->db->query($query)->result_array();
+      //  $this->db->where('date(date) = "'.$date_from.'"');
+       // $this->db->order_by('id');
+       // return $this->db->get(db_prefix() . 'check_in_out')->result_array();
+    }
+
+
+
+
+
+
+
+
+
+
+
     /**
      * get ts staff by date
      * @param  integer $staff_id
@@ -6853,6 +6890,14 @@ class timesheets_model extends app_model
         $query = 'select * from '.db_prefix().'timesheets_timesheet where date(date_work) between "'.$from_date.'" and "'.$to_date.'"';
         return $this->db->query($query)->result_array();
     }
+
+    public function get_checkinout_between_date($from_date, $to_date){
+        $query = 'select * from '.db_prefix().'check_in_out where date(date) between "'.$from_date.'" and "'.$to_date.'"';
+        return $this->db->query($query)->result_array();
+    }
+
+
+
     function round_to_next_hour($datestring, $max_hour) {
         $nextHour = strtotime($datestring.' +'.$max_hour.' hours');
         return date('Y-m-d H:i:s', $nextHour);

@@ -3,7 +3,7 @@
 	var groupsChart;
 	var paymentMethodsChart;
 	var customersTable;
-	var report_from = $('input[name="report-from"]');
+    var report_from = $('input[name="report-from"]');
 	var report_to = $('input[name="report-to"]');
 
 	var report_leave_statistics = $('#leave-statistics');
@@ -16,7 +16,10 @@
 		"report_to": '[name="report-to"]',
 		"role_filter": "[name='role[]']",
 		"department_filter": "[name='department[]']",
+
 		"staff_filter": "[name='staff[]']",
+
+        "staff_filter1": "[name='staff1[]']",
 		"rel_type": "[name='rel_type[]']",
 		"months_filter": "[name='months-report']",
 		"year_requisition": "[name='year_requisition']",
@@ -40,6 +43,7 @@
 		init_datepicker();
 		var click_or_change = "<?php echo $this->app_modules->is_active('hijri') ? 'click' : 'change'  ?>";
         $('#report-from').on(click_or_change, function() {
+            gen_reports();
 			var val = $(this).val();
 			var report_to_val = $('#report-to').val();
 			if (val != '') {
@@ -51,7 +55,9 @@
 				$('#report-to').attr('disabled', true);
 			}
 		});
-
+        $('#report-to').on(click_or_change, function() {
+            gen_reports();
+        });
 		report_to.on('change', function() {
 			var val = $(this).val();
 			if (val != '') {
@@ -74,9 +80,18 @@
 			}
 			gen_reports();
 		});
-		$('select[name="staff_2_fillter[]"],select[name="department_2_fillter[]"],select[name="workplace_2_fillter[]"],select[name="route_point_2_fillter[]"],select[name="word_shift_2_fillter[]"],select[name="type_2_fillter"],select[name="type_22_fillter"],select[name="roles_2_fillter[]"],select[name="role[]"],select[name="department[]"],select[name="staff[]"],select[name="rel_type[]"],select[name="year_requisition"],select[name="role[]"], select[name="months_2_report"]').on('change', function() {
+		$('select[name="staff1[]"],select[name="staff_2_fillter[]"],select[name="department_2_fillter[]"],select[name="workplace_2_fillter[]"],select[name="route_point_2_fillter[]"],select[name="word_shift_2_fillter[]"],select[name="type_2_fillter"],select[name="type_22_fillter"],select[name="roles_2_fillter[]"],select[name="role[]"],select[name="department[]"],select[name="staff[]"],select[name="rel_type[]"],select[name="year_requisition"],select[name="role[]"], select[name="months_2_report"]').on('change', function() {
 			gen_reports();
 		});
+
+
+
+
+
+
+
+
+
 	})(jQuery);
 	var current_type = '';
 	var list_fillter = {};
@@ -99,6 +114,7 @@
 		$('select[name="months-report"]').selectpicker('val', 'this_month');
 		report_to.val('');
 		report_from.val('');
+        $('#in_out').addClass('hide');
 		$('.reports_fr').addClass('hide');
 		$('#report-time').removeClass('hide');
 		$('.title_table').text('');
@@ -128,6 +144,7 @@
 		$('.sorting_2_table').addClass('hide');
 		$('.filter_fr_2').addClass('hide').removeClass('col-md-4').addClass('col-md-3');
 		$('#report-month').addClass('hide');
+        $('#in_out').addClass('hide');
 
 		if(type == 'working_hours'){
 			$('.working-hours-gen').removeClass('hide');
@@ -139,9 +156,11 @@
 			$('#year_requisition').removeClass('hide');
 		} 
 		else if(type == 'general_public_report'){   
-			$('.sorting_table').removeClass('hide');
+
 			$('#general_public_report').removeClass('hide');
-			$('#report-time').removeClass('hide');
+			$('#date-range').removeClass('hide');
+            $('#in_out').removeClass('hide');
+
 		}
 		else if(type == 'requisition_report'){
 			$('.sorting_table').removeClass('hide');
@@ -509,14 +528,30 @@
 	 	} 
 	 	initDataTable('.table-leave-report', admin_url + 'timesheets/leave_reports', false, false, fnServerParams, [0, 'desc']);
 	 }
+
+
+
+
+
+
 	 function general_public_report(){
 	 	"use strict";
 	 	$('.title_table').text('<?php echo _l('general_public_report'); ?>');
 	 	if ($.fn.DataTable.isDataTable('.table-general_public_report')) {
 	 		$('.table-general_public_report').DataTable().destroy();
 	 	} 
-	 	initDataTable('.table-general_public_report', admin_url + 'timesheets/general_public_report', false, false, fnServerParams, [0, 'desc']);
+	 	initDataTable('.table-general_public_report', admin_url + 'timesheets/general_public_check_in_out_report', false, false, fnServerParams, [0, 'desc']);
+
 	 }
+
+
+
+
+
+
+
+
+
 	 function report_the_employee_quitting(){
 	 	"use strict";
 	 	$('.title_table').text('<?php echo _l('report_the_employee_quitting'); ?>');

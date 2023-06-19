@@ -120,6 +120,12 @@ function my_app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/cases',
         'position' => 65,
     ]);
+    $CI->app_tabs->add_customer_profile_tab('disputes_cases', [
+        'name'     => _l('disputes_cases'),
+        'icon'     => 'fa fa-gavel',
+        'view'     => 'admin/clients/groups/disputes_cases',
+        'position' => 65,
+    ]);
     $CI->app_tabs->add_customer_profile_tab('legal_services', [
         'name'     => _l('LegalServices'),
         'icon'     => 'fa fa-gavel',

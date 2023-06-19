@@ -390,4 +390,13 @@ class Procuration extends AdminController
         }
     }
 
+    //*************close alert*******************
+    public  function proc_alert_close($case_id)
+    {
+
+        $this->Procurations_model->proc_alert_close_model($case_id);
+
+    }
+
+
 }

@@ -432,4 +432,17 @@ class Procurations_model extends App_Model
         }
         return false;
     }
+
+    //***********************
+    public  function proc_alert_close_model($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->update(db_prefix() . 'procuration_cases', ['proc_alert_close' => date('Y-m-d')]);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('procuration Updated [procurationID:]');
+            return true;
+        }
+        return  false;
+    }
+    //***************************
 }

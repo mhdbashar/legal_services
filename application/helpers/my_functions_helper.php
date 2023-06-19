@@ -852,6 +852,7 @@ function get_procuration_name_by_id($id)
 //*************************************
 
 
+
 function get_case_by_id($case_id){
     $CI = & get_instance();
     $CI->db->where('id', $case_id);
@@ -888,7 +889,24 @@ function get_duration_by_id($duration_id){
     $duration = $CI->db->get(db_prefix() . 'regular_durations')->row();
     return $duration;
 }
+
 //*************************************
+function get_case_procurations_by_case_id($case_id){
+    $CI = & get_instance();
+    $CI->db->where('_case', $case_id);
+    $case_procurations = $CI->db->get(db_prefix() . 'procuration_cases')->result_array();
+    return $case_procurations;
+}
+//*************************************
+function get_procuration_by_id($procuration){
+    $CI = & get_instance();
+    $CI->db->where('id', $procuration);
+    $procuration = $CI->db->get(db_prefix() . 'procurations')->row();
+    return $procuration;
+}
+
+//*************************************
+
 
 function get_service_by_id($serv_id){
     $CI = & get_instance();

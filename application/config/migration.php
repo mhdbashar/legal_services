@@ -68,7 +68,7 @@ $config['migration_auto_latest'] = FALSE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 527; // equivalent to version 2.8.4 of the Babil system
+$config['migration_version'] = 528; // equivalent to version 2.8.4 of the Babil system
 
 /*
 |--------------------------------------------------------------------------

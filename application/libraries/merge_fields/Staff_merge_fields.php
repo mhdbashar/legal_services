@@ -29,6 +29,7 @@ class Staff_merge_fields extends App_merge_fields
                         'contract-signed-to-staff',
                         'contract-comment-to-admin',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-notification',
                         'send_report_session_to_staff',
                         'session-added-as-follower',
                         'session-assigned',
@@ -56,6 +57,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
+                    'procuration-deadline-reminder-to-staff',
                     'send_report_session_to_staff',
                     'session-added-as-follower',
                     'session-assigned',
@@ -83,6 +85,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
+                    'procuration-deadline-reminder-to-staff',
                     'send_report_session_to_staff',
                     'session-added-as-follower',
                     'session-assigned',
@@ -110,6 +113,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
+                    'procuration-deadline-reminder-to-staff',
                     'send_report_session_to_staff',
                     'session-added-as-follower',
                     'session-assigned',
@@ -137,6 +141,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
+                    'procuration-deadline-reminder-to-staff',
                     'send_report_session_to_staff',
                     'session-added-as-follower',
                     'session-assigned',
@@ -154,6 +159,7 @@ class Staff_merge_fields extends App_merge_fields
                         'new-project-discussion-comment-to-staff',
                         'staff-added-as-project-member',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -171,6 +177,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'staff-forgot-password',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -182,6 +189,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'reminder-email-staff',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -193,6 +201,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'reminder-email-staff',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -204,6 +213,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'reminder-email-staff',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -215,6 +225,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'reminder-email-staff',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -225,6 +236,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'two-factor-authentication',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
                 [
@@ -235,6 +247,7 @@ class Staff_merge_fields extends App_merge_fields
                     'templates' => [
                         'new-staff-created',
                         'regular-duration-deadline-notification',
+                        'procuration-deadline-reminder-to-staff',
                     ],
                 ],
             ];

@@ -312,11 +312,44 @@ function services_add_table_column($table_data) {
 
 
 function services_add_table_row($row ,$aRow) {
+//    $CI = &get_instance();
+//    $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
+//    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+//    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+//    $row[] = !empty($branch) ? $branch['title_en'] : '';
+//    return $row;
     $CI = &get_instance();
     $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
-    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    if(empty($branch)){
+        $data = [
+            'branch_id' => 1,
+            'rel_type' => 'clients',
+            'rel_id' => $aRow['userid']
+        ];
+        $CI->db->insert('tblbranches_services', $data);
+        if($CI->db->insert_id()){
+            $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
+            $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+            $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+        }
+    }
+    $branch_id = !empty($branch) ? $branch['branch_id'] : '';
+
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $select = "<select onchange='window.location = \" ".admin_url('branches/switch/clients/'.$aRow['clientid'].'/')."\" + this.value '>";
+
+    $select .= '<option disabled selected="true">  ....  </option>';
+    foreach($branches as $b){
+        $selected = $b['key'] == $branch_id ? "selected" : "";
+        $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
+    }
+    $select .=    '</select>';
+
+    $row[] = $select;
+
     return $row;
 }
 

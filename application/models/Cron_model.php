@@ -1016,10 +1016,27 @@ class Cron_model extends App_Model
         $this->db->where('deadline_notified', 0);
 
         $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
+
+
+
         $now   = new DateTime(date('Y-m-d'));
 
         $notifiedUsers = [];
         foreach ($procurations as $procuration) {
+            $this->db->where('procuration',  $procuration['id']);
+            $case = $this->db->get(db_prefix() . 'procuration_cases')->row();
+
+            if($procuration['end_date'] < $now)
+            {
+                $this->db->where('procuration', $procuration['id']);
+                $this->db->update(db_prefix() . 'procuration_cases', [
+                    'proc_header' => 0,
+                ]);
+            }
+
+
+
+
             if (date('Y-m-d', strtotime($procuration['end_date'])) >= date('Y-m-d')) {
                 $end_date = new DateTime($procuration['end_date']);
                 $diff    = $end_date->diff($now)->format('%a');
@@ -1030,7 +1047,9 @@ class Cron_model extends App_Model
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
 
-                if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+               // if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                if ($diff <= $reminder_before ) {
+
                     $this->db->where('admin', 1);
                     $assignees = $this->staff_model->get();
 
@@ -1051,13 +1070,16 @@ class Cron_model extends App_Model
                             }
 
 
-                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email,$member['staffid'], $case->_case, $procuration['id']);
                             //*******telegram notifications*******
                             if($this->app_modules->is_active('telegram_chat')) {
                                 $this->load->helper('telegram_helper');
                                 $this->load->helper('my_functions_helper');
                                 $procuration_name = get_procuration_name_by_id($procuration['id']);
-                                $link1 = "<a href= '#' > </a>";
+                                $link = APP_BASE_URL . 'admin/Case/view/1/' . $case->_case . '?group=procuration';
+
+                                $link1 = "<a href= '$link' >click here</a>";
+
                                 $txt = " تذكير &#128227\n" . "اقتربت الوكالة" . $procuration_name ."\n" . "من الانتهاء " . $link1 . "\n Done!";
                                 send_message_telegram(urlencode($txt));
                             }
@@ -1066,6 +1088,11 @@ class Cron_model extends App_Model
                             $this->db->where('id', $procuration['id']);
                             $this->db->update(db_prefix() . 'procurations', [
                                 'deadline_notified' => 1,
+                            ]);
+                            $this->db->where('procuration', $procuration['id']);
+                            $this->db->update(db_prefix() . 'procuration_cases', [
+                                'proc_header' => 1,
+
                             ]);
                         }
                     }
@@ -1104,10 +1131,13 @@ class Cron_model extends App_Model
                 $start_date         = strtotime($case['start_date']);
                 $start_and_end_date_diff = $end_date - $start_date;
                 $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
-                 if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before) {
-                $this->db->where('project_id', $case['case_id']);
-                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
-                foreach ($assignees as $member) {
+                // if ($diff <= $reminder_before && $start_and_end_date_diff < $reminder_before)
+                    if ($diff <= $reminder_before )
+                     {
+
+                         $this->db->where('project_id', $case['case_id']);
+                       $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                       foreach ($assignees as $member) {
                     $this->db->where('staffid',$member->staff_id);
                     $row = $this->db->get(db_prefix() . 'staff')->row();
                     if ($row) {
@@ -1147,8 +1177,8 @@ class Cron_model extends App_Model
                             'deadline_notified' => 1,'regular_header' => 1,
                         ]);
                     }
-                }
                   }
+                     }
             }
         }
 

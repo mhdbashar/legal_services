@@ -834,3 +834,19 @@ $lang['type_check'] = 'النوع';
 $lang['in'] = 'دخول';
 $lang['out'] = 'خروج';
 
+$lang['period'] = 'الفترة';
+$lang['period_time'] = 'وقت الفترة';
+$lang['fingerprints'] = 'البصمات';
+$lang['late_in'] = 'الدخول المتأخر';
+$lang['early_out'] = 'الخروج الباكر';
+$lang['Total_attendance'] = 'إجمالي الحضور';
+$lang['Saturday'] = 'السبت';
+$lang['Sunday'] = 'الأحد';
+$lang['Monday'] = 'الإثنين';
+$lang['Tuesday'] = 'الثلاثاء';
+$lang['Wednesday'] = 'الأربعاء';
+$lang['Thursday'] = 'الخميس';
+$lang['Friday'] = 'الجمعة';
+
+
+

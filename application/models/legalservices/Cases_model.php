@@ -1490,7 +1490,7 @@ class Cases_model extends App_Model
             db_prefix() .'tasks.rel_id'             => $id,
             db_prefix() .'tasks.rel_type'           => $slug,
             db_prefix() .'tasks.is_session'         => 1,
-            db_prefix() .'tasks.visible_to_client'         => 1
+//            db_prefix() .'tasks.visible_to_client'         => 1
      ));
         $this->db->where($where);
 
@@ -1503,6 +1503,7 @@ class Cases_model extends App_Model
         } else {
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
         }
+
 
         for($i=0; $i < count($tasks); $i++) {
             $tasks[$i]['assignees']     = $this->tasks_model->get_task_assignees($tasks[$i]['id']);

@@ -1016,10 +1016,15 @@ class Cron_model extends App_Model
         $this->db->where('deadline_notified', 0);
 
         $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
+
+
+
         $now   = new DateTime(date('Y-m-d'));
 
         $notifiedUsers = [];
         foreach ($procurations as $procuration) {
+            $this->db->where('procuration',  $procuration['id']);
+            $case = $this->db->get(db_prefix() . 'procuration_cases')->row();
 
             if($procuration['end_date'] < $now)
             {
@@ -1065,13 +1070,13 @@ class Cron_model extends App_Model
                             }
 
 
-                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email,$member['staffid'], $case->_case, $procuration['id']);
                             //*******telegram notifications*******
                             if($this->app_modules->is_active('telegram_chat')) {
                                 $this->load->helper('telegram_helper');
                                 $this->load->helper('my_functions_helper');
                                 $procuration_name = get_procuration_name_by_id($procuration['id']);
-                                $link = APP_BASE_URL . 'admin/Case/view/1/' . $case['case_id'] . '?group=procuration';
+                                $link = APP_BASE_URL . 'admin/Case/view/1/' . $case->_case . '?group=procuration';
 
                                 $link1 = "<a href= '$link' >click here</a>";
 

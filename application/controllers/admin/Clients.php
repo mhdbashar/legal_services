@@ -32,6 +32,9 @@ class Clients extends AdminController
         $data['project_statuses'] = $this->projects_model->get_project_statuses();
 
         $data['customer_admins'] = $this->clients_model->get_customers_admin_unique_ids();
+        $this->load->model('branches_model');
+        $data['branches'] = $this->branches_model->get();
+
 
         $whereContactsLoggedIn = '';
         if (!has_permission('customers', '', 'view')) {

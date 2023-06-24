@@ -13,7 +13,6 @@
 		<thead>
 			<th><?php echo _l('hr_allowance_type_name'); ?></th>
 			<th><?php echo _l('amount'); ?></th>
-			<th><?php echo _l('hr_taxable'); ?></th>
 			<th><?php echo _l('options'); ?></th>
 		</thead>
 		<tbody>
@@ -21,7 +20,6 @@
 				<tr>
 					<td><?php echo html_entity_decode($c['type_name']); ?></td>
 					<td><?php echo app_format_money($c['allowance_val'],''); ?></td>
-					<td><?php if($c['taxable'] == 0){echo _l('hr_hr_no');}else{echo _l('hr_yes');}?></td>
 					<td>
 						<?php if(has_permission('hrm_setting', '', 'edit') || is_admin()){ ?>
 							<a href="#" onclick="edit_allowance_type(this,<?php echo html_entity_decode($c['type_id']); ?>); return false" data-taxable="<?php echo html_entity_decode($c['taxable']); ?>" data-name="<?php echo html_entity_decode($c['type_name']); ?>" data-amount="<?php echo app_format_money($c['allowance_val'], ''); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
@@ -59,13 +57,6 @@
 								$arrAtt['data-type']='currency';
 								echo render_input('allowance_val','hr_amount_of_money','','text',$arrAtt); ?> 
 
-								<div class="form-group">
-									<label for="taxable" class="control-label"><?php echo _l('hr_taxable'); ?></label>
-									<select name="taxable" class="selectpicker" id="taxable" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"> 
-										<option value="0"><?php echo _l('hr_hr_no'); ?></option>
-										<option value="1"><?php echo _l('hr_yes'); ?></option>
-									</select>
-								</div>
 
 							</div>
 						</div>

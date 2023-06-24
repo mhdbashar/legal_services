@@ -38,7 +38,7 @@ foreach (json_decode($values) as $value) {
 	    $row[] = $a;
 
         $options = ''; if (has_permission('hr_settings', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
-        if (has_permission('hr_settings', '', 'delete')) $options .= icon_btn('hr_profile/delete_type/' . $a .'/education_level_type', 'remove', 'btn-danger _delete');
+        if (has_permission('hr_settings', '', 'delete')) $options .= icon_btn('hr/setting/delete_type/' . $a .'/education_level_type', 'remove', 'btn-danger _delete');
         $row[]   = $options;
 
 	    $output['aaData'][] = $row;

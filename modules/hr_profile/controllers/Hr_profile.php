@@ -17,6 +17,7 @@ class Hr_profile extends AdminController {
         $this->load->model('insurance_book_num_model');
         $this->load->model('insurance_type_model');
         $this->load->model('hrm_model');
+        $this->load->model('Document_model');
 
 //		hooks()->do_action('hr_profile_init');
 	}
@@ -8542,14 +8543,14 @@ class Hr_profile extends AdminController {
 //document
     public function json_document($id){
         $this->load->model('Official_document_model');
-        $data = $this->Official_document_model->get($id);
+        $data = $this->Document_model->get($id);
         echo json_encode($data);
     }
     public function update_document(){
         $data = $this->input->post();
         $id = $this->input->post('id');
         $this->load->model('Official_document_model');
-        $success = $this->Official_document_model->update($data, $id);
+        $success = $this->Document_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));
         else
@@ -8560,7 +8561,7 @@ class Hr_profile extends AdminController {
     public function add_document(){
         $data = $this->input->post();
         $this->load->model('Official_document_model');
-        $success = $this->Official_document_model->add($data);
+        $success = $this->Document_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
         else
@@ -8577,7 +8578,7 @@ class Hr_profile extends AdminController {
             access_denied();
         }
         $this->load->model('Official_document_model');
-        $response = $this->Official_document_model->delete($id);
+        $response = $this->Document_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {
@@ -8599,7 +8600,7 @@ class Hr_profile extends AdminController {
             access_denied('qualification');
         }
 
-        $data['document'] = $this->Official_document_model->get($id);
+        $data['document'] = $this->Document_model->get($id);
 
         $this->load->view('hr_profile/hr_record/view_edit_document', $data);
     }

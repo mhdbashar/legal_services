@@ -23,6 +23,6 @@
 		<a href="?group=education" class="btn btn-success pull-left"><?php echo _l('education_type'); ?></a>
 	</div>
 	<div class="col-md-4">
-		<a href="?group=skill" class="btn btn-info pull-left"><?php echo _l('skill type'); ?></a>
+		<a href="?group=skill" class="btn btn-info pull-left"><?php echo _l('skill_type'); ?></a>
 	</div>
 </div>

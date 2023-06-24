@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: HR Records
 Description: The primary function of HR Records is to provide a central database containing records for all employees past and presen
-Version: 1.0.8
+Version: 1.0.9
 Requires at least: 2.3.*
 Author: GreenTech Solutions
 Author URI: https://codecanyon.net/user/greentech_solutions

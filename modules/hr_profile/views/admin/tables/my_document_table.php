@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = ['document_type', 'document_title', 'notification_email', 'date_expiry', 'document_file'];
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'hr_official_documents';
+$sTable       = db_prefix().'hr_documents';
 
 $where = ['AND staff_id='.$staff_id];
 

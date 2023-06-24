@@ -23,7 +23,7 @@ $lang['hr_add_options']                                                = 'إضا
 $lang['hr_edit']                                                       = 'تحرير';
 $lang['hr_group_name']                                                	= 'إسم المجموعة';
 $lang['hr_item_name_to_add']                                           = 'اسم العنصر المراد إضافته';
-$lang['hr_reception_staff'] 											= 'قالب إعداد الموظف';
+$lang['hr_reception_staff'] 											= 'قالب استقبال الموظف';
 $lang['hr_training'] 													= 'التدريب';
 $lang['hr__training_library'] 											= 'مكتبة التدريب';
 $lang['hr__training_program'] 											= 'برامج تدريبية';
@@ -173,8 +173,8 @@ $lang['hr_new_workplace'] 												= 'إضافة مقر عمل';
 $lang['hr_workplace_address'] 											= 'العنوان';
 $lang['hr_edit_workplace'] 											= 'تحرير مقر العمل';
 $lang['hr_procedure_retire']                                           = 'قائمة التسريح من العمل';
-$lang['hr_receive_staff'] = 'إعداد الموظف';
-$lang['hr_receiving_staff_lable']                                      = 'إعداد الموظف';
+$lang['hr_receive_staff'] = 'استقبال الموظف';
+$lang['hr_receiving_staff_lable']                                      = 'استقبال الموظف';
 $lang['hr_hr_profile_permissions']                                     = 'الصلاحيات';
 $lang['hr_hr_staff_name']                                     			= 'إسم الموظف';
 //JOb position
@@ -1039,6 +1039,9 @@ $lang['hr_job_position_detail']											= 'الوصف الوظيفي';
 $lang['staff_add_edit_twitter'] = 'Twitter';
 $lang['widower'] = 'أرمل';
 
+$lang['add_skill_type'] = "اضافة نوع من المهارات";
+$lang['skill_type'] = "أنواع المهارات";
+$lang['education_level_type'] = "أنواع مراخل التعلم";
 
 
 

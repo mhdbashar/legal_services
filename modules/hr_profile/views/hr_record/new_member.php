@@ -7,7 +7,7 @@
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel_s">
 					<div class="panel-body">
-						
+
 						<?php echo form_open_multipart(admin_url('hr_profile/add_edit_member'), array('id' => 'add_edit_member')); ?>
 						<div class="modal-body">
 							<ul class="nav nav-tabs" role="tablist">
@@ -64,12 +64,18 @@
 									</div>
 
 									<div class="row">
-										<div class="col-md-6">
-											<?php echo render_input('firstname','hr_firstname',$value,'text',$attrs); ?>
-										</div>
-										<div class="col-md-6">
-											<?php echo render_input('lastname','hr_lastname',$value,'text',$attrs); ?>
-										</div>
+                                        <div class="col-md-6">
+                                            <?php echo render_input('firstname','hr_firstname',isset($member) ? $member->firstname : '','text',$attrs); ?>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo render_input('second_name','Second_name',isset($member) ? $member->second_name : '','text',$attrs); ?>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo render_input('third_name','Third_name',isset($member) ? $member->third_name : '','text',$attrs); ?>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo render_input('lastname','hr_lastname',isset($member) ? $member->lastname : '','text',$attrs); ?>
+                                        </div>
 									</div>
 
 									<div class="row">

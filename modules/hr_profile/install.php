@@ -1345,6 +1345,11 @@ if (!$CI->db->field_exists('third_name' ,db_prefix() . 'staff')) {
           ADD COLUMN `third_name` varchar(100) NULL AFTER `second_name`');
 }
 
+if (!$CI->db->field_exists('education_level' ,db_prefix() . 'staff')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+          ADD COLUMN `education_level` varchar(100) NULL');
+}
+
 
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';

@@ -435,7 +435,7 @@ $lang['hr_staff_stats_last_month_total_logged_time'] 					= 'الشهر الما
 $lang['hr_staff_stats_this_month_total_logged_time'] 					= 'هذا الشهر';
 $lang['hr_staff_stats_last_week_total_logged_time'] 					= 'الأسبوع الماضي';
 $lang['hr_staff_stats_this_week_total_logged_time'] 					= 'هذا الأسبوع';
-$lang['hr_single'] 														= 'Single';
+$lang['hr_single'] 														= 'عاذب';
 $lang['total_point'] 													= 'إجمالي النقاط';
 $lang['date'] 															= 'التاريخ';
 $lang['unit_name'] 														 = 'الإسم';
@@ -1036,7 +1036,8 @@ $lang['HR_dashboard'] = 'لوحة تحكم الموارد البشرية';
 $lang['hr_training'] = 'التدريب';
 $lang['HR_q&a'] = 'قاعدة المعرفة';
 $lang['hr_job_position_detail']											= 'الوصف الوظيفي';
-
+$lang['staff_add_edit_twitter'] = 'Twitter';
+$lang['widower'] = 'أرمل';
 
 
 

@@ -80,12 +80,18 @@ echo staff_profile_image($member->staffid, array('img', 'img-responsive', 'staff
                         </div>
 
                         <div class="row">
-                           <div class="col-md-6">
-                              <?php echo render_input('firstname', 'hr_firstname', $value, 'text', $attrs); ?>
-                           </div>
-                           <div class="col-md-6">
-                              <?php echo render_input('lastname', 'hr_lastname', $lastname, 'text', $attrs); ?>
-                           </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('firstname','hr_firstname',isset($member) ? $member->firstname : '','text',$attrs); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('second_name','staff_add_edit_second_name',isset($member) ? $member->second_name : '','text',$attrs); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('third_name','staff_add_edit_third_name',isset($member) ? $member->third_name : '','text',$attrs); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('lastname','hr_lastname',isset($member) ? $member->lastname : '','text',$attrs); ?>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -348,40 +354,6 @@ $orther_infor = (isset($member) ? $member->orther_infor : '');
                            </div>
                         </div>
 
-                      <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'two-factor-authentication','active'=>0)) == 0){ ?>
-
-
-                          <div class="panel_s mtop10  ">
-                              <div class="panel-body">
-                                  <h4 class="no-margin">
-                                      <?php echo _l('staff_two_factor_authentication'); ?>
-                                  </h4>
-                                  <hr class="hr-panel-heading" />
-                                  <?php echo form_open('admin/staff/update_two_factor',array('id'=>'two_factor_auth_form')); ?>
-                                  <div class="radio radio-primary">
-                                      <input type="radio" id="two_factor_auth_disabled" name="two_factor_auth_enabled" value="off" class="custom-control-input"<?php echo ($current_user->two_factor_auth_enabled == 0) ? 'checked' : '' ?>>
-                                      <label class="custom-control-label" for="two_factor_auth_disabled"><?php echo _l('two_factor_authentication_disabed'); ?></label>
-                                  </div>
-                                  <?php if(is_email_template_active('two-factor-authentication')){ ?>
-                                      <div class="radio radio-primary">
-                                          <input type="radio" id="two_factor_auth_enabled" name="two_factor_auth_enabled" value="email" class="custom-control-input"<?php echo ($current_user->two_factor_auth_enabled == 1) ? 'checked' : '' ?>>
-                                          <label for="two_factor_auth_enabled">
-                                              <i class="fa fa-question-circle" data-placement="right" data-toggle="tooltip" data-title="<?php echo _l('two_factor_authentication_info'); ?>"></i>
-                                              <?php echo _l('enable_two_factor_authentication'); ?>
-                                          </label>
-                                      </div>
-                                  <?php } ?>
-                                  <div class="radio radio-primary">
-                                      <input type="radio" id="google_two_factor_auth_enabled" name="two_factor_auth_enabled" value="google" class="custom-control-input"<?php echo ($current_user->two_factor_auth_enabled == 2) ? 'checked' : '' ?>>
-                                      <label class="custom-control-label" for="google_two_factor_auth_enabled"><?php echo _l('enable_google_two_factor_authentication'); ?></label>
-                                  </div>
-                              </div>
-                          </div>
-
-
-                      <?php } ?>
-
-
 
 
 
@@ -428,7 +400,8 @@ echo render_input('home_town', 'hr_hr_home_town', $home_town, 'text');?>
                               <select name="marital_status" class="selectpicker" id="marital_status" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                 <option value=""></option>
                                 <option value="<?php echo 'single'; ?>" <?php if (isset($member) && $member->marital_status == 'single') {echo 'selected';}?>><?php echo _l('hr_single'); ?></option>
-                                <option value="<?php echo 'married'; ?>" <?php if (isset($member) && $member->marital_status == 'married') {echo 'selected';}?>><?php echo _l('married'); ?></option>
+                                  <option value="<?php echo 'married'; ?>" <?php if (isset($member) && $member->marital_status == 'married') {echo 'selected';}?>><?php echo _l('married'); ?></option>
+                                  <option value="<?php echo 'widower'; ?>" <?php if (isset($member) && $member->marital_status == 'widower') {echo 'selected';}?>><?php echo _l('widower'); ?></option>
                              </select>
                           </div>
                        </div>

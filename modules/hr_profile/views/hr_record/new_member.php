@@ -68,10 +68,10 @@
                                             <?php echo render_input('firstname','hr_firstname',isset($member) ? $member->firstname : '','text',$attrs); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo render_input('second_name','Second_name',isset($member) ? $member->second_name : '','text',$attrs); ?>
+                                            <?php echo render_input('second_name','staff_add_edit_second_name',isset($member) ? $member->second_name : '','text',$attrs); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo render_input('third_name','Third_name',isset($member) ? $member->third_name : '','text',$attrs); ?>
+                                            <?php echo render_input('third_name','staff_add_edit_third_name',isset($member) ? $member->third_name : '','text',$attrs); ?>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo render_input('lastname','hr_lastname',isset($member) ? $member->lastname : '','text',$attrs); ?>

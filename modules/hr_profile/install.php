@@ -1287,20 +1287,6 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
 
 
 
-if (!$CI->db->table_exists(db_prefix() . 'hr_indicators')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_indicators` (
-    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `designation_id` int(11) NOT NULL,
-    `customer_experience` varchar(200) NOT NULL,
-    `marketing` varchar(200) NOT NULL,
-    `administration` varchar(200) NOT NULL,
-    `professionalism` varchar(200) NOT NULL,
-    `integrity` varchar(200) NOT NULL,
-    `attendance` varchar(200) NOT NULL,
-    `added_by` int(11) NOT NULL,
-    `created` timestamp NOT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
-}
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_extra_info` (
@@ -1321,8 +1307,22 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
 }
 
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_indicators')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_indicators` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `customer_experience` varchar(200) NOT NULL,
+    `marketing` varchar(200) NOT NULL,
+    `administration` varchar(200) NOT NULL,
+    `professionalism` varchar(200) NOT NULL,
+    `integrity` varchar(200) NOT NULL,
+    `attendance` varchar(200) NOT NULL,
+    `added_by` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_appraisal')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_appraisal` (
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_appraisal` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `customer_experience` varchar(200) NOT NULL,
     `marketing` varchar(200) NOT NULL,
@@ -1335,6 +1335,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_appraisal')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
 
 if (!$CI->db->field_exists('second_name' ,db_prefix() . 'staff')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`

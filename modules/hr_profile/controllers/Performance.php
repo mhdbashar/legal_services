@@ -6,35 +6,30 @@ class Performance extends AdminController{
 		parent::__construct();
 		$this->load->model('Indicator_model');
 		$this->load->model('Appraisal_model');
-        $this->load->model('No_branch_model');
-        $this->load->model('Extra_info_model');
-        $this->load->model('Designation_model');
+        $this->load->model('Hr_profile_model');
 
-        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
+
+       /* if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 
         $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
         $total_staffs = $this->db->count_all_results(db_prefix() . 'staff');
         if($total_complete_staffs != $total_staffs) {
             set_alert('warning', _l('you_have_to_complete_staff_informations'));
-            redirect(admin_url('hr_profile/staff'));
-        }
+            redirect(admin_url('hr/general/staff'));
+        }*/ 
 	}
 
 	//indicators
 
 	public function indicators(){
 		if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_indicators_table');
+            $this->load->library("hr_profile/HrmApp");
+            $this->hrmapp->get_table_data("my_indicators_table");
         }
         $data['title'] = _l('indicator');
-        $data['staffes'] = $this->Extra_info_model->get_staffs();
-        $data['designations'] = $this->Designation_model->get();
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-        }
+		$data['job_position'] = $this->Hr_profile_model->get_job_position();
+        
         $this->load->view('performance/indicator/manage', $data);
 	}
 
@@ -85,17 +80,20 @@ class Performance extends AdminController{
 
 	public function appraisals(){
 		if($this->input->is_ajax_request()){
+            $this->load->library("hr_profile/hrmApp");
             $this->hrmapp->get_table_data('my_appraisals_table');
         }
+        $this->load->model("Staff_model");
         $data['title'] = _l('appraisals');
-        $data['staffes'] = $this->Extra_info_model->get_staffs();
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-        }
+        $data['job_position'] = $this->Hr_profile_model->get_job_position();
+        $data['staffs'] = $this->Staff_model->get();
+        
         $this->load->view('performance/appraisal/manage', $data);
 	}
+
+
+
+    //wasemalnajjar
 
 	public function json_appraisal($id){
         $data = $this->Appraisal_model->get($id);
@@ -139,8 +137,8 @@ class Performance extends AdminController{
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
-
-    public function get_designations_by_branch_id($branch_id){
+}
+   /* public function get_designations_by_branch_id($branch_id){
     	$this->db->select('*');
     	$this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
     	$this->db->from(db_prefix() . 'branches_services');
@@ -155,4 +153,4 @@ class Performance extends AdminController{
         }
         echo json_encode(['success'=>true,'data'=>$data]);
     }
-}
+}*/

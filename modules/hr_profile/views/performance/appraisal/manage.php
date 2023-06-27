@@ -15,8 +15,6 @@
                     <?php 
                     $data = array(
                         _l('fullname'),
-                        _l('department_name'),
-                        _l('designation_name'),
                         _l('appraisal_date'),
                         _l('control'),
                     ); 
@@ -51,52 +49,6 @@ $('.modal').on('hidden.bs.modal', function (e) {
     .find(".staff")
         .remove()
 })
-
-$(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'hr_profile/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#e_staff_id').empty();
-            $('#e_staff_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#e_staff_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#e_staff_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
-
-$(document).on('change','#a_branch_id',function () {
-    $.get(admin_url + 'hr_profile/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#staff_id').empty();
-            $('#staff_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#staff_id').append($('<option>', {
-                    value: key,
-                    text: value,
-                }));
-                $('#staff_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
 
 
 </script>

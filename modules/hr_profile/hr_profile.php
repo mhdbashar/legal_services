@@ -131,9 +131,31 @@ function hr_profile_module_init_menu_items()
             'position' => 5,
         ]);
     }
-
-
-
+ if(has_permission('hr','','view_own') || has_permission('hr','','view')){
+  $CI->app_menu->add_sidebar_menu_item('performance', [
+    'name' => _l('performance'),
+    'icon'=> 'fa fa-users',
+    'position' => 5,
+  ]);
+ }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+      $CI->app_menu->add_sidebar_children_item('performance', [
+          'slug'     => 'indicators',
+          'name'     => _l('indicators'),
+          'href'     => admin_url('hr_profile/performance/indicators'),
+          'position' => 45,
+          'icon'     => 'fa fa-tachometer',
+      ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+      $CI->app_menu->add_sidebar_children_item('performance', [
+          'slug'     => 'appraisals',
+          'name'     => _l('appraisals'),
+          'href'     => admin_url('hr_profile/performance/appraisals'),
+          'position' => 50,
+          'icon'     => 'fa fa-tachometer',
+      ]);
+    }
 
 
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')
@@ -173,6 +195,7 @@ function hr_profile_module_init_menu_items()
             'icon'     => 'fa fa-tachometer',
         ]);
     }
+    
    */
     if (has_permission('expired_documents', '', 'view_own') || has_permission('expired_documents', '', 'view')){
         $CI->app_menu->add_sidebar_children_item('organizations', [

@@ -13,8 +13,8 @@
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
                     <?php $data = array(
-                        _l('department_name'),
-                        _l('designation_name'),
+                        // _l('department_name'),
+                        _l('jop_position'),
                         _l('added_by'),
                         _l('created'),
                         _l('control'),
@@ -52,51 +52,6 @@ $('.modal').on('hidden.bs.modal', function (e) {
     .find(".staff")
         .remove()
 })
-$(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'hr_profile/performance/get_designations_by_branch_id/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#e_designation_id').empty();
-            $('#e_designation_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#e_designation_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#e_designation_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
-
-$(document).on('change','#a_branch_id',function () {
-    $.get(admin_url + 'hr_profile/performance/get_designations_by_branch_id/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#designation_id').empty();
-            $('#designation_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#designation_id').append($('<option>', {
-                    value: key,
-                    text: value,
-                }));
-                $('#designation_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
 
 </script>
 </body>

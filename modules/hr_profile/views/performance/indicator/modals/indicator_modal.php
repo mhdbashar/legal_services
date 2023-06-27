@@ -28,13 +28,13 @@
 <!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
-                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                            <label for="job_position" class="control-label"><?php echo _l('jobposition') ?></label>
+                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('jobposition') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                 foreach ($designations as $value) { ?>
-                                    <option value="<?php echo $value['id'] ?>">
-                                        <?php echo $value['designation_name'] ?>
+                                 foreach ($job_position as $value) { ?>
+                                    <option value="<?php echo $value['position_id'] ?>">
+                                        <?php echo $value['position_name'] ?>
                                     </option>
                                 <?php } ?>
                             </select>     
@@ -166,14 +166,14 @@
 <!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
-                            <select required="required" class="form-control staff" id="designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                            <label for="job_position" class="control-label"><?php echo _l('jobposition') ?></label>
+                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('jobposition') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
                                 // if(!$this->app_modules->is_active('branches')){
-                                 foreach ($designations as $value) { ?>
-                                    <option value="<?php echo $value['id'] ?>">
-                                        <?php echo $value['designation_name'] ?>
+                                 foreach ($job_position as $value) { ?>
+                                    <option value="<?php echo $value['position_id'] ?>">
+                                        <?php echo $value['position_name'] ?>
                                     </option>
                                 <?php } ?>
                             </select>     
@@ -312,9 +312,8 @@
 
                 $('[name="created"]').val(data.created);
 
-                $('[id="branch_id"]').val(data.branch_id);
 
-                $('[id="e_designation_id"]').val(data.designation_id);
+                $('[id="position_id"]').val(data.position_id);
                 //$('[name="staff_id"]').val(data.staff_id);
 
                 $('#update_indicator').modal('show'); // show bootstrap modal when complete loaded

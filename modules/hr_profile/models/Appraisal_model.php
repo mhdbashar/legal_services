@@ -17,7 +17,6 @@ class Appraisal_model extends App_Model{
         if(is_numeric($id)){
             $this->db->select('*, '.$this->table_name.'.id');
             $this->db->where($this->table_name.'.id' ,$id);
-            $this->db->join('tblbranches_services', 'tblbranches_services.rel_id='.$this->table_name.'.staff_id AND tblbranches_services.rel_type="staff"');
             return $this->db->get($this->table_name)->row();
         }
 

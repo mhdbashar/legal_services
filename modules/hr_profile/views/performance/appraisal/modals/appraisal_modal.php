@@ -32,7 +32,7 @@
                                 <option></option>
                                 <?php
                                 //if(!$this->app_modules->is_active('branches')){
-                                 foreach ($staffes as $value) { ?>
+                                 foreach ($staffs as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>
@@ -179,7 +179,7 @@
                                 <option></option>
                                 <?php
                                 //if(!$this->app_modules->is_active('branches')){
-                                 foreach ($staffes as $value) { ?>
+                                 foreach ($staffs as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>

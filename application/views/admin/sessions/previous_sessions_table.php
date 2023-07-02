@@ -14,7 +14,6 @@ $table_data = [
     _l('Customer_report'),
     _l('Send_to_customer'),
     _l('session_date'),
-    _l('session_time'),
     _l('Customer_report'),
 ];
 

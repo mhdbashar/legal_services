@@ -25,9 +25,9 @@ $aColumns = [
     db_prefix() . 'tasks.status as status',
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
-    'TIME_FORMAT(time, ' . $format . ') as time',
+//    'TIME_FORMAT(time, ' . $format . ') as time',
     'court_name',
-    'startdate',
+    'CONCAT(startdate, " ", TIME_FORMAT(time, ' . $format . ')) as startdate',
     'customer_report',
     'send_to_customer',
 ];
@@ -180,7 +180,6 @@ foreach ($rResult as $aRow) {
 
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 
-    $row[] = $aRow['time'];
 
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0) {
         $stc = '<a href="#" class="btn btn-info pull-left display-block" onclick="add_report_session_modal(' . $aRow['id'] . '); return false;">' . _l('add_new') . ' <i class="fa fa-plus"></i>  '. '</a>';

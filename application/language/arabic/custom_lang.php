@@ -1178,8 +1178,11 @@ $lang['remember that'] = "تذكر أن المدة النظامية";
 $lang['which started at'] = "والتي بدأت بتاريخ ";
 $lang['will end at'] = "ستنتهي بتاريخ ";
 $lang['select_regular_duration'] = "اختيار مدة نظامية";
+$lang['Regular duration reminder'] = "إشعار المدة النظامية";
 $lang['Procuration_Reminder'] = "تنبيه انتهاء وكالة";
 $lang['remember_that_procuration'] = "تذكر أن الوكالة ";
+$lang['email_template_procuration_fields_heading'] = "الوكالات ";
+
 
 
 $lang['customer_permission_messages_see'] = "البريد الوارد فقط";

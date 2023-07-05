@@ -198,7 +198,7 @@
                                                 </div>
                                             </div>
                                             <?php if (has_permission('judicial_departments', '', 'create')) { ?>
-                                            <div class="col-md-1">
+                                            <div class="col-md-1 hide" id='btn-AddJudicialDeptModal'>
                                                 <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                             </div>
                                             <?php } ?>
@@ -352,7 +352,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label class="control-label"><?php echo _l('contracts'); ?></label>
-                                                <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
+                                                AddJudicialDeptModal            <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
                                                         data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected></option>
                                                     <?php
@@ -746,19 +746,6 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                            <select class="form-control" id="court_id_modal" onchange="GetCourtJad()" name="court_id_modal"
-                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                <option selected disabled></option>
-                                <?php $data = get_relation_data('mycourts', '');
-                                foreach ($data as $row): ?>
-                                    <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
                         <?php echo render_input('Jud_number_modal','NumJudicialDept'); ?>
                         <?php echo render_input('Jud_email','_email',''); ?>
                         <p class="bold"><?php echo _l('_description'); ?></p>
@@ -897,7 +884,7 @@
 
     <?php if (has_permission('judicial_departments', '', 'create')) { ?>
     $("#AddJudicialDept").click(function () {
-        var court_id_modal   = $('#court_id_modal').val();
+        var court_id_modal   = $('#court_id').val();
         var Jud_number_modal = $('#Jud_number_modal').val();
         if(court_id_modal == '' || Jud_number_modal == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
@@ -977,6 +964,11 @@
                 });
             }
         });
+        if(id !== '' || undefined){
+            $('#btn-AddJudicialDeptModal').removeClass('hide');
+        }else {
+            $('#btn-AddJudicialDeptModal').addClass('hide');
+        }
     }
 
     $("#country").change(function () {

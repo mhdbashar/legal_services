@@ -197,7 +197,7 @@ class Disputes_cases extends AdminController
 
     public function staff_cases()
     {
-        $this->app->get_table_data('staff_cases');
+        $this->app->get_table_data('staff_disputes_cases');
     }
 
     public function expenses($id, $slug = '')

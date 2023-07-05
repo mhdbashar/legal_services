@@ -27,8 +27,8 @@ class Session_report_pdf extends App_pdf
     {
         $CI = &get_instance();
         $CI->load->library('app_modules');
-        $this->session->duedate = $CI->app_modules->is_active('hijri') ? _d($this->session->duedate) . _l('correspond') . to_hijri_date(_d($this->session->duedate)) : _d($this->session->duedate);
-        $this->session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($this->session->next_session_date) . _l('correspond') . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
+        $this->session->duedate = $CI->app_modules->is_active('hijri') && $this->session->duedate != '' ? _d($this->session->duedate) . _l('correspond') . to_hijri_date(_d($this->session->duedate)) : _d($this->session->duedate);
+        $this->session->next_session_date = $CI->app_modules->is_active('hijri') && $this->session->next_session_date != ''? _d($this->session->next_session_date) . _l('correspond') . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
         $this->session->startdate = $CI->app_modules->is_active('hijri') ? _d($this->session->startdate) . _l('correspond') . to_hijri_date(_d($this->session->startdate)) : _d($this->session->startdate);
 
         $time_format = get_option('time_format');
@@ -37,9 +37,16 @@ class Session_report_pdf extends App_pdf
 
         $this->set_view_vars([
             'client' => isset($this->session->clientid) ? get_customer_by_id($this->session->clientid)->company : '',
+            'representative' => isset($this->session->representative) ? maybe_translate(_l('nothing_was_specified'), get_representative_by_id($this->session->representative)) : '',
             'opponent' => isset($this->session->opponent_id) && $this->session->opponent_id != 0 ? get_customer_by_id($this->session->opponent_id)->company : '',
             'court' => get_court_by_id($this->session->court_id)->court_name,
+            'city'=> $this->session->city ? $this->session->city : _l('nothing_was_specified'),
+            'case_name'=> $this->session->case_name ? $this->session->case_name : _l('nothing_was_specified'),
+            'cat_id'=>$this->session->cat_id,
+            'subcat_id'=>$this->session->subcat_id,
+            'childsubcat_id'=>$this->session->childsubcat_id,
             'file_number_court' => $this->session->file_number_court,
+            'dept'=>$this->session->dept,
             'duedate' => $this->session->startdate,
             'time' => $this->session->time,
             'session_information' => $this->session->session_information,
@@ -54,17 +61,6 @@ class Session_report_pdf extends App_pdf
         return $this->build();
     }
 
-    protected function type()
-    {
-        return 'session_report';
-    }
-
-    protected function file_path()
-    {
-        $actualPath = APPPATH . 'views/themes/' . active_clients_theme() . '/views/session_report_pdf.php';
-        return $actualPath;
-    }
- 
     public function Header()
     {
 
@@ -108,6 +104,17 @@ class Session_report_pdf extends App_pdf
             }
 
         }
+    }
+
+    protected function type()
+    {
+        return 'session_report';
+    }
+
+    protected function file_path()
+    {
+        $actualPath = APPPATH . 'views/themes/' . active_clients_theme() . '/views/session_report_pdf.php';
+        return $actualPath;
     }
 
 }

@@ -2137,6 +2137,7 @@ $lang['project_setting_view_gantt'] = 'view Gantt';
 $lang['project_setting_view_timesheets'] = 'view timesheets';
 $lang['project_setting_view_activity_log'] = 'view activity log';
 $lang['project_setting_view_team_members'] = 'view team members';
+$lang['project_setting_view_session_customer_report'] = "view session customer report";
 $lang['project_discussion_visible_to_customer_yes'] = 'Visible';
 $lang['project_discussion_visible_to_customer_no'] = 'Not Visible';
 $lang['project_discussion_posted_on'] = 'Posted on %s';

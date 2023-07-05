@@ -25,10 +25,12 @@ if ($ServID == 1) {
             <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
             <td><?php echo $project->id; ?></td>
           </tr>
-          <tr>
-            <td class="bold"><?php echo _l('file_number_in_court') ?></td>
-            <td><?php echo $project->file_number_court ?></td>
-          </tr>
+         <?php if (isset($project->file_number_court)): ?>
+              <tr>
+                <td class="bold"><?php echo _l('file_number_in_court') ?></td>
+                <td><?php echo $project->file_number_court ?></td>
+              </tr>
+          <?php endif; ?>
 
           <?php if ($project->settings->view_finance_overview == 1) { ?>
             <tr class="project-billing-type">

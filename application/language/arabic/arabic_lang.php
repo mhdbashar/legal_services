@@ -3410,7 +3410,8 @@ $lang['project_setting_view_session_checklist_items'] = "عرض عناصر قا�
 $lang['project_setting_view_session_comments'] = "عرض تعليقات الجلسة";
 $lang['project_setting_view_session_total_logged_time'] = "عرض مجموع الوقت المسجل للجلسة";
 $lang['project_setting_view_sessions'] = "عرض الجلسات";
-$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)"; 
+$lang['project_setting_view_session_customer_report'] = "السماح للعميل ب عرض تقارير الجلسات";
+$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)";
 $lang['session_milestone'] = "خطة العمل";
 $lang['session_view_comments'] = "التعليقات";
 $lang['session_single_priority'] = "الاولوية";

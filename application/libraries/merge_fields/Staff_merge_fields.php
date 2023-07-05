@@ -141,7 +141,7 @@ class Staff_merge_fields extends App_merge_fields
                     'contract-signed-to-staff',
                     'contract-comment-to-admin',
                     'regular-duration-deadline-notification',
-                    'procuration-deadline-reminder-to-staff',
+                    'Procuration_deadline_reminder_to_staff',
                     'send_report_session_to_staff',
                     'session-added-as-follower',
                     'session-assigned',

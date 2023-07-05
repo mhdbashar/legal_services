@@ -153,7 +153,7 @@ if ($time_format === '24') {
                                  <button type="button"  id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
                                      <span aria-hidden="true">×</span>
                                  </button>
-                                 <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4><hr class="hr-10">
+                                 <h4><b><?php echo _l('Regular_duration_Reminder') ?></b>!</h4><hr class="hr-10">
                                  <?php echo _l('remember that') ?> <b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b>
                                  <?php echo _l('which started at') ?>
                                  <b> <?php echo $case_duration['start_date']  ?> </b>

@@ -1062,6 +1062,8 @@ $lang['hr_training_process'] = 'Training';
 $lang['HR_dashboard'] = 'HR Dashboard';
 $lang['hr_training'] = 'Training';
 $lang['HR_q&a'] = 'HR Q&A';
+$lang['skill_type'] = 'Skill Type';
+
 
 
 

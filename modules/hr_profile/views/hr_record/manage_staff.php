@@ -70,7 +70,6 @@
 							</div>
 
 
-
 						</div>
 						<br>
 
@@ -113,7 +112,10 @@
 									_l('hr_hr_job_position'),
 									_l('role'),
 									_l('hr_active'),
-									_l('hr_status_work'),                            
+									_l('hr_status_work'),  
+									_l('Datecreated'),  
+
+
 								);
 								$custom_fields = get_custom_fields('staff',array('show_on_table'=>1));
 								foreach($custom_fields as $field){

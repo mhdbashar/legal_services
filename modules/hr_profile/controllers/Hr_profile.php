@@ -2232,6 +2232,7 @@ class Hr_profile extends AdminController {
 		}
 
 		$data['staff_role'] = $this->hr_profile_model->get_job_position();
+
 		$this->load->view('hr_record/manage_staff', $data);
 	}
 

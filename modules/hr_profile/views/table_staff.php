@@ -20,6 +20,8 @@ $aColumns = [
     db_prefix().'roles.name',
 	'active',
 	'status_work',
+  'datecreated',
+
 ];
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';

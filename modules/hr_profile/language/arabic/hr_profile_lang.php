@@ -1041,7 +1041,9 @@ $lang['widower'] = 'أرمل';
 
 $lang['add_skill_type'] = "اضافة نوع من المهارات";
 $lang['skill_type'] = "أنواع المهارات";
-$lang['education_level_type'] = "أنواع مراخل التعلم";
+$lang['education_level_type'] = "أنواع مراحل التعلم";
+$lang['Datecreated']                                                = 'تاريخ الإضافة';
+
 
 
 

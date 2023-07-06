@@ -750,6 +750,7 @@ class Hr_profile_model extends App_Model
 				$node['id'] = $dep['id'];
 				$node['title'] = $dep['name'];
 
+
 				$node['subs'] = $this->get_child_node_staff($dep['id'], $department);
 				$dep_tree[] = $node;
 			} else {

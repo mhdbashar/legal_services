@@ -17,7 +17,7 @@
 
 <div class="row">
 	<div class="col-md-4">
-		<a href="?group=education_level" class="btn btn-info pull-left"><?php echo _l('ducation_level_type'); ?></a>
+		<a href="?group=education_level" class="btn btn-info pull-left"><?php echo _l('education_level_type'); ?></a>
 	</div>
 	<div class="col-md-4">
 		<a href="?group=education" class="btn btn-success pull-left"><?php echo _l('education_type'); ?></a>

@@ -74,6 +74,7 @@
       <?php echo form_hidden('id'); ?>
       <?php echo form_hidden('update_balance'); ?>
       <div class="modal-body">
+
           <?php echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
           <label for=""
                  class="control-label"><?php echo _l('account_type'); ?></label>

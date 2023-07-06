@@ -332,4 +332,39 @@
             }, 200);
         }
     }
+
+
+    $('select[name="account_type_master"]').on('change', function() {
+
+        $('select[name="account_type_id"]').html('');
+
+
+
+        $.ajax({
+            url: "<?php echo admin_url('accounting/accounts_sorting_action'); ?>",
+            data: {acc_id: $('select[name="account_type_master"]').val()},
+            type: "POST",
+            success: function (data) {
+                $('select[name="account_type_id"]').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
+                response = JSON.parse(data);
+
+                console.log(response);
+                $.each(response, function (key, value) {
+                    $('select[name="account_type_id"]').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                });
+            }
+        });
+
+
+    });
+
+
+
+
 </script>

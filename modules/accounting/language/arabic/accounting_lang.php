@@ -551,6 +551,14 @@ $lang['employee_contact_list_note'] = 'رقم الهاتف والبريد الإ
 $lang['recent_edited_time_activities_note'] = 'أنشطة الوقت التي أدخلها الموظفون أو عدلوها مؤخرًا.';
 $lang['time_activities_by_employee_detail_note'] = 'المنتجات والخدمات (أنشطة الوقت) التي يقدمها كل موظف ، بما في ذلك سعر الساعة والمدة.';
 $lang['acc_assets'] = 'الأصول';
+$lang['acc_liabilities'] = 'الالتزامات';
+$lang['acc_equity'] = 'حقوق الملكية';
+$lang['account_type_master'] = 'الحسابات الرئيسية';
+
+
+
+
+
 $lang['long_term_assets'] = 'الاصول طويلة الاجل';
 $lang['liabilities_and_shareholders_equity'] = 'الالتزامات وحقوق المساهمين';
 $lang['accounts_payable'] = 'الحسابات الدائنة';

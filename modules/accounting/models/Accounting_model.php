@@ -9,6 +9,187 @@ class Accounting_model extends App_Model
         parent::__construct();
     }
 
+
+    /**
+     * get account types
+     * @param  integer $id    member group id
+     * @param  array  $where
+     * @return object
+     */
+    public function get_account_types_master()
+    {
+        $account_types_master = hooks()->apply_filters('before_get_account_types', [
+            [
+                'id'             => 1,
+                'name'           => _l('acc_assets'),
+                'order'          => 1,
+            ],
+            [
+                'id'             => 2,
+                'name'           => _l('acc_liabilities'),
+                'order'          => 2,
+            ],
+            [
+                'id'             => 3,
+                'name'           => _l('acc_equity'),
+                'order'          => 3,
+            ],
+            [
+                'id'             => 4,
+                'name'           => _l('acc_expenses'),
+                'order'          => 4,
+            ],
+            [
+                'id'             => 5,
+                'name'           => _l('acc_income'),
+                'order'          => 5,
+            ],
+
+        ]);
+
+        usort($account_types_master, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $account_types_master;
+    }
+
+    public function get_account_types_after_sorting($id)
+    {
+        if ($id == 1) {
+            $account_types = [
+
+                [
+                    'id' => 2,
+                    'name' => _l('acc_current_assets'),
+                    'order' => 2,
+                ],
+
+                [
+                    'id' => 4,
+                    'name' => _l('acc_fixed_assets'),
+                    'order' => 4,
+                ],
+                [
+                    'id' => 5,
+                    'name' => _l('acc_non_current_assets'),
+                    'order' => 5,
+                ]
+
+            ];
+
+        }
+        else if ($id ==2) {
+
+            $account_types = [
+
+
+            [
+                'id' => 3,
+                'name' => _l('acc_cash_and_cash_equivalents'),
+                'order' => 3,
+            ],
+
+
+            [
+                'id' => 6,
+                'name' => _l('acc_accounts_payable'),
+                'order' => 6,
+            ],
+            [
+                'id' => 7,
+                'name' => _l('acc_credit_card'),
+                'order' => 7,
+            ],
+            [
+                'id' => 8,
+                'name' => _l('acc_current_liabilities'),
+                'order' => 8,
+            ],
+            [
+                'id' => 9,
+                'name' => _l('acc_non_current_liabilities'),
+                'order' => 9,
+            ],
+
+
+            [
+                'id' => 13,
+                'name' => _l('acc_cost_of_sales'),
+                'order' => 13,
+            ]
+
+        ];
+    }
+        else if ($id ==3) {
+
+            $account_types = [
+
+                [
+                    'id'             => 10,
+                    'name'           => _l('acc_owner_equity'),
+                    'order'          => 10,
+                ],
+
+            ];
+        }
+        else if ($id ==4) {
+
+            $account_types = [
+                [
+                    'id'             => 14,
+                    'name'           => _l('acc_expenses'),
+                    'order'          => 14,
+                ],
+                [
+                    'id'             => 15,
+                    'name'           => _l('acc_other_expense'),
+                    'order'          => 15,
+                ],
+
+            ];
+        }
+        else if ($id ==5) {
+
+            $account_types = [
+                [
+                    'id'             => 7,
+                    'name'           => _l('acc_credit_card'),
+                    'order'          => 7,
+                ],
+
+
+                [
+                    'id'             => 11,
+                    'name'           => _l('acc_income'),
+                    'order'          => 11,
+                ],
+                [
+                    'id'             => 12,
+                    'name'           => _l('acc_other_income'),
+                    'order'          => 12,
+                ],
+
+            ];
+        }
+
+
+
+
+        usort($account_types, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $account_types;
+    }
+
+
+
+
+
+
+
+
     /**
      * get account types
      * @param  integer $id    member group id

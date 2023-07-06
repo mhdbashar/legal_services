@@ -58,6 +58,11 @@
 <?php $arrAtt = array();
       $arrAtt['data-type']='currency';
 ?>
+
+
+
+
+
 <div class="modal fade" id="account-modal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -69,7 +74,18 @@
       <?php echo form_hidden('id'); ?>
       <?php echo form_hidden('update_balance'); ?>
       <div class="modal-body">
-          <?php echo render_select('account_type_id',$account_types,array('id','name'),'account_type','',array(),array(),'','',false); ?>
+          <?php echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+          <label for=""
+                 class="control-label"><?php echo _l('account_type'); ?></label>
+          <select class="form-control custom_select_arrow" id="account_type_id"
+                  name="account_type_id"
+                  placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+              <option selected disabled></option>
+          </select>
+          <?php //echo render_select('account_type_id',[],array('id','name'),'account_type','',array(),array(),'','',false); ?>
+
+
+
           <?php echo render_select('account_detail_type_id',$detail_types,array('id','name'),'detail_type','',array(),array(),'','',false); ?>
           <p><i class="detail_type_note"><?php echo html_entity_decode($detail_types[0]['note']); ?></i></p>
         <?php echo render_input('name','name'); ?>

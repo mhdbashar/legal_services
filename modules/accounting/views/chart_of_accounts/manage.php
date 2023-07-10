@@ -11,6 +11,16 @@
             <a href="<?php echo admin_url('accounting/accounts_import'); ?>" class="btn btn-success mbot15 <?php if(!has_permission('accounting_chart_of_accounts', '', 'create')){echo 'hide';} ?>"><?php echo _l('import_account'); ?></a>
           </div>
           <div class="row">
+
+
+
+
+
+
+
+
+
+
             <div class="col-md-3">
               <?php echo render_select('ft_account',$accounts,array('id','name', 'account_type_name'),'acc_account', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
             </div>
@@ -23,7 +33,20 @@
             <div class="col-md-3">
               <?php echo render_select('ft_detail_type',$detail_types,array('id','name'),'detail_type', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
             </div>
-            <div class="col-md-3">
+              <div class="col-md-3">
+                  <?php echo render_select('account_type_master1',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+              </div>
+              <div class="col-md-3">
+              <label for=""
+                     class="control-label"><?php echo _l('account_type'); ?></label>
+              <select class="form-control custom_select_arrow" id="account_type_id1"
+                      name="account_type_id1"
+                      placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                  <option selected disabled></option>
+              </select>
+              </div>
+
+              <div class="col-md-3">
               <?php $active = [ 
                     1 => ['id' => 'all', 'name' => _l('all')],
                     2 => ['id' => 'yes', 'name' => _l('is_active_export')],

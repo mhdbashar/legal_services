@@ -328,7 +328,7 @@ add_option('acc_pur_payment_automatic_conversion', 1);
 add_option('acc_pur_payment_payment_account', 16);
 add_option('acc_pur_payment_deposit_to', 37);
 
-//Version 1.0.8
+//Version 1.1.8
 
 if (!$CI->db->table_exists(db_prefix() . 'acc_budgets')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "acc_budgets` (

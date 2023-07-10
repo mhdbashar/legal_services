@@ -731,6 +731,9 @@ class Accounting extends AdminController
         $data['account_types'] = $this->accounting_model->get_account_types();
         $data['detail_types'] = $this->accounting_model->get_account_type_details();
         $data['accounts'] = $this->accounting_model->get_accounts();
+
+        $data['account_types_after_sorting'] = $this->accounting_model->get_account_types_after_sorting(3);
+
         $this->load->view('chart_of_accounts/manage', $data);
     }
 
@@ -907,6 +910,27 @@ class Accounting extends AdminController
                     array_push($where, 'AND active = 0');
                 }
             }
+
+            if ($this->input->post('account_type_master1')) {
+                $account_types_master= $this->input->post('account_type_master1');
+                $accounts = $this->accounting_model->get_account_types_after_sorting($account_types_master);
+                $accounts_id=[];
+                foreach ($accounts as $account)
+                {
+                    array_push($accounts_id,  $account['id']);
+
+                }
+
+                array_push($where, 'AND account_type_id IN (' . implode(', ', $accounts_id) . ')');
+
+            }
+
+            if ($this->input->post('account_type_id1')) {
+                $account_type_id= $this->input->post('account_type_id1');
+                array_push($where, 'AND account_type_id =' . $account_type_id );
+
+            }
+
             if ($this->input->post('ft_account')) {
                 $ft_account = $this->input->post('ft_account');
                 array_push($where, 'AND id IN (' . implode(', ', $ft_account) . ')');

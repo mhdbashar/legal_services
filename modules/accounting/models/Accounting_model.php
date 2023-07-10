@@ -44,6 +44,11 @@ class Accounting_model extends App_Model
                 'name'           => _l('acc_income'),
                 'order'          => 5,
             ],
+            [
+                'id'             => 6,
+                'name'           => _l('all'),
+                'order'          => 6,
+            ],
 
         ]);
 
@@ -171,6 +176,87 @@ class Accounting_model extends App_Model
                 ],
 
             ];
+        }
+
+        else if ($id ==6) {
+            $account_types = [
+                [
+                    'id'             => 1,
+                    'name'           => _l('acc_accounts_receivable'),
+                    'order'          => 1,
+                ],
+                [
+                    'id'             => 2,
+                    'name'           => _l('acc_current_assets'),
+                    'order'          => 2,
+                ],
+                [
+                    'id'             => 3,
+                    'name'           => _l('acc_cash_and_cash_equivalents'),
+                    'order'          => 3,
+                ],
+                [
+                    'id'             => 4,
+                    'name'           => _l('acc_fixed_assets'),
+                    'order'          => 4,
+                ],
+                [
+                    'id'             => 5,
+                    'name'           => _l('acc_non_current_assets'),
+                    'order'          => 5,
+                ],
+                [
+                    'id'             => 6,
+                    'name'           => _l('acc_accounts_payable'),
+                    'order'          => 6,
+                ],
+                [
+                    'id'             => 7,
+                    'name'           => _l('acc_credit_card'),
+                    'order'          => 7,
+                ],
+                [
+                    'id'             => 8,
+                    'name'           => _l('acc_current_liabilities'),
+                    'order'          => 8,
+                ],
+                [
+                    'id'             => 9,
+                    'name'           => _l('acc_non_current_liabilities'),
+                    'order'          => 9,
+                ],
+                [
+                    'id'             => 10,
+                    'name'           => _l('acc_owner_equity'),
+                    'order'          => 10,
+                ],
+                [
+                    'id'             => 11,
+                    'name'           => _l('acc_income'),
+                    'order'          => 11,
+                ],
+                [
+                    'id'             => 12,
+                    'name'           => _l('acc_other_income'),
+                    'order'          => 12,
+                ],
+                [
+                    'id'             => 13,
+                    'name'           => _l('acc_cost_of_sales'),
+                    'order'          => 13,
+                ],
+                [
+                    'id'             => 14,
+                    'name'           => _l('acc_expenses'),
+                    'order'          => 14,
+                ],
+                [
+                    'id'             => 15,
+                    'name'           => _l('acc_other_expense'),
+                    'order'          => 15,
+                ],
+            ];
+
         }
 
 

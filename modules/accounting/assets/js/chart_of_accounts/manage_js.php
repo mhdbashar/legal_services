@@ -84,6 +84,7 @@
 
             $('select[name="parent_account"]').val('').change();
 
+
             $('input[name="name"]').val('');
             $('input[name="balance"]').val('');
             $('input[name="balance_as_of"]').val('');
@@ -375,6 +376,7 @@
 
 
         $('select[name="account_type_id"]').html('');
+        $('select[name="parent_account"]').html('');
 
 
 
@@ -387,11 +389,19 @@
                     value: '',
                     text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
                 }));
+                $('select[name="parent_account"]').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
                 response = JSON.parse(data);
 
                 console.log(response);
                 $.each(response, function (key, value) {
                     $('select[name="account_type_id"]').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                    $('select[name="parent_account"]').append($('<option>', {
                         value: value['id'],
                         text: value['name']
                     }));

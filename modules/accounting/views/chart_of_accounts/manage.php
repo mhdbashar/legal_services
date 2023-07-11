@@ -116,7 +116,14 @@
         <?php if(get_option('acc_enable_account_numbers') == 1){
            echo render_input('number','number'); 
         } ?>
-        <?php echo render_select('parent_account',$accounts,array('id','name'),'parent_account'); ?>
+          <label for=""
+                 class="control-label"><?php echo _l('account_type'); ?></label>
+          <select class="form-control custom_select_arrow" id="parent_account"
+                  name="parent_account"
+                  placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+              <option selected disabled></option>
+          </select>
+        <?php //echo render_select('parent_account',$accounts,array('id','name'),'parent_account'); ?>
         <div class="row hide" id="div_balance">
           <div class="col-md-6">
           <?php echo render_input('balance','balance','','text', $arrAtt); ?>

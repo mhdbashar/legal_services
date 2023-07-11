@@ -109,6 +109,10 @@
         $('select[name="account_detail_type_id"]').html(html);
         $('select[name="account_detail_type_id"]').selectpicker('refresh');
 
+        $('select[name="parent_account"]').html(html);
+        $('select[name="parent_account"]').selectpicker('refresh');
+
+
         $.each(list_account_type_details, function( index, value ) {
             if(value.id == $('select[name="account_detail_type_id"]').val()){
                 $('.detail_type_note').html(value.note);
@@ -139,6 +143,9 @@
 
             $('select[name="account_detail_type_id"]').html(html);
             $('select[name="account_detail_type_id"]').selectpicker('refresh');
+            $('select[name="parent_account"]').html(html);
+            $('select[name="parent_account"]').selectpicker('refresh');
+
 
             $.each(list_account_type_details, function( index, value ) {
                 if(value.id == $('select[name="account_detail_type_id"]').val()){

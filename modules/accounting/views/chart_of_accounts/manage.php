@@ -116,8 +116,8 @@
         <?php if(get_option('acc_enable_account_numbers') == 1){
            echo render_input('number','number'); 
         } ?>
-        <?php echo render_select('parent_account',$accounts,array('id','name'),'parent_account'); ?>
-        <div class="row hide" id="div_balance">
+          <?php echo render_select('parent_account',$detail_types,array('id','name'),'parent_account','',array(),array(),'','',false); ?>
+         <div class="row hide" id="div_balance">
           <div class="col-md-6">
           <?php echo render_input('balance','balance','','text', $arrAtt); ?>
           </div>

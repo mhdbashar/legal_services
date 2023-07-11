@@ -117,7 +117,7 @@
            echo render_input('number','number'); 
         } ?>
           <label for=""
-                 class="control-label"><?php echo _l('account_type'); ?></label>
+                 class="control-label"><?php echo _l('parent_account'); ?></label>
           <select class="form-control custom_select_arrow" id="parent_account"
                   name="parent_account"
                   placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">

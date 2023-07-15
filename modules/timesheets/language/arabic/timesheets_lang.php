@@ -847,6 +847,10 @@ $lang['Tuesday'] = 'الثلاثاء';
 $lang['Wednesday'] = 'الأربعاء';
 $lang['Thursday'] = 'الخميس';
 $lang['Friday'] = 'الجمعة';
+$lang['From Date'] = ' التاريخ';
+$lang['From Time'] = ' الوقت';
+
+
 
 
 

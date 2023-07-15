@@ -1867,7 +1867,7 @@ class timesheets_model extends app_model
                     if(!$check_latch_timesheet){
                         $staffid = $requisition_leave->staff_id;
                         // Get current hour in shift
-                        $shift_info = $this->get_info_hour_shift_staff($staffid, date('Y-m-d', strtotime($start_time)));
+                        $shift_info = $this->get_info_hour_shift_staff($staffid, date('Y-m-d ', strtotime($start_time)));
                         if($shift_info->end_working != ''){
                             // Caculate hour
                             $value_ts = $this->get_hour($shift_info->end_working, date('H:i:s', strtotime($start_time)));
@@ -1875,7 +1875,7 @@ class timesheets_model extends app_model
                                 // Save to timesheets
                                 $this->db->insert(db_prefix().'timesheets_timesheet',[
                                     'staff_id' => $staffid,
-                                    'date_work' => date('Y-m-d', strtotime($start_time)),
+                                    'date_work' => date('Y-m-d H:i:s', strtotime($start_time)),
                                     'value' => $value_ts,
                                     'add_from' => $staffid,
                                     'relate_id' => $rel_id,
@@ -6434,7 +6434,7 @@ class timesheets_model extends app_model
             $this->db->where('date_work', $date_work);
         }
         else{
-            $this->db->where('date_work', date('Y-m-d'));
+            $this->db->where('date_work', date('Y-m-d '));
         }
         $this->db->order_by('order','ASC');
         return $this->db->get(db_prefix().'timesheets_route')->result_array();

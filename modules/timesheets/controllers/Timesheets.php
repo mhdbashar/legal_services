@@ -688,15 +688,18 @@ public function add_requisition_ajax(){
 		$data = $this->input->post();
 		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
-			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time']);
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
 		}
 		else{
-			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
+			// $data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
 		}
 
 		unset($data['start_time_s']);
+    unset($data['start_time_s_time']);
 		unset($data['end_time_s']);
 		if(!isset($data['staff_id'])){
 			$data['staff_id'] = get_staff_user_id();

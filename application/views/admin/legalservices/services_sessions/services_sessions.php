@@ -1,13 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php if (has_permission('sessions', '', 'create')) { ?>
-    <a href="#" onclick="new_session_from_relation(undefined,'<?php echo $service->slug; ?>',<?php echo $rel_id; ?>); return false;" class="btn btn-info"><?php echo _l('add_new_session'); ?></a>
+<a href="#"
+    onclick="new_session_from_relation(undefined,'<?php echo $service->slug; ?>',<?php echo $rel_id; ?>); return false;"
+    class="btn btn-info"><?php echo _l('add_new_session'); ?></a>
 <?php } ?>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />
 <div class="horizontal-scrollable-tabs preview-tabs-top">
     <div class="horizontal-tabs">
         <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
-            <li role="presentation" class="active" >
+            <li role="presentation" class="active">
                 <a href="#Waiting_sessions" aria-controls="Waiting_sessions" role="tab" data-toggle="tab">
                     <?php echo _l('Waiting_sessions'); ?>
                 </a>
@@ -38,7 +40,7 @@
 //            _l('Customer_report'),
 //            _l('Send_to_customer'),
             _l('session_date'),
-            _l('session_time'),
+            // _l('session_time'),
         ];
         $table_attributes['data-new-rel-slug'] = $service->slug;
         $custom_fields = get_custom_fields('sessions', [
@@ -84,21 +86,19 @@
 </div>
 
 <script type="text/javascript">
-
-
-    function send_report(task_id) {
-        $.ajax({
-            url: '<?php echo admin_url("legalservices/sessions/send_report_to_customer/"); ?>' + task_id,
-            success: function (data) {
-                if(data == 1){
-                    alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
-                    reload_tasks_tables();
-                } else if (data == 'error_client') {
-                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
-                }else {
-                    alert_float('danger', '<?php echo _l('Faild'); ?>');
-                }
+function send_report(task_id) {
+    $.ajax({
+        url: '<?php echo admin_url("legalservices/sessions/send_report_to_customer/"); ?>' + task_id,
+        success: function(data) {
+            if (data == 1) {
+                alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
+                reload_tasks_tables();
+            } else if (data == 'error_client') {
+                alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+            } else {
+                alert_float('danger', '<?php echo _l('Faild'); ?>');
             }
-        });
-    }
+        }
+    });
+}
 </script>

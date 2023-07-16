@@ -27,8 +27,7 @@ $aColumns = [
     //'session_information',
 //    'customer_report',
 //    'send_to_customer',
-    'startdate',
-    'TIME_FORMAT(time, ' . $format . ') as time',
+    'CONCAT(startdate, " ", TIME_FORMAT(time, ' . $format . ')) as startdate',
 ];
 
 $sIndexColumn = 'id';
@@ -175,11 +174,11 @@ foreach ($rResult as $aRow) {
 //    $row[] = $send;
     // startdate
 
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+    $row[] = $aRow['startdate']; //$CI->app_modules->is_active('hijri') ? _d() . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 
 
     // ~startdate
-    $row[] = $aRow['time'];
+//    $row[] = $aRow['time'];
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

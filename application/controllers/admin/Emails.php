@@ -158,6 +158,11 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        $data['procuration'] = $this->emails_model->get([
+            'type'     => 'procuration',
+            'language' => $lang,
+        ]);
+
 
 
 

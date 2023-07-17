@@ -69,7 +69,7 @@
             _l('Customer_report'),
             _l('Send_to_customer'),
             _l('session_date'),
-            _l('session_time'),
+            // _l('session_time'),
             _l('Customer_report'),
         ];
         $table_attributes['data-new-rel-slug'] = $service->slug;

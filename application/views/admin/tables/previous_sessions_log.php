@@ -179,7 +179,7 @@ foreach ($rResult as $aRow) {
 
     // startdate
 
-    $row[] = $aRow['startdate']; //$CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 
 
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0) {

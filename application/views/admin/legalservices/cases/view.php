@@ -34,13 +34,13 @@ if ($time_format === '24') {
                                 </div>
                                 <?php if(!empty($linked_services)){ ?>
                                     <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
-                                            <?php echo _l('linked_services'); ?>
+                                        <?php echo _l('linked_services'); ?>
                                     </div>
                                 <?php } ?>
                                 <?php if(isset($project->previous_case_id) && $project->previous_case_id != 0): ?>
-                                <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
-                                    <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
-                                </h4>
+                                    <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
+                                        <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
+                                    </h4>
                                 <?php endif; ?>
                             </div>
                             <div class="col-md-5 text-right">
@@ -66,9 +66,9 @@ if ($time_format === '24') {
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                                         <li>
-                                             <a href="#" onclick="link_service(); return false;">
-                                             <?php echo _l('link_service'); ?>
-                                             </a>
+                                            <a href="#" onclick="link_service(); return false;">
+                                                <?php echo _l('link_service'); ?>
+                                            </a>
                                         </li>
                                         <li>
                                             <a href="<?php echo admin_url('legalservices/cases/pin_action/'.$project->id); ?>">
@@ -124,74 +124,82 @@ if ($time_format === '24') {
                     </div>
                 </div>
 
-                 <?php
-                 $staff_id = get_staff_user_id();
-                 $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
-                 $staff_alarm=0;
-                 foreach ($assignees as $member) {
+                <?php
+                $staff_id = get_staff_user_id();
+                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                $staff_alarm=0;
+                foreach ($assignees as $member) {
                     if($staff_id==$member->staff_id)
                     {
                         $staff_alarm=1;
                     }
-                 }
-                 if($staff_alarm==1)
-                 {
-                 $case_durations = get_case_durations_by_case_id($project->id);
-                 foreach($case_durations as $case_duration){ ?>
-                     <?php
-                     $duration= get_duration_by_id($case_duration['reg_id']);
-                     if( $case_duration['regular_header'] == 1)
-                     {
-                         if($case_duration['end_date'] < date('Y-m-d'))
-                         {
-                             $this->db->where('id',$case_duration['id'] );
-                             $this->db->update(db_prefix() . 'cases_regular_durations', ['regular_header' => 0,]);
-                         }
-                         if($case_duration['dur_alert_close'] < date('Y-m-d'))
-                         { ?>
-                             <div  id="alert_dur_div" class="alert alert-warning" font-medium="">
-                                 <button type="button"  id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
-                                     <span aria-hidden="true">×</span>
-                                 </button>
-                                 <h4><b><?php echo _l('Regular_duration_Reminder') ?></b>!</h4><hr class="hr-10">
-                                 <?php echo _l('remember that') ?> <b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b>
-                                 <?php echo _l('which started at') ?>
-                                 <b> <?php echo $case_duration['start_date']  ?> </b>
-                                 <?php echo _l('will end at') ?><b><?php echo $case_duration['end_date'] ;?></b>
-                             </div>
-
-                         <?php } ?>
-                     <?php } ?>
-                 <?php } ?>
-
-
-                <?php
-                $case_procurations = get_case_procurations_by_case_id($project->id);
-                foreach($case_procurations as $case_procuration){ ?>
-                    <?php
-                    $procuration= get_procuration_by_id($case_procuration['procuration']);
-                    if( $case_procuration['proc_header'] == 1)
+                }
+                if($staff_alarm==1)
+                {
+                    $case_durations = get_case_durations_by_case_id($project->id);
+                    if ($case_durations)
                     {
-                        if($procuration->end_date < date('Y-m-d'))
-                        {
-                            $this->db->where('id',$case_procuration['id'] );
-                            $this->db->update(db_prefix() . 'procuration_cases', ['proc_header' => 0,]);
-                        }
-                        if($case_procuration['proc_alert_close'] < date('Y-m-d'))
-                        { ?>
-                            <div  id="alert_proc_div" class="alert alert-warning" font-medium="">
-                                <button type="button"  id="close_alert_proc_button" class="close" data-dismiss="modal" aria-label="Close"  >
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                <h4><b><?php echo _l('Procuration_Reminder') ?></b>!</h4><hr class="hr-10">
-                                <?php echo _l('remember_that_procuration') ?> <b><?php echo get_procuration_name_by_id($procuration->id); ?></b>
-                                <?php echo _l('which started at') ?>
-                                <b> <?php echo $procuration->start_date  ?> </b>
-                                <?php echo _l('will end at') ?><b><?php echo $procuration->end_date ;?></b>
-                            </div>
+                        foreach($case_durations as $case_duration){ ?>
+                            <?php
+                            $duration= get_duration_by_id($case_duration['reg_id']);
+                            if( $case_duration['regular_header'] == 1)
+                            {
+                                if($case_duration['end_date'] < date('Y-m-d'))
+                                {
+                                    $this->db->where('id',$case_duration['id'] );
+                                    $this->db->update(db_prefix() . 'cases_regular_durations', ['regular_header' => 0,]);
+                                }
+                                if($case_duration['dur_alert_close'] < date('Y-m-d'))
+                                { ?>
+                                    <div  id="<?php echo $case_duration['id']; ?>" class="alert alert-warning" font-medium="">
+
+                                        <button type="button"  onclick="close_alert_button(<?php echo $case_duration['id']; ?>); return false;" id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close"  >
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4><b><?php echo _l('Regular_duration_Reminder') ?></b>!</h4><hr class="hr-10">
+                                        <?php echo _l('remember that') ?> <b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b>
+                                        <?php echo _l('which started at') ?>
+                                        <b> <?php echo $case_duration['start_date']  ?> </b>
+                                        <?php echo _l('will end at') ?><b><?php echo $case_duration['end_date'] ;?></b>
+                                    </div>
+
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } } ?>
 
 
-                <?php }}}} ?>
+
+
+                    <?php
+                    $case_procurations = get_case_procurations_by_case_id($project->id);
+                    if($case_procurations){
+                        foreach($case_procurations as $case_procuration){ ?>
+                            <?php
+                            $procuration= get_procuration_by_id($case_procuration['procuration']);
+                            if( $case_procuration['proc_header'] == 1)
+                            {
+                                if($procuration->end_date < date('Y-m-d'))
+                                {
+                                    $this->db->where('id',$case_procuration['id'] );
+                                    $this->db->update(db_prefix() . 'procuration_cases', ['proc_header' => 0,]);
+                                }
+                                if($case_procuration['proc_alert_close'] < date('Y-m-d'))
+                                { ?>
+                                    <div  id="<?php echo $case_procuration['id']; ?>"  class="alert alert-warning" font-medium="">
+                                        <button type="button" onclick="close_alert_proc_button(<?php echo $case_procuration['id']; ?>); return false;" id="close_alert_proc_button" class="close" data-dismiss="modal" aria-label="Close"  >
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4><b><?php echo _l('Procuration_Reminder') ?></b>!</h4><hr class="hr-10">
+                                        <?php echo _l('remember_that_procuration') ?> <b><?php echo get_procuration_name_by_id($procuration->id); ?></b>
+                                        <?php echo _l('which started at') ?>
+                                        <b> <?php echo $procuration->start_date  ?> </b>
+                                        <?php echo _l('will end at') ?><b><?php echo $procuration->end_date ;?></b>
+                                    </div>
+
+
+                                <?php }}}} } ?>
+
+
 
 
 
@@ -206,7 +214,7 @@ if ($time_format === '24') {
 
                 <?php // if(has_permission('tasks','','create')) {?>
 
-                        <?php // } ?>
+                <?php // } ?>
 
 
                 <div class="panel_s project-menu-panel">
@@ -298,116 +306,116 @@ echo form_hidden('project_percent',$percent);
     function discussion_comments_case(selector,discussion_id,discussion_type){
         var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_case_discussions_language_array()); ?>);
         var options = {
-      // https://github.com/Viima/jquery-comments/pull/169
-      wysiwyg_editor: {
-            opts: {
-                enable: true,
-                is_html: true,
-                container_id: 'editor-container',
-                comment_index: 0,
-            },
-            init: function (textarea, content) {
-                var comment_index = textarea.data('comment_index');
-                 var editorConfig = _simple_editor_config();
-                 editorConfig.setup = function(ed) {
-                      textarea.data('wysiwyg_editor', ed);
+            // https://github.com/Viima/jquery-comments/pull/169
+            wysiwyg_editor: {
+                opts: {
+                    enable: true,
+                    is_html: true,
+                    container_id: 'editor-container',
+                    comment_index: 0,
+                },
+                init: function (textarea, content) {
+                    var comment_index = textarea.data('comment_index');
+                    var editorConfig = _simple_editor_config();
+                    editorConfig.setup = function(ed) {
+                        textarea.data('wysiwyg_editor', ed);
 
-                      ed.on('change', function() {
-                          var value = ed.getContent();
-                          if (value !== ed._lastChange) {
-                            ed._lastChange = value;
-                            textarea.trigger('change');
-                          }
-                      });
+                        ed.on('change', function() {
+                            var value = ed.getContent();
+                            if (value !== ed._lastChange) {
+                                ed._lastChange = value;
+                                textarea.trigger('change');
+                            }
+                        });
 
-                      ed.on('keyup', function() {
-                        var value = ed.getContent();
-                          if (value !== ed._lastChange) {
-                            ed._lastChange = value;
-                            textarea.trigger('change');
-                          }
-                      });
+                        ed.on('keyup', function() {
+                            var value = ed.getContent();
+                            if (value !== ed._lastChange) {
+                                ed._lastChange = value;
+                                textarea.trigger('change');
+                            }
+                        });
 
-                      ed.on('Focus', function (e) {
-                        setTimeout(function(){
-                          textarea.trigger('click');
-                        }, 500)
-                      });
+                        ed.on('Focus', function (e) {
+                            setTimeout(function(){
+                                textarea.trigger('click');
+                            }, 500)
+                        });
 
-                      ed.on('init', function() {
-                        if (content) ed.setContent(content);
+                        ed.on('init', function() {
+                            if (content) ed.setContent(content);
 
-                        if ($('#mention-autocomplete-css').length === 0) {
-                              $('<link>').appendTo('head').attr({
-                                 id: 'mention-autocomplete-css',
-                                 type: 'text/css',
-                                 rel: 'stylesheet',
-                                 href: site_url + 'assets/plugins/tinymce/plugins/mention/autocomplete.css'
-                              });
-                           }
+                            if ($('#mention-autocomplete-css').length === 0) {
+                                $('<link>').appendTo('head').attr({
+                                    id: 'mention-autocomplete-css',
+                                    type: 'text/css',
+                                    rel: 'stylesheet',
+                                    href: site_url + 'assets/plugins/tinymce/plugins/mention/autocomplete.css'
+                                });
+                            }
 
-                           if ($('#mention-css').length === 0) {
-                              $('<link>').appendTo('head').attr({
-                                 type: 'text/css',
-                                 id: 'mention-css',
-                                 rel: 'stylesheet',
-                                 href: site_url + 'assets/plugins/tinymce/plugins/mention/rte-content.css'
-                              });
-                           }
-                      })
-                  }
+                            if ($('#mention-css').length === 0) {
+                                $('<link>').appendTo('head').attr({
+                                    type: 'text/css',
+                                    id: 'mention-css',
+                                    rel: 'stylesheet',
+                                    href: site_url + 'assets/plugins/tinymce/plugins/mention/rte-content.css'
+                                });
+                            }
+                        })
+                    }
 
-                  editorConfig.plugins[0] += ' mention';
-                  editorConfig.content_style = 'span.mention {\
+                    editorConfig.plugins[0] += ' mention';
+                    editorConfig.content_style = 'span.mention {\
                      background-color: #eeeeee;\
                      padding: 3px;\
                   }';
-                  var projectUserMentions = [];
-                  editorConfig.mentions = {
-                     source: function (query, process, delimiter) {
-                           if (projectUserMentions.length < 1) {
-                              $.getJSON(admin_url + 'legalservices/cases/get_staff_names_for_mentions/' + project_id, function (data) {
-                                 projectUserMentions = data;
-                                 process(data)
-                              });
-                           } else {
-                              process(projectUserMentions)
-                           }
-                     },
-                     insert: function(item) {
-                           return '<span class="mention" contenteditable="false" data-mention-id="'+ item.id + '">@'
-                           + item.name + '</span>&nbsp;';
-                     }
-                  };
+                    var projectUserMentions = [];
+                    editorConfig.mentions = {
+                        source: function (query, process, delimiter) {
+                            if (projectUserMentions.length < 1) {
+                                $.getJSON(admin_url + 'legalservices/cases/get_staff_names_for_mentions/' + project_id, function (data) {
+                                    projectUserMentions = data;
+                                    process(data)
+                                });
+                            } else {
+                                process(projectUserMentions)
+                            }
+                        },
+                        insert: function(item) {
+                            return '<span class="mention" contenteditable="false" data-mention-id="'+ item.id + '">@'
+                                + item.name + '</span>&nbsp;';
+                        }
+                    };
 
-                var containerId = this.get_container_id(comment_index);
-                tinyMCE.remove('#'+containerId);
+                    var containerId = this.get_container_id(comment_index);
+                    tinyMCE.remove('#'+containerId);
 
-                setTimeout(function(){
-                  init_editor('#'+ containerId, editorConfig)
-                },100)
-            },
-            get_container: function (textarea) {
-                if (!textarea.data('comment_index')) {
-                    textarea.data('comment_index', ++this.opts.comment_index);
+                    setTimeout(function(){
+                        init_editor('#'+ containerId, editorConfig)
+                    },100)
+                },
+                get_container: function (textarea) {
+                    if (!textarea.data('comment_index')) {
+                        textarea.data('comment_index', ++this.opts.comment_index);
+                    }
+
+                    return $('<div/>', {
+                        'id': this.get_container_id(this.opts.comment_index)
+                    });
+                },
+                get_contents: function(editor) {
+                    return editor.getContent();
+                },
+                on_post_comment: function(editor, evt) {
+                    editor.setContent('');
+                },
+                get_container_id: function(comment_index) {
+                    var container_id = this.opts.container_id;
+                    if (comment_index) container_id = container_id + "-" + comment_index;
+                    return container_id;
                 }
-
-                return $('<div/>', {
-                    'id': this.get_container_id(this.opts.comment_index)
-                });
             },
-            get_contents: function(editor) {
-               return editor.getContent();
-            },
-            on_post_comment: function(editor, evt) {
-               editor.setContent('');
-            },
-            get_container_id: function(comment_index) {
-              var container_id = this.opts.container_id;
-              if (comment_index) container_id = container_id + "-" + comment_index;
-              return container_id;
-            }
-        },
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {
                 $.get(admin_url + 'legalservices/cases/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
@@ -535,11 +543,11 @@ echo form_hidden('project_percent',$percent);
             $.ajax({
                 url: '<?php echo admin_url('legalservices/cases/add_task_to_select_timesheet'); ?>',
                 data: {
-                        name : name,
-                        startdate: startdate,
-                        rel_id: rel_id,
-                        rel_type: rel_type
-                      },
+                    name : name,
+                    startdate: startdate,
+                    rel_id: rel_id,
+                    rel_type: rel_type
+                },
                 type: "POST",
                 success: function (data) {
                     if(data){
@@ -569,30 +577,29 @@ echo form_hidden('project_percent',$percent);
 
 </script>
 <script>
-    $("#close_alert_button").click(function ()
+    function close_alert_button (case_reg_id)
     {
-        var id = '<?php echo $case_duration['id'];?>';
-
-
-        $('#alert_dur_div').hide();
+        var id = case_reg_id;
+        console.log(id);
+        var content = document.getElementById(case_reg_id);
+        $(content).hide();
         $.ajax({
             url: '<?php echo admin_url('legalservices/Regular_durations/dur_alert_close/'); ?>'  + id,
         });
 
-    });
+    }
 
-    $("#close_alert_proc_button").click(function ()
+    function close_alert_proc_button(case_proc_id)
     {
-        $('#alert_proc_div').hide();
-        var id1 = '<?php echo $case_procuration['id'];?>';
-
+        var id1 = case_proc_id;
+        console.log(id1);
+        var content = document.getElementById(case_proc_id);
+        $(content).hide();
         $.ajax({
-            url: '<?php echo admin_url('procuration/proc_alert_close/'); ?>'  + id1,
-
-
+            url: '<?php echo admin_url('Procuration/proc_alert_close/'); ?>'  + id1,
         });
 
-    });
+    }
 
 
 

@@ -22,14 +22,14 @@ if ($time_format === '24') {
 $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
-    db_prefix() . 'tasks.status as status',
+    // db_prefix() . 'tasks.status as status',
     //db_prefix() . 'my_judges.name as judge',
     get_sql_select_session_asignees_full_names() . ' as assignees',
 //    'TIME_FORMAT(time, ' . $format . ') as time',
     'court_name',
-    'CONCAT(startdate, " ", TIME_FORMAT(time, ' . $format . ')) as startdate',
     'customer_report',
     'send_to_customer',
+    'CONCAT(startdate, " ", TIME_FORMAT(time, ' . $format . ')) as startdate',
 ];
 
 //$additionalSelect = [
@@ -103,6 +103,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     '(SELECT MAX(id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . db_prefix() . 'tasks.id and staff_id=' . get_staff_user_id() . ' and end_time IS NULL) as not_finished_timer_by_current_staff',
     '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned',
     '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
+    db_prefix() . 'tasks.status as status'
 ]);
 
 $output  = $result['output'];
@@ -178,7 +179,7 @@ foreach ($rResult as $aRow) {
 
     // startdate
 
-    $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
+    $row[] = $aRow['startdate']; //$CI->app_modules->is_active('hijri') ? _d($aRow['startdate']) . '<br>' . to_hijri_date(_d($aRow['startdate'])) : _d($aRow['startdate']);
 
 
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0) {
@@ -214,4 +215,3 @@ foreach ($rResult as $aRow) {
     $output['aaData'][] = $row;
     $i++;
 }
-

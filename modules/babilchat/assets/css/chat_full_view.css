@@ -3713,7 +3713,7 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
     body.Babilchat_Controller .contact_name_placeholder span span.pull-left {
         position: relative;
         top: -15px;
-        left: 30px;
+        right: 30px;
     }
     body #frame .customers_toggler {
         margin: 1px;
@@ -3970,4 +3970,7 @@ body.Babilchat_Controller #frame .client_data span.contact_lang {
 }
 #frame .chat_groups_list .leave_chat_group {
     left: 25px !important;
+}
+.rtl #frame p {
+    direction: rtl;
 }

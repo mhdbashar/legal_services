@@ -1,7 +1,6 @@
 /* Chat Dark theme */
 
 #frame {
-    font-family: Roboto, Helvetica Neue, Segoe UI, Helvetica, Arial, sans-serif !important;
     width: 100%;
     min-width: 360px;
     background: #ffffff;
@@ -428,7 +427,7 @@ body #frame #no_messages {
 
 body #frame .contact-profile a.actionTask.clients i {
     position: absolute;
-    left: 0px;
+    right: 30px;
     top: 19px;
     background: #2b2f38;
     padding: 4px;
@@ -2188,7 +2187,7 @@ svg {
 }
 
 #frame #sidepanel .nav-tabs > li {
-    width: 33.3%;
+    /* width: 33.3%;*/
     display: flex;
     text-align: center;
     justify-content: center;
@@ -4178,4 +4177,22 @@ body.Babilchat_Controller #frame .client_data span.contact_lang {
 }
 .rtl #frame p {
     direction: rtl;
+}
+/*
+body #frame .contact-profile a.actionTask.clients i {
+  
+    right: 30px !important;
+
+}
+*/
+#frame #color-text-in-light {
+    color: white !important;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-right::after {
+    float: left;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-default::after {
+    float: left !important;
 }

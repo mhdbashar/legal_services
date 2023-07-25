@@ -1,7 +1,6 @@
 /* Chat Light theme */
 
 #frame {
-    font-family: Roboto, Helvetica Neue, Segoe UI, Helvetica, Arial, sans-serif !important;
     width: 100%;
     min-width: 360px;
     background: #ffffff;
@@ -433,7 +432,7 @@ body #frame #mainFilterDiv .btn_filter {
 
 body #frame .contact-profile a.actionTask.clients i {
     position: absolute;
-    left: 0px;
+    right: 30px;
     top: 19px;
     background: #dce3ec;
     padding: 4px;
@@ -2171,7 +2170,7 @@ svg {
 }
 
 #frame #sidepanel .nav-tabs > li {
-    width: 33.3%;
+    /* width: 33.3%;*/
     display: flex;
     text-align: center;
     justify-content: center;
@@ -3973,4 +3972,12 @@ body.Babilchat_Controller #frame .client_data span.contact_lang {
 }
 .rtl #frame p {
     direction: rtl;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-right::after {
+    float: left;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-default::after {
+    float: left !important;
 }

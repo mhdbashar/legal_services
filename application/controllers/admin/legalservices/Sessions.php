@@ -2049,13 +2049,13 @@ $send_mail_to_client=$data['send_mail_to_client'];
                     $contacts = 1;
                 }
             }else {
-                if($send_mail_to_client== 'true') {
+                if($send_mail_to_client== 'false') {
                     $this->db->where('userid', $client_id);
                     $this->db->where('active', 1);
                     $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
                 }
             }
-            if($send_mail_to_client== 'true') {
+            if($send_mail_to_client== 'false') {
                 if ($contacts == 0) {
                     echo 'error_client'; // This client doesn't have primary contact
                     die();
@@ -2082,7 +2082,7 @@ $send_mail_to_client=$data['send_mail_to_client'];
             if($success) {
                 $session = $this->sessions_model->get($id);
 
-                if($send_mail_to_client == 'true') {
+                if($send_mail_to_client == 'false') {
                     foreach ($session->followers_ids as $staff_id) {
                         if (get_staff_user_id() != $staff_id) {
                             send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);

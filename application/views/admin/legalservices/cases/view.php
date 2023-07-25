@@ -650,10 +650,10 @@ echo form_hidden('project_percent',$percent);
                                         </div>
                                     </div>
                                     <div class="row">
+                                    <br>
                                         <div class="col-md-12">
-                                            <p class="bold"><?php echo _l('Court_decision')?> </p>
-                                            <textarea type="text" class="form-control" id="edit_court_decision${task_id}" name="edit_court_decision" rows="4" placeholder="<?php echo _l('Court_decision')?>"></textarea>
-                                        </div>
+                                            <p class="bold"><?php echo _l('To_add_information_in_the_report_please_click_on_the_session_title_and_complete_the_information')?> </p>
+                                              </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -662,6 +662,18 @@ echo form_hidden('project_percent',$percent);
                                                 <label for="send_mail_to_opponent"><?php echo _l('send_mail_to_opponent')?> </label>
                                             </div>
                                        </div>
+
+                                       <div class="col-md-12">
+                                          <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="send_mail_to_client" id="send_mail_to_client${task_id}">
+                                                <label for="send_mail_to_client"><?php echo _l('send_mail_to_client')?> </label>
+                                                 <p class="bold"><?php echo _l('will_not_send_email_to_client')?> </p>
+
+                                            </div>
+                                       </div>
+
+
+
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -686,19 +698,22 @@ echo form_hidden('project_percent',$percent);
     function add_report_session(task_id) {
         next_session_date = $('#next_session_date' + task_id).val();
         next_session_time = $('#next_session_time' + task_id).val();
-        court_decision = $('#edit_court_decision' + task_id).val();
+       // court_decision = $('#edit_court_decision' + task_id).val();
         session_link = $('#session_link' + task_id).val();
         send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
-        if (court_decision == '') {
-            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
-        } else {
+        send_mail_to_client = $('#send_mail_to_client' + task_id).prop("checked");
+       // if (court_decision == '') {
+           // alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+       // }
+      //  else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,
                 data: {
                     next_session_date: next_session_date,
                     next_session_time: next_session_time,
-                    court_decision: court_decision,
+                   // court_decision: court_decision,
                     send_mail_to_opponent: send_mail_to_opponent,
+                    send_mail_to_client :send_mail_to_client,
                     session_link: session_link,
                 },
                 type: "POST",
@@ -718,7 +733,7 @@ echo form_hidden('project_percent',$percent);
                     }
                 }
             });
-        }
+       // }
     }
 
     function edite_court_decision_modal(task_id) {

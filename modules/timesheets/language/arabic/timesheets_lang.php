@@ -849,6 +849,16 @@ $lang['Thursday'] = 'الخميس';
 $lang['Friday'] = 'الجمعة';
 $lang['From Date'] = ' التاريخ';
 $lang['From Time'] = ' الوقت';
+$lang['manage_depart'] = 'مدير القسم';
+$lang['manager_hr'] = 'مدير الشؤون الادارية';
+$lang['director_general'] = '  موافقة المدير العام';
+$lang['code'] = 'رمز';
+$lang['accumulative'] = 'التكرار';
+
+
+
+
+
 
 
 

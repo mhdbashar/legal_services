@@ -5155,7 +5155,6 @@ class timesheets_model extends app_model
      * @return boolean
      */
     public function add_type_of_leave($data){
-
         $allocations = $data['allocation'];
         unset($data['allocation']);
         $this->db->insert(db_prefix() . 'type_of_leave', $data);
@@ -5165,7 +5164,7 @@ class timesheets_model extends app_model
                 $this->db->insert(db_prefix() . 'type_of_leave_allocation', [
                     'percent' => $allocation['percent'],
                     'days' => $allocation['days'],
-                    'type_of_leave_id' => $insert_id
+                    'type_of_leave_id' => $insert_id,
                 ]);
             }
             return true;
@@ -5185,10 +5184,18 @@ class timesheets_model extends app_model
         if (is_numeric($id)) {
             $this->db->where('id', $id);
 
+
             return $this->db->get(db_prefix() . 'type_of_leave')->row();
         }else{
             return [];
         }
+    }
+    public function get_staff_by_id($id){
+
+      $this->db->where('staffid',$id);
+      $this->db->select("firstname,lastname");
+      return  $this->db->get("tblstaff")->row();
+
     }
 
 

@@ -1253,6 +1253,13 @@ class Cases_model extends App_Model
         return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
     }
 
+    public function get_project_members_name($id)
+    {
+
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_cases.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
     public function get_case_judges($id)
     {
         $this->db->select('my_cases_judges.*,my_judges.*');

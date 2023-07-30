@@ -666,6 +666,7 @@ class Tasks extends AdminController
 
         else{
             $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+
         }
 
 

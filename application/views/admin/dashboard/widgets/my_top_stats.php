@@ -63,12 +63,15 @@
               <div class="top_stats_wrapper">
                   <?php
                   $_where = '';
+                  $where = '';
                   $project_status = get_case_status_by_id(2);
                   if(!has_permission('projects','','view')){
                       $_where = 'id IN (SELECT project_id FROM '.db_prefix().'my_members_cases WHERE staff_id='.get_staff_user_id().')';
                   }
-                  $total_projects = total_rows(db_prefix().'my_cases',$_where);
-                  $where = ($_where == '' ? '' : $_where.' AND ').'status = 2';
+                  $where = db_prefix().'my_cases'.'.deleted = 0';
+                  $total_projects = total_rows(db_prefix().'my_cases',$where);
+                //  $where. = ($_where == '' ? '' : $_where.' AND ').'status = 2';
+                  $where .= (' AND '.db_prefix().'my_cases'.'.status = 2');
                   $total_projects_in_progress = total_rows(db_prefix().'my_cases',$where);
                   $percent_in_progress_projects = ($total_projects > 0 ? number_format(($total_projects_in_progress * 100) / $total_projects,2) : 0);
                   ?>
@@ -88,8 +91,10 @@
                   if(!has_permission('projects','','view')){
                       $_where = 'id IN (SELECT oservice_id FROM '.db_prefix().'my_members_services WHERE staff_id='.get_staff_user_id().')';
                   }
+                  $where .= (' AND '.db_prefix().'my_other_services'.'.deleted = 0');
                   $total_projects = total_rows(db_prefix().'my_other_services',$_where);
                   $where = ($_where == '' ? '' : $_where.' AND ').'status = 2';
+
                   $total_projects_in_progress = total_rows(db_prefix().'my_other_services',$where);
                   $percent_in_progress_projects = ($total_projects > 0 ? number_format(($total_projects_in_progress * 100) / $total_projects,2) : 0);
                   ?>

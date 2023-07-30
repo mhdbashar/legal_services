@@ -104,7 +104,7 @@
          <div class="quick-stats-tasks col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
             <div class="top_stats_wrapper">
                <?php
-                  $_where = '';
+                  $_where = 'is_session = 0';
                   if (!has_permission('tasks', '', 'view')) {
                     $_where = db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
                   }
@@ -124,5 +124,52 @@
                </div>
             </div>
          </div>
+        <div class="quick-stats-sessions col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
+          <div class="top_stats_wrapper">
+            <?php
+            $_where = 'is_session = 1';
+            if (!has_permission('tasks', '', 'view')) {
+              $_where = db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
+            }
+            $total_tasks = total_rows(db_prefix().'tasks',$_where);
+
+            $total_not_finished_tasks = get_count_of_watting_sessions();
+            $percent_not_finished_tasks = ($total_tasks > 0 ? number_format(($total_not_finished_tasks * 100) / $total_tasks,2) : 0);
+            ?>
+            <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-tasks"></i> <?php echo _l('Waiting_sessions'); ?> <span class="pull-right">
+                <?php echo $total_not_finished_tasks; ?> / <?php echo $total_tasks; ?>
+              </span>
+            </p>
+            <div class="clearfix"></div>
+            <div class="progress no-margin progress-bar-mini">
+              <div class="progress-bar progress-bar-default no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $percent_not_finished_tasks; ?>" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="<?php echo $percent_not_finished_tasks; ?>">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="quick-stats-sessions col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
+          <div class="top_stats_wrapper">
+            <?php
+            $_where = 'is_session = 1';
+            if (!has_permission('tasks', '', 'view')) {
+              $_where = db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
+            }
+            $total_tasks = total_rows(db_prefix().'tasks',$_where);
+
+            $total_not_finished_tasks = get_count_of_previous_sessions();
+            $percent_not_finished_tasks = ($total_tasks > 0 ? number_format(($total_not_finished_tasks * 100) / $total_tasks,2) : 0);
+            ?>
+            <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-tasks"></i> <?php echo _l('Previous_Sessions'); ?> <span class="pull-right">
+                <?php echo $total_not_finished_tasks; ?> / <?php echo $total_tasks; ?>
+              </span>
+            </p>
+            <div class="clearfix"></div>
+            <div class="progress no-margin progress-bar-mini">
+              <div class="progress-bar progress-bar-default no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $percent_not_finished_tasks; ?>" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="<?php echo $percent_not_finished_tasks; ?>">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
    </div>

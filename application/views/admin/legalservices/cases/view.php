@@ -96,13 +96,13 @@ if ($time_format === '24') {
                                             </a>
                                         </li>
                                         <?php } ?>
-                                        <?php if(has_permission('projects','','create')){ ?>
-                                        <li>
-                                            <a href="#" onclick="copy_project(); return false;">
-                                                <?php echo _l('copy_project'); ?>
-                                            </a>
-                                        </li>
-                                        <?php } ?>
+                                        <!--<?php if(has_permission('projects','','create')){ ?>-->
+                                        <!--<li>-->
+                                        <!--    <a href="#" onclick="copy_project(); return false;">-->
+                                        <!--        <?php echo _l('copy_project'); ?>-->
+                                        <!--    </a>-->
+                                        <!--</li>-->
+                                        <!--<?php } ?>-->
                                         <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                                         <li class="divider"></li>
                                         <?php foreach($statuses as $status){

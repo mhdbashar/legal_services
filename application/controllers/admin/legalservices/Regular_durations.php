@@ -13,7 +13,7 @@ class Regular_durations extends AdminController
     public function index()
     {
         if (!has_permission('legal_services', '', 'create') ) {
-           access_denied('legal_services');
+            access_denied('legal_services');
         }
         $data['durations']= $this->duration->get_durations();
         $data['title']  = _l('regular_durations');
@@ -53,7 +53,7 @@ class Regular_durations extends AdminController
         $data['title']  = _l('edit_regular_duration');
         $data['regular_duration']=$this->duration->get_duration_by_id($id);
 
-       $this->load->view('admin/legalservices/regular_duration/edit',$data);
+        $this->load->view('admin/legalservices/regular_duration/edit',$data);
 
         if ($this->input->post())
         {
@@ -61,15 +61,15 @@ class Regular_durations extends AdminController
             if ($success)
             {
                 set_alert('success', _l('updated_successfully', _l('regular_duration')));
-              redirect(admin_url('legalservices/regular_durations'));
+                redirect(admin_url('legalservices/regular_durations'));
             }
             else
-                {
+            {
                 set_alert('warning', _l('problem_updating', _l('regular_duration')));
-              redirect(admin_url('legalservices/regular_durations'));
-                }
+                redirect(admin_url('legalservices/regular_durations'));
+            }
         }
-        }
+    }
 
 //******************* delete_duration ***********************
     public function delete_duration($id)
@@ -87,7 +87,7 @@ class Regular_durations extends AdminController
         {
             set_alert('success', _l('deleted', _l('regular_duration')));
         } else
-            {
+        {
             set_alert('warning', _l('problem_deleting', _l('regular_duration')));
         }
         redirect(admin_url('legalservices/regular_durations'));
@@ -101,7 +101,7 @@ class Regular_durations extends AdminController
         }
         $ServID = 1;
         $route ='Case';
-         $data1['case_id']=$project_id;
+        $data1['case_id']=$project_id;
         if ($this->input->post())
         {
 
@@ -115,8 +115,8 @@ class Regular_durations extends AdminController
         }
         $this->load->view('admin/legalservices/regular_duration/add_case_duration',$data1);
 
-        }
-  //***************edit_case_duration*****************
+    }
+    //***************edit_case_duration*****************
     public function edit_case_duration($case_id,$duration_id,$case_duration_id)
     {
         if (!has_permission('legal_services', '', 'edit'))
@@ -124,8 +124,8 @@ class Regular_durations extends AdminController
             access_denied('legal_services');
         }
         //if (!$id)
-       // {
-           // redirect(admin_url('legalservices/regular_durations'));
+        // {
+        // redirect(admin_url('legalservices/regular_durations'));
         //}
         $data['title']  = _l('edit_regular_duration');
         $data['case_duration']=$this->duration->get_case_duration_by_id($case_duration_id);
@@ -179,20 +179,20 @@ class Regular_durations extends AdminController
 
 
 //*************close alert*******************
-    public  function dur_alert_close($case_id)
+    public  function dur_alert_close($case_reg_id)
     {
-            $this->duration->dur_alert_close_model($case_id);
+        $this->duration->dur_alert_close_model($case_reg_id);
     }
 
- //************clear duration notified****************
+    //************clear duration notified****************
     public  function clear_dur_notified($case_id)
     {
         $this->duration->clear_dur_notified_model($case_id);
     }
 //***********************
-    public  function add_case_regular($case_id)
+    public  function add_case_regular($case_reg_id)
     {
-       // $this->duration->clear_dur_notified_model($case_id);
+        // $this->duration->clear_dur_notified_model($case_reg_id);
     }
 //********************
 

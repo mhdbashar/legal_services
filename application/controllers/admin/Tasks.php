@@ -656,14 +656,24 @@ class Tasks extends AdminController
         if ($task->rel_type == 'kdaya_altnfith') {
             $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
         }
-
-
-
         else if ($task->rel_type == 'aakod' ||$task->rel_type == 'stsh-r-t' || $task->rel_type == 'kd_y_ltnfyth' ) {
             $data['members'] =$this->Other->get_project_members_name($task->rel_id);
         }
 
 
+        //----------------
+        else if ($task->rel_type == 'khdm_t_lshrk_t' ||$task->rel_type == 'stsh-r-t' || $task->rel_type == 'khdm_t_l_aam_l_o_l_stthm_r' ) {
+            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+        }
+
+
+
+
+
+
+
+
+//------------------------------
         else{
             $data['members'] =$this->case->get_project_members_name($task->rel_id);
 

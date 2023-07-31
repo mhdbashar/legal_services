@@ -96,13 +96,13 @@ if ($time_format === '24') {
                                             </a>
                                         </li>
                                         <?php } ?>
-                                        <?php if(has_permission('projects','','create')){ ?>
-                                        <li>
-                                            <a href="#" onclick="copy_project(); return false;">
-                                                <?php echo _l('copy_project'); ?>
-                                            </a>
-                                        </li>
-                                        <?php } ?>
+                                        <!--<?php if(has_permission('projects','','create')){ ?>-->
+                                        <!--<li>-->
+                                        <!--    <a href="#" onclick="copy_project(); return false;">-->
+                                        <!--        <?php echo _l('copy_project'); ?>-->
+                                        <!--    </a>-->
+                                        <!--</li>-->
+                                        <!--<?php } ?>-->
                                         <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                                         <li class="divider"></li>
                                         <?php foreach($statuses as $status){
@@ -143,35 +143,40 @@ if ($time_format === '24') {
                 </div>
 
                 <?php
-                 $staff_id = get_staff_user_id();
-                 $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
-                 $staff_alarm=0;
-                 foreach ($assignees as $member) {
+                $staff_id = get_staff_user_id();
+                $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
+                $staff_alarm=0;
+                foreach ($assignees as $member) {
                     if($staff_id==$member->staff_id)
                     {
                         $staff_alarm=1;
                     }
-                 }
-                 if($staff_alarm==1)
-                 {
-                 $case_durations = get_case_durations_by_case_id($project->id);
-                 foreach($case_durations as $case_duration){ ?>
+                }
+                if($staff_alarm==1)
+                {
+                    $case_durations = get_case_durations_by_case_id($project->id);
+                    if ($case_durations)
+                    {
+                        foreach($case_durations as $case_duration){ ?>
                 <?php
-                     $duration= get_duration_by_id($case_duration['reg_id']);
-                     if( $case_duration['regular_header'] == 1)
-                     {
-                         if($case_duration['end_date'] < date('Y-m-d'))
-                         {
-                             $this->db->where('id',$case_duration['id'] );
-                             $this->db->update(db_prefix() . 'cases_regular_durations', ['regular_header' => 0,]);
-                         }
-                         if($case_duration['dur_alert_close'] < date('Y-m-d'))
-                         { ?>
-                <div id="alert_dur_div" class="alert alert-warning" font-medium="">
-                    <button type="button" id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close">
+                            $duration= get_duration_by_id($case_duration['reg_id']);
+                            if( $case_duration['regular_header'] == 1)
+                            {
+                                if($case_duration['end_date'] < date('Y-m-d'))
+                                {
+                                    $this->db->where('id',$case_duration['id'] );
+                                    $this->db->update(db_prefix() . 'cases_regular_durations', ['regular_header' => 0,]);
+                                }
+                                if($case_duration['dur_alert_close'] < date('Y-m-d'))
+                                { ?>
+                <div id="<?php echo $case_duration['id']; ?>" class="alert alert-warning" font-medium="">
+
+                    <button type="button"
+                        onclick="close_alert_button(<?php echo $case_duration['id']; ?>); return false;"
+                        id="close_alert_button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4><b><?php echo _l('Regular duration Reminder') ?></b>!</h4>
+                    <h4><b><?php echo _l('Regular_duration_Reminder') ?></b>!</h4>
                     <hr class="hr-10">
                     <?php echo _l('remember that') ?> <b><?php echo get_dur_name_by_id($case_duration['reg_id']); ?></b>
                     <?php echo _l('which started at') ?>
@@ -181,26 +186,30 @@ if ($time_format === '24') {
 
                 <?php } ?>
                 <?php } ?>
-                <?php } ?>
+                <?php } } ?>
+
+
 
 
                 <?php
-                $case_procurations = get_case_procurations_by_case_id($project->id);
-                foreach($case_procurations as $case_procuration){ ?>
+                    $case_procurations = get_case_procurations_by_case_id($project->id);
+                    if($case_procurations){
+                        foreach($case_procurations as $case_procuration){ ?>
                 <?php
-                    $procuration= get_procuration_by_id($case_procuration['procuration']);
-                    if( $case_procuration['proc_header'] == 1)
-                    {
-                        if($procuration->end_date < date('Y-m-d'))
-                        {
-                            $this->db->where('id',$case_procuration['id'] );
-                            $this->db->update(db_prefix() . 'procuration_cases', ['proc_header' => 0,]);
-                        }
-                        if($case_procuration['proc_alert_close'] < date('Y-m-d'))
-                        { ?>
-                <div id="alert_proc_div" class="alert alert-warning" font-medium="">
-                    <button type="button" id="close_alert_proc_button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                            $procuration= get_procuration_by_id($case_procuration['procuration']);
+                            if( $case_procuration['proc_header'] == 1)
+                            {
+                                if($procuration->end_date < date('Y-m-d'))
+                                {
+                                    $this->db->where('id',$case_procuration['id'] );
+                                    $this->db->update(db_prefix() . 'procuration_cases', ['proc_header' => 0,]);
+                                }
+                                if($case_procuration['proc_alert_close'] < date('Y-m-d'))
+                                { ?>
+                <div id="<?php echo $case_procuration['id']; ?>" class="alert alert-warning" font-medium="">
+                    <button type="button"
+                        onclick="close_alert_proc_button(<?php echo $case_procuration['id']; ?>); return false;"
+                        id="close_alert_proc_button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                     <h4><b><?php echo _l('Procuration_Reminder') ?></b>!</h4>
@@ -213,7 +222,9 @@ if ($time_format === '24') {
                 </div>
 
 
-                <?php }}}} ?>
+                <?php }}}} } ?>
+
+
 
 
 
@@ -324,222 +335,195 @@ function discussion_comments_case(selector, discussion_id, discussion_type) {
     var defaults = _get_jquery_comments_default_config(
         <?php echo json_encode(get_case_discussions_language_array()); ?>);
     var options = {
-        // https://github.com/Viima/jquery-comments/pull/169
-        wysiwyg_editor: {
-            opts: {
-                enable: true,
-                is_html: true,
-                container_id: 'editor-container',
-                comment_index: 0,
-            },
-            init: function(textarea, content) {
-                var comment_index = textarea.data('comment_index');
-                var editorConfig = _simple_editor_config();
-                editorConfig.setup = function(ed) {
-                    textarea.data('wysiwyg_editor', ed);
+            // https://github.com/Viima/jquery-comments/pull/169
+            wysiwyg_editor: {
+                opts: {
+                    enable: true,
+                    is_html: true,
+                    container_id: 'editor-container',
+                    comment_index: 0,
+                },
+                init: function(textarea, content) {
+                    var comment_index = textarea.data('comment_index');
+                    var editorConfig = _simple_editor_config();
+                    editorConfig.setup = function(ed) {
+                        textarea.data('wysiwyg_editor', ed);
 
-                    ed.on('change', function() {
-                        var value = ed.getContent();
-                        if (value !== ed._lastChange) {
-                            ed._lastChange = value;
-                            textarea.trigger('change');
-                        }
-                    });
+                        ed.on('change', function() {
+                            var value = ed.getContent();
+                            if (value !== ed._lastChange) {
+                                ed._lastChange = value;
+                                textarea.trigger('change');
+                            }
+                        });
 
-                    ed.on('keyup', function() {
-                        var value = ed.getContent();
-                        if (value !== ed._lastChange) {
-                            ed._lastChange = value;
-                            textarea.trigger('change');
-                        }
-                    });
+                        ed.on('keyup', function() {
+                            var value = ed.getContent();
+                            if (value !== ed._lastChange) {
+                                ed._lastChange = value;
+                                textarea.trigger('change');
+                            }
+                        });
 
-                    ed.on('Focus', function(e) {
-                        setTimeout(function() {
-                            textarea.trigger('click');
-                        }, 500)
-                    });
+                        ed.on('Focus', function(e) {
+                            setTimeout(function() {
+                                textarea.trigger('click');
+                            }, 500)
+                        });
 
-                    ed.on('init', function() {
-                        if (content) ed.setContent(content);
+                        ed.on('init', function() {
+                            if (content) ed.setContent(content);
 
-                        if ($('#mention-autocomplete-css').length === 0) {
-                            $('<link>').appendTo('head').attr({
-                                id: 'mention-autocomplete-css',
-                                type: 'text/css',
-                                rel: 'stylesheet',
-                                href: site_url +
-                                    'assets/plugins/tinymce/plugins/mention/autocomplete.css'
-                            });
-                        }
+                            if ($('#mention-autocomplete-css').length === 0) {
+                                $('<link>').appendTo('head').attr({
+                                    id: 'mention-autocomplete-css',
+                                    type: 'text/css',
+                                    rel: 'stylesheet',
+                                    href: site_url +
+                                        'assets/plugins/tinymce/plugins/mention/autocomplete.css'
+                                });
+                            }
 
-                        if ($('#mention-css').length === 0) {
-                            $('<link>').appendTo('head').attr({
-                                type: 'text/css',
-                                id: 'mention-css',
-                                rel: 'stylesheet',
-                                href: site_url +
-                                    'assets/plugins/tinymce/plugins/mention/rte-content.css'
-                            });
-                        }
-                    })
-                }
+                            if ($('#mention-css').length === 0) {
+                                $('<link>').appendTo('head').attr({
+                                    type: 'text/css',
+                                    id: 'mention-css',
+                                    rel: 'stylesheet',
+                                    href: site_url +
+                                        'assets/plugins/tinymce/plugins/mention/rte-content.css'
+                                });
+                            }
+                        })
+                    }
 
-                editorConfig.plugins[0] += ' mention';
-                editorConfig.content_style = 'span.mention {\
+                    editorConfig.plugins[0] += ' mention';
+                    editorConfig.content_style = 'span.mention {\
                      background-color: #eeeeee;\
                      padding: 3px;\
                   }';
-                var projectUserMentions = [];
-                editorConfig.mentions = {
-                    source: function(query, process, delimiter) {
-                        if (projectUserMentions.length < 1) {
-                            $.getJSON(admin_url + 'legalservices/cases/get_staff_names_for_mentions/' +
-                                project_id,
-                                function(data) {
-                                    projectUserMentions = data;
-                                    process(data)
-                                });
-                        } else {
-                            process(projectUserMentions)
+                    var projectUserMentions = [];
+                    editorConfig.mentions = {
+                        source: function(query, process, delimiter) {
+                            if (projectUserMentions.length < 1) {
+                                $.getJSON(admin_url + 'legalservices/cases/get_staff_names_for_mentions/' +
+                                    project_id,
+                                    function(data) {
+                                        projectUserMentions = data;
+                                        process(data)
+                                    });
+                            } else {
+                                process(projectUserMentions)
+                            }
+                        },
+                        insert: function(item) {
+                            return '<span class="mention" contenteditable="false" data-mention-id="' + item
+                                .id + '">@' +
+                                item.name + '</span>&nbsp;';
                         }
-                    },
-                    insert: function(item) {
-                        return '<span class="mention" contenteditable="false" data-mention-id="' + item
-                            .id + '">@' +
-                            item.name + '</span>&nbsp;';
+                    };
+
+                    var containerId = this.get_container_id(comment_index);
+                    tinyMCE.remove('#' + containerId);
+
+                    setTimeout(function() {
+                        init_editor('#' + containerId, editorConfig)
+                    }, 100)
+                },
+                get_container: function(textarea) {
+                    if (!textarea.data('comment_index')) {
+                        textarea.data('comment_index', ++this.opts.comment_index);
                     }
-                };
 
-                var containerId = this.get_container_id(comment_index);
-                tinyMCE.remove('#' + containerId);
-
-                setTimeout(function() {
-                    init_editor('#' + containerId, editorConfig)
-                }, 100)
-            },
-            get_container: function(textarea) {
-                if (!textarea.data('comment_index')) {
-                    textarea.data('comment_index', ++this.opts.comment_index);
+                    return $('<div/>', {
+                        'id': this.get_container_id(this.opts.comment_index)
+                    });
+                },
+                get_contents: function(editor) {
+                    return editor.getContent();
+                },
+                on_post_comment: function(editor, evt) {
+                    editor.setContent('');
+                },
+                get_container_id: function(comment_index) {
+                    var container_id = this.opts.container_id;
+                    if (comment_index) container_id = container_id + "-" + comment_index;
+                    return container_id;
                 }
-
-                return $('<div/>', {
-                    'id': this.get_container_id(this.opts.comment_index)
+            },
+            currentUserIsAdmin: current_user_is_admin,
+            getComments: function(success, error) {
+                $.get(admin_url + 'legalservices/cases/get_discussion_comments/' + discussion_id + '/' +
+                    discussion_type,
+                    function(response) {
+                        success(response);
+                    }, 'json');
+            },
+            postComment: function(commentJSON, success, error) {
+                $.ajax({
+                    type: 'post',
+                    url: admin_url + 'legalservices/cases/add_discussion_comment/' +
+                        <?php echo $ServID; ?> + '/' + discussion_id + '/' + discussion_type,
+                    data: commentJSON,
+                    success: function(comment) {
+                        comment = JSON.parse(comment);
+                        success(comment)
+                    },
+                    error: error
                 });
             },
-            get_contents: function(editor) {
-                return editor.getContent();
+            putComment: function(commentJSON, success, error) {
+                $.ajax({
+                    type: 'post',
+                    url: admin_url + 'legalservices/cases/update_discussion_comment',
+                    data: commentJSON,
+                    success: function(comment) {
+                        comment = JSON.parse(comment);
+                        success(comment)
+                    },
+                    error: error
+                });
             },
-            on_post_comment: function(editor, evt) {
-                editor.setContent('');
+            deleteComment: function(commentJSON, success, error) {
+                $.ajax({
+                    type: 'post',
+                    url: admin_url + 'legalservices/cases/delete_discussion_comment/' + commentJSON.id,
+                    success: success,
+                    error: error
+                });
             },
-            get_container_id: function(comment_index) {
-                var container_id = this.opts.container_id;
-                if (comment_index) container_id = container_id + "-" + comment_index;
-                return container_id;
-            }
-        },
-        currentUserIsAdmin: current_user_is_admin,
-        getComments: function(success, error) {
-            $.get(admin_url + 'legalservices/cases/get_discussion_comments/' + discussion_id + '/' +
-                discussion_type,
-                function(response) {
-                    success(response);
-                }, 'json');
-        },
-        postComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'post',
-                url: admin_url + 'legalservices/cases/add_discussion_comment/' +
-                    <?php echo $ServID; ?> + '/' + discussion_id + '/' + discussion_type,
-                data: commentJSON,
-                success: function(comment) {
-                    comment = JSON.parse(comment);
-                    success(comment)
-                },
-                error: error
-            });
-        },
-        putComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'post',
-                url: admin_url + 'legalservices/cases/update_discussion_comment',
-                data: commentJSON,
-                success: function(comment) {
-                    comment = JSON.parse(comment);
-                    success(comment)
-                },
-                error: error
-            });
-        },
-        deleteComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'post',
-                url: admin_url + 'legalservices/cases/delete_discussion_comment/' + commentJSON.id,
-                success: success,
-                error: error
-            });
-        },
-        uploadAttachments: function(commentArray, success, error) {
-            var responses = 0;
-            var successfulUploads = [];
-            var serverResponded = function() {
-                responses++;
-                // Check if all requests have finished
-                if (responses == commentArray.length) {
-                    // Case: all failed
-                    if (successfulUploads.length == 0) {
-                        error();
-                        // Case: some succeeded
-                    } else {
-                        successfulUploads = JSON.parse(successfulUploads);
-                        success(successfulUploads)
+            uploadAttachments: function(commentArray, success, error) {
+                    var responses = 0;
+                    var successfulUploads = [];
+                    var serverResponded = function() {
+                        responses++;
+                        // Check if all requests have finished
+                        if (responses == commentArray.length) {
+                            // Case: all failed
+                            if (successfulUploads.length == 0) {
+                                error();
+                                // Case: some succeeded
+                            } else {
+                                successfulUploads = JSON.parse(successfulUploads);
+                                success(successfulUploads)
+                            }
+                        }
                     }
-                }
-            }
-            $(commentArray).each(function(index, commentJSON) {
-                // Create form data
-                var formData = new FormData();
-                if (commentJSON.file.size && commentJSON.file.size > app
-                    .max_php_ini_upload_size_bytes) {
-                    alert_float('danger', "<?php echo _l("file_exceeds_max_filesize"); ?>");
-                    serverResponded();
-                } else {
-                    $(Object.keys(commentJSON)).each(function(index, key) {
-                        var value = commentJSON[key];
-                        if (value) formData.append(key, value);
-                    });
+                    $(commentArray).each(function(index, commentJSON) {
+                                // Create form data
+                                var formData = new FormData();
+                                if (commentJSON.file.size && commentJSON.file.size > app
+                                    .max_php_ini_upload_size_bytes) {
+                                    alert_float('danger', "<?php echo _l("file_exceeds_max_filesize"); ?>");
+                                    serverResponded();
+                                } else {
+                                    $(Object.keys(commentJSON)).each(function(index, key) {
+                                        var value = commentJSON[key];
+                                        if (value) formData.append(key, value);
+                                    });
 
-                    if (typeof(csrfData) !== 'undefined') {
-                        formData.append(csrfData['token_name'], csrfData['hash']);
-                    }
-                    $.ajax({
-                        url: admin_url + 'legalservices/cases/add_discussion_comment/' +
-                            <?php echo $ServID; ?> + '/' + discussion_id + '/' +
-                            discussion_type,
-                        type: 'POST',
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function(commentJSON) {
-                            successfulUploads.push(commentJSON);
-                            serverResponded();
-                        },
-                        error: function(data) {
-                            var error = JSON.parse(data.responseText);
-                            alert_float('danger', error.message);
-                            serverResponded();
-                        },
-                    });
-                }
-            });
-        }
-    }
-
-    var settings = $.extend({}, defaults, options);
-    $(selector).comments(settings);
-}
+                                    var settings = $.extend({}, defaults, options);
+                                    $(selector).comments(settings);
+                                }
 </script>
 <script>
 $(function() {
@@ -567,37 +551,91 @@ init_waiting_sessions_log_table(project_id, slug_waiting_sessions);
 
 
 $("#add_task_timesheet").click(function() {
-    name = $('#task_name_timesheet').val();
-    startdate = $('#task_startdate_timesheet').val();
-    rel_id = <?php echo $project->id; ?>;
-    rel_type = '<?php echo $service->slug; ?>';
-    if (name == '' || startdate == '') {
-        alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
-    } else {
-        $.ajax({
-            url: '<?php echo admin_url('legalservices/cases/add_task_to_select_timesheet'); ?>',
-            data: {
-                name: name,
-                startdate: startdate,
-                rel_id: rel_id,
-                rel_type: rel_type
-            },
-            type: "POST",
-            success: function(data) {
-                if (data) {
-                    alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                    var $option = $('<option></option>')
-                        .attr('value', data)
-                        .text(name)
-                        .prop('selected', true);
-                    $('#timesheet_task_id').append($option).change();
-                    $('#add_task_to_select').modal('hide');
-                } else {
-                    alert_float('danger', '<?php echo _l('Faild'); ?>');
+        name = $('#task_name_timesheet').val();
+        startdate = $('#task_startdate_timesheet').val();
+        rel_id = <?php echo $project->id; ?>;
+        rel_type = '<?php echo $service->slug; ?>';
+        if (name == '' || startdate == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        } else {
+            $.ajax({
+                url: '<?php echo admin_url('legalservices/cases/add_task_to_select_timesheet'); ?>',
+                data: {
+                    name: name,
+                    startdate: startdate,
+                    rel_id: rel_id,
+                    rel_type: rel_type
+                },
+                type: "POST",
+                success: function(data) {
+                    if (data) {
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var $option = $('<option></option>')
+                            .attr('value', data)
+                            .text(name)
+                            .prop('selected', true);
+                        $('#timesheet_task_id').append($option).change();
+                        $('#add_task_to_select').modal('hide');
+                    } else {
+                        alert_float('danger', '<?php echo _l('Faild'); ?>');
+                    }
+                    $.ajax({
+                        url: admin_url + 'legalservices/cases/add_discussion_comment/' +
+                            <?php echo $ServID; ?> + '/' + discussion_id + '/' +
+                            discussion_type,
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(commentJSON) {
+                            successfulUploads.push(commentJSON);
+                            serverResponded();
+                        },
+                        error: function(data) {
+                            var error = JSON.parse(data.responseText);
+                            alert_float('danger', error.message);
+                            serverResponded();
+                        },
+                    });
                 }
-            }
-        });
+            });
+        }
     }
+
+    var settings = $.extend({}, defaults, options); $(selector).comments(settings);
+}
+</script>
+<script>
+function close_alert_button(case_reg_id) {
+    var id = case_reg_id;
+    console.log(id);
+    var content = document.getElementById(case_reg_id);
+    $(content).hide();
+    $.ajax({
+        url: '<?php echo admin_url('legalservices/cases/add_task_to_select_timesheet'); ?>',
+        data: {
+            name: name,
+            startdate: startdate,
+            rel_id: rel_id,
+            rel_type: rel_type
+        },
+        type: "POST",
+        success: function(data) {
+            if (data) {
+                alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                var $option = $('<option></option>')
+                    .attr('value', data)
+                    .text(name)
+                    .prop('selected', true);
+                $('#timesheet_task_id').append($option).change();
+                $('#add_task_to_select').modal('hide');
+            } else {
+                alert_float('danger', '<?php echo _l('Faild'); ?>');
+            }
+        }
+    });
+}
 });
 
 $("body").on('click', '.services-new-task-to-milestone', function(e) {
@@ -621,25 +659,34 @@ $("#close_alert_button").click(function() {
 });
 
 $("#close_alert_proc_button").click(function() {
-    $('#alert_proc_div').hide();
-    var id1 = 1 // '<?php // echo $case_procuration['id'];?>';
+            $('#alert_proc_div').hide();
+            var id1 = 1 // '<?php // echo $case_procuration['id'];?>';
 
-    $.ajax({
-        url: '<?php echo admin_url('procuration/proc_alert_close/'); ?>' + id1,
-
-
-    });
-
-});
+            $.ajax({
+                    url: '<?php echo admin_url('procuration/proc_alert_close/'); ?>' + id1,
 
 
+                }
+
+                function close_alert_proc_button(case_proc_id) {
+                    var id1 = case_proc_id;
+                    console.log(id1);
+                    var content = document.getElementById(case_proc_id);
+                    $(content).hide();
+                    $.ajax({
+                        url: '<?php echo admin_url('Procuration/proc_alert_close/'); ?>' + id1,
+                    });
+
+                }
 
 
-function add_report_session_modal(task_id) {
-    var modal = document.getElementById("add_report_session_modal" + task_id);
-    var time_type = '<?php echo $time_type;?>';
-    if (!modal) {
-        $("#wrapper").append(`
+
+
+                function add_report_session_modal(task_id) {
+                    var modal = document.getElementById("add_report_session_modal" + task_id);
+                    var time_type = '<?php echo $time_type;?>';
+                    if (!modal) {
+                        $("#wrapper").append(`
                 <div class="modal fade" id="add_report_session_modal${task_id}" tabindex="-1" role="dialog" aria-labelledby="customer_report" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -681,10 +728,10 @@ function add_report_session_modal(task_id) {
                                         </div>
                                     </div>
                                     <div class="row">
+                                    <br>
                                         <div class="col-md-12">
-                                            <p class="bold"><?php echo _l('Court_decision')?> </p>
-                                            <textarea type="text" class="form-control" id="edit_court_decision${task_id}" name="edit_court_decision" rows="4" placeholder="<?php echo _l('Court_decision')?>"></textarea>
-                                        </div>
+                                            <p class="bold"><?php echo _l('To_add_information_in_the_report_please_click_on_the_session_title_and_complete_the_information')?> </p>
+                                              </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -693,6 +740,18 @@ function add_report_session_modal(task_id) {
                                                 <label for="send_mail_to_opponent"><?php echo _l('send_mail_to_opponent')?> </label>
                                             </div>
                                        </div>
+
+                                       <div class="col-md-12">
+                                          <div class="checkbox checkbox-primary">
+                                                <input type="checkbox" name="send_mail_to_client" id="send_mail_to_client${task_id}">
+                                                <label for="send_mail_to_client"><?php echo _l('send_mail_to_client')?> </label>
+                                                 <p class="bold"><?php echo _l('will_not_send_email_to_client')?> </p>
+
+                                            </div>
+                                       </div>
+
+
+
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -703,61 +762,66 @@ function add_report_session_modal(task_id) {
                         </div>
                     </div>
                 `);
-    }
-    init_datepicker();
-    if (time_type === 'text') {
-        $('#next_session_time' + task_id).datetimepicker({
-            datepicker: false,
-            format: 'H:i'
-        });
-    }
-    $('#add_report_session_modal' + task_id).modal('show');
-}
+                    }
+                    init_datepicker();
+                    if (time_type === 'text') {
+                        $('#next_session_time' + task_id).datetimepicker({
+                            datepicker: false,
+                            format: 'H:i'
+                        });
+                    }
+                    $('#add_report_session_modal' + task_id).modal('show');
+                }
 
-function add_report_session(task_id) {
-    next_session_date = $('#next_session_date' + task_id).val();
-    next_session_time = $('#next_session_time' + task_id).val();
-    court_decision = $('#edit_court_decision' + task_id).val();
-    session_link = $('#session_link' + task_id).val();
-    send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
-    if (court_decision == '') {
-        alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
-    } else {
-        $.ajax({
-            url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,
-            data: {
-                next_session_date: next_session_date,
-                next_session_time: next_session_time,
-                court_decision: court_decision,
-                send_mail_to_opponent: send_mail_to_opponent,
-                session_link: session_link,
-            },
-            type: "POST",
-            success: function(data) {
-                if (data == 1 || data == 'add_successfully') {
-                    $('#add_report_session_modal' + task_id).modal('hide');
-                    location.reload();
-                    alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                } else if (data == 'error_client') {
-                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
-                } else if (data == 'error_opponent') {
-                    alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
-                } else if (data == 'error_followers') {
-                    alert_float('danger', '<?php echo _l('no_primary_followers'); ?>');
-                } else {
-                    alert_float('danger', '<?php echo _l('Faild'); ?>');
+                function add_report_session(task_id) {
+                    next_session_date = $('#next_session_date' + task_id).val();
+                    next_session_time = $('#next_session_time' + task_id).val();
+                    // court_decision = $('#edit_court_decision' + task_id).val();
+                    session_link = $('#session_link' + task_id).val();
+                    send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
+                    send_mail_to_client = $('#send_mail_to_client' + task_id).prop("checked");
+                    // if (court_decision == '') {
+                    // alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+                    // }
+                    //  else {
+                    $.ajax({
+                        url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' +
+                            task_id,
+                        data: {
+                            next_session_date: next_session_date,
+                            next_session_time: next_session_time,
+                            // court_decision: court_decision,
+                            send_mail_to_opponent: send_mail_to_opponent,
+                            send_mail_to_client: send_mail_to_client,
+                            session_link: session_link,
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            if (data == 1 || data == 'add_successfully') {
+                                $('#add_report_session_modal' + task_id).modal('hide');
+                                location.reload();
+                                alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                            } else if (data == 'error_client') {
+                                alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                            } else if (data == 'error_opponent') {
+                                alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
+                            } else if (data == 'error_followers') {
+                                alert_float('danger', '<?php echo _l('no_primary_followers'); ?>');
+                            } else {
+                                alert_float('danger', '<?php echo _l('Faild'); ?>');
+                            }
+                        }
+                    });
+                    // }
                 }
             }
-        });
-    }
-}
 
-function edite_court_decision_modal(task_id) {
-    requestGetJSON('legalservices/sessions/edite_court_decision/' + task_id).done(function(response) {
-        if (response.edite === true) {
-            var modal = document.getElementById("edite_court_decision_modal" + task_id);
-            if (!modal) {
-                $("#wrapper").append(`
+            function edite_court_decision_modal(task_id) {
+                requestGetJSON('legalservices/sessions/edite_court_decision/' + task_id).done(function(response) {
+                    if (response.edite === true) {
+                        var modal = document.getElementById("edite_court_decision_modal" + task_id);
+                        if (!modal) {
+                            $("#wrapper").append(`
                 <div class="modal fade" id="edite_court_decision_modal${task_id}" tabindex="-1" role="dialog" aria-labelledby="edite_court_decision_modal" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -783,28 +847,28 @@ function edite_court_decision_modal(task_id) {
                         </div>
                     </div>
                 `);
+                        }
+                        $('#val_court_decision' + task_id).val(response.court_decision);
+                        $('#edite_court_decision_modal' + task_id).modal('show');
+                    }
+                });
             }
-            $('#val_court_decision' + task_id).val(response.court_decision);
-            $('#edite_court_decision_modal' + task_id).modal('show');
-        }
-    });
-}
 
-function edite_court_decision(task_id) {
-    court_decision = $('#val_court_decision' + task_id).val();
-    $.ajax({
-        url: '<?php echo admin_url('legalservices/sessions/edite_court_decision/'); ?>' + task_id,
-        data: {
-            court_decision: court_decision,
-        },
-        type: "POST",
-        success: function(data) {
-            response = JSON.parse(data);
-            alert_float(`${response.alert_type}`, `${response.message}`);
-            $('#edite_court_decision_modal' + task_id).modal('hide');
-        }
-    });
-}
+            function edite_court_decision(task_id) {
+                court_decision = $('#val_court_decision' + task_id).val();
+                $.ajax({
+                    url: '<?php echo admin_url('legalservices/sessions/edite_court_decision/'); ?>' + task_id,
+                    data: {
+                        court_decision: court_decision,
+                    },
+                    type: "POST",
+                    success: function(data) {
+                        response = JSON.parse(data);
+                        alert_float(`${response.alert_type}`, `${response.message}`);
+                        $('#edite_court_decision_modal' + task_id).modal('hide');
+                    }
+                });
+            }
 </script>
 </body>
 

@@ -4,7 +4,7 @@
     <div class="content">
         <div class="row">
             <?php
-			
+
             $custom_fields = false;
             if (total_rows(db_prefix() . 'customfields', array('fieldto' => $service->slug, 'active' => 1)) > 0) {
                 $custom_fields = true;
@@ -47,12 +47,12 @@
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php
-                                        $selected = (isset($OtherServ) ? $OtherServ->clientid : '');
+                                        $selected = (isset($customer_id) ? $customer_id : '');
                                         if ($selected == '') {
                                             $selected = (isset($OtherServ) ? $OtherServ->clientid : '');
                                         }
                                         if ($selected != '') {
-                                            $rel_data = get_relation_data('customer', '');
+                                            $rel_data = get_relation_data('customer', $selected);
                                             $rel_val = get_relation_values($rel_data, 'customer');
                                             echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
                                         }?>

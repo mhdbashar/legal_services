@@ -650,34 +650,21 @@ class Tasks extends AdminController
             echo 'Task not found';
             die();
         }
-
-
-
-        if ($task->rel_type == 'kdaya_altnfith') {
+        $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
+        if ($service_id == 22) {
             $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
         }
-        else if ($task->rel_type == 'aakod' ||$task->rel_type == 'stsh-r-t' || $task->rel_type == 'kd_y_ltnfyth' ) {
-            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
-        }
-
-
-        //----------------
-        else if ($task->rel_type == 'khdm_t_lshrk_t' ||$task->rel_type == 'stsh-r-t' || $task->rel_type == 'khdm_t_l_aam_l_o_l_stthm_r' ) {
-            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
-        }
-
-
-
-
-
-
-
-
-//------------------------------
-        else{
+        else if($service_id == 1){
             $data['members'] =$this->case->get_project_members_name($task->rel_id);
 
         }
+        else  {
+            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+        }
+
+
+//------------------------------
+
 
 
 

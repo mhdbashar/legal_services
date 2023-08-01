@@ -329,9 +329,12 @@ render_datatable($table_data,'table_registration_leave',
           </div>
         </div>
 
-        <div class="row mtop10 datetime_input hide">
-          <div class="col-md-6 start_time">
-            <?php echo render_datetime_input('start_time_s','From_Date',_d(date('Y-m-d H:i:s'))) ?>
+        <div class=" datetime_input hide">
+          <div class="mb-3">
+           <?php echo render_date_input('start_time_s','From_Date',_d(date('Y-m-d'))) ?>
+          </div>
+          <div class="mb-3">
+            <input type="time" name="start_time_s_time" class="form-control mtop10 start-time" value="<?php echo date("H:i:s")?>">
           </div>
           <div class="col-md-6 end_time">
             <?php echo render_datetime_input('end_time_s','To_Date',_d(date('Y-m-d H:i:s'))) ?>
@@ -380,7 +383,7 @@ render_datatable($table_data,'table_registration_leave',
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-  <button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
+  <button type="submit" class="btn btn-info btn-submit" ><?php echo _l("submit"); ?></button>
 </div>
 <?php echo form_close(); ?>                 
 </div><!-- /.modal-content -->

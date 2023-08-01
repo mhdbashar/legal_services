@@ -688,15 +688,18 @@ public function add_requisition_ajax(){
 		$data = $this->input->post();
 		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
-			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time']);
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
 		}
 		else{
-			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
+			// $data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
 		}
 
 		unset($data['start_time_s']);
+    unset($data['start_time_s_time']);
 		unset($data['end_time_s']);
 		if(!isset($data['staff_id'])){
 			$data['staff_id'] = get_staff_user_id();
@@ -1944,8 +1947,17 @@ public function get_data_additional_timesheets($id){
 
     public function get_data_type_of_leave($id){
         $type_of_leave = $this->timesheets_model->get_type_of_leave($id);
+        $staffid= $type_of_leave->staff_id_manage_depart;
+        $staffid2=$type_of_leave->staff_id_manager_hr;
+        $staffid3=$type_of_leave->staff_id_director_general;
+
+        $manage= $this->timesheets_model->get_staff_by_id($staffid);
+        $manager= $this->timesheets_model->get_staff_by_id($staffid2);
+        $director= $this->timesheets_model->get_staff_by_id($staffid3);
+
 
         $html ='
+
 	<div class="modal-dialog" style="width: 55%">
 	<div class="modal-content">
 	<div class="modal-header">
@@ -1964,6 +1976,9 @@ public function get_data_additional_timesheets($id){
 		<td class="bold">'. _l('name') .'</td>
 		<td>'. ($type_of_leave->name).'</td>
 		</tr>
+    <td class="bold">'. _l('code') .'</td>
+		<td>'. ($type_of_leave->code).'</td>
+    </tr>
 		<tr class="project-overview">
 		<td class="bold">'. _l('number_of_days') .'</td>
 		<td>'. $type_of_leave->number_of_days.'</td>
@@ -1995,6 +2010,19 @@ public function get_data_additional_timesheets($id){
 		<td class="bold" width="30%">'. _l('allow_substitute_employee') .'</td>
 		<td>'.$allow_substitute_employee.'</td>
 		</tr>
+    <td class="bold">'. _l('manage_depart') .'</td>
+		<td>'. ($manage->firstname).' '. ($manage->lastname).'</td>
+
+    </tr>
+    <td class="bold">'. _l('manager_hr') .'</td>
+		<td>'. ($manager->firstname).' '. ($manager->lastname).'</td>
+    </tr>
+    <td class="bold">'. _l('director_general') .'</td>
+		<td>'. ($director->firstname).' '. ($director->lastname).'</td>
+    </tr>
+    <td class="bold">'. _l('accumulative') .'</td>
+		<td>'. _l($type_of_leave->accumulative).'</td>
+    </tr>
 		</tbody>
 		</table>';
         }

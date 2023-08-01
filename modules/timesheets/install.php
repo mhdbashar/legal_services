@@ -619,6 +619,7 @@ if (!$CI->db->table_exists(db_prefix() . 'type_of_leave')) {
                 `salary_type` enum('total_salary','basic_salary') NOT NULL,
                 `salary_allocation` enum('true','false') NOT NULL,
                 `allow_substitute_employee` enum('0','1') NOT NULL,
+                
 				PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

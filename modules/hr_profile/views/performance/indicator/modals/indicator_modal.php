@@ -28,16 +28,17 @@
 <!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="job_position" class="control-label"><?php echo _l('jobposition') ?></label>
-                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('jobposition') ?>" aria-invalid="false">
-                                <option></option>
+                            <label for="job_position" class="control-label"><?php echo _l('job_position') ?></label>
+                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('job_position') ?>" aria-invalid="false">
                                 <?php
                                  foreach ($job_position as $value) { ?>
                                     <option value="<?php echo $value['position_id'] ?>">
                                         <?php echo $value['position_name'] ?>
                                     </option>
                                 <?php } ?>
+                              
                             </select>     
+                            
                         </div>
                     </div>
                     <?php
@@ -166,8 +167,8 @@
 <!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="job_position" class="control-label"><?php echo _l('jobposition') ?></label>
-                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('jobposition') ?>" aria-invalid="false">
+                            <label for="job_position" class="control-label"><?php echo _l('job_position') ?></label>
+                            <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('job_position') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
                                 // if(!$this->app_modules->is_active('branches')){
@@ -277,6 +278,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
 

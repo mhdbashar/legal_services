@@ -540,7 +540,6 @@ $lang['payroll_type'] = 'قالب كشف الرواتب';
 $lang['form_list'] = 'قائمة القوالب';
 $lang['workplace'] = 'مكان العمل';
 $lang['staff_role'] = 'معرف المسمى الوظيفي';
-$lang['job_position'] = 'المسمى الوظيفي';
 $lang['job_id'] = 'معرف المسمى الوظيفي';
 $lang['invoice_table_percentage'] = 'النسبة: ';
 $lang['shift'] = 'فترة العمل';
@@ -1043,6 +1042,10 @@ $lang['add_skill_type'] = "اضافة نوع من المهارات";
 $lang['skill_type'] = "أنواع المهارات";
 $lang['education_level_type'] = "أنواع مراحل التعلم";
 $lang['Datecreated']                                                = 'تاريخ الإضافة';
+$lang['job position']                                                = ' المسمى الوظيفي';
+$lang['deductions']                                                = 'الخصومات';
+
+
 
 
 

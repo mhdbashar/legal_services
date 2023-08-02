@@ -479,14 +479,10 @@ class Hr_profile extends AdminController {
 			$data = $this->input->post();
 			if (!$this->input->post('id')) {
 				$id = $this->hr_profile_model->add_allowance_type($data);
-				if ($id) {
-					$success = true;
-					$message = _l('added_successfully', _l('hr_allowance_type'));
-				}
-				echo json_encode([
-					'success' => $success,
-					'message' => $message,
-				]);
+                if ($id) {
+                    $message = _l('added_successfully', _l('hr_allowance_type'));
+                    set_alert('success', $message);
+                }
 				redirect(admin_url('hr_profile/setting?group=allowance_type'));
 			} else {
 				$id = $data['id'];
@@ -574,14 +570,10 @@ class Hr_profile extends AdminController {
 
 			if (!$this->input->post('id')) {
 				$id = $this->hr_profile_model->add_salary_form($data);
-				if ($id) {
-					$success = true;
-					$message = _l('added_successfully', _l('hr_salary_form'));
-				}
-				echo json_encode([
-					'success' => $success,
-					'message' => $message,
-				]);
+                if ($id) {
+                    $message = _l('added_successfully', _l('hr_salary_form'));
+                    set_alert('success', $message);
+                }
 				redirect(admin_url('hr_profile/setting?group=salary_type'));
 			} else {
 				$id = $data['id'];
@@ -1569,7 +1561,7 @@ class Hr_profile extends AdminController {
 			'job_position_html' => render_tags(get_tags_in($id, 'job_position')),
 			'job_p' => $job_p,
     		'item_value' => $item_value,
-			
+
 		]);
 	}
 
@@ -7465,14 +7457,10 @@ class Hr_profile extends AdminController {
 
 			if (!$this->input->post('id')) {
 				$id = $this->hr_profile_model->add_type_of_training($data);
-				if ($id) {
-					$success = true;
-					$message = _l('added_successfully', _l('hr_type_of_training'));
-				}
-				echo json_encode([
-					'success' => $success,
-					'message' => $message,
-				]);
+                if ($id) {
+                    $message = _l('added_successfully', _l('hr_type_of_training'));
+                    set_alert('success', $message);
+                }
 				redirect(admin_url('hr_profile/setting?group=type_of_training'));
 			} else {
 				$id = $data['id'];

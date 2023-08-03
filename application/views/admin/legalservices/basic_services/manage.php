@@ -97,16 +97,18 @@
                                     <div class="col-md-2 col-xs-6 border-right">
                                         <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; ?>
                                         <?php if($ServID==1){
-                                            $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                          //  $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                           $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        }
+                                        else if($ServID==22){
+                                           // $where .= ($ServID == 22 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
                                             $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
-                                        } else if($ServID==22){
-                                            $where .= ($ServID == 22 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                        }
+                                        else{
+                                            $where .=  ' AND '.db_prefix().$TableService.'.service_id = '.$ServID;
                                             $where .= (' AND '.db_prefix().$TableService.'.deleted = 0');
-                                        } else {
-                                           $where .= (' AND ' . db_prefix() . $TableService . '.service_id = ' . $ServID);
-                                           $where .= (' AND ' . db_prefix() . $TableService . '.deleted = 0');
-                                         }
-                                         ?>
+
+                                        }?>
                                         <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
                                             <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">

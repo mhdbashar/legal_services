@@ -12,7 +12,12 @@ class Tasks extends AdminController
         $this->load->model('projects_model');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Cases_model', 'case');
-    }
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'dispute');
+        $this->load->model('legalservices/Other_services_model', 'Other');
+
+
+
+        }
 
     /* Open also all taks if user access this /tasks url */
     public function index($id = '')
@@ -645,6 +650,21 @@ class Tasks extends AdminController
             echo 'Task not found';
             die();
         }
+        $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
+        if ($service_id == 22) {
+            $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
+        }
+        else if($service_id == 1){
+            $data['members'] =$this->case->get_project_members_name($task->rel_id);
+
+        }
+        else  {
+            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+        }
+
+
+//------------------------------
+
 
 
 
@@ -1867,4 +1887,5 @@ class Tasks extends AdminController
             ajax_access_denied();
         }
     }
+
 }

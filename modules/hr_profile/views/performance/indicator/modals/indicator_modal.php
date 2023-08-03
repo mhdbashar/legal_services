@@ -32,7 +32,7 @@
                             <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('job_position') ?>" aria-invalid="false">
                                 <?php
                                  foreach ($job_position as $value) { ?>
-                                    <option  selected="selected" value="<?php echo $value['position_code'] ?>">
+                                    <option  selected="selected" value="<?php echo $value['position_id'] ?>">
                                         <?php echo $value['position_name'] ?>
                                 <?php } ?>
                               

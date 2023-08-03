@@ -37,8 +37,6 @@
    $(function(){
         initDataTable('.table-indicator', window.location.href);
    });
-
-
 $('.modal').on('hidden.bs.modal', function (e) {
   console.log('agt');
   $(this)

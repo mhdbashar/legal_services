@@ -37,9 +37,11 @@
                             <?php } ?>
                             </select>     
                         </div>
+      
                     </div>
+                            </br>
                     <div class="col-md-12">
-                        <?php echo render_input('document_number','document_number', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('document_number','document_number', '', 'text',['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <?php echo render_date_input('issue_date','issue_date', '', ['required' => 'required']); ?>
@@ -106,6 +108,7 @@
                             </select>     
                         </div>
                     </div>
+                            </br>
                     <div class="col-md-12">
                         <?php echo render_input('document_number','document_number', '', 'text', ['required' => 'required']); ?>
                     </div>
@@ -161,7 +164,7 @@ function required_file() {
                 console.log(data);
                 $('[name="id"]').val(data.id);
                 
-                $('[name="document_number"]').val(data.document_type);
+                $('[name="document_number"]').val(data.document_number);
                 
                 $('[name="issue_date"]').val(data.issue_date);
 

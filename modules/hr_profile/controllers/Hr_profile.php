@@ -9032,6 +9032,7 @@ class Hr_profile extends AdminController {
         $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $data['eligible_review_date'] = to_sql_date($data['eligible_review_date']);
         $id = $this->input->post('id');
+        $this->load->model("hr_profile/Immigration_model");
         $success = $this->Immigration_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));

@@ -668,6 +668,7 @@ $lang['task_assignee_removed'] = "تم إزالة المسؤول عن المهم
 $lang['task_no_assignees'] = "ليس هناك شخص مسؤول عن هذه المهمة";
 $lang['task_no_followers'] = "ليس هناك متابع لهذه المهمة";
 $lang['task_list_all'] = "الكل";
+$lang['sessions_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_duedate_passed'] = "انقضى تاريخ الاستحقاق";
 $lang['tasks_dt_name'] = "الاسم";

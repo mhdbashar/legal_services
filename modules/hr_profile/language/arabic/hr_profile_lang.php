@@ -560,7 +560,7 @@ $lang['nationality'] = 'الجنسية';
 $lang['single'] = 'عازب/ـة';
 $lang['married'] = 'متزوج/ـة';
 $lang['working'] = 'يعمل';
-$lang['maternity_leave'] = 'مجاز';
+$lang['maternity_leave'] = 'إجازة الأمومة';
 $lang['inactivity'] = 'غير نشط';
 $lang['dropdown_non_selected_tex'] = 'غير محدد';
 $lang['fillter_by_status'] = 'الفلترة بحسب الحالة';
@@ -1044,6 +1044,115 @@ $lang['education_level_type'] = "أنواع مراحل التعلم";
 $lang['Datecreated']                                                = 'تاريخ الإضافة';
 $lang['job position']                                                = ' المسمى الوظيفي';
 $lang['deductions']                                                = 'الخصومات';
+$lang['Is There an accumulative ?'] = 'هل هناك تكرارات ؟';
+$lang['manage_requisition'] =  'إدارة الإجازات';
+$lang['registration_on_leave'] = 'تطبيق الإجازات';
+$lang['additional_timesheets'] = 'ساعات العمل الإضافية';
+$lang['type_of_leave'] = 'نوع الإجازة';
+$lang['Create_requisition'] = "تقدم بطلب الحصول على إجازة";
+$lang['filter_by_status'] = 'الفلترة بحسب الحالة';
+$lang['filter_by_type'] = "الفلترة بحسب النوع";
+$lang['new_requisition_m'] ="تقدم بطلب الحصول على إجازة";
+$lang['Type'] = 'النوع';
+$lang['Leave'] = 'إجازة';
+$lang['early'] = 'خروج مبكر';
+$lang['annual_leave'] = 'الإجازات السنوية';
+$lang['number_of_days_off'] = 'عدد أيام العطلة';
+$lang['number_of_leave_days_allowed'] = 'عدد أيام الإجازة المتبقية في العام';
+$lang['Subject'] = 'الموضوع';
+$lang['From_Date'] = 'من تاريخ';
+$lang['To_Date'] = 'إلى تاريخ';
+$lang['Follower'] = 'المتابع';
+$lang['none'] = 'غير محدد';
+$lang['requisition_files'] = 'المرفقات';
+$lang['handover_recipients'] = 'مستلم العمل';
+$lang['additional_day'] = 'يوم إضافي';
+$lang['timekeeping_type'] = 'نوع الجداول الزمنية';
+$lang['timekeeping_value'] = 'قيمة الجداول الزمنية';
+$lang['approver'] = 'الموافق';
+$lang['time_in'] = 'وقت الجدول';
+$lang['time_out'] = 'وقت الخروج';
+$lang['who_can_take_this_leave'] = 'من يستطيع أخذ هذه الإجازة ؟';
+$lang['muslim'] = 'مسلم';
+$lang['not_muslim'] = 'غير مسلم';
+$lang['citizen'] = 'مواطن';
+$lang['not_citizen'] = ' غير مواطن';
+$lang['accumulative'] = 'التكرار';
+$lang['conflict_with_holidays'] = 'التعارض مع الإجازات';
+$lang['leave_extend'] = 'تمديد';
+$lang['deserving_salary'] = 'استحقاق الراتب';
+$lang['is_deserving_salary'] = 'هل هذه الإجازة براتب';
+$lang['salary_allocation'] = 'تخصيص الراتب';
+$lang['allow_substitute_employee'] = 'السماح باختيار موظف بديل ؟';
+$lang['code'] = 'الرمز';
+$lang['entitlement_in_months'] = 'أحقية الحصول على الإجازة (شهور)';
+$lang['deserving_in_years'] = 'استحقاق الإجازة خلال (سنوات)';
+$lang['repeat_leave'] = 'تكرار الإجازة';
+$lang['none_type'] = 'لاشيء';
+$lang['private_work_without_pay'] = 'إجازة بدون راتب';
+$lang['sick_leave'] = 'إجازة مرضية';
+$lang['Go_out'] = 'خروج';
+$lang['Go_on_bussiness'] = 'مهمة عمل';
+$lang['my_approve'] = 'موافقاتي';
+$lang['Create'] = 'جديد';
+$lang['approved'] = 'موافق عليها';
+$lang['Reject'] = "رفض";
+$lang['manage_depart'] = 'مدير القسم';
+$lang['manager_hr'] = 'مدير الشؤون الادارية';
+$lang['director_general'] = '  موافقة المدير العام';
+$lang['leave_include'] = 'تضمين';
+$lang['once_during_contract'] = 'مرة واحدة خلال عقد العمل';
+$lang['hr_leave'] = 'الإجازات';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

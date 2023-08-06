@@ -977,8 +977,7 @@ public function add_requisition_ajax(){
 				$data['days_off'] = $day_off->total;
 			}
 		}
-
-		$data['data_timekeeping_form'] = get_timesheets_option('timekeeping_form');
+		$data['data_timekeeping_form'] = $this->timesheets_model->get_timesheets_option('timekeeping_form');
 		$this->load->model('departments_model');
 		$data['departments'] = $this->departments_model->get();
 		$data['current_date'] = date('Y-m-d H:i:s');

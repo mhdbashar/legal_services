@@ -1,6 +1,7 @@
 
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head();
+    $this->load->model('hr_profile/timesheets_model');
 $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id(), date('Y-m-d'));
 ?>
 <div id="wrapper">
@@ -40,15 +41,16 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
             </ul>
           </div>
         </div>
-        <input type="hidden" name="userid" value="<?php echo html_entity_decode($userid);?>">
+        <input type="hidden" name="userid" value="<?php echo html_entity_decode($userid); ?>">
+
         <div class="tab-content active">
-          <div role="tabpanel" class="tab-pane <?php if(!isset($tab)){ echo 'active';} ?>" id="registration_on_leave">
+        <div role="tabpanel" class="tab-pane <?php if(!isset($tab)){ echo 'active';} ?>" id="registration_on_leave">
             <div class="row">
               <div class="col-md-12 mtop15">
                 <a href="#" onclick="new_requisition(); return false;" class="btn mright5 btn-info pull-left display-block" data-toggle="sidebar-right" data-target=".requisition_m"  >
                   <?php echo _l('Create_requisition'); ?>
                 </a>
-                <div class="clearfix"> </div>
+                <div class="clearfix"></div>
                 <br>
                 <br>          
               </div>
@@ -163,7 +165,7 @@ render_datatable($table_data,'table_registration_leave',
      <option value="all"><?php echo _l('all') ?></option>
      <option value="my_approve"><?php echo _l('my_approve') ?></option>
    </select>
- </div>>
+ </div>
  <div class="col-md-3">
   <select name="status_filter_ats[]" class="selectpicker" id="status_filter_ats" multiple data-width="100%" data-none-selected-text="<?php echo _l('filter_by_status'); ?>"> 
    <option value="0"><?php echo _l('status_0') ?></option>                  
@@ -193,7 +195,7 @@ render_datatable($table_data,'table_registration_leave',
 </div>
 
             <div role="tabpanel" class="tab-pane <?php if(isset($tab))if($tab == 'type_of_leave'){ echo 'active';} ?>" id="type_of_leave">
-                <?php $this->load->view('timesheets/timekeeping/type_of_leave') ?>
+                <?php $this->load->view('hr_profile/timekeeping/type_of_leave') ?>
             </div>
 
 <!-- The Modal -->
@@ -208,7 +210,7 @@ render_datatable($table_data,'table_registration_leave',
          <span class="add-title"><?php echo _l('new_requisition_m'); ?></span>
        </h4>
      </div>
-     <?php echo form_open_multipart(admin_url('timesheets/add_requisition_ajax'),array('id'=>'requisition-form'));?>             
+     <?php echo form_open_multipart(admin_url('hr_profile/add_requisition_ajax'),array('id'=>'requisition-form'));?>             
      <div class="modal-body">
       <div id="additional_contract_type"></div>                    
       <div class="form">
@@ -397,7 +399,7 @@ render_datatable($table_data,'table_registration_leave',
 
 <div class="modal fade" id="additional_timesheets_modalss" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <?php echo form_open(admin_url('timesheets/send_additional_timesheets'),array('id'=>'edit_timesheets-form')); ?>
+    <?php echo form_open(admin_url('hr_profile/send_additional_timesheets'),array('id'=>'edit_timesheets-form')); ?>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -425,7 +427,7 @@ render_datatable($table_data,'table_registration_leave',
 </div>
 <input type="hidden" name="current_date" value="<?php echo _d(date('Y-m-d')); ?>">
 <?php init_tail(); ?>
-<?php require 'modules/timesheets/assets/js/requisition_manage_js.php'; ?>
+<?php require 'modules/hr_profile/assets/js/requisition_manage_js.php'; ?>
 <script>
 
     $('#deserving_in_years').change(function() {

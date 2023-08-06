@@ -30,13 +30,12 @@
                         <div class="form-group">
                             <label for="job_position" class="control-label"><?php echo _l('job position') ?></label>
                             <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('job_position') ?>" aria-invalid="false">
-                                <?php
+                            <?php
                                  foreach ($job_position as $value) { ?>
-                                    <option  value="<?php echo $value['position_id'] ?>">
+                                    <option value="<?php echo $value['position_id'] ?>">
                                         <?php echo $value['position_name'] ?>
-                                <?php } ?>
                                  </option>
-                              
+                                 <?php } ?>
                             </select>     
                             
                         </div>

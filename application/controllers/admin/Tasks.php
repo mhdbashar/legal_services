@@ -643,7 +643,7 @@ class Tasks extends AdminController
         }
 
         $task = $this->tasks_model->get($taskid, $tasks_where);
-
+        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
 
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
@@ -651,16 +651,24 @@ class Tasks extends AdminController
             die();
         }
         $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
-        if ($service_id == 22) {
-            $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
-        }
-        else if($service_id == 1){
-            $data['members'] =$this->case->get_project_members_name($task->rel_id);
+       if($service_id){
+           if ($service_id == 22) {
+               $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
+           }
+           else if($service_id == 1){
+               $data['members'] =$this->case->get_project_members_name($task->rel_id);
 
-        }
-        else  {
-            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
-        }
+           }
+           else  {
+               $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+           }
+       }
+       else
+       {
+           $data['members'] = $data['staff'] ;
+       }
+
+
 
 
 //------------------------------
@@ -672,7 +680,7 @@ class Tasks extends AdminController
         $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
         $data['task']               = $task;
         $data['id']                 = $task->id;
-        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
+
         $data['reminders']          = $this->tasks_model->get_reminders($taskid);
 
         $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($taskid);

@@ -651,7 +651,7 @@ class Tasks extends AdminController
             die();
         }
         $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
-       if($service_id){
+
            if ($service_id == 22) {
                $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
            }
@@ -662,11 +662,8 @@ class Tasks extends AdminController
            else  {
                $data['members'] =$this->Other->get_project_members_name($task->rel_id);
            }
-       }
-       else
-       {
-           $data['members'] = $data['staff'] ;
-       }
+
+
 
 
 
@@ -676,7 +673,7 @@ class Tasks extends AdminController
 
 
 
-
+        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
         $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
         $data['task']               = $task;
         $data['id']                 = $task->id;

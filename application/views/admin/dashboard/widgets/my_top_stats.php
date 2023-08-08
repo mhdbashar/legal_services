@@ -65,10 +65,10 @@
                   $_where = '';
                   $where = '';
                   $project_status = get_case_status_by_id(2);
-                  if(!has_permission('projects','','view')){
-                      $_where = 'id IN (SELECT project_id FROM '.db_prefix().'my_members_cases WHERE staff_id='.get_staff_user_id().')';
-                  }
                   $where = db_prefix().'my_cases'.'.deleted = 0';
+                  if(!has_permission('projects','','view')){
+                      $where .= ' AND '.'id IN (SELECT project_id FROM '.db_prefix().'my_members_cases WHERE staff_id='.get_staff_user_id().')';
+                  }
                   $total_projects = total_rows(db_prefix().'my_cases',$where);
                 //  $where. = ($_where == '' ? '' : $_where.' AND ').'status = 2';
                   $where .= (' AND '.db_prefix().'my_cases'.'.status = 2');

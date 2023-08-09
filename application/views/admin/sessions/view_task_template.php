@@ -1164,7 +1164,7 @@
             url: "<?php echo admin_url('legalservices/sessions/update_session_information/' . $task->id); ?>",
             data: {session_information: $(this).val()},
             type: "POST",
-            success: function (data) {
+            success: function (data) {project_status_4
                 /////
             }
         });

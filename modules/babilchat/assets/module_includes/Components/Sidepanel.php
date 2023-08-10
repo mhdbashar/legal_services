@@ -21,9 +21,5 @@
      <?php loadChatComponent('TabContent');  ?>
 </div>
 <style>
-     .main_spinner_icon {
-          position: absolute;
-          font-size: 40px;
-          color: #fff;
-     }
+
 </style>

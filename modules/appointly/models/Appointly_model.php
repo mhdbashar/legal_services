@@ -1280,6 +1280,7 @@ class Appointly_model extends App_Model
             $data['last_recurring_date'] = null;
         }
 
+
         if (isset($data['repeat_every']) && !empty($data['repeat_every'])) {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {

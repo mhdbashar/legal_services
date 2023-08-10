@@ -643,7 +643,7 @@ if (!chatStaffCanDelete()) { ?>
                             var lastLoginText = "Never";
 
                             if (value.last_activity) {
-                                lastLoginText = moment(value.last_activity, "YYYYMMDD h:mm:ss").fromNow();
+                                lastLoginText =value.last_activity;
                             }
 
                             offlineUser += ' data-toggle="tooltip" data-container="body" title="<?php echo _l('chat_last_seen'); ?>: ' + lastLoginText + "\">";

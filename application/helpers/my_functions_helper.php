@@ -177,7 +177,7 @@ function my_module_menu_item_collapsible()
             'name' => _l('opponents'), // The name if the item
             'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
             'href' => admin_url('opponents'), // URL of the item
-            'position' => 5, // The menu position
+            'position' => 6, // The menu position
             'icon' => 'fa fa-user-o', // Font awesome icon
         ]);
     }
@@ -186,7 +186,7 @@ function my_module_menu_item_collapsible()
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 5, // The menu position
+        'position' => 2, // The menu position
         'icon'     => 'fa fa-gavel', // Font awesome icon
     ]);
     foreach ($services as $service):
@@ -208,14 +208,14 @@ function my_module_menu_item_collapsible()
     $CI->app_menu->add_sidebar_menu_item('sessions', [
         'name'     => _l("sessions"), // The name if the item
         'href'     => admin_url('legalservices/sessions'), // URL of the item
-        'position' => 5, // The menu position, see below for default positions.
+        'position' => 3, // The menu position, see below for default positions.
         'icon'     => 'fa fa-font-awesome', // Font awesome icon
     ]);
 
     $CI->app_menu->add_sidebar_menu_item('transactions', [
         'name'     => _l("transactions"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 10, // The menu position
+        'position' => 13, // The menu position
         'icon'     => 'fa fa-briefcase', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('transactions', [

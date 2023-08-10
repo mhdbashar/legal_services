@@ -1274,13 +1274,13 @@ class Appointly_model extends App_Model
     private function validateRecurringData(array $original, array $data)
     {
         // Recurring appointment set to NO, Cancelled
-        if ($original['repeat_every'] != '' && $data['repeat_every'] == '') {
+        if ((isset($original['repeat_every']) && !empty($original['repeat_every']))&&(isset($data['repeat_every']) && !empty($data['repeat_every'])) ) {
             $data['cycles'] = 0;
             $data['total_cycles'] = 0;
             $data['last_recurring_date'] = null;
         }
 
-        if ($data['repeat_every'] != '') {
+        if (isset($data['repeat_every']) && !empty($data['repeat_every'])) {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {
                 $data['repeat_every'] = $data['repeat_every_custom'];

@@ -1,7 +1,6 @@
 /* Chat Light theme */
 
 #frame {
-    font-family: Roboto, Helvetica Neue, Segoe UI, Helvetica, Arial, sans-serif !important;
     width: 100%;
     min-width: 360px;
     background: #ffffff;
@@ -259,7 +258,7 @@ body #frame #mainFilterDiv .btn_filter {
 }
 
 #frame .dropdown-content a#_dark {
-    padding: 5px 31px 5px 31px
+    padding: 5px 31px 5px 31px;
 }
 
 #frame .dropdown-content a {
@@ -297,14 +296,13 @@ body #frame #mainFilterDiv .btn_filter {
 #frame .history_slider {
     float: left;
     position: absolute;
-  
 }
 
 #frame #sidepanel #contacts {
     overflow-x: hidden;
     -ms-overflow-y: auto;
     overflow-y: auto;
-    scrollbar-width: none;
+    /* scrollbar-width: none;*/
 }
 
 #frame #sidepanel #contacts a {
@@ -404,7 +402,14 @@ body #frame #mainFilterDiv .btn_filter {
     margin-right: 10px;
 }
 
-#frame #sidepanel #contacts ul li.contact .wrap a[data-lity] img.babilchat_convertedImage {
+#frame
+    #sidepanel
+    #contacts
+    ul
+    li.contact
+    .wrap
+    a[data-lity]
+    img.babilchat_convertedImage {
     width: 27px;
     height: 27px;
     border-radius: 50%;
@@ -427,7 +432,7 @@ body #frame #mainFilterDiv .btn_filter {
 
 body #frame .contact-profile a.actionTask.clients i {
     position: absolute;
-    left: 0px;
+    right: 30px;
     top: 19px;
     background: #dce3ec;
     padding: 4px;
@@ -501,7 +506,7 @@ body.Babilchat_Controller #_task #rel_id_wrapper {
     border: none;
     padding: 0 2px 0 0;
     margin: 0 0 0 1px;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 #frame .content {
@@ -836,7 +841,7 @@ body.Babilchat_Controller #_task #rel_id_wrapper {
     overflow-x: hidden;
     -ms-overflow-y: auto;
     overflow-y: auto;
-    scrollbar-width: none;
+    /*  scrollbar-width: none;*/
     scroll-behavior: smooth;
     max-height: calc(var(--vh, 1vh) * 78);
 }
@@ -983,7 +988,6 @@ body #frame .group_chatbox {
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
 }
 
-
 /* Clients settings button */
 
 body #frame #sidepanel #clients_container .clients_settings .dropdown-menu {
@@ -991,7 +995,13 @@ body #frame #sidepanel #clients_container .clients_settings .dropdown-menu {
     min-width: 166px;
 }
 
-body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup button.dropdown-toggle {
+body
+    #wrapper
+    #frame
+    #clients_container
+    #bottom-bar
+    .clients_settings.dropup
+    button.dropdown-toggle {
     background: #dce3ec !important;
     border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -1214,7 +1224,7 @@ body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup but
 }
 
 body #sidepanel #contacts::-webkit-scrollbar {
-    width: 2px;
+    width: 10px;
 }
 
 body #sidepanel #contacts::-webkit-scrollbar-thumb {
@@ -1223,7 +1233,7 @@ body #sidepanel #contacts::-webkit-scrollbar-thumb {
 }
 
 img.shaking {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
@@ -1367,10 +1377,20 @@ body .chat_client_messages {
     margin-top: 11px !important;
 }
 
-#frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a:focus,
+#frame
+    .chat_group_options
+    .main_div_shared_files
+    .nav-tabs
+    > li.active
+    > a:focus,
 #frame .chat_group_options .main_div_shared_files .nav-tabs > li > a:hover,
 #frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a,
-#frame .chat_group_options .main_div_shared_files .nav-tabs > li.active > a:hover {
+#frame
+    .chat_group_options
+    .main_div_shared_files
+    .nav-tabs
+    > li.active
+    > a:hover {
     border-bottom: 3px solid #6986e8;
     color: #6986e8;
 }
@@ -1427,7 +1447,6 @@ svg.chat_back_mobile {
     font-size: 23px;
 }
 
-
 /* Chat Full Screen Loader */
 
 .chat-module-loader:before {
@@ -1442,7 +1461,7 @@ svg.chat_back_mobile {
     position: absolute;
     width: 100%;
     align-items: center;
-    background: rgb(0, 0, 0, 0.600);
+    background: rgb(0, 0, 0, 0.6);
     z-index: 99999999999999999;
     height: 100%;
     top: 50%;
@@ -1552,11 +1571,10 @@ svg.chat_back_mobile {
     height: 1px;
 }
 
-
 /* Chat Full Screen Loader for uploading files */
 
 .main_loader_init:before {
-    content: '';
+    content: "";
     color: #ffffff;
 }
 
@@ -1578,11 +1596,12 @@ svg.chat_back_mobile {
     left: calc(50% - 15px);
     animation: main_loader_init 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     transform-origin: 32px 32px;
-    -webkit-animation: main_loader_init 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    -webkit-animation: main_loader_init 1.2s cubic-bezier(0.5, 0, 0.5, 1)
+        infinite;
 }
 
 .main_loader_init div:after {
-    content: ' ';
+    content: " ";
     display: block;
     position: absolute;
     width: 5px;
@@ -1685,7 +1704,6 @@ svg.chat_back_mobile {
     }
 }
 
-
 /* RTL SUPPORT */
 
 body.rtl #wrapper #frame .contact_name_placeholder {
@@ -1737,7 +1755,12 @@ body.rtl #shared_user_files {
     margin-left: 15px;
 }
 
-body.rtl #babilchat-header-wrapper #top_status-options ul li span.status-circle {
+body.rtl
+    #babilchat-header-wrapper
+    #top_status-options
+    ul
+    li
+    span.status-circle {
     right: 15px;
 }
 
@@ -1889,7 +1912,6 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
     float: left;
 }
 
-
 /* ADMIN LIGHT THEME SUPPORT */
 
 .admin_light_theme_initiated #frame #shared_user_files,
@@ -1902,7 +1924,6 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
         padding: 6px 19px 46px 8px;
     }
 }
-
 
 /* Group chat  */
 
@@ -1942,7 +1963,7 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
 
 #frame .member_name_other {
     position: absolute;
-    color: rgba(0, 0, 0, .40);
+    color: rgba(0, 0, 0, 0.4);
     font-size: 12px;
     left: 52px;
     margin-top: -7px;
@@ -1950,7 +1971,7 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
 
 #frame .member_name_me {
     position: absolute;
-    color: rgba(0, 0, 0, .40);
+    color: rgba(0, 0, 0, 0.4);
     font-size: 12px;
     right: 54px;
     margin-top: -7px;
@@ -1995,7 +2016,10 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
     float: left;
 }
 
-#frame .chat_group_messages .own_group_message_li img:not(.babilchat_convertedImage) {
+#frame
+    .chat_group_messages
+    .own_group_message_li
+    img:not(.babilchat_convertedImage) {
     border-radius: 50%;
     width: 32px;
     float: right;
@@ -2019,7 +2043,6 @@ body #frame .content .group_msg_input .startMic {
     height: 35px;
 }
 
-
 /* Flash class and keyframe animation */
 
 .flashit {
@@ -2033,7 +2056,7 @@ body #frame .content .group_msg_input .startMic {
         opacity: 1;
     }
     50% {
-        opacity: .1;
+        opacity: 0.1;
     }
     100% {
         opacity: 1;
@@ -2045,7 +2068,7 @@ body #frame .content .group_msg_input .startMic {
         opacity: 1;
     }
     50% {
-        opacity: .1;
+        opacity: 0.1;
     }
     100% {
         opacity: 1;
@@ -2077,11 +2100,11 @@ body #frame .content .group_msg_input .startMic {
     transition: unset;
     font-weight: 400 !important;
     letter-spacing: 0px !important;
-    transition: all .4s;
-    -webkit-transition: all .4s;
-    -moz-transition: all .4s;
-    -ms-transition: all .4s;
-    -o-transition: all .4s;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
 }
 
 #frame #sidepanel .nav-tabs > li a {
@@ -2147,7 +2170,7 @@ svg {
 }
 
 #frame #sidepanel .nav-tabs > li {
-    width: 33.3%;
+    /* width: 33.3%;*/
     display: flex;
     text-align: center;
     justify-content: center;
@@ -2218,7 +2241,7 @@ svg {
     padding-right: 4px;
 }
 
-#frame .chat_group_options a:not([role=tab]):not([target=_blank]) {
+#frame .chat_group_options a:not([role="tab"]):not([target="_blank"]) {
     width: 100%;
     font-size: 15px;
     color: #ffffff;
@@ -2349,7 +2372,7 @@ body #frame .active_group_members {
     margin-top: -26px;
     margin-right: 8px;
     width: 33px;
-    height: 20px
+    height: 20px;
 }
 
 #frame .panel-group#group_options {
@@ -2367,7 +2390,7 @@ body #frame .active_group_members {
 }
 
 #frame .panel-heading .accordion-toggle:after {
-    font-family: 'Glyphicons Halflings';
+    font-family: "Glyphicons Halflings";
     content: "\e114";
     float: right;
     color: #ffffff;
@@ -2420,14 +2443,12 @@ body #frame .white-text {
     text-overflow: ellipsis;
 }
 
-
 /* #frame .group_messages::-webkit-scrollbar, */
 
 #frame .chat_group_options .main_div_shared_files::-webkit-scrollbar,
 #frame #sidepanel #groups::-webkit-scrollbar {
     width: 4px;
 }
-
 
 /* #frame .group_messages::-webkit-scrollbar-thumb, */
 
@@ -2467,7 +2488,6 @@ body #frame .white-text {
     cursor: pointer;
     border-radius: 10px;
 }
-
 
 /* Group chat device responseive media screen */
 
@@ -2519,7 +2539,13 @@ body #frame .white-text {
         width: 50%;
     }
 
-    body #wrapper #frame #clients_container #bottom-bar .clients_settings.dropup button.dropdown-toggle {
+    body
+        #wrapper
+        #frame
+        #clients_container
+        #bottom-bar
+        .clients_settings.dropup
+        button.dropdown-toggle {
         width: 100% !important;
         border-left: 1px solid #d0d0d0;
     }
@@ -2668,14 +2694,24 @@ body #frame .white-text {
         width: 100%;
     }
 
-    body #wrapper #frame .chat_group_options .main_div_shared_files .shared_items_span,
+    body
+        #wrapper
+        #frame
+        .chat_group_options
+        .main_div_shared_files
+        .shared_items_span,
     body #wrapper #frame #sharedFiles .shared_items_span {
         width: 100%;
         margin-left: auto;
         margin-top: 11px;
     }
 
-    body #wrapper #frame .chat_group_options .main_div_shared_files .shared_items_span {
+    body
+        #wrapper
+        #frame
+        .chat_group_options
+        .main_div_shared_files
+        .shared_items_span {
         margin-left: 0px;
     }
 
@@ -2686,7 +2722,12 @@ body #frame .white-text {
         right: -100%;
     }
 
-    body #wrapper #frame .chat_group_options .main_div_shared_files .shared_files_ahref {
+    body
+        #wrapper
+        #frame
+        .chat_group_options
+        .main_div_shared_files
+        .shared_files_ahref {
         float: left !important;
         margin-left: 4px;
     }
@@ -2715,7 +2756,6 @@ body #frame .white-text {
     }
 }
 
-
 /* Clients css styling */
 
 #frame #toggle_clients i.fa-sliders {
@@ -2736,7 +2776,7 @@ body.Babilchat_Controller #frame img.chatContactImage {
 }
 
 body.Babilchat_Controller #frame .contact_name.contactActive::before {
-    content: '';
+    content: "";
     display: block;
     width: 10px;
     height: 10px;
@@ -2755,7 +2795,7 @@ body.Babilchat_Controller #frame .contact_name.contactActive::before {
 }
 
 body #frame .contact_name::before {
-    content: '';
+    content: "";
     display: block;
     width: 12px;
     height: 12px;
@@ -2774,7 +2814,7 @@ body #frame .contact_name::before {
 }
 
 body #frame .contact_name.contactActive::before {
-    content: '';
+    content: "";
     display: block;
     width: 11px;
     height: 11px;
@@ -2976,7 +3016,6 @@ body .message_history_view img {
     width: 100%;
 }
 
-
 /* Search messages */
 
 #frame .content .message-input .wrap .search_client_messages,
@@ -3058,7 +3097,6 @@ body .chat_message_history_other .panel-heading {
     padding: 15px 15px 80px;
 }
 
-
 /*Left*/
 
 .modal.left.fade .modal-dialog {
@@ -3073,7 +3111,6 @@ body .chat_message_history_other .panel-heading {
 .modal.left.fade.in .modal-dialog {
     left: 0;
 }
-
 
 /*Right*/
 
@@ -3090,7 +3127,6 @@ body .chat_message_history_other .panel-heading {
     right: 0;
 }
 
-
 /* ----- MODAL STYLE ----- */
 
 .modal.left .modal-content,
@@ -3106,7 +3142,7 @@ body .chat_message_history_other .panel-heading {
 .modal.left .modal-header,
 .modal.right .modal-header {
     border-radius: 0px;
-    border-bottom-color: #EEEEEE;
+    border-bottom-color: #eeeeee;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     -ms-border-radius: 0px;
@@ -3176,7 +3212,7 @@ body.Babilchat_Controller .contact_name_placeholder_notitle {
 }
 
 #frame #sidepanel #profile .wrap #status-options:before {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 0;
@@ -3234,8 +3270,15 @@ body.Babilchat_Controller .contact_name_placeholder_notitle {
     }
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
-    content: '';
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li
+    span.status-circle:before {
+    content: "";
     position: absolute;
     width: 14px;
     height: 14px;
@@ -3251,7 +3294,14 @@ body.Babilchat_Controller .contact_name_placeholder_notitle {
 }
 
 @media screen and (max-width: 735px) {
-    #frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+    #frame
+        #sidepanel
+        #profile
+        .wrap
+        #status-options
+        ul
+        li
+        span.status-circle:before {
         height: 18px;
         width: 18px;
     }
@@ -3267,35 +3317,91 @@ body.Babilchat_Controller .contact_name_placeholder_notitle {
     }
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-online
+    span.status-circle {
     background: #2ecc71;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-online.active
+    span.status-circle:before {
     border: 2px solid #2ecc71;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-away
+    span.status-circle {
     background: #f1c40f;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-away.active
+    span.status-circle:before {
     border: 2px solid #f1c40f;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-busy
+    span.status-circle {
     background: #e74c3c;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-busy.active
+    span.status-circle:before {
     border: 2px solid #e74c3c;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-offline
+    span.status-circle {
     background: #95a5a6;
 }
 
-#frame #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
+#frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li#status-offline.active
+    span.status-circle:before {
     border: 2px solid #95a5a6;
     padding: 1px;
 }
@@ -3349,27 +3455,29 @@ body.Babilchat_Controller .contact_name_placeholder {
     left: 30px;
 }
 
-
 /* Office Theme Support Css */
 
-body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #header {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated
+    #header {
     position: absolute !important;
 }
 
-body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
+body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated
+    #frame {
     margin-top: 62px;
 }
 
 @media screen and (max-width: 735px) {
-    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #frame {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated
+        #frame {
         margin-top: 0px;
     }
 
-    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated #mobile-search {
+    body.app.admin.babilchat.Babilchat_Controller.babil_office_theme_initiated
+        #mobile-search {
         margin-top: 60px;
     }
 }
-
 
 /* Ticket Messages */
 
@@ -3407,7 +3515,6 @@ body .mutual_messages_select_view {
     border: 1px solid #efeeee;
 }
 
-
 /* Mentions */
 
 body #wrapper #frame .group_messages .from_other .user_mentioned {
@@ -3439,7 +3546,6 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
     color: rgb(181, 181, 181) !important;
 }
 
-
 /* Absolute Center Spinner */
 
 .ticket_form_loading_spinner {
@@ -3455,19 +3561,21 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
     right: 0;
 }
 
-
 /* Transparent Overlay */
 
 .ticket_form_loading_spinner:before {
-    content: '';
+    content: "";
     display: block;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
-    background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+    background: radial-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.8));
+    background: -webkit-radial-gradient(
+        rgba(20, 20, 20, 0.8),
+        rgba(0, 0, 0, 0.8)
+    );
 }
 
 .ticket_form_loading_spinner:not(:required) {
@@ -3479,7 +3587,7 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
 }
 
 .ticket_form_loading_spinner:not(:required):after {
-    content: '';
+    content: "";
     display: block;
     font-size: 10px;
     width: 1em;
@@ -3491,10 +3599,23 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
     -o-animation: ticket_spinner 150ms infinite linear;
     animation: ticket_spinner 150ms infinite linear;
     border-radius: 0.5em;
-    -webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
-    box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0,
+        rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0,
+        rgba(255, 255, 255, 0.75) 0 1.5em 0 0,
+        rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0,
+        rgba(255, 255, 255, 0.75) -1.5em 0 0 0,
+        rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0,
+        rgba(255, 255, 255, 0.75) 0 -1.5em 0 0,
+        rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+    box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0,
+        rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0,
+        rgba(255, 255, 255, 0.75) 0 1.5em 0 0,
+        rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0,
+        rgba(255, 255, 255, 0.75) -1.5em 0 0 0,
+        rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0,
+        rgba(255, 255, 255, 0.75) 0 -1.5em 0 0,
+        rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
 }
-
 
 /* Animation */
 
@@ -3591,7 +3712,7 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
     body.Babilchat_Controller .contact_name_placeholder span span.pull-left {
         position: relative;
         top: -15px;
-        left: 30px;
+        right: 30px;
     }
     body #frame .customers_toggler {
         margin: 1px;
@@ -3601,7 +3722,6 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
         top: 98%;
     }
 }
-
 
 /* Seen / Unseen feature */
 
@@ -3614,7 +3734,6 @@ body #wrapper #frame .group_messages .own_group_message .user_mentioned:hover {
 #frame .circle-seen {
     color: #69ade8 !important;
 }
-
 
 /* optionsMore staff, groups, clients  */
 
@@ -3651,7 +3770,7 @@ body li.sent .messageOptionsDiv {
 }
 
 body li.sent .optionsMore:before {
-    content: ' ';
+    content: " ";
     height: 0;
     width: 0;
     margin-top: 6px;
@@ -3690,7 +3809,12 @@ body #wrapper .chat_group_messages li .messageOptionsDiv .optionsMore {
     margin-top: -4px;
 }
 
-body #wrapper .chat_group_messages li.from_other .messageOptionsDiv .optionsMore {
+body
+    #wrapper
+    .chat_group_messages
+    li.from_other
+    .messageOptionsDiv
+    .optionsMore {
     margin-top: 0px;
 }
 
@@ -3704,8 +3828,12 @@ body li.replies .messageOptionsDiv .chooseOption {
     margin-bottom: -5px;
 }
 
-body .chat_group_messages li.own_group_message_li .messageOptionsDiv .optionsMore:after {
-    content: ' ';
+body
+    .chat_group_messages
+    li.own_group_message_li
+    .messageOptionsDiv
+    .optionsMore:after {
+    content: " ";
     height: 0;
     width: 0;
     margin-top: 5px;
@@ -3720,7 +3848,7 @@ body .chat_group_messages li.own_group_message_li .messageOptionsDiv .optionsMor
 
 body li.from_other .optionsMore:before,
 body li.replies .messageOptionsDiv .optionsMore:before {
-    content: ' ';
+    content: " ";
     height: 0;
     position: absolute;
     width: 0;
@@ -3742,7 +3870,11 @@ body #wrapper .chat_group_messages li.own_group_message_li .chooseOption {
     margin-top: 5px;
 }
 
-body .chat_group_messages li.own_group_message_li .messageOptionsDiv .optionsMore {
+body
+    .chat_group_messages
+    li.own_group_message_li
+    .messageOptionsDiv
+    .optionsMore {
     display: flex;
     position: absolute;
     right: unset;
@@ -3752,7 +3884,12 @@ body .chat_group_messages li.own_group_message_li .messageOptionsDiv .optionsMor
     width: max-content;
 }
 
-body .chat_group_messages li.from_other .messageOptionsDiv .optionsMore ._removeMessage,
+body
+    .chat_group_messages
+    li.from_other
+    .messageOptionsDiv
+    .optionsMore
+    ._removeMessage,
 body li.replies .messageOptionsDiv .optionsMore ._removeMessage {
     display: none;
 }
@@ -3798,12 +3935,10 @@ body .staffList::-webkit-scrollbar-thumb {
     border: 1px solid #b7bec5;
 }
 #frame #sidepanel .nav-tabs > li {
- 
-    padding: 7px 10px 7px 8px !important; 
+    padding: 7px 10px 7px 8px !important;
 }
 #frame .content .contact-profile .social-media {
     float: left;
-
 }
 #frame .dropdown-menu {
     right: -123px;
@@ -3812,7 +3947,6 @@ body .staffList::-webkit-scrollbar-thumb {
 }
 #frame #sidepanel #profile .wrap #status-options ul li {
     padding: 15px 11px 30px 43px;
-
 }
 .rtl #frame #sidepanel #profile .wrap p {
     float: right;
@@ -3820,6 +3954,30 @@ body .staffList::-webkit-scrollbar-thumb {
     font-weight: 500;
 }
 #forwardToModal ul.groupsList li button {
-
+    float: left !important;
+}
+#frame #sidepanel #groups_container,
+#frame #sidepanel #clients_container,
+#frame #sidepanel #contacts {
+    max-height: calc(var(--vh, 1vh) * 70);
+}
+.chat_ticket_messages {
+    padding: 29px !important;
+}
+body.Babilchat_Controller #frame .client_data span.contact_lang {
+    margin-right: 50px;
+}
+#frame .chat_groups_list .leave_chat_group {
+    left: 25px !important;
+}
+.rtl #frame p {
+    direction: rtl;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-right::after {
+    float: left;
+}
+body #frame .customers_toggler::after,
+body #frame .customers_toggler.chevron-default::after {
     float: left !important;
 }

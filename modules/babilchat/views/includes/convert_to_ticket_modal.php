@@ -102,9 +102,9 @@ if (count($staff_departments) == 0) {
 
                          if (msg.sender_id === userSessionId || msg.sender_id == 'staff_' + userSessionId) {
 
-                              html += '<div data-user="' + userSessionId + '" class="checkbox chat_ticket_messages mleft10"><span class="pull-left"><strong>' + sender_fullname + '</strong><small class="pull-right">' + msg.time_sent + '</small></span><br><input type="checkbox" name="ticket_messages" class="no-padding no-margin" id="message_' + msg.id + '" ><label for="message_' + msg.id + '">' + decodeChatMessageHtml(msg.message) + '</label></div>';
+                              html += '<div data-user="' + userSessionId + '" class="checkbox chat_ticket_messages mleft10"><span class="pull-left"><strong>' + sender_fullname + '</strong><small class="pull-right">' + msg.time_sent + '</small></span><br><input type="checkbox" name="ticket_messages" class="no-padding no-margin" id="message_' + msg.id + '" ><label for="message_' + msg.id + '">' + unescapeHtml(msg.message)  + '</label></div>';
                          } else {
-                              html += '<div data-user="' + msg.sender_id + '" class="checkbox chat_ticket_messages mleft10"><span class="pull-left text-info"><strong>' + sender_fullname + '</strong><small class="pull-right text-dark">' + msg.time_sent + '</small></span><br><input type="checkbox" name="ticket_messages" class="no-padding no-margin" id="message_' + msg.id + '" ><label for="message_' + msg.id + '">' + decodeChatMessageHtml(msg.message) + '</label></div>';
+                              html += '<div data-user="' + msg.sender_id + '" class="checkbox chat_ticket_messages mleft10"><span class="pull-left text-info"><strong>' + sender_fullname + '</strong><small class="pull-right text-dark">' + msg.time_sent + '</small></span><br><input type="checkbox" name="ticket_messages" class="no-padding no-margin" id="message_' + msg.id + '" ><label for="message_' + msg.id + '">' + unescapeHtml(msg.message) + '</label></div>';
                          }
                     });
 

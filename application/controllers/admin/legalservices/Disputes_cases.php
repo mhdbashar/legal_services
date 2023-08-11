@@ -1038,13 +1038,12 @@ class Disputes_cases extends AdminController
     {
         if (staff_can('create', 'invoices')) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-            $data['billable_tasks'] = $this->case->get_tasks($project_id, [
+            $data['billable_tasks'] = $this->Dcase->get_tasks($project_id, [
                 'billable' => 1,
                 'billed' => 0,
                 'startdate <=' => date('Y-m-d'),
             ]);
-
-            $data['not_billable_tasks'] = $this->case->get_tasks($project_id, [
+            $data['not_billable_tasks'] = $this->Dcase->get_tasks($project_id, [
                 'billable' => 1,
                 'billed' => 0,
                 'startdate >' => date('Y-m-d'),
@@ -1150,6 +1149,12 @@ class Disputes_cases extends AdminController
                                 $sec = 0;
                             }
                             $item['qty'] += sec2qty(task_timer_round($sec));
+                        } else {
+                            if ($sec < 60) {
+                                $sec = 0;
+                            }
+                            $item['qty'] += sec2qty(task_timer_round($sec));
+                            $item['rate'] += $task->hourly_rate;
                         }
                     }
                     if ($project->billing_type == 1) {

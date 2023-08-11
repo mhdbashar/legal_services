@@ -1109,18 +1109,11 @@ class Cases extends AdminController
                         $sec = $this->tasks_model->calc_task_total_time($task_id);
                         $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours') . "\r\n";
                         $item['task_id'][] = $task_id;
-                        if ($project->billing_type == 2) {
-                            if ($sec < 60) {
-                                $sec = 0;
-                            }
-                            $item['qty'] += sec2qty(task_timer_round($sec));
+                        if ($sec < 60) {
+                            $sec = 0;
                         }
-                    }
-                    if ($project->billing_type == 1) {
-                        $item['qty'] = 1;
-                        $item['rate'] = $project->project_cost;
-                    } elseif ($project->billing_type == 2) {
-                        $item['rate'] = $project->project_rate_per_hour;
+                        $item['qty'] += sec2qty(task_timer_round($sec));
+                        $item['rate'] += $task->hourly_rate;
                     }
                     $item['unit'] = '';
                     $items[] = $item;

@@ -35,12 +35,12 @@ class Other_services extends AdminController
             if ($id) {
                 foreach ($data['project_members'] as $staff_id){
                     $staff = $this->Staff_model->get($staff_id);
-                    $send = $this->emails_model->send_email_template('new-other_services-created-to-staff', 
-                        $staff->email, 
+                    $send = $this->emails_model->send_email_template('new-other_services-created-to-staff',
+                        $staff->email,
                         [
-                            'other_service_name' => $data['name'], 
-                            'staff_firstname' => $staff->firstname, 
-                            'other_service_description' => $data['description'], 
+                            'other_service_name' => $data['name'],
+                            'staff_firstname' => $staff->firstname,
+                            'other_service_description' => $data['description'],
                             'other_service_link' => admin_url('SOther/view/'.$ServID.'/'.$id),
                         ]
                     );
@@ -1089,6 +1089,13 @@ class Other_services extends AdminController
                                 $sec = 0;
                             }
                             $item['qty'] += sec2qty(task_timer_round($sec));
+                            $item['rate'] += $task->hourly_rate;
+                        } else {
+                            if ($sec < 60) {
+                                $sec = 0;
+                            }
+                            $item['qty'] += sec2qty(task_timer_round($sec));
+                            $item['rate'] += $task->hourly_rate;
                         }
                     }
                     if ($project->billing_type == 1) {
@@ -1108,7 +1115,7 @@ class Other_services extends AdminController
                         $item['long_description'] = seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours');
                         if ($project->billing_type == 2) {
                             $item['rate'] = $project->project_rate_per_hour;
-                        } elseif ($project->billing_type == 3) {
+                        } else {
                             $item['rate'] = $task->hourly_rate;
                         }
                         $item['task_id'] = $task_id;
@@ -1137,6 +1144,8 @@ class Other_services extends AdminController
                             if ($project->billing_type == 2) {
                                 $item['rate'] = $project->project_rate_per_hour;
                             } elseif ($project->billing_type == 3) {
+                                $item['rate'] = $timesheet['task_data']->hourly_rate;
+                            } else {
                                 $item['rate'] = $timesheet['task_data']->hourly_rate;
                             }
                             $item['unit'] = '';

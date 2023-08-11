@@ -487,14 +487,22 @@
       init_datepicker($duedate);
    }
 
-   //hide task-hours when change state task_billable by baraa
-   $(function(){
-       $('#task_is_billable').change(function() {
-           if(this.checked == true) {
-               $(".task-hours").show();
-           }else {
-               $(".task-hours").hide();;
-           }
-       });
+   //hide task-hours when change state task_billable
+   function updateTaskHoursVisibility() {
+     if ($('#task_is_billable').prop('checked')) {
+       $(".task-hours").show();
+     } else {
+       $(".task-hours").hide();
+     }
+   }
+
+   // Run on page load
+   $(document).ready(function() {
+     updateTaskHoursVisibility(); // Initial check
+   });
+
+   // Run when the checkbox is changed
+   $('#task_is_billable').change(function() {
+     updateTaskHoursVisibility();
    });
 </script>

@@ -326,7 +326,7 @@ function services_add_table_row($row ,$aRow) {
         $data = [
             'branch_id' => 1,
             'rel_type' => 'clients',
-            'rel_id' => $aRow['userid']
+            'rel_id' => $aRow['clientid']
         ];
         $CI->db->insert('tblbranches_services', $data);
         if($CI->db->insert_id()){

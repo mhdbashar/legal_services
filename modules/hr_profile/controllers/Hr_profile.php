@@ -5667,7 +5667,7 @@ class Hr_profile extends AdminController {
 
 		if ($this->input->post('slug') === 'create') {
 
-			$this->load->view('hr_record/mew_member', $data);
+			$this->load->view('hr_record/new_member', $data);
 
 		} else if ($this->input->post('slug') === 'update') {
 			$staff_id = $this->input->post('staff_id');

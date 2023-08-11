@@ -1099,6 +1099,20 @@ $lang['manager_hr'] = 'manage hr';
 $lang['director_general'] = 'director general';
 $lang['deserving_salary'] = 'Deserving Salary';
 $lang['hr_leave'] = 'Hr Leave';
+$lang['new_document'] = 'New Document';
+$lang['salary_type'] = 'Salary type';
+$lang['manage_depart'] = 'Manage Depart';
+$lang['Go_out'] = 'Go out';
+$lang['Go_on_bussiness'] = 'Go on bussiness';
+$lang['annual_leave'] = 'annual leave';
+$lang['private_work_without_pay'] = 'private work without pay';
+$lang['sick_leave'] = 'sick leave';
+
+
+
+
+
+
 
 
 

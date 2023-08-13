@@ -335,7 +335,7 @@ class Sessions_model extends App_Model
         }
         unset($_new_task_data['datefinished']);
 
-        $_new_task_data = hooks()->apply_filters('before_add_task', $_new_task_data);
+//        $_new_task_data = hooks()->apply_filters('before_add_task', $_new_task_data);
 
         $this->db->insert(db_prefix() . 'tasks', $_new_task_data);
         $insert_id = $this->db->insert_id();
@@ -659,7 +659,7 @@ class Sessions_model extends App_Model
             unset($data['withDefaultAssignee']);
         }
 
-        $data = hooks()->apply_filters('before_add_task', $data);
+//        $data = hooks()->apply_filters('before_add_task', $data);
 
         $tags = '';
         if (isset($data['tags'])) {
@@ -960,7 +960,7 @@ class Sessions_model extends App_Model
             }
         }
 
-        $data = hooks()->apply_filters('before_update_task', $data, $id);
+//        $data = hooks()->apply_filters('before_update_task', $data, $id);
 
         if (isset($data['tags'])) {
             if (handle_tags_save($data['tags'], $id, 'task')) {

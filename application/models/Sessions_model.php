@@ -1313,7 +1313,7 @@ class Sessions_model extends App_Model
                 $member = $this->staff_model->get($data['follower']);
 
 //                if(check_session_by_id($data['taskid'])){
-                    send_mail_template('session_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+                send_mail_template('session_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
 //                }else{
 //                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
 //                }

@@ -25,8 +25,8 @@ if (!has_permission('sessions', '', 'view')) {
     array_push($where, get_tasks_where_string());
 }
 
-if (count($filter) > 0) {
-    array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
-}
+//if (count($filter) > 0) {
+//    array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
+//}
 
 $where = hooks()->apply_filters('tasks_table_sql_where', $where);

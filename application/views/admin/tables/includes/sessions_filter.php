@@ -21,7 +21,7 @@ if ($this->ci->input->post('my_following_tasks')) {
 }
 
 
-if (!has_permission('tasks', '', 'view')) {
+if (!has_permission('sessions', '', 'view')) {
     array_push($where, get_tasks_where_string());
 }
 

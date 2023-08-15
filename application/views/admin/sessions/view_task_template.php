@@ -857,17 +857,39 @@
          <div class="simple-bootstrap-select">
             <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-session-assignees" data-live-search="true" title='<?php echo _l('session_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
-               $options = '';
-               foreach ($staff as $assignee) {
-                 if (!in_array($assignee['staffid'],$task->assignees_ids)) {
-                   if ($task->rel_type == 'project'
-                     && total_rows(db_prefix().'project_members', array('project_id' => $task->rel_id,'staff_id' => $assignee['staffid'])) == 0) {
-                    continue;
-               }
-               $options .= '<option value="' . $assignee['staffid'] . '">' . $assignee['full_name'] . '</option>';
-               }
-               }
-               echo $options;
+               $options = '';  $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
+            if ($service_id==0)
+            {
+                foreach ($staff as $assignee) {
+                    if (!in_array($assignee['staffid'],$task->assignees_ids)) {
+                        if ($task->rel_type == 'project'
+                            && total_rows(db_prefix().'project_members', array('project_id' => $task->rel_id,'staff_id' => $assignee['staffid'])) == 0) {
+                            continue;
+                        }
+                        $options .= '<option value="' . $assignee['staffid'] . '">' . $assignee['full_name'] . '</option>';
+                    }
+                }
+            }
+            else
+            {
+                foreach ($members as $assignee) {
+
+
+                    $firstname=$assignee['firstname'];
+                    $lastname=$assignee['lastname'];
+                    $full_name=$firstname." ".$lastname;
+
+                    if (!in_array($assignee['staff_id'],$task->assignees_ids)) {
+                        if ($task->rel_type == 'project'
+                            && total_rows(db_prefix().'project_members', array('project_id' => $task->rel_id,'staff_id' => $assignee['staff_id'])) == 0) {
+                            continue;
+                        }
+                        $options .= '<option value="' . $assignee['staff_id']. '">' . $full_name . '</option>';
+                    }
+                }
+            }
+
+            echo $options;
                ?>
             </select>
          </div>
@@ -906,11 +928,25 @@
             <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-session-followers" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
                $options = '';
-               foreach ($staff as $follower) {
-                if (!in_array($follower['staffid'],$task->followers_ids)) {
-                  $options .= '<option value="' . $follower['staffid'] . '">' . $follower['full_name'] . '</option>';
-               }
-               }
+            if ($service_id ==0)
+            {
+                foreach ($staff as $follower) {
+                    if (!in_array($follower['staffid'],$task->followers_ids)) {
+                        $options .= '<option value="' . $follower['staffid'] . '">' . $follower['full_name'] . '</option>';
+                    }
+                }
+            }
+            else
+            {
+                foreach ($members as $follower) {
+                    $firstname=$follower['firstname'];
+                    $lastname=$follower['lastname'];
+                    $full_name=$firstname." ".$lastname;
+                    if (!in_array($follower['staff_id'],$task->followers_ids)) {
+                        $options .= '<option value="' . $follower['staff_id'] . '">' . $full_name . '</option>';
+                    }
+                }
+            }
                echo $options;
                ?>
             </select>

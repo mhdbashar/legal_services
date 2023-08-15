@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body <?php if(is_rtl(get_client_user_id())){ echo 'dir="rtl"';}; ?>>
     <div id="wrapper">
         <div class="content" style="overflow-x:hidden;">
             <div class="row">

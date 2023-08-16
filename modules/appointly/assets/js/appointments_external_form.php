@@ -3,9 +3,9 @@
     var is_busy_times_enabled = "<?= get_option('appointly_busy_times_enabled'); ?>";
 
     $(function () {
-        init_editor('textarea[name="notes"]', {
-            menubar: false,
-        });
+        // init_editor('textarea[name="notes"]', {
+        //     menubar: false,
+        // });
 
         var allowedHours = <?= json_encode(json_decode(get_option('appointly_available_hours'))); ?>;
         var appMinTime = <?= get_option('appointments_show_past_times'); ?>;
@@ -66,7 +66,7 @@
                     appointmentDatePickerOptions.formatTime = "h:i A";
                 }
 
-                $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
+                $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
             });
 
             jQuery.datetimepicker.setLocale(app.locale);

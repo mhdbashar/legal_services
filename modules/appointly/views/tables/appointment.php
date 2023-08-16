@@ -63,7 +63,7 @@
                                         } else if (
                                             ! $appointment['finished']
                                             && ! $appointment['cancelled']
-                                            && ! $appointment['approved']
+                                            && $appointment['approved']
                                             && date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')
                                         ) {
                                             echo '<span class="label label-danger">' . strtoupper(_l('appointment_missed_label')) . '</span>';

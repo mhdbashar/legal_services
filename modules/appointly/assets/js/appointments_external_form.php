@@ -60,13 +60,13 @@
                 };
                 var dateFormat = app.options.date_format;
                 if (app.options.time_format == 24) {
-                    appointmentDatePickerOptions.format = dateFormat + " H:i";
+                    appointmentDatePickerOptionsExternal.format = dateFormat + " H:i";
                 } else {
                     // appointmentDatePickerOptions.format = dateFormat + " g:i A";
-                    appointmentDatePickerOptions.formatTime = "h:i A";
+                    appointmentDatePickerOptionsExternal.formatTime = "h:i A";
                 }
 
-                $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
+                $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
             });
 
             jQuery.datetimepicker.setLocale(app.locale);

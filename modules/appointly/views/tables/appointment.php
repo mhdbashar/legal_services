@@ -150,7 +150,7 @@
                                     <span class="spmodified">
                                             <boldit><?= _l('appointment_squeduled_at_text'); ?>
                                             </boldit>
-                                            <?= date("H:i A", strtotime($appointment['start_hour'])); ?>
+                                            <?= get_option('time_format') == 24 ? date("H:i", strtotime($appointment['start_hour'])) : date("h:i a", strtotime($appointment['start_hour'])); ?>
                                         </span><br>
 
                                     <div class="spmodified attendees">

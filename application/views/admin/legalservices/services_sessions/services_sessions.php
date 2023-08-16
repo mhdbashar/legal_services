@@ -30,7 +30,7 @@
             $data['class']='.table-waiting_sessions_log';
             ?>
             <!--*********Adding filter***************-->
-            <?php $this->load->view('admin/sessions/session_filter_icon',$data); ?>
+            <?php $this->load->view('admin/sessions/sessions_filter_by',$data); ?>
             <!--**************************************************-->
         <?php
         $table_data = [
@@ -68,7 +68,7 @@
             $data['class']='.table-previous_sessions_log';
             ?>
             <!--*********Adding filter***************-->
-            <?php $this->load->view('admin/sessions/session_filter_icon', $data); ?>
+            <?php $this->load->view('admin/sessions/sessions_filter_by', $data); ?>
             <!--**************************************************-->
         <?php
 

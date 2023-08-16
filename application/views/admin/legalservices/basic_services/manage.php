@@ -29,7 +29,7 @@
 
                             }
                             if($ServID == 22){
-                                $TableStaff = 'my_members_cases';
+                                $TableStaff = 'my_members_disputes_cases';
                                 $TableService ='my_disputes_cases';
                                 $field = 'project_id';
                                 $class = '.table-cases';
@@ -136,32 +136,70 @@
                         }else{
                             $TitleText = 'cf_translate_input_link_title';
                         }
-                        $_table_data = array(
-                            array(
-                                'name' => _l('the_number_sign'),
-                            ),
-                            array(
-                                'name' => _l($TitleText),
-                            ),
-                            array(
-                                'name' => _l('proposal_for_customer'),
-                            ),
-                            array(
-                                'name' => _l('tags'),
-                            ),
-                            array(
-                                'name' => _l('project_start_date'),
-                            ),
-                            array(
-                                'name' => _l('project_deadline'),
-                            ),
-                            array(
-                                'name' => _l('project_members'),
-                            ),
-                            array(
-                                'name' => _l('project_status'),
-                            )
-                        );
+                        if($ServID == 1){
+                            $_table_data = array(
+                                array(
+                                    'name' => _l('the_number_sign'),
+                                ),
+                                array(
+                                    'name' => _l($TitleText),
+                                ),
+                                array(
+                                    'name' => _l('proposal_for_customer'),
+                                ),
+                                array(
+                                    'name' => _l('tags'),
+                                ),
+                                array(
+                                    'name' => _l('file_number_in_court'),
+                                ),
+                                array(
+                                    'name' => _l('Court'),
+                                ),
+                                array(
+                                    'name' => _l('NumJudicialDept'),
+                                ),
+                                array(
+                                    'name' => _l('project_start_date'),
+                                ),
+                                array(
+                                    'name' => _l('project_deadline'),
+                                ),
+                                array(
+                                    'name' => _l('project_members'),
+                                ),
+                                array(
+                                    'name' => _l('project_status'),
+                                )
+                            );
+                        }else {
+                            $_table_data = array(
+                                array(
+                                    'name' => _l('the_number_sign'),
+                                ),
+                                array(
+                                    'name' => _l($TitleText),
+                                ),
+                                array(
+                                    'name' => _l('proposal_for_customer'),
+                                ),
+                                array(
+                                    'name' => _l('tags'),
+                                ),
+                                array(
+                                    'name' => _l('project_start_date'),
+                                ),
+                                array(
+                                    'name' => _l('project_deadline'),
+                                ),
+                                array(
+                                    'name' => _l('project_members'),
+                                ),
+                                array(
+                                    'name' => _l('project_status'),
+                                )
+                            );
+                        }
                         foreach($_table_data as $_t){
                             array_push($table_data,$_t);
                         }
@@ -189,7 +227,7 @@
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', $ServID == 1 ? json_encode(array(8,'asc')) : json_encode(array(5,'asc'))); ?>);
     });
 </script>
 </body>

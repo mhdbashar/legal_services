@@ -57,11 +57,9 @@
         {
             $.post(site_url + "appointly/appointments_public/busyDates").done(function (r) {
                 r = JSON.parse(r);
-                var dateFormat = app.options.date_format;
                 var appointmentDatePickerOptions = {
                     dayOfWeekStart: app.options.calendar_first_day,
                     minDate: 0,
-                    format: dateFormat,
                     defaultTime: "09:00",
                     allowTimes: allowedLeadsHours,
                     closeOnDateSelect: 0,
@@ -102,15 +100,13 @@
                         currentTime.removeClass("busy_time");
                     }
                 };
-
+                var dateFormat = app.options.date_format;
                 if (app.options.time_format == 24) {
-                    dateFormat = dateFormat + " H:i";
+                    appointmentDatePickerOptions.format = dateFormat + " H:i";
                 } else {
-                    dateFormat = dateFormat + " g:i A";
-                    appointmentDatePickerOptions.formatTime = "g:i A";
+                    // appointmentDatePickerOptions.format = dateFormat + " g:i A";
+                    // appointmentDatePickerOptions.formatTime = "g:i A";
                 }
-
-                appointmentDatePickerOptions.format = dateFormat;
 
                 $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
             });

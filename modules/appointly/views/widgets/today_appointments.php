@@ -24,7 +24,7 @@ $appointments = $CI->apm->fetch_todays_appointments();
                         </span>
                         <h5 class="no-margin">
                             <span class="text-warning"><?= _l('appointment_scheduled_at'); ?> </span>
-                            <?= date("H:i A", strtotime($appointment['start_hour'])); ?>
+                            <?= get_option('time_format') == 24 ? date("H:i", strtotime($appointment['start_hour'])) : date("h:i a", strtotime($appointment['start_hour'])); ?>
                         </h5>
                     </div>
                 <?php } ?>

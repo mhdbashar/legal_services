@@ -318,7 +318,8 @@
             <h4 class="th font-medium mbot15 pull-left"><?php echo _l('Court_decision'); ?></h4>
             <div class="clearfix"></div>
             <?php if (has_permission('sessions', '', 'edit')) {
-                    echo render_textarea('court_decision', '', !empty($task->court_decision) ? $task->court_decision : '', array(), array(), '', 'tinymce');
+                $value = strip_html_tags(isset($task) ? $task->court_decision : '');
+                echo render_textarea('court_decision', '', $value, array(), array(), '');
                 } else { ?>
                 <?php if (!empty($task->court_decision)) {
                     echo '<div class="tc-content"><div id="court_decision">' . check_for_links($task->court_decision) . '</div></div>';
@@ -330,7 +331,8 @@
             <h4 class="th font-medium mbot15 pull-left"><?php echo _l('session_info'); ?></h4>
             <div class="clearfix"></div>
             <?php if (has_permission('sessions', '', 'edit')) {
-                    echo render_textarea('session_information', '', !empty($task->session_information) ? $task->session_information : '', array(), array(), '', 'tinymce');
+                $value = strip_html_tags(isset($task) ? $task->session_information : '');
+                echo render_textarea('session_information', '', $value, array(), array(), '', '');
                 } else { ?>
                 <?php if (!empty($task->session_information)) {
                     echo '<div class="tc-content"><div id="session_information">' . check_for_links($task->session_information) . '</div></div>';
@@ -343,7 +345,8 @@
             <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
             <div class="clearfix"></div>
             <?php if (has_permission('sessions', '', 'edit')) {
-                echo render_textarea('task_view_description', '', !empty($task->description) ? $task->description : '', array(), array(), '', 'tinymce');
+                $value = strip_html_tags(isset($task) ? $task->description : '');
+                echo render_textarea('task_view_description', '', !empty($task->description) ? $task->description : '', array(), array(), '');
             } else { ?>
                 <?php if (!empty($task->description)) {
                     echo '<div class="tc-content"><div id="task_view_description">' . check_for_links($task->description) . '</div></div>';
@@ -1069,6 +1072,8 @@
     </div>
 </div>
 <script>
+    // init_editor('#session_information');
+
     if (typeof (commonTaskPopoverMenuOptions) == 'undefined') {
         var commonTaskPopoverMenuOptions = {
             html: true,

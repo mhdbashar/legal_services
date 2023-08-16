@@ -23,7 +23,7 @@
                                 <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                                 <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option value=""></option>
-                                    <option value="project"> <?php echo _l('project'); ?> </option>
+                                  <!--  <option value="project"> <?php echo _l('project'); ?> </option>-->
                                     <option value="invoice"> <?php echo _l('invoice'); ?> </option>
                                     <option value="customer"> <?php echo _l('client'); ?> </option>
                                     <option value="estimate"> <?php echo _l('estimate'); ?> </option>
@@ -32,7 +32,28 @@
                                     <option value="expense"> <?php echo _l('expense'); ?> </option>
                                     <option value="lead"> <?php echo _l('lead'); ?> </option>
                                     <option value="proposal"> <?php echo _l('proposal'); ?> </option>
-                                </select>
+                                    <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'legal_procedures'){echo 'selected';}} ?>>
+                                <?php echo _l('legal_procedures'); ?>
+                            </option>
+                            <?php foreach ($legal_services as $service): ?>
+                                <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
+                                    <?php if(isset($task) || $this->input->get('rel_type')){
+                                        if($service->is_module == 0){
+                                            if($rel_type == $service->slug){
+                                                echo 'selected';
+                                            }
+                                        }else{
+                                            if($rel_type == 'project'){
+                                                echo 'selected';
+                                            }
+                                        }
+                                    } ?>><?php echo $service->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                            <?php
+                            hooks()->do_action('task_modal_rel_type_select', ['task' => (isset($task) ? $task : 0), 'rel_type' => $rel_type]);
+                            ?>
+                        </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -118,6 +139,36 @@
                     case 'proposal':
                         mention = site_url + 'admin/proposals#' + view_id
                         break;
+                        case 'kd-y':
+                        mention = site_url + 'admin/Case/view/1/' + view_id
+                        break;
+                        case 'aakod':
+                        mention = site_url + 'admin/SOther/view/2/' + view_id
+                        break;
+                        case 'stsh-r-t':
+                        mention = site_url + 'admin/SOther/view/3/' + view_id
+                        break;
+                        case 'nz_aa_t_m_ly':
+                        mention = site_url + 'admin/SOther/view/4/' + view_id
+                        break;
+                        case 'kd_y_ltnfyth':
+                        mention = site_url + 'admin/Disputes_cases/view/22/' + view_id
+                        break;
+                        case 'kdaya_altnfith':
+                        mention = site_url + 'admin/Disputes_cases/view/22/' + view_id
+                        break;
+                        case 'purchase_invoice':
+                        mention = site_url + 'admin/purchase/purchase_invoice/' + view_id
+                        break;
+                        case 'purchase_invoice':
+                        mention = site_url + 'admin/purchase/contract/' + view_id
+                        break;
+                        case 'ticket':
+                        mention = site_url + 'admin/tickets/ticket/' + view_id
+                        break;
+
+
+
                     default:
                 }
 

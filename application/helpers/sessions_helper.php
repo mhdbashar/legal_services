@@ -595,14 +595,20 @@ function get_sessions_where_string($table = true)
 
 function get_count_of_watting_sessions()
 {
+    $sessions_where = !has_permission('sessions', '', 'view')
+        ? ' '. get_sessions_where_string()
+        : '';
     $CI = &get_instance();
-    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id WHERE is_session = 1 AND STR_TO_DATE(current_timestamp(), "%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ",'.db_prefix().'my_session_info.time), "%Y-%m-%d %H:%i:%s")')->row()->session_count;
+    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id WHERE is_session = 1 AND STR_TO_DATE(current_timestamp(), "%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ",'.db_prefix().'my_session_info.time), "%Y-%m-%d %H:%i:%s")'. $sessions_where)->row()->session_count;
 }
 
 function get_count_of_previous_sessions()
 {
+    $sessions_where = !has_permission('sessions', '', 'view')
+        ? ' '. get_sessions_where_string()
+        : '';
     $CI = &get_instance();
-    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id WHERE is_session = 1 AND STR_TO_DATE(current_timestamp(), "%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ",'.db_prefix().'my_session_info.time), "%Y-%m-%d %H:%i:%s")')->row()->session_count;
+    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id WHERE is_session = 1 AND STR_TO_DATE(current_timestamp(), "%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ",'.db_prefix().'my_session_info.time), "%Y-%m-%d %H:%i:%s")'. $sessions_where)->row()->session_count;
 }
 
 /**

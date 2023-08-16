@@ -236,7 +236,9 @@ function get_relation_data($type, $rel_id = '', $extra = [])
             $data = $CI->disputes_serv->get($rel_id, db_prefix() . 'my_disputes_cases.name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
         }else{
             $CI->load->model('legalservices/Other_services_model', 'other_serv');
-            $data = $CI->other_serv->get($service_id, $rel_id, $where);
+           // $data = $CI->other_serv->get($service_id, $rel_id, $where);
+            $data = $CI->other_serv->get($service_id,$rel_id, db_prefix() . 'my_other_services.name LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\'');
+
         }
     }
 

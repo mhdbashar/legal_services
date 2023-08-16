@@ -178,7 +178,7 @@
                                         <?php foreach($regular_duration as $rd_template){ ?>
                                             <tr>
                                                 <td class="<?php if($rd_template['active'] == 0){echo 'text-throught';} ?>">
-                                                    <a href="<?php echo admin_url('emails/email_template/'.$rd_template['emailtemplateid']); ?>">Regular duration reminder</a>
+                                                    <a href="<?php echo admin_url('emails/email_template/'.$rd_template['emailtemplateid']); ?>"><?php echo _l('Regular duration reminder')?></a>
                                                     <?php // if(ENVIRONMENT !== 'production'){ ?>
                                                         <br/><small><?php echo $rd_template['slug']; ?></small>
                                                     <?php  // } ?>

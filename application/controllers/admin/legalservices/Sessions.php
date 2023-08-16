@@ -2002,6 +2002,10 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
+$send_mail_to_client=$data['send_mail_to_client'];
+
+
+
             $this->db->where('id', $id);
             $row = $this->sessions_model->get($id);
             $rel_type = $row->rel_type;
@@ -2045,15 +2049,20 @@ class Sessions extends AdminController
                     $contacts = 1;
                 }
             }else {
-                $this->db->where('userid', $client_id);
-                $this->db->where('active', 1);
-                $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
+                if($send_mail_to_client== 'false') {
+                    $this->db->where('userid', $client_id);
+                    $this->db->where('active', 1);
+                    $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
+                }
+            }
+            if($send_mail_to_client== 'false') {
+                if ($contacts == 0) {
+                    echo 'error_client'; // This client doesn't have primary contact
+                    die();
+                }
             }
 
-            if($contacts == 0) {
-                echo 'error_client'; // This client doesn't have primary contact
-                die();
-            }
+
 
             $followers = $this->sessions_model->get_task_followers($id);
             if(count($followers) == 0){
@@ -2068,25 +2077,31 @@ class Sessions extends AdminController
             }
 
             unset($data['send_mail_to_opponent']);
+            unset($data['send_mail_to_client']);
             $success = $this->sessions_model->add_session_report($id, $data);
             if($success) {
                 $session = $this->sessions_model->get($id);
-                foreach ($session->followers_ids as $staff_id){
-                    if (get_staff_user_id() != $staff_id) {
-                        send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
-                        $notified = add_notification([
-                            'description'     => 'session_report_added',
-                            'touserid'        => $staff_id,
-                            'link'            => 'legalservices/sessions/index/' . $id,
-                            'additional_data' => serialize([
-                                $session->name,
-                            ]),
-                        ]);
-                        if ($notified) {
-                            pusher_trigger_notification([$staff_id]);
+
+                if($send_mail_to_client == 'false') {
+                    foreach ($session->followers_ids as $staff_id) {
+                        if (get_staff_user_id() != $staff_id) {
+                            send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
+                            $notified = add_notification([
+                                'description' => 'session_report_added',
+                                'touserid' => $staff_id,
+                                'link' => 'legalservices/sessions/index/' . $id,
+                                'additional_data' => serialize([
+                                    $session->name,
+                                ]),
+                            ]);
+                            if ($notified) {
+                                pusher_trigger_notification([$staff_id]);
+                            }
                         }
                     }
                 }
+
+
                 if(isset($data['next_session_date'])  && isset($data['next_session_date'])) {
                     $newsession = [];
                     $newsession['time'] = $data['next_session_time'];
@@ -2100,7 +2115,7 @@ class Sessions extends AdminController
                     $newsession['rel_id'] = $session->rel_id;
                     $newsession['court_id'] = $session->court_id;
                     $newsession['dept'] = $session->dept;
-                    $newsession['cat_id'] = $session->cat_id;
+                   // $newsession['cat_id'] = $session->cat_id;
                     $newsession['subcat_id'] = $session->subcat_id;
                     $newsession['childsubcat_id'] = $session->childsubcat_id;
                     $newsession['file_number_court'] = $session->file_number_court;

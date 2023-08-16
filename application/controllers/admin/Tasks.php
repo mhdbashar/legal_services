@@ -12,7 +12,12 @@ class Tasks extends AdminController
         $this->load->model('projects_model');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Cases_model', 'case');
-    }
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'dispute');
+        $this->load->model('legalservices/Other_services_model', 'Other');
+
+
+
+        }
 
     /* Open also all taks if user access this /tasks url */
     public function index($id = '')
@@ -638,21 +643,41 @@ class Tasks extends AdminController
         }
 
         $task = $this->tasks_model->get($taskid, $tasks_where);
-
+        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
 
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
             echo 'Task not found';
             die();
         }
+        $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
+
+           if ($service_id == 22) {
+               $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
+           }
+           else if($service_id == 1){
+               $data['members'] =$this->case->get_project_members_name($task->rel_id);
+
+           }
+           else  {
+               $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+           }
 
 
 
 
+
+
+//------------------------------
+
+
+
+
+        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
         $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
         $data['task']               = $task;
         $data['id']                 = $task->id;
-        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
+
         $data['reminders']          = $this->tasks_model->get_reminders($taskid);
 
         $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
@@ -1859,7 +1884,7 @@ class Tasks extends AdminController
         if ($this->input->post() && $this->input->is_ajax_request()) {
             $payload = $this->input->post();
             $item    = $this->tasks_model->get_checklist_item($payload['checklistId']);
-            if ($item->addedfrom == get_staff_user_id() || is_admin()) {
+            if ($item->addedfrom == get_staff_user_id() || is_admin() || true) {
                 $this->tasks_model->update_checklist_assigned_staff($payload);
                 die;
             }
@@ -1867,4 +1892,5 @@ class Tasks extends AdminController
             ajax_access_denied();
         }
     }
+
 }

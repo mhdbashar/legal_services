@@ -3824,4 +3824,11 @@ class Other_services_model extends App_Model
             }
         }
     }
+    public function get_project_members_name($id)
+    {
+
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
+        $this->db->where('oservice_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_services')->result_array();
+    }
 }

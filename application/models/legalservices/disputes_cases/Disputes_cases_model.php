@@ -164,6 +164,13 @@ class Disputes_cases_model extends App_Model
         $this->db->where('my_disputes_cases.id', $id);
         return $this->db->get()->row();
     }
+    public function get_project_members_name($id)
+    {
+
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_disputes_cases_members.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_disputes_cases_members')->result_array();
+    }
 
     public function GetMembersCases($id)
     {

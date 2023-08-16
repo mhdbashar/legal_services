@@ -2010,6 +2010,7 @@ class Sessions extends AdminController
     }
 
 
+
     public function add_report_session($id)
     {
         if(!$id){
@@ -2018,6 +2019,7 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
+                $data['next_session_date'] = force_to_AD_date($data['next_session_date']);
 $send_mail_to_client=$data['send_mail_to_opponent'];
 
 

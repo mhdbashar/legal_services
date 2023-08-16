@@ -2018,7 +2018,7 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-$send_mail_to_client=$data['send_mail_to_client'];
+$send_mail_to_client=$data['send_mail_to_opponent'];
 
 
 

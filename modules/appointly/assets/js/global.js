@@ -60,26 +60,6 @@ $('#createInternal').click(function() {
 /**
  * Init dates for staff appointments
  */
-function initAppointmentScheduledDatesStaff() {
-    var appointmentDatePickerOptions = {
-        dayOfWeekStart: app.options.calendar_first_day,
-        minDate: 0,
-        defaultTime: "09:00",
-        closeOnDateSelect: 0,
-        closeOnTimeSelect: 1,
-        disabledWeekDays: [5],
-        validateOnBlur: false
-    };
-    var dateFormat = app.options.date_format;
-    if (app.options.time_format == 24) {
-        appointmentDatePickerOptions.format = dateFormat + " H:i";
-    } else {
-        // appointmentDatePickerOptions.format = dateFormat + " g:i A";
-        // appointmentDatePickerOptions.formatTime = "g:i A";
-    }
-
-    $('.appointment-date').datetimepicker(appointmentDatePickerOptions);
-}
 
 /** 
  * Leads

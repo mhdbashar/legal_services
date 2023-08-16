@@ -621,7 +621,9 @@ class Appointly_model extends App_Model
      */
     public function getBusyTimes()
     {
-        $time_format = '24';
+        $CI = &get_instance();
+        $CI->load->library('app_modules');
+        $time_format = get_option('time_format');
 
         $format = '';
         $time = '24';
@@ -629,14 +631,11 @@ class Appointly_model extends App_Model
         if ($time_format === '24') {
             $format = '"%H:%i"';
         } else {
-            $time = '12';
             $format = '"%h:%i %p"';
-
-
         }
 
 
-        $this->db->select('TIME_FORMAT(start_hour, ' . $format . ') as start_hour, date, source, created_by', false);
+        $this->db->select('TIME_FORMAT(start_hour,'. $format .') as start_hour, date, source, created_by', false);
         $this->db->from(db_prefix() . 'appointly_appointments');
         $this->db->where('approved', 1);
 

@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+            $data['class']='.table-previous_sessions_log';
+//<!--*********Adding filter***************-->
+ $this->load->view('admin/sessions/sessions_filter_by', $data);
+//<!--**************************************************-->
 $table_data = [
     _l('the_number_sign'),
     [

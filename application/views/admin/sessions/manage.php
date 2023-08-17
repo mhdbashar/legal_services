@@ -124,6 +124,10 @@ if ($time_format === '24') {
         initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
         initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
     });
+//*******calling functions to filter sessions*************
+    init_waiting_sessions_log_table_sessions();
+    init_previous_sessions_log_table_sessions();
+    //****************************************************
 
     // Init session kan ban
     function sessions_kanban() {

@@ -720,7 +720,13 @@ function add_report_session(task_id) {
     court_decision = $('#edit_court_decision' + task_id).val();
     session_link = $('#session_link' + task_id).val();
     send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
-    if (court_decision == '') {
+    if (next_session_date == '') {
+        alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_date'); ?>');
+    }
+    else if (next_session_time == '') {
+        alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_time'); ?>');
+    }
+    else if (court_decision == '') {
         alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
     } else {
         $.ajax({

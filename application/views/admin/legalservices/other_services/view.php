@@ -522,7 +522,13 @@ echo form_hidden('project_percent',$percent);
         next_session_time = $('#next_session_time' + task_id).val();
         court_decision = $('#edit_court_decision' + task_id).val();
         session_link = $('#session_link' + task_id).val();
-        if (court_decision == '') {
+        if (next_session_date == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_date'); ?>');
+        }
+        else if (next_session_time == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_time'); ?>');
+        }
+        else if (court_decision == '') {
             alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
         } else {
             $.ajax({

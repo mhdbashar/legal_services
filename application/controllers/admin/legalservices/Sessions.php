@@ -2100,7 +2100,9 @@ class Sessions extends AdminController
 
 
                 if(isset($data['next_session_date'])  && isset($data['next_session_time'])) {
-                    $data['next_session_date'] = force_to_AD_date($data['next_session_date']);
+                    if(is_numeric(date('Y', strtotime($data['next_session_date']))))
+                        if(date('Y', strtotime($data['next_session_date'])) < 1900)
+                            $data['next_session_date'] = force_to_AD_date($data['next_session_date']);
                     $newsession = [];
                     $newsession['time'] = $data['next_session_time'];
                     $newsession['startdate'] = to_sql_date($data['next_session_date']);

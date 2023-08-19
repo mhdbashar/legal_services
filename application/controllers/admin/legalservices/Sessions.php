@@ -2019,11 +2019,6 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-                $data['next_session_date'] = force_to_AD_date($data['next_session_date']);
-$send_mail_to_client=$data['send_mail_to_opponent'];
-
-
-
             $this->db->where('id', $id);
             $row = $this->sessions_model->get($id);
             $rel_type = $row->rel_type;
@@ -2067,20 +2062,7 @@ $send_mail_to_client=$data['send_mail_to_opponent'];
                     $contacts = 1;
                 }
             }else {
-                if($send_mail_to_client== 'false') {
-                    $this->db->where('userid', $client_id);
-                    $this->db->where('active', 1);
-                    $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
-                }
             }
-            if($send_mail_to_client== 'false') {
-                if ($contacts == 0) {
-                    echo 'error_client'; // This client doesn't have primary contact
-                    die();
-                }
-            }
-
-
 
             $followers = $this->sessions_model->get_task_followers($id);
             if(count($followers) == 0){
@@ -2095,32 +2077,29 @@ $send_mail_to_client=$data['send_mail_to_opponent'];
             }
 
             unset($data['send_mail_to_opponent']);
-            unset($data['send_mail_to_client']);
             $success = $this->sessions_model->add_session_report($id, $data);
             if($success) {
                 $session = $this->sessions_model->get($id);
 
-                if($send_mail_to_client == 'false') {
-                    foreach ($session->followers_ids as $staff_id) {
-                        if (get_staff_user_id() != $staff_id) {
-                            send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
-                            $notified = add_notification([
-                                'description' => 'session_report_added',
-                                'touserid' => $staff_id,
-                                'link' => 'legalservices/sessions/index/' . $id,
-                                'additional_data' => serialize([
-                                    $session->name,
-                                ]),
-                            ]);
-                            if ($notified) {
-                                pusher_trigger_notification([$staff_id]);
-                            }
+                foreach ($session->followers_ids as $staff_id) {
+                    if (get_staff_user_id() != $staff_id) {
+                        send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
+                        $notified = add_notification([
+                            'description' => 'session_report_added',
+                            'touserid' => $staff_id,
+                            'link' => 'legalservices/sessions/index/' . $id,
+                            'additional_data' => serialize([
+                                $session->name,
+                            ]),
+                        ]);
+                        if ($notified) {
+                            pusher_trigger_notification([$staff_id]);
                         }
                     }
                 }
 
 
-                if(isset($data['next_session_date'])  && isset($data['next_session_date'])) {
+                if(isset($data['next_session_date'])  && isset($data['next_session_time'])) {
                     $newsession = [];
                     $newsession['time'] = $data['next_session_time'];
                     $newsession['startdate'] = to_sql_date($data['next_session_date']);
@@ -2500,7 +2479,7 @@ $send_mail_to_client=$data['send_mail_to_opponent'];
             $success = $this->db->update(db_prefix() . 'my_session_info', ['court_decision' => $this->input->post('court_decision')]);
             if ($success) {
                 $alert_type = 'success';
-                $message    = _l('reminder_added_successfully');
+                $message    = _l('updated_successfully');
                 echo json_encode([
                     'alert_type'   => $alert_type,
                     'message' => $message,

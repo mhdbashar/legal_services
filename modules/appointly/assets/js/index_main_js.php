@@ -151,7 +151,7 @@
                 appointmentDatePickerOptions.format = dateFormat + " H:i";
             } else {
                 // appointmentDatePickerOptions.format = dateFormat + " g:i A";
-                // appointmentDatePickerOptions.formatTime = "g:i A";
+                appointmentDatePickerOptions.formatTime = "h:i A";
             }
 
             $(".appointment-date").datetimepicker(appointmentDatePickerOptions);

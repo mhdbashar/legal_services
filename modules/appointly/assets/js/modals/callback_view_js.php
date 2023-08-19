@@ -24,24 +24,21 @@
         $(this).find('form')[0].reset();
     });
 
-    var dateFormat = app.options.date_format;
     var appointmentDatePickerOptionsExternal = {
         dayOfWeekStart: app.options.calendar_first_day,
         minDate: 0,
-        format: dateFormat,
         closeOnDateSelect: 0,
         closeOnTimeSelect: 1,
         validateOnBlur: false,
     };
 
+    var dateFormat = app.options.date_format;
     if (app.options.time_format == 24) {
-        dateFormat = dateFormat + ' H:i';
+        appointmentDatePickerOptionsExternal.format = dateFormat + " H:i";
     } else {
-        dateFormat = dateFormat + ' g:i A';
-        appointmentDatePickerOptionsExternal.formatTime = 'g:i A';
+        // appointmentDatePickerOptionsExternal.format = dateFormat + " g:i A";
+        // appointmentDatePickerOptionsExternal.formatTime = "g:i A";
     }
-
-    appointmentDatePickerOptionsExternal.format = dateFormat;
 
     $('#custom_contact_date').datetimepicker(appointmentDatePickerOptionsExternal);
 

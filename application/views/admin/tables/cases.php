@@ -6,14 +6,17 @@ $hasPermissionDelete = has_permission('projects', '', 'delete');
 $hasPermissionCreate = has_permission('projects', '', 'create');
 
 $aColumns = [
-    'file_number_court',
     db_prefix() .'my_cases.id as id',
     'name',
     db_prefix().'clients.company as company',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'my_cases.id and rel_type="'.$service->slug.'" ORDER by tag_order ASC) as tags',
+    'file_number_court',
+    'court_id',
+    'jud_num',
     'start_date',
     'deadline',
     'status',
+    'file_number_court',
 ];
 $aColumns = hooks()->apply_filters('cases_table_aColumns', $aColumns);
 
@@ -88,12 +91,11 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsCases($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-
     $CI = &get_instance();
-
-
     $CI->load->library('app_modules');
-
+    $row[] = $aRow['file_number_court'] !== '0' ?  $aRow['file_number_court'] : '';
+    $row[] = $aRow['court_id'] !== '1' ? get_court_by_id($aRow['court_id'])->court_name : '';
+    $row[] = $aRow['jud_num'] !== '2' ? get_judicialdept_by_id($aRow['jud_num'])->Jud_number : '';
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
 //    $row[] = ($aRow['']);
     $row[] = $aRow['deadline'] != '' ? ($CI->app_modules->is_active('hijri') ? _d($aRow['deadline']) . '<br>' . to_hijri_date(_d($aRow['deadline'])) : _d($aRow['deadline'])) : '';

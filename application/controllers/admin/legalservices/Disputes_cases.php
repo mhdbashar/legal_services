@@ -152,40 +152,40 @@ class Disputes_cases extends AdminController
         redirect(admin_url("Service/$ServID"));
     }
 
-//    public function table($clientid = '', $slug='')
-//    {
-//        if($slug != ''):
-//            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
-//            $model = $this->Dcase;
-//            $this->app->get_table_data('disputes_cases', [
-//                'clientid' => $clientid,
-//                'service' => $service,
-//                'model' => $model,
-//                'ServID' => $service->id
-//            ]);
-//        else:
-//            $this->app->get_table_data('disputes_cases', [
-//                'clientid' => $clientid,
-//            ]);
-//        endif;
-//
-//    }
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        if (!has_permission('invoices', '', 'view')
-            && !has_permission('invoices', '', 'view_own')
-            && get_option('allow_staff_view_invoices_assigned') == '0') {
-            ajax_access_denied();
-        }
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->Dcase;
+            $this->app->get_table_data('disputes_cases', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('disputes_cases', [
+                'clientid' => $clientid,
+            ]);
+        endif;
 
-        $this->load->model('payment_modes_model');
-        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
-
-        $this->disputes_get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
-            'clientid' => $clientid,
-            'data' => $data,
-        ]);
     }
+//    public function table($clientid = '')
+//    {
+//        if (!has_permission('invoices', '', 'view')
+//            && !has_permission('invoices', '', 'view_own')
+//            && get_option('allow_staff_view_invoices_assigned') == '0') {
+//            ajax_access_denied();
+//        }
+//
+//        $this->load->model('payment_modes_model');
+//        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+//
+//        $this->disputes_get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
+//            'clientid' => $clientid,
+//            'data' => $data,
+//        ]);
+//    }
 
     public function procurations($case_id)
     {

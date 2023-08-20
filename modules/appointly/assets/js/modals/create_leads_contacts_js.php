@@ -57,11 +57,9 @@
         {
             $.post(site_url + "appointly/appointments_public/busyDates").done(function (r) {
                 r = JSON.parse(r);
-                var dateFormat = app.options.date_format;
                 var appointmentDatePickerOptions = {
                     dayOfWeekStart: app.options.calendar_first_day,
                     minDate: 0,
-                    format: dateFormat,
                     defaultTime: "09:00",
                     allowTimes: allowedLeadsHours,
                     closeOnDateSelect: 0,
@@ -72,7 +70,7 @@
                     onGenerate: function (ct) {
                         if (is_busy_times_enabled == 1) {
                             var selectedGeneratedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
-
+                            console.log(selectedGeneratedDate)
                             $(r).each(function (i, el) {
                                 if (el.date == selectedGeneratedDate) {
                                     var currentTime = $("body").find(".xdsoft_time:contains(\"" + el.start_hour + "\")");
@@ -102,15 +100,13 @@
                         currentTime.removeClass("busy_time");
                     }
                 };
-
+                var dateFormat = app.options.date_format;
                 if (app.options.time_format == 24) {
-                    dateFormat = dateFormat + " H:i";
+                    appointmentDatePickerOptions.format = dateFormat + " H:i";
                 } else {
-                    dateFormat = dateFormat + " g:i A";
-                    appointmentDatePickerOptions.formatTime = "g:i A";
+                    // appointmentDatePickerOptions.format = dateFormat + " g:i A";
+                    appointmentDatePickerOptions.formatTime = "h:i A";
                 }
-
-                appointmentDatePickerOptions.format = dateFormat;
 
                 $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
             });

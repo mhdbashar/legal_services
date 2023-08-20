@@ -11,7 +11,8 @@ class Sessions extends AdminController
         $this->load->model('projects_model');
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Cases_model', 'case');
-    }
+        $this->load->model('legalservices/Other_services_model', 'Other');
+        $this->load->model('legalservices/disputes_cases/Disputes_cases_model', 'dispute');    }
 
     /* Open also all taks if user access this /tasks url */
     public function index($id = '')
@@ -921,6 +922,21 @@ class Sessions extends AdminController
             echo 'Session not found';
             die();
         }
+        //********service's staffs***********************
+        $service_id=$this->legal->get_service_id_by_slug($task->rel_type);
+
+        if ($service_id == 22) {
+            $data['members'] =$this->dispute->get_project_members_name($task->rel_id);
+        }
+        else if($service_id == 1){
+            $data['members'] =$this->case->get_project_members_name($task->rel_id);
+
+        }
+        else  {
+            $data['members'] =$this->Other->get_project_members_name($task->rel_id);
+        }
+        //*********************************************
+
 
 
 
@@ -1994,6 +2010,7 @@ class Sessions extends AdminController
     }
 
 
+
     public function add_report_session($id)
     {
         if(!$id){
@@ -2002,10 +2019,6 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-$send_mail_to_client=$data['send_mail_to_client'];
-
-
-
             $this->db->where('id', $id);
             $row = $this->sessions_model->get($id);
             $rel_type = $row->rel_type;
@@ -2049,20 +2062,7 @@ $send_mail_to_client=$data['send_mail_to_client'];
                     $contacts = 1;
                 }
             }else {
-                if($send_mail_to_client== 'false') {
-                    $this->db->where('userid', $client_id);
-                    $this->db->where('active', 1);
-                    $contacts = $this->db->count_all_results(db_prefix() . 'contacts');
-                }
             }
-            if($send_mail_to_client== 'false') {
-                if ($contacts == 0) {
-                    echo 'error_client'; // This client doesn't have primary contact
-                    die();
-                }
-            }
-
-
 
             $followers = $this->sessions_model->get_task_followers($id);
             if(count($followers) == 0){
@@ -2077,32 +2077,32 @@ $send_mail_to_client=$data['send_mail_to_client'];
             }
 
             unset($data['send_mail_to_opponent']);
-            unset($data['send_mail_to_client']);
             $success = $this->sessions_model->add_session_report($id, $data);
             if($success) {
                 $session = $this->sessions_model->get($id);
 
-                if($send_mail_to_client == 'false') {
-                    foreach ($session->followers_ids as $staff_id) {
-                        if (get_staff_user_id() != $staff_id) {
-                            send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
-                            $notified = add_notification([
-                                'description' => 'session_report_added',
-                                'touserid' => $staff_id,
-                                'link' => 'legalservices/sessions/index/' . $id,
-                                'additional_data' => serialize([
-                                    $session->name,
-                                ]),
-                            ]);
-                            if ($notified) {
-                                pusher_trigger_notification([$staff_id]);
-                            }
+                foreach ($session->followers_ids as $staff_id) {
+                    if (get_staff_user_id() != $staff_id) {
+                        send_mail_template('send_report_session_to_staff', get_staff($staff_id), $session);
+                        $notified = add_notification([
+                            'description' => 'session_report_added',
+                            'touserid' => $staff_id,
+                            'link' => 'legalservices/sessions/index/' . $id,
+                            'additional_data' => serialize([
+                                $session->name,
+                            ]),
+                        ]);
+                        if ($notified) {
+                            pusher_trigger_notification([$staff_id]);
                         }
                     }
                 }
 
 
-                if(isset($data['next_session_date'])  && isset($data['next_session_date'])) {
+                if(isset($data['next_session_date'])  && isset($data['next_session_time'])) {
+                    if(is_numeric(date('Y', strtotime($data['next_session_date']))))
+                        if(date('Y', strtotime($data['next_session_date'])) < 1900)
+                            $data['next_session_date'] = force_to_AD_date($data['next_session_date']);
                     $newsession = [];
                     $newsession['time'] = $data['next_session_time'];
                     $newsession['startdate'] = to_sql_date($data['next_session_date']);
@@ -2482,7 +2482,7 @@ $send_mail_to_client=$data['send_mail_to_client'];
             $success = $this->db->update(db_prefix() . 'my_session_info', ['court_decision' => $this->input->post('court_decision')]);
             if ($success) {
                 $alert_type = 'success';
-                $message    = _l('reminder_added_successfully');
+                $message    = _l('updated_successfully');
                 echo json_encode([
                     'alert_type'   => $alert_type,
                     'message' => $message,

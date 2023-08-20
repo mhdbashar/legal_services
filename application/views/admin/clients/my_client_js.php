@@ -206,7 +206,11 @@ $(function() {
     initDataTable('.table-projects-single-client', admin_url + 'projects/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
     /* Custome profile cases table */
     slug_case = $(".table-cases-single-client").attr('data-slug');
-    initDataTable('.table-cases-single-client', admin_url + 'legalservices/cases/table/' + customer_id + '/' + slug_case, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
+    initDataTable('.table-cases-single-client', admin_url + 'legalservices/cases/table/' + customer_id + '/' + slug_case, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(8, 'asc'))); ?>);
+    /* Custome profile disputes cases table */
+    slug_case = $(".table-disputes-cases-single-client").attr('data-slug');
+    initDataTable('.table-disputes-cases-single-client', admin_url + 'legalservices/disputes_cases/table/' + customer_id + '/' + slug_case, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
+
     /* Custome profile legalservices table */
     var slug_legalservice = '';
     for (var i = 0; i < count_of_services; i +=1){

@@ -1173,6 +1173,7 @@ class Tasks_model extends App_Model
 
             $regex = "/data\-mention\-id\=\"(\d+)\"/";
             if (preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
+                $description = 'not_task_mention';
                 if (check_session_by_id($data['taskid'])) {
                     $this->_send_task_mentioned_users_notification(
                         $description,

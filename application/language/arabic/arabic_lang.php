@@ -2136,6 +2136,7 @@ $lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير ال�
 $lang['toggle_full_view'] = "تبديل الى عرض كامل";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
+$lang['not_task_mention'] = "ذكرك ب تعليق";
 $lang['not_session_new_comment'] = "علق على الجلسة %s";
 $lang['invoice_number_exists'] = "رقم الفاتورة هذا موجود للسنة الجارية.";
 $lang['estimate_number_exists'] = "رقم عرض السعر هذا موجود للسنة الجارية.";

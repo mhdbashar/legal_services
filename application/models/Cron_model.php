@@ -88,7 +88,7 @@ class Cron_model extends App_Model
             $this->legal_services_recycle_bin_reminders();
             $this->empty_legal_services_recycle_bin();
 
-            $this->send_lawyer_daily_agenda();
+             $this->send_lawyer_daily_agenda();
             $this->recurring_disputes_cases_invoices();
             //$this->fix_and_separate_names();
 
@@ -2476,7 +2476,7 @@ class Cron_model extends App_Model
         return false;
     }
 
-    public function send_lawyer_daily_agenda()
+   /* public function send_lawyer_daily_agenda()
     {
         $this->load->model('staff_model');
         $daily_agenda_hour = get_option('automatically_send_lawyer_daily_agenda');
@@ -2523,7 +2523,7 @@ class Cron_model extends App_Model
         }
         update_option('daily_agenda_last_check', date('Y-m-d'));
         //}
-    }
+    }*/
 
     public function sent_agenda_email($tasks_count, $sessions_count, $to_email, $member_lang)
     {
@@ -2630,5 +2630,201 @@ class Cron_model extends App_Model
                 }
             }
         }
+    }
+	    private function send_lawyer_daily_agenda()
+    {
+
+        $this->load->model('staff_model');
+        $daily_agenda_hour = get_option('automatically_send_lawyer_daily_agenda');
+
+        if (!$this->shouldRunAutomations($daily_agenda_hour)) {
+            return;
+        }
+
+        if ($daily_agenda_hour == '') {
+            $daily_agenda_hour = 7;
+        }
+        $hour_now = date('H:i');
+        $hour_now = strtotime($hour_now);
+        $daily_agenda_hour = strtotime($daily_agenda_hour);
+
+     if ($hour_now > $daily_agenda_hour && $this->manually === false) {
+           return;
+         }
+        $last_check = get_option('daily_agenda_last_check');
+
+        //if($daily_agenda_hour == date('G')){
+        $staffs = $this->staff_model->get();
+        if($last_check == date('Y-m-d'))
+        return; 
+        foreach ($staffs as $staff) {
+            $notifiedUsers = [];
+
+            $notified = add_notification([
+                'fromcompany' => true,
+                'touserid' => $staff['staffid'],
+                'description' => 'تم ارسال جدول اعمالك اليومي على بريدك الالكتروني',
+                'link' => '',
+            ]);
+
+            if ($notified) {
+                array_push($notifiedUsers, $staff['staffid']);
+            }
+
+            send_mail_template('send_lawyer_daily_agenda_to_staff', $staff['email'], $staff['staffid']);
+
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+
+        update_option('daily_agenda_last_check', date('Y-m-d'));
+
+    }
+	    public function send_case_not_checked()
+    {
+
+        $last_check = get_option('cases_not_check_last_check');
+        // $date = new DateTime($last_check);
+        $now = new DateTime();
+
+        $this->load->model('staff_model');
+        $daily_agenda_day = get_option('automatically_send_case_not_checked');
+
+        if (!$this->shouldRunAutomations($daily_agenda_day)) {
+            return;
+        }
+
+        if ($daily_agenda_day == '') {
+            $daily_agenda_day = 3;
+        }
+
+        if ($this->manually === false) {
+            return;
+        }
+        $last_check = get_option('daily_agenda_last_check');
+        /*    if ($last_check == date('Y-m-d')) {
+        return;
+        } */
+
+        $staffs = $this->staff_model->get();
+
+        foreach ($staffs as $staff) {
+            $name = '';
+            $dispute = '';
+
+            $name .= '<div style="padding: 20px; text-align: right; background-color: #f6f6f6;">
+
+<div style="text-align: right;"><strong><span style="color: #49c4f5;">قضايا لم تحدثها منذ فترة </span><br /><br /></strong></div>
+<div style="text-align: right;">
+<table border="1" style="height: 34px; width: 100%; background-color: #ffffff; border-color: #cbd0d4; border-style: solid;">
+<tbody><tr style="height: 17px;">
+<td style="width: 25%; height: 17px; border-style: none;"><strong>اسم القضية </strong></td>
+<td style="width: 25%; height: 17px; border-style: none;"><strong>رابط القضية</strong></td></tr>';
+
+            $sqll = "select * from tblmy_cases where id  in (select project_id from tblcase_activity  )";
+            $ifoww = $this->db->query($sqll)->result_array();
+            foreach ($ifoww as $ff) {
+                $sql2 = 'select project_id, MAX(dateadded) AS maxdate from tblcase_activity where project_id = "' . $ff['id'] . '" ';
+                $ifo = $this->db->query($sql2)->result_array();
+                foreach ($ifo as $ifooo) {
+                    $subb = '';
+
+                    $datte = new DateTime($ifooo['maxdate']);
+                    $subb = $datte->diff($now)->format("%a");
+
+                    if (($subb >= $daily_agenda_day) && ($now->format("Y-m-d") > $datte->format("Y-m-d"))) {
+                        $sql3 = 'select * from tblmy_cases where id=' . $ifooo['project_id'] . '';
+                        $cases_info = $this->db->query($sql3)->row();
+
+                        $name .= '
+
+<tr style="height: 17px;">
+<td style="width: 25%; height: 17px; border-style: none;">
+<div><div><span><br>' . $cases_info->name . '</span></div>
+</div>
+</td>
+<td style="width: 25%; height: 17px; border-style: none;">
+<div><div><span><br>';
+
+                        $name .= '<a href="' . admin_url('Case/view/1/' . $cases_info->id) . '">رابط القضية</a></span>';
+                        $name .= '</div></div>
+</td>
+</tr>
+';
+
+                    }
+
+                }
+
+            }
+
+            $name .= '</tbody>
+</table>
+
+
+</div>
+</div>';
+
+            $dispute .= '<div style="padding: 20px; text-align: right; background-color: #f6f6f6;">
+
+<div style="text-align: right;"><strong><span style="color: #49c4f5;">قضايا تنفيذ وتحصيل لم تحدثها منذ فترة </span><br /><br /></strong></div>
+<div style="text-align: right;">
+<table border="1" style="height: 34px; width: 100%; background-color: #ffffff; border-color: #cbd0d4; border-style: solid;">
+<tbody><tr style="height: 17px;">
+<td style="width: 25%; height: 17px; border-style: none;"><strong>اسم القضية </strong></td>
+<td style="width: 25%; height: 17px; border-style: none;"><strong>رابط القضية</strong></td></tr>';
+
+            $sqll = "select * from tblmy_disputes_cases where id  in (select project_id from tblcase_activity  )";
+            $ifoww = $this->db->query($sqll)->result_array();
+            foreach ($ifoww as $ff) {
+                $sql2 = 'select project_id, MAX(dateadded) AS maxdate from tblcase_activity where project_id = "' . $ff['id'] . '" ';
+                $ifo = $this->db->query($sql2)->result_array();
+                foreach ($ifo as $ifooo) {
+                    $subb = '';
+
+                    $datte = new DateTime($ifooo['maxdate']);
+                    $subb = $datte->diff($now)->format("%a");
+
+                    if (($subb >= $daily_agenda_day) && ($now->format("Y-m-d") > $datte->format("Y-m-d"))) {
+                        $sql3 = 'select * from tblmy_disputes_cases where id=' . $ifooo['project_id'] . '';
+                        $cases_info = $this->db->query($sql3)->row();
+
+                        $dispute .= '
+
+<tr style="height: 17px;">
+<td style="width: 25%; height: 17px; border-style: none;">
+<div><div><span><br>' . $cases_info->name . '</span></div>
+</div>
+</td>
+<td style="width: 25%; height: 17px; border-style: none;">
+<div><div><span><br>';
+
+                        $dispute .= '<a href="' . admin_url('Disputes_cases/view/1/' . $cases_info->id) . '">رابط القضية</a></span>';
+                        $dispute .= '</div></div>
+</td>
+</tr>
+';
+
+                    }
+
+                }
+
+            }
+
+            $dispute .= '</tbody>
+</table>
+
+
+</div>
+</div>';
+
+            $member_email = $staff['email'];
+            $member_lang = $staff['default_language'];
+
+            $this->sent_checkout_cases($name, $dispute, $member_email, $member_lang);
+
+        }
+        update_option('daily_agenda_last_check', date('Y-m-d'));
+
     }
 }

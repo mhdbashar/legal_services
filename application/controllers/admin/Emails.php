@@ -164,7 +164,10 @@ class Emails extends AdminController
         ]);
 
 
-
+    $data['lawyer_daily_agenda'] = $this->emails_model->get([
+            'type'     => 'lawyer_daily_agenda',
+            'language' => $lang,
+        ]);
 
 
 

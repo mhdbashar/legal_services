@@ -89,6 +89,7 @@ class Cron_model extends App_Model
             $this->empty_legal_services_recycle_bin();
 
              $this->send_lawyer_daily_agenda();
+			 $this->send_case_not_checked();
             $this->recurring_disputes_cases_invoices();
             //$this->fix_and_separate_names();
 
@@ -2680,6 +2681,52 @@ class Cron_model extends App_Model
         update_option('daily_agenda_last_check', date('Y-m-d'));
 
     }
+	    
+     public function sent_checkout_cases($name, $dispute, $to_email, $member_lang)
+    {
+        $case_information = '';
+        $this->load->config('email');
+        // Simulate fake template to be parsed
+        $template = new StdClass();
+        if ($member_lang == 'arabic') {
+            $date = (date('Y-m-d'));
+
+            $template->message = get_option('email_header') .
+
+            '<div style="padding: 20px;text-align: right; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);
+             -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>' . $name . '</h2>
+
+             </div><div style="padding: 20px;text-align: right; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);
+             -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>' . $dispute . '</h2>
+
+
+             </div>' . get_option('email_footer');
+
+            $template->subject = 'قضايا لك فترة لم تشيك عليها';
+        } else {
+            $template->message = $case_information;
+
+            $template->subject = 'Your daily agenda';
+
+        }
+        $template->fromname = get_option('companyname') != '' ? get_option('companyname') : 'TEST';
+        $template = parse_email_template($template);
+        $this->email->set_newline(config_item('newline'));
+        $this->email->set_crlf(config_item('crlf'));
+        $this->email->from(get_option('smtp_email'), $template->fromname);
+        $this->email->to($to_email);
+        $systemBCC = get_option('bcc_emails');
+        if ($systemBCC != '') {
+            $this->email->bcc($systemBCC);
+        }
+        $this->email->subject($template->subject);
+        $this->email->message($template->message);
+        if ($this->email->send(true)) {
+            log_activity('Daily agenda has been sent by system.');
+        } else {
+            log_activity('Failed send daily agenda by system.');
+        }
+    }
 	    public function send_case_not_checked()
     {
 
@@ -2702,9 +2749,9 @@ class Cron_model extends App_Model
             return;
         }
         $last_check = get_option('daily_agenda_last_check');
-        /*    if ($last_check == date('Y-m-d')) {
+           if ($last_check == date('Y-m-d')) {
         return;
-        } */
+        } 
 
         $staffs = $this->staff_model->get();
 

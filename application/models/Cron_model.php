@@ -2722,9 +2722,9 @@ class Cron_model extends App_Model
         $this->email->subject($template->subject);
         $this->email->message($template->message);
         if ($this->email->send(true)) {
-            log_activity('Daily agenda has been sent by system.');
+            log_activity('Send  checkout cases.');
         } else {
-            log_activity('Failed send daily agenda by system.');
+            log_activity('Failed send  checkout cases.');
         }
     }
 	    public function send_case_not_checked()

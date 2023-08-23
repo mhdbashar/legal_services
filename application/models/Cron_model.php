@@ -2670,7 +2670,7 @@ class Cron_model extends App_Model
 
              </div>' . get_option('email_footer');
 
-            $template->subject = 'قضايا لك فترة لم تشيك عليها';
+            $template->subject = 'قضايا لم يتم التعامل معها';
         } else {
             $template->message = $case_information;
 

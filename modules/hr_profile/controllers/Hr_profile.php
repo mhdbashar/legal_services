@@ -8031,7 +8031,7 @@ class Hr_profile extends AdminController {
             }elseif($group == 'allowances'){
                $this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_allowances_table'),['staff_id' => $staff_id]);
 
-            }elseif($group == 'deductions'){
+            }elseif($group == 'statutory_deductions'){
                   $this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_statutory_deductions_table'),['staff_id' => $staff_id]);
 
             }
@@ -8430,56 +8430,57 @@ class Hr_profile extends AdminController {
     // statutory_deduction
 
     public function json_statutory_deduction($id){
-        $this->load->model("hr_profile/Statutory_deduction_model");
-        $data = $this->Statutory_deduction_model->get($id);
-        echo json_encode($data);
+      $this->load->model("hr_profile/Statutory_deduction_model");
+      $data = $this->Statutory_deduction_model->get($id);
+      echo json_encode($data);
     }
     public function update_statutory_deduction(){
-        if (!has_permission('hr', '', 'edit')) {
-            access_denied('hr');
-        }
-        $data = $this->input->post();
-        $id = $this->input->post('id');
-        $this->load->model("hr_profile/Statutory_deduction_model");
-        $success = $this->Statutory_deduction_model->update($data, $id);
-        if($success)
-            set_alert('success', _l('updated_successfully'));
-        else
-            set_alert('warning', 'Problem Updating');
-        redirect($_SERVER['HTTP_REFERER']);
+      if (!has_permission('hr', '', 'edit')) {
+          access_denied('hr');
+      }
+      $data = $this->input->post();
+      $id = $this->input->post('id');
+      $this->load->model("hr_profile/Statutory_deduction_model");
+      $success = $this->Statutory_deduction_model->update($data, $id);
+      if($success)
+          set_alert('success', _l('updated_successfully'));
+      else
+          set_alert('warning', 'Problem Updating');
+      redirect($_SERVER['HTTP_REFERER']);
     }
-
+    
     public function add_statutory_deduction(){
-        if (!has_permission('hr', '', 'create')) {
-            access_denied('hr');
-        }
-        $data = $this->input->post();
-        $this->load->model("hr_profile/Statutory_deduction_model");
-        $success = $this->Statutory_deduction_model->add($data);
-        if($success)
-            set_alert('success', _l('added_successfully'));
-        else
-            set_alert('warning', 'Problem Creating');
-        redirect($_SERVER['HTTP_REFERER']);
+      if (!has_permission('hr', '', 'create')) {
+          access_denied('hr');
+      }
+      $data = $this->input->post();
+      $this->load->model("hr_profile/Statutory_deduction_model");
+      $success = $this->Statutory_deduction_model->add($data);
+      if($success)
+          set_alert('success', _l('added_successfully'));
+      else
+          set_alert('warning', 'Problem Creating');
+      redirect($_SERVER['HTTP_REFERER']);
     }
-
+    
     public function delete_statutory_deduction($id)
     {
-        if (!has_permission('hr', '', 'delete')) {
-            access_denied('hr');
-        }
-        if (!$id) {
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-        $this->load->model("hr_profile/Statutory_deduction_model");
-        $response = $this->Statutory_deduction_model->delete($id);
-        if ($response == true) {
-            set_alert('success', _l('deleted_successfully'));
-        } else {
-            set_alert('warning', 'Problem deleting');
-        }
-        redirect($_SERVER['HTTP_REFERER']);
+      if (!has_permission('hr', '', 'delete')) {
+          access_denied('hr');
+      }
+      if (!$id) {
+          redirect($_SERVER['HTTP_REFERER']);
+      }
+      $this->load->model("hr_profile/Statutory_deduction_model");
+      $response = $this->Statutory_deduction_model->delete($id);
+      if ($response == true) {
+          set_alert('success', _l('deleted_successfully'));
+      } else {
+          set_alert('warning', 'Problem deleting');
+      }
+      redirect($_SERVER['HTTP_REFERER']);
     }
+    
 
     public function statutory_deduction_view_edit($id = '')
     {

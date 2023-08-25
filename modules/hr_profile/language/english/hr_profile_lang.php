@@ -1107,6 +1107,7 @@ $lang['Go_on_bussiness'] = 'Go on bussiness';
 $lang['annual_leave'] = 'annual leave';
 $lang['private_work_without_pay'] = 'private work without pay';
 $lang['sick_leave'] = 'sick leave';
+$lang['add_education_type'] = 'Add Education Type';
 
 
 

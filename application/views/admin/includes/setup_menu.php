@@ -24,7 +24,7 @@
                  <span class="fa arrow"></span>
              <?php } ?>
              <?php if (isset($item['badge'], $item['badge']['value']) && !empty($item['badge'])) {?>
-               <span class="badge pull-right
+               <span class="badge pull-right 
                <?=isset($item['badge']['type']) &&  $item['badge']['type'] != '' ? "bg-{$item['badge']['type']}" : 'bg-info' ?>"
                <?=(isset($item['badge']['type']) &&  $item['badge']['type'] == '') ||
                         isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>

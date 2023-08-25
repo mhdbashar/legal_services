@@ -145,16 +145,6 @@ echo render_date_input('birthday', 'hr_hr_birthday', _d($birthday));?>
                               </div>
                            </div>
 
-
-                           <div class="row">
-										<div class="col-md-6">
-											<?php $value = (isset($member) ? $member->literacy : ''); ?>
-											<div  class="form-group" app-field-wrapper="literacy">
-												<label  for="literacy" class="control-label">Academic level</label>
-												<input type="text" id="literacy" name="literacy" required class="form-control" autocomplete="off" value="<?php echo html_entity_decode($value) ?>" <?php if(!is_admin() && !has_permission('hrm_hr_records','', 'edit') && !has_permission('hrm_hr_records','', 'create')){ echo 'disabled' ;}  ?>>
-											</div>
-										</div>
-
                            <div class="col-md-6">
                               <div class="form-group">
                                   <label for="status_work" class="control-label"><?php echo _l('hr_status_work'); ?></label>

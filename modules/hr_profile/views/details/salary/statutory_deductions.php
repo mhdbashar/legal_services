@@ -1,6 +1,6 @@
  <?php $this->load->view('details/modals/statutory_deduction_modal') ?>
  <div class="_buttons">
-    <?php if (has_permission('statutory_deductions', '', 'create')){ ?><a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_statutory_deduction"><?php echo _l('new_statutory_deductions'); ?></a><?php } ?>
+    <?php if (has_permission('hr', '', 'create')){ ?><a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_statutory_deduction"><?php echo _l('new_statutory_deductions'); ?></a><?php } ?>
 </div>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />

@@ -7426,6 +7426,7 @@ function requestGetJSON(uri, params) {
 
 // Templates Js
 function get_templates(rel_type, rel_id) {
+    console.log(rel_type)
     if (rel_type === 'proposals') {
         $('#proposal-templates').load(admin_url + 'templates', {
             rel_type: rel_type,
@@ -7433,6 +7434,12 @@ function get_templates(rel_type, rel_id) {
         });
     } else if (rel_type === 'contracts') {
         $('#contract-templates').load(admin_url + 'templates', {
+            rel_type: rel_type,
+            rel_id: rel_id
+        });
+    } else if (rel_type === 'hr_contracts') {
+
+        $('#hr_contract-templates').load(admin_url + 'templates', {
             rel_type: rel_type,
             rel_id: rel_id
         });

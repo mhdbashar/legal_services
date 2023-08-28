@@ -80,10 +80,14 @@ $info_left_column .= '</div>';
 $info_right_column = '<div align="right">';
 $info_right_column .= _l('subject') . ' : ' . $name . '<br />';
 $info_right_column .= _l('session_type') . ' : ' . $type . '<br /><br />';
-$info_right_column .= _l('session_info') . ' : ' . $session_information . '<br /><br />';
-$info_right_column .= _l('court_decision') . ' : ' . $court_decision . '<br />';
 $info_right_column .= '</div>';
 pdf_multi_row($info_left_column,$info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+
+$text = '<div align="right">';
+$text .= _l('session_info') . ' : ' . $session_information . '<br /><br />';
+$text .= _l('court_decision') . ' : ' . $court_decision . '<br />';
+$text .= '</div>';
+$pdf->writeHTML($text, true, false, true, false);
 
 if (count($checklist_items) > 0) {
     $export_candidate = '<h3 style="background-color: silver;text-align: center">' . _l('add_checklist_item') . '</h3><br /><br />';

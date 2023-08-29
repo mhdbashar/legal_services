@@ -21,20 +21,16 @@
                  <?php echo _l($item['name'],'', false); ?>
              </span>
              <?php if(count($item['children']) > 0){ ?>
-                 <?php if (is_rtl()){ ?>
-                     <span class="fa arrow-ar"></span>
-                 <?php }else { ?>
-                     <span class="fa arrow"></span>
-                 <?php }  ?>
+                 <span class="fa arrow"></span>
              <?php } ?>
              <?php if (isset($item['badge'], $item['badge']['value']) && !empty($item['badge'])) {?>
-                 <span class="badge pull-right
+               <span class="badge pull-right 
                <?=isset($item['badge']['type']) &&  $item['badge']['type'] != '' ? "bg-{$item['badge']['type']}" : 'bg-info' ?>"
                <?=(isset($item['badge']['type']) &&  $item['badge']['type'] == '') ||
-               isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>
+                        isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>
                <?= $item['badge']['value'] ?>
             </span>
-             <?php } ?>
+            <?php } ?>
          </a>
          <?php if(count($item['children']) > 0){ ?>
              <ul class="nav nav-second-level collapse" aria-expanded="false">
@@ -47,15 +43,15 @@
                        <span class="sub-menu-text">
                           <?php echo _l($submenu['name'],'',false); ?>
                       </span>
-                  </a>
-                       <?php if (isset($submenu['badge'], $submenu['badge']['value']) && !empty($submenu['badge'])) {?>
-                           <span class="badge pull-right mright5
+                      </a>
+                    <?php if (isset($submenu['badge'], $submenu['badge']['value']) && !empty($submenu['badge'])) {?>
+                    <span class="badge pull-right mright5
                     <?=isset($submenu['badge']['type']) &&  $submenu['badge']['type'] != '' ? "bg-{$submenu['badge']['type']}" : 'bg-info' ?>"
                     <?=(isset($submenu['badge']['type']) &&  $submenu['badge']['type'] == '') ||
-                    isset($submenu['badge']['color']) ? "style='background-color: {$submenu['badge']['color']}'" : '' ?>>
+                        isset($submenu['badge']['color']) ? "style='background-color: {$submenu['badge']['color']}'" : '' ?>>
                     <?= $submenu['badge']['value'] ?>
                     </span>
-                       <?php } ?>
+                    <?php } ?>
               </li>
           <?php } ?>
       </ul>
@@ -63,11 +59,8 @@
 </li>
 <?php hooks()->do_action('after_render_single_setup_menu', $item); ?>
 <?php } ?>
-
 <?php if(get_option('show_help_on_setup_menu') == 1 && is_admin()){ $totalSetupMenuItems++; ?>
     <li>
-        <!-- <a href="<?php //echo hooks()->apply_filters('help_menu_item_link','https://help.babil.net.sa'); ?>" target="_blank"> -->
-        <a href="<?php echo hooks()->apply_filters('help_menu_item_link','##'); ?>" target="_blank">
             <?php echo hooks()->apply_filters('help_menu_item_text',_l('setup_help')); ?>
         </a>
     </li>

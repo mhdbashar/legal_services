@@ -14,7 +14,7 @@
                     <div class="clearfix"></div>
                     <?php $data = array(
                         // _l('department_name'),
-                        _l('jop_position'),
+                        _l('job position'),
                         _l('added_by'),
                         _l('created'),
                         _l('control'),
@@ -32,12 +32,11 @@
 </div>
 <?php $this->load->view('performance/indicator/modals/indicator_modal'); ?>
 <?php init_tail(); ?>
+
 <script>
    $(function(){
         initDataTable('.table-indicator', window.location.href);
    });
-
-
 $('.modal').on('hidden.bs.modal', function (e) {
   console.log('agt');
   $(this)

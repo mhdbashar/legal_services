@@ -26,7 +26,7 @@ render_datatable($table_data,'table_type_of_leave');
 
 <div class="modal fade" id="type_of_leave_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog"  style="width: 70%">
-        <?php echo form_open(admin_url('timesheets/type_of_leave'),array('id'=>'edit_timesheets-form')); ?>
+        <?php echo form_open(admin_url('hr_profile/type_of_leave'),array('id'=>'edit_timesheets-form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -71,7 +71,10 @@ render_datatable($table_data,'table_type_of_leave');
                         </div>
                         <hr/>
                         <br/>
-                      
+                        <div class="checkbox checkbox-block checkbox-primary">
+                            <input checked  type="checkbox" name="accumulative" id="accumulative" value="yes" ?>
+                            <label for="accumulative"><?php echo _l('accumulative'); ?></label>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <?php echo render_input('name','name','', '', ['required' => true]); ?>
@@ -162,12 +165,57 @@ render_datatable($table_data,'table_type_of_leave');
                         </div>
                     </div>
                 </div>
-
                 <div class="clearfix"></div>
+                
+              <div id="draggable" class="drag-sort-enable" style="margin: auto; text-align:center ;width: 60%; "
+                   ondrop="drop(event)" ondragover="allowDrop(event)">
+            
+                  <div  class="row" draggable="true" ondragstart="drag(event) ">
+                      <div class="col-md-6">
+            
+                          <?php echo  render_select('staff_id_manage_depart', $pro, array('staffid', array('firstname', 'lastname')), '', '',['required' => true],['required' => true], '', '',true); ?>
+                      </div>
+            
+                      <div class="col-md-6">
+            
+                      <div data-id="0" id="manage_depart" class="item"
+                       style="margin-bottom: 10px; border: thin solid black ;padding: 5px;border-radius: 8px; cursor: move" >
+                      <i style="padding-right: 45%" class="fa fa-bars"></i><?= _l('manage_depart') ?>  </div>
+                      </div>
+                  </div>
+                  <div class="row" draggable="true" ondragstart="drag(event) ">
+                      <div class="col-md-6">
+            
+                          <?php echo render_select('staff_id_manager_hr', $pro, array('staffid', array('firstname', 'lastname')), '', '', ['required' => true],['required' => true], '', '', true); ?>
+                      </div>
+            
+                      <div class="col-md-6">
+            
+                          <div data-id="1" id="manager_hr" class="item" draggable="true" ondragstart="drag(event) "
+                               style="margin-bottom: 10px; border: thin solid black ;border-radius: 8px;padding: 5px;cursor: move">
+                              <i style="padding-right: 30%" class="fa fa-bars"></i><?= _l('manager_hr') ?></div>
+                      </div>
+                  </div>
+                  <div class="row" draggable="true" ondragstart="drag(event) ">
+                      <div class="col-md-6">
+            
+                          <?php echo render_select('staff_id_director_general', $pro, array('staffid', array('firstname', 'lastname')), '', '',['required' => true],['required' => true], '', '', true); ?>
+                      </div>
+            
+                      <div class="col-md-6">
+            
+                          <div data-id="2" id="director_general" class="item" draggable="true" ondragstart="drag(event)"
+                               style="margin-bottom: 10px;border: thin solid black ;border-radius: 8px;padding: 5px;cursor: move">
+                              <i style="padding-right: 30%" class="fa fa-bars"></i><?= _l('director_general') ?></div>
+                      </div>
+                  </div>
             </div>
           
-
-
+            
+            
+            
+            
+          </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
                 <button id="submit-type" class="btn btn-info btn-additional-timesheets"><?php echo _l('submit'); ?></button>
@@ -192,7 +240,7 @@ render_datatable($table_data,'table_type_of_leave');
 
     function view_type_of_leave(id){
         "use strict";
-        $.post(admin_url+'timesheets/get_data_type_of_leave/'+id).done(function(response){
+        $.post(admin_url+'hr_profile/get_data_type_of_leave/'+id).done(function(response){
             response = JSON.parse(response);
             $('#view_type_of_leave_modal').html('');
 

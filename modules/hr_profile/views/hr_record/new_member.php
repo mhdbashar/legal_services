@@ -128,7 +128,6 @@
 												</select>
 											</div>
 										</div>
-
 										<div class="col-md-6">
 											<div class="form-group">
 												<label for="status_work" class="control-label"><?php echo _l('hr_status_work'); ?></label>

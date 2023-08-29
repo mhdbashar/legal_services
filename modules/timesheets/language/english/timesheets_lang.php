@@ -838,3 +838,9 @@ $lang['salary_type'] = 'Salary type';
 $lang['type_check'] = 'Type';
 $lang['in'] = 'In';
 $lang['out'] = 'Out';
+$lang['manage_depart'] = 'manage depart';
+$lang['manager_hr'] = 'manage hr';
+$lang['director_general'] = 'director general';
+
+
+

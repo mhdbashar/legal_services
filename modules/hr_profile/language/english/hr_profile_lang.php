@@ -1063,6 +1063,83 @@ $lang['HR_dashboard'] = 'HR Dashboard';
 $lang['hr_training'] = 'Training';
 $lang['HR_q&a'] = 'HR Q&A';
 $lang['skill_type'] = 'Skill Type';
+$lang['registration_on_leave'] = 'Leave Application';
+$lang['additional_timesheets'] = 'Additional Work Hours ';
+$lang['type_of_leave'] = 'Type of Leave';
+$lang['Create_requisition'] = 'APPLY FOR LEAVE';
+$lang['filter_by_status'] = 'Filter by Status';
+$lang['filter_by_type'] = 'Filter by Type';
+$lang['additional_day'] = 'Additional day';
+$lang['timekeeping_type'] = 'Timesheets Type';
+$lang['timekeeping_value'] = 'Timesheets Value';
+$lang['manage_requisition'] = 'Leave Management';
+$lang['new_requisition_m'] = 'Apply For Leave';
+$lang['number_of_days_off'] = 'Number of days off';
+$lang['number_of_leave_days_allowed'] = ' Number of Leave days remaining in the year';
+$lang['From_Date'] = ' From Date';
+$lang['To_Date'] = ' To Date';
+$lang['handover_recipients'] = 'Handover';
+$lang['requisition_files'] = 'Attached file';
+$lang['Time_in'] = 'Time in';
+$lang['Time_out'] = 'Time out';
+$lang['who_can_take_this_leave'] = 'Who can take this leave ?';
+$lang['entitlement_in_months'] = 'Entitlement in months';
+$lang['deserving_in_years'] = 'Deservinr in (years)';
+$lang['repeat_leave'] = 'Repeat leave';
+$lang['none_type'] = 'None';
+$lang['conflict_with_holidays'] = 'Conflict with Holidays';
+$lang['leave_extend'] = 'Extend';
+$lang['is_deserving_salary'] = 'is deserving salary';
+$lang['once_during_contract'] = 'Once during contract';
+$lang['leave_include'] = 'Include';
+$lang['salary_allocation'] = 'Salary Allocation';
+$lang['allow_substitute_employee'] = 'Allow Substitute Employee ?';
+$lang['manage_depart  '] = 'manage depart';
+$lang['manager_hr'] = 'manage hr';
+$lang['director_general'] = 'director general';
+$lang['deserving_salary'] = 'Deserving Salary';
+$lang['hr_leave'] = 'Hr Leave';
+$lang['new_document'] = 'New Document';
+$lang['salary_type'] = 'Salary type';
+$lang['manage_depart'] = 'Manage Depart';
+$lang['Go_out'] = 'Go out';
+$lang['Go_on_bussiness'] = 'Go on bussiness';
+$lang['annual_leave'] = 'annual leave';
+$lang['private_work_without_pay'] = 'private work without pay';
+$lang['sick_leave'] = 'sick leave';
+$lang['add_education_type'] = 'Add Education Type';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

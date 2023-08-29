@@ -126,6 +126,7 @@ if($group == 'contract'){
     require('modules/hr_profile/assets/js/hr_record/includes/contract_js.php');
 }
 if($group == 'training'){
+  
     require('modules/hr_profile/assets/js/hr_record/includes/training_js.php');
 }
 if($group == 'notification'){

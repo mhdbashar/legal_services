@@ -977,8 +977,7 @@ public function add_requisition_ajax(){
 				$data['days_off'] = $day_off->total;
 			}
 		}
-
-		$data['data_timekeeping_form'] = get_timesheets_option('timekeeping_form');
+		$data['data_timekeeping_form'] = $this->timesheets_model->get_timesheets_option('timekeeping_form');
 		$this->load->model('departments_model');
 		$data['departments'] = $this->departments_model->get();
 		$data['current_date'] = date('Y-m-d H:i:s');
@@ -1947,8 +1946,17 @@ public function get_data_additional_timesheets($id){
 
     public function get_data_type_of_leave($id){
         $type_of_leave = $this->timesheets_model->get_type_of_leave($id);
+        $staffid= $type_of_leave->staff_id_manage_depart;
+        $staffid2=$type_of_leave->staff_id_manager_hr;
+        $staffid3=$type_of_leave->staff_id_director_general;
+
+        $manage= $this->timesheets_model->get_staff_by_id($staffid);
+        $manager= $this->timesheets_model->get_staff_by_id($staffid2);
+        $director= $this->timesheets_model->get_staff_by_id($staffid3);
+
 
         $html ='
+
 	<div class="modal-dialog" style="width: 55%">
 	<div class="modal-content">
 	<div class="modal-header">
@@ -1967,6 +1975,9 @@ public function get_data_additional_timesheets($id){
 		<td class="bold">'. _l('name') .'</td>
 		<td>'. ($type_of_leave->name).'</td>
 		</tr>
+    <td class="bold">'. _l('code') .'</td>
+		<td>'. ($type_of_leave->code).'</td>
+    </tr>
 		<tr class="project-overview">
 		<td class="bold">'. _l('number_of_days') .'</td>
 		<td>'. $type_of_leave->number_of_days.'</td>
@@ -1998,6 +2009,19 @@ public function get_data_additional_timesheets($id){
 		<td class="bold" width="30%">'. _l('allow_substitute_employee') .'</td>
 		<td>'.$allow_substitute_employee.'</td>
 		</tr>
+    <td class="bold">'. _l('manage_depart') .'</td>
+		<td>'. ($manage->firstname).' '. ($manage->lastname).'</td>
+
+    </tr>
+    <td class="bold">'. _l('manager_hr') .'</td>
+		<td>'. ($manager->firstname).' '. ($manager->lastname).'</td>
+    </tr>
+    <td class="bold">'. _l('director_general') .'</td>
+		<td>'. ($director->firstname).' '. ($director->lastname).'</td>
+    </tr>
+    <td class="bold">'. _l('accumulative') .'</td>
+		<td>'. _l($type_of_leave->accumulative).'</td>
+    </tr>
 		</tbody>
 		</table>';
         }

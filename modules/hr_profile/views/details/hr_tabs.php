@@ -13,7 +13,7 @@
 					  			$group == 'allowances' or
 					  			$group == 'commissions' or
 					  			$group == 'loan' or
-					  			$group == 'statutory_deductions' or
+					  			$group == 'statutory_deduction' or
 					  			$group == 'other_payments' or
 					  			$group == 'overtime'
 					  		){

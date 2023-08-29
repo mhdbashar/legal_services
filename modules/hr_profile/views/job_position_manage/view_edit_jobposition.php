@@ -329,7 +329,9 @@
 
 
 </div>
+
 <div id="contract_file_data"></div>
 <?php init_tail(); ?>
+
 </body>
 </html>

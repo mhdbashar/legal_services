@@ -195,8 +195,19 @@ function hr_profile_module_init_menu_items()
             'icon'     => 'fa fa-tachometer',
         ]);
     }
+  
     
    */
+  if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') || is_admin()) {          
+		$CI->app_menu->add_sidebar_children_item('hr_profile', [
+			'slug'     => 'timesheets_timekeeping_mnrh',
+			'name'     => _l('hr_leave'),
+			'icon'     => 'fa fa-clipboard',
+			'href'     => admin_url('hr_profile/requisition_manage') ,
+			'position' => 2,
+
+		]);
+	}
     if (has_permission('expired_documents', '', 'view_own') || has_permission('expired_documents', '', 'view')){
         $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'expired_documents',

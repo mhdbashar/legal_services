@@ -157,3 +157,7 @@ th.th-color{
     width: 300px;
     height: auto;
 }
+
+.handsontable{
+    direction: ltr;
+}

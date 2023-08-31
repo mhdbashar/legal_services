@@ -1,5 +1,4 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Class Hr profile
@@ -9629,6 +9628,7 @@ public function add_requisition_ajax(){
 			$data['according_to_the_plan'] = 0;
 		}
 		$result = $this->timesheets_model->add_requisition_ajax($data);
+    echo json_encode(['status'=>$result]);
 		if ($result != '') {
 			echo json_encode([
 				'message' => 'success',

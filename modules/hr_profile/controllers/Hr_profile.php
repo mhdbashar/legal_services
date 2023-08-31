@@ -4717,8 +4717,13 @@ class Hr_profile extends AdminController {
 		$data['allowance_type'] = $this->hr_profile_model->get_allowance_type();
 		$data['salary_form'] = $this->hr_profile_model->get_salary_form();
 		$data['contract_attachment'] = $this->hr_profile_model->get_hrm_attachments_file($id, 'hr_contract');
+        $data['notes'] = $this->hr_profile_model->get_all_note($id);
+        $data['comments'] = $this->hr_profile_model->get_all_comment($id);
+        $data['attachments'] = $this->hr_profile_model->get_hrm_attachments_file($id, 'hr_contract');
+        $data['contract_renewal_history'] = $this->hr_profile_model->get_all_renew($id);
 
-		$data['contract_merge_fields'] = $this->app_merge_fields->get_flat('hr_contract', ['other'], '{email_signature}');
+
+        $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('hr_contract', ['other'], '{email_signature}');
 
 		$this->load->view('hr_profile/contracts/contract_preview_template', $data);
 	}
@@ -5654,6 +5659,17 @@ class Hr_profile extends AdminController {
 			'success' => $this->hr_profile_model->delete_hr_contract_attachment_file($attachment_id),
 		]);
 	}
+
+    public function delete_contract_attachment_file($attachment_id)
+    {
+        if (!has_permission('hrm_contract', '', 'delete') && !is_admin()) {
+            access_denied('hrm');
+        }
+
+        echo json_encode([
+            'success' => $this->hr_profile_model->delete_contract_attachment_file($attachment_id),
+        ]);
+    }
 
 	/**
 	 * member modal
@@ -10890,6 +10906,183 @@ public function choose_approver(){
     //***********************
 
 
+
+    public function add_note()
+    {
+        $data = $this->input->post();
+        $id = $this->hr_profile_model->add_note($data);
+        if ($id) {
+            $data = $this->hr_profile_model->get_note($id);
+            echo json_encode($data);
+        } else {
+            echo false;
+        }
+    }
+
+    public function delete_note($id)
+    {
+        $id = $this->hr_profile_model->delete_note($id);
+        echo $id;
+    }
+
+    public function update_note($id)
+    {
+        $data = $this->input->post();
+        $id = $this->hr_profile_model->update_note($id, $data);
+
+        echo $id;
+    }
+
+    public function get_note($id)
+    {
+        $data = $this->hr_profile_model->get_note($id);
+        echo json_encode($data);
+
+    }
+
+    public function add_comment()
+    {
+        $data = $this->input->post();
+        $id = $this->hr_profile_model->add_comment($data);
+        if ($id) {
+            $data = $this->hr_profile_model->get_comment($id);
+            echo json_encode($data);
+        } else {
+            echo false;
+        }
+    }
+
+    public function delete_comment($id)
+    {
+        $id = $this->hr_profile_model->delete_comment($id);
+        echo $id;
+    }
+
+    public function update_comment($id)
+    {
+        $data = $this->input->post();
+        $id = $this->hr_profile_model->update_comment($id, $data);
+
+        echo $id;
+    }
+
+    public function get_comment($id)
+    {
+        $data = $this->hr_profile_model->get_comment($id);
+        echo json_encode($data);
+
+    }
+
+    public function add_contract_attachment($id)
+    {
+        $file_id = handle_hr_contract_attachment($id);
+        if ($file_id) {
+            $attachments = $this->hr_profile_model->get_hrm_attachments_file($id, 'hr_contract');
+            $data = '<div class="row">';
+            foreach ($attachments as $attachment) {
+                $href_url = site_url('download/file/hr_contract/' . $attachment['attachment_key']);
+                if (!empty($attachment['external'])) {
+                    $href_url = $attachment['external_link'];
+                }
+                $data .= '<div class="display-block contract-attachment-wrapper">';
+                $data .= '<div class="col-md-10">';
+                $data .= '<div class="pull-left"><i class="' . get_mime_class($attachment['filetype']) . '"></i></div>';
+                $data .= '<a href="' . $href_url . '"' . (!empty($attachment['external']) ? ' target="_blank"' : '') . '>' . $attachment['file_name'] . '</a>';
+                $data .= '<p class="text-muted">' . $attachment["filetype"] . '</p>';
+                $data .= '</div>';
+                $data .= '<div class="col-md-2 text-right">';
+                if ($attachment['staffid'] == get_staff_user_id() || is_admin()) {
+                    $data .= '<a href="#" class="text-danger" onclick="delete_contract_attachment(this,' . $attachment['id'] . '); return false;"><i class="fa fa fa-times"></i></a>';
+                }
+                $data .= '</div>';
+                $data .= '<div class="clearfix"></div><hr/>';
+                $data .= '</div>';
+            }
+            $data .= '</div>';
+            echo $data;
+            die();
+        }
+        return false;
+    }
+
+    public function delete_renewal($renewal_id)
+    {
+        $success = $this->hr_profile_model->delete_renewal($renewal_id);
+        if ($success) {
+            echo true;
+        } else {
+            set_alert('warning', _l('contract_renewal_delete_fail'));
+        }
+    }
+
+    public function modal_renew($id)
+    {
+        $contract = $this->hr_profile_model->get_contract($id);
+        $data['contract'] = $contract;
+
+        $this->load->view('contracts/renew_contract', $data);
+    }
+
+    public function add_renew()
+    {
+        $data = $this->input->post();
+        $data['renewed_by'] = get_staff_user_id();
+        $data['date_renewed'] = date('Y-m-d H:i:s');
+        $data['new_start_date'] = to_sql_date($data['new_start_date']);
+        $data['new_end_date'] = to_sql_date($data['new_end_date']);
+        $id = $this->hr_profile_model->add_contract_renew($data);
+        if ($id) {
+            $contract_renewal_history = $this->hr_profile_model->get_all_renew($data["contract_id"]);
+            $data = '';
+            if (count($contract_renewal_history) == 0) {
+                echo _l('no_contract_renewals_found');
+            }
+            foreach ($contract_renewal_history as $renewal) {
+                $data .= "
+                    <div class='display-block' id='renewl-{$renewal['id']}'>
+                        <div class='media-body'>
+                            <div class='display-block'>
+                                <b>";
+                $data .= _l('contract_renewed_by', get_staff_full_name($renewal['renewed_by']));
+                $data .= " </b>";
+
+                if ($renewal['renewed_by'] == get_staff_user_id() || is_admin()) {
+                    $data .= "<button onclick='delete_renewal({$renewal['id']})'
+                               class='pull-right text-danger'><i class='fa fa-remove'></i></button>
+                            <br/>";
+                }
+                $data .= "
+                    <small class='text-muted'>";
+                $data .= _dt($renewal['date_renewed']);
+                $data .= "</small>
+                    <hr class='hr-10'/>
+                    <span class='text-success bold' data-toggle='tooltip'
+                          title='";
+                $data .= _l('contract_renewal_old_start_date', _d($renewal['new_start_date']));
+                $data .= "'>";
+                $data .= _l('contract_renewal_new_start_date', _d($renewal['new_start_date']));
+                $data .= "
+                                      </span>
+                    <br/>
+                    <span class='text-success bold' data-toggle='tooltip'
+                          title='";
+                $data .= _l('contract_renewal_old_end_date', _d($renewal['new_end_date']));
+                $data .= "'>";
+                $data .= _l('contract_renewal_new_end_date', _d($renewal['new_end_date']));
+                $data .= "
+                                  </span>
+                                <br/>
+                                                </div>
+                        </div>
+                        <hr/>
+                    </div>";
+            }
+            echo $data;
+            die();
+        } else {
+            echo false;
+        }
+    }
 
 //end file
 }

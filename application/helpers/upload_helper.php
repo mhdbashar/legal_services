@@ -1292,3 +1292,39 @@ function handle_message_upload($id)
     }
 
 }
+function handle_hr_contract_attachment($id)
+{
+    if (isset($_FILES['file']) && _babil_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _babil_upload_error($_FILES['file']['error']);
+        die;
+    }
+    if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
+        hooks()->do_action('before_upload_contract_attachment', $id);
+        $path = get_upload_path_by_type('hr_contract') . $id . '/';
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename = unique_filename($path, $_FILES['file']['name']);
+            $newFilePath = $path . $filename;
+            // Upload the file into the company uploads dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $CI = &get_instance();
+                $attachment = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype' => $_FILES['file']['type'],
+                ];
+                $id= $CI->hr_profile_model->add_attachment_to_database($id, 'hr_contract', $attachment);
+
+                return $id;
+            }
+        }
+    }
+
+    return false;
+}
+
+

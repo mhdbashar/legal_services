@@ -7294,7 +7294,173 @@ public function add_attachment_to_database($rel_id, $rel_type, $attachment, $ext
 		}
 		return false;
 	}
-	//******************
+    function add_note($data)
+    {
+        $this->db->insert(db_prefix() . 'hr_staff_contract_notes', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+
+    }
+    function get_note($id)
+    {
+        $this->db->where('id', $id);
+        $row =  $this->db->get(db_prefix() . 'hr_staff_contract_notes')->row();
+        if($row){
+            return $row;
+        }
+        return false;
+    }
+    function get_all_note($contract_id)
+    {
+        $this->db->where('contract_id', $contract_id);
+        $note =  $this->db->get(db_prefix() . 'hr_staff_contract_notes')->result_array();
+        if($note){
+            return $note;
+        }
+        return [];
+    }
+    function delete_note($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'hr_staff_contract_notes');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    function update_note($id,$data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'hr_staff_contract_notes',$data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    function add_comment($data)
+    {
+        $this->db->insert(db_prefix() . 'hr_staff_contract_comments', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+
+    }
+    function get_comment($id)
+    {
+        $this->db->where('id', $id);
+        $row =  $this->db->get(db_prefix() . 'hr_staff_contract_comments')->row();
+        if($row){
+            return $row;
+        }
+        return false;
+    }
+    function get_all_comment($contract_id)
+    {
+        $this->db->where('contract_id', $contract_id);
+        $note =  $this->db->get(db_prefix() . 'hr_staff_contract_comments')->result_array();
+        if($note){
+            return $note;
+        }
+        return [];
+    }
+    function delete_comment($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'hr_staff_contract_comments');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    function update_comment($id,$data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'hr_staff_contract_comments',$data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    public function delete_contract_attachment_file($attachment_id)
+    {
+        $deleted    = false;
+        $attachment = $this->get_hr_profile_attachments_delete($attachment_id);
+        if ($attachment) {
+            if (empty($attachment->external)) {
+//                unlink(get_hr_profile_upload_path_by_type('hr_contract') .$attachment->rel_id.'/'.$attachment->file_name);
+            }
+            $this->db->where('id', $attachment->id);
+            $this->db->delete(db_prefix() . 'files');
+            if ($this->db->affected_rows() > 0) {
+                $deleted = true;
+                log_activity('staff_contract Attachment Deleted [staff_contractID: ' . $attachment->rel_id . ']');
+            }
+
+            if (is_dir(get_hr_profile_upload_path_by_type('hr_contract') .$attachment->rel_id)) {
+                // Check if no attachments left, so we can delete the folder also
+                $other_attachments = list_files(get_hr_profile_upload_path_by_type('hr_contract') .$attachment->rel_id);
+                if (count($other_attachments) == 0) {
+                    // okey only index.html so we can delete the folder also
+                    delete_dir(get_hr_profile_upload_path_by_type('hr_contract') .$attachment->rel_id);
+                }
+            }
+        }
+
+        return $deleted;
+    }
+    public function get_contract_renewal_history($id)
+    {
+        $this->db->where('contractid', $id);
+        $this->db->order_by('date_renewed', 'asc');
+
+        return $this->db->get(db_prefix() . 'contract_renewals')->result_array();
+    }
+    public function add_contract_renew($data)
+    {
+        $this->db->insert(db_prefix() . 'hr_contract_renew', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+
+    }
+    function get_all_renew($contract_id)
+    {
+        $this->db->where('contract_id', $contract_id);
+        $renew=  $this->db->get(db_prefix() . 'hr_contract_renew')->result_array();
+        if($renew){
+            return $renew;
+        }
+        return [];
+    }
+    function delete_renewal($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'hr_contract_renew');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+    //******************
 	
 //end file
 }

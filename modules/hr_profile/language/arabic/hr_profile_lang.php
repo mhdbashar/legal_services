@@ -1103,6 +1103,22 @@ $lang['director_general'] = '  موافقة المدير العام';
 $lang['leave_include'] = 'تضمين';
 $lang['once_during_contract'] = 'مرة واحدة خلال عقد العمل';
 $lang['hr_leave'] = 'الإجازات';
+$lang['category_for_leave'] = 'نوع الاجازة';
+$lang['Number_of_leaving_day'] = 'عدد ايام الاجازة';
+$lang['time'] = 'الوقت';
+$lang['other_information'] = 'معلومات اخرى';
+$lang['requester'] = 'الطالب';
+$lang['Authentication_Info'] = 'معلومات المصادقة';
+$lang['approval_information'] = 'معلومات الموافقة';
+$lang['cancel_approval'] = 'الغاء الموافقة';
+$lang['send_request_approve'] = 'ارسال طلب موافقة';
+
+
+
+
+
+
+
 
 
 

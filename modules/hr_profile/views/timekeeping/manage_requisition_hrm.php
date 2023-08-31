@@ -377,13 +377,13 @@ render_datatable($table_data,'table_registration_leave',
       </div>
     </div>
   </div>
-
-</div>
-</div>
-<div class="modal-footer">
+  <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-  <button type="submit" class="btn btn-info btn-submit" ><?php echo _l("submit"); ?></button>
+  <button type="submit" class="btn btn-info btn-submit"><?php  echo _l("submit");?></button>
 </div>
+</div>
+</div>
+
 <?php echo form_close(); ?>                 
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

@@ -2063,8 +2063,6 @@ class timesheets_model extends app_model
             $this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
             $insert_id = $this->db->insert_id();
             if($insert_id){
-
-                handle_requisition_attachments($insert_id);
                 if($data['rel_type'] == 4){
                     foreach($used_to as $key => $val){
                         $this->db->insert(db_prefix().'timesheets_go_bussiness_advance_payment', [

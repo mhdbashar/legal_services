@@ -41,7 +41,7 @@ $check = $this->input->get('check'); ?>
                     ?>
                     <tr>
                       <td><?php echo _l('type_of_leave'); ?></td>
-                      <td><?php echo get_type_of_leave_name($request_leave->type_of_leave); ?></td>
+                      <td><?php echo html_entity_decode($request_leave->type_of_leave); ?></td>
                     </tr>
                   <?php }
                   ?>

@@ -9581,110 +9581,109 @@ class Hr_profile extends AdminController {
 		}
 		redirect(admin_url('hr_profile/requisition_manage'));
 	}
-    public function add_requisition_ajax(){
-      if($_FILES['file']['name'] != ''){
-        $_FILES = $_FILES;
-      }else{
-        unset($_FILES);
-      }
-      if ($this->input->post()) {
-        $data = $this->input->post();
-        unset($data['number_day_off']);
-        if($data['rel_type'] == 1){
-          $data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
-          $this->load->model('hr_profile/timesheets_model');
-          $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
-        }
-        else{
-          // $data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
-          $data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
-          $this->load->model('hr_profile/timesheets_model');
-          $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
-        }
-    
-        unset($data['start_time_s']);
-        unset($data['start_time_s_time']);
-        unset($data['end_time_s']);
-        if(!isset($data['staff_id'])){
-          $data['staff_id'] = get_staff_user_id();
-        }
-        if(isset($data['according_to_the_plan'])){
-          $data['according_to_the_plan'] = 0;
-        }
-        $this->load->model('hr_profile/timesheets_model');
-        $result = $this->timesheets_model->add_requisition_ajax($data);
-        if ($result != '') {
-          echo json_encode([
-            'message' => 'success',
-            'success' => true,
-          ]);
-          $rel_type = '';
-          if($data['rel_type'] == '1'){
-            $rel_type = 'Leave';
-          }elseif($data['rel_type'] == '2'){
-            $rel_type = 'late';
-          }elseif($data['rel_type'] == '3'){
-            $rel_type = 'Go_out';
-          }elseif($data['rel_type'] == '4'){
-            $rel_type = 'Go_on_bussiness';
-          }elseif($data['rel_type'] == '5'){
-            $rel_type = 'quit_job'; 
-          }elseif($data['rel_type'] == '6'){
-            $rel_type = 'early'; 
-          }
-    
-          $data_app['rel_id'] = $result;
-          $data_app['rel_type'] = $rel_type;
-          $data_app['addedfrom'] = $data['staff_id'];
-          $this->load->model('hr_profile/timesheets_model');
-          $check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false, $data['staff_id']);
-          $check = '';
-          if($check_proccess){
-            if($check_proccess->choose_when_approving == 0){
-              $this->load->model('hr_profile/timesheets_model');
-              $this->timesheets_model->send_request_approve($data_app, $data['staff_id']);
-              $data_new = [];
-              $data_new['send_mail_approve'] = $data;
-              $this->session->set_userdata($data_new);
-              $check = 'not_choose';
-            }else{
-              $check = 'choose';
-            }
-          }else{
-            $check = 'no_proccess';
-          }
-    
-          $followers_id = $data['followers_id'];
-          $staffid = $data['staff_id'];
-          $subject = $data['subject'];
-          $link = 'hr_profile/requisition_detail/' . $result;
-    
-    
-    
-          if($followers_id != ''){
-            if ($staffid != $followers_id) {
-              $notification_data = [
-                'description' => _l('you_are_added_to_follow_the_leave_application').'-'.$subject,
-                'touserid'    => $followers_id,
-                'link'        => $link,
-              ];
-    
-              $notification_data['additional_data'] = serialize([
-                $subject,
-              ]);
-    
-              if (add_notification($notification_data)) {
-                pusher_trigger_notification([$followers_id]);
-              }
-    
-            }
-          }
-          redirect(admin_url('hr_profile/requisition_detail/'.$result.'?check='.$check));
-        }else{
-          redirect(admin_url('hr_profile/requisition_manage'));
-        }        
-      }
-    }
+
+  
+public function add_requisition_ajax(){
+	if($_FILES['file']['name'] != ''){
+		$_FILES = $_FILES;
+	}else{
+		unset($_FILES);
+	}
+	if ($this->input->post()) {
+		$data = $this->input->post();
+		unset($data['number_day_off']);
+		if($data['rel_type'] == 1){
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+      $this->load->model('hr_profile/timesheets_model');
+			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
+		}
+		else{
+			// $data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
+			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
+		}
+
+		unset($data['start_time_s']);
+    unset($data['start_time_s_time']);
+		unset($data['end_time_s']);
+		if(!isset($data['staff_id'])){
+			$data['staff_id'] = get_staff_user_id();
+		}
+		if(isset($data['according_to_the_plan'])){
+			$data['according_to_the_plan'] = 0;
+		}
+		$result = $this->timesheets_model->add_requisition_ajax($data);
+		if ($result != '') {
+			echo json_encode([
+				'message' => 'success',
+				'success' => true,
+			]);
+			$rel_type = '';
+			if($data['rel_type'] == '1'){
+				$rel_type = 'Leave';
+			}elseif($data['rel_type'] == '2'){
+				$rel_type = 'late';
+			}elseif($data['rel_type'] == '3'){
+				$rel_type = 'Go_out';
+			}elseif($data['rel_type'] == '4'){
+				$rel_type = 'Go_on_bussiness';
+			}elseif($data['rel_type'] == '5'){
+				$rel_type = 'quit_job'; 
+			}elseif($data['rel_type'] == '6'){
+				$rel_type = 'early'; 
+			}
+
+			$data_app['rel_id'] = $result;
+			$data_app['rel_type'] = $rel_type;
+			$data_app['addedfrom'] = $data['staff_id'];
+
+			$check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false, $data['staff_id']);
+			$check = '';
+			if($check_proccess){
+				if($check_proccess->choose_when_approving == 0){
+					$this->timesheets_model->send_request_approve($data_app, $data['staff_id']);
+					$data_new = [];
+					$data_new['send_mail_approve'] = $data;
+					$this->session->set_userdata($data_new);
+					$check = 'not_choose';
+				}else{
+					$check = 'choose';
+				}
+			}else{
+				$check = 'no_proccess';
+			}
+
+			$followers_id = $data['followers_id'];
+			$staffid = $data['staff_id'];
+			$subject = $data['subject'];
+			$link = 'hr_profile/requisition_detail/' . $result;
+
+
+
+			if($followers_id != ''){
+				if ($staffid != $followers_id) {
+					$notification_data = [
+						'description' => _l('you_are_added_to_follow_the_leave_application').'-'.$subject,
+						'touserid'    => $followers_id,
+						'link'        => $link,
+					];
+
+					$notification_data['additional_data'] = serialize([
+						$subject,
+					]);
+
+					if (add_notification($notification_data)) {
+						pusher_trigger_notification([$followers_id]);
+					}
+
+				}
+			}
+			redirect(admin_url('hr_profile/requisition_detail/'.$result.'?check='.$check));
+		}else{
+			redirect(admin_url('hr_profile/requisition_manage'));
+		}        
+	}
+}
   /**
 	 * table registration leave
 	 * @return 
@@ -9692,6 +9691,7 @@ class Hr_profile extends AdminController {
 public function table_registration_leave()
 	{
 		$this->app->get_table_data(module_views_path('hr_profile', 'table_registration_leave'));
+  
 	}
   /**
      * table type of leave

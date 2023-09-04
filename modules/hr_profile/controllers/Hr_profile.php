@@ -1673,6 +1673,7 @@ class Hr_profile extends AdminController {
 			$data = $this->input->post();
 			$data_asset['name'] = $data['asset_name'];
 			$data_training['training_type'] = $data['training_type'];
+      $data_transfer['data_transfer'] = $data['data_transfer'];
 			$this->hr_profile_model->add_manage_info_reception($data);
 			$this->hr_profile_model->add_setting_training($data_training);
 			$this->hr_profile_model->add_setting_transfer_records($data_transfer);

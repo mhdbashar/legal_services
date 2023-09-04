@@ -1112,6 +1112,7 @@ $lang['Authentication_Info'] = 'معلومات المصادقة';
 $lang['approval_information'] = 'معلومات الموافقة';
 $lang['cancel_approval'] = 'الغاء الموافقة';
 $lang['send_request_approve'] = 'ارسال طلب موافقة';
+$lang['attendance_hr'] = 'حضور الموظفين';
 
 
 

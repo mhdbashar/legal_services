@@ -225,15 +225,25 @@ render_datatable($table_data,'table_registration_leave',
                   <?php  echo render_input('subject') ?>
                 </div>
               </div>
-              <?php 
-              if(is_admin() || has_permission('leave_management', '', 'view')){ ?>
-                <div class="row">
-                  <div class="col-md-12">
-                    <?php echo render_select('staff_id', $pro, array('staffid', array('firstname', 'lastname')), 'staff', get_staff_user_id(),[],[],'','',false); ?>
+              <?php
+
+      if (is_admin() || has_permission('leave_management', '', 'view')) { ?>
+           <div class="row">
+            <div class="col-md-12">
+               <?php echo render_select('staff_id', $pro, array('staffid', array('firstname', 'lastname')), 'staff', '', [], [], '', '', true); ?>
+                 </div>
                   </div>
-                </div>
-              <?php } ?>
-              <div class="row mtop10">
+             <?php } ?>
+                                                        
+                                                        
+        <div class="row mtop10">
+            <div class="col-md-6 pb-4 hide" id="type">
+              <label for="type_of_leave"
+                  class="control-label"><?php echo _l('type_of_leave'); ?></label>
+                <select name="type_of_leave" class="selectpicker"
+                 id="rel_type" data-width="100%">
+                 </select>
+        </div>
                 <div class="col-md-6 pb-4" id="type">
                   <label for="rel_type" class="control-label"><?php echo _l('Type'); ?></label>
                   <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('none_type'); ?>"> 
@@ -244,15 +254,6 @@ render_datatable($table_data,'table_registration_leave',
                    <option value="4"><?php echo _l('Go_on_bussiness') ?></option>
                  </select>
                </div>
-               <div class="col-md-6 pb-4" id="type_of_leave">
-                <label for="type_of_leave" class="control-label"><?php echo _l('type_of_leave'); ?></label>
-                <select name="type_of_leave" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('none_type'); ?>">
-                 <option value="8"><?php echo _l('annual_leave') ?></option>
-                 <option value="2"><?php echo _l('maternity_leave') ?></option>                  
-                 <option value="4"><?php echo _l('private_work_without_pay') ?></option>
-                 <option value="1"><?php echo _l('sick_leave') ?></option>                  
-               </select>
-             </div>
              <div class="col-md-12 hide" id="div_according_to_the_plan">
               <div class="form-group">
                 <div class="checkbox checkbox-primary">
@@ -529,6 +530,215 @@ render_datatable($table_data,'table_registration_leave',
         })
         return parseInt($('input[name="number_of_days"]').val()) - sub
     }
+    
+    
+    
+</script>
+<script>
+
+    //$(function () {
+    //    var valid_cur_date = ''
+    //    $.get(admin_url + 'timesheets/get_next_shift_date/' + '<?//= get_staff_user_id()?>///<?//= date('Y-m-d')?>//' , function (response) {
+    //       valid_cur_date = response.next_shift_date
+    //        $('#start_time').val(valid_cur_date)
+    //        $('#end_time').val(valid_cur_date)
+    //    }, 'json');
+    //});
+
+
+    // $('#submit').click(function () {
+    //
+    // })
+    $('#start_time').click(function () {
+        var numberOfDays = $('#number_of_leaving_day').val();
+        var startTime = $('#start_time').val();
+        var date = new Date(startTime);
+        var nextDate = new Date(startTime);
+        date.toISOString().substring(0, 10);
+        nextDate.setDate(date.getDate() + (parseInt(numberOfDays) + 0.5));
+        console.log(nextDate.toISOString().substring(0, 10));
+        $('#end_time').val(nextDate.toISOString().substring(0, 10));
+
+    })
+
+    var date_created = '';
+    $(function () {
+        initDataTable('.table-official_documents', window.location.href);
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        console.log('agt');
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end()
+            .find(".branch")
+            .remove()
+            .find(".staff")
+            .remove()
+    })
+
+    function new_requisition1() {
+        "use strict";
+        $('#requisition_m').modal('show');
+        $('.edit-title').addClass('hide');
+        $('.add-title').removeClass('hide');
+    }
+
+    var number_of_day;
+    var day_value;
+
+    $("#rel_type").change(function () {
+            $('#number_of_days').removeClass('hide');
+            // $('#end_time').val('');
+            $('#is_after').val(0);
+            $('#is_before').val(0);
+
+
+            // alert($('#rel_type').val());
+            $.get(admin_url + 'hr_profile/number_of_days/' + $(this).val() + '/' + $('#staff_id').val() + '/' + $('#rel_type').val(), function (response) {
+
+                number_of_day = response;
+                var days = response.days.number_of_days;
+                console.log(response);
+                var days_after_deserving = response.deserving_after_days.deserving_after_days;
+                var days_before_deserving = response.deserving_before_days.deserving_before_days;
+                if (response.years.deserving_in_years > 0) {
+                    if (response[0] > date_created) {
+                        //after deserving
+                        $('#is_after').val(response.deserving_after_days.deserving_after_days);
+
+                        $('#number_of_leaving_day').val(days_after_deserving - response.total_of_leaving_day_after);
+                    } else {//before deserving
+                        $('#is_before').val(response.deserving_before_days.deserving_before_days);
+
+
+                        $('#number_of_leaving_day').val(days_before_deserving - response.total_of_leaving_day_before);
+                    }
+                } else if (response.years.deserving_in_years == 0) {
+
+
+                    day_value = response.number_of_days_in_leave.number_of_days - response.total_of_leaving_day;
+
+
+                    $('#number_of_leaving_day').val(day_value);
+
+                    // alert(days);
+
+                }
+
+            }, 'json');
+        }
+    );
+    $("#number_of_leaving_day").change(function () {
+        console.log(number_of_day);
+        var numberOfDays = $('#number_of_leaving_day').val();
+        var startTime = $('#start_time').val();
+        var date = new Date(startTime);
+        var nextDate = new Date(startTime);
+        date.toISOString().substring(0, 10);
+        nextDate.setDate(date.getDate() + (parseInt(numberOfDays) + 0.5));
+        console.log(nextDate.toISOString().substring(0, 10));
+        $('#end_time').val(nextDate.toISOString().substring(0, 10));
+
+
+        // var value = $('#number_of_leaving_day').val();
+        //
+        // var startdate=$('#start_time').val();
+        //
+        // var years=$('#start_time').val().substring(0,4);
+        // var month=$('#start_time').val().substring(5,7);
+        // var days=$('#start_time').val().substring(8,10);
+        //
+        // var date=new Date(startdate);
+        // console.log(date.toISOString().substring(0,10));
+        // var nextdate=new Date(startdate);
+        // nextdate.setDate(date.getDate()+parseInt(value)-1);
+        // $('#end_time').val(nextdate.toISOString().substring(0,10));
+        // console.log(date.toISOString());
+
+
+        // var days = number_of_day.days.number_of_days;
+
+        var days_after_deserving = number_of_day.deserving_after_days.deserving_after_days;
+
+        var days_before_deserving = number_of_day.deserving_before_days.deserving_before_days;
+
+        if (number_of_day.years.deserving_in_years > 0) {
+            if (number_of_day[0] > date_created) {
+                //after deserving
+                if ($('#number_of_leaving_day').val() > number_of_day.deserving_after_days.deserving_after_days - number_of_day.total_of_leaving_day_after) {
+                    alert('you cant add more day');
+                    $('#number_of_leaving_day').val(number_of_day.deserving_after_days.deserving_after_days - number_of_day.total_of_leaving_day_after);
+                }
+            } else {//before deserving
+                if ($('#number_of_leaving_day').val() > parseInt(days_before_deserving) - number_of_day.total_of_leaving_day_before) {
+                    alert('you cant add more day');
+                    $('#number_of_leaving_day').val(parseInt(days_before_deserving) - number_of_day.total_of_leaving_day_before);
+                }
+            }
+        } else if (number_of_day.years.deserving_in_years == 0) {
+            // alert(days);
+            if ($('#number_of_leaving_day').val() > day_value) {
+                alert('you cant add more day');
+                $('#number_of_leaving_day').val(day_value);
+            }
+        }
+    })
+
+
+    $("#staff_id").change(function () {
+
+        $('#rel_type').html(' ');
+        $('#end_time').val(' ');
+
+        $('#rel_type').selectpicker("refresh")
+        $.get(admin_url + 'hr_profile/get_type_of_leave/' + $(this).val(), function (response) {
+
+            $('#end_time').val(' ');
+            date_created = response[0];
+            if (response.length > 0) {
+
+                $('#rel_type').append($('<option>', {
+                    value: '',
+                    text: ''
+                }));
+
+                for (let i = 0; i < response.length; i++) {
+                    let key = response[i].id;
+                    let value = response[i].name;
+                    $('#rel_type').append($('<option>', {
+                        value: key,
+                        text: value
+                    }));
+                    $('#rel_type').selectpicker('refresh');
+                }
+            } else {
+                alert_float('danger', 'your date its not allow you to take a leave');
+            }
+        }, 'json');
+        //$.ajax({
+        //    url: '<?php //echo admin_url('timesheets/get_type_of_leave');?>//'+'/'+staffid,
+        //    success: function (data) {
+        //        response=JSON.parse(data);
+        //        $.each(response, function (key, value) {
+        //            $('#rel_type').append('<option value="' + value['id'] + '">'+ value['name']+'</option>');
+        //
+        //        });
+        //
+        //
+        //    }
+        //});
+        if ($('#staff_id').val() != '') {
+            $('#type').removeClass('hide');
+        } else {
+            $('#type').addClass('hide')
+        }
+
+    });
 </script>
 </body>
 </html>

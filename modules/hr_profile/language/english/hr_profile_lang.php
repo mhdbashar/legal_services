@@ -1119,6 +1119,7 @@ $lang['Authentication_Info'] = 'Authentication Info';
 $lang['other_information'] = 'other information';
 $lang['cancel_approval'] = 'cancel approval';
 $lang['send_request_approve'] = 'send request approve';
+$lang['attendance_hr'] = 'attendance hr';
 
 
 

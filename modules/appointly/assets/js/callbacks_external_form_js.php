@@ -85,6 +85,8 @@
                     setTimeout(() => {
                         <?php if (is_client_logged_in()) : ?>
                         window.location.href = "<?= base_url(); ?>";
+                        <?php else : ?>
+                        location.reload();
                         <?php endif; ?>
                     }, 2000);
 
@@ -100,6 +102,7 @@
                         $("#request_callback_label").show();
                         callback_form[0].reset();
                         call_types = [];
+
                     }, 3000);
 
                 }

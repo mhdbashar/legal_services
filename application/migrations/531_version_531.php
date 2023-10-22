@@ -3414,8 +3414,8 @@ INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `is_default`, `d
 (1025, 1122, 1471);
 ");
 
-            //ALTER TABLE tblmy_judicialdept Add FOREIGN KEY CourtJudKey;
-            $this->db->query("ALTER TABLE `" . db_prefix() . "my_judicialdept` ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `" . db_prefix() . "my_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;");
+//            //ALTER TABLE tblmy_judicialdept Add FOREIGN KEY CourtJudKey;
+//            $this->db->query("ALTER TABLE `" . db_prefix() . "my_judicialdept` ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `" . db_prefix() . "my_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;");
             update_option("courts_updated_2", true);
 
         }

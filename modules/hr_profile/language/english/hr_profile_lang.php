@@ -1108,6 +1108,26 @@ $lang['annual_leave'] = 'annual leave';
 $lang['private_work_without_pay'] = 'private work without pay';
 $lang['sick_leave'] = 'sick leave';
 $lang['add_education_type'] = 'Add Education Type';
+$lang['status_0'] = 'status 0';
+$lang['status_1'] = 'status 1';
+$lang['status_-1'] = 'status -1';
+$lang['my_approve'] = 'my approve';
+$lang['category_for_leave'] = 'category for leave';
+$lang['Number_of_leaving_day'] = 'Number of leaving day';
+$lang['approval_information'] = 'approval information';
+$lang['Authentication_Info'] = 'Authentication Info';
+$lang['other_information'] = 'other information';
+$lang['cancel_approval'] = 'cancel approval';
+$lang['send_request_approve'] = 'send request approve';
+$lang['attendance_hr'] = 'attendance hr';
+
+
+
+
+
+
+
+
 
 
 

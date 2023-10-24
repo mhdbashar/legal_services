@@ -416,7 +416,15 @@ function hr_profile_module_init_menu_items()
             'position' => 14,
         ]);
     }
-
+if (has_permission('attendance_management', '', 'view_own') || has_permission('attendance_management', '', 'view') || is_admin()) {
+		$CI->app_menu->add_sidebar_children_item('hr_profile', [
+			'slug'     => 'hr_profile_timekeeping',
+			'name'     => _l('attendance_hr'),
+			'href'     => admin_url('hr_profile/timekeeping2'),
+			'icon'     => 'fa fa-pencil-square-o',
+			'position' =>1,
+		]); 
+	}
 
 
 }

@@ -1047,3 +1047,11 @@ function get_insurance_types_relation_data($book_num) {
     $data = $CI->Insurance_type_model->get('', ['insurance_book_id' => $book_num, 'for_staff' => 1]);
     return $data;
 }
+function get_type_of_leave_all_name(){
+    $CI = &get_instance();
+    $CI->db->select('name,number_of_days,code');
+    $type_of_leave=$CI->db->get(db_prefix() . 'type_of_leave')->result();
+
+
+    return $type_of_leave;
+}

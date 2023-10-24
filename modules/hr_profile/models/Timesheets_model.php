@@ -2063,8 +2063,6 @@ class timesheets_model extends app_model
             $this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
             $insert_id = $this->db->insert_id();
             if($insert_id){
-
-                handle_requisition_attachments($insert_id);
                 if($data['rel_type'] == 4){
                     foreach($used_to as $key => $val){
                         $this->db->insert(db_prefix().'timesheets_go_bussiness_advance_payment', [
@@ -5154,24 +5152,73 @@ class timesheets_model extends app_model
      * @param  array $data
      * @return boolean
      */
-    public function add_type_of_leave($data){
-        $allocations = $data['allocation'];
-        unset($data['allocation']);
-        $this->db->insert(db_prefix() . 'type_of_leave', $data);
+    // public function add_type_of_leave($data){
+    //  if(in_array('allocation',$data)){ $allocations = $data['allocation'];
+    //      unset($data['allocation']);
+    //         $this->db->insert(db_prefix() . 'type_of_leave', $data);}
+    //     $insert_id = $this->db->insert_id();
+    //     if($insert_id){
+    //           foreach ($allocations as $allocation){
+    //             $this->db->insert(db_prefix() . 'type_of_leave_allocation', [
+    //                 'percent' => $allocation['percent'],
+    //                 'days' => $allocation['days'],
+    //                 'type_of_leave_id' => $insert_id,
+    //             ]);}
+               
+    //         return true;
+           
+    //     }
+    //     return false;
+    // }
+
+/**
+ * Add a new type of leave with optional allocations.
+ *
+ * @param array $data The data for the type of leave and its allocations (or null).
+ * @return bool Returns true on successful insertion, false otherwise.
+ */
+public function add_type_of_leave($data) {
+    // Check if 'allocation' key exists and is an array; if not, set it to an empty array
+    $allocations = isset($data['allocation']) && is_array($data['allocation']) ? $data['allocation'] : [];
+
+    unset($data['allocation']);
+
+    // Insert the type of leave data into the 'type_of_leave' table
+    $this->db->insert(db_prefix() . 'type_of_leave', $data);
+
+    if ($this->db->affected_rows() > 0) {
         $insert_id = $this->db->insert_id();
-        if($insert_id){
-            foreach ($allocations as $allocation){
-                $this->db->insert(db_prefix() . 'type_of_leave_allocation', [
-                    'percent' => $allocation['percent'],
-                    'days' => $allocation['days'],
-                    'type_of_leave_id' => $insert_id,
-                ]);
+
+        if (!empty($allocations)) {
+            foreach ($allocations as $allocation) {
+                if (isset($allocation['percent']) && isset($allocation['days'])) {
+                    // Insert allocation data into the 'type_of_leave_allocation' table
+                    $allocation_data = [
+                        'percent' => $allocation['percent'],
+                        'days' => $allocation['days'],
+                        'type_of_leave_id' => $insert_id,
+                    ];
+
+                    $this->db->insert(db_prefix() . 'type_of_leave_allocation', $allocation_data);
+
+                    if ($this->db->affected_rows() <= 0) {
+                        // Allocation insertion failed
+                        return false;
+                    }
+                } else {
+                    // Invalid allocation structure
+                    return false;
+                }
             }
-            return true;
         }
-        return false;
+
+        // All allocations were inserted successfully, or there were no allocations
+        return true;
     }
 
+    // Type of leave insertion failed
+    return false;
+}
 
 
     /**
@@ -7558,4 +7605,196 @@ class timesheets_model extends app_model
     }
 
 
+
+  public function get_staff_info1($id){
+        $this->db->where('client',$id);
+        $this->db->select('datestart');
+        return $this->db->get(db_prefix().'hr_contracts')->row();
+    }
+ public function get_type_of_leave_all(){
+
+
+        return $this->db->get(db_prefix() . 'type_of_leave')->result_array();
+    }
+      public function check_is_once($id){
+        $test=[];
+        $this->db->where('staff_id', $id);
+        $this->db->select('type_of_leave');
+        $all= $this->db->get(db_prefix().'timesheets_requisition_leave')->result();
+        if($all !=0){
+            foreach ($all as $key=>$rel_type){
+
+
+                $this->db->where('id', $rel_type->type_of_leave);
+                $test[]=$this->db->get('tbltype_of_leave')->row();
+            }
+            return $test;
+        }
+        else{  return $this->db->get(db_prefix() . 'type_of_leave')->result_array();}
+
+
+
+
+
+
+    }
+//    public function get_type_of_leave($type){
+//
+//        $this->db->where('id',$type);
+//        $this->db->select('name');
+//        return $this->db->get(db_prefix().'type_of_leave')->row();
+//    }
+
+public function get_another_info($id){
+        $this->db->where('staff_id',$id);
+        $this->db->select('gender,marital_status');
+        return $this->db->get(db_prefix().'hr_extra_info')->row();
+    }
+    
+      public function get_attendance_manual2($staffs_list, $month = '', $year = '', $from_date = '', $to_date = ''){
+        $data['staff_row_tk'] = [];
+        $data['staff_row_tk_detailt'] = [];
+        if($month  != '' && $year  != ''){
+            $from_date = $year.'-'.$month.'-01';
+            $to_date = $year.'-'.$month.'-'.date('t', strtotime($from_date));
+            $data_ts = $this->get_timesheets_ts_by_month($month, $year);
+        }
+        elseif($from_date  != '' && $to_date  != ''){
+            $data_ts = $this->get_timesheets_between_date($from_date, $to_date);
+        }
+        $list_date = $this->get_list_date($from_date, $to_date);
+
+        foreach($data_ts as $ts){
+
+            $staff_info = array();
+            $staff_info['date'] = date('D d', strtotime($ts['date_work']));
+            $ts_type = $this->get_ts_by_date_and_staff($ts['date_work'], $ts['staff_id']);
+            if(count($ts_type) <= 1){
+                $staff_info['ts'] = $ts['type'].(($ts['value'] != '' && $ts['value'] > 0) ? ':'.round($ts['value'], 2) : '');
+            }else{
+                $str = '';
+                foreach($ts_type as $tp){
+
+
+                    if($tp['type'] == 'HO' || $tp['type'] == 'M'){
+                        if($str == ''){
+                            $str .= $tp['type'];
+                        }else{
+                            $str .= "; ".$tp['type'];
+                        }
+                    }else{
+                        if($str == ''){
+                            $str .= $tp['type'].(($tp['value'] != '' && $tp['value'] > 0) ? ':'.round($tp['value'], 2) : '');
+                        }else{
+                            $str .= "; ".$tp['type'].(($tp['value'] != '' && $tp['value'] > 0) ? ':'.round($tp['value'], 2) : '');
+                        }
+                    }
+
+                }
+
+
+                $staff_info['ts'] = $str;
+            }
+
+            if(!isset($data_map[$ts['staff_id']])){
+                $data_map[$ts['staff_id']] = array();
+            }
+
+            $data_map[$ts['staff_id']][$staff_info['date']] = $staff_info;
+        }
+
+
+        foreach($staffs_list as $s){
+            $ts_date = '';
+            $ts_ts = '';
+            $result_tb = [];
+            if(isset($data_map[$s['staffid']])){
+                foreach ($data_map[$s['staffid']] as $key => $value) {
+                    $ts_date = $data_map[$s['staffid']][$key]['date'];
+                    $ts_ts =  $data_map[$s['staffid']][$key]['ts'];
+                    $result_tb[] = [$ts_date => $ts_ts];
+                }
+            }
+
+            $dt_ts = [];
+            $dt_ts_detail = [];
+            $dt_ts = [_l('staff_id') => $s['staffid'],_l('staff') => $s['firstname'].' '.$s['lastname']];
+            $note = [];
+            $list_dtts = [];
+            foreach ($result_tb as $key => $rs) {
+                foreach ($rs as $day => $val) {
+                    if($val == "NS" || $val == "HO"){
+                        continue;
+                    }
+                    $list_dtts[$day] = $val;
+                }
+            }
+            foreach ($list_date as $key => $value) {
+                $date_s = date('D d', strtotime($value));
+                $max_hour = $this->get_hour_shift_staff($s['staffid'],$value);
+                $check_holiday = $this->check_holiday($s['staffid'], $value);
+                $result_lack = '';
+                if($max_hour > 0){
+                    if(!$check_holiday){
+                        $ts_lack = '';
+                        if(isset($list_dtts[$date_s])){
+                            $ts_lack = $list_dtts[$date_s].'; ';
+                        }
+                        $total_lack = $ts_lack;
+                        if($total_lack){
+                            $total_lack = rtrim($total_lack, '; ');
+                        }
+                        $result_lack = $this->merge_ts($total_lack, $max_hour);
+                    }
+                    else{
+                        if($check_holiday->off_type == 'holiday'){
+                            $result_lack = "HO";
+                        }
+                        if($check_holiday->off_type == 'event_break'){
+                            $result_lack = "EB";
+                        }
+                        if($check_holiday->off_type == 'unexpected_break'){
+                            $result_lack = "UB";
+                        }
+                    }
+                }
+                else{
+                    $result_lack = 'NS';
+                }
+                $dt_ts[$date_s] = $result_lack;
+                $dt_ts_detail[$value] = $result_lack;
+            }
+            $data['staff_row_tk'][] = $dt_ts;
+            $data['staff_row_tk_detailt'][] = $dt_ts_detail;
+        }
+
+        return $data;}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

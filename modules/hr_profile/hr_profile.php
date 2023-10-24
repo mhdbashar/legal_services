@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: HR Records
 Description: The primary function of HR Records is to provide a central database containing records for all employees past and presen
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 2.3.*
 Author: GreenTech Solutions
 Author URI: https://codecanyon.net/user/greentech_solutions
@@ -26,6 +26,7 @@ define('HR_PROFILE_CONTRACT_SIGN', 'modules/hr_profile/uploads/contract_sign/');
 
 
 register_merge_fields('hr_profile/merge_fields/hr_contract_merge_fields');
+register_merge_fields('hr_profile/merge_fields/warning_staff_merge_fields');
 hooks()->add_filter('other_merge_fields_available_for', 'hr_contract_register_other_merge_fields');
 
 hooks()->add_action('admin_init', 'hr_profile_permissions');
@@ -40,6 +41,7 @@ hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
+hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 
 
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
@@ -57,6 +59,11 @@ function hr_profile_module_activation_hook()
     $CI = &get_instance();
     require_once(__DIR__ . '/install.php');
 }
+function add_hr_email_templates(){
+    $CI = &get_instance();
+    $CI->load->view('hr_profile/email/email_templates');
+}
+
 /**immigration */
 function add_immigration_reminder_tab(){
     echo '

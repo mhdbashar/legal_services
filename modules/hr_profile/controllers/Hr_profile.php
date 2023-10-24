@@ -298,6 +298,8 @@ class Hr_profile extends AdminController {
         $data['tab'][] = 'education_level';
         $data['tab'][] = 'relation';
         $data['tab'][] = 'deductions';
+        $data['tab'][] = 'warnings';
+
         //****OLD HR****//
         $data['tab'][] = 'insurance_type';
         $data['tab'][] = 'insurance_book_number';
@@ -336,6 +338,8 @@ class Hr_profile extends AdminController {
                 $this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/types/my_relation_types_table'));
 
             }
+
+
         }
 		if (is_admin()) {
 			$data['tab'][] = 'hr_profile_permissions';
@@ -377,8 +381,12 @@ class Hr_profile extends AdminController {
 			$data['workplace'] = $this->hr_profile_model->get_workplace();
 		} elseif ($data['group'] == 'contract_template') {
 			$data['contract_templates'] = $this->hr_profile_model->get_contract_template();
-		}
-        //***OLD HR***//
+
+	    } elseif ($data['group'] == 'warnings') {
+             $data['warnings'] = $this->hr_profile_model->get_warnings_template();
+            }
+
+//***OLD HR***//
         if ($this->input->is_ajax_request()) {
             if ($data['group'] == 'insurance_book_number') {
 
@@ -11083,6 +11091,49 @@ public function choose_approver(){
             echo false;
         }
     }
+
+    public function add_warnings_type()
+    {
+        $data = $this->input->post();
+        $id = $this->hr_profile_model->add_warnings_type($data);
+        if ($id) {
+            set_alert('success', _l('added successfuly'));
+            redirect(admin_url('hr_profile/setting?group=warnings'));
+        }
+        set_alert('warning', _l('thjhhfhgf'));
+        redirect(admin_url('hr_profile/setting?group=warnings'));
+
+    }
+    public function delete_type_warnings($id)
+    {
+        $success = $this->hr_profile_model->delete_type_warnings($id);
+        if ($success) {
+            set_alert('success', _l('deleted successfuly'));
+            redirect(admin_url('hr_profile/setting?group=warnings'));
+        } else {
+            set_alert('warning', _l('thjhhfhgf'));
+            redirect(admin_url('hr_profile/setting?group=warnings'));
+        }
+    }
+    public function update_type_warnings()
+    {
+        $data = $this->input->post();
+        $data['name_warnings']=$data['new'];
+        unset($data['new']);
+
+        $success = $this->hr_profile_model->update_type_warnings($data['id'], $data);
+
+        if ($success) {
+            set_alert('success', _l('up successfuly'));
+            redirect(admin_url('hr_profile/setting?group=warnings'));
+        } else {
+            set_alert('warning', _l('thjhhfhgf'));
+            redirect(admin_url('hr_profile/setting?group=warnings'));
+        }
+    }
+
+
+
 
 //end file
 }

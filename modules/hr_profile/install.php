@@ -1457,4 +1457,10 @@ $CI->db->query("CREATE TABLE IF NOT EXISTS `tblhr_staff_contract_notes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 ");
 
-
+$CI->db->query("CREATE TABLE IF NOT EXISTS `tblhr_type_warnings` (
+              `id` int(11) NOT NULL AUTO_INCREMENT, 
+              `name_warnings` varchar(255) NOT NULL,
+                                    PRIMARY KEY (`id`)
+              
+            ) ENGINE=InnoDB DEFAULT  CHARSET=utf8 AUTO_INCREMENT=1 ;
+            ");

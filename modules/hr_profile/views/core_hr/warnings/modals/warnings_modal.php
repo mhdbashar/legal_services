@@ -7,12 +7,14 @@
                 <h4 class="modal-title" id="myModalLabel">
                     <span class="edit-title"><?php echo _l("edit"); ?></span>
                 </h4>
+
             </div>
             <?php echo form_open_multipart(admin_url('hr_profile/core_hr/update_warning'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
+
                         <?php
                             if(option_exists('warning_type')){
                                 $data =array();
@@ -34,7 +36,7 @@
                                 <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
 <!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
@@ -62,7 +64,7 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -86,12 +88,12 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label for="cat_id" class="control-label"><?php echo _l('attachment') ?></label>
-                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachment" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachment" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                     </div>
                 </div>
             </div>
@@ -110,7 +112,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo _l("add"); ?></span>
+                    <span class="add-title"></span>
                 </h4>
             </div>
             <?php echo form_open_multipart(admin_url('hr_profile/core_hr/add_warning'),array('id'=>'form_transout')); ?>
@@ -135,10 +137,11 @@
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('warning_type') ?></label>
                             <select required="required" class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
-                            <?php foreach ($data as $value) { ?>
-                                <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
+                                <option value=""></option>
+                                <?php foreach ($warnings as $value) { ?>
+                                <option value="<?php echo $value['id'] ?>"><?php echo $value['name_warnings'] ?></option>
                             <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
 <!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
@@ -166,7 +169,7 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -190,12 +193,12 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php } ?>
-                            </select>     
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label for="cat_id" class="control-label"><?php echo _l('attachment') ?></label>
-                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachment" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachment" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                     </div>
                 </div>
             </div>
@@ -231,13 +234,13 @@ function required_file() {
             {
                 console.log(data);
                 $('[name="id"]').val(data.id);
-                
+
                 $('[name="warning_type"]').val(data.warning_type);
 
                 // $('[name="branch_id"]').val(data.branch_id);
 
                 $('[name="warning_date"]').val(data.warning_date);
-                
+
                 $('[name="subject"]').val(data.subject);
 
                 $('[name="description"]').val(data.description);

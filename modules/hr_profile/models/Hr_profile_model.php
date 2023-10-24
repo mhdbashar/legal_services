@@ -7451,6 +7451,55 @@ public function add_attachment_to_database($rel_id, $rel_type, $attachment, $ext
         }
         return false;
     }
+    function get_warnings_template ()
+    {
+            $type_warnings =  $this->db->get(db_prefix() . 'hr_type_warnings')->result_array();
+            if($type_warnings){
+                return $type_warnings;
+            }
+            return [];
+        }
+    function add_warnings_type ($data )
+    {
+
+        $this->db->insert(db_prefix() . 'hr_type_warnings', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+
+    }
+    function delete_type_warnings($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'hr_type_warnings');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    function update_type_warnings($id,$data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'hr_type_warnings',$data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+    function get_warnings()
+    {
+
+        $data =  $this->db->get(db_prefix() . 'hr_type_warnings')->result_array();
+        if($data){
+            return $data;
+        }
+        return false;
+    }
+
+
+
 
 
 

@@ -70,6 +70,14 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
                <option value="2"><?php echo _l('Reject') ?></option>                  
              </select>
            </div>
+           <div class="row mtop10">
+            <div class="col-md-6 pb-4 hide" id="type">
+              <label for="type_of_leave"
+                  class="control-label"><?php echo _l('type_of_leave'); ?></label>
+                <select name="type_of_leave" class="selectpicker"
+                 id="rel_type" data-width="100%">
+                 </select>
+        </div>
            <div class="col-md-3">
             <select name="rel_type_filter[]" class="selectpicker" data-width="100%" id="rel_type_filter" multiple data-none-selected-text="<?php echo _l('filter_by_type'); ?>"> 
              <option value="1"><?php echo _l('Leave') ?></option>                  

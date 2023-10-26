@@ -1384,6 +1384,24 @@ if (!$CI->db->table_exists(db_prefix() . 'timesheets_additional_timesheet')) {
     PRIMARY KEY (`id`));');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'timesheets_requisition_leave')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_requisition_leave` (
+        `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+        `staff_id` int(11) NOT NULL,
+        `subject` varchar(100) NULL,
+        `is_after` varchar(100) NULL,
+        `is_before` varchar(100) NULL,
+        `start_time` DATETIME NOT NULL,
+        `end_time` DATETIME NOT NULL,
+        `reason` text NULL,
+        `approver_id` int(11) NOT NULL,
+        `followers_id` int(11) NULL,
+        `rel_type` int(11) NOT NULL COMMENT '1:Leave 2:Late_early 3:Go_out 4:Go_on_bussiness',
+        `status` int(11) NULL DEFAULT 0 COMMENT '0:Create 1:Approver 2:Reject',
+        PRIMARY KEY (`id`,staff_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->field_exists('second_name' ,db_prefix() . 'staff')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
           ADD COLUMN `second_name` varchar(100) NULL AFTER `firstname`');

@@ -25,6 +25,8 @@ $lang['hr_group_name']                                                	= 'إسم
 $lang['hr_item_name_to_add']                                           = 'اسم العنصر المراد إضافته';
 $lang['hr_reception_staff'] 											= 'قالب استقبال الموظف';
 $lang['hr_training'] 													= 'التدريب';
+$lang['hr_vacations'] 													= 'الإجازات';
+
 $lang['hr__training_library'] 											= 'مكتبة التدريب';
 $lang['hr__training_program'] 											= 'برامج تدريبية';
 $lang['hr_training_type'] 												= 'نوع التدريب';

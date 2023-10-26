@@ -108,8 +108,8 @@ echo staff_profile_image($member->staffid, array('img', 'img-responsive', 'staff
 
                            <div class="col-md-6">
                              <?php
-$birthday = (isset($member) ? $member->birthday : '');
-echo render_date_input('birthday', 'hr_hr_birthday', _d($birthday));?>
+                              $birthday = (isset($member) ? $member->birthday : '');
+                               echo render_date_input('birthday', 'hr_hr_birthday', _d($birthday));?>
                            </div>
                         </div>
 
@@ -126,7 +126,12 @@ echo render_date_input('birthday', 'hr_hr_birthday', _d($birthday));?>
                               <?php $value = (isset($member) ? $member->phonenumber : '');?>
                               <?php echo render_input('phonenumber', 'staff_add_edit_phonenumber', $value); ?>
                            </div>
-
+                           
+                                	<div class="col-md-6">
+											<?php 
+											$appointment = (isset($member) ? $member->appointment : ''); 
+											echo render_date_input('appointment','appointment',_d($appointment)); ?>
+										</div>
 
                         </div>
 

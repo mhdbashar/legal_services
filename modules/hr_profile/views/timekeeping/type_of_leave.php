@@ -166,6 +166,7 @@ render_datatable($table_data,'table_type_of_leave');
                     </div>
                 </div>
                 <div class="clearfix"></div>
+                </div>
                 
               <div id="draggable" class="drag-sort-enable" style="margin: auto; text-align:center ;width: 60%; "
                    ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -215,7 +216,6 @@ render_datatable($table_data,'table_type_of_leave');
             
             
             
-          </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
                 <button id="submit-type" class="btn btn-info btn-additional-timesheets"><?php echo _l('submit'); ?></button>
@@ -227,10 +227,74 @@ render_datatable($table_data,'table_type_of_leave');
 
 
 
-    
-</div>
+    </div>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js"></script>
+
 
 <script>
+    function enableDragSort(listClass) {
+        const sortableLists = document.getElementsByClassName(listClass);
+        Array.prototype.map.call(sortableLists, (list) => {
+            enableDragList(list)
+        });
+    }
+
+    function enableDragList(list) {
+        Array.prototype.map.call(list.children, (item) => {
+            enableDragItem(item)
+        });
+    }
+
+    function enableDragItem(item) {
+        item.setAttribute('draggable', true)
+        item.ondrag = handleDrag;
+        item.ondragend = handleDrop;
+    }
+
+    function handleDrag(item) {
+        const selectedItem = item.target,
+            list = selectedItem.parentNode,
+            x = event.clientX,
+            y = event.clientY;
+
+        selectedItem.classList.add('drag-sort-active');
+        let swapItem = document.elementFromPoint(x, y) === null ? selectedItem : document.elementFromPoint(x, y);
+
+        if (list === swapItem.parentNode) {
+            swapItem = swapItem !== selectedItem.nextSibling ? swapItem : swapItem.nextSibling;
+            list.insertBefore(selectedItem, swapItem);
+        }
+    }
+
+    function handleDrop(item) {
+        item.target.classList.remove('drag-sort-active');
+    }
+
+    (() => {
+        enableDragSort('drag-sort-enable')
+    })();
+
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+
+        ev.dataTransfer.setData("text", ev.target.id);
+
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+
+        const prices = [...document.querySelectorAll('.item')]
+            .map(v => String(v.id))
+            .sort((a, b) => a - b);
+        $('[name="manager_sorts"]').val(prices);
+     
+    }
     function type_of_leave_timesheets(){
         "use strict";
         $('#type_of_leave_modal').modal();

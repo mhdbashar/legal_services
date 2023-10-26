@@ -298,6 +298,17 @@ function hr_profile_module_init_menu_items()
             'position' => 1,
         ]);
     }
+    
+
+        $CI->app_menu->add_sidebar_children_item('hr', [
+            'slug'     => 'vacations',
+            'name'     => _l('hr_vacations'),
+            'href'     => admin_url('hr_profile/core_hr/vacations/manage'),
+            'position' => 15,
+            'icon'     => 'fa fa-file-o',
+        ]);
+
+    
 
 
     if(has_permission('staffmanage_orgchart','','view') || has_permission('staffmanage_orgchart','','view_own')){

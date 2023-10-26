@@ -62,6 +62,15 @@ class Hr_profile extends AdminController {
 		$data['dep_tree'] = json_encode($this->hr_profile_model->get_department_tree());
 		$this->load->view('organizational/organizational_chart', $data);
 	}
+	public function table_registration_leave()
+	{
+		$data = $this->app->get_table_data(module_views_path('hr_profile', 'table_registration_leave'));
+      return $data ;
+	}
+	  public function table_registration_leave_by_staff()
+    {
+        $this->app->get_table_data(module_views_path('hr_profile', 'table_registration_leave_by_staff'));
+    }
 
 	/**
 	 * email exist as staff
@@ -6039,6 +6048,7 @@ class Hr_profile extends AdminController {
 					'staff_identifi',
 					'job_position',
 					'datecreated',
+					'appointment',
 					'email',
 				]);
 
@@ -6065,6 +6075,7 @@ class Hr_profile extends AdminController {
 					$row[] = $name_department;
 
 					$row[] = date('d/m/Y', strtotime($aRow['datecreated']));
+					$row[] = date('d/m/Y', strtotime($aRow['appointment']));
 
 					$data_quiting = $this->hr_profile_model->get_list_quiting_work($aRow['staffid']);
 					$date_off = '';
@@ -9547,7 +9558,6 @@ class Hr_profile extends AdminController {
 		$leave_isset = $this->db->query('select * from '.db_prefix().'timesheets_requisition_leave')->result_array();
 		$data['id'] = $id;
 		$data['leave_isset'] = $leave_isset;
-
 		$rel_type = '';
 		if($data['request_leave']->rel_type == '1'){
 			$rel_type = 'Leave';
@@ -9598,8 +9608,6 @@ class Hr_profile extends AdminController {
 		}
 		redirect(admin_url('hr_profile/requisition_manage'));
 	}
-
-  
 public function add_requisition_ajax(){
 	if($_FILES['file']['name'] != ''){
 		$_FILES = $_FILES;
@@ -9610,19 +9618,24 @@ public function add_requisition_ajax(){
 		$data = $this->input->post();
 		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
-			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+// 			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+// 			$data['end_time'] = $data['end_time_s'] . ' ' . $data['end_time_s_time'];
       $this->load->model('hr_profile/timesheets_model');
-			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
+		$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
 		}
 		else{
 			// $data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
 			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
-			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
+// 			$data['end_time'] = $data['end_time_s'] . ' ' . $data['end_time_s_time'];
+
+  $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
 		}
 
 		unset($data['start_time_s']);
     unset($data['start_time_s_time']);
 		unset($data['end_time_s']);
+				unset($data['end_time_s_time']);
+
 		if(!isset($data['staff_id'])){
 			$data['staff_id'] = get_staff_user_id();
 		}
@@ -9699,11 +9712,8 @@ public function add_requisition_ajax(){
 	 * table registration leave
 	 * @return 
 	 */
-public function table_registration_leave()
-	{
-		$this->app->get_table_data(module_views_path('hr_profile', 'table_registration_leave'));
-  
-	}
+
+
   /**
      * table type of leave
      * @return
@@ -9739,7 +9749,7 @@ public function table_registration_leave()
 	 */
 	public function requisition_manage(){
 		if (!(has_permission('leave_management', '', 'view_own') || has_permission('leave_management', '', 'view') || is_admin())) {          
-			access_denied('approval_process');
+// 			access_denied('approval_process');
 		}
 		$send_mail_approve = $this->session->userdata("send_mail_approve");
 		if((isset($send_mail_approve)) && $send_mail_approve != ''){
@@ -9845,7 +9855,7 @@ public function table_registration_leave()
     $staffid= $type_of_leave->staff_id_manage_depart;
     $staffid2=$type_of_leave->staff_id_manager_hr;
     $staffid3=$type_of_leave->staff_id_director_general;
-
+    
     $manage= $this->timesheets_model->get_staff_by_id($staffid);
     $manager= $this->timesheets_model->get_staff_by_id($staffid2);
     $director= $this->timesheets_model->get_staff_by_id($staffid3);
@@ -10843,27 +10853,63 @@ public function choose_approver(){
 		}
 		$this->load->view('includes/_file', $data);
 	}
-// number of days
-  public function number_of_days($rel_type, $staffid, $type_of_leave)
+	//1
+// 	  public function add_requisition_ajax1()
+//     {
+//         //after submit form
+
+//         if ($this->input->post()) {
+
+
+//             $data = $this->input->post();
+
+
+
+//             if (!isset($data['staff_id'])) {
+//                 $data['staff_id'] = get_staff_user_id();
+//             }
+//             $result = $this->timesheets_model->add_requisition_ajax1($data);
+//             redirect(admin_url('hr_profile/timekeeping'));
+// //            echo '<pre>';print_r($data);exit();
+//         }
+//     }
+
+      public function add_requisition_ajax1()
     {
+        //after submit form
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if (!isset($data['staff_id'])) {
+                $data['staff_id'] = get_staff_user_id();
+
+            }
+            $result = $this->timesheets_model->add_requisition_ajax1($data);
+
+            redirect(admin_url('hr_profile/core_hr/vacations'));
+             
+        }
+    }
+// number of days
+public function number_of_days($rel_type, $staff_id, $type_of_leave)
+    {
+       
+       
         $number_of_day_he_take_it_after_collecting = 0;
         $number_of_days_before=0;
         $number_of_days_after=0;
-
-
-
+//echo $rel_type;echo $staffid;echo $type_of_leave ;exit();
         $data = [
             'days' => $this->timesheets_model->get_number_of_day($rel_type),
             'years' => $this->timesheets_model->get_deserving_year($rel_type),
             'deserving_before_days' => $this->timesheets_model->get_deserving_before_day($rel_type),
             'deserving_after_days' => $this->timesheets_model->get_deserving_after_days($rel_type),
-            'number_of_day_he_take_it' => $this->timesheets_model->number_of_day_he_take_it($staffid, $type_of_leave),
+            'number_of_day_he_take_it' => $this->timesheets_model->number_of_day_he_take_it($staff_id, $type_of_leave),
             'number_of_days_in_leave' => $this->timesheets_model->get_number_of_days_in_leave($type_of_leave),
-            'years_status'=>$this->timesheets_model->get_status_of_years($type_of_leave,$staffid),
-            'contract_date'=>$this->timesheets_model->get_contract_date($staffid),
+            'years_status'=>$this->timesheets_model->get_status_of_years($type_of_leave,$staff_id),
+            'contract_date'=>$this->timesheets_model->get_contract_date($staff_id),
         ];
-        $contract_date = $this->timesheets_model->get_contract_date($staffid);
-
+        $contract_date = $this->timesheets_model->get_contract_date($staff_id);
+    
             $data['time_now']=date('Y-m-d');
             // calculate the accumulative days
         $now = time(); // or your date as well
@@ -10903,7 +10949,7 @@ public function choose_approver(){
 
         //end calculate
         $years = $data['years'];
-        $number_of_day_he_take_it_before_collecting = $this->timesheets_model->number_of_day_he_take_it($staffid, $type_of_leave);
+        $number_of_day_he_take_it_before_collecting = $this->timesheets_model->number_of_day_he_take_it($staff_id, $type_of_leave);
         foreach ($number_of_day_he_take_it_before_collecting as $value) {
 
 
@@ -10911,28 +10957,31 @@ public function choose_approver(){
         }
 
 
-        $number_of_day_he_take_it_before = $this->timesheets_model->number_of_day_he_take_it_before($staffid, $type_of_leave);
+        $number_of_day_he_take_it_before = $this->timesheets_model->number_of_day_he_take_it_before($staff_id, $type_of_leave);
         foreach ($number_of_day_he_take_it_before as $value) {
             $number_of_days_before=$value['number_of_leaving_day']+$number_of_days_before;
 
 
         }
-        $number_of_day_he_take_it_after = $this->timesheets_model->number_of_day_he_take_it_after($staffid, $type_of_leave);
+        $number_of_day_he_take_it_after = $this->timesheets_model->number_of_day_he_take_it_after($staff_id, $type_of_leave);
         foreach ($number_of_day_he_take_it_after as $value) {
             $number_of_days_after=$value['number_of_leaving_day']+$number_of_days_after;
         }
+        
         $data['total_of_leaving_day'] = $number_of_day_he_take_it_after_collecting;
         $data['total_of_leaving_day_before'] =$number_of_days_before;
         $data['total_of_leaving_day_after']=$number_of_days_after;
 
-        $data[] = strtotime(date('Y-m-d', strtotime("-$years->deserving_in_years years", strtotime(date('Y-m-d')))));
-
+        $data[""] = strtotime(date('Y-m-d', strtotime("-$years->deserving_in_years years", strtotime(date('Y-m-d')))));
+        
+        // $result = $this->number_of_days($rel_type, $staff_id, $type_of_leave);
+      
         echo json_encode($data);
 
     }
 
 //get type of leave
-  public function get_type_of_leave($id)
+      public function get_type_of_leave($id)
     {
 
 
@@ -11023,7 +11072,7 @@ public function choose_approver(){
 
 
     }
-  
+
       /**
      * manage timesheets
      */

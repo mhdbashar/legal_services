@@ -214,7 +214,7 @@ $check = $this->input->get('check'); ?>
                             </tr>
                             <?php 
                           }
-                          $sum_mn += $ad['amoun_of_money'];
+                       $sum_mn = array_sum(array_column($ad, 'amount_of_money'));
                         } ?>
                         <tr>
                           <td><?php echo _l('total'); ?></td>

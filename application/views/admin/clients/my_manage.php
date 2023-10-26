@@ -193,6 +193,20 @@
                               </ul>
                            </li>
                            <?php } ?>
+                            <div class="clearfix"></div>
+                            <li class="divider"></li>
+
+                            <li class="dropdown-submenu pull-left invoice">
+                                <a href="#" tabindex="-1"><?php echo _l('branches'); ?></a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <?php foreach($branches as $branch ) {  ?>
+                                        <li>
+                                            <a href="#" data-cview="branches_<?php echo $branch["id"]; ?>" onclick="dt_custom_view('branches_<?php echo  $branch["id"]; ?>','.table-clients','branches_<?php  $branch["id"]; ?>'); return false;"><?php echo  $branch["id"]; ?></a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+
                         </ul>
                      </div>
                   </div>

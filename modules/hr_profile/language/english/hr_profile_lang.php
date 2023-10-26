@@ -433,7 +433,9 @@ $lang['hr_staff_stats_last_month_total_logged_time'] 					= 'Last Month';
 $lang['hr_staff_stats_this_month_total_logged_time'] 					= 'This Month';
 $lang['hr_staff_stats_last_week_total_logged_time'] 					= 'Last Week';
 $lang['hr_staff_stats_this_week_total_logged_time'] 					= 'This Week';
-$lang['hr_single'] 														= 'Single';
+$lang['hr_single'] 	= 'Single';
+$lang['hr_vacations'] 														= 'Vacations';
+
 $lang['total_point'] 													= 'Total point';
 $lang['date'] 															= 'Date';
 $lang['unit_name'] 														 = 'Name';

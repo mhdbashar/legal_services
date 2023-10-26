@@ -142,6 +142,10 @@ foreach ($staff_departments as $staff_department) {
                             <td><?php echo _d($datecreated); ?></td>
                         </tr>
 
+                        <tr class="project-overview">
+                            <td class="bold" ><?php echo _l('appointment'); ?></td>
+                            <td><?php echo _d($appointment); ?></td>
+                        </tr>
 
 
 						<tr class="project-overview">

@@ -308,4 +308,3 @@ function get_workplace_name($workplace_id){
     }
     return $name;
 }
-

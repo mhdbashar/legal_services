@@ -90,13 +90,13 @@
 											</div>
 										</div>
 
-										<div class="col-md-6">
+									<div class="col-md-6">
 											<?php 
 											$birthday = (isset($member) ? $member->birthday : ''); 
 											echo render_date_input('birthday','hr_hr_birthday',_d($birthday)); ?>
 										</div>
 									</div>
-
+									
 									<div class="row">
 										<div class="col-md-6">
 											<?php $value = (isset($member) ? $member->email : ''); ?>
@@ -110,6 +110,13 @@
 											<?php $value = (isset($member) ? $member->phonenumber : ''); ?>
 											<?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
 										</div>
+										
+											<div class="col-md-6">
+											<?php 
+											$appointment = (isset($member) ? $member->appointment : ''); 
+											echo render_date_input('appointment','appointment',_d($appointment)); ?>
+										</div>
+
 
 
 									</div>

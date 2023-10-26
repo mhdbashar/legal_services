@@ -1055,3 +1055,9 @@ function get_type_of_leave_all_name(){
 
     return $type_of_leave;
 }
+function get_hr_staffs(){
+    $CI             = &get_instance();
+    $CI->load->model('hrm_model');
+    return $CI->hrm_model->get_staff();
+}
+

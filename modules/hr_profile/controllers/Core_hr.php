@@ -35,8 +35,73 @@ class Core_hr extends AdminController{
 //            redirect(admin_url('hr/general/staff'));
 //        }
 	}
-    // awards
+	//vacations 
+	    public function vacations(){
+        
 
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_awards_table');
+        }
+//            if($this->app_modules->is_active('branches')) {
+//            $ci = &get_instance();
+//            $ci->load->model('branches/Branches_model');
+//            $data['branches'] = $ci->Branches_model->getBranches();
+//        }
+
+	$send_mail_approve = $this->session->userdata("send_mail_approve");
+		if((isset($send_mail_approve)) && $send_mail_approve != ''){
+			$data['send_mail_approve'] = $send_mail_approve;
+			$this->session->unset_userdata("send_mail_approve");
+		}
+     $this->load->model('hr_profile/timesheets_model');
+		$status_leave = $this->timesheets_model->get_number_of_days_off();
+		$day_off = $this->timesheets_model->get_day_off();
+		$data['number_day_off'] = 0;
+		$data['days_off'] = 0;
+		if($day_off != null){
+			$data['number_day_off'] = $day_off->remain;
+			if($data['number_day_off'] < 0){
+				$data['number_day_off'] = 0;
+			}
+			$data['days_off'] = $day_off->days_off;
+			if($data['days_off'] > $day_off->total){
+				$data['days_off'] = $day_off->total;
+			}
+		}
+    $this->load->model('hr_profile/timesheets_model');
+		$data['data_timekeeping_form'] = $this->timesheets_model->get_timesheets_option('timekeeping_form');
+		$this->load->model('departments_model');
+		$data['departments'] = $this->departments_model->get();
+		$data['current_date'] = date('Y-m-d H:i:s');
+    $this->load->model('hr_profile/Timesheets_model');
+		$status_leave = $this->timesheets_model->get_option_val();
+		$this->load->model('staff_model');
+		$data['pro'] = $this->staff_model->get();
+		$data['userid'] = get_staff_user_id();
+		$data['tab'] = $this->input->get('tab');
+		$data['title'] = _l('leave');
+    $this->load->model('hr_profile/timesheets_model');
+		$data['additional_timesheets_id'] = $this->input->get('additional_timesheets_id');
+		$data['additional_timesheets'] = $this->timesheets_model->get_additional_timesheets();
+
+        $data['staffes'] = $this->Staff_model->get();
+        $data['title'] = _l('awards');
+        $this->load->view('hr_profile/core_hr/vacations/manage', $data);
+    }
+    // awards
+	public function delete_vacations($id)
+	{
+    $this->load->model('hr_profile/timesheets_model');
+		$response = $this->timesheets_model->delete_requisition($id);
+		if (is_array($response) && isset($response['referenced'])) {
+			set_alert('warning', _l('is_referenced', _l('lead_source_lowercase')));
+		} elseif ($response == true) {
+			set_alert('success', _l('deleted', _l('lead_source')));
+		} else {
+			set_alert('warning', _l('problem_deleting', _l('lead_source_lowercase')));
+		}
+		redirect(admin_url('hr_profile/core_hr/vacations/manage'));
+	}
     public function awards(){
         if($this->input->is_ajax_request()){
             $this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_awards_table'));
@@ -52,6 +117,7 @@ class Core_hr extends AdminController{
         $data['title'] = _l('awards');
         $this->load->view('core_hr/awards/manage', $data);
     }
+  
 
 
     public function json_document($id){

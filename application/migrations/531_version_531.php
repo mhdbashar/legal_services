@@ -15,7 +15,7 @@ class Migration_Version_531 extends CI_Migration
         if (!get_option("courts_updated_2")) {
 
             //delete FOREIGN KEY `CourtJudKey`
-            $this->db->query("ALTER TABLE `" . db_prefix() . "my_judicialdept` DROP FOREIGN KEY IF EXISTS`CourtJudKey`;");
+            $this->db->query("ALTER TABLE `" . db_prefix() . "my_judicialdept` DROP FOREIGN KEY `CourtJudKey`;");
 
             //delete old courts
             $this->db->query("DELETE FROM `tblmy_courts` WHERE `c_id` BETWEEN 502 AND 756;");

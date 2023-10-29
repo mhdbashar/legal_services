@@ -155,8 +155,7 @@ if (!$CI->db->table_exists(db_prefix() . 'timesheets_approval_details')) {
     `reject_value` VARCHAR(255) NULL,
     `staff_approve` INT(11) NULL,
     `action` VARCHAR(45) NULL,
-    PRIMARY KEY (`id`));');
-}
+    PRIMARY KEY (`id`));'); }
 
 if (!$CI->db->field_exists('sender', db_prefix() . 'timesheets_approval_details')) {
   $CI->db->query('ALTER TABLE `'.db_prefix() . 'timesheets_approval_details` 

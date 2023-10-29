@@ -656,6 +656,11 @@ if (!$CI->db->field_exists('skype' ,db_prefix() . 'staff')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
     ADD COLUMN `skype` varchar(50) NULL ');
 }
+
+if (!$CI->db->field_exists('appointment' ,db_prefix() . 'staff')) {
+  $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+  ADD COLUMN `appointment` varchar(222) NULL ');
+}
 //************************
 
 

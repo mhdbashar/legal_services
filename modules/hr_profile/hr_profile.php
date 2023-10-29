@@ -120,7 +120,7 @@ function add_official_document_reminder_tab_content(){
 </div>  ';
 }
  
-function add_type_of_leave_reminder_tab_content(){
+function add_type_of_leave_reminder_tab_content(){                   
   echo '<div role="tabpanel" class="tab-pane" id="official_document">
 <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_type_leave_reminders_notification_before').'"></i>
 '.render_input('settings[hr_type_leave_reminders_notification_before]','hr_type_leave_reminders_notification_before',get_option('hr_type_leave_reminders_notification_before'),'number').'
@@ -875,10 +875,7 @@ function type_leave_reminders(){
             if ($notified) {
                 array_push($notifiedUsers, $member['staffid']);
             }
-
             // send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
-
-
             $CI->db->where('id', $document['id']);
             $CI->db->update(db_prefix() . 'type_of_leave', [
                 'notify_manager_before_deserving_days' => 1,

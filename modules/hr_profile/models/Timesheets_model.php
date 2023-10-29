@@ -962,7 +962,12 @@ class timesheets_model extends app_model
       return  $this->db->get("tblstaff")->row();
 
     }
-
+      
+    public function get_type($id){
+      $this->db->where('id',$id);
+      $this->db->select('deserving_in_years');
+      return  $this->db->get("tbltype_of_leave")->row();
+    }
 
     /**
      * gets the day off.

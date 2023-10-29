@@ -492,7 +492,7 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
             // alert($('#rel_type').val());
 $.get(admin_url + 'hr_profile/number_of_days/' + $(this).val() + '/' + $('#staff_id').val() + '/' + $('#rel_type').val(), function (response) {
     number_of_day = response;
-    var days = response.days.number_of_days;
+    var days = response.days.number_of_days;3
     console.log(response);
     
 

@@ -1360,7 +1360,8 @@ if (!$CI->db->table_exists(db_prefix() . 'type_of_leave')) {
               `allow_substitute_employee` enum('0','1') NOT NULL,
               `accumulative`  varchar(200) NOT NULL,
               `code` int(11) NOT NULL,
-      PRIMARY KEY (`id`)
+              `datecreated` DATETIME NOT NULL,
+      PRIMARY KEY (`id`)                                                      
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 

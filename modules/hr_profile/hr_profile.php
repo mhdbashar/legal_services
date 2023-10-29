@@ -42,8 +42,7 @@ hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_ta
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
-
-
+hooks()->add_action('leave_cron_run', 'type_leave_reminders');
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
 hooks()->add_action('pre_deactivate_module', HR_PROFILE_MODULE_NAME.'_predeactivate');
 
@@ -54,6 +53,21 @@ define('VERSION_HR_PROFILE', 107);
  */
 register_activation_hook(HR_PROFILE_MODULE_NAME, 'hr_profile_module_activation_hook');
 
+// In your module's initialization file
+// Load the cron model
+// function cron_leave(){
+// $this->load->model('cron_model');
+
+// // Define the cron job details
+// $cron_data = array(
+//     'hook' => 'leave_cron_run', // A custom hook to trigger the cron job
+//     'interval' => 'daily',        // Schedule (e.g., daily, hourly)
+//     'enabled' => 1,               // Enable the cron job
+// );
+
+// // Insert the cron job into the database
+// $this->cron_model->insertCron($cron_data);
+// }
 function hr_profile_module_activation_hook()
 {
     $CI = &get_instance();
@@ -105,7 +119,13 @@ function add_official_document_reminder_tab_content(){
  '.render_input('settings[hr_official_document_reminder_notification_before]','hr_official_document_reminder_notification_before',get_option('hr_official_document_reminder_notification_before'),'number').'
 </div>  ';
 }
-
+ 
+function add_type_of_leave_reminder_tab_content(){
+  echo '<div role="tabpanel" class="tab-pane" id="official_document">
+<i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_type_leave_reminders_notification_before').'"></i>
+'.render_input('settings[hr_type_leave_reminders_notification_before]','hr_type_leave_reminders_notification_before',get_option('hr_type_leave_reminders_notification_before'),'number').'
+</div>  ';
+}
 
 
 /**
@@ -814,6 +834,70 @@ function hr_profile_predeactivate($module_name){
         $hr_profile_api->deactivate_license();
     }
 }
+
+
+function type_leave_reminders(){
+  $CI = &get_instance();
+  $reminder_before = get_option('hr_type_leave_reminders_notification_before');
+    $CI->db->where('datecreated IS NOT NULL');
+    $CI->db->where('notify_manager_before_deserving_days',0);
+    $CI->db->where('notify_staff_before_deserving_days',0);
+  $this->load->model('hr_profile/timesheets_model');
+  $des = $this->timesheets_model->get_type($id);
+  $documents = $CI->db->get(db_prefix() . 'type_of_leave')->result_array();
+  $now = new DateTime(date('Y-m-d'));
+   foreach($documents as $document){
+    if (date('Y-m-d', strtotime($document['datecreated'])) >= date('Y-m-d')) {
+      $end_date = new DateTime($document['datecreated']);
+      $diff = $end_date->diff($now)->format('%a');
+      // Check if difference between start date and date_expiry is the same like the reminder before
+      // In this case reminder wont be sent becuase the document it too short
+      $end_date = strtotime($document['datecreated']);
+      $start_and_end_date_diff = $end_date;
+      $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+      // $days_to_send_notifications = $reminder_before + 1;
+   }
+   if ($diff <= $reminder_before) {
+    $CI->db->where('admin', 1);
+    $assignees = $CI->staff_model->get();
+    foreach ($assignees as $member) {
+        $row = $CI->db->get(db_prefix() . 'staff')->row();
+        if ($row) {
+            $notified = add_notification([
+                'description' => 'type_of_leave_reminders',
+                'touserid' => $member['staffid'],
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'hr_profile/timekeeping/manage_requisition_hrm',
+
+            ]);
+
+            if ($notified) {
+                array_push($notifiedUsers, $member['staffid']);
+            }
+
+            // send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+            $CI->db->where('id', $document['id']);
+            $CI->db->update(db_prefix() . 'type_of_leave', [
+                'notify_manager_before_deserving_days' => 1,
+                'notify_manager_before_deserving_days'=> 1,
+            ]);
+        }
+    }
+}
+}
+
+
+pusher_trigger_notification($notifiedUsers);
+
+
+    
+   
+
+}
+
 
 function immigration_reminders()
 {

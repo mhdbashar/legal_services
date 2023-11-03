@@ -661,6 +661,7 @@ if (!$CI->db->field_exists('appointment' ,db_prefix() . 'staff')) {
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
   ADD COLUMN `appointment` varchar(222) NULL ');
 }
+
 //************************
 
 

@@ -49,7 +49,7 @@ if(isset($clientid)){
 }
 
 if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
-    array_push($where, ' AND ' . db_prefix() . 'my_disputes_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'members_disputes_cases WHERE staff_id=' . get_staff_user_id() . ')');
+    array_push($where, ' AND ' . db_prefix() . 'my_disputes_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_disputes_cases WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
 if (count($statusIds) > 0) {

@@ -44,6 +44,11 @@
         <a href="#regular_durations" aria-controls="regular_durations" role="tab"
            data-toggle="tab"><?php echo _l('regular_durations'); ?></a>
     </li>
+	    <li role="presentation">
+        <a href="#case_not_checked" aria-controls="case_not_checked" role="tab"
+           data-toggle="tab"><?php echo _l('عدد الايام للقضايا التي لم يتم التعامل معها'); ?></a>
+    </li>
+
     <li role="presentation">
         <a href="#sessions" aria-controls="sessions" role="tab"
            data-toggle="tab"><?php echo _l('sessions'); ?></a>
@@ -198,6 +203,16 @@
         <label for="automatically_send_lawyer_daily_agenda" class="col-form-label"><?php echo _l('daily_agenda_hour   '); ?></label>
         <input type="<?php echo (get_option('time_format') == 24) ? 'text' : 'time' ?>" class="form-control" value="<?php echo get_option('automatically_send_lawyer_daily_agenda'); ?>" id="automatically_send_lawyer_daily_agenda" name="settings[automatically_send_lawyer_daily_agenda]" autocomplete="off">
     </div>
+	
+	
+  <div role="tabpanel" class="tab-pane" id="case_not_checked">
+        <label for="automatically_send_case_not_checked" class="col-form-label"><?php echo _l('عدد الايام للقضايا التي لم يتم التعامل معها'); ?></label>
+      <?php echo render_input('settings[automatically_send_case_not_checked]', '', get_option('automatically_send_case_not_checked'), 'number'); ?>
+       
+    </div>
+
+	
+	
     <div role="tabpanel" class="tab-pane" id="sessions">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip"
            data-title="<?php echo _l('sessions_reminder_notification_before_help'); ?>"></i>

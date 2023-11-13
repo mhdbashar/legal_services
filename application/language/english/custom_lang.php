@@ -4120,4 +4120,6 @@ $lang['company_representative'] = "The Company's Representative";
 $lang['correspond'] = " <-> ";
 $lang['staff_document_name'] = "The Name Of The Representative Of The Establishment";
 
+$lang['Transaction_type'] = "نوع معاملة";
+
 

@@ -394,7 +394,48 @@ function my_custom_setup_menu_items()
             'position' => 9, // The menu position
         ]);
 
-    }
+           }
+    //********ADDing transactions  *****//
+    $CI->app_menu->add_setup_menu_item('3', [
+        'name' => _l("transactions"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 3, // The menu position
+    ]);
+
+    // The first paremeter is the parent menu ID/Slug
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name' => _l("transaction_type"), // The name if the item
+        'href' => admin_url('Transactions/transaction_type'), // URL of the item
+        'position' => 1, // The menu position
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name' => _l("origin"), // The name if the item
+        'href' => admin_url('Transactions/transaction_origin'), // URL of the item
+        'position' => 2, // The menu position
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name' => _l("importance"), // The name if the item
+        'href' => admin_url('Transactions/transaction_importance'), // URL of the item
+        'position' => 3, // The menu position
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name' => _l("classification"), // The name if the item
+        'href' => admin_url('Transactions/transaction_classification'), // URL of the item
+        'position' => 4, // The menu position
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name' => _l("incoming_type"), // The name if the item
+        'href' => admin_url('Transactions/transaction_incoming_type'), // URL of the item
+        'position' => 5, // The menu position
+    ]);
+
+
+    //********End of transactions  *****//
 
 }
 

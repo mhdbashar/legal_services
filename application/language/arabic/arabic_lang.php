@@ -1445,6 +1445,10 @@ $lang['proposals_customers_related'] = "مرتبط بالعملاء";
 $lang['proposal_related'] = "مرتبط بـ";
 $lang['proposal_for_lead'] = "العميل المتوقع";
 $lang['proposal_for_customer'] = "العميل";
+$lang['done_phases'] = "نسبة المراحل المكتملة من القضية";
+$lang['now_phase'] = "الإجراء الحالي";
+
+
 $lang['proposal'] = "العطاء";
 $lang['proposal_lowercase'] = "العطاء";
 $lang['proposals'] = "العطاءات";

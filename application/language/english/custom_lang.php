@@ -2013,6 +2013,8 @@ $lang['proposals_customers_related'] = "Customers Related";
 $lang['proposal_related'] = "Related";
 $lang['proposal_for_lead'] = "Lead";
 $lang['proposal_for_customer'] = "Customer";
+
+$lang['now_phase'] = "Now phase";
 $lang['proposal'] = "Proposal";
 $lang['proposal_lowercase'] = "proposal";
 $lang['proposals'] = "Proposals";

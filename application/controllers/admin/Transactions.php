@@ -40,7 +40,7 @@ class Transactions extends AdminController
             $dataRow['incoming_type']= $data['incoming_type'];
             $dataRow['is_secret']= isset($data['secret'])? 1 : 0;
             $dataRow['importance']= $data['importance'];
-            $dataRow['classification']= $data['class'];
+            $dataRow['classification']= $data['classification'];
             $dataRow['owner']= $data['owner_name'];
             $dataRow['owner_phone']= $data['owner_phone'];
             $dataRow['source_reporter']= $data['reporter_name'];
@@ -93,7 +93,7 @@ class Transactions extends AdminController
             $dataRow['origin']= $data['origin'];
             $dataRow['is_secret']= isset($data['secret'])? 1 : 0;
             $dataRow['importance']= $data['importance'];
-            $dataRow['classification']= $data['class'];
+            $dataRow['classification']= $data['classification'];
             $dataRow['owner']= $data['owner_name'];
             $dataRow['owner_phone']= $data['owner_phone'];
             $dataRow['isDeleted']= 0;
@@ -147,9 +147,6 @@ class Transactions extends AdminController
             $this->app->get_table_data('my_outgoing_transactions');
         }
         $data['title'] = _l('outgoing');
-//        $this->load->view('admin/procuration/manage', $data);
-
-
         $this->load->view('admin/transactions/manage_outgoing',$data);
     }
 

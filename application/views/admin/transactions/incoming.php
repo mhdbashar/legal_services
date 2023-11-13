@@ -61,6 +61,7 @@
                             </div>
                             <div class="col-md-6">
                                 <?php
+                                /*
                                     $options = array(
                                         0 => array(
                                             'key' => _l('low'),
@@ -71,8 +72,18 @@
                                             'value' => _l('high')
                                         ),
                                     ) ;
-                                    echo render_select('importance', $options,['key','value'],_l('importance'),$importance);
+                                   echo render_select('importance', $options,['key','value'],_l('importance'),$importance);
+                               */
+                                $options = $this->db->get(db_prefix() . 'transaction_importance')->result();
                                 ?>
+                                <label class="control-label"><?php echo _l("importance") ; ?></label>
+                                <select id="importance"  name="importance" class="form-control custom_select_arrow" >
+                                    <option selected></option>
+                                    <?php foreach($options as $option){ ?>
+                                        <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
+                                    <?php } ?>
+                                </select>
+
                             </div>
                         </div>
                         <div class="row">
@@ -81,6 +92,7 @@
                             </div>
                             <div class="col-md-6">
                                 <?php
+                                /*
                                 $options = array(
                                     0 => array(
                                         'key' =>  _l('low'),
@@ -92,11 +104,23 @@
                                     ),
                                 ) ;
                                 echo render_select('class', $options,['key','value'],_l('classification'),$classification,['required' => 'required']);
-                                ?>                            </div>
+
+                               ?>   */
+                                $options = $this->db->get(db_prefix() . 'transaction_classification')->result();
+                                ?>
+                                <label class="control-label"><?php echo _l("classification") ; ?></label>
+                                <select id="classification"  name="classification" class="form-control custom_select_arrow" >
+                                    <option selected></option>
+                                    <?php foreach($options as $option){ ?>
+                                        <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
+                                    <?php } ?>
+                                </select>
+                                                        </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
+                                /*
                                 $options = array(
                                     0 => array(
                                         'key' => _l('internal'),
@@ -109,7 +133,16 @@
                                 ) ;
                                 echo render_select('type', $options,['key','value'],_l('type'),$type);
                                 ?>
-
+*/
+                                $options = $this->db->get(db_prefix() . 'transaction_type')->result();
+                                ?>
+                                <label class="control-label"><?php echo _l("type") ; ?></label>
+                                <select id="type"  name="type" class="form-control custom_select_arrow" >
+                                    <option selected></option>
+                                    <?php foreach($options as $option){ ?>
+                                        <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
+                                    <?php } ?>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_input('owner_name', _l('owner_name'),$owner,'',['required' => 'required']); ?>
@@ -118,6 +151,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
+                                /*
                                 $options = array(
                                     0 => array(
                                         'key' => _l('normal_paper'),
@@ -130,7 +164,16 @@
                                 ) ;
                                 echo render_select('origin', $options,['key','value'],_l('origin'),$origin,['required' => 'required']);
                                 ?>
-
+*/
+                                $options = $this->db->get(db_prefix() . 'transaction_origin')->result();
+                                ?>
+                                <label class="control-label"><?php echo _l("origin") ; ?></label>
+                                <select id="origin"  name="origin" class="form-control custom_select_arrow" >
+                                    <option selected></option>
+                                    <?php foreach($options as $option){ ?>
+                                        <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
+                                    <?php } ?>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_input('owner_phone', _l('owner_phone'),$owner_phone,'number'); ?>
@@ -181,6 +224,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
+                                /*
                                 $options = array(
                                     0 => array(
                                         'key' => _l('electronic_incoming'),
@@ -193,7 +237,16 @@
                                 ) ;
                                 echo render_select('incoming_type', $options,['key','value'],_l('incoming_type'),$incoming_type);
                                 ?>
-
+*/
+                                $options = $this->db->get(db_prefix() . 'transaction_incoming_type')->result();
+                                ?>
+                                <label class="control-label"><?php echo _l("incoming_type") ; ?></label>
+                                <select id="incoming_type"  name="incoming_type" class="form-control custom_select_arrow" >
+                                    <option selected></option>
+                                    <?php foreach($options as $option){ ?>
+                                        <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
+                                    <?php } ?>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_input('email', _l('email'),$email,'email'); ?>

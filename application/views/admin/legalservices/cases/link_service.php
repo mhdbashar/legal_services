@@ -24,7 +24,7 @@
                                     if($child_linked_service->to_service_id == $service['id'])unset($services[$key]);
                                 }
                             }
-                        var_dump($services);
+//                        var_dump($services);
                         ?>
                         <div class="copy-project-tasks-status-wrapper">
                             <p class="bold"><?php echo _l('LegalService'); ?></p>

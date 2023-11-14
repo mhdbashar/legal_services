@@ -11,6 +11,7 @@ class Migration_Version_531 extends CI_Migration
 
     public function up()
     {
+        /*
         add_option("courts_updated_2", false);
         if (!get_option("courts_updated_2")) {
 
@@ -3419,6 +3420,7 @@ INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `is_default`, `d
             update_option("courts_updated_2", true);
 
         }
-
+*/
     }
+
 }

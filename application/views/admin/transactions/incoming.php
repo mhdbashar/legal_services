@@ -78,7 +78,9 @@
                                 ?>
                                 <label class="control-label"><?php echo _l("importance") ; ?></label>
                                 <select id="importance"  name="importance" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($incoming) ? $incoming->importance : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
+
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -110,7 +112,8 @@
                                 ?>
                                 <label class="control-label"><?php echo _l("classification") ; ?></label>
                                 <select id="classification"  name="classification" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($incoming) ? $incoming->classification : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -138,7 +141,8 @@
                                 ?>
                                 <label class="control-label"><?php echo _l("type") ; ?></label>
                                 <select id="type"  name="type" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($incoming) ? $incoming->type : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -169,7 +173,8 @@
                                 ?>
                                 <label class="control-label"><?php echo _l("origin") ; ?></label>
                                 <select id="origin"  name="origin" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($incoming) ? $incoming->origin : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -242,7 +247,8 @@
                                 ?>
                                 <label class="control-label"><?php echo _l("incoming_type") ; ?></label>
                                 <select id="incoming_type"  name="incoming_type" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($incoming) ? $incoming->incoming_type : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>

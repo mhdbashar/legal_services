@@ -67,7 +67,8 @@ if(empty($id)){
                                 ?>
                                 <label class="control-label"><?php echo _l("importance") ; ?></label>
                                 <select id="importance"  name="importance" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($outgoing) ? $outgoing->importance : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -99,7 +100,8 @@ if(empty($id)){
                                 ?>
                                 <label class="control-label"><?php echo _l("classification") ; ?></label>
                                 <select id="classification"  name="classification" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($outgoing) ? $outgoing->classification : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -126,7 +128,9 @@ if(empty($id)){
                                 ?>
                                 <label class="control-label"><?php echo _l("transaction_type") ; ?></label>
                                 <select id="type"  name="type" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($outgoing) ? $outgoing->type : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
+
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo  $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>
@@ -158,7 +162,8 @@ if(empty($id)){
                                 ?>
                                 <label class="control-label"><?php echo _l("origin") ; ?></label>
                                 <select id="origin"  name="origin" class="form-control custom_select_arrow" >
-                                    <option selected></option>
+                                    <?php $value = (isset($outgoing) ? $outgoing->origin : ''); ?>
+                                    <option selected value="<?php echo $value?>"> <?php echo $value?></option>
                                     <?php foreach($options as $option){ ?>
                                         <option value="<?php echo $option->name;?>"><?php echo $option->name; ?> </option>
                                     <?php } ?>

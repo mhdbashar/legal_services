@@ -241,7 +241,43 @@
 
 
 
+              <div class="col-md-12">
+                                <h4 class="bold well email-template-heading">
+                                    <?php echo 'اجندة المحامي'; ?>
+                                    <?php if($hasPermissionEdit){ ?>
+                                        <a href="<?php echo admin_url('emails/disable_by_type/lawyer_daily_agenda'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+                                        <a href="<?php echo admin_url('emails/enable_by_type/lawyer_daily_agenda'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+                                    <?php } ?>
 
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th><?php echo _l('اجندة المحامي جدول'); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        <?php foreach($lawyer_daily_agenda as $rd_template){ ?>
+                                            <tr>
+                                                <td class="<?php if($rd_template['active'] == 0){echo 'text-throught';} ?>">
+                                                    <a href="<?php echo admin_url('emails/email_template/'.$rd_template['emailtemplateid']); ?>">اجندة المحامي</a>
+                                                    <?php // if(ENVIRONMENT !== 'production'){ ?>
+                                                        <br/><small><?php echo $rd_template['slug']; ?></small>
+                                                    <?php  // } ?>
+                                                    <?php  // if($hasPermissionEdit){ ?>
+                                                        <a href="<?php echo admin_url('emails/'.($rd_template['active'] == '1' ? 'disable/' : 'enable/').$rd_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($rd_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+
+                                                    <?php //} ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
 
 

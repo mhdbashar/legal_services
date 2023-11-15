@@ -31,7 +31,8 @@ $where = [];
 if(has_permission('warnings', '', 'view_own') && !has_permission('warnings', '', 'view')){
     $where[] = 'AND tostaff.staffid='.get_staff_user_id().' OR bystaff.staffid='.get_staff_user_id();
 }
-
+if(isset($staff_id))
+    $where[] = 'AND tostaff.staffid='.$staff_id;
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'hr_warnings.id', 'attachment']);
 $output  = $result['output'];
 $rResult = $result['rResult'];

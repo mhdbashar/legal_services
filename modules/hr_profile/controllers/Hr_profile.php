@@ -3332,8 +3332,10 @@ class Hr_profile extends AdminController {
         $data['tab'][] = 'work_experience';
         $data['tab'][] = 'emergency_contacts';
         $data['tab'][] = 'bank_account';
+		$data['tab'][] = 'warning';
 
-        $data['tab'] = hooks()->apply_filters('hr_profile_tab_name', $data['tab']);
+
+		$data['tab'] = hooks()->apply_filters('hr_profile_tab_name', $data['tab']);
 
 		if ($data['group'] == '') {
 			$data['group'] = 'profile';
@@ -3422,12 +3424,20 @@ class Hr_profile extends AdminController {
                 }
 
 
-                if($group == 'document'){
-                    $this->load->library("hr_profile/HrmApp");
-                  //  $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $id]);
-                    $this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_document_table'), ['staff_id' => $id]);
+				if($group == 'document'){
+					$this->load->library("hr_profile/HrmApp");
+					//  $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $id]);
+					$this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_document_table'), ['staff_id' => $id]);
 
-                }}
+				}
+
+				if($group == 'warning'){
+					$this->load->library("hr_profile/HrmApp");
+					//  $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $id]);
+					$this->app->get_table_data(module_views_path('hr_profile', 'admin/tables/my_warnings_table'), ['staff_id' => $id]);
+
+				}
+            }
 			if ($data['group'] == 'attach') {
 				$data['hr_profile_staff'] = $this->hr_profile_model->get_hr_profile_attachments($id);
 			}
@@ -3435,7 +3445,7 @@ class Hr_profile extends AdminController {
 				$data['logged_time'] = $this->staff_model->get_logged_time_data($id);
 				$data['staff_p'] = $this->staff_model->get($id);
 				$data['staff_departments'] = $this->departments_model->get_staff_departments($data['staff_p']->staffid);
-				// notifications
+				//
 				$total_notifications = total_rows(db_prefix() . 'notifications', [
 					'touserid' => get_staff_user_id(),
 				]);
@@ -12006,6 +12016,7 @@ public function number_of_days($rel_type, $staff_id, $type_of_leave)
             redirect(admin_url('hr_profile/setting?group=warnings'));
         }
     }
+
 
 
 

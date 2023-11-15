@@ -41,6 +41,7 @@ hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
+hooks()->add_action('after_cron_run', 'warning_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 hooks()->add_action('leave_cron_run', 'type_leave_reminders');
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
@@ -1080,5 +1081,34 @@ function immigration_reminders()
         pusher_trigger_notification($notifiedUsers);
 
     }
+}
+function warning_reminders()
+{
+    $CI = &get_instance();
+    $staffs = $CI->db->get(db_prefix() . 'staff')->result_array();
+    foreach($staffs as $staff){
+
+        $CI->db->where('warning_date IS NOT NULL');
+        $CI->db->where('warning_to', $staff['staffid']);
+        $warnings = $CI->db->get('hr_warnings')->result_array();
+
+        $ready_to_delete = true;
+        foreach ($warnings as $warning){
+
+            $datediff = strtotime(date('Y-m-d')) - strtotime($warning['warning_date']);
+            $number_of_days = round($datediff / (60 * 60 * 24));
+
+
+
+            if($number_of_days < 180){
+                $ready_to_delete = false;
+            }
+        }
+        if($ready_to_delete){
+            $CI->db->where('warning_to', $staff['staffid']);
+            $CI->db->delete(db_prefix() . 'hr_warnings');
+        }
+    }
+
 }
 

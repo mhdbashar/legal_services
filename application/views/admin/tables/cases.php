@@ -109,6 +109,12 @@ foreach ($rResult as $aRow) {
         if ($number== $now_phase)
         {
          $phase_name=$phase->name;
+
+        }
+        if ( $now_phase== $total_phases +1)
+        {
+            $phase_name= _l('the_phases_is_ended');
+
         }
         $number++;
     }
@@ -136,7 +142,7 @@ foreach ($rResult as $aRow) {
      $right='green';
      $bottom='grey';
  }
- elseif($phases_percentage>85 && $phases_percentage<100)
+ elseif($phases_percentage>85 && $phases_percentage<=100)
  {
      $top='green';
      $left='green';

@@ -1447,6 +1447,8 @@ $lang['proposal_for_lead'] = "العميل المتوقع";
 $lang['proposal_for_customer'] = "العميل";
 $lang['done_phases'] = "نسبة المراحل المكتملة من القضية";
 $lang['now_phase'] = "الإجراء الحالي";
+$lang['the_phases_is_ended'] = "المراحل مكتملة";
+
 
 
 $lang['proposal'] = "العطاء";

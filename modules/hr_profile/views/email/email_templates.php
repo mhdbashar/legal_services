@@ -1,10 +1,15 @@
 <?php hooks()->do_action('before_termination_email_templates');
 $this->load->model('emails_model');
 $lang = get_staff_default_language();
-$hr_templates = $this->emails_model->get([
+
+$this->db->where([
     'type'     => 'hr',
     'language' => $lang,
 ]);
+$this->db->or_where('type', 'hr_warnings');
+
+$hr_templates = $this->db->get(db_prefix() . 'emailtemplates')->result_array();
+
 $hasPermissionEdit = has_permission('email_templates', '', 'edit');
 
 ?>
@@ -41,4 +46,5 @@ $hasPermissionEdit = has_permission('email_templates', '', 'edit');
             </tbody>
         </table>
     </div>
+
 </div>

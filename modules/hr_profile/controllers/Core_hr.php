@@ -15,6 +15,7 @@ class Core_hr extends AdminController{
         $this->load->model('Promotion_model');
         $this->load->model('Transfers_model');
         $this->load->model('Warnings_model');
+        $this->load->model('hr_profile_model');
 
 
 
@@ -801,6 +802,7 @@ class Core_hr extends AdminController{
 //            $ci->load->model('branches/Branches_model');
 //            $data['branches'] = $ci->Branches_model->getBranches();
 //        }
+        $data['warnings'] = $this->hr_profile_model->get_warnings();
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('warnings');
@@ -850,6 +852,7 @@ class Core_hr extends AdminController{
 
         $success = $this->Warnings_model->add($data);
         if($success){
+
             $this->db->where('id', $success);
             $warning = $this->db->get('hr_warnings')->row();
 
@@ -857,14 +860,14 @@ class Core_hr extends AdminController{
             $assignees = $this->staff_model->get();
 
             foreach ($assignees as $member) {
-                $template = mail_template('warning_staff_to_staff', 'hr', $warning, array_to_object($member));
+                $template = mail_template('warning_staff_to_staff', 'hr_profile', $warning, array_to_object($member));
                 $template->send();
                     $description = _l('new_warning');
                     $staff_id = $member['staffid'];
                     $notified = add_notification([
                         'description'     => $description,
                         'touserid'        => $staff_id,
-                        'link'            => ('hr/core_hr/warnings'),
+                        'link'            => ('hr_profile/core_hr/warnings'),
                     ]);
                     if ($notified) {
                         pusher_trigger_notification([$staff_id]);

@@ -40,7 +40,8 @@ hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
-hooks()->add_action('leave_cron_run', 'type_leave_reminders');
+hooks()->add_action('after_cron_run', 'create_new_type_of_leave');
+hooks()->add_action('after_cron_run', 'checkContractExpiry');
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
 hooks()->add_action('pre_deactivate_module', HR_PROFILE_MODULE_NAME.'_predeactivate');
 
@@ -112,15 +113,14 @@ function add_official_document_reminder_tab_content(){
  '.render_input('settings[hr_official_document_reminder_notification_before]','hr_official_document_reminder_notification_before',get_option('hr_official_document_reminder_notification_before'),'number').'
 </div>  ';
 }
- 
-function add_type_of_leave_reminder_tab_content(){                   
+function add_type_of_leave_reminder(){
   echo '<div role="tabpanel" class="tab-pane" id="official_document">
 <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_type_leave_reminders_notification_before').'"></i>
 '.render_input('settings[hr_type_leave_reminders_notification_before]','hr_type_leave_reminders_notification_before',get_option('hr_type_leave_reminders_notification_before'),'number').'
 </div>  ';
 }
-
-
+ 
+  
 /**
  * Register language files, must be registered if the module is using languages
  */
@@ -827,66 +827,65 @@ function hr_profile_predeactivate($module_name){
         $hr_profile_api->deactivate_license();
     }
 }
-
-
-function type_leave_reminders(){
+function create_new_type_of_leave() {
   $CI = &get_instance();
-  $reminder_before = get_option('hr_type_leave_reminders_notification_before');
-    $CI->db->where('datecreated IS NOT NULL');
-    $CI->db->where('notify_manager_before_deserving_days',0);
-    $CI->db->where('notify_staff_before_deserving_days',0);
-  $this->load->model('hr_profile/timesheets_model');
-  $des = $this->timesheets_model->get_type($id);
-  $documents = $CI->db->get(db_prefix() . 'type_of_leave')->result_array();
-  $now = new DateTime(date('Y-m-d'));
-   foreach($documents as $document){
-    if (date('Y-m-d', strtotime($document['datecreated'])) >= date('Y-m-d')) {
-      $end_date = new DateTime($document['datecreated']);
-      $diff = $end_date->diff($now)->format('%a');
-      // Check if difference between start date and date_expiry is the same like the reminder before
-      // In this case reminder wont be sent becuase the document it too short
-      $end_date = strtotime($document['datecreated']);
-      $start_and_end_date_diff = $end_date;
-      $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
-      // $days_to_send_notifications = $reminder_before + 1;
-   }
-   if ($diff <= $reminder_before) {
-    $CI->db->where('admin', 1);
-    $assignees = $CI->staff_model->get();
-    foreach ($assignees as $member) {
-        $row = $CI->db->get(db_prefix() . 'staff')->row();
-        if ($row) {
-            $notified = add_notification([
-                'description' => 'type_of_leave_reminders',
-                'touserid' => $member['staffid'],
-                'fromcompany' => 1,
-                'fromuserid' => null,
-                'link' => 'hr_profile/timekeeping/manage_requisition_hrm',
+  $CI->db->select('deserving_in_years, is_notification');
+  $results = $CI->db->get(db_prefix().'type_of_leave')->result_array();
 
-            ]);
+  foreach ($results as $row) {
+      $deserving_in_years = $row['deserving_in_years'];
+      $is_notification = $row['is_notification'];
 
-            if ($notified) {
-                array_push($notifiedUsers, $member['staffid']);
-            }
-            // send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
-            $CI->db->where('id', $document['id']);
-            $CI->db->update(db_prefix() . 'type_of_leave', [
-                'notify_manager_before_deserving_days' => 1,
-                'notify_manager_before_deserving_days'=> 1,
-            ]);
-        }
-    }
+      if ($deserving_in_years > 0 && is_null($is_notification)) {
+          $CI->db->set('is_notification', 1)->update(db_prefix().'type_of_leave'); 
+          $assignees = $CI->staff_model->get();
+
+          foreach ($assignees as $member) {
+              $notified = add_notification([
+                  'description' => 'new_type_of_leave_created',
+                  'touserid' => $member['staffid'],
+                  'fromcompany' => 1,
+                  'fromuserid' => null,
+                  'link' => 'hr_profile/requisition_manage?tab=type_of_leave',
+              ]);
+          }
+      }
+  }
 }
+create_new_type_of_leave();
+
+function checkContractExpiry() {
+  $CI = &get_instance();
+  $CI->db->select('id, isexpirynotified, datestart');
+  $results = $CI->db->get(db_prefix().'hr_contracts')->result_array();
+
+  foreach ($results as $result) {
+      $staffId = $result['id'];
+      $is_notification = $result['isexpirynotified'];
+      $dateStart = new DateTime($result['datestart']);
+      $currentDate = new DateTime();
+      $interval = $dateStart->diff($currentDate);
+      // Check if the notification has not been sent yet
+      if ($is_notification == 0 && $interval -> y > 5) {
+          // Update only the specific contract to mark it as notified
+          $CI->db->set('isexpirynotified', 1)
+                  ->update(db_prefix().'hr_contracts');
+                  // $assignees = $CI->staff_model->get();
+
+          // Send notification to staff
+          $staffNotification = add_notification([
+              'description' => 'A reminder to take a five-year vacation from your work with us',
+              'touserid' => $staffId,
+              'fromcompany' => 1,
+              'fromuserid' => null,
+              'link' => 'hr_profile/core_hr/vacations/manage',
+          ]);
+      }
+  }
 }
 
-
-pusher_trigger_notification($notifiedUsers);
-
-
-    
-   
-
-}
+// Call the function to check contract expiry
+checkContractExpiry();
 
 
 function immigration_reminders()
@@ -947,6 +946,7 @@ function immigration_reminders()
             }
         }
     }
+  }
     function official_document_reminders()
     {
         $CI = &get_instance();
@@ -1073,5 +1073,4 @@ function immigration_reminders()
         pusher_trigger_notification($notifiedUsers);
 
     }
-}
 

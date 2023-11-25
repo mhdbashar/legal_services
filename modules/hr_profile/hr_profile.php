@@ -827,6 +827,11 @@ function hr_profile_predeactivate($module_name){
         $hr_profile_api->deactivate_license();
     }
 }
+
+
+
+
+
 function create_new_type_of_leave() {
   $CI = &get_instance();
   $CI->db->select('deserving_in_years, is_notification');
@@ -886,8 +891,6 @@ function checkContractExpiry() {
 
 // Call the function to check contract expiry
 checkContractExpiry();
-
-
 function immigration_reminders()
 {
     $CI = &get_instance();

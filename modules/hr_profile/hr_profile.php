@@ -40,12 +40,15 @@ hooks()->add_action('hr_profile_init',HR_PROFILE_MODULE_NAME.'_appint');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_warning_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'warning_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 hooks()->add_action('leave_cron_run', 'type_leave_reminders');
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
 hooks()->add_action('pre_deactivate_module', HR_PROFILE_MODULE_NAME.'_predeactivate');
+hooks()->add_action('after_cron_settings_last_tab', 'add_warning_reminder_tab');
+
 
 define('VERSION_HR_PROFILE', 107);
 
@@ -87,6 +90,7 @@ function add_immigration_reminder_tab(){
 	</li>';
 }
 
+
 function add_immigration_reminder_tab_content(){
     echo '<div role="tabpanel" class="tab-pane" id="immigration">
  <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_immigration_reminder_notification_before_help').'"></i>
@@ -120,13 +124,27 @@ function add_official_document_reminder_tab_content(){
  '.render_input('settings[hr_official_document_reminder_notification_before]','hr_official_document_reminder_notification_before',get_option('hr_official_document_reminder_notification_before'),'number').'
 </div>  ';
 }
- 
-function add_type_of_leave_reminder_tab_content(){                   
+
+function add_type_of_leave_reminder_tab_content(){
   echo '<div role="tabpanel" class="tab-pane" id="official_document">
 <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_type_leave_reminders_notification_before').'"></i>
 '.render_input('settings[hr_type_leave_reminders_notification_before]','hr_type_leave_reminders_notification_before',get_option('hr_type_leave_reminders_notification_before'),'number').'
 </div>  ';
 }
+function add_warning_reminder_tab(){
+    echo '
+	<li role="presentation">
+	<a href="#hr_warning" aria-control="hr_warning" role="tab" data-toggle="tab">'._l('warning').'</a>
+	</li>';
+}
+function add_warning_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="hr_warning">
+ <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_warning_reminder_notification_before_help').'"></i>
+ '.render_input('settings[hr_warning_reminder_notification_before]','Deadline_for_monitoring_alarms',get_option('hr_warning_reminder_notification_before'),'number').'
+</div>  ';
+}
+
+
 
 
 /**
@@ -223,10 +241,10 @@ function hr_profile_module_init_menu_items()
             'icon'     => 'fa fa-tachometer',
         ]);
     }
-  
-    
+
+
    */
-  if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') || is_admin()) {          
+  if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') || is_admin()) {
 		$CI->app_menu->add_sidebar_children_item('hr_profile', [
 			'slug'     => 'timesheets_timekeeping_mnrh',
 			'name'     => _l('hr_leave'),
@@ -326,7 +344,7 @@ function hr_profile_module_init_menu_items()
             'position' => 1,
         ]);
     }
-    
+
 
         $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'vacations',
@@ -336,7 +354,7 @@ function hr_profile_module_init_menu_items()
             'icon'     => 'fa fa-file-o',
         ]);
 
-    
+
 
 
     if(has_permission('staffmanage_orgchart','','view') || has_permission('staffmanage_orgchart','','view_own')){
@@ -455,7 +473,7 @@ if (has_permission('attendance_management', '', 'view_own') || has_permission('a
 			'href'     => admin_url('hr_profile/timekeeping2'),
 			'icon'     => 'fa fa-pencil-square-o',
 			'position' =>1,
-		]); 
+		]);
 	}
 
 
@@ -891,8 +909,8 @@ function type_leave_reminders(){
 pusher_trigger_notification($notifiedUsers);
 
 
-    
-   
+
+
 
 }
 
@@ -1085,6 +1103,7 @@ function immigration_reminders()
 function warning_reminders()
 {
     $CI = &get_instance();
+    $reminder_before = get_option('hr_warning_reminder_notification_before');
     $staffs = $CI->db->get(db_prefix() . 'staff')->result_array();
     foreach($staffs as $staff){
 
@@ -1100,7 +1119,7 @@ function warning_reminders()
 
 
 
-            if($number_of_days < 180){
+            if($number_of_days < $reminder_before){
                 $ready_to_delete = false;
             }
         }

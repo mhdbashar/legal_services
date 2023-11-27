@@ -55,7 +55,10 @@ class Migration_Version_112  extends App_module_migration
 
 
     $this->db->query("ALTER TABLE `tblstaff` ADD `appointment` VARCHAR(222) NULL AFTER `education_level`;");
-    
+
+
+    $this->db->query("ALTER TABLE `tbltype_of_leave` ADD `is_notification` VARCHAR(222) NULL AFTER `datecreated`;");
+
 
 
 

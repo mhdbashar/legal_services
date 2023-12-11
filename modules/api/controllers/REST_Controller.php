@@ -2,15 +2,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * CodeIgniter Rest Controller
- * A fully RESTful server implementation for CodeIgniter using one library, one config file and one controller.
- *
- * @package         CodeIgniter
- * @subpackage      Libraries
- * @category        Libraries
- * @version         3.0.0
- */
 abstract class REST_Controller extends CI_Controller {
 
     // Note: Only the widely used HTTP status codes are documented
@@ -535,6 +526,14 @@ abstract class REST_Controller extends CI_Controller {
         // Extend this function to apply additional checking early on in the process
         $this->early_checks();
 
+        $this->load->library('app_modules');
+        if(!$this->app_modules->is_active('api')){
+            $this->response([
+                'status' => FALSE,
+                'message' => "API Module is not active"
+            ], REST_Controller::HTTP_UNAUTHORIZED);
+        }
+
         // Load DB if its enabled
         if ($this->config->item('rest_database_group') && ($this->config->item('rest_enable_keys') || $this->config->item('rest_enable_logging')))
         {
@@ -600,7 +599,7 @@ abstract class REST_Controller extends CI_Controller {
         if($is_valid_token['status'] == false || $check_token === false){
             $message = array(
                 'status' => FALSE,
-                'message' => $is_valid_token['message']
+                'message' => isset($is_valid_token['message'])?$is_valid_token['message']:'Token is not defined'
             );
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -1061,7 +1060,7 @@ abstract class REST_Controller extends CI_Controller {
                 $method = $this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE');
             }
 
-            $method = strtolower($method);
+            $method = strtolower("$method");
         }
 
         if (empty($method))

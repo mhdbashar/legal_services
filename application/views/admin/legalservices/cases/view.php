@@ -380,7 +380,7 @@ echo form_hidden('project_percent',$percent);
 <?php init_tail(); ?>
 <!-- For invoices table -->
 <script>
-taskid = '<?php echo $this->input->get('taskid'); ?>';
+    taskid = '<?php echo $this->input->get('taskid'); ?>';
 sessionid = '<?php echo $this->input->get('sessionid'); ?>';
 </script>
 <script>
@@ -629,6 +629,7 @@ function discussion_comments_case(selector, discussion_id, discussion_type) {
 }
 </script>
 <script>
+
 $(function() {
     initDataTable('.table-previous_sessions_log', admin_url +
         'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>',
@@ -696,6 +697,7 @@ $("body").on('click', '.services-new-task-to-milestone', function(e) {
 });
 </script>
 <script>
+
 $("#close_alert_button").click(function() {
     var id = 1 //'<?php // echo $case_duration['id'];?>';
 

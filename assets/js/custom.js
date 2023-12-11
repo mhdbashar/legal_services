@@ -17,6 +17,42 @@ $("body").append(el_alert_modal);
 var seconds = 60;
 var secondEl = document.getElementById('seconds-counter');
 
+//  announcements_api
+$(function()  {
+    let url = 'http://localhost/legal2/api/announcements';
+    $.ajax({
+        url: url,
+        data: {
+            host: 'hebababellawnet'
+        },
+        type: "POST",
+        time: 300,
+        success: function (data) {
+            save_announcements(data);
+            console.log(data);
+
+
+        }
+
+    });
+});
+function save_announcements(data){
+    $.ajax({
+
+        url:admin_url+'/announcements/add_announcement_from_api/' ,
+        data: data,
+        type: "POST",
+        time: 300,
+        success: function () {
+            console.log('sucsessssssssss');
+
+
+        }
+
+    });
+
+}
+
 function incrementSeconds() {
     seconds -= 1;
 

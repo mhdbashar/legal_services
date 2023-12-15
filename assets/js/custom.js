@@ -19,7 +19,7 @@ var secondEl = document.getElementById('seconds-counter');
 
 //  announcements_api
 $(function()  {
-    let url = 'http://localhost/legal2/api/announcements';
+    let url = 'http://portal.babillawnet.com/api/announcements';
     $.ajax({
         url: url,
         data: {

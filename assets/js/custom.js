@@ -19,7 +19,7 @@ var secondEl = document.getElementById('seconds-counter');
 
 //  announcements_api
 $(function()  {
-    let url = 'http://company.babillawnet.com/api/announcements';
+    let url = 'https://company.babillawnet.com/api/announcements';
     $.ajax({
         url: url,
         data: {

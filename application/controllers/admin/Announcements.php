@@ -52,7 +52,7 @@ class Announcements extends AdminController
                         $announcement['announcementid']= $id;
                         $id=$id+1;
                         $this->announcements_model->add($announcement);
-                        $oldannouncements_size=$oldannouncements_size+1 ;
+                       // $oldannouncements_size=$oldannouncements_size+1 ;
                     }
                 }
                 else{

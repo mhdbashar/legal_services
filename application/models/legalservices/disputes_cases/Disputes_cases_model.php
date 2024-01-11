@@ -1403,7 +1403,7 @@ class Disputes_cases_model extends App_Model
 
     public function timers_started_for_project($project_id, $where = [], $task_timers_where = [])
     {
-        $slug = 'kdaya_altnfith';
+        $slug = $this->legal->get_service_by_id(22)->row()->slug;
         $this->db->where($where);
         $this->db->where('end_time IS NULL');
         $this->db->where(db_prefix() . 'tasks.rel_id', $project_id);
@@ -1564,7 +1564,7 @@ class Disputes_cases_model extends App_Model
             db_prefix() .'tasks.rel_id'             => $id,
             db_prefix() .'tasks.rel_type'           => $slug,
             db_prefix() .'tasks.is_session'         => 1,
-            db_prefix() .'tasks.visible_to_client'         => 1
+//            db_prefix() .'tasks.visible_to_client'         => 1
         ));
         $this->db->where($where);
 
@@ -1621,7 +1621,7 @@ class Disputes_cases_model extends App_Model
 
     public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 22, $callback = null)
     {
-        $slug = 'kdaya_altnfith';
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         $has_permission                    = has_permission('tasks', '', 'view');
         $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
 
@@ -1640,6 +1640,8 @@ class Disputes_cases_model extends App_Model
         if (is_client_logged_in()) {
             $this->db->where('visible_to_client', 1);
         }
+        $this->db->where('is_session', 0);
+
         $this->db->select($select);
 
         $this->db->join(db_prefix() . 'milestones', db_prefix() . 'milestones.id = ' . db_prefix() . 'tasks.milestone', 'left');
@@ -3471,7 +3473,28 @@ class Disputes_cases_model extends App_Model
                     }
                 }
             }
-
+            $sessions = $this->get_CaseSession($project_id);
+            if (isset($data['sessions'])) {
+                if (count($sessions)) {
+                    if ($ServID2 == 1) {
+                        foreach ($sessions as $session) {
+                            $this->db->where('id', $session['id']);
+                            $this->db->update(db_prefix() . 'tasks', [
+                                'rel_id' => $id,
+                                'rel_type' => $slug2,
+                            ]);
+                        }
+                    } elseif ($ServID2 == 22) {
+                        foreach ($sessions as $session) {
+                            $this->db->where('id', $session['id']);
+                            $this->db->update(db_prefix() . 'tasks', [
+                                'rel_id' => $id,
+                                'rel_type' => $slug2,
+                            ]);
+                        }
+                    }
+                }
+            }
             if (isset($data['members'])) {
                 $members  = $this->get_project_members($project_id);
                 $_members = [];

@@ -94,8 +94,10 @@ foreach ($rResult as $aRow) {
     $CI = &get_instance();
     $CI->load->library('app_modules');
     $row[] = $aRow['file_number_court'] !== '0' ?  $aRow['file_number_court'] : '';
-    $row[] = $aRow['court_id'] !== '1' ? get_court_by_id($aRow['court_id'])->court_name : '';
-    $row[] = $aRow['jud_num'] !== '2' ? get_judicialdept_by_id($aRow['jud_num'])->Jud_number : '';
+    $court = $aRow['court_id'] !== '1' ? get_court_by_id($aRow['court_id']) : '';
+    $judicialdept = $aRow['jud_num'] !== '2' ? get_judicialdept_by_id($aRow['jud_num']) : '';
+    $row[] = is_object($court) ? $court->court_name : '';
+    $row[] = is_object($judicialdept) ? $judicialdept->Jud_number : '';
     $row[] = $CI->app_modules->is_active('hijri') ? _d($aRow['start_date']) . '<br>' . to_hijri_date(_d($aRow['start_date'])) : _d($aRow['start_date']);
 //    $row[] = ($aRow['']);
     $row[] = $aRow['deadline'] != '' ? ($CI->app_modules->is_active('hijri') ? _d($aRow['deadline']) . '<br>' . to_hijri_date(_d($aRow['deadline'])) : _d($aRow['deadline'])) : '';

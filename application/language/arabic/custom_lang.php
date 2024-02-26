@@ -1197,6 +1197,10 @@ $lang['staff_document_name'] = "أسم ممثل المنشأة";
 $lang['internal_messages'] = "المراسلات الداخلية";
 $lang['to_user_id'] = "ارسال الى";
 $lang['message'] = "الرسالة";
+$lang['warning'] = "الانذارات";
+$lang['Deadline_for_monitoring_alarms'] = "موعد رصد الانذارات";
+
+
 
 
 

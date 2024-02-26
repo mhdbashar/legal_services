@@ -1490,3 +1490,7 @@ $CI->db->query("CREATE TABLE IF NOT EXISTS `tblhr_type_warnings` (
               
             ) ENGINE=InnoDB DEFAULT  CHARSET=utf8 AUTO_INCREMENT=1 ;
             ");
+
+if (!$CI->db->field_exists('is_notification', db_prefix() . 'type_of_leave')) {
+    $CI->db->query("ALTER TABLE `tbltype_of_leave` ADD `is_notification` VARCHAR(200) NULL;");
+}

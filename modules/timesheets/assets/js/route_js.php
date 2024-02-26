@@ -82,7 +82,7 @@
       multiColumnSorting: {
         indicator: true
       },
-    fixedColumnsLeft: 2,
+      fixedColumnsLeft: 2,
       filters: true,
       manualRowResize: true,
       manualColumnResize: true,
@@ -185,13 +185,14 @@
     $('table#route_point_table tbody').sortable();    
     
     $('#route .add_new_row').on('click', function() {
-     var table = $('#route_point_table tbody');
-     var row = table.find('tr:eq(0)').clone();
-     row.find('button[role="combobox"]').remove();
-     row.find('select[name="route_point[]"]').selectpicker('refresh');
-     row.find('select[name="route_point[]"]').removeAttr('id');
-     table.append(row); 
-   });
+      var table = $('#route_point_table tbody');
+      var row = table.find('tr:eq(0)').clone();
+      row.find('.dropdown-menu.open').remove();
+      row.find('button[role="combobox"]').remove();
+      row.find('select[name="route_point[]"]').selectpicker('refresh');
+      row.find('select[name="route_point[]"]').removeAttr('id');
+      table.append(row); 
+    });
     $('#route button[type="submit"]').on('click', function() {
       $('#route').modal('hide');
       var not_to_be_in_order = $('input[name="not_to_be_in_order"]').is(":checked");

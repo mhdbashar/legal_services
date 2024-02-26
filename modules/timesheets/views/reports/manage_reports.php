@@ -57,8 +57,8 @@
                <option value=""><?php echo _l('report_sales_months_all_time'); ?></option>
                <option value="this_month"><?php echo _l('this_month'); ?></option>
                <option value="1"><?php echo _l('last_month'); ?></option>
-               <option value="this_year"><?php echo _l('this_year'); ?></option>
-               <option value="last_year"><?php echo _l('last_year'); ?></option>
+               <option value="this_year"><?php echo _l('ts_this_year'); ?></option>
+               <option value="last_year"><?php echo _l('ts_last_year'); ?></option>
                <option value="3" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-2 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_three_months'); ?></option>
                <option value="6" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-5 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_six_months'); ?></option>
                <option value="12" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-11 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_twelve_months'); ?></option>
@@ -170,49 +170,9 @@
    </select>
  </div>
 </div>
-</div>
-</div>
+</div> 
 
-
-
-
-   <div id="in_out" class="row    hide " >
-
-
-        <div class="table-fillter col-md-4">
-            <div class="form-group">
-                <label for="annual_leave"><?php echo _l('staff'); ?></label>
-                <select name="staff1[]" class="selectpicker" data-live-search="true" data-width="100%"  data-none-selected-text="<?php echo _l('invoice_status_report_all'); ?>">
-                    <?php foreach($staff as $item){ ?>
-                        <option value="<?php echo html_entity_decode($item['staffid']); ?>"><?php echo html_entity_decode($item['firstname']).' '.$item['lastname']; ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- workplace - root -->
+<!-- workplace - root -->
 <div class="row sorting_2_table hide">
   <div class="filter_fr_2 col-md-3 staff_2_fr">
    <div class="form-group">

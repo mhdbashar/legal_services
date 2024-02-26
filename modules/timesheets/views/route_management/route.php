@@ -2,19 +2,24 @@
 
 
 <div class="row">
-	<div class="col-md-3">								
-		<?php
-		echo render_select('staff[]', $staff, array('staffid', array('firstname', 'lastname')), 'staff','',array('multiple' => true, 'data-actions-box' => true), [], '', '', false); ?>
-	</div>
+	<?php if(is_admin() || has_permission('route_management','','view')) {?>
+		<div class="col-md-3">								
+			<?php
+			echo render_select('staff[]', $staff, array('staffid', array('firstname', 'lastname')), 'staff','',array('multiple' => true, 'data-actions-box' => true), [], '', '', false); ?>
+		</div>
+	<?php } ?>
+
 	<div class="col-md-3">
 		<?php echo render_input('date_fillter','month',date('Y-m'), 'month'); ?>
 	</div>
 	<div class="col-md-3">
 		<?php echo render_select('route_point_fillter[]', $route_point, array('id', 'name'), 'route_point', '', array('multiple' => true, 'data-actions-box' => true),[],'','',false); ?>
 	</div>
+	<?php if(is_admin() || has_permission('route_management','','view')) {?>
 	<div class="col-md-3">
 		<?php echo render_select('department_fillter[]', $department, array('departmentid', 'name'), 'department', '', array('multiple' => true, 'data-actions-box' => true),[],'','',false); ?>
 	</div>
+	<?php } ?>
 </div>
 <br>
 <div class="col-md-12" id="example">

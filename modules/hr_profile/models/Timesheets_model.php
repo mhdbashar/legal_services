@@ -1473,6 +1473,50 @@ class timesheets_model extends app_model
             return 0;
         }
     }
+  //   public function get_staff_id_by_approve_value() {
+  //     $sql = "SELECT staff_id FROM `" . db_prefix() . "timesheets_approval_setting` WHERE choose_when";
+  
+  //     // Add your additional logic here if needed
+  
+  //     return $result;  // Replace with the actual variable or expression you want to return
+  // }
+
+  /**
+	 * get staff id by approve value
+	 * @param  array $data
+	 * @param  array $approve_value
+	 * @return array
+	 */
+	public function get_staff_id_by_approve_value($data, $approve_value) {
+    $this->load->model('departments_model');
+
+    $staffid = null;
+
+    if ($approve_value == 'head_of_department') {
+        $staff_departments = $this->departments_model->get_staff_departments($data->staff_addedfrom);
+
+        if (!empty($staff_departments)) {
+            $staffid = $staff_departments[0]['manager_id'];
+        } else {
+            // Handle the case when the array is empty
+            // For example, set a default value or log a message
+            // $staffid = 'default_value';
+        }
+    } elseif ($approve_value == 'direct_manager') {
+        $staff_info = $this->staff_model->get($data->staff_addedfrom);
+
+        if ($staff_info) {
+            $staffid = $staff_info->team_manage;
+        } else {
+            // Handle the case when staff information is not found
+            // For example, set a default value or log a message
+            // $staffid = 'default_value';
+        }
+    }
+
+    return $staffid;
+}
+  
     /**
      * send request approve
      * @param  array $data
@@ -1507,20 +1551,18 @@ class timesheets_model extends app_model
                 $value->staff_addedfrom = $staff_addedfrom;
                 $value->rel_type = $data['rel_type'];
                 $value->rel_id = $data['rel_id'];
-
                 $approve_value = $this->get_staff_id_by_approve_value($value, $value->approver);
-
-                if(is_numeric($approve_value) && $approve_value > 0){
+                if (is_numeric($approve_value) && $approve_value > 0) {
                     $approve_value = $this->staff_model->get($approve_value)->email;
-                }else{
-
+                } else {
+                    // Handle the error and return a value or exit the function
                     $this->db->where('rel_id', $data['rel_id']);
                     $this->db->where('rel_type', $data['rel_type']);
-                    $this->db->delete(db_prefix().'timesheets_approval_details');
-
+                    $this->db->delete(db_prefix() . 'timesheets_approval_details');
+                
                     return $value->approver;
                 }
-                $row['approve_value'] = $approve_value;
+                
 
                 $staffid = $this->get_staff_id_by_approve_value($value, $value->approver);
 
@@ -8310,6 +8352,9 @@ public function get_table_data() {
             return $this->get_next_shift_date($staff_id, $next_date, $count);
         }
     }
+
+
+  
 
 
 }

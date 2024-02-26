@@ -60,11 +60,11 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
                             } ?>" id="registration_on_leave">
                                 <div class="row">
                                     <div class="col-md-12 mtop15">
-                                        <!--<a href="#" onclick="new_requisition(); return false;"-->
-                                        <!--   class="btn mright5 btn-info pull-left display-block"-->
-                                        <!--   data-toggle="sidebar-right" data-target=".requisition_m">-->
-                                        <!--   -->
-                                        <!--</a>-->
+                                          <a href="#" onclick="new_requisition(); return false;"
+                                            class="btn mright5 btn-info pull-left display-block"
+                                            data-toggle="sidebar-right" data-target=".requisition_m">
+                                            new_requisition
+                                        </a>
                                         <div class="clearfix"></div>
                                         <br>
                                         <br>
@@ -486,14 +486,13 @@ $valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id
                                                 </div>
 
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal"><?php echo _l('close'); ?></button>
-                                            <button type="submit"
-                                                    class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-default data-dismiss="modal"><?php echo _l('close'); ?></button>
+                                            <button type="submit"class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
                                         </div>
 
+                                        </div>
+                                      
                                         <?php echo form_close(); ?>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->

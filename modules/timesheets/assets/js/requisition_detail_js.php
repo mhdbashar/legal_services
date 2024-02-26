@@ -65,34 +65,53 @@
     $('#_project_file').modal('show');
   }      
 
-
-  function send_request_approve(id){
+  function send_request_approve() {
     "use strict";
-    var data = {};
-    data.rel_id = <?php echo html_entity_decode($request_leave->id);; ?>;
-    data.rel_type = "<?php echo html_entity_decode($rel_type); ?>";
-    data.addedfrom = <?php echo html_entity_decode($request_leave->staff_id); ?>;
+
+    var id = <?php echo html_entity_decode($request_leave->id); ?>;
+    var rel_type = "<?php echo html_entity_decode($rel_type); ?>";
+    var addedfrom = <?php echo html_entity_decode($request_leave->staff_id); ?>;
+    
+    var data = {
+        rel_id: id,
+        rel_type: rel_type,
+        addedfrom: addedfrom
+    };
+
     $("body").append('<div class="dt-loader"></div>');
-    $.post(admin_url + 'timesheets/send_request_approve', data).done(function(response){
-      response = JSON.parse(response);
-      if(response.type == 'choose'){
-        $("body").find('.dt-loader').remove();
-        if (response.success === true || response.success == 'true') {
-          alert_float('success', response.message);
-          window.location.reload();
-        }else{
-          alert_float('warning', response.message);
-          window.location.reload();
+
+    $.post(admin_url + 'timesheets/send_request_approve', data).done(function (response) {
+        try {
+            response = JSON.parse(response);
+
+            if (response.type === 'choose') {
+                $("body").find('.dt-loader').remove();
+
+                if (response.success) {
+                    alert_float('success', response.message);
+                    window.location.reload();
+                } else {
+                    alert_float('warning', response.message);
+                    window.location.reload();
+                }
+            } else if (response.type === 'not_choose') {
+                $("body").find('.dt-loader').remove();
+                $('#choose_approver').html('');
+                alert_float('success', response.message);
+                $('#choose_approver').append(response.html);
+                $('.selectpicker').selectpicker({});
+            }
+        } catch (error) {
+            console.error("Error parsing JSON response:", error);
         }
-      }else if(response.type == 'not_choose'){
-        $("body").find('.dt-loader').remove();
-        $('#choose_approver').html('');
-        alert_float('success', response.message);
-        $('#choose_approver').append(response.html);
-        $('.selectpicker').selectpicker({});
-      }
     });
-  }
+}
+
+//test
+
+//
+
+
 
   function choose_approver(){
     "use strict";
@@ -189,7 +208,7 @@
     }
     $('#convert_expense input[name="expense_name"]').val(name);
     if(list_expense_name != ''){
-      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense_of') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
+      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
     }
     $('#convert_expense input[name="amount"]').val($('#total_advance_payment').text().replace(/,/g,''));
     $('#convert_expense input[name="date"]').val($('#request_date').text());

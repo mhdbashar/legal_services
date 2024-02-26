@@ -17,7 +17,6 @@ $table_data = array(
     _l('id'),
     _l('name'),
     _l('options'),
-
 );
 render_datatable($table_data,'table_type_of_leave');
 ?>
@@ -69,13 +68,9 @@ render_datatable($table_data,'table_type_of_leave');
                             <input checked  type="checkbox" name="not_citizen" id="not_citizen" value="1" ?>
                             <label for="not_citizen"><?php echo _l('not_citizen'); ?></label>
                         </div>
-                        <hr/>
-                        <br/>
-                      
                     </div>
                     <div class="col-md-6">
-                        <?php echo render_input('name','name','', '', ['required' => true]); ?>
-                        <?php echo render_input('code', 'code', '', '', ['required' => true]); ?>
+                        <?php echo render_input('name','name'); ?>
                         <?php echo render_input('number_of_days','number_of_days',1, 'number'); ?>
                         <?php echo render_input('entitlement_in_months','entitlement_in_months',1, 'number'); ?>
                         <?php echo render_input('deserving_in_years','deserving_in_years',0, 'number'); ?>
@@ -162,24 +157,15 @@ render_datatable($table_data,'table_type_of_leave');
                         </div>
                     </div>
                 </div>
-
                 <div class="clearfix"></div>
             </div>
-          
-
-
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
                 <button id="submit-type" class="btn btn-info btn-additional-timesheets"><?php echo _l('submit'); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div><!-- /.modal-content -->
-        
     </div><!-- /.modal-dialog -->
-
-
-
-    
 </div>
 
 <script>

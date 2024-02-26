@@ -144,38 +144,34 @@
 }
 
 function get_route_point(){
-   "use strict";
-  var geolocation = $('input[name="location_user"]').eq(0).val();
-  if(geolocation != ''){
-  //   $('#timesheets-form-check-in .check_in').attr('disabled', 'disabled');
-  //   $('#timesheets-form-check-out .check_out').attr('disabled', 'disabled');
-  // }
-  // else{
-  //   $('#timesheets-form-check-in .check_in').removeAttr('disabled');
-  //   $('#timesheets-form-check-out .check_out').removeAttr('disabled');
-    var split = geolocation.split(',');
-    var data = {};
-    data.lat = split[0];
-    data.lng = split[1];
-    data.staff = $('select[name="staff_id"]').val();
-    data.date = $('#edit_date').val();
+ "use strict";
+ var geolocation = $('input[name="location_user"]').eq(0).val();
+ if(geolocation != ''){
+  var split = geolocation.split(',');
+  var data = {};
+  data.lat = split[0];
+  data.lng = split[1];
+  data.staff = $('select[name="staff_id"]').val();
+  data.date = $('#edit_date').val();
 
-    $.post(admin_url+'timesheets/get_route_point_combobox',data).done(function(response){
-      response = JSON.parse(response);
-      if(response.point_id == '') {
-        $('.route_point_combobox').addClass('hide');
-      }
-      else{
-        $('.route_point_combobox').removeClass('hide');
-        $('select[name="route_point"]').html(response.option).selectpicker('refresh');
-      }
-    });
-  }
+  $.post(admin_url+'timesheets/get_route_point_combobox',data).done(function(response){
+    response = JSON.parse(response);
+    if(response.point_id == '') {
+      $('.route_point_combobox').addClass('hide');
+    }
+    else{
+      $('.route_point_combobox').removeClass('hide');
+      $('select[name="route_point"]').html(response.option).selectpicker('refresh');
+    }
+  });
+}
 }
 function get_data(){
-   "use strict";
-  var route_point = $('#route_point').val();
-  $('input[name="point_id"]').val(route_point);
+ "use strict";
+ var route_point = $('#route_point').val();
+ $('input[name="point_id"]').val(route_point);
+ $('#timesheets-form-check-in .check_in').attr('disabled', 'disabled');
+ $('#timesheets-form-check-out .check_out').attr('disabled', 'disabled');
 }
 
 function getLocation() {

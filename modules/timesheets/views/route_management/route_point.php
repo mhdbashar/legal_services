@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div>
 	<div class="_buttons">
-		<?php if(is_admin() || has_permission('hrm_setting','','create')) {?>
+		<?php if(is_admin() || has_permission('route_management','','view') || (get_timesheets_option('allow_employees_to_create_work_points') == 1)) {?>
 			<a href="#" onclick="new_route_point(); return false;" class="btn btn-info pull-left display-block">
 				<?php echo _l('add'); ?>
 			</a>
@@ -10,11 +10,16 @@
 	<div class="clearfix"></div>
 	<br>
 	<div class="row">
+
 		<div class="col-md-3">
-			<?php echo render_select('customer_fillter[]', $client, array('userid', 'company'), 'customer','',array('multiple' => true, 'data-actions-box' => true)); ?>
+			<?php
+			echo render_select('customer_fillter[]', $client, array('userid', 'company'), 'customer','',array('multiple' => true, 'data-actions-box' => true)); 
+			?>
 		</div>
 		<div class="col-md-3">
-			<?php echo render_select('workplace_fillter[]', $workplace, array('id', 'name'), 'workplace','',array('multiple' => true, 'data-actions-box' => true)); ?>
+			<?php
+			echo render_select('workplace_fillter[]', $workplace, array('id', 'name'), 'workplace','',array('multiple' => true, 'data-actions-box' => true)); 
+			?>
 		</div>
 		<div class="col-md-3"></div>
 		<div class="col-md-3"></div>
@@ -26,7 +31,7 @@
 		<th><?php echo _l('route_point'); ?></th>
 		<th><?php echo _l('related_to'); ?></th>
 		<th><?php echo _l('route_point_address'); ?></th>
-		<th><?php echo _l('longitude'); ?></th>
+		<th><?php echo _l('latitude'); ?></th>
 		<th><?php echo _l('longitude'); ?></th>
 		<th><?php echo _l('distance'); ?></th>
 		<th><?php echo _l('options'); ?></th>

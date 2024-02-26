@@ -19,8 +19,10 @@ $join = ['LEFT JOIN '.db_prefix().'staff b ON b.staffid = '.db_prefix().'timeshe
 $where = [];
 
 if(!is_admin() && !has_permission('additional_timesheets_management','','view')){
-   array_push($where,'AND creator = '. get_staff_user_id());
-   array_push($where,'OR ('. get_staff_user_id() .' in (select staffid from '.db_prefix().'timesheets_approval_details where rel_type = "additional_timesheets" and rel_id = '.db_prefix().'timesheets_additional_timesheet.id))');
+    if(!$this->ci->input->post('chose_ats') || $this->ci->input->post('chose_ats') == 'all'){
+        array_push($where, timesheet_staff_manager_query('additional_timesheets_management', 'creator', 'AND'));
+           array_push($where,'OR ('. get_staff_user_id() .' in (select staffid from '.db_prefix().'timesheets_approval_details where rel_type = "additional_timesheets" and rel_id = '.db_prefix().'timesheets_additional_timesheet.id))');        
+   }
 }
 
 if($this->ci->input->post('status_filter_ats')){
@@ -111,7 +113,7 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
- 
+
     $row = [];
 
     $_data = '<a href="' . admin_url('staff/profile/' . $aRow['creator']) . '">' . staff_profile_image($aRow['creator'], [

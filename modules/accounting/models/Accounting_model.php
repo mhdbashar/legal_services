@@ -2265,7 +2265,9 @@ class Accounting_model extends App_Model
                     $node['itemable_id'] = $value['id'];
                     $node['split'] = $payment_account[$value['id']];
                     $node['account'] = $deposit_to[$value['id']];
-                    $node['debit'] = $item_total;
+                   $node['debit'] = $invoice->total;
+                   // $node['debit'] = $item_total;
+                    $data['item_amount'];
                     $node['paid'] = $paid;
                     $node['date'] = $invoice->date;
                     $node['item'] = $item_id;
@@ -2366,6 +2368,7 @@ class Accounting_model extends App_Model
                         $tax_mapping = $this->get_tax_mapping($_tax->id);
 
                         if($tax_mapping){
+                            /*
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_mapping->payment_account;
@@ -2383,7 +2386,7 @@ class Accounting_model extends App_Model
                             $node['datecreated'] = date('Y-m-d H:i:s');
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
-
+*/
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_mapping->deposit_to;
@@ -2402,6 +2405,7 @@ class Accounting_model extends App_Model
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
                         }else{
+                            /*
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_payment_account;
@@ -2419,7 +2423,7 @@ class Accounting_model extends App_Model
                             $node['datecreated'] = date('Y-m-d H:i:s');
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
-
+*/
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_deposit_to;
@@ -2439,6 +2443,7 @@ class Accounting_model extends App_Model
                             $data_insert[] = $node;
                         }
                     }else{
+                        /*
                         $node = [];
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_payment_account;
@@ -2456,7 +2461,7 @@ class Accounting_model extends App_Model
                         $node['datecreated'] = date('Y-m-d H:i:s');
                         $node['addedfrom'] = get_staff_user_id();
                         $data_insert[] = $node;
-
+*/
                         $node = [];
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_deposit_to;

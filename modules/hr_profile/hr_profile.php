@@ -44,9 +44,10 @@ hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'warning_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 hooks()->add_action('leave_cron_run', 'type_leave_reminders');
-hooks()->add_action('after_cron_run', 'create_new_type_of_leave');
 hooks()->add_action('after_cron_run', 'checkContractExpiry');
 hooks()->add_action('after_cron_run', 'checkContractExpiry2');
+hooks()->add_action('after_cron_run', 'create_new_type_of_leave');
+
 
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
 hooks()->add_action('pre_deactivate_module', HR_PROFILE_MODULE_NAME.'_predeactivate');
@@ -341,7 +342,7 @@ function hr_profile_module_init_menu_items()
     }
 
 
-        $CI->app_menu->add_sidebar_children_item('hr_profile', [
+        $CI->app_menu->add_sidebar_children_item('timesheets', [
             'slug'     => 'vacationss',
             'name'     => _l('hr_vacations'),
             'href'     => admin_url('hr_profile/core_hr/vacations/manage'),
@@ -853,32 +854,6 @@ function hr_profile_predeactivate($module_name){
 
 
 
-function create_new_type_of_leave() {
-  $CI = &get_instance();
-  $CI->db->select('deserving_in_years, is_notification');
-  $results = $CI->db->get(db_prefix().'type_of_leave')->result_array();
-
-  foreach ($results as $row) {
-      $deserving_in_years = $row['deserving_in_years'];
-      $is_notification = $row['is_notification'];
-
-      if ($deserving_in_years > 0 && is_null($is_notification)) {
-          $CI->db->set('is_notification', 1)->update(db_prefix().'type_of_leave');
-          $assignees = $CI->staff_model->get();
-
-          foreach ($assignees as $member) {
-              $notified = add_notification([
-                  'description' => 'new_type_of_leave_created',
-                  'touserid' => $member['staffid'],
-                  'fromcompany' => 1,
-                  'fromuserid' => null,
-                  'link' => 'hr_profile/requisition_manage?tab=type_of_leave',
-              ]);
-          }
-      }
-  }
-}
-create_new_type_of_leave();
 
 function checkContractExpiry() {
   $CI = &get_instance();
@@ -949,6 +924,32 @@ function checkContractExpiry2() {
 checkContractExpiry2();
 
 
+function create_new_type_of_leave() {
+  $CI = &get_instance();
+  $CI->db->select('deserving_in_years, is_notification');
+  $results = $CI->db->get(db_prefix().'type_of_leave')->result_array();
+
+  foreach ($results as $row) {
+      $deserving_in_years = $row['deserving_in_years'];
+      $is_notification = $row['is_notification'];
+        // echo print_r($is_notification);exit(); 
+      if ($deserving_in_years > 0 && is_null($is_notification)) {
+          $CI->db->set('is_notification', 1)->update(db_prefix().'type_of_leave');
+          $assignees = $CI->staff_model->get();
+
+          foreach ($assignees as $member) {
+              $notified = add_notification([
+                  'description' => 'new_type_of_leave_created',
+                  'touserid' => $member['staffid'],
+                  'fromcompany' => 1,
+                  'fromuserid' => null,
+                  'link' => 'hr_profile/requisition_manage?tab=type_of_leave',
+              ]);
+          }
+      }
+  }
+}
+create_new_type_of_leave();
 
 function immigration_reminders()
 {

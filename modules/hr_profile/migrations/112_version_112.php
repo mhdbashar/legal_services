@@ -52,12 +52,20 @@ class Migration_Version_112  extends App_module_migration
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1; ");
     
 
+    if (!$CI->db->field_exists('education_level' ,db_prefix() . 'staff')) {
+      $CI->db->query("ALTER TABLE `' . db_prefix() . 'staff`
+      ADD COLUMN `appointment` varchar(255) NOT NULL ");
+  }
 
 
-    $this->db->query("ALTER TABLE `tblstaff` ADD `appointment` VARCHAR(222) NULL AFTER `education_level`;");
+    // $this->db->query("ALTER TABLE `tblstaff` ADD `appointment` VARCHAR(222) NULL AFTER `education_level`;");
 
+    if (!$CI->db->field_exists('code' ,db_prefix() . 'type_of_leave')) {
+      $CI->db->query("ALTER TABLE `' . db_prefix() . 'type_of_leave`
+      ADD COLUMN `is_notification` varchar(255) NOT NULL ");
+  }
 
-    $this->db->query("ALTER TABLE `tbltype_of_leave` ADD `is_notification` VARCHAR(222) NULL AFTER `datecreated`;");
+    // $this->db->query("ALTER TABLE `tbltype_of_leave` ADD `is_notification` VARCHAR(222) NULL AFTER `datecreated`;");
 
 
 

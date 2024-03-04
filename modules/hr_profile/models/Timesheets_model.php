@@ -2515,55 +2515,57 @@ private function handleApprovalForAdditionalTimesheets($rel_id) {
 //        $this->db->select('name');
 //        return $this->db->get(db_prefix().'type_of_leave')->row();
 //    }
-    public function add_requisition_ajax1($data){
+public function add_requisition_ajax1($data) {
+  // Check if 'type_of_leave' is set in the $data array
+  if(isset($data['type_of_leave'])) {
+      $type = 'leave';
+      switch($data['type_of_leave']) {
+          case 2:
+              $type = 'late';
+              break;
+          case 3:
+              $type = 'go_out';
+              break;
+          case 4:
+              $type = 'go_on_business';
+              break;
+          case 5:
+              $type = 'quit_job';
+              $data['start_time'] = date('Y-m-d H:i:s');
+              $data['end_time'] = date('Y-m-d H:i:s');
+              break;
+          case 6:
+              $type = 'early';
+              break;
+      }
+  } else {
+      // Log an error message if 'type_of_leave' is not set
+      error_log("Error: 'type_of_leave' is not set in the data.");
+      // You might also return an error response to the client-side JavaScript here
+      return false;
+  }
+  
+  // Retrieve staff and number of days for leave
+  $staff_quit_job = $data['staff_id'];
+  $day_off = $this->get_number_of_days_in_leave($data['type_of_leave']);
 
+  // Prepare data for insertion
+  $data['number_of_days'] = $day_off->number_of_days;
+  unset($data['used_to'], $data['amoun_of_money'], $data['request_date'], $data['advance_payment_reason']);
+  $data['datecreated'] = date('Y-m-d H:i:s');
+  $data['status'] = '1';
 
+  // Insert data into database
+  $this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
+  $insert_id = $this->db->insert_id();
 
-//        $type_name=$data['rel_type'];
-//        $this->db->where('id',$type_name);
-//        $this->db->select('name');
-//       $type_name_object= $this->db->get(db_prefix().'type_of_leave')->row();
-//       $name=$type_name_object->name;
-        $type = 'leave';
-        if($data['type_of_leave'] == 2){
-            $type = 'late';
-        }elseif($data['type_of_leave'] == 3){
-            $type = 'go_out';
-        }elseif($data['type_of_leave'] == 4){
-            $type = 'go_on_bussiness';
-        }elseif($data['type_of_leave'] == 5){
-            $type = 'quit_job';
-            $data['start_time'] = date('Y-m-d H:i:s');
-            $data['end_time'] = date('Y-m-d H:i:s');
-        }elseif($data['type_of_leave'] == 6){
-            $type = 'early';
-        }
-        //after submit form
+  // Update approval request
+  $check_process = $this->get_approve_setting($type, true, $staff_quit_job);
+  $this->update_approve_request1($insert_id, $type, $data['status']);
 
-        $staff_quit_job =  $data['staff_id'];
-        $day_off = $this->get_number_of_days_in_leave($data['type_of_leave']);
-
-
-        $data['number_of_days'] = $day_off->number_of_days;
-        unset($data['used_to']);
-        unset($data['amoun_of_money']);
-        unset($data['request_date']);
-        unset($data['advance_payment_reason']);
-        $data['datecreated'] = date('Y-m-d H:i:s');
-
-//        $this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
-        $check_proccess = $this->get_approve_setting($type, true, $staff_quit_job);
-
-        $data['status']='1';
-
-        $this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
-        $insert_id = $this->db->insert_id();
-        $this->update_approve_request1($insert_id , $type, $data['status']);
-
-
-
-
-    }
+  // Return the ID of the newly added requisition
+  return $insert_id;
+}
 
 
 

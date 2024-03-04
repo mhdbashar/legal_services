@@ -10877,22 +10877,100 @@ public function choose_approver(){
 // //            echo '<pre>';print_r($data);exit();
 //         }
 //     }
+public function add_requisition_ajax1() {
+  if ($_FILES['file']['name'] == '') {
+      unset($_FILES);
+  }
 
-      public function add_requisition_ajax1()
-    {
-        //after submit form
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            if (!isset($data['staff_id'])) {
-                $data['staff_id'] = get_staff_user_id();
+  if ($this->input->post()) {
+      $data = $this->input->post();
+      unset($data['number_day_off']);
 
-            }
-            $result = $this->timesheets_model->add_requisition_ajax1($data);
+      $this->load->model('hr_profile/timesheets_model');
 
-            redirect(admin_url('hr_profile/core_hr/vacations'));
-             
-        }
-    }
+      if ($data['rel_type'] == 1) {
+          $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
+      } else {
+          $data['start_time'] = isset($data['start_time_s_time']) ? $data['start_time_s'] . ' ' . $data['start_time_s_time'] : null;
+          $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
+      }
+
+      unset($data['start_time_s']);
+      unset($data['start_time_s_time']);
+      unset($data['end_time_s']);
+      unset($data['end_time_s_time']);
+
+      if (!isset($data['staff_id'])) {
+          $data['staff_id'] = get_staff_user_id();
+      }
+
+      if (isset($data['according_to_the_plan'])) {
+          $data['according_to_the_plan'] = 0;
+      }
+
+      $result = $this->timesheets_model->add_requisition_ajax($data);
+
+      $rel_type_names = ['Leave', 'late', 'Go_out', 'Go_on_bussiness', 'quit_job', 'early'];
+      $rel_type = isset($rel_type_names[$data['rel_type'] - 1]) ? $rel_type_names[$data['rel_type'] - 1] : '';
+
+      $data_app['rel_id'] = $result;
+      $data_app['rel_type'] = $rel_type;
+      $data_app['addedfrom'] = $data['staff_id'];
+
+      $check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false, $data['staff_id']);
+      $check = '';
+
+      if ($check_proccess) {
+          if ($check_proccess->choose_when_approving == 0) {
+              $this->load->model('hr_profile/timesheets_model');
+              $this->timesheets_model->send_request_approve($data_app, $data['staff_id']);
+              $data_new['send_mail_approve'] = $data;
+              $this->session->set_userdata($data_new);
+              $check = 'not_choose';
+          } else {
+              $check = 'choose';
+          }
+      } else {
+          $check = 'no_proccess';
+      }
+
+      $followers_id = $data['followers_id'];
+      $staffid = $data['staff_id'];
+      $subject = $data['subject'];
+      $link = 'hr_profile/requisition_detail/' . $result;
+
+      if ($followers_id != '' && $staffid != $followers_id) {
+          $notification_data = [
+              'description' => _l('you_are_added_to_follow_the_leave_application') . '-' . $subject,
+              'touserid'    => $followers_id,
+              'link'        => $link,
+          ];
+
+          $notification_data['additional_data'] = serialize([
+              $subject,
+          ]);
+
+          if (add_notification($notification_data)) {
+              pusher_trigger_notification([$followers_id]);
+          }
+      }
+
+
+      // Call the add_requisition_ajax1() function to add the requisition
+      $result = $this->timesheets_model->add_requisition_ajax($data);
+
+      // Check if the requisition was added successfully
+      if ($result !== false) {
+          // Redirect to the requisition detail page with the ID of the newly added requisition
+          redirect(admin_url('hr_profile/requisition_detail/' . $result));
+      } else {
+          // Handle the case where the requisition was not added successfully
+          // You might display an error message or redirect to an error page
+      }
+  } else {
+      redirect(admin_url('hr_profile/core_hr/vacations/manage'));
+  }
+}
 // number of days
 public function number_of_days($rel_type, $staff_id, $type_of_leave)
     {
@@ -10985,97 +11063,105 @@ public function number_of_days($rel_type, $staff_id, $type_of_leave)
     }
 
 //get type of leave
-      public function get_type_of_leave($id)
-    {
+
+public function get_type_of_leave($id)
+{
 
 
 
-        $data = [];
+    $data = [];
 
-        $data_created = $this->timesheets_model->get_staff_info1($id);
-        $type_of_leave = $this->timesheets_model->get_type_of_leave_all();
-        $check_is_once_leaves = $this->timesheets_model->check_is_once($id);
-        $staff_gender_and_sex = $this->timesheets_model->get_another_info($id);
+    $data_created = $this->timesheets_model->get_staff_info1($id);
+    $type_of_leave = $this->timesheets_model->get_type_of_leave_all();
+    $check_is_once_leaves = $this->timesheets_model->check_is_once($id);
+    $staff_gender_and_sex = $this->timesheets_model->get_another_info($id);
+
+    if (!is_object($staff_gender_and_sex)) {
+      // Log an error message or handle the case where $staff_gender_and_sex is not an object
+      // For now, I'll just return an empty response
+      echo json_encode($data);
+      return;
+  }
 
 
-        if (sizeof($check_is_once_leaves) != 0) {
-            foreach ($check_is_once_leaves as $check_is_once_leaves) {
+    if (sizeof($check_is_once_leaves) != 0) {
+        foreach ($check_is_once_leaves as $check_is_once_leaves) {
 
-                if (isset($check_is_once_leaves->repeat_leave) && $check_is_once_leaves->repeat_leave == 'once') {
-                    foreach ($type_of_leave as $key => $value) {
-                        if ($value['id'] == $check_is_once_leaves->id) {
-                            unset($type_of_leave[$key]);
-                        }
+            if (isset($check_is_once_leaves->repeat_leave) && $check_is_once_leaves->repeat_leave == 'once') {
+                foreach ($type_of_leave as $key => $value) {
+                    if ($value['id'] == $check_is_once_leaves->id) {
+                        unset($type_of_leave[$key]);
+                    }
+                }
+            }
+
+        }
+    }
+
+    $gender = $staff_gender_and_sex->gender;
+    if ($gender == 'Female') {
+        $gender = 0;
+    } else {
+        $gender = 1;
+    }
+    $count = 0;
+
+    $date_start = (is_object($data_created) ? $data_created->datestart : '');
+    $contract_year_time = strtotime($date_start);
+    $time_now = (date('Y-m-d'));
+    $data[] = strtotime(is_object($data_created) ? $data_created->datestart : '');
+
+    foreach ($type_of_leave as $key => $types) {
+        if ($types['repeat_leave'] == 'year' && substr($time_now,0,4)!=substr($date_start,0,4)) {
+            $check_if_years_and_take_all_day = $this->timesheets_model->check_if_years_and_take_all_day($types['id']);
+
+
+            if ($check_if_years_and_take_all_day != null) {
+                foreach ($check_if_years_and_take_all_day as $check) {
+                    $count += $check['number_of_leaving_day'];
+
+                    if ($count == $check['number_of_days'] || $check['number_of_leaving_day'] == $check['number_of_days']) {
+                        unset($type_of_leave[$key]);
                     }
                 }
 
             }
         }
+    }
 
-        $gender = $staff_gender_and_sex->gender;
-        if ($gender == 'Female') {
-            $gender = 0;
-        } else {
-            $gender = 1;
+
+    foreach ($type_of_leave as $type) {
+
+
+        $years = $type['deserving_in_years'];
+        $number_of_day = $type['number_of_days'];
+        $years_and_date_start = strtotime(date('Y-m-d', strtotime("+$years years", strtotime($date_start))));
+
+        $months = $type['entitlement_in_months'];
+        $is_date_allowed_for_leave = date('Y-m-d', strtotime("+$months months", strtotime($date_start)));
+        $is_he_in_date_range = strtotime($is_date_allowed_for_leave);
+        $is_he_in_year_range = $years_and_date_start - $contract_year_time;
+        $now_time = strtotime($time_now);
+        if ($type['male'] == 1 && $gender == 1 && $is_he_in_date_range <= $now_time) {
+
+            $data[] = $type;
+        } elseif ($type['female'] == 1 && $gender == 0 && $type['male'] == 0 && $is_he_in_date_range <= $now_time) {
+            $data [] = $type;
+        } else if ($type['female'] == 1 && $type['male'] == 1 && $is_he_in_date_range <= $now_time) {
+            $data[] = $type;
         }
-        $count = 0;
-
-        $date_start = (is_object($data_created) ? $data_created->datestart : '');
-        $contract_year_time = strtotime($date_start);
-        $time_now = (date('Y-m-d'));
-        $data[] = strtotime(is_object($data_created) ? $data_created->datestart : '');
-
-        foreach ($type_of_leave as $key => $types) {
-            if ($types['repeat_leave'] == 'year' && substr($time_now,0,4)!=substr($date_start,0,4)) {
-                $check_if_years_and_take_all_day = $this->timesheets_model->check_if_years_and_take_all_day($types['id']);
-
-
-                if ($check_if_years_and_take_all_day != null) {
-                    foreach ($check_if_years_and_take_all_day as $check) {
-                        $count += $check['number_of_leaving_day'];
-
-                        if ($count == $check['number_of_days'] || $check['number_of_leaving_day'] == $check['number_of_days']) {
-                            unset($type_of_leave[$key]);
-                        }
-                    }
-
-                }
-            }
-        }
-
-
-        foreach ($type_of_leave as $type) {
-
-
-            $years = $type['deserving_in_years'];
-            $number_of_day = $type['number_of_days'];
-            $years_and_date_start = strtotime(date('Y-m-d', strtotime("+$years years", strtotime($date_start))));
-
-            $months = $type['entitlement_in_months'];
-            $is_date_allowed_for_leave = date('Y-m-d', strtotime("+$months months", strtotime($date_start)));
-            $is_he_in_date_range = strtotime($is_date_allowed_for_leave);
-            $is_he_in_year_range = $years_and_date_start - $contract_year_time;
-            $now_time = strtotime($time_now);
-            if ($type['male'] == 1 && $gender == 1 && $is_he_in_date_range <= $now_time) {
-
-                $data[] = $type;
-            } elseif ($type['female'] == 1 && $gender == 0 && $type['male'] == 0 && $is_he_in_date_range <= $now_time) {
-                $data [] = $type;
-            } else if ($type['female'] == 1 && $type['male'] == 1 && $is_he_in_date_range <= $now_time) {
-                $data[] = $type;
-            }
-            if ($type['accumulative'] ==1 && $is_he_in_date_range <= $now_time){
-
-            }
+        if ($type['accumulative'] ==1 && $is_he_in_date_range <= $now_time){
 
         }
-
-
-
-        echo json_encode($data);
-
 
     }
+
+
+
+    echo json_encode($data);
+
+
+}
 
       /**
      * manage timesheets

@@ -347,16 +347,6 @@ class Credit_notes_model extends App_Model
 
         if ($affectedRows > 0) {
             $this->update_credit_note_status($id);
-            $this->db->where('id', $id);
-            $credit = $this->db->get(db_prefix() . 'creditnotes')->row();
-          $invoice_number=  $credit->reference_no;
-          $invoice_number=substr($invoice_number, 5);
-            $this->load->model('invoices_model');
-            $status = Invoices_model::STATUS_REFUND;
-            $this->db->where('number', $invoice_number);
-            $this->db->update(db_prefix() . 'invoices', [
-                'status' => $status,
-            ]);
             update_sales_total_tax_column($id, 'credit_note', db_prefix() . 'creditnotes');
 
         }
@@ -663,8 +653,18 @@ class Credit_notes_model extends App_Model
 
         if ($insert_id) {
             $this->update_credit_note_status($id);
+            $this->db->where('id', $id);
+            $credit = $this->db->get(db_prefix() . 'creditnotes')->row();
+            $invoice_number=  $credit->reference_no;
+            $invoice_number=substr($invoice_number, 5);
+            $this->load->model('invoices_model');
+            $status = Invoices_model::STATUS_REFUND;
+            $this->db->where('number', $invoice_number);
+            $this->db->update(db_prefix() . 'invoices', [
+                'status' => $status,
+            ]);
 
-            update_invoice_status($invoice_id, true);
+
 
             hooks()->do_action('credit_note_refund_created', ['data' => $data, 'credit_note_id' => $id]);
         }
@@ -694,6 +694,17 @@ class Credit_notes_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
             $this->update_credit_note_status($refund->credit_note_id);
+            $this->db->where('id', $refund->credit_note_id);
+            $credit = $this->db->get(db_prefix() . 'creditnotes')->row();
+            $invoice_number=  $credit->reference_no;
+            $invoice_number=substr($invoice_number, 5);
+            $this->load->model('invoices_model');
+            $status = Invoices_model::STATUS_REFUND;
+            $this->db->where('number', $invoice_number);
+            $this->db->update(db_prefix() . 'invoices', [
+                'status' => $status,
+            ]);
+
 
             hooks()->do_action('credit_note_refund_updated', ['data' => $data, 'refund_id' => $refund->credit_note_id]);
         }
@@ -744,6 +755,16 @@ class Credit_notes_model extends App_Model
         $this->db->delete(db_prefix() . 'creditnote_refunds');
         if ($this->db->affected_rows() > 0) {
             $this->update_credit_note_status($credit_note_id);
+            $this->db->where('id', $credit_note_id);
+            $credit = $this->db->get(db_prefix() . 'creditnotes')->row();
+            $invoice_number=  $credit->reference_no;
+            $invoice_number=substr($invoice_number, 5);
+            $this->load->model('invoices_model');
+            $status = Invoices_model::STATUS_PAID;
+            $this->db->where('number', $invoice_number);
+            $this->db->update(db_prefix() . 'invoices', [
+                'status' => $status,
+            ]);
             hooks()->do_action('credit_note_refund_deleted', ['refund_id' => $refund_id, 'credit_note_id' => $credit_note_id]);
 
             return true;

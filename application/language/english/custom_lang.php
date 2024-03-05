@@ -2522,6 +2522,7 @@ $lang['invoice_merge_number_warning'] = "Merging invoices will create gaps in in
 $lang['invoice_mark_as'] = "Mark as %s";
 $lang['invoice_unmark_as'] = "Unmark as %s";
 $lang['invoice_status_cancelled'] = "Cancelled";
+$lang['invoice_status_refund'] = "Refund";
 $lang['tasks_reminder_notification_before_help'] = "Notify task assignees about deadline before X days. The notification/email is sent only to the assignees. If the difference between task start date and task due date is smaller then the reminders day no notification will be sent.";
 $lang['project_invoice_select_all_tasks'] = "Select all tasks";
 $lang['admin_auth_forgot_password_button'] = "Confirm";

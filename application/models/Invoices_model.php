@@ -15,6 +15,7 @@ class Invoices_model extends App_Model
     const STATUS_CANCELLED = 5;
 
     const STATUS_DRAFT = 6;
+    const STATUS_REFUND = 7;
 
     const STATUS_DRAFT_NUMBER = 1000000000;
 

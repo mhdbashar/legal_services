@@ -1948,6 +1948,7 @@ $lang['invoice_merge_number_warning'] = "سيؤدي دمج الفواتير إل
 $lang['invoice_mark_as'] = "وصع علامة كـ %s";
 $lang['invoice_unmark_as'] = "إزالة علامة كـ %s";
 $lang['invoice_status_cancelled'] = "ملغية";
+$lang['invoice_status_refund'] = "مرتجع";
 $lang['tasks_reminder_notification_before_help'] = "قم بإخطار المعينين بالمهمة حول الموعد النهائي قبل X أيام . يتم إرسال الإخطار / البريد الإلكتروني فقط إلى المحال إليهم. إذا كان الفرق بين تاريخ بدء المهمة وتاريخ إنتهاء المهمة متشابه ، عندها لن يتم إرسال أي تذكير.";
 $lang['project_invoice_select_all_tasks'] = "حدد جميع المهام";
 $lang['lead_company'] = "الشركة";

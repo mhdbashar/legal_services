@@ -8,7 +8,7 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 $aColumns = [
     db_prefix() .'my_cases.id as id',
     'name',
-    db_prefix().'clients.company as company',
+        db_prefix().'clients.company as company',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'my_cases.id and rel_type="'.$service->slug.'" ORDER by tag_order ASC) as tags',
     'file_number_court',
     'court_id',
@@ -88,8 +88,99 @@ foreach ($rResult as $aRow) {
     // $_data .= ' | <a href="'.admin_url("legalservices/other_services/export_case/".$aRow['id']."").'">'. _l('export') .'</a>';
     $_data .= '</div>';
     $row[] = $_data;
-    //$customers = $model->GetClientsCases($aRow['id']);
+    //<! ------------------ ADDing Phases ---------------------->
+    $CI = &get_instance();
+    $CI->load->model('legalservices/Phase_model');
+    $phases= $CI ->Phase_model->get_all(['service_id' => $ServID]);
+    $_data='';
+      //$customers = $model->GetClientsCases($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
+    $number_of_completed_phases=0;
+    $total_phases=sizeof($phases);
+    foreach ($phases as $phase){
+        if (total_rows(db_prefix() . 'customfieldsvalues', array('fieldto' =>$phase->slug.'_'.$service->slug, 'relid' =>$aRow['id'])) > 0) {
+            $number_of_completed_phases++ ;
+        }
+    }
+    $now_phase=  $number_of_completed_phases+1;
+    $number=1;
+    $phase_name=$phases[0]->name;
+    foreach ($phases as $phase){
+        if ($number== $now_phase)
+        {
+         $phase_name=$phase->name;
+
+        }
+        if ( $now_phase== $total_phases +1)
+        {
+            $phase_name= _l('the_phases_is_ended');
+
+        }
+        $number++;
+    }
+    $row[]=$phase_name;
+    $phases_percentage=($number_of_completed_phases/$total_phases)*100;
+    $phases_percentage=ceil($phases_percentage);
+ if($phases_percentage>0 && $phases_percentage<=35)
+ {
+     $top='green';
+     $left='grey';
+     $right='grey';
+     $bottom='grey';
+ }
+ elseif($phases_percentage>35 && $phases_percentage<65)
+ {
+     $top='green';
+     $left='green';
+     $right='grey';
+     $bottom='grey';
+ }
+ elseif($phases_percentage>65 && $phases_percentage<85)
+ {
+     $top='green';
+     $left='green';
+     $right='green';
+     $bottom='grey';
+ }
+ elseif($phases_percentage>85 && $phases_percentage<=100)
+ {
+     $top='green';
+     $left='green';
+     $right='green';
+     $bottom='green';
+ }
+ else
+ {
+     $top='grey';
+     $left='grey';
+     $right='grey';
+     $bottom='grey';
+
+ }
+   $row[] = ' <div style="position: relative; 
+            display: inline-block; 
+            width: 5rem; 
+            height: 5rem; 
+            border-radius: 7rem; 
+            margin: 1.5rem; 
+            border: 1.2rem solid palegreen; 
+            box-shadow: inset 0 0 7px grey; 
+            border-left-color: '.$left.'; 
+            border-top-color: '.$top.'; 
+            border-right-color: '.$right.'; 
+            border-bottom-color: '.$bottom.'; 
+            text-align: center; 
+            box-sizing: border-box; 
+            " >
+           <div style="top: 40px;  position: absolute; 
+            left: 10px; 
+            right: 0; 
+            font-weight: 700; 
+            font-size: 1.5rem; 
+  " >'.$phases_percentage.'%</div>
+                </div>';
+    //<! ------------------ End of Phases ---------------------->
+
     $row[] = render_tags($aRow['tags']);
     $CI = &get_instance();
     $CI->load->library('app_modules');

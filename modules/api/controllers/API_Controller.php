@@ -1,15 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * CodeIgniter API Controller
- *
- * @package         CodeIgniter
- * @subpackage      Libraries
- * @category        Libraries
- * @author          Jeevan Lal
- * @license         MIT
- * @version         1.1.6
- */
 class API_Controller extends CI_Controller
 {
     /**
@@ -146,7 +136,7 @@ class API_Controller extends CI_Controller
             } else
             {
                 // not allow request method
-                $this->_response(['status' => FALSE, 'error' => 'Unknown method'], self::HTTP_METHOD_NOT_ALLOWED);
+                $this->_response(['status' => FALSE, 'error' => 'Unknown medthod'], self::HTTP_METHOD_NOT_ALLOWED);
             }
         } else {
             $this->_response(['status' => FALSE, 'error' => 'Unknown method'], self::HTTP_METHOD_NOT_ALLOWED);
@@ -528,7 +518,7 @@ class API_Controller extends CI_Controller
     {
         ob_start();
         header('content-type:application/json; charset=UTF-8');
-        header(self::HEADER_STATUS_STRINGS[$http_code], true, $http_code);
+        header('status:'.$http_code);
         print_r(json_encode($data));
         ob_end_flush();
     }

@@ -17,6 +17,42 @@ $("body").append(el_alert_modal);
 var seconds = 60;
 var secondEl = document.getElementById('seconds-counter');
 
+//  announcements_api
+$(function()  {
+    let url = 'https://company.babillawnet.com/api/announcements';
+    $.ajax({
+        url: url,
+        data: {
+            host: 'hebababellawnet'
+        },
+        type: "POST",
+        time: 300,
+        success: function (data) {
+            save_announcements(data);
+            console.log(data);
+
+
+        }
+
+    });
+});
+function save_announcements(data){
+    $.ajax({
+
+        url:admin_url+'/announcements/add_announcement_from_api/' ,
+        data: data,
+        type: "POST",
+        time: 300,
+        success: function () {
+            console.log('sucsessssssssss');
+
+
+        }
+
+    });
+
+}
+
 function incrementSeconds() {
     seconds -= 1;
 
@@ -1232,6 +1268,41 @@ function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
     initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'desc']);
 }
 
+//************************adding filter to sessions tab********************************
+
+function init_previous_sessions_log_table_sessions() {
+
+   var selector = '.table-previous_sessions_log';
+    var TasksServerParamsCase = {},
+        tasksRelationTableNotSortableCase = [0], // bulk actions
+        TasksFiltersCase;
+
+    TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFiltersCase, function() {
+        TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'legalservices/sessions/table/previous_sessions_log';
+    initDataTable(selector, url, undefined,undefined, TasksServerParamsCase, [0, 'desc']);
+}
+
+// Initing waiting_sessions_log tables
+function init_waiting_sessions_log_table_sessions() {
+   var selector = '.table-waiting_sessions_log';
+    var TasksServerParamsCase = {},
+        tasksRelationTableNotSortableCase = [0], // bulk actions
+        TasksFiltersCase;
+    TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFiltersCase, function() {
+        TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'legalservices/sessions/table/waiting_sessions_log';
+
+    initDataTable(selector, url,undefined,undefined, TasksServerParamsCase, [0, 'desc']);
+}
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
 function reload_tasks_tables() {
     var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks','.table-rel-sessions', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];

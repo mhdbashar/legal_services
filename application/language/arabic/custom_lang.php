@@ -1197,6 +1197,12 @@ $lang['staff_document_name'] = "أسم ممثل المنشأة";
 $lang['internal_messages'] = "المراسلات الداخلية";
 $lang['to_user_id'] = "ارسال الى";
 $lang['message'] = "الرسالة";
+//******ADDing transaction to setup_menu*************//
+$lang['new_type'] = "نوع معاملة جديد";
+$lang['new_origin'] = "طبيعة أصل معاملة جديدة";
+$lang['new_importance'] = "أهمية معاملة جديدة";
+$lang['new_classification'] = "تصنيف معاملة جديدة";
+$lang['new_incoming_type'] = "نوع وارد جديد";
 
 
 

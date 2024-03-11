@@ -18,4 +18,5 @@ class Migration_Version_530 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'procuration_cases` ADD `proc_alert_close` date NULL DEFAULT NULL');
         }
     }
+    public function down(){}
 }

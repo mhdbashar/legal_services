@@ -24,4 +24,5 @@ class Migration_Version_529 extends CI_Migration
             }
         }
     }
+    public function down(){}
 }

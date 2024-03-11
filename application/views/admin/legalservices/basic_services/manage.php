@@ -141,11 +141,22 @@
                                 array(
                                     'name' => _l('the_number_sign'),
                                 ),
+
+
                                 array(
                                     'name' => _l($TitleText),
                                 ),
+
                                 array(
                                     'name' => _l('proposal_for_customer'),
+                                ),
+                                array(
+                                    'name' => _l('now_phase'),
+                                ),
+
+
+                                array(
+                                    'name' => _l('done_phases'),
                                 ),
                                 array(
                                     'name' => _l('tags'),

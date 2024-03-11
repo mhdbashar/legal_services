@@ -10,8 +10,11 @@ class Migration_Version_531 extends CI_Migration
     }
     public function up()
     {
+
+
         add_option('automatically_send_case_not_checked', '3');
         add_option('daily_agenda_last_check', date('Y-m-d'));
+
 
         $emailtemplate = $this->db->get_where('tblemailtemplates', array('slug' => 'send_lawyer_daily_agenda_to_staff', 'type' => 'lawyer_daily_agenda', 'language' => 'arabic'))->num_rows();
         if ($emailtemplate == 0) {
@@ -47,6 +50,7 @@ class Migration_Version_531 extends CI_Migration
             $this->db->insert(db_prefix() . 'emailtemplates', $data);
             //
         }
+
         $this->db->where('type', 'lawyer_daily_agenda');
         $this->db->where('slug', 'send_lawyer_daily_agenda_to_staff');
         $this->db->where('language', 'arabic');
@@ -495,5 +499,8 @@ class Migration_Version_531 extends CI_Migration
         ];
         $this->db->update(db_prefix() . 'emailtemplates', $values);
 
+
     }
+    public function down(){}
+
 }

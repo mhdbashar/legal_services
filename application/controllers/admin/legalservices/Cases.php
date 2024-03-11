@@ -530,6 +530,7 @@ class Cases extends AdminController
             $data['case_model'] = $this->case;
             $data['ServID'] = $ServID;
             $data['id'] = $id;
+            $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             $this->load->view('admin/legalservices/cases/view', $data);
         } else {
             access_denied('Case View');

@@ -496,4 +496,5 @@ class Migration_Version_534 extends CI_Migration
         $this->db->update(db_prefix() . 'emailtemplates', $values);
 
     }
+    public function down(){}
 }

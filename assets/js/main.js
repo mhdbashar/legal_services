@@ -10,7 +10,9 @@
 
 $(window).on('load', function () {
     init_btn_with_tooltips();
+
 });
+
 
 // Set datatables error throw console log
 $.fn.dataTable.ext.errMode = 'throw';
@@ -55,6 +57,7 @@ var original_top_search_val,
     postid = 0,
     lastAddedItemKey = null,
     setup_menu_item = $('#setup-menu-item');
+
 
 // Custom deselect all on bootstrap ajax select input
 $("body").on('loaded.bs.select change', 'select.ajax-search', function (e) {
@@ -4765,6 +4768,8 @@ function init_table_announcements(manual) {
     }
     initDataTable('.table-announcements', admin_url + 'announcements', undefined, undefined, 'undefined', [1, 'desc']);
 }
+
+
 
 // Table tickets
 function init_table_tickets(manual) {

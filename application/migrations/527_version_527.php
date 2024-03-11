@@ -33,4 +33,5 @@ class Migration_Version_527 extends CI_Migration
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;");
 
     }
+    public function down(){}
 }

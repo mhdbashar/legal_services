@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: API *****
 Description: ------
-Version: 1.0.1
+Version: 1.0.0
 */
 
 define('API_MODULE_NAME', 'api');

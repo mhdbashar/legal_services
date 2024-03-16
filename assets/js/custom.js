@@ -1284,7 +1284,7 @@ function init_previous_sessions_log_table_sessions() {
     });
 
     var url = admin_url + 'legalservices/sessions/table/previous_sessions_log';
-    initDataTable(selector, url, undefined,undefined, TasksServerParamsCase, [0, 'desc']);
+    initDataTable(selector, url, undefined,undefined, TasksServerParamsCase, [6, 'desc']);
 }
 
 // Initing waiting_sessions_log tables
@@ -1301,7 +1301,7 @@ function init_waiting_sessions_log_table_sessions() {
 
     var url = admin_url + 'legalservices/sessions/table/waiting_sessions_log';
 
-    initDataTable(selector, url,undefined,undefined, TasksServerParamsCase, [0, 'desc']);
+    initDataTable(selector, url,undefined,undefined, TasksServerParamsCase, [5, 'desc']);
 }
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
 function reload_tasks_tables() {

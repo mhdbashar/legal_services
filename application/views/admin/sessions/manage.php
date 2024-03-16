@@ -121,8 +121,8 @@ if ($time_format === '24') {
     rel_type = '<?php echo isset($rel_type) ? $rel_type : ''; ?>';
     $(function () {
         sessions_kanban();
-        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
+        // initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
+        // initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
     });
 //*******calling functions to filter sessions*************
     init_waiting_sessions_log_table_sessions();

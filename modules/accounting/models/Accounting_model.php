@@ -20673,7 +20673,8 @@ class Accounting_model extends App_Model
      * @return boolean
      */
     public function automatic_credit_note_conversion($data){
-        $this->delete_convert($data['credit_id'], 'credit_note');
+       
+        $this->delete_convert($data['credit_note_id'], 'credit_note');
 
         $payment_account = get_option('acc_credit_note_payment_account');
         $deposit_to = get_option('acc_credit_note_deposit_to');
@@ -20705,7 +20706,7 @@ class Accounting_model extends App_Model
             $node['credit'] = 0;
             $node['date'] = date('Y-m-d');
             $node['description'] = '';
-            $node['rel_id'] = $data['credit_id'];
+            $node['rel_id'] = $data['credit_note_id'];
             $node['rel_type'] = 'credit_note';
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();

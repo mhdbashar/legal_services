@@ -30,7 +30,7 @@ function app_init_admin_sidebar_menu_items()
     $CI->app_menu->add_sidebar_menu_item('sales', [
         'collapse' => true,
         'name'     => _l('als_sales'),
-        'position' => 10,
+        'position' => 11,
         'icon'     => 'fa fa-balance-scale',
         'badge'    => [],
     ]);
@@ -146,7 +146,7 @@ function app_init_admin_sidebar_menu_items()
         'name'     => _l('als_tasks'),
         'href'     => admin_url('tasks'),
         'icon'     => 'fa fa-tasks',
-        'position' => 35,
+        'position' => 4,
         'badge'    => [],
     ]);
 
@@ -157,7 +157,7 @@ function app_init_admin_sidebar_menu_items()
             'name'     => _l('support'),
             'href'     => admin_url('tickets'),
             'icon'     => 'fa fa-ticket',
-            'position' => 40,
+            'position' => 13,
             'badge'    => []
         ]);
 

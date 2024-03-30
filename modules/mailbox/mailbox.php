@@ -66,7 +66,7 @@ function mailbox_module_init_menu_items()
             'name'     => _l('mailbox').$badge,
             'href'     => admin_url('mailbox'),
             'icon'     => 'fa fa-envelope-square',
-            'position' => 6,
+            'position' => 8,
         ]);
     }
 }

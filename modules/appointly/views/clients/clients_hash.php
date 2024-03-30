@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body <?php if(is_rtl(get_client_user_id())){ echo 'dir="rtl"';}; ?>>
     <div id="wrapper">
         <div class="content" style="overflow-x:hidden;">
             <div class="row">
@@ -128,7 +128,9 @@
                                     </span><br>
                                     <span class="spmodified">
                                         <boldit><?= _l('appointment_squeduled_at_text'); ?>
-                                        </boldit> <?= date("H:i A", strtotime($appointment['start_hour'])); ?>
+                                        </boldit><?= get_option('time_format') == 24 ? date("H:i", strtotime($appointment['start_hour'])) : date("h:i a", strtotime($appointment['start_hour'])); ?>
+
+
                                     </span><br>
                                     <?php if ($appointment['type_id'] != 0) { ?>
                                         <span class="spmodified">

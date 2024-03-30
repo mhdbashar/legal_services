@@ -14,7 +14,7 @@ $table_data = [
    _l('project_status'),
 ];
 $CI = &get_instance();
-$service = $CI->db->get_where('my_basic_services', array('id' => 1))->row();
+$service = $CI->db->get_where('my_basic_services', array('id' => 22))->row();
 $custom_fields = get_custom_fields($service->slug, ['show_on_table' => 1]);
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);

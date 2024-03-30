@@ -3,6 +3,9 @@
     var is_busy_times_enabled = "<?= get_option('appointly_busy_times_enabled'); ?>";
 
     $(function () {
+        // init_editor('textarea[name="notes"]', {
+        //     menubar: false,
+        // });
 
         var allowedHours = <?= json_encode(json_decode(get_option('appointly_available_hours'))); ?>;
         var appMinTime = <?= get_option('appointments_show_past_times'); ?>;
@@ -15,11 +18,9 @@
         {
             $.post("busyDates").done(function (r) {
                 r = JSON.parse(r);
-                var dateFormat = app.options.date_format;
                 var appointmentDatePickerOptionsExternal = {
                     dayOfWeekStart: app.options.calendar_first_day,
                     minDate: 0,
-                    format: dateFormat,
                     defaultTime: "09:00",
                     allowTimes: allowedHours,
                     closeOnDateSelect: 0,
@@ -57,15 +58,13 @@
                         currentTime.removeClass("busy_time");
                     }
                 };
-
+                var dateFormat = app.options.date_format;
                 if (app.options.time_format == 24) {
-                    dateFormat = dateFormat + " H:i";
+                    appointmentDatePickerOptionsExternal.format = dateFormat + " H:i";
                 } else {
-                    dateFormat = dateFormat + " g:i A";
-                    appointmentDatePickerOptionsExternal.formatTime = "g:i A";
+                    // appointmentDatePickerOptions.format = dateFormat + " g:i A";
+                    appointmentDatePickerOptionsExternal.formatTime = "h:i A";
                 }
-
-                appointmentDatePickerOptionsExternal.format = dateFormat;
 
                 $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
             });

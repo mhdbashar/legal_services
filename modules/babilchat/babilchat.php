@@ -55,7 +55,7 @@ if (staff_can('view', BABIL_CHAT_MODULE_NAME)) {
             'name'     => 'Chat',
             'href'     => admin_url('babilchat/Babilchat_Controller/chat_full_view'),
             'icon'     => 'fa fa-comments-o',
-            'position' => 6,
+            'position' => 9,
         ]);
     }
 }

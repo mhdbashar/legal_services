@@ -97,7 +97,7 @@ function babil_sms_gateway_module_init_menu_items() {
         $CI->app_menu->add_sidebar_menu_item('babil_sms_gateway', [
             'name' => _l('babil_sms_gateway'),
             'icon' => 'fa fa-envelope',
-            'position' => 10,
+            'position' => 7,
         ]);
 
         $CI->app_menu->add_sidebar_children_item('babil_sms_gateway', [

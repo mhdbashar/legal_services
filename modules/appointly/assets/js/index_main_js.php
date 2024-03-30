@@ -96,11 +96,9 @@
 
         $.post(busyDatesUrl).done(function (r) {
             r = JSON.parse(r);
-            var dateFormat = app.options.date_format;
             var appointmentDatePickerOptions = {
                 dayOfWeekStart: app.options.calendar_first_day,
                 minDate: 0,
-                format: dateFormat,
                 defaultTime: "09:00",
                 allowTimes: allowedHours,
                 closeOnDateSelect: 0,
@@ -148,17 +146,13 @@
 
                 }
             };
-
+            var dateFormat = app.options.date_format;
             if (app.options.time_format == 24) {
-                dateFormat = dateFormat + " H:i";
+                appointmentDatePickerOptions.format = dateFormat + " H:i";
             } else {
-                dateFormat = dateFormat + " g:i";
-                appointmentDatePickerOptions.formatTime = "g:i";
-
+                // appointmentDatePickerOptions.format = dateFormat + " g:i A";
+                appointmentDatePickerOptions.formatTime = "h:i A";
             }
-
-            appointmentDatePickerOptions.format = dateFormat;
-
 
             $(".appointment-date").datetimepicker(appointmentDatePickerOptions);
         });

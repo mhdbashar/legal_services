@@ -41,12 +41,12 @@ function telegram_module_init_menu_items()
 {
     $CI = &get_instance();
 
-    $CI->app->add_quick_actions_link([
+ /*    $CI->app->add_quick_actions_link([
             'name'       => 'telegram',
             'permission' => 'telegram_chat',
             'url'        => 'telegram_chat',
             'position'   => 79,
-            ]);
+            ]); */
 
     if (has_permission('telegram_chat', '', 'view')) {
         $CI->app_menu->add_sidebar_children_item('utilities', [

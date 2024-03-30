@@ -42,21 +42,66 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+
         <!-- /.modal -->
-        <!-- Mile stones end -->
-    <?php } ?>
-    <table class="table dt-table" data-order-col="1" data-order-type="desc">
-        <thead>
+        <table class="table dt-table" data-order-col="1" data-order-type="desc">
+            <thead>
             <tr>
                 <th><?php echo _l('project_discussion_subject'); ?></th>
                 <th><?php echo _l('project_discussion_last_activity'); ?></th>
                 <th><?php echo _l('project_discussion_total_comments'); ?></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
+            <div class="modal fade" id="edit-discussion">
+                <div class="modal-dialog">
+                    <?php echo form_open(site_url('clients/legal_services/' . $project->id . '/' . $ServID), array('id' => 'discussion_form')); ?>
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">
+                                <span class="edit-title"><?php echo _l('edit_discussion'); ?></span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md">
+                                    <?php
+                                    if ($ServID == 1) :
+                                        echo form_hidden('project_id', $project->id);
+                                    else :
+                                        echo form_hidden('oservice_id', $project->id);
+                                    endif;
+                                    ?>
+                                    <?php echo form_hidden(['action' => 'edit_discussion', 'show_to_customer' => '1']); ?>
+                                    <input type="hidden" name="id" id="edit-id" value="">
+                                    <?php echo render_input('subject', 'project_discussion_subject', '', 'text', [], [], 'col-md-12'); ?>
+                                    <?php echo render_textarea('description', 'project_discussion_description', '', [], [], 'col-md-12 mtop20'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                            <button type="submit" class="btn btn-info" data-loading-text="<?php echo _l('wait_text'); ?>" data-autocomplete="off" data-form="#discussion_form"><?php echo _l('submit'); ?></button>
+                        </div>
+                    </div>
+                    <?php echo form_close(); ?>
+                </div>
+            </div>
+
+
             <?php foreach ($discussions as $discussion) { ?>
                 <tr>
-                    <td><a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=' . $group . '&discussion_id=' . $discussion['id']); ?>"><?php echo $discussion['subject']; ?></a></td>
+                    <td>
+                        <div class="col-md-12"><a href="<?php echo site_url('clients/legal_services/' . $project->id . '/' . $ServID . '?group=' . $group . '&discussion_id=' . $discussion['id']); ?>"><?php echo $discussion['subject']; ?></a></div>
+                        <div class="col-md-12">
+
+                            <a href="#" onclick="edit_discussion(<?php echo "'{$discussion['description']}', '{$discussion['subject']}', '{$discussion['id']}'" ?>);return false;">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+
+                        </div>
+                    </td>
                     <td data-order="<?php echo $discussion['last_activity']; ?>">
                         <?php
                         if (!is_null($discussion['last_activity'])) {
@@ -70,9 +115,12 @@
                     <td><?php echo $discussion['total_comments']; ?></td>
                 </tr>
             <?php } ?>
-        </tbody>
-    </table>
-<?php } else { ?>
+            </tbody>
+        </table>
+
+        <!-- Mile stones end -->
+    <?php } ?>
+<?php } elseif (isset($discussion)) { ?>
     <?php echo form_hidden('discussion_user_profile_image_url', $discussion_user_profile_image_url); ?>
     <?php echo form_hidden('discussion_id', $discussion->id); ?>
     <h3 class="bold no-margin"><?php echo $discussion->subject; ?></h3>
@@ -97,4 +145,6 @@
     <p class="text-muted"><?php echo $discussion->description; ?></p>
     <hr />
     <div id="discussion-comments" class="tc-content"></div>
+<?php } else { ?>
+    
 <?php } ?>

@@ -40,6 +40,7 @@ class Cases_model extends App_Model
             'view_session_checklist_items',
             'upload_on_sessions',
             'view_session_total_logged_time',
+           'view_session_customer_report'
         ];
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
@@ -1253,6 +1254,13 @@ class Cases_model extends App_Model
         return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
     }
 
+    public function get_project_members_name($id)
+    {
+
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_cases.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
     public function get_case_judges($id)
     {
         $this->db->select('my_cases_judges.*,my_judges.*');
@@ -1514,7 +1522,7 @@ class Cases_model extends App_Model
             }
 
             // if (is_client_logged_in()) {
-                
+
             //     if (total_rows(db_prefix() . 'task_assigned', [
             //         'staffid' => get_staff_user_id(),
             //         'taskid' => $id,
@@ -1525,7 +1533,7 @@ class Cases_model extends App_Model
             //     }
             // }
         }
-        
+
         return $tasks;
     }
 
@@ -1607,7 +1615,7 @@ class Cases_model extends App_Model
         return $tasks;
     }
 
-    
+
     public function do_milestones_kanban_query($milestone_id, $project_id, $page = 1, $where = [], $count = false)
     {
         $where['milestone'] = $milestone_id;
@@ -2672,7 +2680,7 @@ class Cases_model extends App_Model
                         array_push($notifiedUsers, $memberId);
                     }
                 }
-                
+
             } else {
                 $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
 
@@ -2689,7 +2697,7 @@ class Cases_model extends App_Model
             }
 
             $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
-            
+
             pusher_trigger_notification($notifiedUsers);
 
             $this->_update_discussion_last_activity($discussion_id, $type);
@@ -3285,7 +3293,7 @@ class Cases_model extends App_Model
                     $this->db->insert($files_table, $file_data);
 
                 }
-            }   
+            }
             $tags = get_tags_in($project_id, $slug);
             handle_tags_save($tags, $id, $slug);
 
@@ -3444,7 +3452,7 @@ class Cases_model extends App_Model
                     'project_members' => $_members,
                     ],$ServID, $id);
                 }
-                
+
             }
 
             $custom_fields = get_custom_fields($slug);
@@ -3908,5 +3916,5 @@ class Cases_model extends App_Model
             }
         }
     }
-    
+
 }

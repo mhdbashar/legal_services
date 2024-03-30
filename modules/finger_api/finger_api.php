@@ -61,7 +61,7 @@ function finger_api_init_menu_items()
         $CI->app_menu->add_sidebar_menu_item('finger_api-options', [
             'collapse' => true,
             'name'     => _l('finger_api'),
-            'position' => 40,
+            'position' => 15,
             'icon'     => 'fa fa-cogs',
         ]);
         $CI->app_menu->add_sidebar_children_item('finger_api-options', [

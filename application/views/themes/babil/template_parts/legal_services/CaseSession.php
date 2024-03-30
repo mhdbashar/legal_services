@@ -143,9 +143,10 @@ $CI->load->library('app_modules');
                     <?php endif; ?>
 
                     <th><?php echo _l('Court'); ?></th>
-                    <th><?php echo _l('Customer_report'); ?></th>
                     <th><?php echo _l('session_date'); ?></th>
                     <th><?php echo _l('session_time'); ?></th>
+                    <?php  if ($project->settings->view_session_customer_report == 1 ) :
+                    ?><th><?php echo _l('Customer_report'); ?></th> <?php endif;?>
                     <?php
                     $custom_fields = get_custom_fields('sessions', array('show_on_client_portal' => 1));
                     foreach ($custom_fields as $field) { ?>
@@ -217,23 +218,6 @@ $CI->load->library('app_modules');
                                 echo $task['court_name'] ?>
                             <?php endif; ?>
                         </td>
-
-                        <?php
-                        //  CUSTOMER REPORT
-                        if ($task['customer_report'] == 1 && $task['send_to_customer'] == 1) :
-                            $report = '<div class="btn-group">
-                                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i> <span class="caret"></span></a>
-                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li class="hidden-xs"><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '">عرض PDF</a></li>
-                                    <li class="hidden-xs"><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '" target="_blank">عرض PDF في علامة تبويب جديدة</a></li>
-                                    <li><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '/1' . '">تحميل</a></li>
-                                 </ul>
-                              </div>';
-                        else :
-                            $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">' . _l('customer_report_none') . '</span>';
-                        endif;
-                        ?>
-                        <td><?php echo $report ?></td>
                         <td>
                             <?php
                             // START DATE
@@ -245,6 +229,20 @@ $CI->load->library('app_modules');
                             // TIME
                             echo $task['time'] ?>
                         </td>
+                      <?php
+                      //  CUSTOMER REPORT
+                      if ($project->settings->view_session_customer_report == 1) :
+                        $report = '<div class="btn-group">
+                                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i> <span class="caret"></span></a>
+                                 <ul class="dropdown-menu dropdown-menu-right">
+                                    <li class="hidden-xs"><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '">عرض PDF</a></li>
+                                    <li class="hidden-xs"><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '" target="_blank">عرض PDF في علامة تبويب جديدة</a></li>
+                                    <li><a href="' . site_url('my_sessions/session_report/') . $task['id'] . '/1' . '">تحميل</a></li>
+                                 </ul>
+                              </div>';
+                         ?>
+                        <td><?php echo $report ?></td>
+                        <?php endif;?>
                     </tr>
                 <?php } ?>
                 </tbody>

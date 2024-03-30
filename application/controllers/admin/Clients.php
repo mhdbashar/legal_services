@@ -33,6 +33,12 @@ class Clients extends AdminController
 
         $data['customer_admins'] = $this->clients_model->get_customers_admin_unique_ids();
 
+        if($this->app_modules->is_active('branches')){
+            $this->load->model('branches_model');
+            $data['branches'] = $this->branches_model->get();
+        }
+
+
         $whereContactsLoggedIn = '';
         if (!has_permission('customers', '', 'view')) {
             $whereContactsLoggedIn = ' AND userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';

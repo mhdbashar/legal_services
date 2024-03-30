@@ -86,7 +86,8 @@
 
                     setTimeout(function () {
                         let _clientChatbox = $(".client_chatbox");
-                        _clientChatbox.val('<?= _l('chat_client_created_new_support_ticket'); ?><a class="chat_ticket_link" href="' + location.origin + "/clients/ticket/" + r.ticket_id + '" target="_blank"><?= _l('support_ticket'); ?></a>');
+                        
+                        _clientChatbox.val('<?= _l('chat_client_created_new_support_ticket'); ?><a class="chat_ticket_link" href="' + site_url + "admin/tickets/ticket/" + r.ticket_id + '" target="_blank"><?= _l('support_ticket'); ?></a>');
 
                         _clientChatbox.trigger($.Event("keypress", {
                             which: 13

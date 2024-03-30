@@ -27,8 +27,7 @@ $aColumns = [
     //'session_information',
 //    'customer_report',
 //    'send_to_customer',
-    'startdate',
-    'TIME_FORMAT(time, ' . $format . ') as time',
+    'CONCAT(startdate, " ", TIME_FORMAT(time, ' . $format . ')) as startdate',
 ];
 
 $sIndexColumn = 'id';
@@ -179,7 +178,7 @@ foreach ($rResult as $aRow) {
 
 
     // ~startdate
-    $row[] = $aRow['time'];
+//    $row[] = $aRow['time'];
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

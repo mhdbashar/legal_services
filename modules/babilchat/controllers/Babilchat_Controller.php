@@ -28,6 +28,7 @@ class Babilchat_Controller extends AdminController
      */
     public function __construct()
     {
+
         parent::__construct();
 
         if (!get_option('pusher_chat_enabled') == '1') {
@@ -43,6 +44,8 @@ class Babilchat_Controller extends AdminController
         }
 
         $this->load->model('babilchat_model', 'chat_model');
+        $this->load->model('legalservices/LegalServicesModel', 'legal');
+        $this->load->model('legalservices/Cases_model', 'case');
 
         $this->pusher_options['app_key'] = get_option('pusher_app_key');
         $this->pusher_options['app_secret'] = get_option('pusher_app_secret');
@@ -792,7 +795,7 @@ class Babilchat_Controller extends AdminController
         $data['milestones'] = [];
         $data['checklistTemplates'] = [];
         $data['project_end_date_attrs'] = [];
-
+        $data['legal_services'] = $this->legal->get_all_services();
 
         $this->load->view('babilchat/includes/quick_mentions_modal', $data);
     }

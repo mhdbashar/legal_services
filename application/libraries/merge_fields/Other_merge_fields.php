@@ -22,7 +22,8 @@ class Other_merge_fields extends App_merge_fields
             'subscriptions',
             'gdpr',
             'estimate_request',
-            'sessions'
+            'sessions',
+			'lawyer_daily_agenda'
         ];
 
         $available_for = hooks()->apply_filters('other_merge_fields_available_for', $available_for);

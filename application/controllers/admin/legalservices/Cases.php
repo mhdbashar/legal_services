@@ -131,8 +131,8 @@ class Cases extends AdminController
 
     public function move_to_recycle_bin($ServID, $id)
     {
-        if (!has_permission('legal_recycle_bin', '', 'delete')) {
-            access_denied('legal_recycle_bin');
+        if (!has_permission('projects', '', 'delete')) {
+            access_denied('projects');
         }
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));

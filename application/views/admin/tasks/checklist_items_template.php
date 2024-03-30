@@ -49,7 +49,7 @@
                         <i class="fa fa-level-up" aria-hidden="true"></i>
                     </a>
                 <?php } ?>
-                  <?php if(($list['addedfrom'] != get_staff_user_id()) || is_admin() && count($task_staff_members) > 0){ ?>
+                  <?php if(($list['addedfrom'] != get_staff_user_id()) || is_admin() || true && count($task_staff_members) > 0){ ?>
                   <span class="pull-right mright5 mtop1 dropdown" data-title="<?php echo _l('task_checklist_assign'); ?>" data-toggle="tooltip">
                     <a href="#" class="text-muted dropdown-toggle"
                        data-toggle="dropdown"

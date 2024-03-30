@@ -58,7 +58,7 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/sessions_merge_fields';
 //    $fields[] = 'merge_fields/termination_staff_merge_fields';
     $fields[] = 'merge_fields/wreports_merge_fields';
-
+ $fields[]= 'merge_fields/send_lawyer_daily_agenda_merge_fields';
     $fields[] = 'merge_fields/dispute_merge_fields';
     $fields[] = 'merge_fields/regular_duration_rem';
     $fields[] = 'merge_fields/procuration_rem';

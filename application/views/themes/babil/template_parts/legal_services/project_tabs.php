@@ -32,7 +32,7 @@
     </li>
     <?php } ?>
 
-    <?php if($project->settings->available_features['project_discussions'] == 1) { ?>
+    <?php if($project->settings->open_discussions == 1) { ?>
     <li role="presentation" class="project_tab_discussions">
         <a data-group="project_discussions" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=project_discussions'); ?>" role="tab"><i class="fa fa-commenting" aria-hidden="true"></i> <?php echo _l('project_discussions'); ?></a>
     </li>

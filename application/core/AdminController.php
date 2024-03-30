@@ -140,13 +140,26 @@ class AdminController extends App_Controller
             'position'   => 30,
             ]);
 
+            $this->app->add_quick_actions_link([
+                'name'       => _l('cases_dashboard'),
+                'permission' => 'cases',
+                'url'        => 'Service/1',
+                'position'   => 30,
+                ]);
+                $this->app->add_quick_actions_link([
+                    'name'       => _l('sessions'),
+                    'permission' => 'sessions',
+                    'url'        => 'legalservices/sessions',
+                    'position'   => 30,
+                    ]);
 
-        $this->app->add_quick_actions_link([
+
+     /*    $this->app->add_quick_actions_link([
             'name'       => _l('project'),
             'url'        => 'projects/project',
             'permission' => 'projects',
             'position'   => 35,
-            ]);
+            ]); */
 
 
         $this->app->add_quick_actions_link([

@@ -59,9 +59,7 @@
                          alert_float('success',
                               "<?= _l("appointment_updated"); ?>"
                          );
-                         setTimeout(() => {
-                              window.location.reload();
-                         }, 500);
+                        setTimeout(() => window.location.reload(), 1000);
                     }
                }
           });

@@ -574,7 +574,7 @@
 
                 clientData += "<div class=\"client_data\">";
                 clientData += "<span class=\"contact_lang " + extraClass + "\"> " + lang_contact + " <a href=\"" + site_url + "admin/clients/client/" + clientId + "?group=contacts&contactid=" + contactId + "\" target=\"_blank\"\"><strong>" + clientName + " </strong></a></span>";
-                clientData += "<p> <strong class=\"" + text_class + "\">" + lang_customer + "</strong> <a id=\"" + clientId + "\" href=\"" + site_url + "admin/clients/client/" + clientId + "\" target=\"_blank\"><strong>" + customerName + " </strong></a></p>";
+                clientData += "<p> <strong id='color-text-in-light' class=\"" + text_class + "\">" + lang_customer + "</strong> <a id=\"" + clientId + "\" href=\"" + site_url + "admin/clients/client/" + clientId + "\" target=\"_blank\"><strong>" + customerName + " </strong></a></p>";
                 clientData += "</div>";
                 contactProfile.prepend(clientData);
             });

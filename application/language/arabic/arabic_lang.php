@@ -668,6 +668,7 @@ $lang['task_assignee_removed'] = "تم إزالة المسؤول عن المهم
 $lang['task_no_assignees'] = "ليس هناك شخص مسؤول عن هذه المهمة";
 $lang['task_no_followers'] = "ليس هناك متابع لهذه المهمة";
 $lang['task_list_all'] = "الكل";
+$lang['sessions_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_duedate_passed'] = "انقضى تاريخ الاستحقاق";
 $lang['tasks_dt_name'] = "الاسم";
@@ -3410,7 +3411,8 @@ $lang['project_setting_view_session_checklist_items'] = "عرض عناصر قا�
 $lang['project_setting_view_session_comments'] = "عرض تعليقات الجلسة";
 $lang['project_setting_view_session_total_logged_time'] = "عرض مجموع الوقت المسجل للجلسة";
 $lang['project_setting_view_sessions'] = "عرض الجلسات";
-$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)"; 
+$lang['project_setting_view_session_customer_report'] = "السماح للعميل ب عرض تقارير الجلسات";
+$lang['project_setting_hide_sessions_on_main_session_table'] = "إخفاء الجلسات الخدمة في جدول الجلسات الرئيسية (منطقة المسؤول)";
 $lang['session_milestone'] = "خطة العمل";
 $lang['session_view_comments'] = "التعليقات";
 $lang['session_single_priority'] = "الاولوية";
@@ -3460,6 +3462,9 @@ $lang['sessions_reminder_notification_before'] = 'تذكير الموعد الن
 $lang['sessions_reminder_notification_before_help'] = 'إشعار قبل موعد الجلسة بالساعات';
 $lang['next_session_link'] = 'رابط الجلسة القادمة';
 $lang['add_new_session_from_previous'] = 'إضافة جلسة قادمة';
+$lang['To_add_information_in_the_report_please_click_on_the_session_title_and_complete_the_information'] = 'لإضافة المعلومات في التقرير يرجى الضغط على عنوان الجلسة واكمال المعلومات';
+$lang['send_mail_to_client'] = 'ارسال تقرير للعميل';
+$lang['will_not_send_email_to_client'] = 'ملاحظة: لن يتم إرسال تقرير للعميل';
 $lang['add_report_session'] = 'إضافة تقرير';
 $lang['permission_edite_report'] = 'تعديل تقرير';
 $lang['permission_send_report'] = 'إرسال تقرير';

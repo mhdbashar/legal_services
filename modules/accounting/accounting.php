@@ -275,7 +275,7 @@ function accounting_module_init_menu_items() {
         $CI->app_menu->add_sidebar_menu_item('accounting', [
             'name' => _l('als_accounting'),
             'icon' => 'fa fa-usd',
-            'position' => 5,
+            'position' => 12,
         ]);
 
         if (has_permission('accounting_dashboard', '', 'view')) {

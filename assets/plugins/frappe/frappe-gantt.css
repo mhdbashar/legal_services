@@ -94,6 +94,7 @@
   display: none; }
 
 .gantt-container {
+    direction: ltr !important;
   position: relative;
   overflow: auto;
   font-size: 12px; }

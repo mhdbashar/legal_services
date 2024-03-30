@@ -37,9 +37,9 @@ class Procuration extends AdminController
         // {
         //     if($row->clientid==$select)$selected="selected";else $selected="";
         //     $staff_language = get_staff_default_language(get_staff_user_id());
-            
+
         //         $output .= '<option value="'.$row->id.'" '.$selected.' >'.$row->name.'</option>';
-            
+
         // }
         // echo $output;
 
@@ -81,13 +81,13 @@ class Procuration extends AdminController
 
 
 
-        public function all(){
+    public function all(){
         if (!has_permission('procurations', '', 'view') && !is_admin()) {
             access_denied('Procurations');
         }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_procurations', [
-                'client_id' => '', 
+                'client_id' => '',
                 'request' => 'no_request',
                 'all' => 1
             ]);
@@ -134,7 +134,7 @@ class Procuration extends AdminController
 
 
 
-            $procuration = $this->procurations_model->get($id);
+        $procuration = $this->procurations_model->get($id);
         if ( !get_option('wathq_api_key'))
             if ($procuration->file != null)
                 redirect(site_url($procuration->file));
@@ -176,9 +176,9 @@ class Procuration extends AdminController
     /* Edit Procuration or add new if passed id */
     public function procurationcu($request = '', $id = '', $case = '')
     {
-        
+
         $last_id = $this->index();
-        
+
 
         if ($this->input->post()) {
             $data            = $this->input->post();
@@ -197,7 +197,7 @@ class Procuration extends AdminController
             elseif(is_numeric($case) && $id=='no_id'){
                 $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
             }
-            
+
             if ($id == '' or !is_numeric($id)) {
                 $data['id'] = $last_id;
                 if (has_permission('procurations', '', 'create') or is_admin()){
@@ -330,38 +330,38 @@ class Procuration extends AdminController
 
     /* Delete procurationtype from database */
     public function typed($id)
-      {
-          if (!$id) {
-              redirect(admin_url('procuration/type'));
-          }
-          if (!has_permission('procurations', '', 'create') && !is_admin()) {
-              access_denied('Procuration Type');
-          }
-          $response = $this->procurationtype_model->delete($id);
-          if ($response == true) {
-              set_alert('success', _l('deleted', 'Procuration Type'));
-          } else {
-              set_alert('warning', _l('problem_deleting', 'Procuration Type'));
-          }
-          redirect($_SERVER['HTTP_REFERER']);
-      }
+    {
+        if (!$id) {
+            redirect(admin_url('procuration/type'));
+        }
+        if (!has_permission('procurations', '', 'create') && !is_admin()) {
+            access_denied('Procuration Type');
+        }
+        $response = $this->procurationtype_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted', 'Procuration Type'));
+        } else {
+            set_alert('warning', _l('problem_deleting', 'Procuration Type'));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
     public function delete($id)
-      {
-          if (!$id) {
-              redirect(admin_url('procuration/type'));
-          }
-          if (!has_permission('procurations', '', 'delete') && !is_admin()) {
-              access_denied('Procuration Type');
-          }
-          $response = $this->procurations_model->delete($id);
-          if ($response == true) {
-              set_alert('success', _l('deleted', 'Procuration'));
-          } else {
-              set_alert('warning', _l('problem_deleting', 'Procuration'));
-          }
-          redirect($_SERVER['HTTP_REFERER']);
-      }
+    {
+        if (!$id) {
+            redirect(admin_url('procuration/type'));
+        }
+        if (!has_permission('procurations', '', 'delete') && !is_admin()) {
+            access_denied('Procuration Type');
+        }
+        $response = $this->procurations_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted', 'Procuration'));
+        } else {
+            set_alert('warning', _l('problem_deleting', 'Procuration'));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
     public function add_procuration_attachment($id)
     {
@@ -391,10 +391,10 @@ class Procuration extends AdminController
     }
 
     //*************close alert*******************
-    public  function proc_alert_close($case_id)
+    public  function proc_alert_close($case_proc_id)
     {
 
-        $this->Procurations_model->proc_alert_close_model($case_id);
+        $this->procurations_model->proc_alert_close_model($case_proc_id);
 
     }
 

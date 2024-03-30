@@ -293,8 +293,8 @@ function chatMemberUpdate(subscribed_event)
                 } else {
                     offlineUser += "<a href=\"#" + value.staffid + "\" id=\"" + value.staffid + "\" class=\"off\"";
                     var lastLoginText = "";
-                    if (value.last_login) {
-                        lastLoginText = moment(value.last_login, "YYYYMMDD h:mm:ss").fromNow();
+                    if (value.last_activity) {
+                        lastLoginText =value.last_activity;
                     } else {
                         lastLoginText = "Never";
                     }

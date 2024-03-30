@@ -256,6 +256,13 @@ function new_discussion() {
     $('#discussion .edit-title').addClass('hide');
 }
 
+function edit_discussion(description, subject, id) {
+    $('#edit-discussion').modal('show');
+    $('textarea#description').val(description);
+    $('input#subject').val(subject);
+    $('input#edit-id').val(id);
+}
+
 function manage_discussion(form) {
     var data = $(form).serialize();
     var url = form.action;

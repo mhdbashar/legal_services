@@ -503,6 +503,7 @@ function get_staff_email_templates_slugs()
         'contract-signed-to-staff',
         'customer-subscribed-to-staff',
         'new-customer-profile-file-uploaded-to-staff',
+		 'send_lawyer_daily_agenda_to_staff',
     ];
 
     return hooks()->apply_filters('staff_email_templates', $templates);

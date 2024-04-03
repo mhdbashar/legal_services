@@ -68,7 +68,7 @@ $data = [
 $_tlv = __getTLV($data);
 $data = base64_encode($_tlv);
 
-$response = "https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=$data";
+$response = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=$data";
 
 //if($invoice->qr_code != null || $invoice->qr_code != ''){
 $qrCodePath = $response;

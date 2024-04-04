@@ -706,52 +706,55 @@ class Credit_notes_model extends App_Model
         $this->db->where('id', $id);
         $invoiceid = $this->db->get(db_prefix().'creditnotes')->row()->reference_no;
         $invoiceid= substr($invoiceid, 4);
-        $this->db->where('	invoiceid ', $invoiceid);
-        $paiment_id = $this->db->get(db_prefix().'invoicepaymentrecords')->row()->id;
-        $paiment_id=$paiment_id+1;
-        $this->db->where('(rel_id = "' . $paiment_id . '" and rel_type = "payment")');
-        $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+        if($invoiceid){
+            $this->db->where('invoiceid', $invoiceid);
+            $paiment_id = $this->db->get(db_prefix().'invoicepaymentrecords')->row()->id;
+            $paiment_id=$paiment_id+1;
+
+            $this->db->where('(rel_id = "' . $paiment_id . '" and rel_type = "payment")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
 
+            $node = [];
+            $node['itemable_id'] = 0;
+            $node['split'] = $account_history[0]['split'];
+            $node['customer'] = $account_history[0]['customer'];
+            $node['account'] = $account_history[0]['account'];
+            $node['tax'] = $account_history[0]['tax'];
+            $node['item'] = $account_history[0]['item'];
+            //$node['date'] = $invoice->date;
+            $node['paid'] = $account_history[0]['paid'];
+            $node['debit'] =$account_history[0]['credit'];
+            $node['credit'] =$account_history[0]['debit'];
+            $node['description'] = '';
+            $node['rel_id'] =$account_history[0]['rel_id']; ;
+            $node['rel_type'] = 'invoice_refund';
+            $node['datecreated'] = date('Y-m-d H:i:s');
+            $node['addedfrom'] = get_staff_user_id();
+            $data_insert[] = $node;
 
-        $node = [];
-        $node['itemable_id'] = 0;
-        $node['split'] = $account_history[0]['split'];
-        $node['customer'] = $account_history[0]['customer'];
-        $node['account'] = $account_history[0]['account'];
-        $node['tax'] = $account_history[0]['tax'];
-        $node['item'] = $account_history[0]['item'];
-        //$node['date'] = $invoice->date;
-        $node['paid'] = $account_history[0]['paid'];
-        $node['debit'] =$account_history[0]['credit'];
-        $node['credit'] =$account_history[0]['debit'];
-        $node['description'] = '';
-        $node['rel_id'] =$account_history[0]['rel_id']; ;
-        $node['rel_type'] = 'invoice_refund';
-        $node['datecreated'] = date('Y-m-d H:i:s');
-        $node['addedfrom'] = get_staff_user_id();
-        $data_insert[] = $node;
-
-        $node = [];
-        $node['itemable_id'] = 0;
-        $node['split'] = $account_history[1]['split'];
-        $node['customer'] = $account_history[1]['customer'];
-        $node['account'] = $account_history[1]['account'];
-        $node['tax'] = $account_history[1]['tax'];
-        $node['item'] = $account_history[1]['item'];
-        //$node['date'] = $invoice->date;
-        $node['paid'] = $account_history[1]['paid'];
-        $node['debit'] = $account_history[1]['credit'];
-        $node['credit'] = $account_history[1]['debit'];
-        $node['description'] = '';
-        $node['rel_id'] =$account_history[1]['rel_id']; ;
-        $node['rel_type'] = 'invoice_refund';
-        $node['datecreated'] = date('Y-m-d H:i:s');
-        $node['addedfrom'] = get_staff_user_id();
-        $data_insert[] = $node;
+            $node = [];
+            $node['itemable_id'] = 0;
+            $node['split'] = $account_history[1]['split'];
+            $node['customer'] = $account_history[1]['customer'];
+            $node['account'] = $account_history[1]['account'];
+            $node['tax'] = $account_history[1]['tax'];
+            $node['item'] = $account_history[1]['item'];
+            //$node['date'] = $invoice->date;
+            $node['paid'] = $account_history[1]['paid'];
+            $node['debit'] = $account_history[1]['credit'];
+            $node['credit'] = $account_history[1]['debit'];
+            $node['description'] = '';
+            $node['rel_id'] =$account_history[1]['rel_id']; ;
+            $node['rel_type'] = 'invoice_refund';
+            $node['datecreated'] = date('Y-m-d H:i:s');
+            $node['addedfrom'] = get_staff_user_id();
+            $data_insert[] = $node;
 
 
-        $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+            $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+
+        }
 
 
 

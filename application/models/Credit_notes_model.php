@@ -216,24 +216,27 @@ class Credit_notes_model extends App_Model
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();
             $data_insert[] = $node;
+if(($account_history[0]['tax'])==1 && ($account_history[1]['tax'])==1){
+    $node = [];
+    $node['itemable_id'] = 0;
+    $node['split'] = $account_history[2]['split'];
+    $node['customer'] = $account_history[2]['customer'];
+    $node['account'] = $account_history[2]['account'];
+    $node['tax'] = $account_history[2]['tax'];
+    $node['item'] = $account_history[2]['item'];
+    $node['date'] =$account_history[0]['date'];
+    $node['paid'] = $account_history[2]['paid'];
+    $node['debit'] = $account_history[2]['credit'];
+    $node['credit'] = $account_history[2]['debit'];
+    $node['description'] = '';
+    $node['rel_id'] =$account_history[2]['rel_id']; ;
+    $node['rel_type'] = 'invoice_creditnote';
+    $node['datecreated'] = date('Y-m-d H:i:s');
+    $node['addedfrom'] = get_staff_user_id();
+    $data_insert[] = $node;
+}
 
-            $node = [];
-            $node['itemable_id'] = 0;
-            $node['split'] = $account_history[2]['split'];
-            $node['customer'] = $account_history[2]['customer'];
-            $node['account'] = $account_history[2]['account'];
-            $node['tax'] = $account_history[2]['tax'];
-            $node['item'] = $account_history[2]['item'];
-            $node['date'] =$account_history[0]['date'];
-            $node['paid'] = $account_history[2]['paid'];
-            $node['debit'] = $account_history[2]['credit'];
-            $node['credit'] = $account_history[2]['debit'];
-            $node['description'] = '';
-            $node['rel_id'] =$account_history[2]['rel_id']; ;
-            $node['rel_type'] = 'invoice_creditnote';
-            $node['datecreated'] = date('Y-m-d H:i:s');
-            $node['addedfrom'] = get_staff_user_id();
-            $data_insert[] = $node;
+
             $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
 
         }

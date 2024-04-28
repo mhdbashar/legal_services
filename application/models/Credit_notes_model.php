@@ -179,7 +179,8 @@ class Credit_notes_model extends App_Model
             $rel_id=$invoiceid;
             $this->db->where('(rel_id = "' . $rel_id . '" and rel_type = "invoice")');
             $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
-
+//print_r($account_history);
+//exit();
             $node = [];
             $node['itemable_id'] = 0;
             $node['split'] = $account_history[0]['split'];
@@ -187,7 +188,7 @@ class Credit_notes_model extends App_Model
             $node['account'] = $account_history[0]['account'];
             $node['tax'] = $account_history[0]['tax'];
             $node['item'] = $account_history[0]['item'];
-            //$node['date'] = $invoice->date;
+            $node['date'] = $account_history[0]['date'];
             $node['paid'] = $account_history[0]['paid'];
             $node['debit'] =$account_history[0]['credit'];
             $node['credit'] =$account_history[0]['debit'];
@@ -205,7 +206,7 @@ class Credit_notes_model extends App_Model
             $node['account'] = $account_history[1]['account'];
             $node['tax'] = $account_history[1]['tax'];
             $node['item'] = $account_history[1]['item'];
-            //$node['date'] = $invoice->date;
+            $node['date'] = $account_history[0]['date'];
             $node['paid'] = $account_history[1]['paid'];
             $node['debit'] = $account_history[1]['credit'];
             $node['credit'] = $account_history[1]['debit'];
@@ -223,7 +224,7 @@ class Credit_notes_model extends App_Model
             $node['account'] = $account_history[2]['account'];
             $node['tax'] = $account_history[2]['tax'];
             $node['item'] = $account_history[2]['item'];
-            //$node['date'] = $invoice->date;
+            $node['date'] =$account_history[0]['date'];
             $node['paid'] = $account_history[2]['paid'];
             $node['debit'] = $account_history[2]['credit'];
             $node['credit'] = $account_history[2]['debit'];
@@ -722,7 +723,7 @@ class Credit_notes_model extends App_Model
             $node['account'] = $account_history[0]['account'];
             $node['tax'] = $account_history[0]['tax'];
             $node['item'] = $account_history[0]['item'];
-            //$node['date'] = $invoice->date;
+            $node['date'] = $account_history[0]['date'];
             $node['paid'] = $account_history[0]['paid'];
             $node['debit'] =$account_history[0]['credit'];
             $node['credit'] =$account_history[0]['debit'];
@@ -740,7 +741,7 @@ class Credit_notes_model extends App_Model
             $node['account'] = $account_history[1]['account'];
             $node['tax'] = $account_history[1]['tax'];
             $node['item'] = $account_history[1]['item'];
-            //$node['date'] = $invoice->date;
+            $node['date'] = $account_history[0]['date'];
             $node['paid'] = $account_history[1]['paid'];
             $node['debit'] = $account_history[1]['credit'];
             $node['credit'] = $account_history[1]['debit'];
@@ -775,6 +776,16 @@ class Credit_notes_model extends App_Model
 
         if ($insert_id) {
             $this->update_credit_note_status($id);
+            $this->db->where('id', $id);
+            $credit = $this->db->get(db_prefix() . 'creditnotes')->row();
+            $invoice_number=  $credit->reference_no;
+            $invoice_number=substr($invoice_number, 5);
+            $this->load->model('invoices_model');
+            $status = Invoices_model::STATUS_REFUND;
+            $this->db->where('number', $invoice_number);
+            $this->db->update(db_prefix() . 'invoices', [
+                'status' => $status,
+            ]);
 
             hooks()->do_action('credit_note_refund_created', ['data' => $data, 'credit_note_id' => $id]);
         }

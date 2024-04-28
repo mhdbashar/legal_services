@@ -216,7 +216,7 @@ class Credit_notes_model extends App_Model
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();
             $data_insert[] = $node;
-if(($account_history[0]['tax'])==1 && ($account_history[1]['tax'])==1){
+if(($account_history[0]['tax'])==1){
     $node = [];
     $node['itemable_id'] = 0;
     $node['split'] = $account_history[2]['split'];

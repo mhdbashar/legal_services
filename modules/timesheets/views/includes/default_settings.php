@@ -175,10 +175,10 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <img class="img-responsive img-thumbnail" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $qr ?>&choe=UTF-8" style="margin: 0 auto;display: block;">
+                            <img class="img-responsive img-thumbnail" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<?php echo $qr ?>&choe=UTF-8" style="margin: 0 auto;display: block;">
                             <p class="text-center"><b><i class="fa fa-question-circle" aria-hidden="true"></i> QR Code</b></p>
                             <p class="text-center form-text text-muted">This QR code is used for the first time opening the App. <br>Scan this QR and this is done only once.</p>
-                            <p class="text-center"><a href="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=<?php echo $qr ?>&choe=UTF-8" target="_blank"><button type="button" class="btn btn-success">Download</button></a></p>
+                            <p class="text-center"><a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<?php echo $qr ?>&choe=UTF-8" target="_blank"><button type="button" class="btn btn-success">Download</button></a></p>
                         </div>
                     </div>
                     <?php echo render_input('key_app', 'key_app', $key_app, 'text', ['readonly' => "true"]) ?>

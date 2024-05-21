@@ -4269,6 +4269,8 @@ class Accounting_model extends App_Model
                             $node[] =   [
                                 'date' => date('Y-m-d', strtotime($v['date'])),
                                 'type' => _l($v['rel_type']),
+                                'rel_id' => $v['rel_id'],
+                                'rel_type' => $v['rel_type'],
                                 'description' => $v['description'],
                                 'debit' => $v['debit'],
                                 'credit' => $v['credit'],
@@ -4982,6 +4984,10 @@ class Accounting_model extends App_Model
                             'customer' => $v['customer'],
                             'amount' => $am,
                             'balance' => $balance + $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
                         $amount += $am;
                         $balance += $am;
@@ -5514,6 +5520,9 @@ class Accounting_model extends App_Model
                             'debit' => $v['debit'],
                             'credit' => $v['credit'],
                             'amount' =>  $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
                         ];
                     }
 
@@ -5935,6 +5944,10 @@ class Accounting_model extends App_Model
                             'credit' => $v['credit'],
                             'amount' => $am,
                             'balance' => $balance + $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
 
 
@@ -5994,6 +6007,8 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
+            $rel_id=$v['rel_id'];
+            $rel_type=$v['rel_type'];
             $data_report[] =   [
                 'date' => date('Y-m-d', strtotime($v['date'])),
                 'type' => _l($v['rel_type']),
@@ -6002,6 +6017,8 @@ class Accounting_model extends App_Model
                 'customer' => $v['customer'],
                 'debit' => $v['debit'],
                 'credit' => $v['credit'],
+                'rel_id' => $rel_id,
+                'rel_type' => $rel_type,
             ];
         }
 
@@ -6105,6 +6122,9 @@ class Accounting_model extends App_Model
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
                     foreach ($account_history as $v) {
+                        $rel_id=$v['rel_id'];
+                        $rel_type=$v['rel_type'];
+
                         if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
                             $am = $v['credit'] - $v['debit'];
                         }else{
@@ -6118,6 +6138,8 @@ class Accounting_model extends App_Model
                             'description' => $v['description'],
                             'customer' => $v['customer'],
                             'amount' => $am,
+                            'rel_id' => $rel_id,
+                            'rel_type' => $rel_type,
                         ];
                     }
                 }
@@ -6250,6 +6272,10 @@ class Accounting_model extends App_Model
                             'credit' => $v['credit'],
                             'amount' => $am,
                             'balance' => $balance + ($am),
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
                         $amount += $am;
                         $balance += $am;
@@ -6314,6 +6340,8 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
+            $rel_id=$v['rel_id'];
+            $rel_type=$v['rel_type'];
             $account_type_id = (isset($account_type[$v['account']]) ? $account_type[$v['account']] : '');
             if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7 || $account_type_id == 6){
                 $am = $v['credit'] - $v['debit'];
@@ -6330,6 +6358,8 @@ class Accounting_model extends App_Model
                 'amount' => $am,
                 'debit' => $v['debit'],
                 'credit' => $v['credit'],
+                'rel_id' => $rel_id,
+                'rel_type' => $rel_type,
             ];
         }
 
@@ -9961,6 +9991,9 @@ class Accounting_model extends App_Model
                     'description' => $v['description'],
                     'customer' => $v['customer'],
                     'amount' => $invoice->subtotal,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
             }
 
@@ -10591,6 +10624,8 @@ class Accounting_model extends App_Model
             $balance = 0;
             $amount = 0;
             foreach ($account_history as $v) {
+                $rel_id=$v['rel_id'];
+                $rel_type=$v['rel_type'];
                 if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 7 || $account_type_id == 6){
                     $am = $v['credit'] - $v['debit'];
                 }else{
@@ -10605,6 +10640,8 @@ class Accounting_model extends App_Model
                     'credit' => $v['credit'],
                     'amount' => $am,
                     'balance' => $balance + $am,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
                 ];
 
                 $amount += $am;
@@ -10655,8 +10692,28 @@ class Accounting_model extends App_Model
                     <td></td>
                   </tr>';
             }
-
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
@@ -10666,9 +10723,16 @@ class Accounting_model extends App_Model
                     </span>
                  
                   </td>
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. html_entity_decode($val['description']).' 
                   </td>
@@ -11310,6 +11374,9 @@ class Accounting_model extends App_Model
                     'customer' => $v['customer'],
                     'amount' => $am,
                     'balance' => $balance + $am,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
                 $amount += $am;
                 $balance += $am;
@@ -11360,15 +11427,44 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. html_entity_decode($val['description']).' 
                   </td>
@@ -12003,15 +12099,43 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. get_company_name($val['customer']).' 
                   </td>
@@ -12448,15 +12572,41 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
+
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
                   <td>
                   '. get_company_name($val['customer']).' 
                   </td>
@@ -12593,6 +12743,28 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
+
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
@@ -12600,7 +12772,9 @@ class Accounting_model extends App_Model
                   '. _d($val['date']).'
                   </td>
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
                   <td>
                   '. get_company_name($val['customer']).' 
@@ -15162,6 +15336,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15180,6 +15356,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15198,6 +15376,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15216,6 +15396,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15234,6 +15416,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15307,6 +15491,9 @@ class Accounting_model extends App_Model
                 'vendor' => $v['vendor'],
                 'customer' => $v['clientid'],
                 'amount' => $total,
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
+
             ];
         }
 

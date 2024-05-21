@@ -51,9 +51,9 @@
           <td class="total_amount text-bold"><?php echo _l('amount'); ?></td>
         </tr>
         <?php
-         $row_index = 1; 
-         $parent_index = 1; 
-         $total = 0; 
+         $row_index = 1;
+         $parent_index = 1;
+         $total = 0;
          ?>
 
          <tr class="treegrid-10001 parent-node expanded">
@@ -75,28 +75,31 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 ">
               <td>
-              <?php echo _d($val['date']); ?> 
+              <?php echo _d($val['date']); ?>
+              </td>
+                <td>
+                    <a href=" <?php echo admin_url('invoices/list_invoices/'. $val['rel_id']); ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+              <td>
+              <?php echo html_entity_decode($val['number']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+              <?php echo get_company_name($val['customer']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['number']); ?> 
-              </td>
-              <td>
-              <?php echo get_company_name($val['customer']); ?> 
-              </td>
-              <td>
-              <?php echo _d($val['duedate']); ?> 
+              <?php echo _d($val['duedate']); ?>
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['amount'], $currency->name); ?> 
+              <?php echo app_format_money($val['amount'], $currency->name); ?>
               </td>
             </tr>
           <?php }
             $row_index += 1;
            ?>
-          
+
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 parent-node expanded tr_total">
             <td class="parent">
                  <span style="margin-right: 24px!important; margin-top: -10px  ">
@@ -110,7 +113,7 @@
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?></td>
           </tr>
-          <?php $row_index += 1; 
+          <?php $row_index += 1;
            $total = 0; ?>
 
          <tr class="treegrid-10000 parent-node expanded">
@@ -132,28 +135,33 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
               <td>
-              <?php echo _d($val['date']); ?> 
+              <?php echo _d($val['date']); ?>
+              </td>
+
+                <td>
+                    <a href=" <?php echo admin_url('invoices/list_invoices/'. $val['rel_id']); ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+
+                <td>
+              <?php echo html_entity_decode($val['number']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+              <?php echo get_company_name($val['customer']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['number']); ?> 
-              </td>
-              <td>
-              <?php echo get_company_name($val['customer']); ?> 
-              </td>
-              <td>
-              <?php echo _d($val['duedate']); ?> 
+              <?php echo _d($val['duedate']); ?>
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['amount'], $currency->name); ?> 
+              <?php echo app_format_money($val['amount'], $currency->name); ?>
               </td>
             </tr>
           <?php }
             $row_index += 1;
            ?>
-          
+
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
             <td class="parent">
                  <span style="margin-right: 24px!important; margin-top: -10px  ">
@@ -169,8 +177,8 @@
           </tr>
 
           <?php
-         $row_index++; 
-         $total = 0; 
+         $row_index++;
+         $total = 0;
          ?>
          <tr class="treegrid-10001 parent-node expanded">
             <td class="parent">
@@ -191,28 +199,32 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 ">
               <td>
-              <?php echo _d($val['date']); ?> 
+              <?php echo _d($val['date']); ?>
+              </td>
+                <td>
+                    <a href=" <?php echo admin_url('invoices/list_invoices/'. $val['rel_id']); ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+
+                <td>
+              <?php echo html_entity_decode($val['number']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+              <?php echo get_company_name($val['customer']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['number']); ?> 
-              </td>
-              <td>
-              <?php echo get_company_name($val['customer']); ?> 
-              </td>
-              <td>
-              <?php echo _d($val['duedate']); ?> 
+              <?php echo _d($val['duedate']); ?>
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['amount'], $currency->name); ?> 
+              <?php echo app_format_money($val['amount'], $currency->name); ?>
               </td>
             </tr>
           <?php }
             $row_index += 1;
            ?>
-          
+
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10001 parent-node expanded tr_total">
             <td class="parent">
                  <span style="margin-right: 24px!important; margin-top: -10px  ">
@@ -226,7 +238,7 @@
             <td></td>
             <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?></td>
           </tr>
-          <?php $row_index += 1; 
+          <?php $row_index += 1;
            $total = 0; ?>
           <tr class="treegrid-10000 parent-node expanded">
             <td class="parent">
@@ -247,28 +259,32 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
               <td>
-              <?php echo _d($val['date']); ?> 
+              <?php echo _d($val['date']); ?>
+              </td>
+                <td>
+                    <a href=" <?php echo admin_url('invoices/list_invoices/'. $val['rel_id']); ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+
+                <td>
+              <?php echo html_entity_decode($val['number']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+              <?php echo get_company_name($val['customer']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['number']); ?> 
-              </td>
-              <td>
-              <?php echo get_company_name($val['customer']); ?> 
-              </td>
-              <td>
-              <?php echo _d($val['duedate']); ?> 
+              <?php echo _d($val['duedate']); ?>
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['amount'], $currency->name); ?> 
+              <?php echo app_format_money($val['amount'], $currency->name); ?>
               </td>
             </tr>
           <?php }
             $row_index += 1;
            ?>
-          
+
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
             <td class="parent">
                  <span style="margin-right: 24px!important; margin-top: -10px  ">
@@ -283,7 +299,7 @@
             <td class="total_amount"><?php echo app_format_money($total, $currency->name); ?></td>
           </tr>
 
-           <?php $row_index += 1; 
+           <?php $row_index += 1;
            $total = 0; ?>
           <tr class="treegrid-10000 parent-node expanded">
             <td class="parent">
@@ -304,28 +320,33 @@
             ?>
             <tr class="treegrid-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 ">
               <td>
-              <?php echo _d($val['date']); ?> 
+              <?php echo _d($val['date']); ?>
+              </td>
+
+                <td>
+                    <a href=" <?php echo admin_url('invoices/list_invoices/'. $val['rel_id']); ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+
+                <td>
+              <?php echo html_entity_decode($val['number']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['type']); ?> 
+              <?php echo get_company_name($val['customer']); ?>
               </td>
               <td>
-              <?php echo html_entity_decode($val['number']); ?> 
-              </td>
-              <td>
-              <?php echo get_company_name($val['customer']); ?> 
-              </td>
-              <td>
-              <?php echo _d($val['duedate']); ?> 
+              <?php echo _d($val['duedate']); ?>
               </td>
               <td class="total_amount">
-              <?php echo app_format_money($val['amount'], $currency->name); ?> 
+              <?php echo app_format_money($val['amount'], $currency->name); ?>
               </td>
             </tr>
           <?php }
             $row_index += 1;
            ?>
-          
+
            <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> treegrid-parent-10000 parent-node expanded tr_total">
             <td class="parent">
                  <span style="margin-right: 24px!important; margin-top: -10px  ">

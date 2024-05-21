@@ -10008,6 +10008,8 @@ class Accounting_model extends App_Model
                 'description' => $v['description'],
                 'customer' => $v['customer'],
                 'amount' => $v['debit'],
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
             ];
         }
 
@@ -10037,6 +10039,9 @@ class Accounting_model extends App_Model
                     'description' => $v['description'],
                     'customer' => $v['customer'],
                     'amount' => $expense->amount,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
             }
 
@@ -10051,6 +10056,8 @@ class Accounting_model extends App_Model
                 'description' => $v['description'],
                 'customer' => $v['customer'],
                 'amount' => $v['credit'],
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
             ];
         }
 

@@ -40,6 +40,55 @@ $lang['acc_accounts_receivable_note'] = 'الحسابات المستحقة (تس
 
 كل عميل لديه سجل ، والذي يعمل مثل حساب الذمم المدينة لكل عميل.';
 $lang['acc_current_assets'] = 'الأصول المتداولة';
+$lang['acc_capital'] = 'رأس المال';
+$lang['acc_Profit_and_loss_carryove'] = 'أرباح وخسائر مرحلة';
+$lang['acc_sales_cost'] = 'تكلفة المبيعات';
+$lang['acc_general_and_administrative_expenses'] = 'مصروفات إدارية وعمومية';
+$lang['acc_depreciation_expense'] = 'مصروف الاهتلاك';
+$lang['acc_other_expenses'] = 'مصروفات أخرى';
+$lang['acc_sales_revenue'] = 'ايرادات المبيعات';
+//***
+$lang['acc_furniture'] = 'أثاث';
+$lang['acc_devices_and_equipment'] = 'الأجهزة والمعدات';
+$lang['acc_means_of_transportation'] = 'وسائل النقل';
+$lang['acc_buildings'] = 'مباني';
+$lang['acc_lands'] = 'أراضي';
+//***
+$lang['acc_treasury'] = 'الخزينة';
+$lang['acc_bank'] = 'البنك';
+$lang['acc_inventory'] = 'المخزون';
+$lang['acc_receivables'] = 'المدينون';
+$lang['acc_employee_covenant'] = 'عهد الموظفين';
+$lang['acc_receipt_notes'] = 'أوراق القبض';
+$lang['acc_fund_deficit&_increase'] = 'عجز & زيادة الصندوق';
+$lang['acc_change_currency'] = 'تغيير العملة';
+$lang['acc_purchases'] = 'المشتريات';
+//***
+$lang['acc_Creditors'] = 'الدائنون';
+$lang['acc_Payment_Notes'] = 'أوراق الدفع';
+$lang['acc_Accumulated_depreciation'] = 'مجمع الإهلاك';
+$lang['acc_Opening_credits'] = 'أرصدة إفتتاحية';
+$lang['acc_Required_added_value'] = 'القيمة المضافة المطلوبة';
+//***
+$lang['acc_capital'] = 'رأس المال';
+$lang['acc_Relayed_profits_and_losses'] = 'أرباح وخسائر مرحلة';
+//***
+$lang['acc_sales'] = 'المبيعات';
+$lang['acc_Sales_returns'] = 'مردودات المبيعات';
+
+//***
+$lang['acc_Other_income'] = 'إيرادات أخرى';
+$lang['acc_Capital_gains_and_losses'] = 'أرباح وخسائر راسمالية';
+$lang['acc_Discount_earned'] = 'خصم مكتسب';
+//***
+$lang['acc_rent'] = 'إيجار';
+$lang['acc_Electricity'] = 'كهرباء';
+$lang['acc_Phone_maintenance'] = 'صيانة هاتف';
+//***
+$lang['acc_discount_permitted'] = 'خصم مسموح به';
+$lang['acc_sales_cost'] = 'تكلفة المبيعات';
+$lang['acc_shipping_purchases'] = 'شحن مشتريات';
+
 $lang['acc_allowance_for_bad_debts'] = 'بدل الديون المتعثرة';
 $lang['acc_allowance_for_bad_debts_note'] = 'استخدم مخصص الديون المعدومة لتقدير جزء الذمم المدينة الذي تعتقد أنك قد لا تقوم بتحصيله.
 استخدم هذا فقط إذا كنت تحتفظ بدفاتر الحسابات على أساس الاستحقاق.';
@@ -396,10 +445,10 @@ $lang['acc_penalties_and_settlements'] = 'الغرامات والتسويات';
 $lang['acc_penalties_and_settlements_note'] = 'استخدم الغرامات والتسويات لتتبع الأموال التي تدفعها مقابل انتهاك القوانين أو اللوائح أو تسوية الدعاوى القضائية أو العقوبات الأخرى';
 $lang['acc_fixed_assets'] = 'الأصول الثايتة';
 $lang['acc_non_current_assets'] = 'الأصول غير المتداولة';
-$lang['acc_current_liabilities'] = 'الإلتزامات المطلوبة';
-$lang['acc_non_current_liabilities'] = 'الإلتزامات غير المطلوبة';
-$lang['acc_income'] = 'الدخل';
-$lang['acc_other_income'] = 'دخل أخر';
+$lang['acc_current_liabilities'] = 'الخصوم المتداولة';
+$lang['acc_non_current_liabilities'] = 'الخصوم طويلة الأجل';
+$lang['acc_income'] = 'الإيرادات';
+$lang['acc_other_income'] = 'إيرادات أخرى';
 $lang['acc_cost_of_sales'] = 'تكاليف المبيعات';
 $lang['acc_expenses'] = 'المصروفات';
 $lang['account_type'] = 'نوع الحساب';
@@ -551,8 +600,8 @@ $lang['employee_contact_list_note'] = 'رقم الهاتف والبريد الإ
 $lang['recent_edited_time_activities_note'] = 'أنشطة الوقت التي أدخلها الموظفون أو عدلوها مؤخرًا.';
 $lang['time_activities_by_employee_detail_note'] = 'المنتجات والخدمات (أنشطة الوقت) التي يقدمها كل موظف ، بما في ذلك سعر الساعة والمدة.';
 $lang['acc_assets'] = 'الأصول';
-$lang['acc_liabilities'] = 'الالتزامات';
-$lang['acc_equity'] = 'حقوق الملكية';
+$lang['acc_liabilities'] = 'الخصوم';
+$lang['acc_equity'] = 'رأس المال وحقوق الملكية ';
 $lang['account_type_master'] = 'الحسابات الرئيسية';
 
 

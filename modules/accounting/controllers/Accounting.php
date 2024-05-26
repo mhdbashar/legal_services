@@ -1023,7 +1023,7 @@ class Accounting extends AdminController
                 }
 
                 $_data = '<div class="onoffswitch">
-                    <input type="checkbox" ' . ((!has_permission('accounting_chart_of_accounts', '', 'edit') && !is_admin()) ? 'disabled' : '') . ' data-switch-url="' . admin_url() . 'accounting/change_account_status" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . $checked . '>
+                    <input type="checkbox" ' . ((!has_permission('accounting_chart_of_accounts', '', 'edit') && !is_admin()) ? 'disabled' : '') . ' data-switch-url="' . admin_url() . 'accounting/change_account_status" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . $checked .'>
                     <label class="onoffswitch-label" for="c_' . $aRow['id'] . '"></label>
                 </div>';
 

@@ -1,4 +1,5 @@
 <script type="text/javascript">
+
     var list_account_type_details, fnServerParams;
     (function($) {
         "use strict";
@@ -72,6 +73,7 @@
         });
 
         list_account_type_details = <?php echo json_encode($detail_types); ?>;
+        console.log(list_account_type_details);
 
         $('.add-new-account').on('click', function(){
             if($('select[name="account_type_id"]').val() <= 10 && $('select[name="account_type_id"]').val() != 1 && $('select[name="account_type_id"]').val() != 6){
@@ -194,9 +196,11 @@
 
         requestGetJSON(admin_url + 'accounting/get_data_account/'+id).done(function(response) {
             $('#account-modal').modal('show');
+            $('select[name="account_type_master"]').val(response.account_type_master).change();
 
             $('select[name="account_type_id"]').val(response.account_type_id).change();
             let array_history = ['2','3','4','5','7','8','9','10'];
+
             $('select[name="account_detail_type_id"]').val(response.account_detail_type_id).change();
             if(response.parent_account != 0){
                 $('select[name="parent_account"]').val(response.parent_account).change();

@@ -97,8 +97,41 @@
       <?php echo form_hidden('id'); ?>
       <?php echo form_hidden('update_balance'); ?>
       <div class="modal-body">
-
-          <?php echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+          <?php
+          $account_types_master_create_account=[
+              [
+                  'id'             => 7,
+                  'name'           => _l('not_selected'),
+                  'order'          => 6,
+              ],
+                  [
+                'id'             => 1,
+                'name'           => _l('acc_assets'),
+                'order'          => 1,
+            ],
+            [
+                'id'             => 2,
+                'name'           => _l('acc_liabilities'),
+                'order'          => 2,
+            ],
+            [
+                'id'             => 3,
+                'name'           => _l('acc_equity'),
+                'order'          => 3,
+            ],
+            [
+                'id'             => 4,
+                'name'           => _l('acc_expenses'),
+                'order'          => 4,
+            ],
+            [
+                'id'             => 5,
+                'name'           => _l('acc_income'),
+                'order'          => 5,
+            ],
+      ];
+          ?>
+          <?php echo render_select('account_type_master',$account_types_master_create_account,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
           <label for=""
                  class="control-label"><?php echo _l('account_type'); ?></label>
           <select class="form-control custom_select_arrow" id="account_type_id"
@@ -111,7 +144,7 @@
 
 
           <?php echo render_select('account_detail_type_id',$detail_types,array('id','name'),'detail_type','',array(),array(),'','',false); ?>
-          <p><i class="detail_type_note"><?php echo html_entity_decode($detail_types[0]['note']); ?></i></p>
+         <!-- <p><i class="detail_type_note"><?php //echo html_entity_decode($detail_types[0]['note']); ?></i></p> -->
         <?php echo render_input('name','name'); ?>
         <?php if(get_option('acc_enable_account_numbers') == 1){
            echo render_input('number','number'); 

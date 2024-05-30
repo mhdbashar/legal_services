@@ -40,27 +40,50 @@ $lang['acc_accounts_receivable_note'] = 'الحسابات المستحقة (تس
 
 كل عميل لديه سجل ، والذي يعمل مثل حساب الذمم المدينة لكل عميل.';
 $lang['acc_current_assets'] = 'الأصول المتداولة';
-$lang['acc_capital'] = 'رأس المال';
-$lang['acc_Profit_and_loss_carryove'] = 'أرباح وخسائر مرحلة';
-$lang['acc_sales_cost'] = 'تكلفة المبيعات';
-$lang['acc_general_and_administrative_expenses'] = 'مصروفات إدارية وعمومية';
-$lang['acc_depreciation_expense'] = 'مصروف الاهتلاك';
-$lang['acc_other_expenses'] = 'مصروفات أخرى';
-$lang['acc_sales_revenue'] = 'ايرادات المبيعات';
+
+$lang['acc_Cash_and_cash_equivalents'] = 'النقدية ومافي حكمها';
+$lang['acc_The_era_of_cash'] = 'عهد نقدية';
+$lang['acc_Bank_account'] = 'حساب البنك';
+$lang['acc_Debtors'] = 'المدينون';
+$lang['acc_Advanced_expenses'] = 'مصروفات مقدمة';
+$lang['acc_Employee_advances'] = 'سلف الموظفين';
+$lang['acc_Inventory'] = 'المخزون';
 //***
-$lang['acc_furniture'] = 'أثاث';
-$lang['acc_devices_and_equipment'] = 'الأجهزة والمعدات';
-$lang['acc_means_of_transportation'] = 'وسائل النقل';
-$lang['acc_buildings'] = 'مباني';
-$lang['acc_lands'] = 'أراضي';
+$lang['acc_Real_estate_machinery_and_equipment'] = 'عقارات وآلات ومعدات';
+$lang['acc_Intangible_assets'] = 'أصول غير ملموسة';
+$lang['acc_Other_non_current_assets'] = 'أصول غير متداولة أخرى';
+/*
+
+deserved payments
+Salaries and amounts owed to employees
+
+
+
+
+
+ */
 //***
-$lang['acc_treasury'] = 'الخزينة';
-$lang['acc_bank'] = 'البنك';
-$lang['acc_inventory'] = 'المخزون';
-$lang['acc_receivables'] = 'المدينون';
-$lang['acc_employee_covenant'] = 'عهد الموظفين';
-$lang['acc_receipt_notes'] = 'أوراق القبض';
-$lang['acc_fund_deficit&_increase'] = 'عجز & زيادة الصندوق';
+$lang['acc_Creditors'] = 'الدائنون';
+$lang['acc_deserved_payments'] = 'مصاريف مستحقة';
+$lang['acc_Salaries_and_amounts_owed_to_employees'] = 'الرواتب والمبالغ المستحقة للموظفين';
+$lang['acc_Short_term_loans'] = 'قروض قصيرة الأجل';
+$lang['acc_Taxes_due'] = 'الضرائب المستحقة';
+$lang['acc_Revenue_provided'] = 'الإيرادات المقدمة';
+$lang['acc_Other_current_liabilities'] = 'التزامات متداولة أخرى';
+$lang['acc_Consumption_complex'] = 'مجمع الاستهلاك';
+
+/*
+
+Provision for end-of-service compensation
+
+ */
+
+$lang['acc_long_term_loans'] = 'قروض طويلة الأجل';
+$lang['acc_Provision_for_end_of_service_compensation'] = 'مخصص مكافئة نهاية الخدمة';
+
+
+
+
 $lang['acc_change_currency'] = 'تغيير العملة';
 $lang['acc_purchases'] = 'المشتريات';
 //***
@@ -445,8 +468,8 @@ $lang['acc_penalties_and_settlements'] = 'الغرامات والتسويات';
 $lang['acc_penalties_and_settlements_note'] = 'استخدم الغرامات والتسويات لتتبع الأموال التي تدفعها مقابل انتهاك القوانين أو اللوائح أو تسوية الدعاوى القضائية أو العقوبات الأخرى';
 $lang['acc_fixed_assets'] = 'الأصول الثايتة';
 $lang['acc_non_current_assets'] = 'الأصول غير المتداولة';
-$lang['acc_current_liabilities'] = 'الخصوم المتداولة';
-$lang['acc_non_current_liabilities'] = 'الخصوم طويلة الأجل';
+$lang['acc_current_liabilities'] = 'الالتزامات المتداولة';
+$lang['acc_non_current_liabilities'] = 'الالتزامات غير المتداولة';
 $lang['acc_income'] = 'الإيرادات';
 $lang['acc_other_income'] = 'إيرادات أخرى';
 $lang['acc_cost_of_sales'] = 'تكاليف المبيعات';
@@ -600,9 +623,60 @@ $lang['employee_contact_list_note'] = 'رقم الهاتف والبريد الإ
 $lang['recent_edited_time_activities_note'] = 'أنشطة الوقت التي أدخلها الموظفون أو عدلوها مؤخرًا.';
 $lang['time_activities_by_employee_detail_note'] = 'المنتجات والخدمات (أنشطة الوقت) التي يقدمها كل موظف ، بما في ذلك سعر الساعة والمدة.';
 $lang['acc_assets'] = 'الأصول';
-$lang['acc_liabilities'] = 'الخصوم';
-$lang['acc_equity'] = 'رأس المال وحقوق الملكية ';
+$lang['acc_liabilities'] = 'الالتزامات';
+$lang['acc_equity'] = 'حقوق الملكية';
 $lang['account_type_master'] = 'الحسابات الرئيسية';
+
+$lang['acc_Other_proprietary_rights'] = 'حقوق ملكية أخرى';
+$lang['acc_Precautions'] = 'احتياطات';
+$lang['acc_Retained_profits_or_losses'] = 'الأرباح المبقاة أو الخسائر';
+
+
+/*
+
+
+ */
+$lang['acc_Issued_capital'] = 'رأس المال المصدر';
+$lang['acc_Additional_paid_in_capital'] = 'رأس المال الإضافي المدفوع';
+
+$lang['acc_Other_proprietary_rights'] = 'حقوق ملكية أخرى';
+$lang['acc_Precautions'] = 'احتياطات';
+$lang['acc_Retained_profits_or_losses'] = 'الأرباح المبقاة أو الخسائر';
+
+$lang['acc_Other_owners_rights'] = 'حقوق الملاك الأخرى';
+$lang['acc_Other_proprietary_rights'] = 'حقوق ملكية أخرى';
+
+$lang['acc_Direct_costs'] = 'التكاليف المباشرة';
+$lang['acc_Operational_costs'] = 'التكاليف التشغيلية';
+$lang['acc_Non_operating_costs'] = 'تكاليف غير تشغيلية';
+
+$lang['acc_Direct_cost'] = 'التكلفة المباشرة';
+$lang['acc_Sales_cost'] = 'تكلفة المبيعات';
+$lang['acc_NOther_direct_costs'] = 'تكاليف مباشرة أخرى';
+
+$lang['acc_Salaries'] = 'الرواتب';
+$lang['acc_General_and_administrative_expenses'] = 'مصاريف عمومية وإدارية';
+$lang['acc_Marketing_expenses'] = 'مصاريف تسويقية';
+$lang['acc_Rewards_and_incentives'] = 'مكافئات وحوافز';
+$lang['acc_Consumption_expenses'] = 'مصاريف الاستهلاك';
+
+$lang['acc_Zakat'] = 'الزكاة';
+$lang['acc_Translation_of_foreign_currencies'] = 'ترجمة عملات أجنبية';
+$lang['acc_Taxes'] = 'الضرائب';
+$lang['acc_Interest_expense'] = 'مصروف فوائد';
+
+/*
+ *
+$lang['acc_Operating_revenues'] = 'الإيرادات التشغيلية';
+$lang['acc_Non_operating_revenues'] = 'الإيرادات غير التشغيلية';
+
+
+ */
+$lang['acc_Operating_revenues'] = 'الإيرادات التشغيلية';
+$lang['acc_Non_operating_revenues'] = 'الإيرادات غير التشغيلية';
+$lang['acc_other_revenues'] = 'الإيرادات الأخرى';
+
+
 
 
 

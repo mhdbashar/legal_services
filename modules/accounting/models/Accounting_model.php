@@ -71,9 +71,9 @@ class Accounting_model extends App_Model
                 ],
 
                 [
-                    'id' => 4,
-                    'name' => _l('acc_fixed_assets'),
-                    'order' => 4,
+                    'id'             => 5,
+                    'name'           => _l('acc_non_current_assets'),
+                    'order'          => 5,
                 ]
 
             ];
@@ -107,34 +107,42 @@ class Accounting_model extends App_Model
                     'name'           => _l('acc_capital'),
                     'order'          => 18,
                 ],
+
                 [
                     'id'             => 19,
-                    'name'           => _l('acc_Profit_and_loss_carryove'),
+                    'name'           => _l('acc_Other_proprietary_rights'),
                     'order'          => 19,
+                ],
+                [
+                    'id'             => 24,
+                    'name'           => _l('acc_Precautions'),
+                    'order'          => 22,
+                ],
+                [
+                    'id'             => 25,
+                    'name'           => _l('acc_Retained_profits_or_losses'),
+                    'order'          => 24,
                 ],
 
             ];
         }
         else if ($id ==4) {
             $account_types = [
+
                 [
                     'id'             => 20,
-                    'name'           => _l('acc_sales_cost'),
+                    'name'           => _l('acc_Direct_costs'),
                     'order'          => 20,
                 ],
                 [
                     'id'             => 21,
-                    'name'           => _l('acc_general_and_administrative_expenses'),
+                    'name'           => _l('acc_Operational_costs'),
                     'order'          => 21,
                 ],
-                [
-                    'id'             => 22,
-                    'name'           => _l('acc_depreciation_expense'),
-                    'order'          => 22,
-                ],
+
                 [
                     'id'             => 15,
-                    'name'           => _l('acc_other_expense'),
+                    'name'           => _l('acc_Non_operating_costs'),
                     'order'          => 23,
                 ]
 
@@ -145,15 +153,15 @@ class Accounting_model extends App_Model
             $account_types = [
                 [
                     'id'             => 23,
-                    'name'           => _l('acc_sales_revenue'),
+                    'name'           => _l('acc_Operating_revenues'),
                     'order'          => 24,
                 ],
 
 
                 [
-                    'id'             => 12,
-                    'name'           => _l('acc_other_income'),
-                    'order'          => 12,
+                    'id'             => 26,
+                    'name'           => _l('acc_Non_operating_revenues'),
+                    'order'          => 26,
                 ],
 
             ];
@@ -275,6 +283,21 @@ class Accounting_model extends App_Model
                     'id'             => 23,
                     'name'           => _l('acc_sales_revenue'),
                     'order'          => 24,
+                ],
+                [
+                    'id'             => 24,
+                    'name'           => _l('acc_depreciation_expense'),
+                    'order'          => 22,
+                ],
+                [
+                    'id'             => 25,
+                    'name'           => _l('acc_sales_revenue'),
+                    'order'          => 24,
+                ],
+                [
+                    'id'             => 26,
+                    'name'           => _l('acc_Interest_expense'),
+                    'order'          => 26,
                 ],
 
 
@@ -1419,275 +1442,387 @@ class Accounting_model extends App_Model
             //*****
 */
 
-            /*
-             $lang['acc_furniture'] = 'أثاث';
-$lang['acc_devices_and_equipment'] = 'الأجهزة والمعدات';
-$lang['acc_means_of_transportation'] = 'وسائل النقل';
-$lang['acc_buildings'] = 'مباني';
-$lang['acc_lands'] = 'أراضي';
-             */
-            [
-                'id'                => 141,
-                'account_type_id'   => 4,
-                'name'              => _l('acc_furniture'),
-                'note'              => _l('acc_furniture_note'),
-                'order'             => 141,
-            ],
-            [
-                'id'                => 142,
-                'account_type_id'   => 4,
-                'name'              => _l('acc_devices_and_equipment'),
-                'note'              => _l('acc_devices_and_equipment'),
-                'order'             => 142,
-            ],
-            [
-                'id'                => 143,
-                'account_type_id'   => 4,
-                'name'              => _l('acc_means_of_transportation'),
-                'note'              => _l('acc_means_of_transportation'),
-                'order'             => 143,
-            ],
-            [
-                'id'                => 144,
-                'account_type_id'   => 4,
-                'name'              => _l('acc_buildings'),
-                'note'              => _l('acc_buildings'),
-                'order'             => 144,
-            ],
-            [
-                'id'                => 145,
-                'account_type_id'   => 4,
-                'name'              => _l('acc_lands'),
-                'note'              => _l('acc_lands'),
-                'order'             => 145,
-            ],
-//***********
+            //******** acc_current_asset **********
             [
                 'id'                => 146,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_treasury'),
-                'note'              => _l('acc_treasury_note'),
+                'name'              => _l('acc_current_assets'),
+                'note'              => _l('acc_current_assets'),
                 'order'             => 146,
             ],
             [
                 'id'                => 147,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_bank'),
-                'note'              => _l('acc_bank_note'),
+                'name'              => _l('acc_Cash_and_cash_equivalents'),
+                'note'              => _l('acc_Cash_and_cash_equivalents'),
                 'order'             => 147,
             ],
             [
                 'id'                => 148,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_inventory'),
-                'note'              => _l('acc_inventory_note'),
+                'name'              => _l('acc_The_era_of_cash'),
+                'note'              => _l('acc_The_era_of_cash'),
                 'order'             => 148,
             ],
             [
                 'id'                => 149,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_receivables'),
-                'note'              => _l('acc_receivables_note'),
+                'name'              => _l('acc_Bank_account'),
+                'note'              => _l('acc_Bank_account'),
                 'order'             => 149,
             ],
 
             [
                 'id'                => 150,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_employee_covenant'),
-                'note'              => _l('acc_employee_covenant_note'),
+                'name'              => _l('acc_Debtors'),
+                'note'              => _l('acc_Debtors'),
                 'order'             => 150,
             ],
-            [
-                'id'                => 151,
-                'account_type_id'   => 2,
-                'name'              => _l('acc_receipt_notes'),
-                'note'              => _l('acc_receipt_note'),
-                'order'             => 151,
-            ],
+
 
             [
                 'id'                => 152,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_fund_deficit&_increase'),
-                'note'              => _l('acc_fund_deficit&_increase_note'),
+                'name'              => _l('acc_Advanced_expenses'),
+                'note'              => _l('acc_Advanced_expenses'),
                 'order'             => 152,
             ],
 
             [
                 'id'                => 153,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_change_currency'),
-                'note'              => _l('acc_change_currency_note'),
+                'name'              => _l('acc_Employee_advances'),
+                'note'              => _l('acc_Employee_advances'),
                 'order'             => 153,
             ],
 
             [
                 'id'                => 154,
                 'account_type_id'   => 2,
-                'name'              => _l('acc_purchases'),
-                'note'              => _l('acc_purchases_note'),
+                'name'              => _l('acc_Inventory'),
+                'note'              => _l('acc_Inventory'),
                 'order'             => 154,
             ],
-            //****
+            //**** acc_non_current_assets ***********
 
+              [
+                'id'                => 141,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_non_current_assets'),
+                'note'              => _l('acc_non_current_assets'),
+                'order'             => 141,
+            ],
+            [
+                'id'                => 142,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_Real_estate_machinery_and_equipment'),
+                'note'              => _l('acc_Real_estate_machinery_and_equipment'),
+                'order'             => 142,
+            ],
+            [
+                'id'                => 143,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_Intangible_assets'),
+                'note'              => _l('acc_Intangible_assets'),
+                'order'             => 143,
+            ],
+            [
+                'id'                => 144,
+                'account_type_id'   => 5,
+                'name'              => _l('acc_Other_non_current_assets'),
+                'note'              => _l('acc_Other_non_current_assets'),
+                'order'             => 144,
+            ],
+
+//*********** acc_current_liabilities *********
+                        [
+                'id'                => 151,
+                'account_type_id'   => 16,
+                'name'              => _l('acc_Creditors'),
+                'note'              => _l('acc_Creditors'),
+                'order'             => 151,
+            ],
+            [
+                'id'                => 145,
+                'account_type_id'   => 16,
+                'name'              => _l('acc_current_liabilities'),
+                'note'              => _l('acc_current_liabilities'),
+                'order'             => 145,
+            ],
             [
                 'id'                => 155,
                 'account_type_id'   => 16,
-                'name'              => _l('acc_Creditors'),
-                'note'              => _l('acc_Creditors_note'),
+                'name'              => _l('acc_deserved_payments'),
+                'note'              => _l('acc_deserved_payments'),
                 'order'             => 155,
             ],
 
             [
                 'id'                => 156,
                 'account_type_id'   => 16,
-                'name'              => _l('acc_Payment_Notes'),
-                'note'              => _l('acc_Payment_Notes'),
+                'name'              => _l('acc_Salaries_and_amounts_owed_to_employees'),
+                'note'              => _l('acc_Salaries_and_amounts_owed_to_employees'),
                 'order'             => 156,
             ],
 
             [
                 'id'                => 157,
                 'account_type_id'   => 16,
-                'name'              => _l('acc_Accumulated_depreciation'),
-                'note'              => _l('acc_Accumulated_depreciation'),
+                'name'              => _l('acc_Short_term_loans'),
+                'note'              => _l('acc_Short_term_loans'),
                 'order'             => 157,
             ],
             [
                 'id'                => 158,
                 'account_type_id'   => 16,
-                'name'              => _l('acc_Opening_credits'),
-                'note'              => _l('acc_Opening_credits'),
+                'name'              => _l('acc_Taxes_due'),
+                'note'              => _l('acc_Taxes_due'),
                 'order'             => 158,
             ],
             [
                 'id'                => 159,
                 'account_type_id'   =>16,
-                'name'              => _l('acc_Required_added_value'),
-                'note'              => _l('acc_Required_added_value'),
+                'name'              => _l('acc_Revenue_provided'),
+                'note'              => _l('acc_Revenue_provided'),
                 'order'             => 159,
             ],
-//***
-
             [
                 'id'                => 160,
-                'account_type_id'   => 18,
-                'name'              => _l('acc_capital'),
-                'note'              => _l('acc_capital'),
+                'account_type_id'   => 16,
+                'name'              => _l('acc_Other_current_liabilities'),
+                'note'              => _l('acc_Other_current_liabilities'),
                 'order'             => 160,
             ],
             [
                 'id'                => 161,
-                'account_type_id'   => 19,
-                'name'              => _l('acc_Relayed_profits_and_losses'),
-                'note'              => _l('acc_Relayed_profits_and_losses'),
+                'account_type_id'   => 16,
+                'name'              => _l('acc_Consumption_complex'),
+                'note'              => _l('acc_Consumption_complex'),
                 'order'             => 161,
             ],
 
-            //***
+
+
+
+//*** acc_non_current_liabilities *********
             [
                 'id'                => 162,
-                'account_type_id'   => 23,
-                'name'              => _l('acc_sales'),
-                'note'              => _l('acc_sales'),
+                'account_type_id'   => 17,
+                'name'              => _l('acc_non_current_liabilities'),
+                'note'              => _l('acc_non_current_liabilities'),
                 'order'             => 162,
             ],
             [
                 'id'                => 163,
-                'account_type_id'   => 23,
-                'name'              => _l('acc_Sales_returns'),
-                'note'              => _l('acc_Sales_returns'),
+                'account_type_id'   => 17,
+                'name'              => _l('acc_long_term_loans'),
+                'note'              => _l('acc_long_term_loans'),
                 'order'             => 163,
             ],
-            //***
-
             [
                 'id'                => 164,
-                'account_type_id'   => 12,
-                'name'              => _l('acc_Other_income'),
-                'note'              => _l('acc_Other_income'),
+                'account_type_id'   => 17,
+                'name'              => _l('acc_Provision_for_end_of_service_compensation'),
+                'note'              => _l('acc_Provision_for_end_of_service_compensation'),
                 'order'             => 164,
             ],
-            [
-                'id'                => 165,
-                'account_type_id'   => 12,
-                'name'              => _l('acc_Capital_gains_and_losses'),
-                'note'              => _l('acc_Capital_gains_and_losses'),
-                'order'             => 165,
-            ],
-            [
-                'id'                => 165,
-                'account_type_id'   => 12,
-                'name'              => _l('acc_Discount_earned'),
-                'note'              => _l('acc_Discount_earned'),
-                'order'             => 165,
-            ],
-            //***
 
-        [
+        //*** acc_capital **********
+
+            [
+                'id'                => 165,
+                'account_type_id'   => 18,
+                'name'              => _l('acc_capital'),
+                'note'              => _l('acc_capital'),
+                'order'             => 165,
+            ],
+            [
                 'id'                => 166,
-                'account_type_id'   => 21,
-                'name'              => _l('acc_rent'),
-                'note'              => _l('acc_rent'),
+                'account_type_id'   => 18,
+                'name'              => _l('acc_Issued_capital'),
+                'note'              => _l('acc_Issued_capital'),
                 'order'             => 166,
             ],
             [
                 'id'                => 167,
-                'account_type_id'   => 21,
-                'name'              => _l('acc_Electricity'),
-                'note'              => _l('acc_Electricity'),
+                'account_type_id'   => 18,
+                'name'              => _l('acc_Additional_paid_in_capital'),
+                'note'              => _l('acc_Additional_paid_in_capital'),
                 'order'             => 167,
             ],
+
+            //*** acc_Other_proprietary_rights *****
+
             [
                 'id'                => 168,
-                'account_type_id'   => 21,
-                'name'              => _l('acc_Phone_maintenance'),
-                'note'              => _l('acc_Phone_maintenance'),
+                'account_type_id'   => 19,
+                'name'              => _l('acc_Other_owners_rights'),
+                'note'              => _l('acc_Other_owners_rights'),
                 'order'             => 168,
             ],
             [
                 'id'                => 169,
-                'account_type_id'   => 22,
-                'name'              => _l('acc_depreciation_expense'),
-                'note'              => _l('acc_depreciation_expense'),
+                'account_type_id'   => 19,
+                'name'              => _l('acc_Other_proprietary_rights'),
+                'note'              => _l('acc_Other_proprietary_rights'),
                 'order'             => 169,
             ],
+
+            //*********** acc_Precautions *****
             [
                 'id'                => 170,
-                'account_type_id'   => 15,
-                'name'              => _l('acc_other_expenses'),
-                'note'              => _l('acc_other_expenses'),
+                'account_type_id'   => 24,
+                'name'              => _l('acc_Precautions'),
+                'note'              => _l('acc_Precautions'),
                 'order'             => 170,
             ],
             [
+                'id'                => 168,
+                'account_type_id'   => 24,
+                'name'              => _l('acc_Other_owners_rights'),
+                'note'              => _l('acc_Other_owners_rights'),
+                'order'             => 168,
+            ],
+
+            //*********** acc_Retained_profits_or_losses *****
+
+            [
                 'id'                => 171,
-                'account_type_id'   => 17,
-                'name'              => _l('acc_non_current_liabilities'),
-                'note'              => _l('acc_non_current_liabilities'),
+                'account_type_id'   => 25,
+                'name'              => _l('acc_Retained_profits_or_losses'),
+                'note'              => _l('acc_Retained_profits_or_losses'),
                 'order'             => 171,
             ],
-         //***********
+
+            //**** acc_Direct_costs *****
+
             [
                 'id'                => 172,
                 'account_type_id'   => 20,
-                'name'              => _l('acc_discount_permitted'),
-                'note'              => _l('acc_discount_permitted'),
+                'name'              => _l('acc_Direct_cost'),
+                'note'              => _l('acc_Direct_cost'),
                 'order'             => 172,
             ],
             [
                 'id'                => 173,
                 'account_type_id'   => 20,
-                'name'              => _l('acc_shipping_purchases'),
-                'note'              => _l('acc_shipping_purchases'),
+                'name'              => _l('acc_Sales_cost'),
+                'note'              => _l('acc_Sales_cost'),
                 'order'             => 173,
             ],
+
             [
                 'id'                => 174,
                 'account_type_id'   => 20,
-                'name'              => _l('acc_sales_cost'),
-                'note'              => _l('acc_sales_cost'),
+                'name'              => _l('acc_NOther_direct_costs'),
+                'note'              => _l('acc_NOther_direct_costs'),
                 'order'             => 174,
+            ],
+
+            /*
+$lang['acc_Salaries'] = 'الرواتب';
+$lang['acc_General_and_administrative_expenses'] = 'مصاريف عمومية وإدارية';
+$lang['acc_Marketing_expenses'] = 'مصاريف تسويقية';
+$lang['acc_Rewards_and_incentives'] = 'مكافئات وحوافز';
+$lang['acc_Consumption_expenses'] = 'مصاريف الاستهلاك';
+            */
+           //  **** acc_Operational_costs *****
+            [
+            'id'                => 175,
+            'account_type_id'   => 21,
+            'name'              => _l('acc_Operational_costs'),
+            'note'              => _l('acc_Operational_costs'),
+            'order'             => 175,
+        ],
+        [
+        'id'                => 176,
+                'account_type_id'   => 21,
+                'name'              => _l('acc_Salaries'),
+                'note'              => _l('acc_Salaries'),
+                'order'             => 176,
+            ],
+          [
+                  'id'                => 177,
+                  'account_type_id'   => 21,
+                  'name'              => _l('acc_General_and_administrative_expenses'),
+                  'note'              => _l('acc_General_and_administrative_expenses'),
+                  'order'             => 177,
+              ],
+          [
+              'id'                => 178,
+                'account_type_id'   => 21,
+                'name'              => _l('acc_Marketing_expenses'),
+                'note'              => _l('acc_Marketing_expenses'),
+                'order'             => 178,
+            ],
+          [
+                  'id'                => 179,
+                  'account_type_id'   => 21,
+                  'name'              => _l('acc_Rewards_and_incentives'),
+                  'note'              => _l('acc_Rewards_and_incentives'),
+                  'order'             => 179,
+              ],
+          [
+              'id'                => 180,
+                'account_type_id'   => 21,
+                'name'              => _l('acc_Consumption_expenses'),
+                'note'              => _l('acc_Consumption_expenses'),
+                'order'             => 180,
+            ],
+
+
+            //****** acc_Non_operating_costs *****
+            [
+                'id'                => 181,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_Zakat'),
+                'note'              => _l('acc_Zakat'),
+                'order'             => 181,
+            ],
+            [
+                'id'                => 182,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_Translation_of_foreign_currencies'),
+                'note'              => _l('acc_Translation_of_foreign_currencies'),
+                'order'             => 182,
+            ],
+            [
+                'id'                => 183,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_Taxes'),
+                'note'              => _l('acc_Taxes'),
+                'order'             => 183,
+            ],
+            [
+                'id'                => 184,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_Interest_expense'),
+                'note'              => _l('acc_Interest_expense'),
+                'order'             => 184,
+            ],
+            /*
+  *
+ $lang['acc_Operating_revenues'] = 'الإيرادات التشغيلية';
+ $lang['acc_Non_operating_revenues'] = 'الإيرادات غير التشغيلية';
+
+
+  */
+                 //****** acc_Operating_revenues *****
+            [
+                'id'                => 185,
+                'account_type_id'   => 23,
+                'name'              => _l('acc_sales'),
+                'note'              => _l('acc_sales'),
+                'order'             => 185,
+            ],
+            //****** acc_Non_operating_revenues *****
+            [
+                'id'                => 186,
+                'account_type_id'   => 26,
+                'name'              => _l('acc_other_revenues'),
+                'note'              => _l('acc_other_revenues'),
+                'order'             => 186,
             ]
 
         ]);

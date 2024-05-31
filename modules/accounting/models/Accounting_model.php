@@ -116,12 +116,12 @@ class Accounting_model extends App_Model
                 [
                     'id'             => 24,
                     'name'           => _l('acc_Precautions'),
-                    'order'          => 22,
+                    'order'          => 24,
                 ],
                 [
                     'id'             => 25,
                     'name'           => _l('acc_Retained_profits_or_losses'),
-                    'order'          => 24,
+                    'order'          => 25,
                 ],
 
             ];
@@ -141,9 +141,9 @@ class Accounting_model extends App_Model
                 ],
 
                 [
-                    'id'             => 15,
+                    'id'             => 27,
                     'name'           => _l('acc_Non_operating_costs'),
-                    'order'          => 23,
+                    'order'          => 27,
                 ]
 
             ];
@@ -154,7 +154,7 @@ class Accounting_model extends App_Model
                 [
                     'id'             => 23,
                     'name'           => _l('acc_Operating_revenues'),
-                    'order'          => 24,
+                    'order'          => 23,
                 ],
 
 
@@ -261,17 +261,17 @@ class Accounting_model extends App_Model
                 ],
                 [
                     'id'             => 19,
-                    'name'           => _l('acc_Profit_and_loss_carryove'),
+                    'name'           => _l('acc_Other_proprietary_rights'),
                     'order'          => 19,
                 ],
                 [
-                'id'             => 20,
-                'name'           => _l('acc_sales_cost'),
-                'order'          => 20,
+                    'id'             => 20,
+                    'name'           => _l('acc_Direct_costs'),
+                    'order'          => 20,
                 ],
                 [
                     'id'             => 21,
-                    'name'           => _l('acc_general_and_administrative_expenses'),
+                    'name'           => _l('acc_Operational_costs'),
                     'order'          => 21,
                 ],
                 [
@@ -281,24 +281,29 @@ class Accounting_model extends App_Model
                 ],
                 [
                     'id'             => 23,
-                    'name'           => _l('acc_sales_revenue'),
-                    'order'          => 24,
+                    'name'           => _l('acc_Operating_revenues'),
+                    'order'          => 23,
                 ],
                 [
                     'id'             => 24,
-                    'name'           => _l('acc_depreciation_expense'),
-                    'order'          => 22,
-                ],
-                [
-                    'id'             => 25,
-                    'name'           => _l('acc_sales_revenue'),
+                    'name'           => _l('acc_Precautions'),
                     'order'          => 24,
                 ],
                 [
+                    'id'             => 25,
+                    'name'           => _l('acc_Retained_profits_or_losses'),
+                    'order'          => 25,
+                ],
+                [
                     'id'             => 26,
-                    'name'           => _l('acc_Interest_expense'),
+                    'name'           => _l('acc_Non_operating_revenues'),
                     'order'          => 26,
                 ],
+                [
+                    'id'             => 27,
+                    'name'           => _l('acc_Non_operating_costs'),
+                    'order'          => 27,
+                ]
 
 
             ];
@@ -423,17 +428,17 @@ class Accounting_model extends App_Model
             ],
             [
                 'id'             => 19,
-                'name'           => _l('acc_Profit_and_loss_carryove'),
+                'name'           => _l('acc_Other_proprietary_rights'),
                 'order'          => 19,
             ],
             [
                 'id'             => 20,
-                'name'           => _l('acc_sales_cost'),
+                'name'           => _l('acc_Direct_costs'),
                 'order'          => 20,
             ],
             [
                 'id'             => 21,
-                'name'           => _l('acc_general_and_administrative_expenses'),
+                'name'           => _l('acc_Operational_costs'),
                 'order'          => 21,
             ],
             [
@@ -443,9 +448,29 @@ class Accounting_model extends App_Model
             ],
             [
                 'id'             => 23,
-                'name'           => _l('acc_sales_revenue'),
+                'name'           => _l('acc_Operating_revenues'),
+                'order'          => 23,
+            ],
+            [
+                'id'             => 24,
+                'name'           => _l('acc_Precautions'),
                 'order'          => 24,
             ],
+            [
+                'id'             => 25,
+                'name'           => _l('acc_Retained_profits_or_losses'),
+                'order'          => 25,
+            ],
+            [
+                'id'             => 26,
+                'name'           => _l('acc_Non_operating_revenues'),
+                'order'          => 26,
+            ],
+            [
+                'id'             => 27,
+                'name'           => _l('acc_Non_operating_costs'),
+                'order'          => 27,
+            ]
 
         ]);
 
@@ -1775,28 +1800,28 @@ $lang['acc_Consumption_expenses'] = 'مصاريف الاستهلاك';
             //****** acc_Non_operating_costs *****
             [
                 'id'                => 181,
-                'account_type_id'   => 15,
+                'account_type_id'   => 27,
                 'name'              => _l('acc_Zakat'),
                 'note'              => _l('acc_Zakat'),
                 'order'             => 181,
             ],
             [
                 'id'                => 182,
-                'account_type_id'   => 15,
+                'account_type_id'   => 27,
                 'name'              => _l('acc_Translation_of_foreign_currencies'),
                 'note'              => _l('acc_Translation_of_foreign_currencies'),
                 'order'             => 182,
             ],
             [
                 'id'                => 183,
-                'account_type_id'   => 15,
+                'account_type_id'   => 27,
                 'name'              => _l('acc_Taxes'),
                 'note'              => _l('acc_Taxes'),
                 'order'             => 183,
             ],
             [
                 'id'                => 184,
-                'account_type_id'   => 15,
+                'account_type_id'   => 27,
                 'name'              => _l('acc_Interest_expense'),
                 'note'              => _l('acc_Interest_expense'),
                 'order'             => 184,

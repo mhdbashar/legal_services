@@ -11,6 +11,16 @@
                         <a href="<?php echo admin_url('accounting/accounts_import'); ?>" class="btn btn-success mbot15 <?php if(!has_permission('accounting_chart_of_accounts', '', 'create')){echo 'hide';} ?>"><?php echo _l('import_account'); ?></a>
                     </div>
                     <div class="row">
+
+
+
+
+
+
+
+
+
+
                         <div class="col-md-3">
                             <?php echo render_select('ft_account',$accounts,array('id','name', 'account_type_name'),'acc_account', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
                         </div>
@@ -23,6 +33,19 @@
                         <div class="col-md-3">
                             <?php echo render_select('ft_detail_type',$detail_types,array('id','name'),'detail_type', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
                         </div>
+                        <div class="col-md-3">
+                            <?php echo render_select('account_type_master1',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+                        </div>
+                        <div class="col-md-3">
+                            <label for=""
+                                   class="control-label"><?php echo _l('account_type'); ?></label>
+                            <select class="form-control custom_select_arrow" id="account_type_id1"
+                                    name="account_type_id1"
+                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                <option selected disabled></option>
+                            </select>
+                        </div>
+
                         <div class="col-md-3">
                             <?php $active = [
                                 1 => ['id' => 'all', 'name' => _l('all')],
@@ -58,6 +81,11 @@
 <?php $arrAtt = array();
 $arrAtt['data-type']='currency';
 ?>
+
+
+
+
+
 <div class="modal fade" id="account-modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -69,14 +97,33 @@ $arrAtt['data-type']='currency';
             <?php echo form_hidden('id'); ?>
             <?php echo form_hidden('update_balance'); ?>
             <div class="modal-body">
-                <?php echo render_select('account_type_id',$account_types,array('id','name'),'account_type','',array(),array(),'','',false); ?>
+
+                <?php echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+                <label for=""
+                       class="control-label"><?php echo _l('account_type'); ?></label>
+                <select class="form-control custom_select_arrow" id="account_type_id"
+                        name="account_type_id"
+                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                    <option selected disabled></option>
+                </select>
+                <?php //echo render_select('account_type_id',[],array('id','name'),'account_type','',array(),array(),'','',false); ?>
+
+
+
                 <?php echo render_select('account_detail_type_id',$detail_types,array('id','name'),'detail_type','',array(),array(),'','',false); ?>
                 <p><i class="detail_type_note"><?php echo html_entity_decode($detail_types[0]['note']); ?></i></p>
                 <?php echo render_input('name','name'); ?>
                 <?php if(get_option('acc_enable_account_numbers') == 1){
                     echo render_input('number','number');
                 } ?>
-                <?php echo render_select('parent_account',$accounts,array('id','name'),'parent_account'); ?>
+                <label for=""
+                       class="control-label"><?php echo _l('parent_account'); ?></label>
+                <select class="form-control custom_select_arrow" id="parent_account"
+                        name="parent_account"
+                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                    <option selected disabled></option>
+                </select>
+                <?php //echo render_select('parent_account',$accounts,array('id','name'),'parent_account'); ?>
                 <div class="row hide" id="div_balance">
                     <div class="col-md-6">
                         <?php echo render_input('balance','balance','','text', $arrAtt); ?>

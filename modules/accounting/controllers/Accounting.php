@@ -725,9 +725,15 @@ class Accounting extends AdminController
         }
 
         $data['title'] = _l('chart_of_accounts');
+
+        $data['account_types_master'] = $this->accounting_model->get_account_types_master();
+
         $data['account_types'] = $this->accounting_model->get_account_types();
         $data['detail_types'] = $this->accounting_model->get_account_type_details();
         $data['accounts'] = $this->accounting_model->get_accounts();
+
+        $data['account_types_after_sorting'] = $this->accounting_model->get_account_types_after_sorting(3);
+
         $this->load->view('chart_of_accounts/manage', $data);
     }
 

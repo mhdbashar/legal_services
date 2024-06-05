@@ -36,7 +36,7 @@
                     }));
                     response = JSON.parse(data);
 
-                    console.log(response);
+                    //console.log(response);
                     $.each(response, function (key, value) {
                         $('select[name="account_type_id1"]').append($('<option>', {
                             value: value['id'],
@@ -45,9 +45,6 @@
                     });
                 }
             });
-
-
-
         });
         $('select[name="account_type_id1"]').on('change', function() {
             init_account_table();

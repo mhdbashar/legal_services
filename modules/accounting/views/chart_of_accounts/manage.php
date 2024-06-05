@@ -12,15 +12,6 @@
                     </div>
                     <div class="row">
 
-
-
-
-
-
-
-
-
-
                         <div class="col-md-3">
                             <?php echo render_select('ft_account',$accounts,array('id','name', 'account_type_name'),'acc_account', '', array('multiple' => true, 'data-actions-box' => true), array(), '', '', false); ?>
                         </div>
@@ -52,6 +43,7 @@
                                 2 => ['id' => 'yes', 'name' => _l('is_active_export')],
                                 3 => ['id' => 'no', 'name' => _l('is_not_active_export')],
                             ];
+
                             ?>
                             <?php echo render_select('ft_active',$active,array('id','name'),'staff_dt_active', 'yes', array(), array(), '', '', false); ?>
                         </div>
@@ -82,10 +74,6 @@
 $arrAtt['data-type']='currency';
 ?>
 
-
-
-
-
 <div class="modal fade" id="account-modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -97,8 +85,42 @@ $arrAtt['data-type']='currency';
             <?php echo form_hidden('id'); ?>
             <?php echo form_hidden('update_balance'); ?>
             <div class="modal-body">
-
-                <?php echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+                <?php
+                $account_types_master_create_account=[
+                    [
+                        'id'             => 7,
+                        'name'           => _l('not_selected'),
+                        'order'          => 6,
+                    ],
+                    [
+                        'id'             => 1,
+                        'name'           => _l('acc_assets'),
+                        'order'          => 1,
+                    ],
+                    [
+                        'id'             => 2,
+                        'name'           => _l('acc_liabilities'),
+                        'order'          => 2,
+                    ],
+                    [
+                        'id'             => 3,
+                        'name'           => _l('acc_equity'),
+                        'order'          => 3,
+                    ],
+                    [
+                        'id'             => 4,
+                        'name'           => _l('acc_expenses'),
+                        'order'          => 4,
+                    ],
+                    [
+                        'id'             => 5,
+                        'name'           => _l('acc_income'),
+                        'order'          => 5,
+                    ],
+                ];
+                ?>
+                <?php echo render_select('account_type_master',$account_types_master_create_account,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
+                <?php // echo render_select('account_type_master',$account_types_master,array('id','name'),'account_type_master','',array(),array(),'','',false); ?>
                 <label for=""
                        class="control-label"><?php echo _l('account_type'); ?></label>
                 <select class="form-control custom_select_arrow" id="account_type_id"
@@ -107,9 +129,6 @@ $arrAtt['data-type']='currency';
                     <option selected disabled></option>
                 </select>
                 <?php //echo render_select('account_type_id',[],array('id','name'),'account_type','',array(),array(),'','',false); ?>
-
-
-
                 <?php echo render_select('account_detail_type_id',$detail_types,array('id','name'),'detail_type','',array(),array(),'','',false); ?>
                 <p><i class="detail_type_note"><?php echo html_entity_decode($detail_types[0]['note']); ?></i></p>
                 <?php echo render_input('name','name'); ?>

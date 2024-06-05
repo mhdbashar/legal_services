@@ -1055,6 +1055,7 @@ class Accounting extends AdminController
      */
     public function account()
     {
+
         if (!has_permission('accounting_chart_of_accounts', '', 'edit') && !has_permission('accounting_chart_of_accounts', '', 'create')) {
             access_denied('accounting');
         }

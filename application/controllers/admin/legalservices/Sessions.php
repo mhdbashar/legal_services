@@ -2070,7 +2070,7 @@ class Sessions extends AdminController
                 die();
             }
 
-            if(isset($data['next_session_date']) && $data['next_session_date'] != '') {
+            if((isset($data['next_session_date']) && $data['next_session_date'] != '') && (isset($data['next_session_time']) && $data['next_session_time'] != '')) {
                 $data['next_session_date'] = to_sql_date($data['next_session_date']);
             }else{
                 unset($data['next_session_date'],$data['next_session_time']);
@@ -2115,7 +2115,7 @@ class Sessions extends AdminController
                     $newsession['rel_id'] = $session->rel_id;
                     $newsession['court_id'] = $session->court_id;
                     $newsession['dept'] = $session->dept;
-                   // $newsession['cat_id'] = $session->cat_id;
+                    $newsession['cat_id'] = $session->cat_id;
                     $newsession['subcat_id'] = $session->subcat_id;
                     $newsession['childsubcat_id'] = $session->childsubcat_id;
                     $newsession['file_number_court'] = $session->file_number_court;

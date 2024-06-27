@@ -33,8 +33,9 @@ class Session_report_pdf extends App_pdf
 
         $time_format = get_option('time_format');
         $this->session->time = $time_format === '24' ? date('h:i', strtotime($this->session->time)) : date('h:i a', strtotime($this->session->time));
-        $this->session->next_session_time = $time_format === '24' ? date('h:i', strtotime($this->session->next_session_time)) : date('h:i a', strtotime($this->session->next_session_time));
-
+        if($this->session->next_session_time != '' && $this->session->next_session_time != null) {
+            $this->session->next_session_time = $time_format === '24' ? date('h:i', strtotime($this->session->next_session_time)) : date('h:i a', strtotime($this->session->next_session_time));
+        }
         $this->set_view_vars([
             'client' => isset($this->session->clientid) ? get_customer_by_id($this->session->clientid)->company : '',
             'representative' => isset($this->session->representative) ? maybe_translate(_l('nothing_was_specified'), get_representative_by_id($this->session->representative)) : '',

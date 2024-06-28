@@ -129,12 +129,17 @@ class Written_reports extends AdminController
         $this->db->where('userid', $client_id);
         $contact = $this->db->get(db_prefix() . 'contacts')->row();
         if(isset($contact)){
-            send_mail_template('send_written_report_to_customer', $contact, $report);
-            log_activity('Send Written Report To Customer [Report ID: ' . $report_id . ']');
-            return array(1, _l('Done').' '._l('Send_to_customer'));
+            $send = send_mail_template('send_written_report_to_customer', $contact, $report);
+            if($send) {
+                log_activity('Send Written Report To Customer [Report ID: ' . $report_id . ']');
+                echo json_encode(array('success', _l('Done') . ' ' . _l('Send_to_customer')));
+            }else{
+                echo json_encode(array('fail', _l('Faild') . ' ' . _l('Send_to_customer')));
+            }
         }else{
-            return array(2, _l('no_primary_contact')); // This customer doesn't have primary contact
+            echo json_encode(array('fail', _l('no_primary_contact'))); // This customer doesn't have primary contact
         }
+        die();
     }
 
 }

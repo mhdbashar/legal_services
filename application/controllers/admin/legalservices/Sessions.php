@@ -2070,7 +2070,7 @@ class Sessions extends AdminController
                 die();
             }
 
-            if(isset($data['next_session_date']) && $data['next_session_date'] != '') {
+            if((isset($data['next_session_date']) && $data['next_session_date'] != '') && (isset($data['next_session_time']) && $data['next_session_time'] != '')) {
                 $data['next_session_date'] = to_sql_date($data['next_session_date']);
             }else{
                 unset($data['next_session_date'],$data['next_session_time']);
@@ -2115,7 +2115,7 @@ class Sessions extends AdminController
                     $newsession['rel_id'] = $session->rel_id;
                     $newsession['court_id'] = $session->court_id;
                     $newsession['dept'] = $session->dept;
-                   // $newsession['cat_id'] = $session->cat_id;
+                    $newsession['cat_id'] = $session->cat_id;
                     $newsession['subcat_id'] = $session->subcat_id;
                     $newsession['childsubcat_id'] = $session->childsubcat_id;
                     $newsession['file_number_court'] = $session->file_number_court;
@@ -2297,17 +2297,27 @@ class Sessions extends AdminController
         $rel_id = $service_data->rel_id;
         $service_id = $this->legal->get_service_id_by_slug($rel_type);
         if($service_id == 1){
-            if($service_data->clientid == null) {
-                $service_data->clientid = get_client_id_by_case_id($rel_id);
+            $case = get_case_by_id($rel_id);
+            if ($service_data->clientid == null) {
+                $service_data->clientid = $case->clientid;
             }
-            $service_data->opponent_id = get_opponent_id_by_case_id($rel_id);
+            $service_data->representative = $case->representative;
+            $service_data->opponent_id = $case->opponent_id;
+            $service_data->city = $case->city;
+            $service_data->case_name =$case->name;
+
         }else if($service_id == 22){
-            if($service_data->clientid == null) {
-                $service_data->clientid = get_client_id_by_disputes_case_id($rel_id);
+            $case = get_disputes_case($rel_id);
+            if ($service_data->clientid == null) {
+                $service_data->clientid = $case->clientid;
             }
+            $service_data->representative = $case->representative;
+            $service_data->city = $case->city;
+            $service_data->case_name =$case->name;
             $opponents = get_disputes_cases_opponents_by_case_id($rel_id);
-            foreach ($opponents as $opponent){
-                if($opponent->opponent_id > 0) $service_data->opponent_id = $opponent->opponent_id;break;
+            foreach ($opponents as $opponent) {
+                if ($opponent->opponent_id > 0) $service_data->opponent_id = $opponent->opponent_id;
+                break;
             }
         }else if($rel_type == 'customer'){
             if($service_data->clientid == null) {

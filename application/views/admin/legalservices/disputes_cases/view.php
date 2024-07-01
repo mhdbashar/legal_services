@@ -530,6 +530,10 @@ echo form_hidden('project_percent',$percent);
         send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
         if (court_decision == '') {
             alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+        } else if (next_session_time == '' && next_session_date != '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_time'); ?>');
+        } else if (next_session_time != '' && next_session_date == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_date'); ?>');
         } else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,

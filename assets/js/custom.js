@@ -1199,9 +1199,10 @@ function send_written_report (report_id, service_id, msg) {
         $.ajax({
             url: admin_url + 'written_reports/send_mail_to_client/' + report_id + '/' + service_id,
             success: function (data) {
-                if(data[0] == 1){
+                data = JSON.parse(data);
+                if(data[0] == 'success'){
                     alert_float('success', data[1]);
-                }else if (data[0] == 2){
+                }else if (data[0] == 'fail'){
                     alert_float('danger', data[1]);
                 }else {
                     alert_float('danger', 'Operation failed!');

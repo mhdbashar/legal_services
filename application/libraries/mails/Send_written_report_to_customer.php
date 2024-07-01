@@ -10,7 +10,7 @@ class Send_written_report_to_customer extends App_mail_template
 
     protected $contact;
 
-    public $slug = 'send_written_report_to_customer';
+    public $slug = 'send_written_report_to_customer';//
 
     public $rel_type = 'written_report';
 

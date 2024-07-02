@@ -3,6 +3,7 @@
 # Version 2.3.0
 
 $lang['check_in_out_report'] = 'Check in/out report';
+$lang['check_in_out_progress'] = 'Check in/out report';
 $lang['device'] = 'Device';
 $lang['brand'] = 'Brand';
 $lang['you_don\'t_have_shift_work']                                      = 'You don\'t have a shift work';

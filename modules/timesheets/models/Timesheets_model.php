@@ -7468,7 +7468,7 @@ class timesheets_model extends app_model
                 $time_in_ = $time_in;
                 $time_out_ = $time_out;
 
-                if($data_shift_type && get_option('flexible_hours')){
+                if($data_shift_type){
                     $start_work = strtotime($data_shift_type->time_start_work);
                     $end_work = strtotime($data_shift_type->time_end_work);
                     $start_lunch_break = strtotime($data_shift_type->start_lunch_break_time);

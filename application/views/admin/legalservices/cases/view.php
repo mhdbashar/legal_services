@@ -7,6 +7,53 @@ if ($time_format === '24') {
     $time_type = 'time';
 }
 ?>
+
+<style>
+
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow cards to wrap to the next line */
+        gap: 13px;
+        max-width: 1200px; /* Adjust based on your layout */
+    padding: 0px;
+    }
+
+    .card {
+        background-color: #989898; /* Default color */
+        color: white;
+        padding: 10px 10px;
+        border-radius: 5px;
+        position: relative;
+        margin:  0;
+        text-align: center;
+        font-weight: bold;
+        min-width: 80px; /* Adjust based on your layout */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        margin-top: -15px; /* Half of the height */
+        border-width: 15px;
+        border-style: solid;
+        border-color: transparent #989898 transparent transparent;
+           }
+
+    .card.complete {
+        background-color: #84c529; /* Green for complete */
+    }
+
+    .card.in-progress {
+        background-color: #ff8b3d; /* Orange for in progress */
+    }
+
+</style>
 <div id="wrapper">
     <?php echo form_hidden('project_id',$project->id) ?>
     <div class="content">
@@ -254,70 +301,29 @@ if ($time_format === '24') {
 
                 <?php }}}} ?>
                 <! ---------------------------!End of alarms --------------->
-
                 <?php // if(has_permission('tasks','','create')) {?>
-
                 <?php // } ?>
-
                 <! ------------------ ADDing Phases ---------------------->
-                <div  class="panel_s project-menu-panel">
-                    <div class="panel-body">
                 <?php if(!empty($phases)):
                     $now_phase=  $number_of_completed_phases+1;
-              // print_r($now_phase);
-               // print_r($number_of_completed_phases);
-               // exit();
-                ?>
-                    <div   class="row">
-                        <div style="margin: 0px;padding: 0px;justify-content:right;justify-items: right;display: flex;flex-direction:row;flex-wrap: wrap; !important;" style="display:inline-list-item; !important;" class="container-fluid" style=" height: auto ">
-                            <?php
-                            $i=1;
-                            $number=1;
-                                 foreach ($phases as $phase):
-                              // if($number>6)
-                                    //break;
-                                if (total_rows(db_prefix() . 'customfieldsvalues', array('fieldto' =>$phase->slug.'_'.$service->slug, 'relid' => $project->id)) > 0) {
-                                    $compleate = 1;
-                                }
-                                elseif ($number== $now_phase)
-                                {
-                                    $compleate=2;
-                                }
-                                else
-                                {
-                                    $compleate=0;
-                                }
-
-                                ?>
-                                <! -- test-->
-                                <div style="margin: 0px;padding: 0px; !important;"  id="kan-ban">
-                                    <ul  style="padding-bottom: 1px; margin: 0px;width:185px; !important;" class="kan-ban-col tasks-kanban" data-col-status-id="1" data-total-pages="0">
-                                        <li style="margin: 0px;padding: 0px; !important;" class="kan-ban-col-wrapper">
-                                            <div style="padding: 0px; margin: 0px;!important;" class="border-right panel_s">
-                                                <div class="panel-heading-bg" style="background:<?php if($compleate==1) echo '#84c529'; elseif($compleate==2) echo ' #ff8b3d'; else echo '#989898'; ?>; border-color:#989898;color:#ffffff; ?>" data-status-id="1">
-                                                    <div class="kan-ban-step-indicator"></div>
-                                                    <a href="#phase<?php echo $phase->id; ?>" >
-                                                    <span style="color: white" class="heading"> <?php echo $i.'- '.$phase->name; ?>        </span>
-                                                    </a>
-                                                    <a href="#" class="pull-right color-white">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                                <?php
-                                $number++;
-                                $i++;
-                                endforeach; ?>
-                        </div>
+                    $i=1;$number=1; ?>
+                    <div class="cards-container">
+                <?php
+                    foreach ($phases as $phase):
+                        if (total_rows(db_prefix() . 'customfieldsvalues', array('fieldto' =>$phase->slug.'_'.$service->slug, 'relid' => $project->id)) > 0) {
+                            $compleate = 1;}
+                        elseif ($number== $now_phase)
+                        {$compleate=2;}
+                        else {$compleate=0;} ?>
+                            <div class="card  <?php if($compleate==1) echo 'complete'; elseif($compleate==2) echo 'in-progress';  ?>"> <span style="color: white" class="heading"> <?php echo $i.'- '.$phase->name; ?>        </span>
+                            </div>
+                        <?php
+                        $number++;
+                        $i++;
+                    endforeach; ?>
                     </div>
                 <?php endif; ?>
-                    </div>
-                </div>
                 <! ------------------ end of Phases ------------------------>
-
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>

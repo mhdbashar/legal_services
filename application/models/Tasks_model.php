@@ -34,7 +34,8 @@ class Tasks_model extends App_Model
 
     public function get_statuses()
     {
-        $statuses = hooks()->apply_filters('before_get_task_statuses', [
+       // $statuses = hooks()->apply_filters('before_get_task_statuses', [
+        $statuses = [
             [
                 'id'             => self::STATUS_NOT_STARTED,
                 'color'          => '#989898',
@@ -70,7 +71,7 @@ class Tasks_model extends App_Model
                 'order'          => 100,
                 'filter_default' => false,
             ],
-        ]);
+        ];
 
         usort($statuses, function ($a, $b) {
             return $a['order'] - $b['order'];

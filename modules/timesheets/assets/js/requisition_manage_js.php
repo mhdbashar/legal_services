@@ -116,7 +116,7 @@
       {
         appValidateForm($('#requisition-form'), {
           subject: 'required',
-          start_time:  'required'
+          // start_time:  'required'
         });
         $("div.end_time").addClass('hide');
         $('#requisition-form input[name="end_time"]').val("<?php echo html_entity_decode($current_date) ?>");

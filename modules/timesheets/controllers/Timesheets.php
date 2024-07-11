@@ -689,7 +689,7 @@ public function add_requisition_ajax(){
 		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
 			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time']);
-			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+			$data['start_time'] = $data['start_time'] . ' ' . $data['start_time_s_time'];
 
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
 		}

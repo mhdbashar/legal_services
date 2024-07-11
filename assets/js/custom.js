@@ -62,70 +62,70 @@ function incrementSeconds() {
 }
 var cancel = setInterval(incrementSeconds, 1000);
 
-
-let timer;
-let timer2;
-let sess_time_to_update;
-let sess_expiration;
-let searchTimeout;
-$.ajax({
-    type: 'Get',
-    url: admin_url + 'My_custom_controller/session',
-    async: false,
-    success: function(data) {
-
-        sess_time_to_update = JSON.parse(data).sess_time_to_update;
-        sess_expiration = JSON.parse(data).sess_expiration * 1000;
-
-
-        timer = setTimeout(function(){
-
-            seconds = 60;
-            $('#' + aId).modal('show');
-            timeout = timeout ? timeout : 3500
-            timer2 = setTimeout(function() {
-                $('#' + aId).modal('hide');
-                window.location.replace(admin_url + 'authentication/logout');
-            }, timeout);
-
-        }, sess_expiration - 60000);
-
-        document.onmousemove = function(){
-
-            clearTimeout(timer);
-            clearTimeout(timer2);
-            $('#' + aId).modal('hide');
-
-            timer = setTimeout(function(){
-                seconds = 60;
-                $('#' + aId).modal('show');
-                timer2 = setTimeout(function() {
-                    $('#' + aId).modal('hide');
-                    window.location.replace(admin_url + 'authentication/logout');
-                }, timeout);
-            }, sess_expiration - 60000);
-        }
-
-
-        window.onkeydown= function(gfg){
-            clearTimeout(timer);
-            clearTimeout(timer2);
-            $('#' + aId).modal('hide');
-
-            timer = setTimeout(function(){
-                seconds = 60;
-                $('#' + aId).modal('show');
-                timer2 = setTimeout(function() {
-                    $('#' + aId).modal('hide');
-                    window.location.replace(admin_url + 'authentication/logout');
-                }, timeout);
-            }, sess_expiration - 60000);
-        }
-
-
-    },
-
-});
+//
+// let timer;
+// let timer2;
+// let sess_time_to_update;
+// let sess_expiration;
+// let searchTimeout;
+// $.ajax({
+//     type: 'Get',
+//     url: admin_url + 'My_custom_controller/session',
+//     async: false,
+//     success: function(data) {
+//
+//         sess_time_to_update = JSON.parse(data).sess_time_to_update;
+//         sess_expiration = JSON.parse(data).sess_expiration * 1000;
+//
+//
+//         timer = setTimeout(function(){
+//
+//             seconds = 60;
+//             $('#' + aId).modal('show');
+//             timeout = timeout ? timeout : 3500
+//             timer2 = setTimeout(function() {
+//                 $('#' + aId).modal('hide');
+//                 window.location.replace(admin_url + 'authentication/logout');
+//             }, timeout);
+//
+//         }, sess_expiration - 60000);
+//
+//         document.onmousemove = function(){
+//
+//             clearTimeout(timer);
+//             clearTimeout(timer2);
+//             $('#' + aId).modal('hide');
+//
+//             timer = setTimeout(function(){
+//                 seconds = 60;
+//                 $('#' + aId).modal('show');
+//                 timer2 = setTimeout(function() {
+//                     $('#' + aId).modal('hide');
+//                     window.location.replace(admin_url + 'authentication/logout');
+//                 }, timeout);
+//             }, sess_expiration - 60000);
+//         }
+//
+//
+//         window.onkeydown= function(gfg){
+//             clearTimeout(timer);
+//             clearTimeout(timer2);
+//             $('#' + aId).modal('hide');
+//
+//             timer = setTimeout(function(){
+//                 seconds = 60;
+//                 $('#' + aId).modal('show');
+//                 timer2 = setTimeout(function() {
+//                     $('#' + aId).modal('hide');
+//                     window.location.replace(admin_url + 'authentication/logout');
+//                 }, timeout);
+//             }, sess_expiration - 60000);
+//         }
+//
+//
+//     },
+//
+// });
 
 var current_url = window.location.href;
 var daminURL= admin_url;

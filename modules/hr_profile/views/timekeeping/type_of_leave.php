@@ -76,15 +76,28 @@ render_datatable($table_data,'table_type_of_leave');
                             <label for="accumulative"><?php echo _l('accumulative'); ?></label>
                         </div>
                     </div>
+
                     <div class="col-md-6">
+                  <hr class="no-mtop">  <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title="اسم الاجازة "></a>
                         <?php echo render_input('name','name','', '', ['required' => true]); ?>
+                        <hr/>
+                         <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title="رمز المميز للاجازة "></a>
                         <?php echo render_input('code', 'code', '', '', ['required' => true]); ?>
+                        <hr/>
+                        <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title=" عدد ايام الاجازة المستحقة "></a>
                         <?php echo render_input('number_of_days','number_of_days',1, 'number'); ?>
+                        <hr/>
+                        <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title="عدد اشهر العمل  "></a>
                         <?php echo render_input('entitlement_in_months','entitlement_in_months',1, 'number'); ?>
+                        <hr/>
+                        <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title="مدة عمل الموظف في السنوات  "></a>
                         <?php echo render_input('deserving_in_years','deserving_in_years',0, 'number'); ?>
+                        <hr/>
                         <?php echo render_input('deserving_before_days','deserving_before_days',0, 'number', [], [], 'hide'); ?>
+                        <hr/>
                         <?php echo render_input('deserving_after_days','deserving_after_days',0, 'number', [], [], 'hide'); ?>
                         <div class="form-group">
+                        <a class="fa fa-question-circle  pull-right" href="#" data-toggle="tooltip" title="امكانبة تكرار الاجازة  "></a>
                             <label for="repeat_leave" class="control-label"><?php echo _l('repeat_leave'); ?></label>
                             <select name="repeat_leave" class="selectpicker" id="repeat_leave" data-width="100%" data-none-selected-text="<?php echo _l('none_type'); ?>">
                             <option></option>
@@ -96,8 +109,7 @@ render_datatable($table_data,'table_type_of_leave');
                 </div>
                 <hr />
                 <div class="col-md-12">
-                    <?php echo render_input('notify_manager_before_deserving_days','notify_manager_before_deserving_days','', 'number', [], [], 'hide'); ?>
-                    <?php echo render_input('notify_staff_before_deserving_days','notify_staff_before_deserving_days','', 'number', [], [], 'hide'); ?>
+  
                     <div class="form-group">
                         <label for="repeat_leave" class="control-label"><?php echo _l('conflict_with_holidays'); ?></label>
                         <select name="repeat_leave" class="selectpicker" id="repeat_leave" data-width="100%" data-none-selected-text="<?php echo _l('default'); ?>">

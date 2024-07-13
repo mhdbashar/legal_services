@@ -192,6 +192,7 @@ class MX_Loader extends CI_Loader
             CI::$APP->$_alias = new $library($params);
 
             $this->_ci_classes[$class] = $_alias;
+            
         }
 
         return $this;

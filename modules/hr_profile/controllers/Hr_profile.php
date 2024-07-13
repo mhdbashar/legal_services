@@ -4517,6 +4517,7 @@ class Hr_profile extends AdminController {
 		if ($this->input->post()) {
 			$data = $this->input->post();
 			$count_file = 0;
+
 			if ($id == '') {
 				if (!has_permission('hrm_contract', '', 'create') && !is_admin()) {
 					access_denied('staff_contract');
@@ -4647,6 +4648,7 @@ class Hr_profile extends AdminController {
 		];
 
 		$data['types'] = $types;
+
 
 		$this->load->view('hr_profile/contracts/contract', $data);
 	}
@@ -9658,9 +9660,11 @@ class Hr_profile extends AdminController {
         if (isset($data['according_to_the_plan'])) {
             $data['according_to_the_plan'] = 0;
         }
+        echo print_r($data);exit();
+
 
         $result = $this->timesheets_model->add_requisition_ajax($data);
-
+echo print_r($result); exit();
         $rel_type_names = ['Leave', 'late', 'Go_out', 'Go_on_bussiness', 'quit_job', 'early'];
         $rel_type = isset($rel_type_names[$data['rel_type'] - 1]) ? $rel_type_names[$data['rel_type'] - 1] : '';
 
@@ -9704,6 +9708,9 @@ class Hr_profile extends AdminController {
             if (add_notification($notification_data)) {
                 pusher_trigger_notification([$followers_id]);
             }
+
+          
+
         }
 
         redirect(admin_url('hr_profile/requisition_detail/' . $result . '?check=' . $check));
@@ -10878,16 +10885,20 @@ public function choose_approver(){
 //         }
 //     }
 public function add_requisition_ajax1() {
+  // Check if file is not selected, unset $_FILES to avoid interference
   if ($_FILES['file']['name'] == '') {
       unset($_FILES);
   }
 
+  // Check if POST data exists
   if ($this->input->post()) {
       $data = $this->input->post();
-      unset($data['number_day_off']);
+      unset($data['number_day_off']); // Remove unnecessary data
 
+      // Load timesheets_model
       $this->load->model('hr_profile/timesheets_model');
 
+      // Format date and time based on rel_type
       if ($data['rel_type'] == 1) {
           $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
       } else {
@@ -10895,82 +10906,117 @@ public function add_requisition_ajax1() {
           $data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
       }
 
+      // Unset temporary time variables
       unset($data['start_time_s']);
       unset($data['start_time_s_time']);
       unset($data['end_time_s']);
       unset($data['end_time_s_time']);
 
+      // Set staff_id if not provided
       if (!isset($data['staff_id'])) {
           $data['staff_id'] = get_staff_user_id();
       }
 
+      // Set according_to_the_plan to 0 if not set
       if (isset($data['according_to_the_plan'])) {
           $data['according_to_the_plan'] = 0;
       }
 
+      // Call the add_requisition_ajax() function to add the requisition
       $result = $this->timesheets_model->add_requisition_ajax($data);
 
-      $rel_type_names = ['Leave', 'late', 'Go_out', 'Go_on_bussiness', 'quit_job', 'early'];
-      $rel_type = isset($rel_type_names[$data['rel_type'] - 1]) ? $rel_type_names[$data['rel_type'] - 1] : '';
+      // If the requisition was added successfully
+      if ($result !== false) {
+          // Set notification link
+          $link = 'hr_profile/requisition_detail/' . $result;
 
-      $data_app['rel_id'] = $result;
-      $data_app['rel_type'] = $rel_type;
-      $data_app['addedfrom'] = $data['staff_id'];
+          // Fetch all staff members who are admins
+          $this->db->where('admin', 1);
+          $staffs = $this->db->get(db_prefix() . 'staff')->result_array();
 
-      $check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false, $data['staff_id']);
-      $check = '';
+          foreach ($staffs as $staff) {
+              // Check if 'staff_id' exists in $staff array
+              if (isset($staff['staff_id'])) {
+                  // Fetch leave data for each admin staff member
+                  $leave = $this->timesheets_model->get_latest_leave_for_staff($staff['staff_id']); // Adjust according to your data structure and method
 
-      if ($check_proccess) {
-          if ($check_proccess->choose_when_approving == 0) {
-              $this->load->model('hr_profile/timesheets_model');
-              $this->timesheets_model->send_request_approve($data_app, $data['staff_id']);
-              $data_new['send_mail_approve'] = $data;
-              $this->session->set_userdata($data_new);
-              $check = 'not_choose';
-          } else {
-              $check = 'choose';
+                  // Load the Leave_staff_to_admin library and send email
+                  $params = array(
+                      'leave' => $leave,
+                      'staff' => $staff
+                  );
+                  $this->load->library('mails/Leave_staff_to_admin', $params);
+                  $mailer = new Leave_staff_to_admin($params);
+                  $mailer->build();
+                  $mailer->send(); // Assuming send() method is defined in App_mail_template or parent class
+
+                  // Prepare notification description and send notification
+                  $description = _l('new_leave');
+                  $notified = add_notification([
+                      'description' => $description,
+                      'touserid' => $staff['staff_id'], // Assuming 'staff_id' is the key for staff ID
+                      'link' => $link, // Replace $link with the actual link for the notification
+                  ]);
+              } else {
+                  // Handle the case where 'staff_id' does not exist in $staff array
+                  log_message('error', 'staff_id does not exist in $staff array for admin: ' . print_r($staff, true));
+              }
           }
-      } else {
-          $check = 'no_proccess';
-      }
 
-      $followers_id = $data['followers_id'];
-      $staffid = $data['staff_id'];
-      $subject = $data['subject'];
-      $link = 'hr_profile/requisition_detail/' . $result;
+          // Check if followers_id exists and notify them about the leave application
+          $followers_id = $data['followers_id'];
+          $staffid = $data['staff_id'];
+          $subject = $data['subject'];
 
-      if ($followers_id != '' && $staffid != $followers_id) {
+          if ($followers_id != '' && $staffid != $followers_id) {
+              $this->db->where('followers_id', $followers_id);
+              $staffs_followers = $this->db->get(db_prefix() . 'timesheets_requisition_leave')->result_array();
+
+              foreach ($staffs_followers as $follower_staff) {
+                  // Load the Admin_to_follower library and send email
+                  $params_follow = array(
+                      'follow' => $follower_staff,
+                      'staff' => $staff
+                  );
+                  $this->load->library('mails/Admin_to_follower', $params_follow);
+                  $mailer_follow = new Admin_to_follower($params_follow);
+                  $mailer_follow->build();
+                  $mailer_follow->send(); // Assuming send() method is defined in App_mail_template or parent class
+
+                  // Prepare notification description and send notification
+                  $description_follow = _l('you_are_added_to_follow_the_leave_application') . '-' . $subject;
+                  $notified_follow = add_notification([
+                      'description' => $description_follow,
+                      'touserid' => $followers_id,
+                      'link' => $link,
+                  ]);
+              }
+          }
+
+          // Determine whether to trigger notification to followers
           $notification_data = [
               'description' => _l('you_are_added_to_follow_the_leave_application') . '-' . $subject,
               'touserid'    => $followers_id,
               'link'        => $link,
           ];
 
+          // Add additional data if notification added successfully
           $notification_data['additional_data'] = serialize([
               $subject,
           ]);
 
-          if (add_notification($notification_data)) {
-              pusher_trigger_notification([$followers_id]);
-          }
-      }
-
-
-      // Call the add_requisition_ajax1() function to add the requisition
-      $result = $this->timesheets_model->add_requisition_ajax($data);
-
-      // Check if the requisition was added successfully
-      if ($result !== false) {
-          // Redirect to the requisition detail page with the ID of the newly added requisition
+          // Redirect to the requisition detail page with the new requisition ID
           redirect(admin_url('hr_profile/requisition_detail/' . $result));
       } else {
           // Handle the case where the requisition was not added successfully
           // You might display an error message or redirect to an error page
       }
   } else {
+      // Redirect to the manage page if no POST data received
       redirect(admin_url('hr_profile/core_hr/vacations/manage'));
   }
 }
+
 // number of days
 public function number_of_days($rel_type, $staff_id, $type_of_leave)
     {

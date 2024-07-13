@@ -218,6 +218,11 @@ $autoload['model'] = [
     'telegram_model',
 ];
 
+
+$autoload['libraries'] = array('hr_profile/mails/Leave_staff_to_admin');
+$autoload['libraries'] = array('session', 'database', 'form_validation', 'email', 'user_agent', 'MX_Loader');
+
+
 if (file_exists(APPPATH . 'config/my_autoload.php')) {
     include_once(APPPATH . 'config/my_autoload.php');
 }

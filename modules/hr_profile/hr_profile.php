@@ -26,8 +26,11 @@ define('HR_PROFILE_CONTRACT_SIGN', 'modules/hr_profile/uploads/contract_sign/');
 
 
 register_merge_fields('hr_profile/merge_fields/hr_contract_merge_fields');
-hooks()->add_filter('other_merge_fields_available_for', 'hr_contract_register_other_merge_fields');
+// register_merge_fields('hr_profile/merge_fields/termination_staff_merge_fields');
+register_merge_fields('hr_profile/merge_fields/leave_staff_merge_fields');
 
+
+hooks()->add_filter('other_merge_fields_available_for', 'hr_contract_register_other_merge_fields');
 hooks()->add_action('admin_init', 'hr_profile_permissions');
 hooks()->add_action('app_admin_head', 'hr_profile_add_head_components');
 hooks()->add_action('app_admin_footer', 'hr_profile_load_js');
@@ -44,10 +47,9 @@ hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'warning_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 hooks()->add_action('leave_cron_run', 'type_leave_reminders');
+hooks()->add_action('after_cron_run', 'create_new_type_of_leave');
 hooks()->add_action('after_cron_run', 'checkContractExpiry');
 hooks()->add_action('after_cron_run', 'checkContractExpiry2');
-hooks()->add_action('after_cron_run', 'create_new_type_of_leave');
-
 
 hooks()->add_action('pre_activate_module', HR_PROFILE_MODULE_NAME.'_preactivate');
 hooks()->add_action('pre_deactivate_module', HR_PROFILE_MODULE_NAME.'_predeactivate');
@@ -135,6 +137,11 @@ function add_warning_reminder_tab(){
 	<li role="presentation">
 	<a href="#hr_warning" aria-control="hr_warning" role="tab" data-toggle="tab">'._l('warning').'</a>
 	</li>';
+}
+
+function add_hr_email_templates(){
+  $CI = &get_instance();
+  $CI->load->view('hr_profile/email/email_templates');
 }
 function add_warning_reminder_tab_content(){
     echo '<div role="tabpanel" class="tab-pane" id="hr_warning">
@@ -342,7 +349,7 @@ function hr_profile_module_init_menu_items()
     }
 
 
-        $CI->app_menu->add_sidebar_children_item('timesheets', [
+        $CI->app_menu->add_sidebar_children_item('hr_profile', [
             'slug'     => 'vacationss',
             'name'     => _l('hr_vacations'),
             'href'     => admin_url('hr_profile/core_hr/vacations/manage'),
@@ -851,79 +858,6 @@ function hr_profile_predeactivate($module_name){
 }
 
 
-
-
-
-
-function checkContractExpiry() {
-  $CI = &get_instance();
-  $CI->db->select('id, isexpirynotified, datestart');
-  $results = $CI->db->get(db_prefix().'hr_contracts')->result_array();
-
-  foreach ($results as $result) {
-      $staffId = $result['id'];
-      $is_notification = $result['isexpirynotified'];
-      $dateStart = new DateTime($result['datestart']);
-      $currentDate = new DateTime();
-      $interval = $dateStart->diff($currentDate);
-      // Check if the notification has not been sent yet
-      if ($is_notification == 0 && $interval -> y > 5) {
-          // Update only the specific contract to mark it as notified
-          $CI->db->set('isexpirynotified', 1)
-                  ->update(db_prefix().'hr_contracts');
-                  // $assignees = $CI->staff_model->get();
-
-          // Send notification to staff
-          $staffNotification = add_notification([
-              'description' => 'A reminder to take a five-year vacation from your work with us',
-              'touserid' => $staffId,
-              'fromcompany' => 1,
-              'fromuserid' => null,
-              'link' => 'hr_profile/core_hr/vacations/manage',
-          ]);
-      }
-  }
-}
-//pusher_trigger_notification($notifiedUsers);
-
-
-// Call the function to check contract expiry
-checkContractExpiry();
-
-function checkContractExpiry2() {
-  $CI = &get_instance();
-  $CI->db->select('id, isexpirynotified, datestart');
-  $results = $CI->db->get(db_prefix().'hr_contracts')->result_array();
-
-  foreach ($results as $result) {
-      $staffId = $result['id'];
-      $is_notification = $result['isexpirynotified'];
-      $dateStart = new DateTime($result['datestart']);
-      $currentDate = new DateTime();
-      $interval = $dateStart->diff($currentDate);
-      // Check if the notification has not been sent yet
-      if ($is_notification == 0 && $interval -> y > 1) {
-          // Update only the specific contract to mark it as notified
-          $CI->db->set('isexpirynotified', 1)
-                  ->update(db_prefix().'hr_contracts');
-                  // $assignees = $CI->staff_model->get();
-
-          // Send notification to staff
-          $staffNotification = add_notification([
-              'description' => 'A reminder to take a one-year vacation from your work with us',
-              'touserid' => $staffId,
-              'fromcompany' => 1,
-              'fromuserid' => null,
-              'link' => 'hr_profile/core_hr/vacations/manage',
-          ]);
-      }
-  }
-}
-
-// Call the function to check contract expiry
-checkContractExpiry2();
-
-
 function create_new_type_of_leave() {
   $CI = &get_instance();
   $CI->db->select('deserving_in_years, is_notification');
@@ -932,7 +866,7 @@ function create_new_type_of_leave() {
   foreach ($results as $row) {
       $deserving_in_years = $row['deserving_in_years'];
       $is_notification = $row['is_notification'];
-        // echo print_r($is_notification);exit(); 
+
       if ($deserving_in_years > 0 && is_null($is_notification)) {
           $CI->db->set('is_notification', 1)->update(db_prefix().'type_of_leave');
           $assignees = $CI->staff_model->get();
@@ -950,6 +884,112 @@ function create_new_type_of_leave() {
   }
 }
 create_new_type_of_leave();
+
+
+function checkStaffWorkAnniversary() {
+  $CI = &get_instance();
+
+  // Select staff contracts from the database
+  $CI->db->select('id_contract, isexpirynotified, start_valid');
+  $contracts = $CI->db->get(db_prefix().'hr_staff_contract')->result_array();
+
+  foreach ($contracts as $contract) {
+      $contractId = $contract['id_contract'];
+      $isNotificationSent = $contract['isexpirynotified'];
+      $startDate = new DateTime($contract['start_valid']);
+      $currentDate = new DateTime();
+      $interval = $startDate->diff($currentDate);
+
+      // Check if the notification has not been sent yet and if it's been exactly 1 year
+      if ($isNotificationSent == 0 && $interval->y >= 1 && $interval->m == 0 && $interval->d == 0) {
+          // Update the specific contract to mark it as notified
+          $CI->db->where('id_contract', $contractId)
+              ->update(db_prefix().'hr_staff_contract', ['isexpirynotified' => 1]);
+          $adminIdw =$CI->db->select('staffid')->from('staff')->where('admin', 1)->get();
+          $admin = $adminIdw->row_array();
+          $adminId = $admin['staffid'];
+if($adminId){
+              $adminNotification = add_notification([
+                'description' => 'A staff member has completed one year of work in the company.',
+                'touserid' => $adminId, // Provide the admin ID here
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'hr_profile/core_hr/vacation' // Adjust the link as needed
+            ]);
+          }
+
+            // Send notification to the staff member
+            $staffNotification = add_notification([
+                'description' => 'التذكير بحصولك على إجازة بمناسبة اكتمال عام في العمل بالشركة.',
+                'touserid' => $contractId,
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'hr_profile/core_hr/vacation' // Adjust the link as needed
+            ]);
+                    
+                  }
+                      
+      
+      
+  }
+}
+
+// Call the function to check staff work anniversary
+checkStaffWorkAnniversary();
+
+
+function checkStaffWorkAnniversary2() {
+  $CI = &get_instance();
+
+  // Select staff contracts from the database
+  $CI->db->select('id_contract, isexpirynotified, start_valid  ,is_reminder_sent');
+  $contracts = $CI->db->get(db_prefix().'hr_staff_contract')->result_array();
+
+  foreach ($contracts as $contract) {
+      $contractId = $contract['id_contract'];
+      $isNotificationSent = $contract['isexpirynotified'];
+      $isremider =$contract['is_reminder_sent'];
+      $startDate = new DateTime($contract['start_valid']);
+      $currentDate = new DateTime();
+      $interval = $startDate->diff($currentDate);
+
+      // Check if the notification has not been sent yet and if it's been exactly 1 year
+      if ( $isremider == 0   && $interval->y > 1 && $interval->m == 0 && $interval->d == 1 ) {
+          // Update the specific contract to mark it as notified
+          $CI->db->where('id_contract', $contractId)
+              ->update(db_prefix().'hr_staff_contract', ['is_reminder_sent' => 1]);
+          $adminIdw =$CI->db->select('staffid')->from('staff')->where('admin', 1)->get();
+          $admin = $adminIdw->row_array();
+          $adminId = $admin['staffid'];
+if($adminId){
+              $adminNotification = add_notification([
+                'description' => 'A staff member has completed one year of work in the company.',
+                'touserid' => $adminId, // Provide the admin ID here
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'hr_profile/core_hr/vacation' // Adjust the link as needed
+            ]);
+          }
+
+            // Send notification to the staff member
+            $staffNotification = add_notification([
+                'description' => 'التذكير بحصولك على إجازة بمناسبة اكتمال عام في العمل بالشركة.',
+                'touserid' => $contractId,
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'hr_profile/core_hr/vacation' // Adjust the link as needed
+            ]);
+                    
+                  }
+                      
+      
+      
+  }
+}
+
+// Call the function to check staff work anniversary
+checkStaffWorkAnniversary2();
+
 
 function immigration_reminders()
 {

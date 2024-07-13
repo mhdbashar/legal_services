@@ -25,8 +25,8 @@ class Core_hr extends AdminController{
 
         // $this->load->model('No_branch_model');
 
-        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
-            access_denied();
+        // if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
+        //     access_denied();
 
 //        $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
 //        $total_staffs = $this->db->count_all_results(db_prefix() . 'staff');
@@ -35,6 +35,30 @@ class Core_hr extends AdminController{
 //            redirect(admin_url('hr/general/staff'));
 //        }
 	}
+  //hr_contract 
+  public function get_employee_contract_duration(){
+    $contracts = $this->db->get(db_prefix().'hr_contracts')->result_array();
+    
+    $totalDuration = 0; // Total duration of all contracts in months
+    
+    foreach ($contracts as $contract) {
+        $dateStart = new DateTime($contract['datestart']);
+        $dateEnd = new DateTime(); // Current time
+        
+        // Calculate the duration of the contract (between datestart and current time)
+        $interval = $dateStart->diff($dateEnd);
+        
+        // Convert the duration to months (you can change this to any other unit)
+        $durationInMonths = $interval->y * 12 + $interval->m + $interval->d / 30;
+        
+        // Add the duration of this contract to the total duration
+        $totalDuration += $durationInMonths;
+    }
+    
+    return $totalDuration; // Return the total duration in months
+}
+
+
 	//vacations 
 	    public function vacations(){
         
@@ -47,6 +71,13 @@ class Core_hr extends AdminController{
 //            $ci->load->model('branches/Branches_model');
 //            $data['branches'] = $ci->Branches_model->getBranches();
 //        }
+$employee_contract_duration = $this->get_employee_contract_duration(); 
+
+if($employee_contract_duration < 6){
+  set_alert('warning', _l('is_referenced', _l('lead_source_lowercase')));
+
+    return;
+}
 
 	$send_mail_approve = $this->session->userdata("send_mail_approve");
 		if((isset($send_mail_approve)) && $send_mail_approve != ''){
@@ -83,11 +114,15 @@ class Core_hr extends AdminController{
     $this->load->model('hr_profile/timesheets_model');
 		$data['additional_timesheets_id'] = $this->input->get('additional_timesheets_id');
 		$data['additional_timesheets'] = $this->timesheets_model->get_additional_timesheets();
-
-        $data['staffes'] = $this->Staff_model->get();
+    
+    $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('awards');
         $this->load->view('hr_profile/core_hr/vacations/manage', $data);
     }
+
+
+
+  
     // awards
 	public function delete_vacations($id)
 	{

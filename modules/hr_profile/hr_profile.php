@@ -349,7 +349,7 @@ function hr_profile_module_init_menu_items()
     }
 
 
-        $CI->app_menu->add_sidebar_children_item('hr_profile', [
+        $CI->app_menu->add_sidebar_children_item('timesheets', [
             'slug'     => 'vacationss',
             'name'     => _l('hr_vacations'),
             'href'     => admin_url('hr_profile/core_hr/vacations/manage'),

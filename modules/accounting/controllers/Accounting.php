@@ -18,6 +18,7 @@ class Accounting extends AdminController
         }
     }
 
+
     /**
      * manage transaction
      * @return view

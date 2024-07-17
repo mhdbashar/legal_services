@@ -478,12 +478,15 @@ function acc_automatic_payment_conversion($data) {
 
             if(isset($data['id'])){
                 $CI->accounting_model->automatic_payment_conversion($data['id']);
+                return $data['id'];
             }else{
                 $CI->accounting_model->automatic_payment_conversion($data);
+                return $data;
             }
         }
 
     }
+
 
     return $data['id'];
 }

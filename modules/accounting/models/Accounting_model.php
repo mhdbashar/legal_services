@@ -8836,7 +8836,7 @@ class Accounting_model extends App_Model
                     $node['item'] = $item_id;
                     $node['date'] = $invoice->date;
                     $node['paid'] = $paid;
-                    $node['debit'] = $item_total + $total_tax;
+                    $node['debit'] = $item_total ;
                     $node['customer'] = $invoice->clientid;
                     $node['tax'] = 0;
                     $node['credit'] = 0;
@@ -8870,7 +8870,7 @@ class Accounting_model extends App_Model
                     $node['split'] = $payment_account;
                     $node['account'] = $deposit_to;
                     $node['item'] = $item_id;
-                    $node['debit'] = $item_total + $total_tax ;
+                    $node['debit'] = $item_total ;
                     $node['customer'] = $invoice->clientid;
                     $node['paid'] = $paid;
                     $node['date'] = $invoice->date;

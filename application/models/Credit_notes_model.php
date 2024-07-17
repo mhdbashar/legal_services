@@ -716,7 +716,7 @@ class Credit_notes_model extends App_Model
         if($invoiceid){
             $this->db->where('invoiceid', $invoiceid);
             $paiment_id = $this->db->get(db_prefix().'invoicepaymentrecords')->row()->id;
-            $paiment_id=$paiment_id+1;
+            $paiment_id=$paiment_id;
 
             $this->db->where('(rel_id = "' . $paiment_id . '" and rel_type = "payment")');
             $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();

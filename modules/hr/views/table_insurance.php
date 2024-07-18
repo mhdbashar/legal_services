@@ -112,7 +112,7 @@ function get_payment_worker($premium, $social_staff, $labor_accident_staff, $hea
 
 foreach ($rResult as $aRow) {
 
-    $insurancetypes =   $this->ci->db->query(' select * from '.db_prefix().'insurance_type as t  where t.from_month <= "'.$aRow['from_month'].'"  order by t.from_month desc limit 1')->result_array();
+    $insurancetypes =  [];// $this->ci->db->query(' select * from '.db_prefix().'insurance_type as t  where t.from_month <= "'.$aRow['from_month'].'"  order by t.from_month desc limit 1')->result_array();
     if(count($insurancetypes) != 0){
         foreach ($insurancetypes as $key => $insurancetype) {
         $social_company         = (float)($insurancetype["social_company"]);

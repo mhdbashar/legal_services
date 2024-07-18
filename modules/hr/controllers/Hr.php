@@ -226,7 +226,7 @@ class Hr extends AdminController{
 
     public function build_insurance_types_relations() {
 
-        $types = $this->Insurance_type_model->get('', ['insurance_book_id' => $this->input->post('insurance_book_num'), 'for_staff' => 1]);
+        $types = $this->Insurance_type_model->get('', ['insurance_book_id' => $this->input->post('insurance_book_num')]);
         $output = '<option value=""></option>';
         $select=$this->input->post('selected');
         foreach ($types as $row)

@@ -104,6 +104,7 @@ $lang['invoice_status_paid'] = "مدفوع";
 $lang['invoice_status_unpaid'] = "غير مدفوع";
 $lang['invoice_status_overdue'] = "متأخر الدفع";
 $lang['invoice_status_not_paid_completely'] = "مدفوع جزئياً";
+$lang['invoice_status_refunded'] = "مرتجعة";
 $lang['invoice_pdf_heading'] = "فاتورة";
 $lang['invoice_table_item_heading'] = "عنصر";
 $lang['invoice_table_quantity_heading'] = "كمية";

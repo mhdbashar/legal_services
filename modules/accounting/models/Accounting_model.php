@@ -20914,7 +20914,7 @@ class Accounting_model extends App_Model
             $node['debit'] = 0;
             $node['credit'] = $payment_total;
             $node['description'] = '';
-            $node['rel_id'] = $data['credit_id'];
+            $node['rel_id'] = $data['credit_note_id'];
             $node['rel_type'] = 'credit_note';
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();

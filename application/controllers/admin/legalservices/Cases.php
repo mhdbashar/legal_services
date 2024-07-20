@@ -530,6 +530,7 @@ class Cases extends AdminController
             $data['case_model'] = $this->case;
             $data['ServID'] = $ServID;
             $data['id'] = $id;
+            $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             $this->load->view('admin/legalservices/cases/view', $data);
         } else {
             access_denied('Case View');
@@ -1322,6 +1323,98 @@ class Cases extends AdminController
 
             echo json_encode($members);
         }
+    }
+
+    public function dotProduct($vector1, $vector2) {
+        return array_sum(array_map(function($a, $b) {
+            return $a * $b;
+        }, $vector1, $vector2));
+    }
+
+    public function getBody1()
+    {
+        $_data = $this->input->post('data');
+        $type = $this->input->post('type');
+        $openai_api_key = 'sk-proj-2sTPOHI3he16v48uw987T3BlbkFJ9LUDxmhyv6nEc1A9L0NK';
+        $api_key = $openai_api_key;
+        // get text vector
+        $text = $this->input->post('text');
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.openai.com/v1/embeddings",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => [
+                "Authorization: Bearer {$api_key}",
+                "Content-Type: application/json"
+            ],
+            CURLOPT_POSTFIELDS => json_encode([
+                'input' => $text,
+                'model' => "text-embedding-3-small",
+            ]),
+        ]);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $response_data = json_decode($response, true);
+
+        $searchVector  = $response_data['data'][0]['embedding'];
+
+        // end get text vector
+        $data = json_decode($_data);
+        foreach ($data as $key => $item)
+        {
+            $this->db->where('rel_id', $item->id);
+            $this->db->where('type', $type);
+            $lib_data = $this->db->get(db_prefix() . 'my_lib_data')->row();
+            if($lib_data){
+                if($lib_data->vector)
+                    $data[$key]->vector = json_decode($lib_data->vector);
+                if(!$data[$key]->vector){
+                    unset($data[$key]);
+                    continue;
+                }
+            }else{
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => "https://api.openai.com/v1/embeddings",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_HTTPHEADER => [
+                        "Authorization: Bearer {$api_key}",
+                        "Content-Type: application/json"
+                    ],
+                    CURLOPT_POSTFIELDS => json_encode([
+                        'input' => $item->description,
+                        'model' => "text-embedding-3-small",
+                    ]),
+                ]);
+                $response = curl_exec($curl);
+                curl_close($curl);
+
+                $response_data = json_decode($response, true);
+                if(!$response_data['data']){
+                    unset($data[$key]);
+                    continue;
+                }
+                $embedding = $response_data['data'][0]['embedding'];
+                $this->db->insert(db_prefix() . 'my_lib_data', [
+                    'rel_id' => $item->id,
+                    'type' => $type,
+                    'vector' => json_encode($embedding)
+                ]);
+                $data[$key]->vector = $embedding;
+            }
+            $dotProduct = $this->dotProduct($searchVector, $data[$key]->vector);
+            unset($data[$key]->vector);
+            $data[$key]->score = $dotProduct;
+        }
+        usort($data, function($a, $b) {
+            return $b->score <=> $a->score;
+        });
+
+
+        echo json_encode($data); exit;
     }
 
 }

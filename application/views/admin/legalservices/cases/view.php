@@ -7,6 +7,53 @@ if ($time_format === '24') {
     $time_type = 'time';
 }
 ?>
+
+<style>
+
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow cards to wrap to the next line */
+        gap: 13px;
+        max-width: 1200px; /* Adjust based on your layout */
+    padding: 0px;
+    }
+
+    .card {
+        background-color: #989898; /* Default color */
+        color: white;
+        padding: 10px 10px;
+        border-radius: 5px;
+        position: relative;
+        margin:  0;
+        text-align: center;
+        font-weight: bold;
+        min-width: 80px; /* Adjust based on your layout */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        margin-top: -15px; /* Half of the height */
+        border-width: 15px;
+        border-style: solid;
+        border-color: transparent #989898 transparent transparent;
+           }
+
+    .card.complete {
+        background-color: #84c529; /* Green for complete */
+    }
+
+    .card.in-progress {
+        background-color: #ff8b3d; /* Orange for in progress */
+    }
+
+</style>
 <div id="wrapper">
     <?php echo form_hidden('project_id',$project->id) ?>
     <div class="content">
@@ -30,10 +77,49 @@ if ($time_format === '24') {
                                         <?php } ?>
                                     </select>
                                 </div>
+                                <! ------------------ ADDing Phases ---------------------->
                                 <div class="visible-xs">
                                     <div class="clearfix"></div>
                                 </div>
+
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                               <?php
+                               $number_of_completed_phases=0;
+                               $total_phases=sizeof($phases);
+                               foreach ($phases as $phase){
+                                   if (total_rows(db_prefix() . 'customfieldsvalues', array('fieldto' =>$phase->slug.'_'.$service->slug, 'relid' =>$project->id)) > 0) {
+                                       $number_of_completed_phases++ ;
+                                   }
+                               }
+                               $phases_percentage=($number_of_completed_phases/$total_phases)*100;
+                               $phases_percentage=ceil($phases_percentage);
+                               ?>
+                                <style>
+                                    .progress-bar {
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+
+                                        width: 75px;
+                                        height: 75px;
+                                        border-radius: 50%;
+                                        background:
+                                                radial-gradient(closest-side, white 55%, transparent 60% 80%),
+                                                conic-gradient( #84c529 <?php echo  $phases_percentage ?>% , grey 0%);
+                                    }
+
+                                    .progress-bar::before {
+                                        content: "<?php echo  $phases_percentage ?> %";
+                                        color: black;
+
+                                    }
+
+                                </style>
+                                    <div  class="progress-bar ">
+                                        <div id="js" min="0" max="100" value="73"></div>
+                                    </div>
+
+                                <! ------------------ End of Phases ---------------------->
                                 <div class="visible-xs">
                                     <div class="clearfix"></div>
                                 </div>
@@ -142,6 +228,7 @@ if ($time_format === '24') {
                     </div>
                 </div>
 
+       <! -------------------!Adding regular_durations alarm --------------->
                 <?php
                  $staff_id = get_staff_user_id();
                  $assignees = $this->db->get(db_prefix() . 'my_members_cases')->result();
@@ -183,7 +270,7 @@ if ($time_format === '24') {
                 <?php } ?>
                 <?php } ?>
 
-
+      <! ---------------------------!Adding procurations alarm --------------->
                 <?php
                 $case_procurations = get_case_procurations_by_case_id($project->id);
                 foreach($case_procurations as $case_procuration){ ?>
@@ -212,25 +299,31 @@ if ($time_format === '24') {
                     <?php echo _l('will end at') ?><b><?php echo $procuration->end_date ;?></b>
                 </div>
 
-
                 <?php }}}} ?>
-
-
-
-
-
-
-
-
-
-
-
-
+                <! ---------------------------!End of alarms --------------->
                 <?php // if(has_permission('tasks','','create')) {?>
-
                 <?php // } ?>
-
-
+                <! ------------------ ADDing Phases ---------------------->
+                <?php if(!empty($phases)):
+                    $now_phase=  $number_of_completed_phases+1;
+                    $i=1;$number=1; ?>
+                    <div class="cards-container">
+                <?php
+                    foreach ($phases as $phase):
+                        if (total_rows(db_prefix() . 'customfieldsvalues', array('fieldto' =>$phase->slug.'_'.$service->slug, 'relid' => $project->id)) > 0) {
+                            $compleate = 1;}
+                        elseif ($number== $now_phase)
+                        {$compleate=2;}
+                        else {$compleate=0;} ?>
+                            <div class="card  <?php if($compleate==1) echo 'complete'; elseif($compleate==2) echo 'in-progress';  ?>"> <span style="color: white" class="heading"> <?php echo $i.'- '.$phase->name; ?>        </span>
+                            </div>
+                        <?php
+                        $number++;
+                        $i++;
+                    endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <! ------------------ end of Phases ------------------------>
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>
@@ -293,7 +386,7 @@ echo form_hidden('project_percent',$percent);
 <?php init_tail(); ?>
 <!-- For invoices table -->
 <script>
-taskid = '<?php echo $this->input->get('taskid'); ?>';
+    taskid = '<?php echo $this->input->get('taskid'); ?>';
 sessionid = '<?php echo $this->input->get('sessionid'); ?>';
 </script>
 <script>
@@ -542,6 +635,7 @@ function discussion_comments_case(selector, discussion_id, discussion_type) {
 }
 </script>
 <script>
+
 $(function() {
     initDataTable('.table-previous_sessions_log', admin_url +
         'legalservices/sessions/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>',
@@ -609,6 +703,7 @@ $("body").on('click', '.services-new-task-to-milestone', function(e) {
 });
 </script>
 <script>
+
 $("#close_alert_button").click(function() {
     var id = 1 //'<?php // echo $case_duration['id'];?>';
 
@@ -722,6 +817,10 @@ function add_report_session(task_id) {
     send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
     if (court_decision == '') {
         alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+    } else if (next_session_time == '' && next_session_date != '') {
+        alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_time'); ?>');
+    } else if (next_session_time != '' && next_session_date == '') {
+        alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_date'); ?>');
     } else {
         $.ajax({
             url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,

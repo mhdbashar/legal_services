@@ -2265,7 +2265,9 @@ class Accounting_model extends App_Model
                     $node['itemable_id'] = $value['id'];
                     $node['split'] = $payment_account[$value['id']];
                     $node['account'] = $deposit_to[$value['id']];
-                    $node['debit'] = $item_total;
+                   $node['debit'] = $invoice->total;
+                   // $node['debit'] = $item_total;
+                    $data['item_amount'];
                     $node['paid'] = $paid;
                     $node['date'] = $invoice->date;
                     $node['item'] = $item_id;
@@ -2366,6 +2368,7 @@ class Accounting_model extends App_Model
                         $tax_mapping = $this->get_tax_mapping($_tax->id);
 
                         if($tax_mapping){
+                            /*
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_mapping->payment_account;
@@ -2383,7 +2386,7 @@ class Accounting_model extends App_Model
                             $node['datecreated'] = date('Y-m-d H:i:s');
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
-
+*/
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_mapping->deposit_to;
@@ -2402,6 +2405,7 @@ class Accounting_model extends App_Model
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
                         }else{
+                            /*
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_payment_account;
@@ -2419,7 +2423,7 @@ class Accounting_model extends App_Model
                             $node['datecreated'] = date('Y-m-d H:i:s');
                             $node['addedfrom'] = get_staff_user_id();
                             $data_insert[] = $node;
-
+*/
                             $node = [];
                             $node['itemable_id'] = 0;
                             $node['split'] = $tax_deposit_to;
@@ -2439,6 +2443,7 @@ class Accounting_model extends App_Model
                             $data_insert[] = $node;
                         }
                     }else{
+                        /*
                         $node = [];
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_payment_account;
@@ -2456,7 +2461,7 @@ class Accounting_model extends App_Model
                         $node['datecreated'] = date('Y-m-d H:i:s');
                         $node['addedfrom'] = get_staff_user_id();
                         $data_insert[] = $node;
-
+*/
                         $node = [];
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_deposit_to;
@@ -20399,7 +20404,7 @@ class Accounting_model extends App_Model
      * @return boolean
      */
     public function automatic_credit_note_conversion($data){
-        $this->delete_convert($data['credit_id'], 'credit_note');
+        $this->delete_convert($data['credit_note_id'], 'credit_note');
 
         $payment_account = get_option('acc_credit_note_payment_account');
         $deposit_to = get_option('acc_credit_note_deposit_to');
@@ -20431,7 +20436,7 @@ class Accounting_model extends App_Model
             $node['credit'] = 0;
             $node['date'] = date('Y-m-d');
             $node['description'] = '';
-            $node['rel_id'] = $data['credit_id'];
+            $node['rel_id'] = $data['credit_note_id'];
             $node['rel_type'] = 'credit_note';
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();
@@ -20445,7 +20450,7 @@ class Accounting_model extends App_Model
             $node['debit'] = 0;
             $node['credit'] = $payment_total;
             $node['description'] = '';
-            $node['rel_id'] = $data['credit_id'];
+            $node['rel_id'] = $data['credit_note_id'];
             $node['rel_type'] = 'credit_note';
             $node['datecreated'] = date('Y-m-d H:i:s');
             $node['addedfrom'] = get_staff_user_id();

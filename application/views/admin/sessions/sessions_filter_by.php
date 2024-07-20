@@ -3,7 +3,7 @@
     <?php
 
     hooks()->do_action('tasks_filters_hidden_html');
-    echo form_hidden('my_tasks',(!has_permission('tasks','','view') ? 'true' : ''));
+    echo form_hidden('my_tasks',(!has_permission('sessions','','view') ? 'true' : ''));
     echo form_hidden('my_following_tasks');
     echo form_hidden('not_assigned');
     echo form_hidden('today_tasks');
@@ -11,10 +11,7 @@
 
     ?>
 </div>
-<?php
-$class='.table-waiting_sessions_log';
-?>
-<div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
+<div style="margin-bottom: 10px" class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-filter" aria-hidden="true"></i>
     </button>
@@ -31,7 +28,7 @@ $class='.table-waiting_sessions_log';
             </a>
         </li>
 
-        <li class="filter-group <?php echo (!has_permission('tasks','','view') ? ' active' : ''); ?>" data-filter-group="assigned-follower-not-assigned">
+        <li class="filter-group <?php echo (!has_permission('sessions','','view') ? ' active' : ''); ?>" data-filter-group="assigned-follower-not-assigned">
             <a href="#" data-cview="my_tasks" onclick="dt_custom_view('my_tasks','<?php echo $class; ?>','my_tasks'); return false;">
                 <?php echo _l('sessions_view_assigned_to_user'); ?>
             </a>

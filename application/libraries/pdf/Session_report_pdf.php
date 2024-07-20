@@ -28,25 +28,26 @@ class Session_report_pdf extends App_pdf
         $CI = &get_instance();
         $CI->load->library('app_modules');
         $this->session->duedate = $CI->app_modules->is_active('hijri') && $this->session->duedate != '' ? _d($this->session->duedate) . _l('correspond') . to_hijri_date(_d($this->session->duedate)) : _d($this->session->duedate);
-        $this->session->next_session_date = $CI->app_modules->is_active('hijri') && $this->session->next_session_date != ''? _d($this->session->next_session_date) . _l('correspond') . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
+        $this->session->next_session_date = $CI->app_modules->is_active('hijri') && $this->session->next_session_date != '' ? _d($this->session->next_session_date) . _l('correspond') . to_hijri_date(_d($this->session->next_session_date)) : _d($this->session->next_session_date);
         $this->session->startdate = $CI->app_modules->is_active('hijri') ? _d($this->session->startdate) . _l('correspond') . to_hijri_date(_d($this->session->startdate)) : _d($this->session->startdate);
 
         $time_format = get_option('time_format');
         $this->session->time = $time_format === '24' ? date('h:i', strtotime($this->session->time)) : date('h:i a', strtotime($this->session->time));
-        $this->session->next_session_time = $time_format === '24' ? date('h:i', strtotime($this->session->next_session_time)) : date('h:i a', strtotime($this->session->next_session_time));
-
+        if($this->session->next_session_time != '' && $this->session->next_session_time != null) {
+            $this->session->next_session_time = $time_format === '24' ? date('h:i', strtotime($this->session->next_session_time)) : date('h:i a', strtotime($this->session->next_session_time));
+        }
         $this->set_view_vars([
             'client' => isset($this->session->clientid) ? get_customer_by_id($this->session->clientid)->company : '',
             'representative' => isset($this->session->representative) ? maybe_translate(_l('nothing_was_specified'), get_representative_by_id($this->session->representative)) : '',
             'opponent' => isset($this->session->opponent_id) && $this->session->opponent_id != 0 ? get_customer_by_id($this->session->opponent_id)->company : '',
             'court' => get_court_by_id($this->session->court_id)->court_name,
-            'city'=> $this->session->city ? $this->session->city : _l('nothing_was_specified'),
-            'case_name'=> $this->session->case_name ? $this->session->case_name : _l('nothing_was_specified'),
-            'cat_id'=>$this->session->cat_id ? get_cat_name_by_id($this->session->cat_id) : '',
-            'subcat_id'=>$this->session->subcat_id ? get_cat_name_by_id($this->session->subcat_id) : '',
-            'childsubcat_id'=>$this->session->childsubcat_id ? get_cat_name_by_id($this->session->childsubcat_id) : '',
+            'city' => isset($this->session->city) ? $this->session->city : _l('nothing_was_specified'),
+            'case_name' => isset($this->session->case_name) ? $this->session->case_name : _l('nothing_was_specified'),
+            'cat_id' => $this->session->cat_id ? get_cat_name_by_id($this->session->cat_id) : '',
+            'subcat_id' => $this->session->subcat_id ? get_cat_name_by_id($this->session->subcat_id) : '',
+            'childsubcat_id' => $this->session->childsubcat_id ? get_cat_name_by_id($this->session->childsubcat_id) : '',
             'file_number_court' => $this->session->file_number_court,
-            'dept'=>$this->session->dept ? get_judicialdept_by_id($this->session->dept)->Jud_number : '',
+            'dept' => $this->session->dept ? get_judicialdept_by_id($this->session->dept)->Jud_number : '',
             'duedate' => $this->session->startdate,
             'time' => $this->session->time,
             'session_information' => $this->session->session_information,

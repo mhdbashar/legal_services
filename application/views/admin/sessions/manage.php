@@ -121,9 +121,13 @@ if ($time_format === '24') {
     rel_type = '<?php echo isset($rel_type) ? $rel_type : ''; ?>';
     $(function () {
         sessions_kanban();
-        initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
-        initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
+        // initDataTable('.table-previous_sessions_log', admin_url + 'legalservices/sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [6, 'desc']);
+        // initDataTable('.table-waiting_sessions_log', admin_url + 'legalservices/sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [5, 'asc']);
     });
+//*******calling functions to filter sessions*************
+    init_waiting_sessions_log_table_sessions();
+    init_previous_sessions_log_table_sessions();
+    //****************************************************
 
     // Init session kan ban
     function sessions_kanban() {
@@ -235,6 +239,10 @@ if ($time_format === '24') {
         send_mail_to_opponent = $('#send_mail_to_opponent' + task_id).prop("checked");
         if (court_decision == '') {
             alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('Court_decision'); ?>');
+        } else if (next_session_time == '' && next_session_date != '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_time'); ?>');
+        } else if (next_session_time != '' && next_session_date == '') {
+            alert_float('danger', '<?php echo _l('form_validation_required').'  '. _l('next_session_date'); ?>');
         } else {
             $.ajax({
                 url: '<?php echo admin_url('legalservices/sessions/add_report_session/'); ?>' + task_id,

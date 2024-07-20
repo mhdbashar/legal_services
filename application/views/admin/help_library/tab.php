@@ -276,20 +276,32 @@ $staff->key = '2XeRfebcWS5y';?>
                 },
                 type: "POST",
                 success: function (data) {
-                    response = JSON.parse(data);
-                    $('#tabBody1').html('');
-                    $.each(response, function (key, value) {
-                        $('#tabBody1').append(`${befor}
-                        <a href="${value['link']}" target="_blank">
-                            <h4>${value['name']}</h4>
-                        </a>
-                        <h5>${value['title']}</h5>
-                        <p id="tabBody1-${key}">${value['description']}</p>
-                        <button style="float: left" class="fa fa-files-o" onclick="copyElementText('tabBody1-${key}')" title="نسخ النص لهذه المادة"></button>
-                    ${after}`);
-                    });
-                    if (response == 0) $('#tabBody1').append(`${non}`);
-                    is_download_tabBody1 = true;
+                    $.ajax({
+                        url: admin_url + 'legalservices/cases/getBody1',
+                        data: {
+                            text: search,
+                            type: 2,
+                            data
+                        },
+                        type: "POST",
+                        success: function (data) {
+                            response = JSON.parse(data);
+                            $('#tabBody1').html('');
+                            $.each(response, function (key, value) {
+                                $('#tabBody1').append(`${befor}
+                                <a href="${value['link']}" target="_blank">
+                                    <h4>${value['name']}</h4>
+                                </a>
+                                <h5>${value['title']}</h5>
+                                <p id="tabBody1-${key}">${value['description']}</p>
+                                <button style="float: left" class="fa fa-files-o" onclick="copyElementText('tabBody1-${key}')" title="نسخ النص لهذه المادة"></button>
+                            ${after}`);
+                            });
+                            if (response == 0) $('#tabBody1').append(`${non}`);
+                            is_download_tabBody1 = true;
+
+                        }
+                    })
                 }
             });
         }

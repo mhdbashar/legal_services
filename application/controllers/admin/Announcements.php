@@ -13,12 +13,61 @@ class Announcements extends AdminController
     /* List all announcements */
     public function index()
     {
+
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('announcements');
         }
         $data['title'] = _l('announcements');
         $this->load->view('admin/announcements/manage', $data);
     }
+
+    public function add_announcement_from_api()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data = $this->input->post();
+            $announcements=$data['data']['announcements'];
+            $oldannouncements= $this->announcements_model->get();
+            $max = $this->db->query('select MAX(announcementid) as max from '.db_prefix().'announcements')->row();
+            //$oldannouncements_size=$max->max +2;
+            $id=$max->max ;
+            foreach ($announcements as $announcement)
+            {
+                $i=0;
+                $announcement_name=$announcement['name'];
+                if($oldannouncements){
+                    foreach ($oldannouncements as $oldannouncement)
+                    {
+                        if($id==$oldannouncement['announcementid']){
+                            $id=$id+1;
+                        }
+                        $oldannouncement_name=$oldannouncement['name'];
+                       $name_compare= strcmp($announcement_name,$oldannouncement_name);
+                       if($name_compare==0)
+                       {
+                           $i++;
+                       }
+                    }
+
+                    if($i ==0){
+                        $announcement['announcementid']= $id;
+                        $id=$id+1;
+                        $this->announcements_model->add($announcement);
+                       // $oldannouncements_size=$oldannouncements_size+1 ;
+                    }
+                }
+                else{
+                    $announcement['announcementid']= $id;
+
+                    $this->announcements_model->add($announcement);
+                }
+
+            }
+
+
+        }
+
+        }
+
 
     /* Edit announcement or add new if passed id */
     public function announcement($id = '')

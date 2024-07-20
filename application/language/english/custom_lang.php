@@ -2013,6 +2013,8 @@ $lang['proposals_customers_related'] = "Customers Related";
 $lang['proposal_related'] = "Related";
 $lang['proposal_for_lead'] = "Lead";
 $lang['proposal_for_customer'] = "Customer";
+
+$lang['now_phase'] = "Now phase";
 $lang['proposal'] = "Proposal";
 $lang['proposal_lowercase'] = "proposal";
 $lang['proposals'] = "Proposals";
@@ -2520,6 +2522,7 @@ $lang['invoice_merge_number_warning'] = "Merging invoices will create gaps in in
 $lang['invoice_mark_as'] = "Mark as %s";
 $lang['invoice_unmark_as'] = "Unmark as %s";
 $lang['invoice_status_cancelled'] = "Cancelled";
+$lang['invoice_status_refund'] = "Refund";
 $lang['tasks_reminder_notification_before_help'] = "Notify task assignees about deadline before X days. The notification/email is sent only to the assignees. If the difference between task start date and task due date is smaller then the reminders day no notification will be sent.";
 $lang['project_invoice_select_all_tasks'] = "Select all tasks";
 $lang['admin_auth_forgot_password_button'] = "Confirm";
@@ -4117,5 +4120,7 @@ $lang['staff_document_number'] = "The Official Document Number Of The Facility R
 $lang['company_representative'] = "The Company's Representative";
 $lang['correspond'] = " <-> ";
 $lang['staff_document_name'] = "The Name Of The Representative Of The Establishment";
+
+$lang['Transaction_type'] = "نوع معاملة";
 
 

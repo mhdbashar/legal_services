@@ -10,7 +10,7 @@ class Cases_model extends App_Model
     {
         parent::__construct();
 
-       $project_settings = [
+        $project_settings = [
             'available_features',
             'view_procurations',
             'view_finance_overview',
@@ -40,13 +40,13 @@ class Cases_model extends App_Model
             'view_session_checklist_items',
             'upload_on_sessions',
             'view_session_total_logged_time',
-           'view_session_customer_report'
+            'view_session_customer_report'
         ];
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('legalservices/LegalServicesModel', 'legal');
         $this->load->model('legalservices/Case_movement_model', 'movement');
-        $this->load->model('legalservices/Legal_procedures_model' , 'procedures');
+        $this->load->model('legalservices/Legal_procedures_model', 'procedures');
     }
 
     public function get($id = '', $where = [])
@@ -57,16 +57,16 @@ class Cases_model extends App_Model
             $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
             //$this->db->select('*');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
-            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
-            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
-            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id', 'left');
-            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num', 'left');
-            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative', 'left');
+            $this->db->join(db_prefix() . 'my_categories as cat', 'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat', 'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
+            $this->db->join(db_prefix() . 'my_courts', 'my_courts.c_id=' . db_prefix() . 'my_cases.court_id', 'left');
+            $this->db->join(db_prefix() . 'my_judicialdept', 'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num', 'left');
+            $this->db->join(db_prefix() . 'my_customer_representative', 'my_customer_representative.id=' . db_prefix() . 'my_cases.representative', 'left');
             $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status', 'left');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
-                $settings                      = $this->get_case_settings($id);
+                $settings = $this->get_case_settings($id);
                 // SYNC NEW TABS
                 $tabs = get_case_tabs_admin();
                 $tabs_flatten = [];
@@ -146,7 +146,7 @@ class Cases_model extends App_Model
     {
         $this->db->select('clients.company');
         $this->db->from('clients');
-        $this->db->join('my_cases', 'clients.userid = my_cases.clientid' ,'right');
+        $this->db->join('my_cases', 'clients.userid = my_cases.clientid', 'right');
         $this->db->where('my_cases.id', $id);
         return $this->db->get()->row();
     }
@@ -170,7 +170,7 @@ class Cases_model extends App_Model
         return $this->db->get()->result();
     }
 
-    public function add($ServID,$data)
+    public function add($ServID, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
@@ -228,7 +228,7 @@ class Cases_model extends App_Model
             }
         }
 
-        $data['project_cost']    = !empty($data['project_cost']) ? $data['project_cost'] : null;
+        $data['project_cost'] = !empty($data['project_cost']) ? $data['project_cost'] : null;
         $data['estimated_hours'] = !empty($data['estimated_hours']) ? $data['estimated_hours'] : null;
 
         $data['start_date'] = to_sql_date($data['start_date']);
@@ -257,7 +257,7 @@ class Cases_model extends App_Model
             $data['project_cost'] = 0;
         } else {
             $data['project_rate_per_hour'] = 0;
-            $data['project_cost']          = 0;
+            $data['project_cost'] = 0;
         }
 
         $data['addedfrom'] = get_staff_user_id();
@@ -271,7 +271,7 @@ class Cases_model extends App_Model
         }
 
 
-        $court_id          = $data['court_id'];
+        $court_id = $data['court_id'];
 
         $data = hooks()->apply_filters('before_add_project', $data);
 
@@ -286,9 +286,9 @@ class Cases_model extends App_Model
         if ($insert_id) {
 
             //Make tags from name and description
-            $name_array        = convert_to_tags($data['name']);
+            $name_array = convert_to_tags($data['name']);
             $description_array = convert_to_tags($data['description']);
-            $services_tags     = array_merge($name_array, $description_array);
+            $services_tags = array_merge($name_array, $description_array);
             save_edit_services_tags($services_tags, $insert_id, $slug);
 
             //Add Case Movement
@@ -317,7 +317,7 @@ class Cases_model extends App_Model
             $original_settings = $this->get_settings();
             if (isset($case_settings)) {
                 $_settings = [];
-                $_values   = [];
+                $_values = [];
                 foreach ($case_settings as $name => $val) {
                     array_push($_settings, $name);
                     $_values[$name] = $val;
@@ -330,7 +330,7 @@ class Cases_model extends App_Model
                             $value_setting = 0;
                         }
                     } else {
-                        $tabs         = get_case_tabs_admin();
+                        $tabs = get_case_tabs_admin();
                         $tab_settings = [];
                         foreach ($_values[$setting] as $tab) {
                             $tab_settings[$tab] = 1;
@@ -351,18 +351,18 @@ class Cases_model extends App_Model
                         $value_setting = serialize($tab_settings);
                     }
                     $this->db->insert(db_prefix() . 'case_settings', [
-                        'case_id'    => $insert_id,
-                        'name'       => $setting,
-                        'value'      => $value_setting,
+                        'case_id' => $insert_id,
+                        'name' => $setting,
+                        'value' => $value_setting,
                     ]);
                 }
             } else {
                 foreach ($original_settings as $setting) {
                     $value_setting = 0;
                     $this->db->insert(db_prefix() . 'case_settings', [
-                        'case_id'    => $insert_id,
-                        'name'       => $setting,
-                        'value'      => $value_setting,
+                        'case_id' => $insert_id,
+                        'name' => $setting,
+                        'value' => $value_setting,
                     ]);
                 }
             }
@@ -389,7 +389,7 @@ class Cases_model extends App_Model
 
             hooks()->do_action('after_add_project', $insert_id);
 
-            log_activity ('New Case Added [CaseID: ' . $insert_id . ']');
+            log_activity('New Case Added [CaseID: ' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -397,7 +397,7 @@ class Cases_model extends App_Model
         return false;
     }
 
-    public function update($ServID,$id,$data)
+    public function update($ServID, $id, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         if (isset($data['court_id']) && $data['court_id'] == '') {
@@ -419,9 +419,9 @@ class Cases_model extends App_Model
             $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
         }
         //Make tags from name and description
-        $name_array        = convert_to_tags($data['name']);
+        $name_array = convert_to_tags($data['name']);
         $description_array = convert_to_tags($data['description']);
-        $services_tags     = array_merge($name_array, $description_array);
+        $services_tags = array_merge($name_array, $description_array);
         save_edit_services_tags($services_tags, $id, $slug);
 
         $this->db->select('status');
@@ -459,7 +459,7 @@ class Cases_model extends App_Model
             }
         } else {
             $_settings = [];
-            $_values   = [];
+            $_values = [];
 
             foreach ($data['settings'] as $name => $val) {
                 array_push($_settings, $name);
@@ -478,7 +478,7 @@ class Cases_model extends App_Model
                         $value_setting = 0;
                     }
                 } else {
-                    $tabs         = get_case_tabs_admin();
+                    $tabs = get_case_tabs_admin();
                     $tab_settings = [];
                     foreach ($_values[$setting['name']] as $tab) {
                         $tab_settings[$tab] = 1;
@@ -511,7 +511,7 @@ class Cases_model extends App_Model
             }
         }
 
-        $data['project_cost']    = !empty($data['project_cost']) ? $data['project_cost'] : null;
+        $data['project_cost'] = !empty($data['project_cost']) ? $data['project_cost'] : null;
         $data['estimated_hours'] = !empty($data['estimated_hours']) ? $data['estimated_hours'] : null;
 
 
@@ -548,7 +548,7 @@ class Cases_model extends App_Model
             $data['project_cost'] = 0;
         } else {
             $data['project_rate_per_hour'] = 0;
-            $data['project_cost']          = 0;
+            $data['project_cost'] = 0;
         }
         if (isset($data['project_members'])) {
             $project_members = $data['project_members'];
@@ -558,7 +558,7 @@ class Cases_model extends App_Model
         if (isset($project_members)) {
             $_pm['project_members'] = $project_members;
         }
-        if ($this->add_edit_members($_pm,$ServID, $id)) {
+        if ($this->add_edit_members($_pm, $ServID, $id)) {
             $affectedRows++;
         }
         //judges
@@ -627,7 +627,7 @@ class Cases_model extends App_Model
 
             if ($original_project->status != $data['status']) {
                 hooks()->do_action('project_status_changed', [
-                    'status'     => $data['status'],
+                    'status' => $data['status'],
                     'project_id' => $id,
                 ]);
                 // Give space this log to be on top
@@ -653,7 +653,7 @@ class Cases_model extends App_Model
 
     }
 
-    public function delete($ServID,$id)
+    public function delete($ServID, $id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
@@ -726,7 +726,7 @@ class Cases_model extends App_Model
             foreach ($phases as $phase) {
                 // Delete the phases customfieldsvalues
                 $this->db->where('relid', $phase['id']);
-                $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                $this->db->where('fieldto', 'legal_phase_' . $phase['id'] . '_' . $phase['rel_type']);
                 $this->db->delete('customfieldsvalues');
             }
             $this->db->where('rel_id', $id);
@@ -773,14 +773,14 @@ class Cases_model extends App_Model
             $this->db->delete(db_prefix() . 'irac_method');
 
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
-            $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+            $lists = $this->db->get(db_prefix() . 'legal_procedures_lists')->result_array();
             foreach ($lists as $list):
                 $this->procedures->delete_list($list['id']);
             endforeach;
 
             //Delete services tags
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
-            $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+            $tags = $this->db->get(db_prefix() . 'my_services_tags')->result_array();
             foreach ($tags as $tag) {
                 $this->db->where('id', $tag['id']);
                 $this->db->delete(db_prefix() . 'my_services_tags');
@@ -792,7 +792,7 @@ class Cases_model extends App_Model
         return false;
     }
 
-    public function move_to_recycle_bin($ServID,$id)
+    public function move_to_recycle_bin($ServID, $id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
@@ -903,7 +903,7 @@ class Cases_model extends App_Model
                                 $notified = add_notification([
                                     'fromuserid' => get_staff_user_id(),
                                     'description' => 'not_staff_added_as_project_member',
-                                    'link' => 'SOther/view/' .$ServID.'/' . $id,
+                                    'link' => 'SOther/view/' . $ServID . '/' . $id,
                                     'touserid' => $staff_id,
                                     'additional_data' => serialize([
                                         $project_name,
@@ -939,7 +939,7 @@ class Cases_model extends App_Model
                             $notified = add_notification([
                                 'fromuserid' => get_staff_user_id(),
                                 'description' => 'not_staff_added_as_project_member',
-                                'link' => 'SOther/view/' .$ServID.'/'. $id,
+                                'link' => 'SOther/view/' . $ServID . '/' . $id,
                                 'touserid' => $staff_id,
                                 'additional_data' => serialize([
                                     $project_name,
@@ -999,9 +999,9 @@ class Cases_model extends App_Model
         $new_project_members_to_receive_email = [];
         $this->db->select('name,clientid');
         $this->db->where('id', $id);
-        $project      = $this->db->get(db_prefix() . 'my_cases')->row();
+        $project = $this->db->get(db_prefix() . 'my_cases')->row();
         $project_name = $project->name;
-        $client_id    = $project->clientid;
+        $client_id = $project->clientid;
         $project_members_in = $this->get_project_members($id);
         if (sizeof($project_members_in) > 0) {
             foreach ($project_members_in as $project_member) {
@@ -1039,15 +1039,15 @@ class Cases_model extends App_Model
                         }
                         $this->db->insert(db_prefix() . 'my_members_cases', [
                             'project_id' => $id,
-                            'staff_id'   => $staff_id,
+                            'staff_id' => $staff_id,
                         ]);
                         if ($this->db->affected_rows() > 0) {
                             if ($staff_id != get_staff_user_id()) {
                                 $notified = add_notification([
-                                    'fromuserid'      => get_staff_user_id(),
-                                    'description'     => 'not_staff_added_as_project_member',
-                                    'link'            => 'Case/view/' .$ServID.'/' .$id,
-                                    'touserid'        => $staff_id,
+                                    'fromuserid' => get_staff_user_id(),
+                                    'description' => 'not_staff_added_as_project_member',
+                                    'link' => 'Case/view/' . $ServID . '/' . $id,
+                                    'touserid' => $staff_id,
                                     'additional_data' => serialize([
                                         $project_name,
                                     ]),
@@ -1075,15 +1075,15 @@ class Cases_model extends App_Model
                     }
                     $this->db->insert(db_prefix() . 'my_members_cases', [
                         'project_id' => $id,
-                        'staff_id'   => $staff_id,
+                        'staff_id' => $staff_id,
                     ]);
                     if ($this->db->affected_rows() > 0) {
                         if ($staff_id != get_staff_user_id()) {
                             $notified = add_notification([
-                                'fromuserid'      => get_staff_user_id(),
-                                'description'     => 'not_staff_added_as_project_member',
-                                'link'            => 'Case/view/' .$ServID.'/' .$id,
-                                'touserid'        => $staff_id,
+                                'fromuserid' => get_staff_user_id(),
+                                'description' => 'not_staff_added_as_project_member',
+                                'link' => 'Case/view/' . $ServID . '/' . $id,
+                                'touserid' => $staff_id,
                                 'additional_data' => serialize([
                                     $project_name,
                                 ]),
@@ -1125,9 +1125,9 @@ class Cases_model extends App_Model
         $new_project_members_to_receive_email = [];
         $this->db->select('name,clientid');
         $this->db->where('id', $id);
-        $project      = $this->db->get(db_prefix() . 'my_disputes_cases')->row();
+        $project = $this->db->get(db_prefix() . 'my_disputes_cases')->row();
         $project_name = $project->name;
-        $client_id    = $project->clientid;
+        $client_id = $project->clientid;
         if (isset($project_members)) {
             $notifiedUsers = [];
             foreach ($project_members as $staff_id) {
@@ -1136,15 +1136,15 @@ class Cases_model extends App_Model
                 }
                 $this->db->insert(db_prefix() . 'my_disputes_cases_members', [
                     'project_id' => $id,
-                    'staff_id'   => $staff_id,
+                    'staff_id' => $staff_id,
                 ]);
                 if ($this->db->affected_rows() > 0) {
                     if ($staff_id != get_staff_user_id()) {
                         $notified = add_notification([
-                            'fromuserid'      => get_staff_user_id(),
-                            'description'     => 'not_staff_added_as_project_member',
-                            'link'            => 'Disputes_cases/view/' .$ServID.'/' .$id,
-                            'touserid'        => $staff_id,
+                            'fromuserid' => get_staff_user_id(),
+                            'description' => 'not_staff_added_as_project_member',
+                            'link' => 'Disputes_cases/view/' . $ServID . '/' . $id,
+                            'touserid' => $staff_id,
                             'additional_data' => serialize([
                                 $project_name,
                             ]),
@@ -1214,8 +1214,8 @@ class Cases_model extends App_Model
                             continue;
                         }
                         $this->db->insert(db_prefix() . 'my_cases_judges', [
-                            'case_id'   => $id,
-                            'judge_id'  => $judge_id,
+                            'case_id' => $id,
+                            'judge_id' => $judge_id,
                         ]);
                         if ($this->db->affected_rows() > 0) {
                             $affectedRows++;
@@ -1230,7 +1230,7 @@ class Cases_model extends App_Model
                         continue;
                     }
                     $this->db->insert(db_prefix() . 'my_cases_judges', [
-                        'case_id'  => $id,
+                        'case_id' => $id,
                         'judge_id' => $judge_id,
                     ]);
                     if ($this->db->affected_rows() > 0) {
@@ -1261,6 +1261,7 @@ class Cases_model extends App_Model
         $this->db->where('project_id', $id);
         return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
     }
+
     public function get_case_judges($id)
     {
         $this->db->select('my_cases_judges.*,my_judges.*');
@@ -1273,38 +1274,38 @@ class Cases_model extends App_Model
     {
         $statuses = hooks()->apply_filters('before_get_project_statuses', [
             [
-                'id'             => 1,
-                'color'          => '#989898',
-                'name'           => _l('project_status_1'),
-                'order'          => 1,
+                'id' => 1,
+                'color' => '#989898',
+                'name' => _l('project_status_1'),
+                'order' => 1,
                 'filter_default' => true,
             ],
             [
-                'id'             => 2,
-                'color'          => '#03a9f4',
-                'name'           => _l('project_status_2'),
-                'order'          => 2,
+                'id' => 2,
+                'color' => '#03a9f4',
+                'name' => _l('project_status_2'),
+                'order' => 2,
                 'filter_default' => true,
             ],
             [
-                'id'             => 3,
-                'color'          => '#ff6f00',
-                'name'           => _l('project_status_3'),
-                'order'          => 3,
+                'id' => 3,
+                'color' => '#ff6f00',
+                'name' => _l('project_status_3'),
+                'order' => 3,
                 'filter_default' => true,
             ],
             [
-                'id'             => 4,
-                'color'          => '#84c529',
-                'name'           => _l('project_status_4'),
-                'order'          => 100,
+                'id' => 4,
+                'color' => '#84c529',
+                'name' => _l('project_status_4'),
+                'order' => 100,
                 'filter_default' => false,
             ],
             [
-                'id'             => 5,
-                'color'          => '#989898',
-                'name'           => _l('project_status_5'),
-                'order'          => 4,
+                'id' => 5,
+                'color' => '#989898',
+                'name' => _l('project_status_5'),
+                'order' => 4,
                 'filter_default' => false,
             ],
         ]);
@@ -1318,7 +1319,7 @@ class Cases_model extends App_Model
 
     public function get_distinct_tasks_timesheets_staff($project_id, $slug)
     {
-        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="'.$slug.'" AND rel_id=' . $project_id)->result_array();
+        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="' . $slug . '" AND rel_id=' . $project_id)->result_array();
     }
 
     public function get_distinct_projects_members()
@@ -1354,7 +1355,7 @@ class Cases_model extends App_Model
                 'project_id' => $id,
             ]) == 0) {
             $this->db->insert(db_prefix() . 'pinned_cases', [
-                'staff_id'   => get_staff_user_id(),
+                'staff_id' => get_staff_user_id(),
                 'project_id' => $id,
             ]);
 
@@ -1401,12 +1402,12 @@ class Cases_model extends App_Model
     {
         $total_project_tasks = total_rows(db_prefix() . 'tasks', [
             'rel_type' => $slug,
-            'rel_id'   => $id,
+            'rel_id' => $id,
         ]);
         $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
             'rel_type' => $slug,
-            'rel_id'   => $id,
-            'status'   => 5,
+            'rel_id' => $id,
+            'status' => 5,
         ]);
         $percent = 0;
         if ($total_finished_tasks >= floatval($total_project_tasks)) {
@@ -1440,20 +1441,20 @@ class Cases_model extends App_Model
 
     public function calculate_total_by_project_hourly_rate($seconds, $hourly_rate)
     {
-        $hours       = seconds_to_time_format($seconds);
-        $decimal     = sec2qty($seconds);
+        $hours = seconds_to_time_format($seconds);
+        $decimal = sec2qty($seconds);
         $total_money = 0;
         $total_money += ($decimal * $hourly_rate);
 
         return [
-            'hours'       => $hours,
+            'hours' => $hours,
             'total_money' => $total_money,
         ];
     }
 
     public function calculate_total_by_task_hourly_rate($tasks)
     {
-        $total_money    = 0;
+        $total_money = 0;
         $_total_seconds = 0;
 
         foreach ($tasks as $task) {
@@ -1463,12 +1464,12 @@ class Cases_model extends App_Model
         }
 
         return [
-            'total_money'   => $total_money,
+            'total_money' => $total_money,
             'total_seconds' => $_total_seconds,
         ];
     }
 
-   public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
+    public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
@@ -1482,24 +1483,24 @@ class Cases_model extends App_Model
         }
 
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'tasks.id as id,
-        '.db_prefix() . 'tasks.name as task_name,'
-        .db_prefix() . 'my_judges.name as judge,
+        ' . db_prefix() . 'tasks.name as task_name,'
+            . db_prefix() . 'my_judges.name as judge,
         court_name,
         session_link,
         customer_report,
         send_to_customer,
         startdate,
-        TIME_FORMAT(time,'. $format .') as time
+        TIME_FORMAT(time,' . $format . ') as time
         ';
 
         $this->db->select($select);
 
         $this->db->where(array(
-            db_prefix() .'tasks.rel_id'             => $id,
-            db_prefix() .'tasks.rel_type'           => $slug,
-            db_prefix() .'tasks.is_session'         => 1,
+            db_prefix() . 'tasks.rel_id' => $id,
+            db_prefix() . 'tasks.rel_type' => $slug,
+            db_prefix() . 'tasks.is_session' => 1,
 //            db_prefix() .'tasks.visible_to_client'         => 1
-     ));
+        ));
         $this->db->where($where);
 
         $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');
@@ -1513,8 +1514,8 @@ class Cases_model extends App_Model
         }
 
 
-        for($i=0; $i < count($tasks); $i++) {
-            $tasks[$i]['assignees']     = $this->tasks_model->get_task_assignees($tasks[$i]['id']);
+        for ($i = 0; $i < count($tasks); $i++) {
+            $tasks[$i]['assignees'] = $this->tasks_model->get_task_assignees($tasks[$i]['id']);
             $tasks[$i]['assignees_ids'] = [];
 
             foreach ($tasks[$i]['assignees'] as $follower) {
@@ -1545,11 +1546,11 @@ class Cases_model extends App_Model
         $this->db->where('(cycles != total_cycles OR cycles=0)');
 
         $this->db->update(db_prefix() . 'tasks', [
-            'recurring_type'      => null,
-            'repeat_every'        => 0,
-            'cycles'              => 0,
-            'recurring'           => 0,
-            'custom_recurring'    => 0,
+            'recurring_type' => null,
+            'repeat_every' => 0,
+            'cycles' => 0,
+            'recurring' => 0,
+            'custom_recurring' => 0,
             'last_recurring_date' => null,
         ]);
     }
@@ -1557,7 +1558,7 @@ class Cases_model extends App_Model
     public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1, $callback = null)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $has_permission                    = has_permission('tasks', '', 'view');
+        $has_permission = has_permission('tasks', '', 'view');
         $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
 
 
@@ -1575,11 +1576,13 @@ class Cases_model extends App_Model
         if (is_client_logged_in()) {
             $this->db->where('visible_to_client', 1);
         }
+        $this->db->where('is_session', 0);
+
         $this->db->select($select);
 
         $this->db->join(db_prefix() . 'milestones', db_prefix() . 'milestones.id = ' . db_prefix() . 'tasks.milestone', 'left');
-        $this->db->where(db_prefix() .'tasks.rel_id', $id);
-        $this->db->where(db_prefix() .'tasks.rel_type', $slug);
+        $this->db->where(db_prefix() . 'tasks.rel_id', $id);
+        $this->db->where(db_prefix() . 'tasks.rel_type', $slug);
         if ($apply_restrictions == true) {
             if (!is_client_logged_in() && !$has_permission && $show_all_tasks_for_project_member == 0) {
                 $this->db->where('(
@@ -1619,8 +1622,8 @@ class Cases_model extends App_Model
     public function do_milestones_kanban_query($milestone_id, $project_id, $page = 1, $where = [], $count = false)
     {
         $where['milestone'] = $milestone_id;
-        $limit              = get_option('tasks_kanban_limit');
-        $tasks              = $this->get_tasks($project_id, $where, true, $count,$ServID = 1, function () use ($count, $page, $limit) {
+        $limit = get_option('tasks_kanban_limit');
+        $tasks = $this->get_tasks($project_id, $where, true, $count, $ServID = 1, function () use ($count, $page, $limit) {
             if ($count == false) {
                 if ($page > 1) {
                     $position = (($page - 1) * $limit);
@@ -1691,12 +1694,12 @@ class Cases_model extends App_Model
         $file = $this->db->get(db_prefix() . 'case_files')->row();
         if ($file) {
             if (empty($file->external)) {
-                $path     = get_upload_path_by_type_case('case') . $file->project_id . '/';
+                $path = get_upload_path_by_type_case('case') . $file->project_id . '/';
                 $fullPath = $path . $file->file_name;
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
-                    $fname     = pathinfo($fullPath, PATHINFO_FILENAME);
-                    $fext      = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                    $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                     $thumbPath = $path . $fname . '_thumb.' . $fext;
 
                     if (file_exists($thumbPath)) {
@@ -1731,7 +1734,7 @@ class Cases_model extends App_Model
     public function get_project_overview_weekly_chart_data($slug = '', $id, $type = 'this_week')
     {
         $billing_type = get_case_billing_type($id);
-        $chart        = [];
+        $chart = [];
 
         $has_permission_create = has_permission('projects', '', 'create');
         // If don't have permission for projects create show only bileld time
@@ -1745,56 +1748,56 @@ class Cases_model extends App_Model
             }
         }
 
-        $chart['data']             = [];
-        $chart['data']['labels']   = [];
+        $chart['data'] = [];
+        $chart['data']['labels'] = [];
         $chart['data']['datasets'] = [];
 
         $chart['data']['datasets'][] = [
-            'label'           => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('project_overview_billable_hours')) : str_replace(':', '', _l('project_overview_logged_hours'))),
-            'data'            => [],
+            'label' => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('project_overview_billable_hours')) : str_replace(':', '', _l('project_overview_logged_hours'))),
+            'data' => [],
             'backgroundColor' => [],
-            'borderColor'     => [],
-            'borderWidth'     => 1,
+            'borderColor' => [],
+            'borderWidth' => 1,
         ];
 
         if ($timesheets_type == 'billable_unbilled') {
             $chart['data']['datasets'][] = [
-                'label'           => str_replace(':', '', _l('project_overview_unbilled_hours')),
-                'data'            => [],
+                'label' => str_replace(':', '', _l('project_overview_unbilled_hours')),
+                'data' => [],
                 'backgroundColor' => [],
-                'borderColor'     => [],
-                'borderWidth'     => 1,
+                'borderColor' => [],
+                'borderWidth' => 1,
             ];
         }
 
         $temp_weekdays_data = [];
-        $weeks              = [];
-        $where_time         = '';
+        $weeks = [];
+        $where_time = '';
 
         if ($type == 'this_month') {
             $beginThisMonth = date('Y-m-01');
-            $endThisMonth   = date('Y-m-t 23:59:59');
+            $endThisMonth = date('Y-m-t 23:59:59');
 
             $weeks_split_start = date('Y-m-d', strtotime($beginThisMonth));
-            $weeks_split_end   = date('Y-m-d', strtotime($endThisMonth));
+            $weeks_split_end = date('Y-m-d', strtotime($endThisMonth));
 
             $where_time = 'start_time BETWEEN ' . strtotime($beginThisMonth) . ' AND ' . strtotime($endThisMonth);
         } elseif ($type == 'last_month') {
             $beginLastMonth = date('Y-m-01', strtotime('-1 MONTH'));
-            $endLastMonth   = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
+            $endLastMonth = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
 
             $weeks_split_start = date('Y-m-d', strtotime($beginLastMonth));
-            $weeks_split_end   = date('Y-m-d', strtotime($endLastMonth));
+            $weeks_split_end = date('Y-m-d', strtotime($endLastMonth));
 
             $where_time = 'start_time BETWEEN ' . strtotime($beginLastMonth) . ' AND ' . strtotime($endLastMonth);
         } elseif ($type == 'last_week') {
             $beginLastWeek = date('Y-m-d', strtotime('monday last week'));
-            $endLastWeek   = date('Y-m-d 23:59:59', strtotime('sunday last week'));
-            $where_time    = 'start_time BETWEEN ' . strtotime($beginLastWeek) . ' AND ' . strtotime($endLastWeek);
+            $endLastWeek = date('Y-m-d 23:59:59', strtotime('sunday last week'));
+            $where_time = 'start_time BETWEEN ' . strtotime($beginLastWeek) . ' AND ' . strtotime($endLastWeek);
         } else {
             $beginThisWeek = date('Y-m-d', strtotime('monday this week'));
-            $endThisWeek   = date('Y-m-d 23:59:59', strtotime('sunday this week'));
-            $where_time    = 'start_time BETWEEN ' . strtotime($beginThisWeek) . ' AND ' . strtotime($endThisWeek);
+            $endThisWeek = date('Y-m-d 23:59:59', strtotime('sunday this week'));
+            $where_time = 'start_time BETWEEN ' . strtotime($beginThisWeek) . ' AND ' . strtotime($endThisWeek);
         }
 
         if ($type == 'this_week' || $type == 'last_week') {
@@ -1802,7 +1805,7 @@ class Cases_model extends App_Model
                 array_push($chart['data']['labels'], $day);
             }
             $weekDay = date('w', strtotime(date('Y-m-d H:i:s')));
-            $i       = 0;
+            $i = 0;
             foreach (get_weekdays_original() as $day) {
                 if ($weekDay != '0') {
                     $chart['data']['labels'][$i] = date('d', strtotime($day . ' ' . str_replace('_', ' ', $type))) . ' - ' . $chart['data']['labels'][$i];
@@ -1814,7 +1817,7 @@ class Cases_model extends App_Model
                         }
                         $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
                     } else {
-                        $strtotime                   = $day . ' last week';
+                        $strtotime = $day . ' last week';
                         $chart['data']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $chart['data']['labels'][$i];
                     }
                 }
@@ -1822,9 +1825,9 @@ class Cases_model extends App_Model
             }
         } elseif ($type == 'this_month' || $type == 'last_month') {
             $weeks_split_start = new DateTime($weeks_split_start);
-            $weeks_split_end   = new DateTime($weeks_split_end);
-            $weeks             = get_weekdays_between_dates($weeks_split_start, $weeks_split_end);
-            $total_weeks       = count($weeks);
+            $weeks_split_end = new DateTime($weeks_split_end);
+            $weeks = get_weekdays_between_dates($weeks_split_start, $weeks_split_end);
+            $total_weeks = count($weeks);
             for ($i = 1; $i <= $total_weeks; $i++) {
                 array_push($chart['data']['labels'], split_weeks_chart_label($weeks, $i));
             }
@@ -1840,7 +1843,7 @@ class Cases_model extends App_Model
 
             $color = '3, 169, 244';
 
-            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$slug.'" AND rel_id = "' . $id . '"';
+            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "' . $slug . '" AND rel_id = "' . $id . '"';
 
             if ($timesheets_type != 'total_logged_time_only') {
                 $where .= ' AND billable=1';
@@ -1924,26 +1927,26 @@ class Cases_model extends App_Model
         $type_data = [];
         if ($type == 'milestones') {
             $type_data[] = [
-                'name'   => _l('milestones_uncategorized'),
+                'name' => _l('milestones_uncategorized'),
                 'dep_id' => 'milestone_0',
-                'id'     => 0,
+                'id' => 0,
             ];
             $_milestones = $this->get_milestones($slug, $project_id);
             foreach ($_milestones as $m) {
-                $m['dep_id']       = 'milestone_' . $m['id'];
+                $m['dep_id'] = 'milestone_' . $m['id'];
                 $m['milestone_id'] = $m['id'];
-                $type_data[]       = $m;
+                $type_data[] = $m;
             }
         } elseif ($type == 'members') {
             $type_data[] = [
-                'name'     => _l('task_list_not_assigned'),
-                'dep_id'   => 'member_0' ,
+                'name' => _l('task_list_not_assigned'),
+                'dep_id' => 'member_0',
                 'staff_id' => 0,
             ];
             $_members = $this->get_project_members($project_id);
             foreach ($_members as $m) {
                 $m['dep_id'] = 'member_' . $m['staff_id'];
-                $m['name']   = get_staff_full_name($m['staff_id']);
+                $m['name'] = get_staff_full_name($m['staff_id']);
                 $type_data[] = $m;
             }
         } else {
@@ -1951,18 +1954,18 @@ class Cases_model extends App_Model
                 $statuses = $this->tasks_model->get_statuses();
                 foreach ($statuses as $status) {
                     $status['dep_id'] = 'status_' . $status['id'];
-                    $status['name']   = format_task_status($status['id'], false, true);
-                    $type_data[]      = $status;
+                    $status['name'] = format_task_status($status['id'], false, true);
+                    $type_data[] = $status;
                 }
             } else {
-                $status['id']     = $taskStatus;
+                $status['id'] = $taskStatus;
                 $status['dep_id'] = 'status_' . $taskStatus;
-                $status['name']   = format_task_status($taskStatus, false, true);
-                $type_data[]      = $status;
+                $status['name'] = format_task_status($taskStatus, false, true);
+                $type_data[] = $status;
             }
         }
 
-        $gantt_data     = [];
+        $gantt_data = [];
         $has_permission = has_permission('tasks', '', 'view');
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
@@ -1986,9 +1989,9 @@ class Cases_model extends App_Model
             }
 
             if (count($tasks) > 0) {
-                $data['id']           = $data['dep_id'];
-                $data['start']        = $project_data->start_date;
-                $data['end']          = (isset($data['end'])) ? $data['end'] : $project_data->deadline;
+                $data['id'] = $data['dep_id'];
+                $data['start'] = $project_data->start_date;
+                $data['end'] = (isset($data['end'])) ? $data['end'] : $project_data->deadline;
                 $data['custom_class'] = 'noDrag';
                 unset($data['dep_id']);
 
@@ -2006,7 +2009,7 @@ class Cases_model extends App_Model
 
     public function get_all_projects_gantt_data($filters = [])
     {
-        $statuses   = $this->get_project_statuses();
+        $statuses = $this->get_project_statuses();
         $gantt_data = [];
 
         $statusesIds = [];
@@ -2029,27 +2032,27 @@ class Cases_model extends App_Model
             foreach ($projects as $project) {
                 $tasks = $this->get_tasks($project['id'], [], true);
 
-                $data               = [];
-                $data['id']         = 'proj_' . $project['id'];
+                $data = [];
+                $data['id'] = 'proj_' . $project['id'];
                 $data['project_id'] = $project['id'];
-                $data['name']       = $project['name'];
-                $data['progress']   = 0;
-                $data['start']      = strftime('%Y-%m-%d', strtotime($project['start_date']));
+                $data['name'] = $project['name'];
+                $data['progress'] = 0;
+                $data['start'] = strftime('%Y-%m-%d', strtotime($project['start_date']));
 
                 if (!empty($project['deadline'])) {
                     $data['end'] = strftime('%Y-%m-%d', strtotime($project['deadline']));
                 }
 
                 $data['custom_class'] = 'noDrag';
-                $gantt_data[]         = $data;
+                $gantt_data[] = $data;
 
 
                 if (count($tasks) > 0) {
                     foreach ($tasks as $task) {
-                        $task_data                 = get_task_array_gantt_data($task, null, isset($data['end']) ? $data['end'] : null);
-                        $task_data['progress']     = 0;
+                        $task_data = get_task_array_gantt_data($task, null, isset($data['end']) ? $data['end'] : null);
+                        $task_data['progress'] = 0;
                         $task_data['dependencies'] = $data['id'];
-                        $gantt_data[]              = $task_data;
+                        $gantt_data[] = $task_data;
                     }
                 }
             }
@@ -2080,19 +2083,19 @@ class Cases_model extends App_Model
                 ELSE end_time-start_time
                 END) as total_logged_time
             FROM ' . db_prefix() . 'taskstimers
-            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id=' . $id . ')')
+            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="' . $slug . '" AND rel_id=' . $id . ')')
             ->row();
 
         return $q->total_logged_time;
     }
 
-    public function get_milestones($slug,$project_id)
+    public function get_milestones($slug, $project_id)
     {
-        $this->db->select('*, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id) as total_tasks, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id AND status=5) as total_finished_tasks');
+        $this->db->select('*, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE ' . db_prefix() . 'tasks.rel_type="' . $slug . '" AND ' . db_prefix() . 'tasks.rel_id=' . $project_id . ' and milestone=' . db_prefix() . 'milestones.id) as total_tasks, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE ' . db_prefix() . 'tasks.rel_type="' . $slug . '" AND ' . db_prefix() . 'tasks.rel_id=' . $project_id . ' and milestone=' . db_prefix() . 'milestones.id AND status=5) as total_finished_tasks');
         $this->db->where(array(db_prefix() . 'milestones.rel_sid' => $project_id, db_prefix() . 'milestones.rel_stype' => $slug));
         $this->db->order_by('milestone_order', 'ASC');
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
-        $i          = 0;
+        $i = 0;
         foreach ($milestones as $milestone) {
             $milestones[$i]['total_logged_time'] = $this->calc_milestone_logged_time($project_id, $milestone['id']);
             $i++;
@@ -2105,8 +2108,8 @@ class Cases_model extends App_Model
     public function add_milestone($ServID, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $data['rel_stype']    = $slug;
-        $data['due_date']    = to_sql_date($data['due_date']);
+        $data['rel_stype'] = $slug;
+        $data['due_date'] = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
         $data['description'] = nl2br($data['description']);
         if (isset($data['description_visible_to_customer'])) {
@@ -2119,7 +2122,7 @@ class Cases_model extends App_Model
         if ($insert_id) {
             $this->db->where('id', $insert_id);
             $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-            $project   = $this->get($milestone->rel_sid);
+            $project = $this->get($milestone->rel_sid);
             if ($project->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {
@@ -2137,8 +2140,8 @@ class Cases_model extends App_Model
     public function update_milestone($data, $id)
     {
         $this->db->where('id', $id);
-        $milestone           = $this->db->get(db_prefix() . 'milestones')->row();
-        $data['due_date']    = to_sql_date($data['due_date']);
+        $milestone = $this->db->get(db_prefix() . 'milestones')->row();
+        $data['due_date'] = to_sql_date($data['due_date']);
         $data['description'] = nl2br($data['description']);
 
         if (isset($data['description_visible_to_customer'])) {
@@ -2226,7 +2229,7 @@ class Cases_model extends App_Model
 
     /**
      * Simplified function to send non complicated email templates for project contacts
-     * @param  mixed $id project id
+     * @param mixed $id project id
      * @return boolean
      */
     public function send_project_customer_email($id, $template, $ServID = '')
@@ -2235,14 +2238,14 @@ class Cases_model extends App_Model
         $this->db->where('id', $id);
         $project = $this->db->get(db_prefix() . 'my_cases')->row();
 
-        $sent     = false;
+        $sent = false;
 
         if ($project->contact_notification == 1) {
             $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
         } elseif ($project->contact_notification == 2) {
             $contacts = [];
             $contactIds = unserialize($project->notify_contacts);
-            if(count($contactIds) > 0){
+            if (count($contactIds) > 0) {
                 $this->db->where_in('id', $contactIds);
                 $this->db->where('active', 1);
                 $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
@@ -2272,7 +2275,7 @@ class Cases_model extends App_Model
         ]);
         if ($this->db->affected_rows() > 0) {
             hooks()->do_action('project_status_changed', [
-                'status'     => $data['status_id'],
+                'status' => $data['status_id'],
                 'project_id' => $data['project_id'],
             ]);
 
@@ -2312,17 +2315,17 @@ class Cases_model extends App_Model
         return false;
     }
 
-    private function _notify_project_members_status_change($ServID , $id, $old_status, $new_status)
+    private function _notify_project_members_status_change($ServID, $id, $old_status, $new_status)
     {
-        $members       = $this->get_project_members($id);
+        $members = $this->get_project_members($id);
         $notifiedUsers = [];
         foreach ($members as $member) {
             if ($member['staff_id'] != get_staff_user_id()) {
                 $notified = add_notification([
-                    'fromuserid'      => get_staff_user_id(),
-                    'description'     => 'not_project_status_updated',
-                    'link'            => 'Case/view/'.$ServID.'/' . $id,
-                    'touserid'        => $member['staff_id'],
+                    'fromuserid' => get_staff_user_id(),
+                    'description' => 'not_project_status_updated',
+                    'link' => 'Case/view/' . $ServID . '/' . $id,
+                    'touserid' => $member['staff_id'],
                     'additional_data' => serialize([
                         '<lang>project_status_' . $old_status . '</lang>',
                         '<lang>project_status_' . $new_status . '</lang>',
@@ -2341,7 +2344,7 @@ class Cases_model extends App_Model
         $this->db->where('rel_type', $slug);
         $this->db->where('rel_id', $id);
         $this->db->update(db_prefix() . 'tasks', [
-            'status'       => 5,
+            'status' => 5,
             'datefinished' => date('Y-m-d H:i:s'),
         ]);
         $tasks = $this->get_tasks($id);
@@ -2361,7 +2364,7 @@ class Cases_model extends App_Model
             $staff_id = get_staff_user_id();
         }
         $member = total_rows(db_prefix() . 'my_members_cases', [
-            'staff_id'   => $staff_id,
+            'staff_id' => $staff_id,
             'project_id' => $project_id,
         ]);
         if ($member > 0) {
@@ -2395,7 +2398,7 @@ class Cases_model extends App_Model
 
             // Remove member from tasks where is assigned
             $this->db->where('staffid', $staff_id);
-            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $project_id . '")');
+            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="' . $slug . '" AND rel_id="' . $project_id . '")');
             $this->db->delete(db_prefix() . 'task_assigned');
 
             $this->log_activity($project_id, 'project_activity_removed_team_member', get_staff_full_name($staff_id));
@@ -2409,7 +2412,7 @@ class Cases_model extends App_Model
     public function get_timesheets($project_id, $tasks_ids = [])
     {
         if (count($tasks_ids) == 0) {
-            $tasks     = $this->get_tasks($project_id);
+            $tasks = $this->get_tasks($project_id);
             $tasks_ids = [];
             foreach ($tasks as $task) {
                 array_push($tasks_ids, $task['id']);
@@ -2418,10 +2421,10 @@ class Cases_model extends App_Model
         if (count($tasks_ids) > 0) {
             $this->db->where('task_id IN(' . implode(', ', $tasks_ids) . ')');
             $timesheets = $this->db->get(db_prefix() . 'taskstimers')->result_array();
-            $i          = 0;
+            $i = 0;
             foreach ($timesheets as $t) {
-                $task                         = $this->tasks_model->get($t['task_id']);
-                $timesheets[$i]['task_data']  = $task;
+                $task = $this->tasks_model->get($t['task_id']);
+                $timesheets[$i]['task_data'] = $task;
                 $timesheets[$i]['staff_name'] = get_staff_full_name($t['staff_id']);
                 if (!is_null($t['end_time'])) {
                     $timesheets[$i]['total_spent'] = $t['end_time'] - $t['start_time'];
@@ -2506,9 +2509,9 @@ class Cases_model extends App_Model
     {
         $this->db->where('discussion_id', $id);
         $this->db->where('discussion_type', $type);
-        $comments             = $this->db->get(db_prefix() . 'casediscussioncomments')->result_array();
-        $i                    = 0;
-        $allCommentsIDS       = [];
+        $comments = $this->db->get(db_prefix() . 'casediscussioncomments')->result_array();
+        $i = 0;
+        $allCommentsIDS = [];
         $allCommentsParentIDS = [];
         foreach ($comments as $comment) {
             $allCommentsIDS[] = $comment['id'];
@@ -2578,10 +2581,10 @@ class Cases_model extends App_Model
             $this->db->where('show_to_customer', 1);
         }
         $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
-        $i           = 0;
+        $i = 0;
         foreach ($discussions as $discussion) {
             $discussions[$i]['total_comments'] = total_rows(db_prefix() . 'casediscussioncomments', [
-                'discussion_id'   => $discussion['id'],
+                'discussion_id' => $discussion['id'],
                 'discussion_type' => 'regular',
             ]);
             $i++;
@@ -2592,8 +2595,8 @@ class Cases_model extends App_Model
 
     public function add_discussion_comment($ServID = '', $data, $discussion_id, $type)
     {
-        $discussion               = $this->get_discussion($discussion_id);
-        $_data['discussion_id']   = $discussion_id;
+        $discussion = $this->get_discussion($discussion_id);
+        $_data['discussion_id'] = $discussion_id;
         $_data['discussion_type'] = $type;
         if (isset($data['content'])) {
             $_data['content'] = $data['content'];
@@ -2603,14 +2606,14 @@ class Cases_model extends App_Model
         }
         if (is_client_logged_in()) {
             $_data['contact_id'] = get_contact_user_id();
-            $_data['fullname']   = get_contact_full_name($_data['contact_id']);
-            $_data['staff_id']   = 0;
+            $_data['fullname'] = get_contact_full_name($_data['contact_id']);
+            $_data['staff_id'] = 0;
         } else {
             $_data['contact_id'] = 0;
-            $_data['staff_id']   = get_staff_user_id();
-            $_data['fullname']   = get_staff_full_name($_data['staff_id']);
+            $_data['staff_id'] = get_staff_user_id();
+            $_data['fullname'] = get_staff_full_name($_data['staff_id']);
         }
-        $_data            = handle_case_discussion_comment_attachments($discussion_id, $data, $_data);
+        $_data = handle_case_discussion_comment_attachments($discussion_id, $data, $_data);
         $_data['created'] = date('Y-m-d H:i:s');
         $_data = hooks()->apply_filters('before_add_project_discussion_comment', $_data, $discussion_id);
         $this->db->insert(db_prefix() . 'casediscussioncomments', $_data);
@@ -2618,26 +2621,26 @@ class Cases_model extends App_Model
         if ($insert_id) {
             if ($type == 'regular') {
                 $discussion = $this->get_discussion($discussion_id);
-                $not_link   = 'Case/view/' .$ServID.'/'. $discussion->project_id . '?group=project_discussions&discussion_id=' . $discussion_id;
+                $not_link = 'Case/view/' . $ServID . '/' . $discussion->project_id . '?group=project_discussions&discussion_id=' . $discussion_id;
             } else {
-                $discussion                   = $this->get_file($discussion_id);
-                $not_link                     = 'Case/view/' .$ServID.'/'. $discussion->project_id . '?group=project_files&file_id=' . $discussion_id;
+                $discussion = $this->get_file($discussion_id);
+                $not_link = 'Case/view/' . $ServID . '/' . $discussion->project_id . '?group=project_files&file_id=' . $discussion_id;
                 $discussion->show_to_customer = $discussion->visible_to_customer;
             }
 
             $emailTemplateData = [
                 'staff' => [
-                    'discussion_id'         => $discussion_id,
+                    'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
-                    'discussion_type'       => $type,
-                    'ServID'                => $ServID,
+                    'discussion_type' => $type,
+                    'ServID' => $ServID,
                 ],
                 'customers' => [
-                    'customer_template'     => true,
-                    'discussion_id'         => $discussion_id,
+                    'customer_template' => true,
+                    'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
-                    'discussion_type'       => $type,
-                    'ServID'                => $ServID,
+                    'discussion_type' => $type,
+                    'ServID' => $ServID,
                 ],
             ];
 
@@ -2645,16 +2648,16 @@ class Cases_model extends App_Model
                 $emailTemplateData['attachments'] = [
                     [
                         'attachment' => CASE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id . '/' . $_data['file_name'],
-                        'filename'   => $_data['file_name'],
-                        'type'       => $_data['file_mime_type'],
-                        'read'       => true,
+                        'filename' => $_data['file_name'],
+                        'type' => $_data['file_mime_type'],
+                        'read' => true,
                     ],
                 ];
             }
 
             $notification_data = [
                 'description' => 'not_commented_on_project_discussion',
-                'link'        => $not_link,
+                'link' => $not_link,
             ];
 
             if (is_client_logged_in()) {
@@ -2716,7 +2719,7 @@ class Cases_model extends App_Model
         $this->db->where('id', $data['id']);
         $this->db->update(db_prefix() . 'casediscussioncomments', [
             'modified' => date('Y-m-d H:i:s'),
-            'content'  => $data['content'],
+            'content' => $data['content'],
         ]);
         if ($this->db->affected_rows() > 0) {
             $this->_update_discussion_last_activity($comment->discussion_id, $comment->discussion_type);
@@ -2736,11 +2739,11 @@ class Cases_model extends App_Model
                 $additional_data = '';
                 if ($comment->discussion_type == 'regular') {
                     $discussion = $this->get_discussion($comment->discussion_id);
-                    $not        = 'project_activity_deleted_discussion_comment';
+                    $not = 'project_activity_deleted_discussion_comment';
                     $additional_data .= $discussion->subject . '<br />' . $comment->content;
                 } else {
                     $discussion = $this->get_file($comment->discussion_id);
-                    $not        = 'project_activity_deleted_file_discussion_comment';
+                    $not = 'project_activity_deleted_file_discussion_comment';
                     $additional_data .= $discussion->subject . '<br />' . $comment->content;
                 }
 
@@ -2784,11 +2787,11 @@ class Cases_model extends App_Model
     public function add_discussion($data, $ServID)
     {
         if (is_client_logged_in()) {
-            $data['contact_id']       = get_contact_user_id();
-            $data['staff_id']         = 0;
+            $data['contact_id'] = get_contact_user_id();
+            $data['staff_id'] = 0;
             $data['show_to_customer'] = 1;
         } else {
-            $data['staff_id']   = get_staff_user_id();
+            $data['staff_id'] = get_staff_user_id();
             $data['contact_id'] = 0;
             if (isset($data['show_to_customer'])) {
                 $data['show_to_customer'] = 1;
@@ -2801,10 +2804,10 @@ class Cases_model extends App_Model
         $this->db->insert(db_prefix() . 'casediscussions', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $members           = $this->get_project_members($data['project_id']);
+            $members = $this->get_project_members($data['project_id']);
             $notification_data = [
                 'description' => 'not_created_new_project_discussion',
-                'link'        => 'Case/view/'. $ServID.'/'. $data['project_id'] . '?group=project_discussions&discussion_id=' . $insert_id,
+                'link' => 'Case/view/' . $ServID . '/' . $data['project_id'] . '?group=project_discussions&discussion_id=' . $insert_id,
             ];
 
             if (is_client_logged_in()) {
@@ -2826,15 +2829,15 @@ class Cases_model extends App_Model
             pusher_trigger_notification($notifiedUsers);
             $this->send_project_email_template($data['project_id'], 'project_discussion_created_to_staff', 'project_discussion_created_to_customer', $data['show_to_customer'], [
                 'staff' => [
-                    'discussion_id'   => $insert_id,
+                    'discussion_id' => $insert_id,
                     'discussion_type' => 'regular',
-                    'ServID'          => $ServID,
+                    'ServID' => $ServID,
                 ],
                 'customers' => [
                     'customer_template' => true,
-                    'discussion_id'     => $insert_id,
-                    'discussion_type'   => 'regular',
-                    'ServID'            => $ServID,
+                    'discussion_id' => $insert_id,
+                    'discussion_type' => 'regular',
+                    'ServID' => $ServID,
                 ],
             ]);
             $this->log_activity($data['project_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
@@ -2881,13 +2884,13 @@ class Cases_model extends App_Model
         return false;
     }
 
-    public function copy($ServID,$project_id, $data)
+    public function copy($ServID, $project_id, $data)
     {
-        $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $project   = $this->get($project_id);
-        $settings  = $this->get_case_settings($project_id);
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $project = $this->get($project_id);
+        $settings = $this->get_case_settings($project_id);
         $_new_data = [];
-        $fields    = $this->db->list_fields(db_prefix() . 'my_cases');
+        $fields = $this->db->list_fields(db_prefix() . 'my_cases');
         foreach ($fields as $field) {
             if (isset($project->$field)) {
                 $_new_data[$field] = $project->$field;
@@ -2912,7 +2915,7 @@ class Cases_model extends App_Model
         }
 
         $_new_data['project_created'] = date('Y-m-d H:i:s');
-        $_new_data['addedfrom']       = get_staff_user_id();
+        $_new_data['addedfrom'] = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
 
@@ -2929,13 +2932,13 @@ class Cases_model extends App_Model
 
             foreach ($settings as $setting) {
                 $this->db->insert(db_prefix() . 'case_settings', [
-                    'case_id'    => $id,
-                    'name'       => $setting['name'],
-                    'value'      => $setting['value'],
+                    'case_id' => $id,
+                    'name' => $setting['name'],
+                    'value' => $setting['value'],
                 ]);
             }
             $added_tasks = [];
-            $tasks       = $this->get_tasks($project_id);
+            $tasks = $this->get_tasks($project_id);
             if (isset($data['tasks'])) {
                 foreach ($tasks as $task) {
                     if (isset($data['task_include_followers'])) {
@@ -2948,34 +2951,34 @@ class Cases_model extends App_Model
                         $copy_task_data['copy_task_checklist_items'] = 'true';
                     }
                     $copy_task_data['copy_from'] = $task['id'];
-                     // For new task start date, we will find the difference in days between
+                    // For new task start date, we will find the difference in days between
                     // the old project start and and the old task start date and then
                     // based on the new project start date, we will add e.q. 15 days to be
                     // new task start date to the task
                     // e.q. old project start date 2020-04-01, old task start date 2020-04-15 and due date 2020-04-30
                     // copy project and set start date 2020-06-01
                     // new task start date will be 2020-06-15 and below due date 2020-06-30
-                    $dStart    = new DateTime($project->start_date);
-                    $dEnd      = new DateTime($task['startdate']);
-                    $dDiff     = $dStart->diff($dEnd);
+                    $dStart = new DateTime($project->start_date);
+                    $dEnd = new DateTime($task['startdate']);
+                    $dDiff = $dStart->diff($dEnd);
                     $startDate = new DateTime($_new_data['start_date']);
                     $startDate->modify('+' . $dDiff->days . ' DAY');
                     $newTaskStartDate = $startDate->format('Y-m-d');
 
                     $merge = [
-                        'rel_id'              => $id,
-                        'rel_type'            => $slug,
+                        'rel_id' => $id,
+                        'rel_type' => $slug,
                         'last_recurring_date' => null,
-                        'startdate'           => $newTaskStartDate,
-                        'status'              => $data['copy_project_task_status'],
+                        'startdate' => $newTaskStartDate,
+                        'status' => $data['copy_project_task_status'],
                     ];
 
                     // Calculate the diff in days between the task start and due date
                     // then add these days to the new task start date to be used as this task due date
                     if ($task['duedate']) {
-                        $dStart  = new DateTime($task['startdate']);
-                        $dEnd    = new DateTime($task['duedate']);
-                        $dDiff   = $dStart->diff($dEnd);
+                        $dStart = new DateTime($task['startdate']);
+                        $dEnd = new DateTime($task['duedate']);
+                        $dDiff = $dStart->diff($dEnd);
                         $dueDate = new DateTime($newTaskStartDate);
                         $dueDate->modify('+' . $dDiff->days . ' DAY');
                         $merge['duedate'] = $dueDate->format('Y-m-d');
@@ -2989,34 +2992,34 @@ class Cases_model extends App_Model
                 }
             }
             if (isset($data['milestones'])) {
-                $milestones        = $this->get_milestones($slug, $project_id);
+                $milestones = $this->get_milestones($slug, $project_id);
                 $_added_milestones = [];
                 foreach ($milestones as $milestone) {
                     $oldProjectStartDate = new DateTime($project->start_date);
-                    $dDuedate            = new DateTime($milestone['due_date']);
-                    $dDiff               = $oldProjectStartDate->diff($dDuedate);
+                    $dDuedate = new DateTime($milestone['due_date']);
+                    $dDiff = $oldProjectStartDate->diff($dDuedate);
 
                     $newProjectStartDate = new DateTime($_new_data['start_date']);
                     $newProjectStartDate->modify('+' . $dDiff->days . ' DAY');
                     $newMilestoneDueDate = $newProjectStartDate->format('Y-m-d');
 
                     $this->db->insert(db_prefix() . 'milestones', [
-                        'name'                            => $milestone['name'],
-                        'project_id'                      => $id,
-                        'milestone_order'                 => $milestone['milestone_order'],
+                        'name' => $milestone['name'],
+                        'project_id' => $id,
+                        'milestone_order' => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
-                        'description'                     => $milestone['description'],
-                        'due_date'                        => $newMilestoneDueDate,
-                        'datecreated'                     => date('Y-m-d'),
-                        'color'                           => $milestone['color'],
+                        'description' => $milestone['description'],
+                        'due_date' => $newMilestoneDueDate,
+                        'datecreated' => date('Y-m-d'),
+                        'color' => $milestone['color'],
                     ]);
 
                     $milestone_id = $this->db->insert_id();
                     if ($milestone_id) {
-                        $_added_milestone_data         = [];
-                        $_added_milestone_data['id']   = $milestone_id;
+                        $_added_milestone_data = [];
+                        $_added_milestone_data['id'] = $milestone_id;
                         $_added_milestone_data['name'] = $milestone['name'];
-                        $_added_milestones[]           = $_added_milestone_data;
+                        $_added_milestones[] = $_added_milestone_data;
                     }
                 }
                 if (isset($data['tasks'])) {
@@ -3054,14 +3057,14 @@ class Cases_model extends App_Model
                 }
             }
             if (isset($data['members'])) {
-                $members  = $this->get_project_members($project_id);
+                $members = $this->get_project_members($project_id);
                 $_members = [];
                 foreach ($members as $member) {
                     array_push($_members, $member['staff_id']);
                 }
                 $this->add_edit_members([
                     'project_members' => $_members,
-                ],$ServID, $id);
+                ], $ServID, $id);
             }
 
             $custom_fields = get_custom_fields($slug);
@@ -3069,10 +3072,10 @@ class Cases_model extends App_Model
                 $value = get_custom_field_value($project_id, $field['id'], $slug, false);
                 if ($value != '') {
                     $this->db->insert(db_prefix() . 'customfieldsvalues', [
-                        'relid'   => $id,
+                        'relid' => $id,
                         'fieldid' => $field['id'],
                         'fieldto' => $slug,
-                        'value'   => $value,
+                        'value' => $value,
                     ]);
                 }
             }
@@ -3092,17 +3095,17 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'left');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' . ' AND ' . db_prefix() . 'my_other_services.service_id=' . db_prefix() . 'my_link_services.to_service_id AND ' . db_prefix() . 'my_other_services.deleted = 0', 'left');
         $father_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 1', 'inner');
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND ' . db_prefix() . 'my_cases.deleted = 0 AND ' . db_prefix() . 'my_link_services.to_service_id = 1', 'inner');
         $cases = $this->db->get(db_prefix() . 'my_link_services')->result();
-         foreach ($cases as $key => $case) {
-             $cases[$key]->l_service_id = "1";
-         }
+        foreach ($cases as $key => $case) {
+            $cases[$key]->l_service_id = "1";
+        }
 
         // $father_linked_services = [
         //         ...$father_linked_services,
@@ -3113,7 +3116,7 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_disputes_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 22', 'inner');
+        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND ' . db_prefix() . 'my_disputes_cases.deleted = 0 AND ' . db_prefix() . 'my_link_services.to_service_id = 22', 'inner');
         $disputes_cases = $this->db->get(db_prefix() . 'my_link_services')->result();
         foreach ($disputes_cases as $key => $case) {
             $disputes_cases[$key]->l_service_id = "1";
@@ -3128,13 +3131,13 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'left');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' . ' AND ' . db_prefix() . 'my_other_services.service_id=' . db_prefix() . 'my_link_services.to_service_id AND ' . db_prefix() . 'my_other_services.deleted = 0', 'left');
         $child_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=1 AND '.db_prefix() . 'my_cases.deleted = 0', 'inner');
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' . ' AND ' . db_prefix() . 'my_link_services.to_service_id=1 AND ' . db_prefix() . 'my_cases.deleted = 0', 'inner');
         // $child_linked_services = [
         //     ...$child_linked_services,
         //     ...$this->db->get(db_prefix() . 'my_link_services')->result()
@@ -3148,16 +3151,16 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=22 AND '.db_prefix() . 'my_disputes_cases.deleted = 0', 'inner');
+        $this->db->join(db_prefix() . 'my_disputes_cases', db_prefix() . 'my_disputes_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' . ' AND ' . db_prefix() . 'my_link_services.to_service_id=22 AND ' . db_prefix() . 'my_disputes_cases.deleted = 0', 'inner');
         $child_linked_services = array_merge($child_linked_services, $this->db->get(db_prefix() . 'my_link_services')->result());
 
         return $linked_services = array_merge($father_linked_services, $child_linked_services);
     }
 
-    public function link($ServID,$project_id, $data, $ServID2)
+    public function link($ServID, $project_id, $data, $ServID2)
     {
-        $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $slug2      = $this->legal->get_service_by_id($ServID2)->row()->slug;
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $slug2 = $this->legal->get_service_by_id($ServID2)->row()->slug;
         $mark_as_data = [
             'status_id' => 4,
             'project_id' => $project_id,
@@ -3167,35 +3170,35 @@ class Cases_model extends App_Model
             'notify_project_members_status_change' => 0
         ];
 
-            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
-                $status = get_case_status_by_id($mark_as_data['status_id']);
+        if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+            $status = get_case_status_by_id($mark_as_data['status_id']);
 
-                $message = _l('project_marked_as_failed', $status['name']);
-                $success = $this->mark_as($ServID, $mark_as_data, $slug);
+            $message = _l('project_marked_as_failed', $status['name']);
+            $success = $this->mark_as($ServID, $mark_as_data, $slug);
 
-                if ($success) {
-                    $message = _l('project_marked_as_success', $status['name']);
-                }
+            if ($success) {
+                $message = _l('project_marked_as_success', $status['name']);
             }
+        }
 
-        $project   = $this->get($project_id);
-        $settings  = $this->get_case_settings($project_id);
+        $project = $this->get($project_id);
+        $settings = $this->get_case_settings($project_id);
         $_new_data = [];
-        $fields    = $this->db->list_fields(db_prefix() . 'my_cases');
+        $fields = $this->db->list_fields(db_prefix() . 'my_cases');
         foreach ($fields as $field) {
             if (isset($project->$field)) {
                 $_new_data[$field] = $project->$field;
             }
         }
 
-        if($ServID2 == 1) {
+        if ($ServID2 == 1) {
             $service_table = db_prefix() . 'my_cases';
             $settings_table = db_prefix() . 'case_settings';
             $setting_id = 'case_id';
             $upload_folder = 'cases';
             $files_table = db_prefix() . 'case_files';
             $files_id = 'project_id';
-        } elseif ($ServID2 == 22){
+        } elseif ($ServID2 == 22) {
             $service_table = db_prefix() . 'my_disputes_cases';
             $settings_table = db_prefix() . 'my_disputes_case_settings';
             $setting_id = 'case_id';
@@ -3211,7 +3214,7 @@ class Cases_model extends App_Model
             unset($_new_data['deadline_notified']);
             unset($_new_data['regular_header']);
 
-        }else {
+        } else {
             $service_table = db_prefix() . 'my_other_services';
             $settings_table = db_prefix() . 'oservice_settings';
             $setting_id = 'oservice_id';
@@ -3253,27 +3256,27 @@ class Cases_model extends App_Model
         }
 
         $_new_data['project_created'] = date('Y-m-d H:i:s');
-        $_new_data['addedfrom']       = get_staff_user_id();
+        $_new_data['addedfrom'] = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
 
         $this->db->insert($service_table, $_new_data);
         $id = $this->db->insert_id();
         if ($id) {
-            if(isset($data['files'])){
+            if (isset($data['files'])) {
                 $files = $this->get_files($project_id);
-                if(!file_exists('uploads/'.$upload_folder)){
-                    mkdir(FCPATH.'uploads/'.$upload_folder, 0755);
+                if (!file_exists('uploads/' . $upload_folder)) {
+                    mkdir(FCPATH . 'uploads/' . $upload_folder, 0755);
                 }
-                if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
-                        mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0755);
+                if (!file_exists('uploads/' . $upload_folder . '/' . $id)) {
+                    mkdir(FCPATH . 'uploads/' . $upload_folder . '/' . $id, 0755);
                 }
                 foreach ($files as $key => $value) {
-                    $file_url = base_url().'uploads/cases/'.$project_id.'/'.$value['file_name'];
+                    $file_url = base_url() . 'uploads/cases/' . $project_id . '/' . $value['file_name'];
                     $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
-                    $myFile = fopen(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], 'w', true);
+                    $myFile = fopen(FCPATH . 'uploads/' . $upload_folder . '/' . $id . '/' . $value['file_name'], 'w', true);
 
-                    file_put_contents(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], $file_content);
+                    file_put_contents(FCPATH . 'uploads/' . $upload_folder . '/' . $id . '/' . $value['file_name'], $file_content);
                     $file_data = [
                         'file_name' => $value['file_name'],
                         'subject' => $value['subject'],
@@ -3305,7 +3308,7 @@ class Cases_model extends App_Model
                 ]);
             }
             $added_tasks = [];
-                $tasks       = $this->get_tasks($project_id);
+            $tasks = $this->get_tasks($project_id);
             if (isset($data['tasks'])) {
                 foreach ($tasks as $task) {
                     if (isset($data['task_include_followers'])) {
@@ -3318,34 +3321,34 @@ class Cases_model extends App_Model
                         $copy_task_data['copy_task_checklist_items'] = 'true';
                     }
                     $copy_task_data['copy_from'] = $task['id'];
-                     // For new task start date, we will find the difference in days between
+                    // For new task start date, we will find the difference in days between
                     // the old project start and and the old task start date and then
                     // based on the new project start date, we will add e.q. 15 days to be
                     // new task start date to the task
                     // e.q. old project start date 2020-04-01, old task start date 2020-04-15 and due date 2020-04-30
                     // copy project and set start date 2020-06-01
                     // new task start date will be 2020-06-15 and below due date 2020-06-30
-                    $dStart    = new DateTime($project->start_date);
-                    $dEnd      = new DateTime($task['startdate']);
-                    $dDiff     = $dStart->diff($dEnd);
+                    $dStart = new DateTime($project->start_date);
+                    $dEnd = new DateTime($task['startdate']);
+                    $dDiff = $dStart->diff($dEnd);
                     $startDate = new DateTime($_new_data['start_date']);
                     $startDate->modify('+' . $dDiff->days . ' DAY');
                     $newTaskStartDate = $startDate->format('Y-m-d');
 
                     $merge = [
-                        'rel_id'              => $id,
-                        'rel_type'            => $slug2,
+                        'rel_id' => $id,
+                        'rel_type' => $slug2,
                         'last_recurring_date' => null,
-                        'startdate'           => $newTaskStartDate,
-                        'status'              => $data['copy_project_task_status'],
+                        'startdate' => $newTaskStartDate,
+                        'status' => $data['copy_project_task_status'],
                     ];
 
                     // Calculate the diff in days between the task start and due date
                     // then add these days to the new task start date to be used as this task due date
                     if ($task['duedate']) {
-                        $dStart  = new DateTime($task['startdate']);
-                        $dEnd    = new DateTime($task['duedate']);
-                        $dDiff   = $dStart->diff($dEnd);
+                        $dStart = new DateTime($task['startdate']);
+                        $dEnd = new DateTime($task['duedate']);
+                        $dDiff = $dStart->diff($dEnd);
                         $dueDate = new DateTime($newTaskStartDate);
                         $dueDate->modify('+' . $dDiff->days . ' DAY');
                         $merge['duedate'] = $dueDate->format('Y-m-d');
@@ -3359,12 +3362,12 @@ class Cases_model extends App_Model
                 }
             }
             if (isset($data['milestones'])) {
-                $milestones        = $this->get_milestones($slug, $project_id);
+                $milestones = $this->get_milestones($slug, $project_id);
                 $_added_milestones = [];
                 foreach ($milestones as $milestone) {
                     $dCreated = new DateTime($milestone['datecreated']);
                     $dDuedate = new DateTime($milestone['due_date']);
-                    $dDiff    = $dCreated->diff($dDuedate);
+                    $dDiff = $dCreated->diff($dDuedate);
                     $due_date = date('Y-m-d', strtotime(date('Y-m-d', strtotime('+' . $dDiff->days . 'DAY'))));
 
                     $milestone_data = $milestone_data = $ServID2 != 1 ? [
@@ -3378,24 +3381,24 @@ class Cases_model extends App_Model
                         'datecreated' => date('Y-m-d'),
                         'color' => $milestone['color'],
                     ] : [
-                        'name'                            => $milestone['name'],
-                        'project_id'                      => $id,
-                        'milestone_order'                 => $milestone['milestone_order'],
+                        'name' => $milestone['name'],
+                        'project_id' => $id,
+                        'milestone_order' => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
-                        'description'                     => $milestone['description'],
-                        'due_date'                        => $due_date,
-                        'datecreated'                     => date('Y-m-d'),
-                        'color'                           => $milestone['color'],
+                        'description' => $milestone['description'],
+                        'due_date' => $due_date,
+                        'datecreated' => date('Y-m-d'),
+                        'color' => $milestone['color'],
                     ];
 
                     $this->db->insert(db_prefix() . 'milestones', $milestone_data);
 
                     $milestone_id = $this->db->insert_id();
                     if ($milestone_id) {
-                        $_added_milestone_data         = [];
-                        $_added_milestone_data['id']   = $milestone_id;
+                        $_added_milestone_data = [];
+                        $_added_milestone_data['id'] = $milestone_id;
                         $_added_milestone_data['name'] = $milestone['name'];
-                        $_added_milestones[]           = $_added_milestone_data;
+                        $_added_milestones[] = $_added_milestone_data;
                     }
                 }
                 if (isset($data['tasks'])) {
@@ -3432,25 +3435,47 @@ class Cases_model extends App_Model
                     }
                 }
             }
+            $sessions = $this->get_CaseSession($project_id);
+            if (isset($data['sessions'])) {
+                if (count($sessions)) {
+                    if ($ServID2 == 1) {
+                        foreach ($sessions as $session) {
+                            $this->db->where('id', $session['id']);
+                            $this->db->update(db_prefix() . 'tasks', [
+                                'rel_id' => $id,
+                                'rel_type' => $slug2,
+                            ]);
+                        }
+                    } elseif ($ServID2 == 22) {
+                        foreach ($sessions as $session) {
+                            $this->db->where('id', $session['id']);
+                            $this->db->update(db_prefix() . 'tasks', [
+                                'rel_id' => $id,
+                                'rel_type' => $slug2,
+                            ]);
+                        }
+                    }
+                }
+            }
             if (isset($data['members'])) {
-                $members  = $this->get_project_members($project_id);
+                $members = $this->get_project_members($project_id);
                 $_members = [];
                 foreach ($members as $member) {
                     array_push($_members, $member['staff_id']);
                 }
-                if($ServID2 == 1){
+                if ($ServID2 == 1) {
                     $this->add_edit_members([
-                    'project_members' => $_members,
-                    ], $ServID,$id);
-                }elseif($ServID2 == 22){
+                        'project_members' => $_members,
+                    ], $ServID, $id);
+                } elseif ($ServID2 == 22) {
                     $this->add_disputes_cases_members([
                         'project_members' => $_members,
-                    ],$ServID, $id);
+                    ], $ServID, $id);
 
-                }else{
+                } else {
                     $this->add_edit_oservices_members([
-                    'project_members' => $_members,
-                    ],$ServID, $id);
+                        'project_members' => $_members,
+                    ], $ServID, $id);
                 }
 
             }
@@ -3460,18 +3485,18 @@ class Cases_model extends App_Model
                 $value = get_custom_field_value($project_id, $field['id'], $slug, false);
                 if ($value != '') {
                     $this->db->insert(db_prefix() . 'customfieldsvalues', [
-                        'relid'   => $id,
+                        'relid' => $id,
                         'fieldid' => $field['id'],
                         'fieldto' => $slug,
-                        'value'   => $value,
+                        'value' => $value,
                     ]);
                 }
             }
 
-            if ($ServID2 == 22){
-                if(isset($opponents)){
+            if ($ServID2 == 22) {
+                if (isset($opponents)) {
                     $this->db->insert(db_prefix() . 'my_disputes_cases_opponents', [
-                        'case_id'  => $id,
+                        'case_id' => $id,
                         'opponent_id' => $opponents,
                     ]);
                 }
@@ -3479,7 +3504,7 @@ class Cases_model extends App_Model
                 if (isset($cases_judges)) {
                     foreach ($cases_judges as $case_judge) {
                         $this->db->insert(db_prefix() . 'my_disputes_cases_judges', [
-                            'case_id'  => $id,
+                            'case_id' => $id,
                             'judge_id' => $case_judge['judge_id'],
                         ]);
                     }
@@ -3532,8 +3557,8 @@ class Cases_model extends App_Model
             return false;
         }
         $this->db->insert(db_prefix() . 'case_notes', [
-            'staff_id'   => get_staff_user_id(),
-            'content'    => $data['content'],
+            'staff_id' => get_staff_user_id(),
+            'content' => $data['content'],
             'project_id' => $project_id,
         ]);
         $insert_id = $this->db->insert_id();
@@ -3566,10 +3591,10 @@ class Cases_model extends App_Model
         }
         $this->db->order_by('dateadded', 'desc');
         $activities = $this->db->get(db_prefix() . 'case_activity')->result_array();
-        $i          = 0;
+        $i = 0;
         foreach ($activities as $activity) {
-            $seconds          = get_string_between($activity['additional_data'], '<seconds>', '</seconds>');
-            $other_lang_keys  = get_string_between($activity['additional_data'], '<lang>', '</lang>');
+            $seconds = get_string_between($activity['additional_data'], '<seconds>', '</seconds>');
+            $other_lang_keys = get_string_between($activity['additional_data'], '<lang>', '</lang>');
             $_additional_data = $activity['additional_data'];
             if ($seconds != '') {
                 $_additional_data = str_replace('<seconds>' . $seconds . '</seconds>', seconds_to_time_format($seconds), $_additional_data);
@@ -3584,9 +3609,9 @@ class Cases_model extends App_Model
                     $_additional_data = $_additional_data['name'];
                 }
             }
-            $activities[$i]['description']     = _l($activities[$i]['description_key']);
+            $activities[$i]['description'] = _l($activities[$i]['description_key']);
             $activities[$i]['additional_data'] = $_additional_data;
-            $activities[$i]['project_name']    = get_case_name_by_id($activity['project_id']);
+            $activities[$i]['project_name'] = get_case_name_by_id($activity['project_id']);
             unset($activities[$i]['description_key']);
             $i++;
         }
@@ -3599,23 +3624,23 @@ class Cases_model extends App_Model
         if (!DEFINED('CRON')) {
             if (is_client_logged_in()) {
                 $data['contact_id'] = get_contact_user_id();
-                $data['staff_id']   = 0;
-                $data['fullname']   = get_contact_full_name(get_contact_user_id());
+                $data['staff_id'] = 0;
+                $data['fullname'] = get_contact_full_name(get_contact_user_id());
             } elseif (is_staff_logged_in()) {
                 $data['contact_id'] = 0;
-                $data['staff_id']   = get_staff_user_id();
-                $data['fullname']   = get_staff_full_name(get_staff_user_id());
+                $data['staff_id'] = get_staff_user_id();
+                $data['fullname'] = get_staff_full_name(get_staff_user_id());
             }
         } else {
             $data['contact_id'] = 0;
-            $data['staff_id']   = 0;
-            $data['fullname']   = '[CRON]';
+            $data['staff_id'] = 0;
+            $data['fullname'] = '[CRON]';
         }
-        $data['description_key']     = $description_key;
-        $data['additional_data']     = $additional_data;
+        $data['description_key'] = $description_key;
+        $data['additional_data'] = $additional_data;
         $data['visible_to_customer'] = $visible_to_customer;
-        $data['project_id']          = $project_id;
-        $data['dateadded']           = date('Y-m-d H:i:s');
+        $data['project_id'] = $project_id;
+        $data['dateadded'] = date('Y-m-d H:i:s');
 
         $data = hooks()->apply_filters('before_log_project_activity', $data);
 
@@ -3629,10 +3654,10 @@ class Cases_model extends App_Model
         $additional_data = $file->file_name;
         $this->log_activity($project_id, 'LService_activity_uploaded_file', $additional_data, $file->visible_to_customer);
 
-        $members           = $this->get_project_members($project_id);
+        $members = $this->get_project_members($project_id);
         $notification_data = [
             'description' => 'not_project_file_uploaded',
-            'link'        => 'Case/view/' .$ServID. '/' . $project_id . '?group=project_files&file_id=' . $file_id,
+            'link' => 'Case/view/' . $ServID . '/' . $project_id . '?group=project_files&file_id=' . $file_id,
         ];
 
         if (is_client_logged_in()) {
@@ -3659,7 +3684,7 @@ class Cases_model extends App_Model
             'project_file_to_customer',
             $file->visible_to_customer,
             [
-                'staff'     => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
+                'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
                 'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
             ]
         );
@@ -3667,15 +3692,15 @@ class Cases_model extends App_Model
 
     public function add_external_file($data)
     {
-        $insert['dateadded']           = date('Y-m-d H:i:s');
-        $insert['project_id']          = $data['project_id'];
-        $insert['external']            = $data['external'];
+        $insert['dateadded'] = date('Y-m-d H:i:s');
+        $insert['project_id'] = $data['project_id'];
+        $insert['external'] = $data['external'];
         $insert['visible_to_customer'] = $data['visible_to_customer'];
-        $insert['file_name']           = $data['files'][0]['name'];
-        $insert['subject']             = $data['files'][0]['name'];
-        $insert['external_link']       = $data['files'][0]['link'];
+        $insert['file_name'] = $data['files'][0]['name'];
+        $insert['subject'] = $data['files'][0]['name'];
+        $insert['external_link'] = $data['files'][0]['link'];
 
-        $path_parts         = pathinfo($data['files'][0]['name']);
+        $path_parts = pathinfo($data['files'][0]['name']);
         $insert['filetype'] = get_mime_by_extension('.' . $path_parts['extension']);
 
         if (isset($data['files'][0]['thumbnailLink'])) {
@@ -3691,7 +3716,7 @@ class Cases_model extends App_Model
         $this->db->insert(db_prefix() . 'case_files', $insert);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $this->new_project_file_notification(1,$insert_id, $data['project_id']);
+            $this->new_project_file_notification(1, $insert_id, $data['project_id']);
 
             return $insert_id;
         }
@@ -3703,7 +3728,7 @@ class Cases_model extends App_Model
     {
         if (count($additional_data) == 0) {
             $additional_data['customers'] = [];
-            $additional_data['staff']     = [];
+            $additional_data['staff'] = [];
         } elseif (count($additional_data) == 1) {
             if (!isset($additional_data['staff'])) {
                 $additional_data['staff'] = [];
@@ -3733,7 +3758,7 @@ class Cases_model extends App_Model
             } elseif ($project->contact_notification == 2) {
                 $contacts = [];
                 $contactIds = unserialize($project->notify_contacts);
-                if(count($contactIds) > 0){
+                if (count($contactIds) > 0) {
                     $this->db->where_in('id', $contactIds);
                     $this->db->where('active', 1);
                     $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
@@ -3768,10 +3793,10 @@ class Cases_model extends App_Model
     public function total_logged_time_by_billing_type($slug = '', $id, $conditions = [])
     {
         $project_data = $this->_get_project_billing_data($id);
-        $data         = [];
+        $data = [];
         if ($project_data->billing_type == 2) {
-            $seconds             = $this->total_logged_time($slug, $id);
-            $data                = $this->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
+            $seconds = $this->total_logged_time($slug, $id);
+            $data = $this->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
             $data['logged_time'] = $data['hours'];
         } elseif ($project_data->billing_type == 3) {
             $data = $this->_get_data_total_logged_time($slug, $id);
@@ -3791,7 +3816,7 @@ class Cases_model extends App_Model
     {
         return $this->_get_data_total_logged_time($slug, $id, [
             'billable' => 1,
-            'billed'   => 1,
+            'billed' => 1,
         ]);
     }
 
@@ -3799,7 +3824,7 @@ class Cases_model extends App_Model
     {
         return $this->_get_data_total_logged_time($slug, $id, [
             'billable' => 1,
-            'billed'   => 0,
+            'billed' => 0,
         ]);
     }
 
@@ -3819,17 +3844,17 @@ class Cases_model extends App_Model
     private function _get_data_total_logged_time($slug = '', $id, $conditions = [])
     {
         $project_data = $this->_get_project_billing_data($id);
-        $tasks        = $this->get_tasks($id, $conditions);
+        $tasks = $this->get_tasks($id, $conditions);
 
         if ($project_data->billing_type == 3) {
-            $data                = $this->calculate_total_by_task_hourly_rate($tasks);
+            $data = $this->calculate_total_by_task_hourly_rate($tasks);
             $data['logged_time'] = seconds_to_time_format($data['total_seconds']);
         } elseif ($project_data->billing_type == 2) {
             $seconds = 0;
             foreach ($tasks as $task) {
                 $seconds += $task['total_logged_time'];
             }
-            $data                = $this->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
+            $data = $this->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
             $data['logged_time'] = $data['hours'];
         }
 
@@ -3859,7 +3884,7 @@ class Cases_model extends App_Model
             if (is_staff_logged_in() && $staffId == get_staff_user_id()) {
                 continue;
             }
-            $member = (array) $this->staff_model->get($staffId);
+            $member = (array)$this->staff_model->get($staffId);
             $member['staff_id'] = $member['staffid'];
 
             $mailTemplate = mail_template($staff_template, $project, $member, $additional_data['staff']);
@@ -3910,7 +3935,7 @@ class Cases_model extends App_Model
                 if (!$this->is_member($project_id, $staff_id)) {
                     $this->db->insert(db_prefix() . 'project_members', [
                         'project_id' => $project_id,
-                        'staff_id'   => $staff_id,
+                        'staff_id' => $staff_id,
                     ]);
                 }
             }

@@ -689,7 +689,7 @@ public function add_requisition_ajax(){
 		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
 			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time']);
-			$data['start_time'] = $data['start_time_s'] . ' ' . $data['start_time_s_time'];
+			$data['start_time'] = $data['start_time'] . ' ' . $data['start_time_s_time'];
 
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
 		}
@@ -6453,15 +6453,13 @@ public function export_attendance_excel()
 					$query .= ' role in ('.$roles_id_list.') and';
 				}
 
-				$query.= ' staffid in (SELECT distinct(staffid) FROM '.db_prefix().'timesheets_route) and';
+			//	$query.= ' staffid in (SELECT distinct(staffid) FROM '.db_prefix().'timesheets_route) and';
 				$total_query = '';
 				if(($query)&&($query != '')){
 					$total_query = rtrim($query, ' and');
 					$total_query = ' where '.$total_query;
 				}
 				$where              = [$total_query];
-
-
 				$aColumns     = $select;
 
 				$sIndexColumn = 'staffid';
@@ -6474,6 +6472,7 @@ public function export_attendance_excel()
 
 				$output  = $result['output'];
 				$rResult = $result['rResult'];
+
 
 				foreach ($rResult as $aRow) {
 					$row = [];

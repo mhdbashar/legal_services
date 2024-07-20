@@ -3,6 +3,7 @@
 # Version 2.3.0
 
 $lang['check_in_out_report'] = 'تقرير تسجيل الدخول والخروج';
+$lang['check_in_out_progress'] = 'تقرير تسجيل الدخول والخروج';
 $lang['device'] = 'معرف الجهاز';
 $lang['brand'] = 'نوع الجهاز';
 $lang['you_don\'t_have_shift_work']                                      = 'ليس لديك فترة عمل';
@@ -788,6 +789,12 @@ $lang['total_shift_days']  = 'إجمالي أيام فترات العمل';
 $lang['ME_value']  = 'الإجتماعات أو الدراسة';
 $lang['history_check_in_out']  = 'تاريخ تسجيل الدخول والخروج';
 $lang['check_in_out_progress_according_to_the_route']  = 'تحقق من تقدم الدخول وفقًا للمسار';
+$lang['check_in_out_progress']  = 'تسجيل الدخول والخروج خلال شهر';
+$lang['check_in_check_out']  = 'تسجيل الدخول والخروج';
+$lang['not_check_in']  = 'عدم تسجيل الدخول';
+$lang['not_check_out']  = 'عدم تسجيل الخروج';
+
+
 $lang['report_of_leave']  = 'الإجازات بواسطة النوع';
 $lang['total_point_went'] = 'اجمالي نقاط المنصرفة';
 $lang['total_point_remain'] = 'مجموع النقاط المتبقية';

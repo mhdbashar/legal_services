@@ -128,5 +128,248 @@ class Transactions_model extends App_Model
 
         return false;
     }
+    //ADDing Transaction to setup Menu****//
+
+    //**********ADDing Transaction type *************//
+    public function get_type($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'transaction_type')->row();
+        }
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'transaction_type')->result_array();
+    }
+    public function add_type($data)
+    {
+
+        $this->db->insert(db_prefix() . 'transaction_type', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Customer Representative State [ID: ' . $insert_id . ']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function update_type($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'transaction_type', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Updated [ID: ' . $id . ']');
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_type($id, $simpleDelete = false)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'transaction_type');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Deleted [' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+//**********End of Transaction type *************//
+
+    //**********ADDing Transaction origin *************//
+    public function get_origin($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'transaction_origin')->row();
+        }
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'transaction_origin')->result_array();
+    }
+    public function add_origin($data)
+    {
+
+        $this->db->insert(db_prefix() . 'transaction_origin', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Customer Representative State [ID: ' . $insert_id . ']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function update_origin($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'transaction_origin', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Updated [ID: ' . $id . ']');
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_origin($id, $simpleDelete = false)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'transaction_origin');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Deleted [' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+    //**********End of Transaction origin *************//
+
+    //**********ADDing Transaction importance *************//
+    public function get_importance($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'transaction_importance')->row();
+        }
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'transaction_importance')->result_array();
+    }
+    public function add_importance($data)
+    {
+
+        $this->db->insert(db_prefix() . 'transaction_importance', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Customer Representative State [ID: ' . $insert_id . ']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function update_importance($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'transaction_importance', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Updated [ID: ' . $id . ']');
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_importance($id, $simpleDelete = false)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'transaction_importance');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Deleted [' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+//**********End of Transaction importance *************//
+
+    //**********ADDing Transaction classification *************//
+    public function get_classification($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'transaction_classification')->row();
+        }
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'transaction_classification')->result_array();
+    }
+    public function add_classification($data)
+    {
+
+        $this->db->insert(db_prefix() . 'transaction_classification', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Customer Representative State [ID: ' . $insert_id . ']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function update_classification($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'transaction_classification', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Updated [ID: ' . $id . ']');
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_classification($id, $simpleDelete = false)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'transaction_classification');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Deleted [' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+//**********End of Transaction classification *************//
+
+
+    //**********ADDing Transaction incoming_type *************//
+    public function get_incoming_type($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+            return $this->db->get(db_prefix() . 'transaction_incoming_type')->row();
+        }
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'transaction_incoming_type')->result_array();
+    }
+    public function add_incoming_type($data)
+    {
+
+        $this->db->insert(db_prefix() . 'transaction_incoming_type', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Customer Representative State [ID: ' . $insert_id . ']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function update_incoming_type($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'transaction_incoming_type', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Updated [ID: ' . $id . ']');
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_incoming_type($id, $simpleDelete = false)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'transaction_incoming_type');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Customer Representative Deleted [' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+//**********End of Transaction incoming_type *************//
+
+
+
+
+
+    //***********************************//
 
 }

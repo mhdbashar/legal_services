@@ -614,7 +614,7 @@
 	 	var table = $('table.table-check_in_out_progress_report');
 	 	$.get(admin_url+'timesheets/get_header_report_check_in_out/'+$('select[name="months_2_report"]').val()+'/'+$('select[name="year_requisition"]').val()).done(function(response){
 	 		response = JSON.parse(response);
-	 		table.find('thead tr').html(response.col_header);
+            table.find('thead tr').html(response.col_header);
 	 		table.find('tfoot tr').html(response.col_footer);
 	 		table.find('tbody').html('');
 	 		list_fillter = response.list_fillter;

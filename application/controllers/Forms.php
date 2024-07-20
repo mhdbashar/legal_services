@@ -144,7 +144,7 @@ class Forms extends ClientsController
             }
 
             if ($insert_to_db == true) {
-                $regular_fields['email']        = $post_data['email'];
+                $regular_fields['email']        = isset($post_data['email']) ? $post_data['email'] : '';
                 $regular_fields['status']       = $form->status;
                 $regular_fields['assigned']     = $form->responsible;
                 $regular_fields['date_added']   = date('Y-m-d H:i:s');

@@ -7,7 +7,9 @@ $session->next_session_date = $CI->app_modules->is_active('hijri') ? _d($session
 
 $time_format = get_option('time_format');
 $session->time = $time_format === '24' ? date('h:i', strtotime($session->time)) : date('h:i a', strtotime($session->time));
-$session->next_session_time = $time_format === '24' ? date('h:i', strtotime($session->next_session_time)) : date('h:i a', strtotime($session->next_session_time));
+if($session->next_session_time != '' && $session->next_session_time != null) {
+    $session->next_session_time = $time_format === '24' ? date('h:i', strtotime($session->next_session_time)) : date('h:i a', strtotime($session->next_session_time));
+}
 ?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Reem+Kufi">
 <div class="mtop15 preview-top-wrapper">

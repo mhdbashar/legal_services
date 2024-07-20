@@ -61,4 +61,6 @@ class Migration_Version_528 extends CI_Migration
 
 
     }
+
+    public function down(){}
     }

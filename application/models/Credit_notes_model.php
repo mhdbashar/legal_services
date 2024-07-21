@@ -272,6 +272,29 @@ class Credit_notes_model extends App_Model
                 $node['datecreated'] = date('Y-m-d H:i:s');
                 $node['addedfrom'] = get_staff_user_id();
                 $data_insert[] = $node;
+
+                $node = [];
+                $node['itemable_id'] = 0;
+                $node['split'] = $account_history[3]['split'];
+                $node['customer'] = $account_history[3]['customer'];
+                $node['account'] = $account_history[3]['account'];
+                $node['tax'] = $account_history[3]['tax'];
+                $node['item'] = $account_history[3]['item'];
+                $node['date'] = $account_history[3]['date'];
+                $node['paid'] = $account_history[3]['paid'];
+                $node['debit'] =$account_history[3]['credit'];
+                $node['credit'] =$account_history[3]['debit'];
+                $node['description'] = '';
+                $node['rel_id'] =$insert_id;
+                $node['rel_type'] = 'invoice_creditnote';
+                $node['datecreated'] = date('Y-m-d H:i:s');
+                $node['addedfrom'] = get_staff_user_id();
+                $data_insert[] = $node;
+
+
+
+
+
                 if(($account_history[0]['tax'])==1){
                     $node = [];
                     $node['itemable_id'] = 0;
@@ -617,12 +640,10 @@ class Credit_notes_model extends App_Model
         }
     }
 
+    //***************fix credit_note_from_invoice:) *********
     public function credit_note_from_invoice($invoice_id)
     {
-
         $_invoice = $this->invoices_model->get($invoice_id);
-
-
         $invoiceid= $invoice_id;
         $new_credit_note_data             = [];
 

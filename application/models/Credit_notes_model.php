@@ -822,6 +822,12 @@ class Credit_notes_model extends App_Model
 
             hooks()->do_action('credit_note_refund_created', ['data' => $data, 'credit_note_id' => $id]);
         }
+        //update paid cell in account_history table for invoices
+        $this->db->where('rel_id', $invoiceid);
+        $this->db->update(db_prefix() . 'acc_account_history', [
+            'paid' => 0,
+        ]);
+
 
         return $insert_id;
     }

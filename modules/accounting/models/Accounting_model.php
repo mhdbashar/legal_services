@@ -3744,6 +3744,13 @@ class Accounting_model extends App_Model
 
             foreach ($journal_entry as $key => $value) {
                 if($value[0] != ''){
+
+                    //check if the account is tax account (29) :)
+                    $tax=0;
+                    if($value[0] == 29) {
+                        $tax = 1;
+                    }
+
                     $node = [];
                     $node['account'] = $value[0];
                     $node['date'] = $data['journal_date'];
@@ -3754,6 +3761,7 @@ class Accounting_model extends App_Model
                     $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
+                    $node['tax'] = $tax;
 
                     $data_insert[] = $node;
                 }
@@ -10187,11 +10195,11 @@ class Accounting_model extends App_Model
         }
 
         $data_report = [];
-
-        $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense") and debit > 0');
-        if($accounting_method == 'cash'){
+//***********add tax from invoice if it is paid , and tax from journal_entry if the account  is tax account :)
+        $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense"  or rel_type = "journal_entry" ) and debit > 0');
+      //  if($accounting_method == 'cash'){
             $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
-        }
+      //  }
         $this->db->order_by('tax, rel_type', 'asc');
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 

@@ -2571,6 +2571,7 @@ class Accounting extends AdminController
     public function new_journal_entry($id = ''){
         if ($this->input->post()) {
             $data                = $this->input->post();
+
             $data['description'] = $this->input->post('description', false);
             if($id == ''){
                 if (!has_permission('accounting_journal_entry', '', 'create')) {

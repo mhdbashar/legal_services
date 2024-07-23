@@ -6755,6 +6755,13 @@ class Accounting_model extends App_Model
 
         foreach ($journal_entry as $key => $value) {
             if($value[0] != ''){
+                //check if the account is tax account (29) :)
+                $tax=0;
+                if($value[0] == 29) {
+                    $tax = 1;
+                }
+
+
                 $node = [];
                 $node['account'] = $value[0];
                 $node['debit'] = $value[1];
@@ -6765,6 +6772,7 @@ class Accounting_model extends App_Model
                 $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                 $node['datecreated'] = date('Y-m-d H:i:s');
                 $node['addedfrom'] = get_staff_user_id();
+                $node['tax'] = $tax;
 
                 $data_insert[] = $node;
             }
@@ -10195,12 +10203,51 @@ class Accounting_model extends App_Model
         }
 
         $data_report = [];
-//***********add tax from invoice if it is paid , and tax from journal_entry if the account  is tax account :)
-        $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense"  or rel_type = "journal_entry" ) and debit > 0');
-      //  if($accounting_method == 'cash'){
+        $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense"  ) and debit > 0');
+        if($accounting_method == 'cash'){
             $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
-      //  }
+        }
         $this->db->order_by('tax, rel_type', 'asc');
+        $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+
+        $list_invoice = [];
+        foreach ($account_history as $v) {
+            if( $v['rel_type'] == "journal_entry" ){
+                continue;
+            }
+            if($v['rel_type'] == "invoice" ){
+                $this->db->where('id',  $v['rel_id']);
+                $invoice_status = $this->db->get(db_prefix().'invoices')->row()->status;
+            }
+
+            if($v['rel_type'] == "invoice"  && $invoice_status==7){
+                continue;
+            }
+
+            if(isset($data_report[$v['tax'].'_'.$v['rel_type']])){
+                $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['debit'];
+            }else{
+                $this->db->where('id', $v['tax']);
+                $_tax = $this->db->get(db_prefix().'taxes')->row();
+
+                $data_report[$v['tax'].'_'.$v['rel_type']] = [];
+                $data_report[$v['tax'].'_'.$v['rel_type']]['name'] = $_tax->name.' ('._l($v['rel_type']).')('.$_tax->taxrate.'%)';
+                if($v['rel_type']=='expense') {
+                    $data_report[$v['tax'] . '_' . $v['rel_type']]['amount'] = -$v['debit'];
+                }
+                else
+                    $data_report[$v['tax'] . '_' . $v['rel_type']]['amount'] = $v['debit'];
+
+            }
+
+        }
+        //***********add tax from invoice if it is paid , and tax from journal_entry if the account  is tax account :)
+           $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax>0  and (rel_type = "journal_entry"  ) and 	(credit > 0 or debit>0 )    ');
+
+        //  if($accounting_method == 'cash'){
+        // $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
+        //  }
+        $this->db->order_by(' rel_type', 'asc');
         $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
         $list_invoice = [];
@@ -10213,7 +10260,15 @@ class Accounting_model extends App_Model
 
                 $data_report[$v['tax'].'_'.$v['rel_type']] = [];
                 $data_report[$v['tax'].'_'.$v['rel_type']]['name'] = $_tax->name.' ('._l($v['rel_type']).')('.$_tax->taxrate.'%)';
-                $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = $v['debit'];
+                if($v['debit']>0){
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = -$v['debit'] ;
+
+                }
+                elseif($v['credit']>0){
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = $v['credit'];
+
+                }
+
             }
 
         }

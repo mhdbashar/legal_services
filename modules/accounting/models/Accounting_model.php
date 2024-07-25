@@ -10253,7 +10253,15 @@ class Accounting_model extends App_Model
         $list_invoice = [];
         foreach ($account_history as $v) {
             if(isset($data_report[$v['tax'].'_'.$v['rel_type']])){
-                $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['debit'];
+                if($v['debit']>0){
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] -= $v['debit'] ;
+
+                }
+                elseif($v['credit']>0){
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['credit'];
+
+                }
+
             }else{
                 $this->db->where('id', $v['tax']);
                 $_tax = $this->db->get(db_prefix().'taxes')->row();

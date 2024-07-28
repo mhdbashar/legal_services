@@ -455,3 +455,8 @@ if (!$CI->db->field_exists('reconcile' ,db_prefix() . 'acc_matched_transactions'
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_matched_transactions`
     ADD COLUMN `reconcile` INT(11) NOT NULL DEFAULT 0;');
 }
+
+if (!$CI->db->field_exists('account_type_master' ,db_prefix() . 'acc_accounts')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'acc_accounts`
+    ADD COLUMN `account_type_master` INT(11) NOT NULL DEFAULT 0;');
+}

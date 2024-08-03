@@ -64,9 +64,39 @@
               <td>
               <?php echo _d($val['date']); ?> 
               </td>
-              <td>
-              <?php echo html_entity_decode($val['type']); ?> 
-              </td>
+
+
+
+                <td>
+                    <a href=" <?php
+                    if($val['rel_id']!=0)
+                        if($val['rel_type']=='invoice')
+                            echo admin_url('invoices/list_invoices/'. $val['rel_id']);
+                        elseif($val['rel_type']=='journal_entry')
+                            echo admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                        elseif($val['rel_type']=='deposit')
+                            echo  '#';
+                        elseif($val['rel_type']=='payment')
+                            //  #invoice_payments_received
+                            echo admin_url('payments/payment/'. $val['rel_id']);
+                        elseif($val['rel_type']=='expense')
+                            echo admin_url('expenses/list_expenses/'. $val['rel_id']);
+
+
+                    if($val['rel_type']=='invoice_creditnote')
+                        echo admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        echo admin_url('credit_notes#'. $val['rel_id']);
+                    else   echo '#';
+                    ?>
+                     ">
+                        <?php echo html_entity_decode($val['type']); ?>
+                    </a>
+                </td>
+
+
+
               <td>
               <?php echo html_entity_decode($val['description']); ?> 
               </td>

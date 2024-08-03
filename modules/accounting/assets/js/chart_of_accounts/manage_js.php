@@ -15,7 +15,41 @@
             "ft_parent_account": '[name="ft_parent_account"]',
             "ft_account": '[name="ft_account"]',
             "ft_active": '[name="ft_active"]',
+            "account_type_master1": '[name="account_type_master1"]',
+            "account_type_id1": '[name="account_type_id1"]',
+
         };
+
+        $('select[name="account_type_master1"]').on('change', function() {
+            console.log($('select[name="account_type_master1"]').val());
+            init_account_table();
+            let response;
+            $('select[name="account_type_id1"]').html('');
+            $.ajax({
+                url: "<?php echo admin_url('accounting/accounts_sorting_action'); ?>",
+                data: {acc_id: $('select[name="account_type_master1"]').val()},
+                type: "POST",
+                success: function (data) {
+                    $('select[name="account_type_id1"]').append($('<option>', {
+                        value: '',
+                        text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                    }));
+                    response = JSON.parse(data);
+
+                    //console.log(response);
+                    $.each(response, function (key, value) {
+                        $('select[name="account_type_id1"]').append($('<option>', {
+                            value: value['id'],
+                            text: value['name']
+                        }));
+                    });
+                }
+            });
+        });
+        $('select[name="account_type_id1"]').on('change', function() {
+            init_account_table();
+        });
+
         $('select[name="ft_type"]').on('change', function() {
             init_account_table();
         });
@@ -46,6 +80,7 @@
             $('#account-modal').find('button[type="submit"]').prop('disabled', false);
 
             $('select[name="parent_account"]').val('').change();
+
 
             $('input[name="name"]').val('');
             $('input[name="balance"]').val('');
@@ -332,4 +367,51 @@
             }, 200);
         }
     }
+
+
+    $('select[name="account_type_master"]').on('change', function() {
+
+
+        $('select[name="account_type_id"]').html('');
+        $('select[name="parent_account"]').html('');
+
+
+
+        $.ajax({
+            url: "<?php echo admin_url('accounting/accounts_sorting_action'); ?>",
+            data: {acc_id: $('select[name="account_type_master"]').val()},
+            type: "POST",
+            success: function (data) {
+                $('select[name="account_type_id"]').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
+                $('select[name="parent_account"]').append($('<option>', {
+                    value: '',
+                    text: '<?php echo _l('dropdown_non_selected_tex'); ?>'
+                }));
+                response = JSON.parse(data);
+
+                console.log(response);
+                $.each(response, function (key, value) {
+                    $('select[name="account_type_id"]').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                    $('select[name="parent_account"]').append($('<option>', {
+                        value: value['id'],
+                        text: value['name']
+                    }));
+                });
+            }
+        });
+
+
+    });
+
+
+
+
+
+
 </script>

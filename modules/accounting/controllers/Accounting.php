@@ -18,6 +18,7 @@ class Accounting extends AdminController
         }
     }
 
+
     /**
      * manage transaction
      * @return view
@@ -725,11 +726,33 @@ class Accounting extends AdminController
         }
 
         $data['title'] = _l('chart_of_accounts');
+
+        $data['account_types_master'] = $this->accounting_model->get_account_types_master();
+
         $data['account_types'] = $this->accounting_model->get_account_types();
         $data['detail_types'] = $this->accounting_model->get_account_type_details();
         $data['accounts'] = $this->accounting_model->get_accounts();
+
+        $data['account_types_after_sorting'] = $this->accounting_model->get_account_types_after_sorting(3);
+
         $this->load->view('chart_of_accounts/manage', $data);
     }
+
+
+
+    public function accounts_sorting_action() {
+
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $c_cat= $this->accounting_model->get_account_types_after_sorting($data['acc_id']);
+
+
+            echo json_encode($c_cat);
+            die();
+        }
+
+    }
+
 
     /**
      * setting
@@ -887,6 +910,27 @@ class Accounting extends AdminController
                     array_push($where, 'AND active = 0');
                 }
             }
+
+            if ($this->input->post('account_type_master1')) {
+                $account_types_master= $this->input->post('account_type_master1');
+                $accounts = $this->accounting_model->get_account_types_after_sorting($account_types_master);
+                $accounts_id=[];
+                foreach ($accounts as $account)
+                {
+                    array_push($accounts_id,  $account['id']);
+
+                }
+
+                array_push($where, 'AND account_type_id IN (' . implode(', ', $accounts_id) . ')');
+
+            }
+
+            if ($this->input->post('account_type_id1')) {
+                $account_type_id= $this->input->post('account_type_id1');
+                array_push($where, 'AND account_type_id =' . $account_type_id );
+
+            }
+
             if ($this->input->post('ft_account')) {
                 $ft_account = $this->input->post('ft_account');
                 array_push($where, 'AND id IN (' . implode(', ', $ft_account) . ')');
@@ -950,7 +994,8 @@ class Accounting extends AdminController
                 $categoryOutput .= '<div class="row-options">';
 
                 if (has_permission('accounting_chart_of_accounts', '', 'edit')) {
-                    $categoryOutput .= '<a href="#" onclick="edit_account(' . $aRow['id'] . '); return false;">' . _l('edit') . '</a>';
+                    //"data-name" => $aRow['tbltask_bookmarks.name'],
+                    $categoryOutput .= '<a href="#" onclick="edit_account(' . $aRow['id'] . '); return false;"   >' . _l('edit') . '</a>';
                 }
 
                 if (has_permission('accounting_chart_of_accounts', '', 'delete') && $aRow['default_account'] == 0) {
@@ -979,7 +1024,7 @@ class Accounting extends AdminController
                 }
 
                 $_data = '<div class="onoffswitch">
-                    <input type="checkbox" ' . ((!has_permission('accounting_chart_of_accounts', '', 'edit') && !is_admin()) ? 'disabled' : '') . ' data-switch-url="' . admin_url() . 'accounting/change_account_status" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . $checked . '>
+                    <input type="checkbox" ' . ((!has_permission('accounting_chart_of_accounts', '', 'edit') && !is_admin()) ? 'disabled' : '') . ' data-switch-url="' . admin_url() . 'accounting/change_account_status" name="onoffswitch" class="onoffswitch-checkbox" id="c_' . $aRow['id'] . '" data-id="' . $aRow['id'] . '" ' . $checked .'>
                     <label class="onoffswitch-label" for="c_' . $aRow['id'] . '"></label>
                 </div>';
 
@@ -1011,6 +1056,7 @@ class Accounting extends AdminController
      */
     public function account()
     {
+
         if (!has_permission('accounting_chart_of_accounts', '', 'edit') && !has_permission('accounting_chart_of_accounts', '', 'create')) {
             access_denied('accounting');
         }
@@ -2525,6 +2571,7 @@ class Accounting extends AdminController
     public function new_journal_entry($id = ''){
         if ($this->input->post()) {
             $data                = $this->input->post();
+
             $data['description'] = $this->input->post('description', false);
             if($id == ''){
                 if (!has_permission('accounting_journal_entry', '', 'create')) {

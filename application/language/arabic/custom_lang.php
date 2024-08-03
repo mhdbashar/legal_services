@@ -426,6 +426,12 @@ $lang['invoice_sale_agent'] = "مسؤول مبيعات الفاتورة";
 $lang['invoice_total'] = "إجمالي الفاتورة";
 $lang['invoice_subtotal'] = "المجموع الفرعي للفاتورة";
 $lang['invoice_amount_due'] = "المبلغ المستحق";
+$lang['invoice_creditnote'] = "إشعار دائن";
+$lang['invoice_refund'] = "سند صرف";
+
+
+
+
 $lang['payment_recorded_total'] = "مجموع الدفعات المسجلة";
 $lang['payment_recorded_date'] = "تاريخ تسجيل الدفعة";
 $lang['project_description'] = "وصف الخدمة";

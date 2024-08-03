@@ -21,21 +21,21 @@ class Credit_notes_model extends App_Model
                 'name'           => _l('credit_note_status_open'),
                 'order'          => 1,
                 'filter_default' => true,
-                ],
-             [
+            ],
+            [
                 'id'             => 2,
                 'color'          => '#84c529',
                 'name'           => _l('credit_note_status_closed'),
                 'order'          => 2,
                 'filter_default' => true,
-             ],
-             [
+            ],
+            [
                 'id'             => 3,
                 'color'          => '#777',
                 'name'           => _l('credit_note_status_void'),
                 'order'          => 3,
                 'filter_default' => false,
-             ],
+            ],
         ]);
     }
 
@@ -65,12 +65,12 @@ class Credit_notes_model extends App_Model
     }
 
     /**
-    * Send credit note to client
-    * @param  mixed  $id        credit note id
-    * @param  string  $template  email template to sent
-    * @param  boolean $attachpdf attach credit note pdf or not
-    * @return boolean
-    */
+     * Send credit note to client
+     * @param  mixed  $id        credit note id
+     * @param  string  $template  email template to sent
+     * @param  boolean $attachpdf attach credit note pdf or not
+     * @return boolean
+     */
     public function send_credit_note_to_client($id, $attachpdf = true, $cc = '', $manually = false)
     {
         $credit_note = $this->get($id);
@@ -173,8 +173,9 @@ class Credit_notes_model extends App_Model
         return $this->db->get()->result_array();
     }
 
-    public function add($data)
+    public function add($data,$invoiceid='')
     {
+
         $save_and_send = isset($data['save_and_send']);
 
         $data['prefix']        = get_option('credit_note_prefix');
@@ -228,6 +229,97 @@ class Credit_notes_model extends App_Model
             if ($save_and_send === true) {
                 $this->send_credit_note_to_client($insert_id, true, '', true);
             }
+
+
+            if($invoiceid){
+                $rel_id=$invoiceid;
+                $this->db->where('(rel_id = "' . $rel_id . '" and rel_type = "invoice")');
+                $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+//print_r($account_history);
+//exit();
+                $node = [];
+                $node['itemable_id'] = 0;
+                $node['split'] = $account_history[0]['split'];
+                $node['customer'] = $account_history[0]['customer'];
+                $node['account'] = $account_history[0]['account'];
+                $node['tax'] = $account_history[0]['tax'];
+                $node['item'] = $account_history[0]['item'];
+                $node['date'] = $account_history[0]['date'];
+                $node['paid'] = $account_history[0]['paid'];
+                $node['debit'] =$account_history[0]['credit'];
+                $node['credit'] =$account_history[0]['debit'];
+                $node['description'] = '';
+                $node['rel_id'] =$insert_id;
+                $node['rel_type'] = 'invoice_creditnote';
+                $node['datecreated'] = date('Y-m-d H:i:s');
+                $node['addedfrom'] = get_staff_user_id();
+                $data_insert[] = $node;
+
+                $node = [];
+                $node['itemable_id'] = 0;
+                $node['split'] = $account_history[1]['split'];
+                $node['customer'] = $account_history[1]['customer'];
+                $node['account'] = $account_history[1]['account'];
+                $node['tax'] = $account_history[1]['tax'];
+                $node['item'] = $account_history[1]['item'];
+                $node['date'] = $account_history[0]['date'];
+                $node['paid'] = $account_history[1]['paid'];
+                $node['debit'] = $account_history[1]['credit'];
+                $node['credit'] = $account_history[1]['debit'];
+                $node['description'] = '';
+                $node['rel_id'] =$insert_id;
+                $node['rel_type'] = 'invoice_creditnote';
+                $node['datecreated'] = date('Y-m-d H:i:s');
+                $node['addedfrom'] = get_staff_user_id();
+                $data_insert[] = $node;
+
+                $node = [];
+                $node['itemable_id'] = 0;
+                $node['split'] = $account_history[3]['split'];
+                $node['customer'] = $account_history[3]['customer'];
+                $node['account'] = $account_history[3]['account'];
+                $node['tax'] = $account_history[3]['tax'];
+                $node['item'] = $account_history[3]['item'];
+                $node['date'] = $account_history[3]['date'];
+                $node['paid'] = $account_history[3]['paid'];
+                $node['debit'] =$account_history[3]['credit'];
+                $node['credit'] =$account_history[3]['debit'];
+                $node['description'] = '';
+                $node['rel_id'] =$insert_id;
+                $node['rel_type'] = 'invoice_creditnote';
+                $node['datecreated'] = date('Y-m-d H:i:s');
+                $node['addedfrom'] = get_staff_user_id();
+                $data_insert[] = $node;
+
+
+
+
+
+                if(($account_history[0]['tax'])==1){
+                    $node = [];
+                    $node['itemable_id'] = 0;
+                    $node['split'] = $account_history[2]['split'];
+                    $node['customer'] = $account_history[2]['customer'];
+                    $node['account'] = $account_history[2]['account'];
+                    $node['tax'] = $account_history[2]['tax'];
+                    $node['item'] = $account_history[2]['item'];
+                    $node['date'] =$account_history[0]['date'];
+                    $node['paid'] = $account_history[2]['paid'];
+                    $node['debit'] = $account_history[2]['credit'];
+                    $node['credit'] = $account_history[2]['debit'];
+                    $node['description'] = '';
+                    $node['rel_id'] =$insert_id ;
+                    $node['rel_type'] = 'invoice_creditnote';
+                    $node['datecreated'] = date('Y-m-d H:i:s');
+                    $node['addedfrom'] = get_staff_user_id();
+                    $data_insert[] = $node;
+                }
+
+
+                $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+
+            }
+
 
             return $insert_id;
         }
@@ -362,10 +454,10 @@ class Credit_notes_model extends App_Model
     }
 
     /**
-    *  Delete credit note attachment
-    * @param   mixed $id  attachmentid
-    * @return  boolean
-    */
+     *  Delete credit note attachment
+     * @param   mixed $id  attachmentid
+     * @return  boolean
+     */
     public function delete_attachment($id)
     {
         $attachment = $this->misc_model->get_file($id);
@@ -403,10 +495,10 @@ class Credit_notes_model extends App_Model
     }
 
     /**
-    * Delete credit note
-    * @param  mixed $id credit note id
-    * @return boolean
-    */
+     * Delete credit note
+     * @param  mixed $id credit note id
+     * @return boolean
+     */
     public function delete($id, $simpleDelete = false)
     {
         hooks()->do_action('before_credit_note_deleted', $id);
@@ -549,11 +641,13 @@ class Credit_notes_model extends App_Model
         }
     }
 
+    //***************fix credit_note_from_invoice:) *********
     public function credit_note_from_invoice($invoice_id)
     {
         $_invoice = $this->invoices_model->get($invoice_id);
-
+        $invoiceid= $invoice_id;
         $new_credit_note_data             = [];
+
         $new_credit_note_data['clientid'] = $_invoice->clientid;
         $new_credit_note_data['number']   = get_option('next_credit_note_number');
         $new_credit_note_data['date']     = _d(date('Y-m-d'));
@@ -579,7 +673,8 @@ class Credit_notes_model extends App_Model
         $new_credit_note_data['shipping_state']   = $_invoice->shipping_state;
         $new_credit_note_data['shipping_zip']     = $_invoice->shipping_zip;
         $new_credit_note_data['shipping_country'] = $_invoice->shipping_country;
-        $new_credit_note_data['reference_no']     = format_invoice_number($_invoice->id);
+        $new_credit_note_data['reference_no']     = format_invoice_number($invoiceid);
+
         if ($_invoice->include_shipping == 1) {
             $new_credit_note_data['include_shipping'] = $_invoice->include_shipping;
         }
@@ -613,7 +708,8 @@ class Credit_notes_model extends App_Model
             }
             $key++;
         }
-        $id = $this->add($new_credit_note_data);
+
+        $id = $this->add($new_credit_note_data,$invoiceid);
         if ($id) {
             if ($_invoice->status != 2) {
                 if ($this->apply_credits($id, ['invoice_id' => $invoice_id, 'amount' => $_invoice->total_left_to_pay])) {
@@ -633,9 +729,70 @@ class Credit_notes_model extends App_Model
 
     public function create_refund($id, $data)
     {
+
         if ($data['amount'] == 0) {
             return false;
         }
+        // $rel_id=$invoiceid;
+        $this->db->where('id', $id);
+        $invoiceid = $this->db->get(db_prefix().'creditnotes')->row()->reference_no;
+        $invoiceid= substr($invoiceid, 4);
+        $this->db->where('number', $invoiceid);
+        $invoiceid = $this->db->get(db_prefix().'invoices')->row()->id;
+
+        if($invoiceid){
+            $this->db->where('invoiceid', $invoiceid);
+
+            $paiment_id = $this->db->get(db_prefix().'invoicepaymentrecords')->row()->id;
+            $paiment_id=$paiment_id;
+
+            $this->db->where('(rel_id = "' . $paiment_id . '" and rel_type = "payment")');
+            $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
+
+
+            $node = [];
+            $node['itemable_id'] = 0;
+            $node['split'] = $account_history[0]['split'];
+            $node['customer'] = $account_history[0]['customer'];
+            $node['account'] = $account_history[0]['account'];
+            $node['tax'] = $account_history[0]['tax'];
+            $node['item'] = $account_history[0]['item'];
+            $node['date'] = $account_history[0]['date'];
+            $node['paid'] = $account_history[0]['paid'];
+            $node['debit'] =$account_history[0]['credit'];
+            $node['credit'] =$account_history[0]['debit'];
+            $node['description'] = '';
+            $node['rel_id'] =$id;
+            $node['rel_type'] = 'invoice_refund';
+            $node['datecreated'] = date('Y-m-d H:i:s');
+            $node['addedfrom'] = get_staff_user_id();
+            $data_insert[] = $node;
+
+            $node = [];
+            $node['itemable_id'] = 0;
+            $node['split'] = $account_history[1]['split'];
+            $node['customer'] = $account_history[1]['customer'];
+            $node['account'] = $account_history[1]['account'];
+            $node['tax'] = $account_history[1]['tax'];
+            $node['item'] = $account_history[1]['item'];
+            $node['date'] = $account_history[0]['date'];
+            $node['paid'] = $account_history[1]['paid'];
+            $node['debit'] = $account_history[1]['credit'];
+            $node['credit'] = $account_history[1]['debit'];
+            $node['description'] = '';
+            $node['rel_id'] =$id;
+            $node['rel_type'] = 'invoice_refund';
+            $node['datecreated'] = date('Y-m-d H:i:s');
+            $node['addedfrom'] = get_staff_user_id();
+            $data_insert[] = $node;
+
+
+            $affectedRows = $this->db->insert_batch(db_prefix().'acc_account_history', $data_insert);
+
+        }
+
+
+
 
         $data['note'] = trim($data['note']);
 
@@ -664,10 +821,14 @@ class Credit_notes_model extends App_Model
                 'status' => $status,
             ]);
 
-
-
             hooks()->do_action('credit_note_refund_created', ['data' => $data, 'credit_note_id' => $id]);
         }
+        //update paid cell in account_history table for invoices
+        $this->db->where('rel_id', $invoiceid);
+        $this->db->update(db_prefix() . 'acc_account_history', [
+            'paid' => 0,
+        ]);
+
 
         return $insert_id;
     }
@@ -776,9 +937,9 @@ class Credit_notes_model extends App_Model
     private function total_refunds_by_credit_note($id)
     {
         return sum_from_table(db_prefix() . 'creditnote_refunds', [
-                'field' => 'amount',
-                'where' => ['credit_note_id' => $id],
-            ]);
+            'field' => 'amount',
+            'where' => ['credit_note_id' => $id],
+        ]);
     }
 
     public function apply_credits($id, $data)
@@ -811,9 +972,9 @@ class Credit_notes_model extends App_Model
             $credit_note_number = format_credit_note_number($id);
 
             $this->invoices_model->log_invoice_activity($data['invoice_id'], 'invoice_activity_applied_credits', false, serialize([
-                   app_format_money($data['amount'], $invoice->currency_name),
-                   $credit_note_number,
-             ]));
+                app_format_money($data['amount'], $invoice->currency_name),
+                $credit_note_number,
+            ]));
 
             hooks()->do_action('credits_applied', ['data' => $data, 'credit_note_id' => $id]);
 
@@ -827,9 +988,9 @@ class Credit_notes_model extends App_Model
     private function total_credits_used_by_credit_note($id)
     {
         return sum_from_table(db_prefix() . 'credits', [
-                'field' => 'amount',
-                'where' => ['credit_id' => $id],
-            ]);
+            'field' => 'amount',
+            'where' => ['credit_id' => $id],
+        ]);
     }
 
     public function update_credit_note_status($id)
@@ -903,8 +1064,8 @@ class Credit_notes_model extends App_Model
     {
         if ($credit_amount === false) {
             $this->db->select('total')
-            ->from(db_prefix() . 'creditnotes')
-            ->where('id', $credit_id);
+                ->from(db_prefix() . 'creditnotes')
+                ->where('id', $credit_id);
 
             $credit_amount = $this->db->get()->row()->total;
         }

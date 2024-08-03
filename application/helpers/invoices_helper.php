@@ -194,8 +194,9 @@ function format_invoice_status($status, $classes = '', $label = true)
         $status = _l('invoice_status_overdue');
     } elseif ($status == Invoices_model::STATUS_CANCELLED) {
         $status = _l('invoice_status_cancelled');
-    }  elseif ($status == Invoices_model::STATUS_REFUND) {
-        $status = _l('invoice_status_refund');
+    }
+    elseif ($status == Invoices_model::STATUS_REFUND) {
+        $status = _l('invoice_status_refunded');
     }
     else {
         // status 6
@@ -230,11 +231,9 @@ function get_invoice_status_label($status)
     } elseif ($status == Invoices_model::STATUS_CANCELLED || $status == Invoices_model::STATUS_DRAFT) {
         $label_class = 'default';
     }
- elseif ($status == Invoices_model::STATUS_REFUND || $status == Invoices_model::STATUS_REFUND) {
-$label_class = 'success';
-}
-
-
+    elseif ($status == Invoices_model::STATUS_REFUND) {
+        $label_class = 'default';
+    }
 
     else {
         if (!is_numeric($status)) {

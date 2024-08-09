@@ -67,10 +67,10 @@
           <td></td>
         </tr>
         <?php
-         $row_index = 0;
+        $row_index = 0;
          $parent_index = 100000;
          $total_assets = 0;
-          $data = $this->accounting_model->get_html_balance_sheet_detail($data_report['data']['accounts_receivable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0], $parent_index, $currency);
+         $data = $this->accounting_model->get_html_balance_sheet_detail($data_report['data']['accounts_receivable'], ['html' => '', 'row_index' => $row_index + 1, 'total_amount' => 0], $parent_index, $currency);
           $row_index = $data['row_index'];
           echo html_entity_decode($data['html']);
          $total_assets += $data['total_amount'];

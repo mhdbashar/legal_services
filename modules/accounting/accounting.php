@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المحاسبة ومسك الدفاتر
 المحاسبة هي عملية تسجيل البيانات المالية وتتبعها لمعرفة السلامة المالية للكيان.
-Version: 1.1.7
+Version: 1.1.8
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa
@@ -478,12 +478,15 @@ function acc_automatic_payment_conversion($data) {
 
             if(isset($data['id'])){
                 $CI->accounting_model->automatic_payment_conversion($data['id']);
+                return $data['id'];
             }else{
                 $CI->accounting_model->automatic_payment_conversion($data);
+                return $data;
             }
         }
 
     }
+
 
     return $data['id'];
 }

@@ -9,6 +9,273 @@ class Accounting_model extends App_Model
         parent::__construct();
     }
 
+
+    /**
+     * get account types
+     * @param  integer $id    member group id
+     * @param  array  $where
+     * @return object
+     */
+    public function get_account_types_master()
+    {
+        $account_types_master = hooks()->apply_filters('before_get_account_types', [
+            [
+                'id'             => 1,
+                'name'           => _l('acc_assets'),
+                'order'          => 1,
+            ],
+            [
+                'id'             => 2,
+                'name'           => _l('acc_liabilities'),
+                'order'          => 2,
+            ],
+            [
+                'id'             => 3,
+                'name'           => _l('acc_equity'),
+                'order'          => 3,
+            ],
+            [
+                'id'             => 4,
+                'name'           => _l('acc_expenses'),
+                'order'          => 4,
+            ],
+            [
+                'id'             => 5,
+                'name'           => _l('acc_income'),
+                'order'          => 5,
+            ],
+            [
+                'id'             => 6,
+                'name'           => _l('all'),
+                'order'          => 6,
+            ],
+
+        ]);
+
+        usort($account_types_master, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $account_types_master;
+    }
+
+    public function get_account_types_after_sorting($id)
+    {
+        if ($id == 1) {
+            $account_types = [
+
+                [
+                    'id' => 2,
+                    'name' => _l('acc_current_assets'),
+                    'order' => 2,
+                ],
+
+                [
+                    'id' => 4,
+                    'name' => _l('acc_fixed_assets'),
+                    'order' => 4,
+                ],
+                [
+                    'id' => 5,
+                    'name' => _l('acc_non_current_assets'),
+                    'order' => 5,
+                ]
+
+            ];
+
+        }
+        else if ($id ==2) {
+
+            $account_types = [
+
+
+                [
+                    'id' => 3,
+                    'name' => _l('acc_cash_and_cash_equivalents'),
+                    'order' => 3,
+                ],
+
+
+                [
+                    'id' => 6,
+                    'name' => _l('acc_accounts_payable'),
+                    'order' => 6,
+                ],
+                [
+                    'id' => 7,
+                    'name' => _l('acc_credit_card'),
+                    'order' => 7,
+                ],
+                [
+                    'id' => 8,
+                    'name' => _l('acc_current_liabilities'),
+                    'order' => 8,
+                ],
+                [
+                    'id' => 9,
+                    'name' => _l('acc_non_current_liabilities'),
+                    'order' => 9,
+                ],
+
+
+                [
+                    'id' => 13,
+                    'name' => _l('acc_cost_of_sales'),
+                    'order' => 13,
+                ]
+
+            ];
+        }
+        else if ($id ==3) {
+
+            $account_types = [
+
+                [
+                    'id'             => 10,
+                    'name'           => _l('acc_owner_equity'),
+                    'order'          => 10,
+                ],
+
+            ];
+        }
+        else if ($id ==4) {
+
+            $account_types = [
+                [
+                    'id'             => 14,
+                    'name'           => _l('acc_expenses'),
+                    'order'          => 14,
+                ],
+                [
+                    'id'             => 15,
+                    'name'           => _l('acc_other_expense'),
+                    'order'          => 15,
+                ],
+
+            ];
+        }
+        else if ($id ==5) {
+
+            $account_types = [
+                [
+                    'id'             => 7,
+                    'name'           => _l('acc_credit_card'),
+                    'order'          => 7,
+                ],
+
+
+                [
+                    'id'             => 11,
+                    'name'           => _l('acc_income'),
+                    'order'          => 11,
+                ],
+                [
+                    'id'             => 12,
+                    'name'           => _l('acc_other_income'),
+                    'order'          => 12,
+                ],
+
+            ];
+        }
+
+        else if ($id ==6) {
+            $account_types = [
+                [
+                    'id'             => 1,
+                    'name'           => _l('acc_accounts_receivable'),
+                    'order'          => 1,
+                ],
+                [
+                    'id'             => 2,
+                    'name'           => _l('acc_current_assets'),
+                    'order'          => 2,
+                ],
+                [
+                    'id'             => 3,
+                    'name'           => _l('acc_cash_and_cash_equivalents'),
+                    'order'          => 3,
+                ],
+                [
+                    'id'             => 4,
+                    'name'           => _l('acc_fixed_assets'),
+                    'order'          => 4,
+                ],
+                [
+                    'id'             => 5,
+                    'name'           => _l('acc_non_current_assets'),
+                    'order'          => 5,
+                ],
+                [
+                    'id'             => 6,
+                    'name'           => _l('acc_accounts_payable'),
+                    'order'          => 6,
+                ],
+                [
+                    'id'             => 7,
+                    'name'           => _l('acc_credit_card'),
+                    'order'          => 7,
+                ],
+                [
+                    'id'             => 8,
+                    'name'           => _l('acc_current_liabilities'),
+                    'order'          => 8,
+                ],
+                [
+                    'id'             => 9,
+                    'name'           => _l('acc_non_current_liabilities'),
+                    'order'          => 9,
+                ],
+                [
+                    'id'             => 10,
+                    'name'           => _l('acc_owner_equity'),
+                    'order'          => 10,
+                ],
+                [
+                    'id'             => 11,
+                    'name'           => _l('acc_income'),
+                    'order'          => 11,
+                ],
+                [
+                    'id'             => 12,
+                    'name'           => _l('acc_other_income'),
+                    'order'          => 12,
+                ],
+                [
+                    'id'             => 13,
+                    'name'           => _l('acc_cost_of_sales'),
+                    'order'          => 13,
+                ],
+                [
+                    'id'             => 14,
+                    'name'           => _l('acc_expenses'),
+                    'order'          => 14,
+                ],
+                [
+                    'id'             => 15,
+                    'name'           => _l('acc_other_expense'),
+                    'order'          => 15,
+                ],
+            ];
+
+        }
+
+
+
+
+        usort($account_types, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $account_types;
+    }
+
+
+
+
+
+
+
+
     /**
      * get account types
      * @param  integer $id    member group id
@@ -2260,14 +2527,159 @@ class Accounting_model extends App_Model
                     $item_total = round($this->currency_converter($invoice->currency_name, $currency->name, $value['qty'] * $value['rate']), 2);
                 }
 
+
+
+                if(get_option('acc_tax_automatic_conversion') == 1){
+                    $tax_payment_account = get_option('acc_tax_payment_account');
+                    $tax_deposit_to = get_option('acc_tax_deposit_to');
+
+                    $items = get_items_table_data($invoice, 'invoice', 'html', true);
+                    foreach($items->taxes() as $tax){
+                        $t = explode('|', $tax['tax_name']);
+                        $tax_name = '';
+                        $tax_rate = 0;
+                        if(isset($t[0])){
+                            $tax_name = $t[0];
+                        }
+                        if(isset($t[1])){
+                            $tax_rate = $t[1];
+                        }
+
+                        $this->db->where('name', $tax_name);
+                        $this->db->where('taxrate', $tax_rate);
+                        $_tax = $this->db->get(db_prefix().'taxes')->row();
+
+                        $total_tax = $tax['total_tax'];
+                        if(isset($data['exchange_rate'])){
+                            $total_tax = round($tax['total_tax'] * $data['exchange_rate'], 2);
+                        }elseif($currency_converter == 1){
+                            $total_tax = round($this->currency_converter($invoice->currency_name, $currency->name, $tax['total_tax']), 2);
+                        }
+
+                        if($_tax){
+                            $tax_mapping = $this->get_tax_mapping($_tax->id);
+
+                            if($tax_mapping){
+                                /*
+                                $node = [];
+                                $node['itemable_id'] = 0;
+                                $node['split'] = $tax_mapping->payment_account;
+                                $node['account'] = $tax_mapping->deposit_to;
+                                $node['tax'] = $_tax->id;
+                                $node['item'] = 0;
+                                $node['date'] = $invoice->date;
+                                $node['paid'] = $paid;
+                                $node['debit'] = $total_tax;
+                                $node['customer'] = $invoice->clientid;
+                                $node['credit'] = 0;
+                                $node['description'] = '';
+                                $node['rel_id'] = $data['id'];
+                                $node['rel_type'] = 'invoice';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+    */
+                                $node = [];
+                                $node['itemable_id'] = 0;
+                                $node['split'] = $tax_mapping->deposit_to;
+                                $node['customer'] = $invoice->clientid;
+                                $node['account'] = $tax_mapping->payment_account;
+                                $node['tax'] = $_tax->id;
+                                $node['item'] = 0;
+                                $node['date'] = $invoice->date;
+                                $node['paid'] = $paid;
+                                $node['debit'] = 0;
+                                $node['credit'] = $total_tax;
+                                $node['description'] = '';
+                                $node['rel_id'] = $data['id'];
+                                $node['rel_type'] = 'invoice';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+                            }else{
+                                /*
+                                $node = [];
+                                $node['itemable_id'] = 0;
+                                $node['split'] = $tax_payment_account;
+                                $node['account'] = $tax_deposit_to;
+                                $node['tax'] = $_tax->id;
+                                $node['item'] = 0;
+                                $node['date'] = $invoice->date;
+                                $node['paid'] = $paid;
+                                $node['debit'] = $total_tax;
+                                $node['customer'] = $invoice->clientid;
+                                $node['credit'] = 0;
+                                $node['description'] = '';
+                                $node['rel_id'] = $data['id'];
+                                $node['rel_type'] = 'invoice';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+    */
+                                $node = [];
+                                $node['itemable_id'] = 0;
+                                $node['split'] = $tax_deposit_to;
+                                $node['customer'] = $invoice->clientid;
+                                $node['date'] = $invoice->date;
+                                $node['account'] = $tax_payment_account;
+                                $node['tax'] = $_tax->id;
+                                $node['item'] = 0;
+                                $node['paid'] = $paid;
+                                $node['debit'] = 0;
+                                $node['credit'] = $total_tax;
+                                $node['description'] = '';
+                                $node['rel_id'] = $data['id'];
+                                $node['rel_type'] = 'invoice';
+                                $node['datecreated'] = date('Y-m-d H:i:s');
+                                $node['addedfrom'] = get_staff_user_id();
+                                $data_insert[] = $node;
+                            }
+                        }else{
+                            /*
+                            $node = [];
+                            $node['itemable_id'] = 0;
+                            $node['split'] = $tax_payment_account;
+                            $node['account'] = $tax_deposit_to;
+                            $node['item'] = 0;
+                            $node['tax'] = 0;
+                            $node['date'] = $invoice->date;
+                            $node['paid'] = $paid;
+                            $node['debit'] = $total_tax;
+                            $node['customer'] = $invoice->clientid;
+                            $node['credit'] = 0;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+    */
+                            $node = [];
+                            $node['itemable_id'] = 0;
+                            $node['split'] = $tax_deposit_to;
+                            $node['customer'] = $invoice->clientid;
+                            $node['account'] = $tax_payment_account;
+                            $node['date'] = $invoice->date;
+                            $node['tax'] = 0;
+                            $node['item'] = 0;
+                            $node['paid'] = $paid;
+                            $node['debit'] = 0;
+                            $node['credit'] = $total_tax;
+                            $node['description'] = '';
+                            $node['rel_id'] = $data['id'];
+                            $node['rel_type'] = 'invoice';
+                            $node['datecreated'] = date('Y-m-d H:i:s');
+                            $node['addedfrom'] = get_staff_user_id();
+                            $data_insert[] = $node;
+                        }
+                    }
+                }
                 if(isset($payment_account[$value['id']])) {
                     $node = [];
                     $node['itemable_id'] = $value['id'];
                     $node['split'] = $payment_account[$value['id']];
                     $node['account'] = $deposit_to[$value['id']];
-                   $node['debit'] = $invoice->total;
-                   // $node['debit'] = $item_total;
-                    $data['item_amount'];
+                    $node['debit'] = $item_total +$total_tax;
                     $node['paid'] = $paid;
                     $node['date'] = $invoice->date;
                     $node['item'] = $item_id;
@@ -2305,7 +2717,7 @@ class Accounting_model extends App_Model
                     $node['account'] = $invoice_deposit_to;
                     $node['date'] = $invoice->date;
                     $node['item'] = $item_id;
-                    $node['debit'] = $item_total;
+                    $node['debit'] = $item_total + $total_tax ;
                     $node['customer'] = $invoice->clientid;
                     $node['paid'] = $paid;
                     $node['tax'] = 0;
@@ -3478,6 +3890,13 @@ class Accounting_model extends App_Model
 
             foreach ($journal_entry as $key => $value) {
                 if($value[0] != ''){
+
+                    //check if the account is tax account (29) :)
+                    $tax=0;
+                    if($value[0] == 29) {
+                        $tax = 1;
+                    }
+
                     $node = [];
                     $node['account'] = $value[0];
                     $node['date'] = $data['journal_date'];
@@ -3488,6 +3907,7 @@ class Accounting_model extends App_Model
                     $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                     $node['datecreated'] = date('Y-m-d H:i:s');
                     $node['addedfrom'] = get_staff_user_id();
+                    $node['tax'] = $tax;
 
                     $data_insert[] = $node;
                 }
@@ -4003,6 +4423,8 @@ class Accounting_model extends App_Model
                             $node[] =   [
                                 'date' => date('Y-m-d', strtotime($v['date'])),
                                 'type' => _l($v['rel_type']),
+                                'rel_id' => $v['rel_id'],
+                                'rel_type' => $v['rel_type'],
                                 'description' => $v['description'],
                                 'debit' => $v['debit'],
                                 'credit' => $v['credit'],
@@ -4716,6 +5138,10 @@ class Accounting_model extends App_Model
                             'customer' => $v['customer'],
                             'amount' => $am,
                             'balance' => $balance + $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
                         $amount += $am;
                         $balance += $am;
@@ -5248,6 +5674,9 @@ class Accounting_model extends App_Model
                             'debit' => $v['debit'],
                             'credit' => $v['credit'],
                             'amount' =>  $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
                         ];
                     }
 
@@ -5669,6 +6098,10 @@ class Accounting_model extends App_Model
                             'credit' => $v['credit'],
                             'amount' => $am,
                             'balance' => $balance + $am,
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
 
 
@@ -5728,6 +6161,8 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
+            $rel_id=$v['rel_id'];
+            $rel_type=$v['rel_type'];
             $data_report[] =   [
                 'date' => date('Y-m-d', strtotime($v['date'])),
                 'type' => _l($v['rel_type']),
@@ -5736,6 +6171,8 @@ class Accounting_model extends App_Model
                 'customer' => $v['customer'],
                 'debit' => $v['debit'],
                 'credit' => $v['credit'],
+                'rel_id' => $rel_id,
+                'rel_type' => $rel_type,
             ];
         }
 
@@ -5839,6 +6276,9 @@ class Accounting_model extends App_Model
                     $account_history = $this->db->get(db_prefix().'acc_account_history')->result_array();
 
                     foreach ($account_history as $v) {
+                        $rel_id=$v['rel_id'];
+                        $rel_type=$v['rel_type'];
+
                         if($value['account_type_id'] == 11 || $value['account_type_id'] == 12 || $value['account_type_id'] == 10 || $value['account_type_id'] == 9 || $value['account_type_id'] == 8 || $value['account_type_id'] == 7 || $value['account_type_id'] == 6){
                             $am = $v['credit'] - $v['debit'];
                         }else{
@@ -5852,6 +6292,8 @@ class Accounting_model extends App_Model
                             'description' => $v['description'],
                             'customer' => $v['customer'],
                             'amount' => $am,
+                            'rel_id' => $rel_id,
+                            'rel_type' => $rel_type,
                         ];
                     }
                 }
@@ -5984,6 +6426,10 @@ class Accounting_model extends App_Model
                             'credit' => $v['credit'],
                             'amount' => $am,
                             'balance' => $balance + ($am),
+                            'rel_id' => $v['rel_id'],
+                            'rel_type' => $v['rel_type'],
+
+
                         ];
                         $amount += $am;
                         $balance += $am;
@@ -6048,6 +6494,8 @@ class Accounting_model extends App_Model
         $balance = 0;
         $amount = 0;
         foreach ($account_history as $v) {
+            $rel_id=$v['rel_id'];
+            $rel_type=$v['rel_type'];
             $account_type_id = (isset($account_type[$v['account']]) ? $account_type[$v['account']] : '');
             if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 10 || $account_type_id == 7 || $account_type_id == 6){
                 $am = $v['credit'] - $v['debit'];
@@ -6064,6 +6512,8 @@ class Accounting_model extends App_Model
                 'amount' => $am,
                 'debit' => $v['debit'],
                 'credit' => $v['credit'],
+                'rel_id' => $rel_id,
+                'rel_type' => $rel_type,
             ];
         }
 
@@ -6451,6 +6901,13 @@ class Accounting_model extends App_Model
 
         foreach ($journal_entry as $key => $value) {
             if($value[0] != ''){
+                //check if the account is tax account (29) :)
+                $tax=0;
+                if($value[0] == 29) {
+                    $tax = 1;
+                }
+
+
                 $node = [];
                 $node['account'] = $value[0];
                 $node['debit'] = $value[1];
@@ -6461,6 +6918,7 @@ class Accounting_model extends App_Model
                 $node['rel_type'] = $data['type'] == 1 ? 'deposit' : 'journal_entry';
                 $node['datecreated'] = date('Y-m-d H:i:s');
                 $node['addedfrom'] = get_staff_user_id();
+                $node['tax'] = $tax;
 
                 $data_insert[] = $node;
             }
@@ -8405,6 +8863,7 @@ class Accounting_model extends App_Model
                     $tax_mapping = $this->get_tax_mapping($_tax->id);
                     if($tax_mapping){
                         $node = [];
+
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_mapping->payment_account;
                         $node['account'] = $tax_mapping->deposit_to;
@@ -8440,6 +8899,7 @@ class Accounting_model extends App_Model
                         $node['addedfrom'] = get_staff_user_id();
                         $data_insert[] = $node;
                     }else{
+
                         $node = [];
                         $node['itemable_id'] = 0;
                         $node['split'] = $tax_payment_account;
@@ -8477,6 +8937,7 @@ class Accounting_model extends App_Model
                         $data_insert[] = $node;
                     }
                 }else{
+
                     $node = [];
                     $node['itemable_id'] = 0;
                     $node['split'] = $tax_payment_account;
@@ -8537,7 +8998,7 @@ class Accounting_model extends App_Model
                     $node['item'] = $item_id;
                     $node['date'] = $invoice->date;
                     $node['paid'] = $paid;
-                    $node['debit'] = $item_total;
+                    $node['debit'] = $item_total ;
                     $node['customer'] = $invoice->clientid;
                     $node['tax'] = 0;
                     $node['credit'] = 0;
@@ -8571,7 +9032,7 @@ class Accounting_model extends App_Model
                     $node['split'] = $payment_account;
                     $node['account'] = $deposit_to;
                     $node['item'] = $item_id;
-                    $node['debit'] = $item_total;
+                    $node['debit'] = $item_total ;
                     $node['customer'] = $invoice->clientid;
                     $node['paid'] = $paid;
                     $node['date'] = $invoice->date;
@@ -9692,6 +10153,9 @@ class Accounting_model extends App_Model
                     'description' => $v['description'],
                     'customer' => $v['customer'],
                     'amount' => $invoice->subtotal,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
             }
 
@@ -9706,6 +10170,8 @@ class Accounting_model extends App_Model
                 'description' => $v['description'],
                 'customer' => $v['customer'],
                 'amount' => $v['debit'],
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
             ];
         }
 
@@ -9735,6 +10201,9 @@ class Accounting_model extends App_Model
                     'description' => $v['description'],
                     'customer' => $v['customer'],
                     'amount' => $expense->amount,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
             }
 
@@ -9749,6 +10218,8 @@ class Accounting_model extends App_Model
                 'description' => $v['description'],
                 'customer' => $v['customer'],
                 'amount' => $v['credit'],
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
             ];
         }
 
@@ -9876,10 +10347,15 @@ class Accounting_model extends App_Model
         foreach ($accounts as $key => $value) {
             $account_name[$value['id']] = $value['name'];
         }
-
         $data_report = [];
-
-        $this->db->where('(date >= "' . $from_date . '" and date <= "' . $to_date . '") and tax > 0 and (rel_type = "invoice" or rel_type = "expense") and debit > 0');
+        $data_sales=0;
+        $data_purchases=0;
+        $this->db->where('(
+        date >= "' . $from_date . '" and date <= "' . $to_date . '") 
+        and tax > 0 
+        and (  ((rel_type = "invoice" or rel_type = "expense"  ) and debit > 0) 
+        or ((rel_type = "journal_entry"  ) and 	(credit > 0 or debit>0 ))   
+        )');
         if($accounting_method == 'cash'){
             $this->db->where('((rel_type = "invoice" and paid = 1) or rel_type != "invoice")');
         }
@@ -9888,20 +10364,65 @@ class Accounting_model extends App_Model
 
         $list_invoice = [];
         foreach ($account_history as $v) {
+//******check if invoice is refunded ********//
+            if($v['rel_type'] == "invoice" ){
+                $this->db->where('id',  $v['rel_id']);
+                $invoice_status = $this->db->get(db_prefix().'invoices')->row()->status;
+            }
+
+            if($v['rel_type'] == "invoice"  && $invoice_status==7){
+                continue;
+            }
+//********* check if there are an old values ************
             if(isset($data_report[$v['tax'].'_'.$v['rel_type']])){
-                $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['debit'];
+                if( $v['rel_type'] == "journal_entry" ){
+                    if($v['debit']>0){
+                        $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] -= $v['debit'] ;
+                        $data_purchases +=$v['debit'] ;
+                    }
+                    elseif($v['credit']>0){
+                        $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['credit'];
+                        $data_sales+=$v['credit'] ;
+                    }
+                }
+                else if($v['rel_type']=='expense') {
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] -= $v['debit'] ;
+                    $data_purchases +=$v['debit'] ;
+                }
+                else{
+                    $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] += $v['debit'];
+                    $data_sales+=$v['debit'] ;
+                }
             }else{
                 $this->db->where('id', $v['tax']);
                 $_tax = $this->db->get(db_prefix().'taxes')->row();
 
                 $data_report[$v['tax'].'_'.$v['rel_type']] = [];
                 $data_report[$v['tax'].'_'.$v['rel_type']]['name'] = $_tax->name.' ('._l($v['rel_type']).')('.$_tax->taxrate.'%)';
-                $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = $v['debit'];
+
+                if( $v['rel_type'] == "journal_entry" ){
+                    if($v['debit']>0){
+                        $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = -$v['debit'] ;
+                        $data_purchases +=$v['debit'] ;
+
+                    }
+                    elseif($v['credit']>0){
+                        $data_report[$v['tax'].'_'.$v['rel_type']]['amount'] = $v['credit'];
+                        $data_sales+=$v['credit'] ;
+
+                    }
+                }
+                else  if($v['rel_type']=='expense') {
+                    $data_report[$v['tax'] . '_' . $v['rel_type']]['amount'] = -$v['debit'];
+                    $data_purchases +=$v['debit'] ;
+
+                }
+                else
+                    $data_report[$v['tax'] . '_' . $v['rel_type']]['amount'] = $v['debit'];
+                $data_sales+=$v['debit'] ;
             }
-
         }
-
-        return ['data' => $data_report, 'from_date' => $from_date, 'to_date' => $to_date];
+        return ['data' => $data_report,'data_purchases'=>$data_purchases,'data_sales'=>$data_sales,  'from_date' => $from_date, 'to_date' => $to_date];
     }
 
     /**
@@ -10322,6 +10843,8 @@ class Accounting_model extends App_Model
             $balance = 0;
             $amount = 0;
             foreach ($account_history as $v) {
+                $rel_id=$v['rel_id'];
+                $rel_type=$v['rel_type'];
                 if($account_type_id == 11 || $account_type_id == 12 || $account_type_id == 10 || $account_type_id == 8 || $account_type_id == 9 || $account_type_id == 7 || $account_type_id == 6){
                     $am = $v['credit'] - $v['debit'];
                 }else{
@@ -10336,6 +10859,8 @@ class Accounting_model extends App_Model
                     'credit' => $v['credit'],
                     'amount' => $am,
                     'balance' => $balance + $am,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
                 ];
 
                 $amount += $am;
@@ -10386,8 +10911,28 @@ class Accounting_model extends App_Model
                     <td></td>
                   </tr>';
             }
-
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
@@ -10397,9 +10942,16 @@ class Accounting_model extends App_Model
                     </span>
                  
                   </td>
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. html_entity_decode($val['description']).' 
                   </td>
@@ -11041,6 +11593,9 @@ class Accounting_model extends App_Model
                     'customer' => $v['customer'],
                     'amount' => $am,
                     'balance' => $balance + $am,
+                    'rel_id' => $v['rel_id'],
+                    'rel_type' => $v['rel_type'],
+
                 ];
                 $amount += $am;
                 $balance += $am;
@@ -11091,15 +11646,44 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. html_entity_decode($val['description']).' 
                   </td>
@@ -11734,15 +12318,43 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
+                  
+                  
                   <td>
                   '. get_company_name($val['customer']).' 
                   </td>
@@ -12179,15 +12791,41 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
+
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
                   <td>
                   '. _d($val['date']).'
                   </td>
+                  
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
+                  
                   <td>
                   '. get_company_name($val['customer']).' 
                   </td>
@@ -12324,6 +12962,28 @@ class Accounting_model extends App_Model
             }
 
             foreach ($value['details'] as $val) {
+                $href='';
+                if($val['rel_id']!=0){
+                    if($val['rel_type']=='invoice')
+                        $href= admin_url('invoices/list_invoices/'. $val['rel_id']);
+                    elseif($val['rel_type']=='journal_entry')
+                        $href= admin_url('accounting/new_journal_entry/'. $val['rel_id']);
+                    elseif($val['rel_type']=='deposit')
+                        $href=  '#';
+                    elseif($val['rel_type']=='payment')
+                        //  #invoice_payments_received
+                        $href= admin_url('payments/payment/'. $val['rel_id']);
+                    elseif($val['rel_type']=='expense')
+                        $href= admin_url('expenses/list_expenses/'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_creditnote')
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                    elseif($val['rel_type']=='invoice_refund')
+                        //
+                        $href= admin_url('credit_notes#'. $val['rel_id']);
+                }
+
+                else   $href= '#';
+
                 $data_return['row_index']++;
                 $amount += $val['amount'];
                 $data_return['html'] .= '<tr class="treegrid-'.$data_return['row_index'].' treegrid-parent-'.$_parent_index.'">
@@ -12331,7 +12991,9 @@ class Accounting_model extends App_Model
                   '. _d($val['date']).'
                   </td>
                   <td>
+                   <a href="' .$href.   '">
                   '. html_entity_decode($val['type']).' 
+                   </a>
                   </td>
                   <td>
                   '. get_company_name($val['customer']).' 
@@ -14893,6 +15555,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -14911,6 +15575,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -14929,6 +15595,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -14947,6 +15615,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -14965,6 +15635,8 @@ class Accounting_model extends App_Model
                 'number' => format_invoice_number($v['id']),
                 'customer' => $v['clientid'],
                 'amount' => $v['total'] - $v['total_payments'],
+                'rel_id' => $v['id'],
+
             ];
         }
 
@@ -15038,6 +15710,9 @@ class Accounting_model extends App_Model
                 'vendor' => $v['vendor'],
                 'customer' => $v['clientid'],
                 'amount' => $total,
+                'rel_id' => $v['rel_id'],
+                'rel_type' => $v['rel_type'],
+
             ];
         }
 

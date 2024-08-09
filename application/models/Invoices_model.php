@@ -16,6 +16,7 @@ class Invoices_model extends App_Model
 
     const STATUS_DRAFT = 6;
     const STATUS_REFUND = 7;
+   // const STATUS_refund = 7;
 
     const STATUS_DRAFT_NUMBER = 1000000000;
 
@@ -26,6 +27,9 @@ class Invoices_model extends App_Model
         self::STATUS_OVERDUE,
         self::STATUS_CANCELLED,
         self::STATUS_DRAFT,
+        self::STATUS_REFUND,
+
+
     ];
 
     private $shipping_fields = [

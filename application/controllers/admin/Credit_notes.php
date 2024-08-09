@@ -134,6 +134,8 @@ class Credit_notes extends AdminController
         }
         if ($this->input->post()) {
             $credit_note_data = $this->input->post();
+
+
             if ($id == '') {
                 if (!has_permission('credit_notes', '', 'create')) {
                     access_denied('credit_notes');
